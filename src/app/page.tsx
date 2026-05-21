@@ -38,7 +38,7 @@ import {
   History,
   TrendingUp,
   Layers,
-  Home,
+  Home as HomeIcon,
   HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -1953,7 +1953,7 @@ function MobileBottomNav({
   onOpenHistory: () => void;
 }) {
   const navItems = [
-    { icon: Home, label: "Home", href: "#hero" },
+    { icon: HomeIcon, label: "Home", href: "#hero" },
     { icon: Download, label: "Download", href: "#hero", highlight: true },
     { icon: History, label: "Riwayat", action: "history" as const },
     { icon: HelpCircle, label: "FAQ", href: "#faq" },
