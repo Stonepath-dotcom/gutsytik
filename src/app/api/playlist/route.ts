@@ -1,10 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rate-limit";
 
 /**
  * Playlist endpoint using Invidious API instead of yt-dlp.
  * Extracts YouTube playlist ID and fetches playlist info from Invidious.
  */
 export async function POST(request: NextRequest) {
+  // Rate limiting: 30 requests per minute for playlist
+  const ip = request.headers.get("x-forwarded-for") || "unknown";
+  const { success } = rateLimit(ip, 30);
+  if (!success) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait a moment." },
+      { status: 429, headers: { "Retry-After": "60" } }
+    );
+  }
+
   try {
     const body = await request.json();
     const { url } = body;

@@ -61,6 +61,8 @@ import {
   QrCode,
   Sparkles,
   Wand2,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -100,6 +102,9 @@ import { CursorTrail } from "@/components/cursor-trail";
 import { useKonamiCode, KonamiOverlay } from "@/components/konami-code";
 import { LiveTicker } from "@/components/live-ticker";
 import { useDownloadStreak, StreakBadge } from "@/components/download-streak";
+import { ErrorBoundary } from "@/components/error-boundary";
+import { PwaInstallPrompt } from "@/components/pwa-install-prompt";
+import { useSoundToggle } from "@/hooks/use-sound-toggle";
 
 /* ──────────────────── Types ──────────────────── */
 interface QualityOption {
@@ -365,6 +370,8 @@ const translations: Record<string, Record<string, string>> = {
     "result.trimDownload": "Trim & Download",
     "result.trimming": "Memproses trim...",
     "result.seconds": "detik",
+    "footer.privacy": "Kebijakan Privasi",
+    "nav.sound": "Suara",
   },
   en: {
     "nav.fitur": "Features",
@@ -543,6 +550,8 @@ const translations: Record<string, Record<string, string>> = {
     "result.trimDownload": "Trim & Download",
     "result.trimming": "Processing trim...",
     "result.seconds": "seconds",
+    "footer.privacy": "Privacy Policy",
+    "nav.sound": "Sound",
   },
 };
 
@@ -801,6 +810,11 @@ function detectPlatformFromUrl(urlStr: string): PlatformInfo {
 
 /* ──────────────────── Feature 11: Sound Effects (Web Audio API) ──────────────────── */
 let audioCtx: AudioContext | null = null;
+let globalSoundEnabled = true;
+
+export function setGlobalSoundEnabled(enabled: boolean) {
+  globalSoundEnabled = enabled;
+}
 
 function getAudioContext(): AudioContext {
   if (!audioCtx) {
@@ -810,6 +824,7 @@ function getAudioContext(): AudioContext {
 }
 
 function playDingSound() {
+  if (!globalSoundEnabled) return;
   try {
     const ctx = getAudioContext();
     const oscillator = ctx.createOscillator();
@@ -827,6 +842,7 @@ function playDingSound() {
 }
 
 function playWhooshSound() {
+  if (!globalSoundEnabled) return;
   try {
     const ctx = getAudioContext();
     const oscillator = ctx.createOscillator();
@@ -944,6 +960,12 @@ function Navbar() {
   const { lang, setLang, t } = useLanguage();
   const { accent, setAccent } = useAccentColor();
   const [bookmarkCount, setBookmarkCount] = useState(0);
+  const { soundEnabled, toggleSound } = useSoundToggle();
+
+  // Sync sound state to global variable for sound functions
+  useEffect(() => {
+    setGlobalSoundEnabled(soundEnabled);
+  }, [soundEnabled]);
 
   useEffect(() => {
     const load = () => setBookmarkCount(getBookmarks().length);
@@ -1031,6 +1053,21 @@ function Navbar() {
               </PopoverContent>
             </Popover>
 
+            {/* Sound Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleSound}
+              className="relative h-9 w-9"
+              aria-label={soundEnabled ? "Mute sounds" : "Unmute sounds"}
+            >
+              {soundEnabled ? (
+                <Volume2 className="h-4 w-4" />
+              ) : (
+                <VolumeX className="h-4 w-4" />
+              )}
+            </Button>
+
             {/* Theme Toggle */}
             <Button
               variant="ghost"
@@ -1101,6 +1138,21 @@ function Navbar() {
                 </div>
               </PopoverContent>
             </Popover>
+
+            {/* Sound Toggle (mobile) */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleSound}
+              className="relative h-9 w-9"
+              aria-label={soundEnabled ? "Mute sounds" : "Unmute sounds"}
+            >
+              {soundEnabled ? (
+                <Volume2 className="h-4 w-4" />
+              ) : (
+                <VolumeX className="h-4 w-4" />
+              )}
+            </Button>
 
             <Button
               variant="ghost"
@@ -4220,13 +4272,16 @@ function Footer() {
           <div>
             <h4 className="font-semibold text-foreground mb-3 text-sm">{t("footer.legal")}</h4>
             <ul className="space-y-2">
-              {["Privacy Policy", "Terms of Service"].map((l) => (
-                <li key={l}>
-                  <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    {l}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  {t("footer.privacy")}
+                </a>
+              </li>
+              <li>
+                <a href="/privacy#disclaimer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Terms of Service
+                </a>
+              </li>
             </ul>
           </div>
           <div>
@@ -4736,36 +4791,39 @@ export default function Home() {
 
   return (
     <LanguageProvider>
-      <div className={`min-h-screen flex flex-col bg-background ${retroMode ? "retro-mode" : ""}`}>
-        <Navbar />
-        <main className="flex-1">
-          <HeroSection
-            onOpenHistorySheet={() => setHistorySheetOpen(true)}
-            onOpenBookmarkSheet={() => setBookmarkSheetOpen(true)}
+      <ErrorBoundary>
+        <div className={`min-h-screen flex flex-col bg-background ${retroMode ? "retro-mode" : ""}`}>
+          <Navbar />
+          <main className="flex-1">
+            <HeroSection
+              onOpenHistorySheet={() => setHistorySheetOpen(true)}
+              onOpenBookmarkSheet={() => setBookmarkSheetOpen(true)}
+            />
+            <FeaturesSection />
+            <HowItWorksSection />
+            <StatistikSection />
+            <TrendingSection />
+            <PlatformsSection />
+            <FAQSection />
+            <CTASection />
+          </main>
+          <Footer />
+          <MobileBottomNav
+            onOpenHistory={() => setHistorySheetOpen(true)}
+            onOpenBookmarks={() => setBookmarkSheetOpen(true)}
           />
-          <FeaturesSection />
-          <HowItWorksSection />
-          <StatistikSection />
-          <TrendingSection />
-          <PlatformsSection />
-          <FAQSection />
-          <CTASection />
-        </main>
-        <Footer />
-        <MobileBottomNav
-          onOpenHistory={() => setHistorySheetOpen(true)}
-          onOpenBookmarks={() => setBookmarkSheetOpen(true)}
-        />
-        <QuickActionFAB
-          onOpenHistory={() => setHistorySheetOpen(true)}
-          onOpenBookmarks={() => setBookmarkSheetOpen(true)}
-        />
-        <ReportButton />
-        <RiwayatSheet open={historySheetOpen} onOpenChange={setHistorySheetOpen} />
-        <BookmarkSheet open={bookmarkSheetOpen} onOpenChange={setBookmarkSheetOpen} />
-        <CursorTrail />
-        <KonamiOverlay retroMode={retroMode} showNotification={showNotification} />
-      </div>
+          <QuickActionFAB
+            onOpenHistory={() => setHistorySheetOpen(true)}
+            onOpenBookmarks={() => setBookmarkSheetOpen(true)}
+          />
+          <ReportButton />
+          <RiwayatSheet open={historySheetOpen} onOpenChange={setHistorySheetOpen} />
+          <BookmarkSheet open={bookmarkSheetOpen} onOpenChange={setBookmarkSheetOpen} />
+          <PwaInstallPrompt />
+          <CursorTrail />
+          <KonamiOverlay retroMode={retroMode} showNotification={showNotification} />
+        </div>
+      </ErrorBoundary>
     </LanguageProvider>
   );
 }

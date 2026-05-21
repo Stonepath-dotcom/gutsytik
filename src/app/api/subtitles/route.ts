@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rate-limit";
 
 /**
  * Subtitles endpoint using Invidious API and YouTube timedtext API
@@ -28,6 +29,16 @@ function extractYouTubeVideoId(url: string): string | null {
 }
 
 export async function POST(request: NextRequest) {
+  // Rate limiting: 30 requests per minute for subtitles
+  const ip = request.headers.get("x-forwarded-for") || "unknown";
+  const { success } = rateLimit(ip, 30);
+  if (!success) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait a moment." },
+      { status: 429, headers: { "Retry-After": "60" } }
+    );
+  }
+
   try {
     const body = await request.json();
     const { url, lang, format } = body;

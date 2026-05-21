@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://gutsytik.vercel.app"),
   title: "Gutsytik - Download Video Tanpa Watermark",
   description:
     "Gutsytik membantu kamu download video dari platform populer tanpa watermark, cepat dan gratis! Support TikTok, Instagram, YouTube, Facebook, Twitter/X, dan lainnya.",
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
     title: "Gutsytik - Download Video Tanpa Watermark",
     description:
       "Download video dari TikTok, Instagram, YouTube, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
-    url: "https://gutsytik.com",
+    url: "https://gutsytik.vercel.app",
     siteName: "Gutsytik",
     type: "website",
   },
@@ -68,6 +69,55 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="manifest" href="/manifest.json" />
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "Gutsytik",
+              description:
+                "Download video tanpa watermark dari berbagai platform populer",
+              url: "https://gutsytik.vercel.app",
+              applicationCategory: "MultimediaApplication",
+              operatingSystem: "All",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "IDR",
+              },
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Gutsytik",
+              url: "https://gutsytik.vercel.app",
+              logo: "https://gutsytik.vercel.app/logo.svg",
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Gutsytik",
+              url: "https://gutsytik.vercel.app",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://gutsytik.vercel.app/?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}

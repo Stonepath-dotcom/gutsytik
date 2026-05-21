@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rate-limit";
 
 /* ──────────────── Platform Detection ──────────────── */
 function detectPlatform(url: string): string {
@@ -234,6 +235,19 @@ function extractYouTubeVideoId(url: string): string | null {
 
 /* ──────────────── Main Handler ──────────────── */
 export async function POST(request: NextRequest) {
+  // Rate limiting: 10 requests per minute for download endpoint
+  const ip = request.headers.get("x-forwarded-for") || "unknown";
+  const { success } = rateLimit(ip, 10);
+  if (!success) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait a moment." },
+      {
+        status: 429,
+        headers: { "Retry-After": "60" },
+      }
+    );
+  }
+
   try {
     const body = await request.json();
     const { url, audioMode } = body;
