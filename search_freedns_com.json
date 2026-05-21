@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://freedns.afraid.org",
+    "name": "FreeDNS - Free DNS - Dynamic DNS - Static DNS subdomain and",
+    "snippet": "Free DNS hosting, lets you fully manage your own domain. Dynamic DNS and Static DNS services available. You may also create hosts off other domains that we ...",
+    "host_name": "freedns.afraid.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://freedns.afraid.org/domain/registry",
+    "name": "Domain Registry : Page 1 of 234 - FreeDNS",
+    "snippet": "mooo.com (846155 hosts in use) website, public, josh ; chickenkiller.com (436963 hosts in use) website, public, josh ; strangled.net (116067 hosts in use) website ...\nmooo.com (846070 hosts in use) website, public, josh ; chickenkiller.com (436835 hosts in use) website, public, josh ; strangled.net (116055 hosts in use) website ...",
+    "host_name": "freedns.afraid.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://freedns.afraid.org/signup/moreinfo",
+    "name": "More Info - FreeDNS",
+    "snippet": "... domains for free public use (strangled.net / mooo.com / chickenkiller.com). Users who own domains may also contribute to the list of available domains. In ...\nFree DNS hosting, lets you fully manage your own domain. Dynamic DNS and Static DNS services available. You may also create hosts off other domains that we ...",
+    "host_name": "freedns.afraid.org",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://freedns.afraid.org/domain/registry/?sort=2&q=",
+    "name": "Domain Registry : Page 1 of 234 - FreeDNS",
+    "snippet": "Sorted by: Status, Age ; chickenkiller.com (436720 hosts in use) website, public, josh ; strangled.net (116064 hosts in use) website, public, josh ; mooo.com ( ...\nchickenkiller.com (436720 hosts in use) website, public, josh ; strangled.net (116064 hosts in use) website, public, josh ; mooo.com (845973 hosts in use) website ...",
+    "host_name": "freedns.afraid.org",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://lowendbox.com/blog/using-free-dynamic-dns-with-afraid-org",
+    "name": "Using Free Dynamic DNS with afraid.org - LowEndBox",
+    "snippet": "The method I use is to setup free dynamic DNS via afraid.org. To do this, you need to register for a free account at afraid.org.\nOnce you've logged in, head over to Subdomains and setup a record using one of afraid.org's whimsical choices, such as chickenkiller.com, ...",
+    "host_name": "lowendbox.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/publicsuffix/list/issues/271",
+    "name": "Add domains from afraid.org (ddns) to PSL · Issue #271 - GitHub",
+    "snippet": "As discussed for other ddns providers (#64) please add the domains listed by http://freedns.afraid.org/domain/registry/. As the raw list ...\nImagine someone had a subdomain called veryprivatestuff.chickenkiller.com (everybody can register it at afraid.org) and uses tomcat. The ...",
+    "host_name": "github.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.snbforums.com/threads/how-to-setup-ddns-with-freedns-afraid-org.71574",
+    "name": "How to Setup DDNS with Freedns.afraid.org - SNBForums",
+    "snippet": "I am trying to setup DDNS using freedns.afraid.org. I have created an account on freedns.org and have created the subdomain, but I am having a hard time ...",
+    "host_name": "www.snbforums.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://freedns.afraid.org/faq",
+    "name": "FreeDNS FAQ",
+    "snippet": "Free DNS hosting, lets you fully manage your own domain. Dynamic DNS and Static DNS services available. You may also create hosts off other domains that we ...",
+    "host_name": "freedns.afraid.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=dm8i4IFTA7k",
+    "name": "How to create free domains (Afraid DNS) - YouTube",
+    "snippet": "... all for free. I am a fan of this when demonstrating servers at my university as it does not require money and you can burn the domains for ...\nGitHub: https://github.com/JesseGuerrero Afraid DNS is a free service to create domains for testing, deploying and developing network ...",
+    "host_name": "www.youtube.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.ui.com/questions/Dynamic-DNS-provider-recommendation-Anyone-using-Afraid-org/ed7589cd-eb2e-4508-84d0-c98fbd48bc4d",
+    "name": "Dynamic DNS provider recommendation? Anyone using Afraid.org?",
+    "snippet": "Anyone using afraid.org for Dynamic DNS? Are you using ignorelist.com, strangled.net or jumpingcrab.com for the domain names?",
+    "host_name": "community.ui.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "r3Mxh",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1779386728,
+  "id": "20260522020527d2a58bd181c94536",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260522020527d2a58bd181c94536",
+  "usage": {
+    "completion_tokens": 8,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 112,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 120
+  }
+}

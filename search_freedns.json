@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://freedns.afraid.org",
+    "name": "FreeDNS - Free DNS - Dynamic DNS - Static DNS subdomain and",
+    "snippet": "24,890 domains in the shared domain registry. Click on any to attach, or use your own; Access your computer with a name (like zeus.afraid.org or yourdomain.com) ...",
+    "host_name": "freedns.afraid.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://freedns.afraid.org/domain/registry",
+    "name": "Domain Registry : Page 1 of 234 - FreeDNS",
+    "snippet": "Free DNS hosting, lets you fully manage your own domain. Dynamic DNS and Static DNS services available. You may also create hosts off other domains that we ...",
+    "host_name": "freedns.afraid.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.vercel.com/t/cannot-add-sub-domains-from-freedns-afraid/4607",
+    "name": "Cannot add sub-domains from FreeDNS Afraid - Vercel Community",
+    "snippet": "I'm trying to add a subdomain from freedns.afraid.org to my Vercel project. Vercel asks for a TXT record to be added to the root domain when the domain is ...",
+    "host_name": "community.vercel.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://serverfault.com/questions/427262/phishing-site-uses-subdomain-that-i-never-registered",
+    "name": "Phishing site uses subdomain that I never registered - Server Fault",
+    "snippet": "My domain name is registered with GoDaddy, and the nameservers are correctly set to NS1.AFRAID.ORG, NS2.AFRAID.ORG, NS3.AFRAID.ORG, and NS4.AFRAID.ORG.",
+    "host_name": "serverfault.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=dm8i4IFTA7k",
+    "name": "How to create free domains (Afraid DNS) - YouTube",
+    "snippet": "GitHub: https://github.com/JesseGuerrero Afraid DNS is a free service to create domains for testing, deploying and developing network ...",
+    "host_name": "www.youtube.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/ading2210/freedns-client",
+    "name": "ading2210/freedns-client: A Python API wrapper for  - GitHub",
+    "snippet": "This is a Python wrapper for FreeDNS.afraid.org, which allows for the free registration of subdomains.",
+    "host_name": "github.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://freedns.afraid.org/faq",
+    "name": "FreeDNS FAQ",
+    "snippet": "FreeDNS has a local domain registry that is linked on the left hand menu of the site. This contains a searchable list of domains and their owners that use ...",
+    "host_name": "freedns.afraid.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "http://freedns.com",
+    "name": "FreeDNS.com",
+    "snippet": "FreeDNS.afraid.org is a popular full service free dns and dynamic DNS provider. This unique service allows you to share your domain with the members, ...",
+    "host_name": "freedns.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/webhosting/comments/1hmrysi/freednsafraid_dns_not_working",
+    "name": "FreeDNS.Afraid DNS not working : r/webhosting - Reddit",
+    "snippet": "If you're getting an afraid page when you go to your domain, then your nameservers are set properly but your A record isn't.",
+    "host_name": "www.reddit.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.cloudflare.com/t/freedns-afraid-org-subdomain-help/630053",
+    "name": "Freedns.afraid.org subdomain help - Cloudflare Community",
+    "snippet": "Hi there, I have a free subdomain from https://freedns.afraid.org/ and I want to link it through cloudflare. Thanks in advance!",
+    "host_name": "community.cloudflare.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]
