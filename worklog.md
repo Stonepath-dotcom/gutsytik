@@ -67,3 +67,50 @@ Stage Summary:
 - Lint passes cleanly
 - Files modified: page.tsx, layout.tsx, globals.css
 - Files created: providers.tsx, manifest.json, sw.js
+
+---
+Task ID: 2
+Agent: full-stack-developer
+Task: Add 10 new features to Gutsytik website
+
+Work Log:
+- Read existing page.tsx (2186 lines), worklog.md, globals.css, and all component files
+- Initialized fullstack development environment
+- Verified shadcn/ui components available: popover, tabs, progress, dialog, sheet, accordion, input, textarea, button already exist
+- Rewrote page.tsx (~3050 lines) with all 10 new features:
+
+1. **URL Parameter Auto-Download**: Added useEffect in HeroSection that reads `?url=...` from window.location.search, auto-pastes into input, and auto-triggers analyze. Cleans URL with replaceState after processing.
+
+2. **Audio/MP3 Mode**: Added Tabs component above download input with "Video" | "Audio" toggle. When Audio mode is selected: heading/subtitle change to audio-focused messaging, Music icon appears in input, auto-selects Audio/MP3 quality option when results come back, download button shows "Download Audio MP3" with Music icon. Added `audioMode` state.
+
+3. **Download Progress Bar with Percent + Speed**: Replaced simple text progress with real ReadableStream-based progress tracking. Added states: `downloadPercent`, `downloadSpeed`, `downloadSize`, `downloadTotalSize`. Uses response.body.getReader() to track received bytes, calculates MB/s speed. Shows Progress component with percentage, speed, and downloaded/total size.
+
+4. **Keyboard Shortcuts**: Added keyboard shortcut hint badge below input: "Ctrl+V paste • Enter submit" with Keyboard icon. Added global keydown listener for Escape key to close dialogs/sheets (riwayatOpen, showPreview).
+
+5. **Thumbnail Download**: Added "Thumbnail" button in result card action row (next to Preview/Share/Bookmark). Uses ImageIcon from lucide-react. Fetches thumbnail URL as blob and saves as JPG file. Falls back to opening in new tab.
+
+6. **Multi-Bahasa (EN/ID Toggle)**: Created LanguageContext with `useLanguage` hook. Full translations object supporting Indonesian (default) and English for all UI strings. Language toggle button (Languages icon) in navbar (both desktop and mobile). Preference stored in localStorage key "gutsytik_lang". Translations cover: nav, hero, input, buttons, results, history, bookmarks, stats, trending, features, FAQ, CTA, footer, report, errors, toasts.
+
+7. **Bookmark Video**: Added Bookmark button (Bookmark icon from lucide-react) in result card. Save/remove bookmarks to localStorage key "gutsytik_bookmarks". Added BookmarkSheet component (similar to RiwayatSheet). Mobile bottom nav "Saved" item opens bookmark sheet. Bookmark counter badge on mobile nav. `isBookmarkedState` tracks current video's bookmark status.
+
+8. **Statistik Download**: Track download counts per platform in localStorage key "gutsytik_stats". Structure: { total, platforms: { TikTok: N, ... }, totalSize, startDate }. Added StatistikSection between Trending and Platforms sections. Shows: total downloads count, total data downloaded (auto-formats MB/GB), member since date, per-platform mini bar chart using div widths with accent color gradients. `incrementStats()` called on every successful download.
+
+9. **Search Trending**: Added search input in Trending section with Search icon. Added "Popular Searches" quick tags (TikTok Dance, IG Reels, YouTube Shorts, FB Video, Viral). Clicking a tag filters the trending view. Search query filters trendingPlatforms by name. Frontend-only filtering. Shows "No matching platforms found" when empty.
+
+10. **Custom Accent Color**: Added color picker Popover in navbar (Palette icon with accent color dot indicator). 7 preset colors: Pink (#FF2D55), Purple (#7C3AED), Cyan (#00E5FF), Green (#10B981), Orange (#F97316), Red (#EF4444), Blue (#3B82F6). Updates CSS variable `--color-gutsy-accent` on selection. Applied to: gradient buttons, quality selector highlights, bookmark button, badges, orb backgrounds, CTA buttons, stat section, trending section. Preference stored in localStorage key "gutsytik_accent".
+
+Additional changes:
+- Created `useAccentColor` hook with `getInitialAccent()` helper for SSR-safe initialization
+- Created `getInitialLang()` helper for SSR-safe language initialization
+- Added new lucide-react icons: Bookmark, ImageIcon, Search, Languages, Palette, BarChart3, Keyboard
+- Added Popover and Tabs shadcn/ui component imports
+- All accent colors use inline styles with `accent` variable instead of hardcoded pink
+- Dev server runs successfully, all pages compile
+- ESLint passes with 0 errors
+- `npx next build` succeeds
+
+Stage Summary:
+- All 10 features implemented successfully
+- Build passes with no errors
+- Lint passes cleanly
+- File modified: src/app/page.tsx
