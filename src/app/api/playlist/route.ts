@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { execFile } from "child_process";
-import { promisify } from "util";
 
-const execFileAsync = promisify(execFile);
-const YT_DLP_PATH = "/home/z/.local/bin/yt-dlp";
-
+/**
+ * Playlist endpoint using Invidious API instead of yt-dlp.
+ * Extracts YouTube playlist ID and fetches playlist info from Invidious.
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -28,44 +27,61 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Use yt-dlp with --flat-playlist and --dump-json to get playlist info
+    // Extract playlist ID from URL using regex
+    const playlistMatch = trimmedUrl.match(/list=([a-zA-Z0-9_-]+)/);
+    if (!playlistMatch) {
+      return NextResponse.json(
+        { error: "Tidak ditemukan ID playlist dalam URL. Pastikan URL mengandung parameter ?list=..." },
+        { status: 400 }
+      );
+    }
+
+    const playlistId = playlistMatch[1];
+
+    // Fetch playlist info from Invidious API
     try {
-      const { stdout } = await execFileAsync(YT_DLP_PATH, [
-        "--flat-playlist",
-        "--dump-json",
-        "--no-warnings",
-        "--no-check-certificates",
-        "--user-agent",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        trimmedUrl,
-      ], { timeout: 60000, maxBuffer: 50 * 1024 * 1024 });
+      const invidiousUrl = `https://inv.nadeko.net/api/v1/playlists/${playlistId}`;
+      const response = await fetch(invidiousUrl, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        },
+      });
 
-      const lines = stdout.trim().split("\n").filter(Boolean);
-      const videos: { id: string; title: string; thumbnail: string; duration: string; url: string }[] = [];
+      if (!response.ok) {
+        if (response.status === 404) {
+          return NextResponse.json(
+            { error: "Playlist tidak ditemukan. Pastikan URL playlist valid dan bersifat publik." },
+            { status: 404 }
+          );
+        }
+        throw new Error(`Invidious API returned ${response.status}`);
+      }
 
-      for (const line of lines) {
-        try {
-          const entry = JSON.parse(line);
-          const duration = entry.duration || 0;
+      const data = await response.json();
+
+      // Map Invidious response to our expected format
+      const videos = (data.videos || []).map(
+        (entry: { title?: string; videoId?: string; lengthSeconds?: number; videoThumbnails?: { url: string; quality: string }[] }, index: number) => {
+          const duration = entry.lengthSeconds || 0;
           const minutes = Math.floor(duration / 60);
-          const seconds = Math.round(duration % 60);
+          const seconds = duration % 60;
           const durationStr = duration > 0
             ? `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
             : "--:--";
 
-          videos.push({
-            id: entry.id || entry.url || String(videos.length),
-            title: entry.title || `Video ${videos.length + 1}`,
-            thumbnail: entry.thumbnails?.[0]?.url || entry.thumbnail || "",
+          // Get best thumbnail
+          const thumbnails = entry.videoThumbnails || [];
+          const thumbnail = thumbnails[0]?.url || thumbnails[3]?.url || "";
+
+          return {
+            id: entry.videoId || String(index),
+            title: entry.title || `Video ${index + 1}`,
+            thumbnail,
             duration: durationStr,
-            url: entry.url
-              ? (entry.url.startsWith("http") ? entry.url : `https://www.youtube.com/watch?v=${entry.id || entry.url}`)
-              : `https://www.youtube.com/watch?v=${entry.id}`,
-          });
-        } catch {
-          // Skip malformed entries
+            url: `https://www.youtube.com/watch?v=${entry.videoId}`,
+          };
         }
-      }
+      );
 
       if (videos.length === 0) {
         return NextResponse.json(
@@ -75,18 +91,11 @@ export async function POST(request: NextRequest) {
       }
 
       return NextResponse.json(
-        { videos, total: videos.length },
+        { videos, total: videos.length, title: data.title || "Playlist" },
         { status: 200 }
       );
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
-
-      if (errorMessage.includes("not a playlist") || errorMessage.includes("not a channel")) {
-        return NextResponse.json(
-          { error: "URL ini bukan playlist. Masukkan URL playlist YouTube yang valid." },
-          { status: 400 }
-        );
-      }
 
       return NextResponse.json(
         { error: `Gagal mengambil data playlist: ${errorMessage.substring(0, 100)}` },

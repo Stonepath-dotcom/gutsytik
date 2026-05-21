@@ -1,9 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
-import { execFile } from "child_process";
-import { promisify } from "util";
 
-const execFileAsync = promisify(execFile);
-const YT_DLP_PATH = "/home/z/.local/bin/yt-dlp";
+/**
+ * Subtitles endpoint using Invidious API and YouTube timedtext API
+ * instead of yt-dlp.
+ */
+
+/* ──────────────── YouTube Video ID Extraction ──────────────── */
+function extractYouTubeVideoId(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    // Standard youtube.com/watch?v=...
+    if (parsed.hostname.includes("youtube.com") && parsed.searchParams.get("v")) {
+      return parsed.searchParams.get("v");
+    }
+    // Short youtu.be/...
+    if (parsed.hostname === "youtu.be") {
+      return parsed.pathname.slice(1).split("/")[0] || null;
+    }
+    // Embedded youtube.com/embed/...
+    if (parsed.pathname.startsWith("/embed/")) {
+      return parsed.pathname.split("/")[2] || null;
+    }
+  } catch {
+    // Invalid URL
+  }
+  return null;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,61 +50,44 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // If lang is provided, download the subtitle in SRT format
+    // Extract video ID
+    const videoId = extractYouTubeVideoId(trimmedUrl);
+    if (!videoId) {
+      return NextResponse.json(
+        { error: "Tidak dapat mengekstrak ID video YouTube dari URL." },
+        { status: 400 }
+      );
+    }
+
+    // If lang is provided, download the subtitle in SRT format via YouTube timedtext API
     if (lang && format === "srt") {
       try {
-        const { stdout } = await execFileAsync(YT_DLP_PATH, [
-          "--write-sub",
-          "--write-auto-sub",
-          "--sub-lang", lang,
-          "--sub-format", "srt",
-          "--skip-download",
-          "-o", "-",
-          "--no-warnings",
-          "--no-check-certificates",
-          "--user-agent",
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-          trimmedUrl,
-        ], { timeout: 30000, maxBuffer: 10 * 1024 * 1024 });
+        const srtUrl = `https://www.youtube.com/api/timedtext?v=${videoId}&lang=${lang}&fmt=srt`;
+        const response = await fetch(srtUrl, {
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`YouTube timedtext API returned ${response.status}`);
+        }
+
+        const content = await response.text();
+
+        if (!content || content.trim().length === 0) {
+          return NextResponse.json(
+            { error: "Subtitle kosong atau tidak tersedia dalam format SRT." },
+            { status: 404 }
+          );
+        }
 
         return NextResponse.json(
-          { content: stdout, lang },
+          { content, lang },
           { status: 200 }
         );
       } catch (err: unknown) {
         const errorMessage = err instanceof Error ? err.message : "Unknown error";
-        // Try alternative approach: download subtitle file
-        try {
-          const tmpPath = `/tmp/gutsytik_sub_${Date.now()}`;
-          await execFileAsync(YT_DLP_PATH, [
-            "--write-sub",
-            "--write-auto-sub",
-            "--sub-lang", lang,
-            "--sub-format", "srt/vtt/best",
-            "--skip-download",
-            "-o", tmpPath,
-            "--no-warnings",
-            "--no-check-certificates",
-            trimmedUrl,
-          ], { timeout: 30000 });
-
-          // Read the subtitle file
-          const fs = await import("fs");
-          const files = fs.readdirSync("/tmp").filter((f) => f.startsWith(`gutsytik_sub_${Date.now() - 1000}`) && (f.endsWith(".srt") || f.endsWith(".vtt")));
-
-          if (files.length > 0) {
-            const content = fs.readFileSync(`/tmp/${files[0]}`, "utf-8");
-            // Clean up temp files
-            for (const f of files) {
-              try { fs.unlinkSync(`/tmp/${f}`); } catch {}
-            }
-            return NextResponse.json(
-              { content, lang },
-              { status: 200 }
-            );
-          }
-        } catch {}
-
         return NextResponse.json(
           { error: `Gagal mengunduh subtitle: ${errorMessage.substring(0, 100)}` },
           { status: 422 }
@@ -90,80 +95,29 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Otherwise, list available subtitles
+    // Otherwise, list available subtitles via Invidious API
     try {
-      const { stdout } = await execFileAsync(YT_DLP_PATH, [
-        "--list-subs",
-        "--no-warnings",
-        "--no-check-certificates",
-        "--user-agent",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        trimmedUrl,
-      ], { timeout: 30000, maxBuffer: 5 * 1024 * 1024 });
+      const invidiousUrl = `https://inv.nadeko.net/api/v1/videos/${videoId}`;
+      const response = await fetch(invidiousUrl, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        },
+      });
 
-      // Parse the output to extract subtitle languages
-      const subtitles: { lang: string; name: string }[] = [];
-      const lines = stdout.split("\n");
-
-      let inSubtitleSection = false;
-      for (const line of lines) {
-        if (line.includes("Available subtitles")) {
-          inSubtitleSection = true;
-          continue;
-        }
-        if (line.includes("Available automatic captions")) {
-          inSubtitleSection = true;
-          continue;
-        }
-        if (inSubtitleSection && line.trim() === "") {
-          inSubtitleSection = false;
-          continue;
-        }
-        if (inSubtitleSection) {
-          // Parse lines like: "en       English"
-          const match = line.match(/^([a-z]{2,3}(?:-[a-zA-Z]+)?)\s+(.+)$/);
-          if (match) {
-            const existing = subtitles.find((s) => s.lang === match[1]);
-            if (!existing) {
-              subtitles.push({ lang: match[1], name: match[2].trim() });
-            }
-          }
-        }
+      if (!response.ok) {
+        throw new Error(`Invidious API returned ${response.status}`);
       }
 
-      // Also try to get subtitles via JSON for better parsing
-      try {
-        const { stdout: jsonOut } = await execFileAsync(YT_DLP_PATH, [
-          "-j",
-          "--no-warnings",
-          "--no-check-certificates",
-          trimmedUrl,
-        ], { timeout: 30000, maxBuffer: 10 * 1024 * 1024 });
+      const data = await response.json();
+      const captions = data.captions || [];
 
-        const info = JSON.parse(jsonOut);
-        const subs = info.subtitles || {};
-        const autoSubs = info.automatic_captions || {};
-
-        // Clear and re-populate from JSON data (more accurate)
-        const jsonSubtitles: { lang: string; name: string }[] = [];
-        for (const [langCode, formats] of Object.entries(subs)) {
-          if (!jsonSubtitles.find((s) => s.lang === langCode)) {
-            jsonSubtitles.push({ lang: langCode, name: langCode.toUpperCase() });
-          }
-        }
-        for (const [langCode] of Object.entries(autoSubs)) {
-          if (!jsonSubtitles.find((s) => s.lang === langCode)) {
-            jsonSubtitles.push({ lang: langCode, name: `${langCode.toUpperCase()} (Auto)` });
-          }
-        }
-
-        if (jsonSubtitles.length > 0) {
-          return NextResponse.json(
-            { subtitles: jsonSubtitles },
-            { status: 200 }
-          );
-        }
-      } catch {}
+      // Map Invidious captions to our expected format
+      const subtitles: { lang: string; name: string }[] = captions.map(
+        (cap: { label?: string; language_code?: string }) => ({
+          lang: cap.language_code || "unknown",
+          name: cap.label || cap.language_code?.toUpperCase() || "Unknown",
+        })
+      );
 
       if (subtitles.length === 0) {
         return NextResponse.json(

@@ -1500,7 +1500,7 @@ function HeroSection({
             setDownloadSpeed(Number(speed.toFixed(2)));
           }
 
-          const blob = new Blob(chunks);
+          const blob = new Blob(chunks as BlobPart[]);
           const blobUrl = URL.createObjectURL(blob);
           const isAudio = quality.label === "Audio" || quality.resolution === "MP3";
           const ext = isAudio ? "mp3" : "mp4";
@@ -2918,7 +2918,7 @@ function HeroSection({
           <a
             href="#features"
             className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-border hover:border-current/30 transition-colors"
-            style={{ hoverBorderColor: accent }}
+            style={{ borderColor: 'var(--border)' }}
           >
             <ChevronDown className="h-5 w-5 text-muted-foreground animate-bounce" />
           </a>
@@ -3358,7 +3358,7 @@ function TrendingSection() {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               whileHover={{ y: -4 }}
               className="relative p-5 rounded-xl bg-card border border-border hover:border-current/20 transition-colors overflow-hidden"
-              style={{ hoverBorderColor: accent }}
+              style={{ borderColor: 'var(--border)' }}
             >
               <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/10 border border-red-500/20">
                 <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse-live" />
@@ -3430,7 +3430,7 @@ function PlatformsSection() {
               transition={{ duration: 0.4, delay: i * 0.05 }}
               whileHover={{ y: -4, scale: 1.03 }}
               className="flex flex-col items-center gap-3 p-5 rounded-xl bg-card border border-border hover:border-current/20 transition-colors cursor-pointer"
-              style={{ hoverBorderColor: accent }}
+              style={{ borderColor: 'var(--border)' }}
             >
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg"
@@ -3529,7 +3529,7 @@ function FAQSection() {
                 className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-current/30 transition-colors"
                 style={{ "--current": accent } as React.CSSProperties}
               >
-                <AccordionTrigger className="text-left text-foreground font-medium hover:no-underline transition-colors" style={{ hoverColor: accent }}>
+                <AccordionTrigger className="text-left text-foreground font-medium hover:no-underline transition-colors">
                   {faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground leading-relaxed">
@@ -3843,10 +3843,10 @@ function ReportButton() {
       <button
         onClick={() => setOpen(true)}
         className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-30 w-12 h-12 rounded-full bg-card border border-border shadow-lg flex items-center justify-center hover:border-current/30 hover:shadow-current/10 transition-all group"
-        style={{ hoverBorderColor: accent, hoverShadowColor: accent }}
+        style={{ borderColor: 'var(--border)' }}
         aria-label={t("report.title")}
       >
-        <Flag className="h-5 w-5 text-muted-foreground group-hover:text-current transition-colors" style={{ groupHoverColor: accent }} />
+        <Flag className="h-5 w-5 text-muted-foreground group-hover:text-current transition-colors" />
       </button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md">

@@ -150,3 +150,37 @@ All 12 features implemented:
 - All existing features preserved and working
 - File modified: src/app/page.tsx (now ~4175 lines)
 - Files created: src/app/api/playlist/route.ts, src/app/api/subtitles/route.ts
+
+---
+Task ID: 5
+Agent: full-stack-developer
+Task: Fix Gutsytik project for Vercel deployment - Remove all yt-dlp binary dependencies
+
+Work Log:
+- Read worklog.md and all 4 API route files, next.config.ts, package.json
+- Confirmed /api/download/route.ts already uses cobalt API + tikwm.com (no yt-dlp) ✅
+- Confirmed next.config.ts has no `output: "standalone"` ✅
+- Rewrote /api/proxy/route.ts: removed child_process, execFile, promisify, YT_DLP_PATH, /tmp file writes; simplified to just validate URL, fetch, and stream back with proper Content-Disposition headers
+- Rewrote /api/playlist/route.ts: removed child_process, execFile, promisify, YT_DLP_PATH; replaced yt-dlp --flat-playlist with Invidious API (GET https://inv.nadeko.net/api/v1/playlists/{playlistId}); extracts playlist ID with regex /list=([a-zA-Z0-9_-]+)/; maps response to same { videos, total } shape
+- Rewrote /api/subtitles/route.ts: removed child_process, execFile, promisify, YT_DLP_PATH, /tmp file writes; replaced yt-dlp --list-subs with Invidious API (GET https://inv.nadeko.net/api/v1/videos/{videoId}) for listing captions; replaced yt-dlp --write-sub with YouTube timedtext API (https://www.youtube.com/api/timedtext?v={videoId}&lang={lang}&fmt=srt) for SRT download; maps response to same { subtitles } and { content, lang } shapes
+- Updated package.json: changed start script from "NODE_ENV=production bun .next/standalone/server.js 2>&1 | tee server.log" to "next start"; build script already was "next build"
+- Verified `bun run build` succeeds with all routes compiling correctly (/, /api/download, /api/playlist, /api/proxy, /api/subtitles)
+- All API response shapes preserved so frontend doesn't break
+
+Files modified:
+- src/app/api/proxy/route.ts
+- src/app/api/playlist/route.ts
+- src/app/api/subtitles/route.ts
+- package.json
+
+Stage Summary:
+- All yt-dlp binary dependencies removed from all 4 API routes
+- All child_process, execFile, promisify imports removed
+- All YT_DLP_PATH constants removed
+- All /tmp file writes removed
+- Proxy route simplified to pure fetch-and-stream
+- Playlist route uses Invidious API with regex playlist ID extraction
+- Subtitles route uses Invidious API for captions listing + YouTube timedtext API for SRT download
+- TikTok downloads still use tikwm.com API (unchanged)
+- Non-TikTok downloads still use cobalt API (unchanged)
+- Build succeeds cleanly

@@ -1,10 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { execFile } from "child_process";
-import { promisify } from "util";
-
-const execFileAsync = promisify(execFile);
-
-const YT_DLP_PATH = "/home/z/.local/bin/yt-dlp";
 
 /* ──────────────── Platform Detection ──────────────── */
 function detectPlatform(url: string): string {
@@ -86,160 +80,163 @@ async function downloadTikTok(url: string) {
   };
 }
 
-/* ──────────────── yt-dlp Downloader (YouTube & more) ──────────────── */
-async function downloadWithYtDlp(url: string, platform: string) {
+/* ──────────────── Cobalt API Downloader (YouTube & other platforms) ──────────────── */
+async function downloadWithCobalt(url: string, platform: string, audioOnly = false) {
   try {
-    // Get video info as JSON
-    const { stdout } = await execFileAsync(YT_DLP_PATH, [
-      "-j",
-      "--no-warnings",
-      "--no-check-certificates",
-      "--user-agent",
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-      url,
-    ], { timeout: 30000, maxBuffer: 10 * 1024 * 1024 });
+    const cobaltUrl = "https://api.cobalt.tools/";
+    const response = await fetch(cobaltUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify({
+        url,
+        downloadMode: audioOnly ? "audio" : "auto",
+      }),
+    });
 
-    const info = JSON.parse(stdout);
-
-    const duration = info.duration || 0;
-    const minutes = Math.floor(duration / 60);
-    const seconds = Math.round(duration % 60);
-    const durationStr = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-
-    // Extract available formats with both video and audio
-    const formats = info.formats || [];
-    const combinedFormats = formats.filter(
-      (f: { vcodec?: string; acodec?: string; height?: number; url?: string; ext?: string }) =>
-        f.vcodec && f.vcodec !== "none" &&
-        f.acodec && f.acodec !== "none" &&
-        f.height && f.url
-    );
-
-    // Group by resolution, pick best for each
-    const seen = new Map<number, (typeof combinedFormats)[0]>();
-    for (const f of combinedFormats) {
-      const h = f.height as number;
-      if (!seen.has(h) || (f.tbr || 0) > (seen.get(h)?.tbr || 0)) {
-        seen.set(h, f);
-      }
+    if (!response.ok) {
+      const errorText = await response.text().catch(() => "");
+      throw new Error(`Cobalt API error (${response.status}): ${errorText.substring(0, 100)}`);
     }
 
-    const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-    const sorted = [...seen.entries()].sort((a, b) => b[0] - a[0]);
+    const data = await response.json();
 
-    for (const [height, fmt] of sorted) {
-      let label = "SD";
-      if (height >= 2160) label = "4K";
-      else if (height >= 1080) label = "HD";
-      else if (height >= 720) label = "HD";
-      else label = "SD";
-
-      qualityOptions.push({
-        label,
-        resolution: `${height}p`,
-        url: fmt.url,
-      });
-
-      if (qualityOptions.length >= 4) break;
+    // Cobalt can return: { url, filename } for success or { error } for failure
+    if (data.error) {
+      throw new Error(data.error.code || data.error || `Gagal mengambil video dari ${platform}.`);
     }
 
-    // Also try to get audio-only
-    const audioFormats = formats.filter(
-      (f: { vcodec?: string; acodec?: string; url?: string }) =>
-        f.vcodec === "none" && f.acodec && f.acodec !== "none" && f.url
-    );
-    if (audioFormats.length > 0) {
-      const bestAudio = audioFormats.sort(
-        (a: { tbr?: number }, b: { tbr?: number }) => (b.tbr || 0) - (a.tbr || 0)
-      )[0];
-      qualityOptions.push({
-        label: "Audio",
-        resolution: "MP3",
-        url: bestAudio.url,
-      });
-    }
-
-    // If no combined formats found, try to get best single-stream URL
-    if (qualityOptions.length === 0) {
-      // Fallback: get the best format with a direct URL
-      const directFormats = formats.filter(
-        (f: { url?: string; vcodec?: string }) => f.url && f.vcodec && f.vcodec !== "none"
-      );
-      if (directFormats.length > 0) {
-        const best = directFormats.sort(
-          (a: { height?: number }, b: { height?: number }) => (b.height || 0) - (a.height || 0)
-        )[0];
-        qualityOptions.push({
-          label: best.height >= 1080 ? "HD" : "SD",
-          resolution: `${best.height || "?"}p`,
-          url: best.url,
-        });
-      }
-    }
-
-    // If still no formats, use yt-dlp to get a direct download URL
-    if (qualityOptions.length === 0) {
-      try {
-        const { stdout: directUrl } = await execFileAsync(YT_DLP_PATH, [
-          "-g",
-          "-f",
-          "best[ext=mp4]/best",
-          "--no-warnings",
-          "--no-check-certificates",
-          url,
-        ], { timeout: 30000 });
-
-        const urls = directUrl.trim().split("\n").filter(Boolean);
-        if (urls.length > 0) {
-          qualityOptions.push({
-            label: "Best",
-            resolution: "Auto",
-            url: urls[0],
-          });
-        }
-      } catch {
-        // Ignore fallback errors
-      }
-    }
-
-    if (qualityOptions.length === 0) {
+    if (!data.url) {
       throw new Error(`Tidak bisa mendapatkan link download dari ${platform}. Video mungkin private atau dilindungi.`);
     }
 
-    const videoId = info.id || Date.now();
+    // Try to get more info via Invidious for YouTube videos
+    let title = `Video ${platform}`;
+    let thumbnail = "";
+    let duration = "";
+    let author = "@unknown";
+
+    if (platform === "YouTube") {
+      const videoId = extractYouTubeVideoId(url);
+      if (videoId) {
+        try {
+          const infoRes = await fetch(`https://inv.nadeko.net/api/v1/videos/${videoId}`);
+          if (infoRes.ok) {
+            const info = await infoRes.json();
+            title = info.title || title;
+            thumbnail = info.videoThumbnails?.[0]?.url || info.videoThumbnails?.[3]?.url || "";
+            const dur = info.lengthSeconds || 0;
+            const mins = Math.floor(dur / 60);
+            const secs = dur % 60;
+            duration = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+            author = info.author || author;
+          }
+        } catch {
+          // Info fetch is optional, continue with defaults
+        }
+      }
+    }
+
+    // Build quality options from cobalt response
+    const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+    const suggestedFilename = data.filename || `gutsytik_${platform.toLowerCase()}_${Date.now()}`;
+    const isAudioFile = suggestedFilename.endsWith(".mp3") || suggestedFilename.endsWith(".ogg") || audioOnly;
+
+    if (isAudioFile) {
+      qualityOptions.push({
+        label: "Audio",
+        resolution: "MP3",
+        url: data.url,
+      });
+    } else {
+      qualityOptions.push({
+        label: "Best",
+        resolution: "Auto",
+        url: data.url,
+      });
+    }
+
+    // If we got a video, also try to get audio-only version
+    if (!isAudioFile && !audioOnly) {
+      try {
+        const audioRes = await fetch(cobaltUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: JSON.stringify({
+            url,
+            downloadMode: "audio",
+          }),
+        });
+        if (audioRes.ok) {
+          const audioData = await audioRes.json();
+          if (audioData.url) {
+            qualityOptions.push({
+              label: "Audio",
+              resolution: "MP3",
+              url: audioData.url,
+            });
+          }
+        }
+      } catch {
+        // Audio-only fetch is optional
+      }
+    }
+
+    const videoId = platform === "YouTube" ? extractYouTubeVideoId(url) : Date.now();
 
     return {
-      title: info.title || `Video ${platform}`,
-      thumbnail: info.thumbnail || "",
-      duration: durationStr,
-      author: info.uploader || info.channel || "@unknown",
+      title,
+      thumbnail,
+      duration,
+      author,
       platform,
-      downloadUrl: qualityOptions[0].url,
+      downloadUrl: data.url,
       qualityOptions,
-      filename: `gutsytik_${platform.toLowerCase()}_${videoId}`,
+      filename: `gutsytik_${platform.toLowerCase()}_${videoId || Date.now()}`,
     };
   } catch (err: unknown) {
     const errorMessage = err instanceof Error ? err.message : "Unknown error";
 
-    if (errorMessage.includes("Sign in") || errorMessage.includes("authentication") || errorMessage.includes("cookies")) {
-      throw new Error(`Video ${platform} memerlukan login/cookies. Coba gunakan video yang bersifat publik.`);
-    }
     if (errorMessage.includes("private") || errorMessage.includes("removed") || errorMessage.includes("not available")) {
       throw new Error(`Video ${platform} tidak tersedia. Mungkin video bersifat private atau sudah dihapus.`);
     }
-    if (errorMessage.includes("JSON")) {
-      throw new Error(`Gagal memproses video dari ${platform}. Coba lagi nanti.`);
-    }
 
-    throw new Error(`Gagal mengambil data dari ${platform}: ${errorMessage.substring(0, 100)}`);
+    throw new Error(`Gagal mengambil data dari ${platform}: ${errorMessage.substring(0, 150)}`);
   }
+}
+
+/* ──────────────── YouTube Video ID Extraction ──────────────── */
+function extractYouTubeVideoId(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    // Standard youtube.com/watch?v=...
+    if (parsed.hostname.includes("youtube.com") && parsed.searchParams.get("v")) {
+      return parsed.searchParams.get("v");
+    }
+    // Short youtu.be/...
+    if (parsed.hostname === "youtu.be") {
+      return parsed.pathname.slice(1).split("/")[0] || null;
+    }
+    // Embedded youtube.com/embed/...
+    if (parsed.pathname.startsWith("/embed/")) {
+      return parsed.pathname.split("/")[2] || null;
+    }
+  } catch {
+    // Invalid URL
+  }
+  return null;
 }
 
 /* ──────────────── Main Handler ──────────────── */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { url } = body;
+    const { url, audioMode } = body;
 
     if (!url || typeof url !== "string") {
       return NextResponse.json(
@@ -275,8 +272,8 @@ export async function POST(request: NextRequest) {
         // Use tikwm API for TikTok (best results)
         result = await downloadTikTok(trimmedUrl);
       } else {
-        // Use yt-dlp for everything else (YouTube, Facebook, Twitter, etc.)
-        result = await downloadWithYtDlp(trimmedUrl, platform);
+        // Use cobalt API for everything else (YouTube, Facebook, Twitter, etc.)
+        result = await downloadWithCobalt(trimmedUrl, platform, audioMode === true);
       }
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Gagal memproses video.";
@@ -294,7 +291,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Convert download URLs to proxy URLs to avoid CORS issues in browser
-    // Include sourceUrl as fallback so proxy can re-resolve via yt-dlp if needed
     const encodedSourceUrl = encodeURIComponent(trimmedUrl);
     const proxiedQualityOptions = result.qualityOptions.map((q) => ({
       ...q,
