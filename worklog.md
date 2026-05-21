@@ -114,3 +114,39 @@ Stage Summary:
 - Build passes with no errors
 - Lint passes cleanly
 - File modified: src/app/page.tsx
+
+---
+Task ID: 2
+Agent: full-stack-developer
+Task: Add 12 NEW features to Gutsytik video downloader
+
+Work Log:
+- Read existing worklog.md, page.tsx (~3096 lines), and all API routes
+- Added new lucide-react imports: Copy, Star, Bell, Calendar, ListVideo, FileText, Plus, Timer, RotateCcw
+- Added new interfaces: PlaylistVideo, SubtitleInfo, ScheduledDownload, PlatformRatings, PlatformInfo
+- Added new localStorage key constant: RATINGS_KEY
+- Added 90+ new translation keys for both 'id' and 'en' languages covering all 12 features
+- Created utility functions: detectPlatformFromUrl(), playDingSound(), playWhooshSound(), requestNotificationPermission(), sendDownloadNotification(), getRatings(), addRating(), getAverageRating(), exportHistoryCSV(), exportHistoryJSON(), formatDurationLong()
+- Created PLATFORM_MAP constant for platform detection with brand colors and icons
+- Created /api/playlist/route.ts with POST endpoint using yt-dlp --flat-playlist --dump-json
+- Created /api/subtitles/route.ts with POST endpoint using yt-dlp --list-subs and subtitle download
+
+All 12 features implemented:
+1. **Auto-Detect Platform**: detectPlatformFromUrl() with PLATFORM_MAP, shows platform icon inside input field + color-coded badge below input with brand colors
+2. **Copy Caption**: "Copy Caption" button in result card copies video title to clipboard with toast
+3. **Download Retry**: Exponential backoff (1s, 2s, 4s) up to 3 retries, shows retry count in progress bar, manual retry button after 3 failures
+4. **Playlist Support**: New "Playlist" tab with YouTube playlist URL input, fetches via /api/playlist, shows checkboxes for video selection, download selected/all
+5. **Subtitle Download**: "Subtitles" button (YouTube only), fetches available subtitles via /api/subtitles, Dialog with language list, download as SRT
+6. **Video Info Card**: Grid layout showing Duration (HH:MM:SS), Resolution, Estimated Size, Author, Platform, Title with icons
+7. **Browser Notifications**: Requests Notification API permission on first download, sends notification on download complete
+8. **Quick Actions FAB**: Mobile-only floating action button (bottom-right), expandable with History, Bookmarks, Download quick actions
+9. **Download Scheduler**: Schedule button opens Dialog with 5min/15min/30min/1hr options, countdown timer panel, auto-triggers download, cancel option
+10. **Export History**: Export button in RiwayatSheet with Popover for CSV/JSON export using Blob + URL.createObjectURL
+11. **Sound Effects**: Web Audio API generated sounds - whoosh on download start, ding on download complete
+12. **Rate/Review System**: 5-star rating in result card, stores per-platform in localStorage, shows average rating per platform in Statistics section
+
+- ESLint passes with 0 errors
+- `next build` compiles successfully
+- All existing features preserved and working
+- File modified: src/app/page.tsx (now ~4175 lines)
+- Files created: src/app/api/playlist/route.ts, src/app/api/subtitles/route.ts

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useRef, useEffect, createContext, useContext } from "react";
+import React, { useState, useCallback, useRef, useEffect, createContext, useContext, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import {
@@ -48,6 +48,15 @@ import {
   BarChart3,
   Keyboard,
   Send,
+  Copy,
+  Star,
+  Bell,
+  Calendar,
+  ListVideo,
+  FileText,
+  Plus,
+  Timer,
+  RotateCcw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -128,12 +137,41 @@ interface DownloadStats {
   startDate: number;
 }
 
+interface PlaylistVideo {
+  id: string;
+  title: string;
+  thumbnail: string;
+  duration: string;
+  url: string;
+  selected: boolean;
+}
+
+interface SubtitleInfo {
+  lang: string;
+  name: string;
+}
+
+interface ScheduledDownload {
+  id: string;
+  result: DownloadResult;
+  qualityIndex: number;
+  url: string;
+  delayMs: number;
+  startTime: number;
+  remaining: number;
+}
+
+interface PlatformRatings {
+  [platform: string]: number[];
+}
+
 /* ──────────────────── Constants ──────────────────── */
 const HISTORY_KEY = "gutsytik_history";
 const BOOKMARK_KEY = "gutsytik_bookmarks";
 const STATS_KEY = "gutsytik_stats";
 const LANG_KEY = "gutsytik_lang";
 const ACCENT_KEY = "gutsytik_accent";
+const RATINGS_KEY = "gutsytik_ratings";
 const MAX_HISTORY = 20;
 
 /* ──────────────────── Feature 6: Multi-Bahasa Translations ──────────────────── */
@@ -242,6 +280,50 @@ const translations: Record<string, Record<string, string>> = {
     "mengunduh": "Mengunduh...",
     "MB/s": "MB/s",
     "MB": "MB",
+    "result.copyCaption": "Salin Caption",
+    "result.captionCopied": "Caption disalin!",
+    "result.subtitles": "Subtitle",
+    "result.schedule": "Jadwalkan",
+    "result.rate": "Beri Rating",
+    "result.rateQuality": "Rating kualitas download",
+    "playlist.title": "Playlist",
+    "playlist.empty": "Masukkan URL playlist YouTube",
+    "playlist.fetching": "Mengambil daftar playlist...",
+    "playlist.selectVideos": "Pilih video yang ingin didownload",
+    "playlist.downloadSelected": "Download Terpilih",
+    "playlist.downloadAll": "Download Semua",
+    "subtitle.title": "Subtitle Tersedia",
+    "subtitle.download": "Download Subtitle",
+    "subtitle.noSubs": "Tidak ada subtitle tersedia",
+    "schedule.title": "Jadwalkan Download",
+    "schedule.delay": "Delay",
+    "schedule.5min": "5 Menit",
+    "schedule.15min": "15 Menit",
+    "schedule.30min": "30 Menit",
+    "schedule.1hr": "1 Jam",
+    "schedule.scheduled": "Download dijadwalkan!",
+    "schedule.countdown": "Mulai dalam",
+    "schedule.cancel": "Batalkan",
+    "export.title": "Ekspor Riwayat",
+    "export.csv": "Ekspor CSV",
+    "export.json": "Ekspor JSON",
+    "export.success": "Riwayat berhasil diekspor!",
+    "fab.download": "Download",
+    "fab.history": "Riwayat",
+    "fab.bookmarks": "Bookmark",
+    "notification.enabled": "Notifikasi diaktifkan",
+    "notification.complete": "Download selesai!",
+    "notification.denied": "Notifikasi diblokir",
+    "retry.count": "Mencoba ulang",
+    "retry.of": "dari",
+    "retry.failed": "Gagal setelah 3x percobaan",
+    "rating.average": "Rata-rata",
+    "rating.stars": "bintang",
+    "info.duration": "Durasi",
+    "info.resolution": "Resolusi",
+    "info.estimatedSize": "Estimasi Ukuran",
+    "info.author": "Pembuat",
+    "info.platform": "Platform",
   },
   en: {
     "nav.fitur": "Features",
@@ -347,6 +429,50 @@ const translations: Record<string, Record<string, string>> = {
     "mengunduh": "Downloading...",
     "MB/s": "MB/s",
     "MB": "MB",
+    "result.copyCaption": "Copy Caption",
+    "result.captionCopied": "Caption copied!",
+    "result.subtitles": "Subtitles",
+    "result.schedule": "Schedule",
+    "result.rate": "Rate",
+    "result.rateQuality": "Rate download quality",
+    "playlist.title": "Playlist",
+    "playlist.empty": "Enter YouTube playlist URL",
+    "playlist.fetching": "Fetching playlist...",
+    "playlist.selectVideos": "Select videos to download",
+    "playlist.downloadSelected": "Download Selected",
+    "playlist.downloadAll": "Download All",
+    "subtitle.title": "Available Subtitles",
+    "subtitle.download": "Download Subtitle",
+    "subtitle.noSubs": "No subtitles available",
+    "schedule.title": "Schedule Download",
+    "schedule.delay": "Delay",
+    "schedule.5min": "5 Minutes",
+    "schedule.15min": "15 Minutes",
+    "schedule.30min": "30 Minutes",
+    "schedule.1hr": "1 Hour",
+    "schedule.scheduled": "Download scheduled!",
+    "schedule.countdown": "Starts in",
+    "schedule.cancel": "Cancel",
+    "export.title": "Export History",
+    "export.csv": "Export CSV",
+    "export.json": "Export JSON",
+    "export.success": "History exported successfully!",
+    "fab.download": "Download",
+    "fab.history": "History",
+    "fab.bookmarks": "Bookmarks",
+    "notification.enabled": "Notifications enabled",
+    "notification.complete": "Download complete!",
+    "notification.denied": "Notifications blocked",
+    "retry.count": "Retrying",
+    "retry.of": "of",
+    "retry.failed": "Failed after 3 attempts",
+    "rating.average": "Average",
+    "rating.stars": "stars",
+    "info.duration": "Duration",
+    "info.resolution": "Resolution",
+    "info.estimatedSize": "Estimated Size",
+    "info.author": "Author",
+    "info.platform": "Platform",
   },
 };
 
@@ -564,6 +690,181 @@ function formatDate(timestamp: number): string {
     month: "long",
     day: "numeric",
   });
+}
+
+/* ──────────────────── Feature 1: Platform Detection (UI) ──────────────────── */
+interface PlatformInfo {
+  name: string;
+  color: string;
+  letter: string;
+  icon?: React.ComponentType<{ className?: string }>;
+}
+
+const PLATFORM_MAP: Record<string, PlatformInfo> = {
+  TikTok: { name: "TikTok", color: "#000000", letter: "T" },
+  YouTube: { name: "YouTube", color: "#FF0000", letter: "Y", icon: Play },
+  Instagram: { name: "Instagram", color: "#E4405F", letter: "I", icon: Instagram },
+  "Twitter/X": { name: "Twitter/X", color: "#000000", letter: "X" },
+  Facebook: { name: "Facebook", color: "#1877F2", letter: "f" },
+  Pinterest: { name: "Pinterest", color: "#E60023", letter: "P" },
+  Reddit: { name: "Reddit", color: "#FF4500", letter: "R" },
+  Likee: { name: "Likee", color: "#7C3AED", letter: "L" },
+  "Snack Video": { name: "Snack Video", color: "#FF8C00", letter: "S" },
+  Unknown: { name: "Unknown", color: "#6B7280", letter: "?" },
+};
+
+function detectPlatformFromUrl(urlStr: string): PlatformInfo {
+  try {
+    const hostname = new URL(urlStr).hostname.toLowerCase();
+    if (hostname.includes("tiktok") || hostname.includes("vm.tiktok")) return PLATFORM_MAP.TikTok;
+    if (hostname.includes("youtube") || hostname.includes("youtu.be")) return PLATFORM_MAP.YouTube;
+    if (hostname.includes("instagram")) return PLATFORM_MAP.Instagram;
+    if (hostname.includes("twitter") || hostname.includes("x.com")) return PLATFORM_MAP["Twitter/X"];
+    if (hostname.includes("facebook") || hostname.includes("fb.watch") || hostname.includes("fb.com")) return PLATFORM_MAP.Facebook;
+    if (hostname.includes("pinterest")) return PLATFORM_MAP.Pinterest;
+    if (hostname.includes("reddit")) return PLATFORM_MAP.Reddit;
+    if (hostname.includes("likee")) return PLATFORM_MAP.Likee;
+    if (hostname.includes("snackvideo") || hostname.includes("snack")) return PLATFORM_MAP["Snack Video"];
+  } catch {}
+  return PLATFORM_MAP.Unknown;
+}
+
+/* ──────────────────── Feature 11: Sound Effects (Web Audio API) ──────────────────── */
+let audioCtx: AudioContext | null = null;
+
+function getAudioContext(): AudioContext {
+  if (!audioCtx) {
+    audioCtx = new AudioContext();
+  }
+  return audioCtx;
+}
+
+function playDingSound() {
+  try {
+    const ctx = getAudioContext();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+    oscillator.frequency.setValueAtTime(1108.73, ctx.currentTime + 0.1);
+    gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + 0.5);
+  } catch {}
+}
+
+function playWhooshSound() {
+  try {
+    const ctx = getAudioContext();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    oscillator.type = "sawtooth";
+    oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.3);
+    gainNode.gain.setValueAtTime(0.15, ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + 0.3);
+  } catch {}
+}
+
+/* ──────────────────── Feature 7: Browser Notifications ──────────────────── */
+async function requestNotificationPermission(): Promise<boolean> {
+  if (typeof window === "undefined" || !("Notification" in window)) return false;
+  if (Notification.permission === "granted") return true;
+  if (Notification.permission === "denied") return false;
+  const result = await Notification.requestPermission();
+  return result === "granted";
+}
+
+function sendDownloadNotification(title: string) {
+  try {
+    if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "granted") {
+      new Notification("Gutsytik", {
+        body: `${title} - Download complete!`,
+        icon: "/logo.svg",
+      });
+    }
+  } catch {}
+}
+
+/* ──────────────────── Feature 12: Ratings ──────────────────── */
+function getRatings(): PlatformRatings {
+  if (typeof window === "undefined") return {};
+  try {
+    const data = localStorage.getItem(RATINGS_KEY);
+    return data ? JSON.parse(data) : {};
+  } catch {
+    return {};
+  }
+}
+
+function addRating(platform: string, rating: number) {
+  try {
+    const ratings = getRatings();
+    if (!ratings[platform]) ratings[platform] = [];
+    ratings[platform].push(rating);
+    localStorage.setItem(RATINGS_KEY, JSON.stringify(ratings));
+    window.dispatchEvent(new Event("gutsytik:ratings-changed"));
+  } catch {}
+}
+
+function getAverageRating(platform: string): number {
+  const ratings = getRatings();
+  const list = ratings[platform];
+  if (!list || list.length === 0) return 0;
+  return list.reduce((a, b) => a + b, 0) / list.length;
+}
+
+/* ──────────────────── Feature 10: Export History ──────────────────── */
+function exportHistoryCSV(history: HistoryItem[]) {
+  const header = "Title,Platform,Author,Duration,URL,Date";
+  const rows = history.map(
+    (h) => `"${h.title.replace(/"/g, '""')}","${h.platform}","${h.author}","${h.duration}","${h.url}","${new Date(h.timestamp).toISOString()}"`
+  );
+  const csv = [header, ...rows].join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `gutsytik_history_${Date.now()}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function exportHistoryJSON(history: HistoryItem[]) {
+  const json = JSON.stringify(history, null, 2);
+  const blob = new Blob([json], { type: "application/json;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `gutsytik_history_${Date.now()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/* ──────────────────── Feature 6: Format Duration ──────────────────── */
+function formatDurationLong(durStr: string): string {
+  if (!durStr || durStr === "--:--") return "--:--:--";
+  const parts = durStr.split(":").map(Number);
+  if (parts.length === 2) {
+    const h = Math.floor(parts[0] / 60);
+    const m = parts[0] % 60;
+    const s = parts[1];
+    if (h > 0) return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    return `00:${String(parts[0]).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
+  if (parts.length === 3) return durStr;
+  return `00:00:${String(parts[0] || 0).padStart(2, "0")}`;
 }
 
 /* ──────────────────── Navbar ──────────────────── */
@@ -885,6 +1186,28 @@ function HeroSection({
   const [audioMode, setAudioMode] = useState(false);
   // Feature 7: Bookmark state
   const [isBookmarkedState, setIsBookmarkedState] = useState(false);
+  // Feature 1: Auto-Detect Platform
+  const [detectedPlatform, setDetectedPlatform] = useState<PlatformInfo | null>(null);
+  // Feature 4: Playlist
+  const [playlistTab, setPlaylistTab] = useState(false);
+  const [playlistUrl, setPlaylistUrl] = useState("");
+  const [playlistVideos, setPlaylistVideos] = useState<PlaylistVideo[]>([]);
+  const [playlistFetching, setPlaylistFetching] = useState(false);
+  // Feature 5: Subtitles
+  const [subtitles, setSubtitles] = useState<SubtitleInfo[]>([]);
+  const [subtitleOpen, setSubtitleOpen] = useState(false);
+  const [subtitleLoading, setSubtitleLoading] = useState(false);
+  // Feature 9: Schedule
+  const [scheduledDownloads, setScheduledDownloads] = useState<ScheduledDownload[]>([]);
+  const [scheduleOpen, setScheduleOpen] = useState(false);
+  // Feature 3: Retry
+  const [retryCount, setRetryCount] = useState(0);
+  const [retryFailed, setRetryFailed] = useState(false);
+  // Feature 12: Rating
+  const [currentRating, setCurrentRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  // Feature 7: Notification
+  const [notifPermission, setNotifPermission] = useState<string>("default");
 
   const resultRef = useRef<HTMLDivElement>(null);
   const urlRef = useRef(url);
@@ -982,11 +1305,73 @@ function HeroSection({
       if (e.key === "Escape") {
         setRiwayatOpen(false);
         setShowPreview(false);
+        setSubtitleOpen(false);
+        setScheduleOpen(false);
       }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
+
+  // Feature 1: Auto-Detect Platform from URL
+  useEffect(() => {
+    if (url.trim()) {
+      const platform = detectPlatformFromUrl(url.trim());
+      setDetectedPlatform(platform.name !== "Unknown" ? platform : null);
+    } else {
+      setDetectedPlatform(null);
+    }
+  }, [url]);
+
+  // Feature 7: Check notification permission on mount
+  useEffect(() => {
+    if (typeof window !== "undefined" && "Notification" in window) {
+      setNotifPermission(Notification.permission);
+    }
+  }, []);
+
+  // Feature 9: Scheduled downloads timer
+  useEffect(() => {
+    if (scheduledDownloads.length === 0) return;
+    const interval = setInterval(() => {
+      setScheduledDownloads((prev) => {
+        const now = Date.now();
+        const updated = prev.map((sd) => ({
+          ...sd,
+          remaining: Math.max(0, sd.startTime + sd.delayMs - now),
+        }));
+        // Auto-trigger downloads that have reached 0
+        const ready = updated.filter((sd) => sd.remaining <= 0);
+        const stillPending = updated.filter((sd) => sd.remaining > 0);
+        for (const sd of ready) {
+          // Trigger the download
+          const quality = sd.result.qualityOptions[sd.qualityIndex] || sd.result.qualityOptions[0];
+          if (quality) {
+            fetch(quality.url).then((res) => {
+              if (!res.ok) throw new Error("Failed");
+              return res.blob();
+            }).then((blob) => {
+              const blobUrl = URL.createObjectURL(blob);
+              const isAudio = quality.label === "Audio" || quality.resolution === "MP3";
+              const ext = isAudio ? "mp3" : "mp4";
+              const fileName = `${sd.result.filename}_${quality.label}.${ext}`;
+              const a = document.createElement("a");
+              a.href = blobUrl;
+              a.download = fileName;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+              playDingSound();
+              sendDownloadNotification(sd.result.title);
+            }).catch(() => {});
+          }
+        }
+        return stillPending;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [scheduledDownloads.length]);
 
   // Auto-Paste on focus
   const handleInputFocus = useCallback(async () => {
@@ -1062,98 +1447,134 @@ function HeroSection({
     }
   }, [url, showToast, t, audioMode]);
 
-  // Feature 3: Download with real progress bar
+  // Feature 3: Download with real progress bar + retry + sound + notifications
   const handleDownload = useCallback(async () => {
     if (!result) return;
     const quality = result.qualityOptions[selectedQuality] || result.qualityOptions[0];
     if (!quality) return;
+
+    // Feature 11: Whoosh sound on start
+    playWhooshSound();
+
+    // Feature 7: Request notification permission on first download
+    if (notifPermission === "default") {
+      const granted = await requestNotificationPermission();
+      setNotifPermission(granted ? "granted" : "denied");
+      if (granted) {
+        showToast(t("notification.enabled"), "", "default");
+      }
+    }
 
     setDownloading(true);
     setDownloadPercent(0);
     setDownloadSpeed(0);
     setDownloadSize(0);
     setDownloadTotalSize(0);
+    setRetryCount(0);
+    setRetryFailed(false);
 
-    try {
-      const response = await fetch(quality.url);
-      if (!response.ok) throw new Error(`Download gagal (HTTP ${response.status})`);
+    const attemptDownload = async (attempt: number): Promise<boolean> => {
+      try {
+        const response = await fetch(quality.url);
+        if (!response.ok) throw new Error(`Download gagal (HTTP ${response.status})`);
 
-      const contentLength = Number(response.headers.get("content-length")) || 0;
-      setDownloadTotalSize(contentLength);
+        const contentLength = Number(response.headers.get("content-length")) || 0;
+        setDownloadTotalSize(contentLength);
 
-      if (contentLength > 0 && response.body) {
-        const reader = response.body.getReader();
-        const chunks: Uint8Array[] = [];
-        let receivedLength = 0;
-        const startTime = Date.now();
+        if (contentLength > 0 && response.body) {
+          const reader = response.body.getReader();
+          const chunks: Uint8Array[] = [];
+          let receivedLength = 0;
+          const startTime = Date.now();
 
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          chunks.push(value);
-          receivedLength += value.length;
-          const elapsed = (Date.now() - startTime) / 1000;
-          const speed = elapsed > 0 ? receivedLength / elapsed / (1024 * 1024) : 0;
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            chunks.push(value);
+            receivedLength += value.length;
+            const elapsed = (Date.now() - startTime) / 1000;
+            const speed = elapsed > 0 ? receivedLength / elapsed / (1024 * 1024) : 0;
 
-          setDownloadSize(receivedLength);
-          setDownloadPercent(contentLength > 0 ? Math.round((receivedLength / contentLength) * 100) : 0);
-          setDownloadSpeed(Number(speed.toFixed(2)));
+            setDownloadSize(receivedLength);
+            setDownloadPercent(contentLength > 0 ? Math.round((receivedLength / contentLength) * 100) : 0);
+            setDownloadSpeed(Number(speed.toFixed(2)));
+          }
+
+          const blob = new Blob(chunks);
+          const blobUrl = URL.createObjectURL(blob);
+          const isAudio = quality.label === "Audio" || quality.resolution === "MP3";
+          const ext = isAudio ? "mp3" : "mp4";
+          const fileName = `${result.filename}_${quality.label}.${ext}`;
+          const a = document.createElement("a");
+          a.href = blobUrl;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+          setDownloadPercent(100);
+        } else {
+          const blob = await response.blob();
+          const blobUrl = URL.createObjectURL(blob);
+          const isAudio = quality.label === "Audio" || quality.resolution === "MP3";
+          const ext = isAudio ? "mp3" : "mp4";
+          const fileName = `${result.filename}_${quality.label}.${ext}`;
+          const a = document.createElement("a");
+          a.href = blobUrl;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+          setDownloadPercent(100);
+          setDownloadSize(blob.size);
+          setDownloadTotalSize(blob.size);
         }
 
-        const blob = new Blob(chunks);
-        const blobUrl = URL.createObjectURL(blob);
-        const isAudio = quality.label === "Audio" || quality.resolution === "MP3";
-        const ext = isAudio ? "mp3" : "mp4";
-        const fileName = `${result.filename}_${quality.label}.${ext}`;
-        const a = document.createElement("a");
-        a.href = blobUrl;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
-        setDownloadPercent(100);
-      } else {
-        // Fallback: no content-length or no ReadableStream
-        const blob = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
-        const isAudio = quality.label === "Audio" || quality.resolution === "MP3";
-        const ext = isAudio ? "mp3" : "mp4";
-        const fileName = `${result.filename}_${quality.label}.${ext}`;
-        const a = document.createElement("a");
-        a.href = blobUrl;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
-        setDownloadPercent(100);
-        setDownloadSize(blob.size);
-        setDownloadTotalSize(blob.size);
+        // Save to history
+        const historyItem: HistoryItem = {
+          id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          title: result.title,
+          platform: result.platform,
+          author: result.author,
+          thumbnail: result.thumbnail,
+          duration: result.duration,
+          url: url.trim(),
+          downloadUrl: quality.url,
+          timestamp: Date.now(),
+        };
+        saveToHistory(historyItem);
+
+        // Update stats
+        const estimatedMB = downloadTotalSize > 0
+          ? Math.round(downloadTotalSize / (1024 * 1024))
+          : Math.round((downloadSize || 1) / (1024 * 1024)) || 5;
+        incrementStats(result.platform, estimatedMB);
+
+        // Feature 11: Ding sound on complete
+        playDingSound();
+
+        // Feature 7: Browser notification
+        sendDownloadNotification(result.title);
+
+        showToast(t("toast.downloadStart"), t("toast.saving"), "default");
+        return true;
+      } catch {
+        if (attempt < 3) {
+          // Feature 3: Retry with exponential backoff
+          setRetryCount(attempt);
+          const delay = Math.pow(2, attempt - 1) * 1000;
+          await new Promise((resolve) => setTimeout(resolve, delay));
+          return attemptDownload(attempt + 1);
+        }
+        setRetryFailed(true);
+        return false;
       }
+    };
 
-      // Save to history
-      const historyItem: HistoryItem = {
-        id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-        title: result.title,
-        platform: result.platform,
-        author: result.author,
-        thumbnail: result.thumbnail,
-        duration: result.duration,
-        url: url.trim(),
-        downloadUrl: quality.url,
-        timestamp: Date.now(),
-      };
-      saveToHistory(historyItem);
+    const success = await attemptDownload(1);
 
-      // Feature 8: Update stats
-      const estimatedMB = downloadTotalSize > 0
-        ? Math.round(downloadTotalSize / (1024 * 1024))
-        : Math.round((downloadSize || 1) / (1024 * 1024)) || 5;
-      incrementStats(result.platform, estimatedMB);
-
-      showToast(t("toast.downloadStart"), t("toast.saving"), "default");
-    } catch {
+    if (!success) {
       // Fallback download
       try {
         const a = document.createElement("a");
@@ -1179,20 +1600,22 @@ function HeroSection({
         saveToHistory(historyItem);
         incrementStats(result.platform, 5);
         showToast(t("toast.downloadStart"), t("toast.saving"), "default");
+        playDingSound();
+        sendDownloadNotification(result.title);
       } catch {
         setError(t("error.downloadFail"));
         showToast(t("toast.downloadFail"), t("toast.tryAgain"), "destructive");
       }
-    } finally {
-      setTimeout(() => {
-        setDownloading(false);
-        setDownloadPercent(0);
-        setDownloadSpeed(0);
-        setDownloadSize(0);
-        setDownloadTotalSize(0);
-      }, 2500);
     }
-  }, [result, selectedQuality, url, showToast, t, downloadTotalSize, downloadSize]);
+
+    setTimeout(() => {
+      setDownloading(false);
+      setDownloadPercent(0);
+      setDownloadSpeed(0);
+      setDownloadSize(0);
+      setDownloadTotalSize(0);
+    }, 2500);
+  }, [result, selectedQuality, url, showToast, t, downloadTotalSize, downloadSize, notifPermission]);
 
   // Share Button
   const handleShare = useCallback(async () => {
@@ -1360,6 +1783,134 @@ function HeroSection({
     showToast(t("toast.historyCleared"), "", "default");
   }, [showToast, t]);
 
+  // Feature 2: Copy Caption
+  const handleCopyCaption = useCallback(async () => {
+    if (!result) return;
+    try {
+      await navigator.clipboard.writeText(result.title);
+      showToast(t("result.captionCopied"), "", "default");
+    } catch {}
+  }, [result, showToast, t]);
+
+  // Feature 4: Fetch Playlist
+  const handleFetchPlaylist = useCallback(async () => {
+    if (!playlistUrl.trim()) return;
+    setPlaylistFetching(true);
+    setPlaylistVideos([]);
+    try {
+      const res = await fetch("/api/playlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: playlistUrl.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok && data.videos) {
+        const videos: PlaylistVideo[] = data.videos.map((v: { id: string; title: string; thumbnail: string; duration: string; url: string }) => ({
+          id: v.id,
+          title: v.title,
+          thumbnail: v.thumbnail,
+          duration: v.duration,
+          url: v.url,
+          selected: false,
+        }));
+        setPlaylistVideos(videos);
+      } else {
+        showToast("Error", data.error || "Failed to fetch playlist", "destructive");
+      }
+    } catch {
+      showToast("Error", t("error.server"), "destructive");
+    } finally {
+      setPlaylistFetching(false);
+    }
+  }, [playlistUrl, showToast, t]);
+
+  // Feature 5: Fetch Subtitles
+  const handleFetchSubtitles = useCallback(async () => {
+    if (!result) return;
+    setSubtitleLoading(true);
+    setSubtitleOpen(true);
+    try {
+      const res = await fetch("/api/subtitles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: url.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok && data.subtitles) {
+        setSubtitles(data.subtitles);
+      } else {
+        setSubtitles([]);
+      }
+    } catch {
+      setSubtitles([]);
+    } finally {
+      setSubtitleLoading(false);
+    }
+  }, [result, url]);
+
+  // Feature 5: Download Subtitle
+  const handleDownloadSubtitle = useCallback(async (sub: SubtitleInfo) => {
+    try {
+      const res = await fetch("/api/subtitles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: url.trim(), lang: sub.lang, format: "srt" }),
+      });
+      const data = await res.json();
+      if (res.ok && data.content) {
+        const blob = new Blob([data.content], { type: "text/srt;charset=utf-8;" });
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = blobUrl;
+        a.download = `${result?.filename || "subtitle"}_${sub.lang}.srt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+        showToast(t("subtitle.download"), "", "default");
+      }
+    } catch {}
+  }, [url, result, showToast, t]);
+
+  // Feature 9: Schedule Download
+  const handleScheduleDownload = useCallback((delayMs: number) => {
+    if (!result) return;
+    const sd: ScheduledDownload = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      result: { ...result },
+      qualityIndex: selectedQuality,
+      url: url.trim(),
+      delayMs,
+      startTime: Date.now(),
+      remaining: delayMs,
+    };
+    setScheduledDownloads((prev) => [...prev, sd]);
+    setScheduleOpen(false);
+    showToast(t("schedule.scheduled"), t("schedule.countdown"), "default");
+  }, [result, selectedQuality, url, showToast, t]);
+
+  // Feature 9: Cancel Scheduled Download
+  const handleCancelSchedule = useCallback((id: string) => {
+    setScheduledDownloads((prev) => prev.filter((sd) => sd.id !== id));
+  }, []);
+
+  // Feature 4: Playlist select/deselect
+  const handleTogglePlaylistVideo = useCallback((idx: number) => {
+    setPlaylistVideos((prev) => prev.map((v, i) => i === idx ? { ...v, selected: !v.selected } : v));
+  }, []);
+
+  const handleSelectAllPlaylist = useCallback(() => {
+    setPlaylistVideos((prev) => prev.map((v) => ({ ...v, selected: true })));
+  }, []);
+
+  // Feature 12: Rate download
+  const handleRate = useCallback((rating: number) => {
+    if (!result) return;
+    setCurrentRating(rating);
+    addRating(result.platform, rating);
+    showToast(t("result.rate"), `${rating}/5 ⭐`, "default");
+  }, [result, showToast, t]);
+
   const stats = [
     { value: "10M+", label: "Downloads" },
     { value: "50+", label: "Platforms" },
@@ -1453,8 +2004,11 @@ function HeroSection({
           {/* Feature 2: Audio/Video tab toggle */}
           <div className="flex items-center justify-between mb-2">
             <Tabs
-              value={audioMode ? "audio" : "video"}
-              onValueChange={(v) => setAudioMode(v === "audio")}
+              value={playlistTab ? "playlist" : audioMode ? "audio" : "video"}
+              onValueChange={(v) => {
+                setAudioMode(v === "audio");
+                setPlaylistTab(v === "playlist");
+              }}
             >
               <TabsList className="h-8">
                 <TabsTrigger value="video" className="text-xs px-3 h-6">
@@ -1464,6 +2018,10 @@ function HeroSection({
                 <TabsTrigger value="audio" className="text-xs px-3 h-6">
                   <Music className="h-3 w-3 mr-1" />
                   {t("tab.audio")}
+                </TabsTrigger>
+                <TabsTrigger value="playlist" className="text-xs px-3 h-6">
+                  <ListVideo className="h-3 w-3 mr-1" />
+                  {t("playlist.title")}
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -1540,8 +2098,116 @@ function HeroSection({
                 )}
               </AnimatePresence>
             </div>
+          ) : playlistTab ? (
+            /* Feature 4: Playlist mode */
+            <div className="p-3 rounded-xl bg-card border border-border">
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <Input
+                    type="url"
+                    placeholder={t("playlist.empty")}
+                    value={playlistUrl}
+                    onChange={(e) => setPlaylistUrl(e.target.value)}
+                    className="h-12 bg-background border-border text-foreground placeholder:text-muted-foreground rounded-lg text-base"
+                  />
+                  <ListVideo className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                </div>
+                <Button
+                  onClick={handleFetchPlaylist}
+                  disabled={playlistFetching}
+                  className="h-12 px-6 text-white font-semibold rounded-lg shrink-0"
+                  style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+                >
+                  {playlistFetching ? (
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                  ) : (
+                    <>
+                      <ListVideo className="mr-2 h-5 w-5" />
+                      <span className="hidden sm:inline">{t("playlist.title")}</span>
+                    </>
+                  )}
+                </Button>
+              </div>
+              {playlistFetching && (
+                <div className="flex items-center gap-2 mt-3">
+                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">{t("playlist.fetching")}</span>
+                </div>
+              )}
+              {playlistVideos.length > 0 && (
+                <div className="mt-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs text-muted-foreground">{t("playlist.selectVideos")}</span>
+                    <Button variant="ghost" size="sm" onClick={handleSelectAllPlaylist} className="text-xs" style={{ color: accent }}>
+                      {t("playlist.downloadAll")}
+                    </Button>
+                  </div>
+                  <div className="max-h-64 overflow-y-auto space-y-2">
+                    {playlistVideos.map((v, i) => (
+                      <div key={v.id} className="flex items-center gap-2 p-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={v.selected}
+                          onChange={() => handleTogglePlaylistVideo(i)}
+                          className="h-4 w-4 rounded border-border accent-current"
+                          style={{ accentColor: accent }}
+                        />
+                        <div className="w-12 h-9 rounded bg-muted flex items-center justify-center shrink-0 overflow-hidden">
+                          {v.thumbnail ? (
+                            <img src={v.thumbnail} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            <Play className="h-3 w-3 text-muted-foreground" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-medium text-foreground line-clamp-1">{v.title}</p>
+                          <span className="text-[10px] text-muted-foreground">{v.duration}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {playlistVideos.some((v) => v.selected) && (
+                    <Button
+                      className="w-full mt-3 h-10 text-white font-semibold rounded-lg"
+                      style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+                      onClick={async () => {
+                        const selected = playlistVideos.filter((v) => v.selected);
+                        for (const v of selected) {
+                          try {
+                            const res = await fetch("/api/download", {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ url: v.url }),
+                            });
+                            const data = await res.json();
+                            if (res.ok && data.qualityOptions?.[0]?.url) {
+                              const blob = await fetch(data.qualityOptions[0].url).then((r) => r.blob());
+                              const blobUrl = URL.createObjectURL(blob);
+                              const a = document.createElement("a");
+                              a.href = blobUrl;
+                              a.download = `${data.filename || v.title}.mp4`;
+                              document.body.appendChild(a);
+                              a.click();
+                              document.body.removeChild(a);
+                              setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+                            }
+                          } catch {}
+                          await new Promise((r) => setTimeout(r, 500));
+                        }
+                        playDingSound();
+                        showToast(t("toast.downloadStart"), `${selected.length} videos`, "default");
+                      }}
+                    >
+                      <Download className="mr-2 h-4 w-4" />
+                      {t("playlist.downloadSelected")} ({playlistVideos.filter((v) => v.selected).length})
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
           ) : (
             /* Single mode input */
+            <>
             <div className="flex gap-2 p-2 rounded-xl bg-card border border-border">
               <div className="relative flex-1">
                 <Input
@@ -1556,8 +2222,18 @@ function HeroSection({
                   onKeyDown={(e) => e.key === "Enter" && handleAnalyze()}
                   className="h-12 bg-background border-border text-foreground placeholder:text-muted-foreground rounded-lg text-base pr-12"
                 />
-                {/* Feature 2: Music icon indicator in audio mode */}
-                {audioMode && (
+                {/* Feature 1: Platform detection indicator */}
+                {detectedPlatform && (
+                  <div className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center gap-1 pointer-events-none">
+                    <span
+                      className="inline-flex items-center justify-center w-5 h-5 rounded text-[9px] font-bold text-white"
+                      style={{ backgroundColor: detectedPlatform.color }}
+                    >
+                      {detectedPlatform.icon ? <detectedPlatform.icon className="h-3 w-3" /> : detectedPlatform.letter}
+                    </span>
+                  </div>
+                )}
+                {audioMode && !detectedPlatform && (
                   <Music className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 )}
                 <button
@@ -1592,10 +2268,36 @@ function HeroSection({
                 )}
               </Button>
             </div>
+            {/* Feature 1: Platform badge below input */}
+            {detectedPlatform && !batchMode && !playlistTab && (
+              <motion.div
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center gap-2 mt-2 justify-center"
+              >
+                <span
+                  className="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full border font-medium"
+                  style={{
+                    backgroundColor: `${detectedPlatform.color}15`,
+                    color: detectedPlatform.color === "#000000" ? "var(--foreground)" : detectedPlatform.color,
+                    borderColor: `${detectedPlatform.color}30`,
+                  }}
+                >
+                  <span
+                    className="inline-flex items-center justify-center w-4 h-4 rounded text-[8px] font-bold text-white"
+                    style={{ backgroundColor: detectedPlatform.color }}
+                  >
+                    {detectedPlatform.icon ? <detectedPlatform.icon className="h-2.5 w-2.5" /> : detectedPlatform.letter}
+                  </span>
+                  {detectedPlatform.name}
+                </span>
+              </motion.div>
+            )}
+            </>
           )}
 
           {/* Feature 4: Keyboard shortcut hint */}
-          {!batchMode && (
+          {!batchMode && !playlistTab && (
             <div className="flex items-center justify-center gap-2 mt-2">
               <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground/60">
                 <Keyboard className="h-2.5 w-2.5" />
@@ -1605,7 +2307,7 @@ function HeroSection({
           )}
 
           {/* Error message for single mode */}
-          {!batchMode && (
+          {!batchMode && !playlistTab && (
             <AnimatePresence>
               {error && (
                 <motion.div
@@ -1668,6 +2370,54 @@ function HeroSection({
               </div>
 
               <div className="p-4">
+                {/* Feature 6: Video Info Card */}
+                <div className="grid grid-cols-2 gap-2 mb-3 p-3 rounded-lg bg-muted/30 border border-border/50">
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                    <div>
+                      <p className="text-[10px] text-muted-foreground">{t("info.duration")}</p>
+                      <p className="text-xs font-medium text-foreground">{formatDurationLong(result.duration)}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Film className="h-3.5 w-3.5 text-muted-foreground" />
+                    <div>
+                      <p className="text-[10px] text-muted-foreground">{t("info.resolution")}</p>
+                      <p className="text-xs font-medium text-foreground">{result.qualityOptions.map((q) => q.resolution).join(", ")}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileVideo className="h-3.5 w-3.5 text-muted-foreground" />
+                    <div>
+                      <p className="text-[10px] text-muted-foreground">{t("info.estimatedSize")}</p>
+                      <p className="text-xs font-medium text-foreground">
+                        {result.qualityOptions.slice(0, 2).map((q) => estimateFileSize(result.platform, q.resolution, result.duration)).filter(Boolean).join(" / ") || "N/A"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <User className="h-3.5 w-3.5 text-muted-foreground" />
+                    <div>
+                      <p className="text-[10px] text-muted-foreground">{t("info.author")}</p>
+                      <p className="text-xs font-medium text-foreground truncate max-w-[120px]">{result.author}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Globe className="h-3.5 w-3.5 text-muted-foreground" />
+                    <div>
+                      <p className="text-[10px] text-muted-foreground">{t("info.platform")}</p>
+                      <p className="text-xs font-medium text-foreground">{result.platform}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-3.5 w-3.5 text-muted-foreground" />
+                    <div>
+                      <p className="text-[10px] text-muted-foreground">Title</p>
+                      <p className="text-xs font-medium text-foreground truncate max-w-[120px]" title={result.title}>{result.title}</p>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Video Preview */}
                 {showPreview && !previewError ? (
                   <div className="w-full rounded-lg overflow-hidden bg-muted mb-3">
@@ -1715,7 +2465,7 @@ function HeroSection({
                   </div>
                 )}
 
-                {/* Action buttons row: Preview, Share, Bookmark, Thumbnail */}
+                {/* Action buttons row: Preview, Share, Bookmark, Thumbnail, Copy Caption, Subtitle, Schedule */}
                 <div className="flex items-center gap-1 mt-3 flex-wrap">
                   <Button
                     variant="ghost"
@@ -1765,6 +2515,61 @@ function HeroSection({
                       {t("result.downloadThumb")}
                     </Button>
                   )}
+                  {/* Feature 2: Copy Caption Button */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleCopyCaption}
+                    className="text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    <Copy className="h-3 w-3 mr-1" />
+                    {t("result.copyCaption")}
+                  </Button>
+                  {/* Feature 5: Subtitles Button (YouTube only) */}
+                  {result.platform === "YouTube" && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleFetchSubtitles}
+                      className="text-xs text-muted-foreground hover:text-foreground"
+                    >
+                      <FileText className="h-3 w-3 mr-1" />
+                      {t("result.subtitles")}
+                    </Button>
+                  )}
+                  {/* Feature 9: Schedule Button */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setScheduleOpen(true)}
+                    className="text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    <Calendar className="h-3 w-3 mr-1" />
+                    {t("result.schedule")}
+                  </Button>
+                </div>
+
+                {/* Feature 12: Star Rating */}
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-xs text-muted-foreground">{t("result.rate")}:</span>
+                  <div className="flex items-center gap-0.5">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        onClick={() => handleRate(star)}
+                        onMouseEnter={() => setHoverRating(star)}
+                        onMouseLeave={() => setHoverRating(0)}
+                        className="transition-transform hover:scale-110"
+                      >
+                        <Star
+                          className={`h-4 w-4 ${(hoverRating || currentRating) >= star ? "fill-current" : ""}`}
+                          style={{
+                            color: (hoverRating || currentRating) >= star ? "#FBBF24" : "var(--muted-foreground)",
+                          }}
+                        />
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Quality selector */}
@@ -1814,7 +2619,14 @@ function HeroSection({
                   <div className="mt-3 space-y-1.5">
                     <Progress value={downloadPercent} className="h-2.5" />
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span>{downloadPercent}%</span>
+                      <span>
+                        {downloadPercent}%
+                        {retryCount > 0 && (
+                          <span className="ml-1 text-amber-400">
+                            ({t("retry.count")} {retryCount} {t("retry.of")} 3)
+                          </span>
+                        )}
+                      </span>
                       {downloadSpeed > 0 && (
                         <span>
                           {downloadSpeed} {t("MB/s")}
@@ -1828,6 +2640,21 @@ function HeroSection({
                         </span>
                       )}
                     </div>
+                    {retryFailed && (
+                      <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/10 border border-red-500/20">
+                        <AlertCircle className="h-3 w-3 text-red-400" />
+                        <span className="text-xs text-red-400">{t("retry.failed")}</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={handleDownload}
+                          className="text-xs text-red-400 ml-auto"
+                        >
+                          <RotateCcw className="h-3 w-3 mr-1" />
+                          Retry
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -1973,6 +2800,113 @@ function HeroSection({
             </div>
           ))}
         </motion.div>
+
+        {/* Feature 9: Scheduled Downloads Panel */}
+        {scheduledDownloads.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-xl mx-auto mt-6"
+          >
+            <div className="p-3 rounded-xl bg-card border border-border">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 mb-2">
+                <Timer className="h-4 w-4" style={{ color: accent }} />
+                {t("schedule.title")}
+              </h3>
+              <div className="space-y-2 max-h-32 overflow-y-auto">
+                {scheduledDownloads.map((sd) => (
+                  <div key={sd.id} className="flex items-center gap-2 p-2 rounded-lg bg-muted/50">
+                    <Timer className="h-3 w-3 text-muted-foreground shrink-0" />
+                    <span className="text-xs text-foreground truncate flex-1">{sd.result.title}</span>
+                    <span className="text-xs text-muted-foreground shrink-0">
+                      {t("schedule.countdown")} {Math.floor(sd.remaining / 60000)}:{String(Math.floor((sd.remaining % 60000) / 1000)).padStart(2, "0")}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleCancelSchedule(sd.id)}
+                      className="text-xs text-muted-foreground hover:text-destructive shrink-0 h-6 px-1"
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Feature 5: Subtitles Dialog */}
+        <Dialog open={subtitleOpen} onOpenChange={setSubtitleOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5" />
+                {t("subtitle.title")}
+              </DialogTitle>
+              <DialogDescription>{t("subtitle.noSubs")}</DialogDescription>
+            </DialogHeader>
+            <div className="mt-2">
+              {subtitleLoading ? (
+                <div className="flex items-center gap-2 py-4">
+                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Loading...</span>
+                </div>
+              ) : subtitles.length > 0 ? (
+                <div className="space-y-2 max-h-64 overflow-y-auto">
+                  {subtitles.map((sub) => (
+                    <div key={sub.lang} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
+                      <span className="text-sm text-foreground">{sub.name} ({sub.lang})</span>
+                      <Button
+                        size="sm"
+                        onClick={() => handleDownloadSubtitle(sub)}
+                        className="text-white"
+                        style={{ background: accent }}
+                      >
+                        <Download className="h-3 w-3 mr-1" />
+                        {t("subtitle.download")}
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground text-center py-4">{t("subtitle.noSubs")}</p>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Feature 9: Schedule Dialog */}
+        <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen}>
+          <DialogContent className="sm:max-w-sm">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Calendar className="h-5 w-5" />
+                {t("schedule.title")}
+              </DialogTitle>
+              <DialogDescription>{t("schedule.delay")}</DialogDescription>
+            </DialogHeader>
+            <div className="grid grid-cols-2 gap-3 mt-2">
+              {[
+                { label: t("schedule.5min"), ms: 5 * 60 * 1000 },
+                { label: t("schedule.15min"), ms: 15 * 60 * 1000 },
+                { label: t("schedule.30min"), ms: 30 * 60 * 1000 },
+                { label: t("schedule.1hr"), ms: 60 * 60 * 1000 },
+              ].map((opt) => (
+                <Button
+                  key={opt.ms}
+                  variant="outline"
+                  onClick={() => handleScheduleDownload(opt.ms)}
+                  className="h-12 text-sm font-medium"
+                  style={{ borderColor: `${accent}40` }}
+                >
+                  <Timer className="h-4 w-4 mr-2" style={{ color: accent }} />
+                  {opt.label}
+                </Button>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {/* Scroll indicator */}
         <motion.div
@@ -2244,6 +3178,33 @@ function StatistikSection() {
                     <span className="text-xs text-muted-foreground w-8">{count}</span>
                   </div>
                 ))}
+              </div>
+              {/* Feature 12: Average Ratings per Platform */}
+              <div className="mt-4 pt-3 border-t border-border">
+                <p className="text-xs text-muted-foreground mb-2">{t("result.rateQuality")}</p>
+                <div className="space-y-1.5">
+                  {platformEntries.map(([platform]) => {
+                    const avg = getAverageRating(platform);
+                    if (avg === 0) return null;
+                    return (
+                      <div key={`rating-${platform}`} className="flex items-center gap-2">
+                        <span className="text-xs text-foreground font-medium w-20 text-right truncate">{platform}</span>
+                        <div className="flex items-center gap-0.5">
+                          {[1, 2, 3, 4, 5].map((s) => (
+                            <Star
+                              key={s}
+                              className={`h-3 w-3 ${avg >= s ? "fill-current" : ""}`}
+                              style={{ color: avg >= s ? "#FBBF24" : "var(--muted-foreground)" }}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-[10px] text-muted-foreground">
+                          {avg.toFixed(1)} {t("rating.stars")}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           )}
@@ -2788,6 +3749,74 @@ function MobileBottomNav({
   );
 }
 
+/* ──────────────────── Feature 8: Quick Actions FAB ──────────────────── */
+function QuickActionFAB({
+  onOpenHistory,
+  onOpenBookmarks,
+}: {
+  onOpenHistory: () => void;
+  onOpenBookmarks: () => void;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const { accent } = useAccentColor();
+  const { t } = useLanguage();
+
+  return (
+    <div className="fixed bottom-20 right-4 z-40 md:hidden flex flex-col items-end gap-2">
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.8 }}
+            className="flex flex-col gap-2 items-end"
+          >
+            <button
+              onClick={() => {
+                onOpenHistory();
+                setExpanded(false);
+              }}
+              className="flex items-center gap-2 px-3 py-2 rounded-full bg-card border border-border shadow-lg text-xs text-foreground hover:bg-muted transition-colors"
+            >
+              <History className="h-4 w-4" />
+              {t("fab.history")}
+            </button>
+            <button
+              onClick={() => {
+                onOpenBookmarks();
+                setExpanded(false);
+              }}
+              className="flex items-center gap-2 px-3 py-2 rounded-full bg-card border border-border shadow-lg text-xs text-foreground hover:bg-muted transition-colors"
+            >
+              <Bookmark className="h-4 w-4" />
+              {t("fab.bookmarks")}
+            </button>
+            <a
+              href="#hero"
+              onClick={() => setExpanded(false)}
+              className="flex items-center gap-2 px-3 py-2 rounded-full bg-card border border-border shadow-lg text-xs text-foreground hover:bg-muted transition-colors"
+            >
+              <Download className="h-4 w-4" />
+              {t("fab.download")}
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white transition-transform hover:scale-105"
+        style={{
+          background: `linear-gradient(135deg, ${accent}, #7C3AED)`,
+          transform: expanded ? "rotate(45deg)" : "rotate(0deg)",
+        }}
+        aria-label="Quick actions"
+      >
+        <Plus className="h-6 w-6" />
+      </button>
+    </div>
+  );
+}
+
 /* ──────────────────── Report Button ──────────────────── */
 function ReportButton() {
   const [open, setOpen] = useState(false);
@@ -2904,6 +3933,14 @@ function RiwayatSheet({
     setTimeout(() => dismiss(t2.id), 3000);
   }, [toast, dismiss, t]);
 
+  const showToastMsg = useCallback(
+    (title: string, description: string, variant: "default" | "destructive" = "default") => {
+      const t2 = toast({ title, description, variant });
+      setTimeout(() => dismiss(t2.id), 3000);
+    },
+    [toast, dismiss]
+  );
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="rounded-t-2xl max-h-[70vh]">
@@ -2916,7 +3953,46 @@ function RiwayatSheet({
         </SheetHeader>
         <div className="mt-4">
           {historyItems.length > 0 ? (
-            <RiwayatList history={historyItems} onSelect={handleSelect} onClear={handleClear} t={t} />
+            <div>
+              {/* Feature 10: Export History */}
+              <div className="flex items-center gap-2 mb-3">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" size="sm" className="text-xs border-border">
+                      <Copy className="h-3 w-3 mr-1" />
+                      {t("export.title")}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-2" align="start">
+                    <div className="flex flex-col gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-xs justify-start"
+                        onClick={() => {
+                          exportHistoryCSV(historyItems);
+                          showToastMsg(t("export.success"), "", "default");
+                        }}
+                      >
+                        {t("export.csv")}
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-xs justify-start"
+                        onClick={() => {
+                          exportHistoryJSON(historyItems);
+                          showToastMsg(t("export.success"), "", "default");
+                        }}
+                      >
+                        {t("export.json")}
+                      </Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+              <RiwayatList history={historyItems} onSelect={handleSelect} onClear={handleClear} t={t} />
+            </div>
           ) : (
             <p className="text-sm text-muted-foreground text-center py-8">{t("history.empty")}</p>
           )}
@@ -3083,6 +4159,10 @@ export default function Home() {
         </main>
         <Footer />
         <MobileBottomNav
+          onOpenHistory={() => setHistorySheetOpen(true)}
+          onOpenBookmarks={() => setBookmarkSheetOpen(true)}
+        />
+        <QuickActionFAB
           onOpenHistory={() => setHistorySheetOpen(true)}
           onOpenBookmarks={() => setBookmarkSheetOpen(true)}
         />
