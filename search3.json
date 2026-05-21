@@ -1,0 +1,47 @@
+[
+  {
+    "url": "https://medium.com/frontendweb/how-to-obtain-a-free-subdomain-for-your-project-b143f260828d",
+    "name": "How to Obtain a Free Subdomain for Your Project? - Medium",
+    "snippet": "js.org: A free subdomain service aimed at JavaScript developers: you can claim a *.js.org subdomain for your project, it's clearly related to ...",
+    "host_name": "medium.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://js.org/index.html",
+    "name": "JS.ORG - the JavaScript organization",
+    "snippet": "... JavaScript! Follow these four steps to get your own free JS.ORG subdomain for your GitHub Page: 1. If you haven't already, now it's time to log in to your ...",
+    "host_name": "js.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/js-org/js.org",
+    "name": "GitHub - js-org/js.org: Dedicated to JavaScript and its awesome",
+    "snippet": "To finish the procedure, make a pull request in this GitHub repository that adds your subdomain to the subdomains list of existing JS.ORG domains. Your new URL ...",
+    "host_name": "github.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/webdev/comments/1m9gq8z/where_can_i_get_free_subdomains",
+    "name": "Where can I get free subdomains? : r/webdev - Reddit",
+    "snippet": "I know that js.org offers subdomains, but unfortunately, my site doesn't qualify for that. Are there any short and appealing subdomains like ...",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/orgs/community/discussions/187677",
+    "name": "How to get a free domain? · community · Discussion #187677 - GitHub",
+    "snippet": "1) Easiest “no card, forever”: use a free subdomain. GitHub Pages: username.github.io · 2) If you need a real domain (apex): GitHub Student Developer Pack · 3) “ ...",
+    "host_name": "github.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  }
+]
