@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Download,
@@ -24,6 +24,10 @@ import {
   Twitter,
   Instagram,
   Youtube,
+  AlertCircle,
+  Film,
+  Music,
+  FileVideo,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,13 +40,21 @@ import {
 import { GutsytikLogo } from "@/components/gutsytik-logo";
 
 /* ──────────────────── Types ──────────────────── */
+interface QualityOption {
+  label: string;
+  resolution: string;
+  url: string;
+}
+
 interface DownloadResult {
   title: string;
   thumbnail: string;
   duration: string;
   author: string;
+  platform: string;
   downloadUrl: string;
-  qualityOptions: { label: string; resolution: string }[];
+  qualityOptions: QualityOption[];
+  filename: string;
 }
 
 /* ──────────────────── Navbar ──────────────────── */
@@ -65,12 +77,10 @@ function Navbar() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
           <a href="#" className="flex items-center gap-2">
             <GutsytikLogo size={36} showText />
           </a>
 
-          {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((l) => (
               <a
@@ -83,7 +93,6 @@ function Navbar() {
             ))}
           </nav>
 
-          {/* Desktop CTA */}
           <a href="#hero" className="hidden md:inline-flex">
             <Button
               className="bg-gradient-to-r from-gutsy-pink to-gutsy-purple hover:opacity-90 text-white font-semibold rounded-lg"
@@ -94,7 +103,6 @@ function Navbar() {
             </Button>
           </a>
 
-          {/* Mobile hamburger */}
           <button
             onClick={() => setOpen(!open)}
             className="md:hidden p-2 rounded-md hover:bg-white/5 transition-colors"
@@ -105,7 +113,6 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -144,9 +151,13 @@ function Navbar() {
 function HeroSection() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState("");
   const [result, setResult] = useState<DownloadResult | null>(null);
   const [error, setError] = useState("");
   const [pasted, setPasted] = useState(false);
+  const [selectedQuality, setSelectedQuality] = useState<number>(0);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const handlePaste = useCallback(async () => {
     try {
@@ -159,17 +170,16 @@ function HeroSection() {
     }
   }, []);
 
-  const handleDownload = useCallback(async () => {
+  const handleAnalyze = useCallback(async () => {
     if (!url.trim()) {
       setError("Masukkan link video terlebih dahulu!");
       return;
     }
 
-    // Basic URL validation
     try {
       new URL(url.trim());
     } catch {
-      setError("URL tidak valid. Pastikan link yang dimasukkan benar.");
+      setError("URL tidak valid. Pastikan link yang dimasukkan benar (contoh: https://www.tiktok.com/...)");
       return;
     }
 
@@ -184,11 +194,19 @@ function HeroSection() {
         body: JSON.stringify({ url: url.trim() }),
       });
       const data = await res.json();
+
       if (!res.ok) {
         setError(data.error || "Terjadi kesalahan saat memproses video.");
         return;
       }
+
       setResult(data);
+      setSelectedQuality(0);
+
+      // Scroll to result
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 300);
     } catch {
       setError("Gagal terhubung ke server. Silakan coba lagi.");
     } finally {
@@ -196,12 +214,88 @@ function HeroSection() {
     }
   }, [url]);
 
+  const handleDownload = useCallback(async () => {
+    if (!result) return;
+
+    const quality = result.qualityOptions[selectedQuality] || result.qualityOptions[0];
+    if (!quality) return;
+
+    setDownloading(true);
+    setDownloadProgress("Memulai download...");
+
+    try {
+      // Try fetching through the proxy for a proper file download
+      setDownloadProgress("Mengambil video...");
+
+      const response = await fetch(quality.url);
+
+      if (!response.ok) {
+        throw new Error(`Download gagal (HTTP ${response.status})`);
+      }
+
+      const contentLength = response.headers.get("content-length");
+      const totalBytes = contentLength ? parseInt(contentLength, 10) : 0;
+
+      setDownloadProgress(totalBytes > 0 ? "Mengunduh file..." : "Mengunduh file...");
+
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Determine file extension
+      const isAudio = quality.label === "Audio" || quality.resolution === "MP3";
+      const ext = isAudio ? "mp3" : "mp4";
+      const fileName = `${result.filename}_${quality.label}.${ext}`;
+
+      // Create a hidden anchor element and trigger download
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // Clean up blob URL
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+      setDownloadProgress("Download selesai!");
+    } catch {
+      setDownloadProgress("Mencoba cara alternatif...");
+
+      // Fallback: Try opening the proxy URL directly as a download link
+      try {
+        // Create a temporary link with download attribute
+        const a = document.createElement("a");
+        a.href = quality.url;
+        a.download = `${result.filename}_${quality.label}.${quality.label === "Audio" ? "mp3" : "mp4"}`;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setDownloadProgress("Download dimulai!");
+      } catch {
+        setDownloadProgress("");
+        setError("Gagal mengunduh video. Coba klik kanan pada tombol download dan pilih 'Save link as...'");
+      }
+    } finally {
+      setTimeout(() => {
+        setDownloading(false);
+        setDownloadProgress("");
+      }, 2500);
+    }
+  }, [result, selectedQuality]);
+
   const stats = [
     { value: "10M+", label: "Downloads" },
     { value: "50+", label: "Platforms" },
     { value: "100%", label: "Free" },
     { value: "No", label: "Watermark" },
   ];
+
+  const getQualityIcon = (label: string) => {
+    if (label === "Audio" || label === "MP3") return Music;
+    if (label === "HD") return FileVideo;
+    return Film;
+  };
 
   return (
     <section
@@ -279,13 +373,13 @@ function HeroSection() {
             <div className="relative flex-1">
               <Input
                 type="url"
-                placeholder="Tempel link video di sini..."
+                placeholder="Tempel link video di sini (TikTok, IG, YouTube...)"
                 value={url}
                 onChange={(e) => {
                   setUrl(e.target.value);
                   setError("");
                 }}
-                onKeyDown={(e) => e.key === "Enter" && handleDownload()}
+                onKeyDown={(e) => e.key === "Enter" && handleAnalyze()}
                 className="h-12 bg-gutsy-surface border-white/8 text-white placeholder:text-gutsy-text-secondary rounded-lg text-base pr-12"
               />
               <button
@@ -301,7 +395,7 @@ function HeroSection() {
               </button>
             </div>
             <Button
-              onClick={handleDownload}
+              onClick={handleAnalyze}
               disabled={loading}
               className="h-12 px-6 bg-gradient-to-r from-gutsy-pink to-gutsy-purple hover:opacity-90 text-white font-semibold rounded-lg shrink-0"
             >
@@ -317,66 +411,142 @@ function HeroSection() {
           </div>
 
           {/* Error message */}
-          {error && (
-            <motion.p
-              initial={{ opacity: 0, y: -5 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-red-400 text-sm mt-2"
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                className="mt-3 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-start gap-2"
+              >
+                <AlertCircle className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                <p className="text-red-400 text-sm text-left">{error}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Supported platform hints */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="max-w-xl mx-auto mb-10 flex flex-wrap justify-center gap-2"
+        >
+          {["TikTok", "Instagram", "YouTube", "Facebook", "Twitter/X", "Pinterest"].map((p) => (
+            <span
+              key={p}
+              className="text-[11px] px-2.5 py-1 rounded-full bg-gutsy-surface/50 text-gutsy-text-secondary border border-white/5"
             >
-              {error}
-            </motion.p>
-          )}
+              {p}
+            </span>
+          ))}
         </motion.div>
 
         {/* Result card */}
         <AnimatePresence>
           {result && (
             <motion.div
+              ref={resultRef}
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="max-w-xl mx-auto mb-10 p-4 rounded-xl bg-gutsy-card border border-white/8"
+              className="max-w-xl mx-auto mb-10 rounded-xl bg-gutsy-card border border-gutsy-pink/20 overflow-hidden"
             >
-              <div className="flex gap-4">
-                {/* Thumbnail placeholder */}
-                <div className="w-28 h-20 rounded-lg bg-gutsy-surface flex items-center justify-center shrink-0 overflow-hidden">
-                  <Play className="h-8 w-8 text-gutsy-pink" />
-                </div>
-                <div className="flex-1 text-left min-w-0">
-                  <h3 className="font-semibold text-white text-sm truncate">
-                    {result.title}
-                  </h3>
-                  <div className="flex items-center gap-3 mt-1 text-xs text-gutsy-text-secondary">
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-3 w-3" /> {result.duration}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <User className="h-3 w-3" /> {result.author}
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {result.qualityOptions.map((q) => (
-                      <span
-                        key={q.label}
-                        className="text-[10px] px-2 py-0.5 rounded bg-gutsy-surface text-gutsy-text-secondary"
-                      >
-                        {q.label} ({q.resolution})
-                      </span>
-                    ))}
-                  </div>
-                </div>
+              {/* Platform badge */}
+              <div className="bg-gradient-to-r from-gutsy-pink/10 to-gutsy-purple/10 px-4 py-2 border-b border-white/5 flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-400" />
+                <span className="text-sm text-green-400 font-medium">Video berhasil ditemukan!</span>
+                <span className="ml-auto text-xs text-gutsy-text-secondary bg-gutsy-surface px-2 py-0.5 rounded-full">
+                  {result.platform}
+                </span>
               </div>
-              <Button
-                className="w-full mt-4 bg-gradient-to-r from-gutsy-pink to-gutsy-cyan hover:opacity-90 text-white font-semibold rounded-lg"
-                onClick={() =>
-                  window.open(result.downloadUrl, "_blank", "noopener")
-                }
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Download Tanpa Watermark
-                <ExternalLink className="ml-2 h-3 w-3" />
-              </Button>
+
+              <div className="p-4">
+                <div className="flex gap-4">
+                  {/* Thumbnail */}
+                  <div className="w-28 h-20 rounded-lg bg-gutsy-surface flex items-center justify-center shrink-0 overflow-hidden relative">
+                    {result.thumbnail ? (
+                      <img
+                        src={result.thumbnail}
+                        alt={result.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = "none";
+                        }}
+                      />
+                    ) : null}
+                    <Play className="h-8 w-8 text-gutsy-pink absolute" />
+                  </div>
+                  <div className="flex-1 text-left min-w-0">
+                    <h3 className="font-semibold text-white text-sm line-clamp-2">
+                      {result.title}
+                    </h3>
+                    <div className="flex items-center gap-3 mt-1 text-xs text-gutsy-text-secondary">
+                      {result.duration !== "--:--" && (
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3 w-3" /> {result.duration}
+                        </span>
+                      )}
+                      <span className="flex items-center gap-1">
+                        <User className="h-3 w-3" /> {result.author}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quality selector */}
+                {result.qualityOptions.length > 0 && (
+                  <div className="mt-4">
+                    <p className="text-xs text-gutsy-text-secondary mb-2 text-left">Pilih kualitas:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {result.qualityOptions.map((q, i) => {
+                        const Icon = getQualityIcon(q.label);
+                        return (
+                          <button
+                            key={i}
+                            onClick={() => setSelectedQuality(i)}
+                            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-all ${
+                              selectedQuality === i
+                                ? "bg-gutsy-pink/20 border-gutsy-pink/50 text-gutsy-pink"
+                                : "bg-gutsy-surface border-white/5 text-gutsy-text-secondary hover:border-white/15 hover:text-white"
+                            }`}
+                          >
+                            <Icon className="h-3 w-3" />
+                            {q.label}
+                            <span className="opacity-60">({q.resolution})</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Download button */}
+                <Button
+                  className="w-full mt-4 h-12 bg-gradient-to-r from-gutsy-pink to-gutsy-cyan hover:opacity-90 text-white font-semibold rounded-lg"
+                  onClick={handleDownload}
+                  disabled={downloading}
+                >
+                  {downloading ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      {downloadProgress || "Mengunduh..."}
+                    </>
+                  ) : (
+                    <>
+                      <Download className="mr-2 h-5 w-5" />
+                      Download Tanpa Watermark
+                      {result.qualityOptions[selectedQuality] && (
+                        <span className="ml-1 opacity-70">
+                          ({result.qualityOptions[selectedQuality].label})
+                        </span>
+                      )}
+                    </>
+                  )}
+                </Button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -385,7 +555,7 @@ function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
           className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-xl mx-auto"
         >
           {stats.map((s) => (
@@ -531,7 +701,6 @@ const steps = [
 function HowItWorksSection() {
   return (
     <section id="how-it-works" className="relative py-20 sm:py-28">
-      {/* Background accent */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           className="animate-orb-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10"
@@ -569,7 +738,6 @@ function HowItWorksSection() {
                 transition={{ duration: 0.5, delay: i * 0.15 }}
                 className="flex flex-col items-center text-center flex-1 relative"
               >
-                {/* Step number with pulse */}
                 <div className="relative mb-4">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gutsy-pink to-gutsy-purple flex items-center justify-center">
                     <s.icon className="h-7 w-7 text-white" />
@@ -577,8 +745,6 @@ function HowItWorksSection() {
                   <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-gutsy-dark border-2 border-gutsy-pink flex items-center justify-center text-[10px] font-bold text-gutsy-pink">
                     {s.number}
                   </span>
-                  {/* Pulse ring */}
-                  <div className="absolute inset-0 rounded-full bg-gutsy-pink/20 animate-ping" style={{ animationDuration: "2s" }} />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-1">
                   {s.title}
@@ -588,7 +754,6 @@ function HowItWorksSection() {
                 </p>
               </motion.div>
 
-              {/* Connecting line (desktop) */}
               {i < steps.length - 1 && (
                 <div className="hidden md:flex items-center self-start mt-8 flex-1">
                   <div className="w-full border-t-2 border-dashed border-white/10" />
@@ -678,15 +843,19 @@ const faqs = [
   },
   {
     q: "Apakah kualitas video berkurang?",
-    a: "Tidak, kami mempertahankan kualitas asli video. Kamu bisa memilih resolusi yang tersedia dari video aslinya.",
+    a: "Tidak, kami mempertahankan kualitas asli video. Kamu bisa memilih resolusi yang tersedia dari video aslinya, termasuk HD 1080p jika tersedia.",
   },
   {
     q: "Platform apa saja yang didukung?",
-    a: "Gutsytik mendukung TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, Likee, Snack Video, dan masih banyak lagi.",
+    a: "Gutsytik mendukung TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, Likee, Snack Video, Reddit, dan masih banyak lagi.",
   },
   {
     q: "Apakah Gutsytik aman digunakan?",
     a: "Sangat aman! Kami tidak menyimpan data pribadi atau riwayat download kamu. Semua proses dilakukan secara aman dan terenkripsi.",
+  },
+  {
+    q: "Kenapa video saya gagal didownload?",
+    a: "Pastikan link video benar dan video tidak bersifat private. Beberapa video dari akun private atau yang dibatasi region mungkin tidak bisa didownload. Coba gunakan link yang valid dan publik.",
   },
 ];
 
@@ -742,7 +911,6 @@ function FAQSection() {
 function CTASection() {
   return (
     <section className="relative py-20 sm:py-28 overflow-hidden">
-      {/* Background orbs */}
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="animate-orb-1 absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full opacity-15"
@@ -798,7 +966,6 @@ function Footer() {
     <footer className="border-t border-white/5 bg-gutsy-dark">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <GutsytikLogo size={32} showText />
             <p className="mt-3 text-sm text-gutsy-text-secondary max-w-xs">
@@ -807,7 +974,6 @@ function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h4 className="font-semibold text-white mb-3 text-sm">
               Navigasi
@@ -831,7 +997,6 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Legal */}
           <div>
             <h4 className="font-semibold text-white mb-3 text-sm">Legal</h4>
             <ul className="space-y-2">
@@ -848,7 +1013,6 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Social */}
           <div>
             <h4 className="font-semibold text-white mb-3 text-sm">
               Ikuti Kami
@@ -872,7 +1036,6 @@ function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="mt-10 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-gutsy-text-secondary">
             &copy; 2026 Gutsytik. All rights reserved.
