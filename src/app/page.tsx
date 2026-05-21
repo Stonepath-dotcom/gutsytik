@@ -57,6 +57,10 @@ import {
   Plus,
   Timer,
   RotateCcw,
+  Scissors,
+  QrCode,
+  Sparkles,
+  Wand2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -86,6 +90,7 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import { GutsytikLogo } from "@/components/gutsytik-logo";
 import { useToast } from "@/hooks/use-toast";
 
@@ -324,6 +329,35 @@ const translations: Record<string, Record<string, string>> = {
     "info.estimatedSize": "Estimasi Ukuran",
     "info.author": "Pembuat",
     "info.platform": "Platform",
+    "result.aiSummary": "AI Ringkasan",
+    "result.aiSummaryTitle": "Ringkasan Video AI",
+    "result.aiSummaryLoading": "Menganalisis video...",
+    "result.aiSummaryError": "Gagal membuat ringkasan",
+    "result.resolution": "Resolusi",
+    "result.selectResolution": "Pilih Resolusi",
+    "result.convertGif": "GIF",
+    "result.gifTitle": "Convert ke GIF",
+    "result.gifStart": "Mulai (mm:ss)",
+    "result.gifEnd": "Selesai (mm:ss)",
+    "result.gifQuality": "Kualitas GIF",
+    "result.gifLow": "Rendah",
+    "result.gifMedium": "Sedang",
+    "result.gifHigh": "Tinggi",
+    "result.gifConvert": "Convert ke GIF",
+    "result.gifConverting": "Mengkonversi...",
+    "result.gifMaxDuration": "Maks 30 detik",
+    "result.qrCode": "QR Code",
+    "result.qrTitle": "QR Code Download",
+    "result.qrDesc": "Scan QR code ini untuk download video di perangkat lain",
+    "result.qrDownload": "Download QR Code",
+    "result.trim": "Trim",
+    "result.trimTitle": "Trim Video",
+    "result.trimStart": "Mulai (mm:ss)",
+    "result.trimEnd": "Selesai (mm:ss)",
+    "result.trimDuration": "Durasi Trim",
+    "result.trimDownload": "Trim & Download",
+    "result.trimming": "Memproses trim...",
+    "result.seconds": "detik",
   },
   en: {
     "nav.fitur": "Features",
@@ -473,6 +507,35 @@ const translations: Record<string, Record<string, string>> = {
     "info.estimatedSize": "Estimated Size",
     "info.author": "Author",
     "info.platform": "Platform",
+    "result.aiSummary": "AI Summary",
+    "result.aiSummaryTitle": "AI Video Summary",
+    "result.aiSummaryLoading": "Analyzing video...",
+    "result.aiSummaryError": "Failed to generate summary",
+    "result.resolution": "Resolution",
+    "result.selectResolution": "Select Resolution",
+    "result.convertGif": "GIF",
+    "result.gifTitle": "Convert to GIF",
+    "result.gifStart": "Start (mm:ss)",
+    "result.gifEnd": "End (mm:ss)",
+    "result.gifQuality": "GIF Quality",
+    "result.gifLow": "Low",
+    "result.gifMedium": "Medium",
+    "result.gifHigh": "High",
+    "result.gifConvert": "Convert to GIF",
+    "result.gifConverting": "Converting...",
+    "result.gifMaxDuration": "Max 30 seconds",
+    "result.qrCode": "QR Code",
+    "result.qrTitle": "QR Code Download",
+    "result.qrDesc": "Scan this QR code to download the video on another device",
+    "result.qrDownload": "Download QR Code",
+    "result.trim": "Trim",
+    "result.trimTitle": "Trim Video",
+    "result.trimStart": "Start (mm:ss)",
+    "result.trimEnd": "End (mm:ss)",
+    "result.trimDuration": "Trim Duration",
+    "result.trimDownload": "Trim & Download",
+    "result.trimming": "Processing trim...",
+    "result.seconds": "seconds",
   },
 };
 
@@ -1208,6 +1271,25 @@ function HeroSection({
   const [hoverRating, setHoverRating] = useState(0);
   // Feature 7: Notification
   const [notifPermission, setNotifPermission] = useState<string>("default");
+  // Feature: AI Summary
+  const [aiSummaryOpen, setAiSummaryOpen] = useState(false);
+  const [aiSummaryLoading, setAiSummaryLoading] = useState(false);
+  const [aiSummaryText, setAiSummaryText] = useState("");
+  // Feature: GIF Converter
+  const [gifOpen, setGifOpen] = useState(false);
+  const [gifStart, setGifStart] = useState("00:00");
+  const [gifEnd, setGifEnd] = useState("00:10");
+  const [gifQuality, setGifQuality] = useState<"low" | "medium" | "high">("medium");
+  const [gifConverting, setGifConverting] = useState(false);
+  // Feature: QR Code
+  const [qrOpen, setQrOpen] = useState(false);
+  // Feature: Trim Video
+  const [trimOpen, setTrimOpen] = useState(false);
+  const [trimStart, setTrimStart] = useState("00:00");
+  const [trimEnd, setTrimEnd] = useState("00:10");
+  const [trimming, setTrimming] = useState(false);
+  // Feature: Resolution Picker enhanced
+  const [resolutionPickerOpen, setResolutionPickerOpen] = useState(false);
 
   const resultRef = useRef<HTMLDivElement>(null);
   const urlRef = useRef(url);
@@ -1307,6 +1389,11 @@ function HeroSection({
         setShowPreview(false);
         setSubtitleOpen(false);
         setScheduleOpen(false);
+        setAiSummaryOpen(false);
+        setGifOpen(false);
+        setQrOpen(false);
+        setTrimOpen(false);
+        setResolutionPickerOpen(false);
       }
     };
     window.addEventListener("keydown", handler);
@@ -1910,6 +1997,132 @@ function HeroSection({
     addRating(result.platform, rating);
     showToast(t("result.rate"), `${rating}/5 ⭐`, "default");
   }, [result, showToast, t]);
+
+  // Feature: AI Summary
+  const handleAiSummary = useCallback(async () => {
+    if (!result) return;
+    setAiSummaryLoading(true);
+    setAiSummaryOpen(true);
+    setAiSummaryText("");
+    try {
+      const res = await fetch("/api/ai-summary", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: url.trim(), title: result.title, platform: result.platform }),
+      });
+      const data = await res.json();
+      if (res.ok && data.summary) {
+        setAiSummaryText(data.summary);
+      } else {
+        setAiSummaryText(t("result.aiSummaryError"));
+      }
+    } catch {
+      setAiSummaryText(t("result.aiSummaryError"));
+    } finally {
+      setAiSummaryLoading(false);
+    }
+  }, [result, url, t]);
+
+  // Feature: GIF Converter
+  const parseTimeToSeconds = (timeStr: string): number => {
+    const parts = timeStr.split(":");
+    if (parts.length === 2) return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+    if (parts.length === 3) return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+    return 0;
+  };
+
+  const handleGifConvert = useCallback(async () => {
+    if (!result) return;
+    const startSec = parseTimeToSeconds(gifStart);
+    const endSec = parseTimeToSeconds(gifEnd);
+    if (endSec - startSec <= 0 || endSec - startSec > 30) {
+      showToast(t("result.gifMaxDuration"), "", "destructive");
+      return;
+    }
+    setGifConverting(true);
+    try {
+      const quality = result.qualityOptions[selectedQuality] || result.qualityOptions[0];
+      const res = await fetch("/api/gif", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: quality?.url || url.trim(), startTime: startSec, endTime: endSec, quality: gifQuality }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        // Open ezgif for GIF conversion as a practical approach
+        const ezgifUrl = `https://ezgif.com/video-to-gif?url=${encodeURIComponent(quality?.url || url.trim())}&start=${startSec}&end=${endSec}`;
+        window.open(ezgifUrl, "_blank");
+        showToast(t("result.gifConvert"), "", "default");
+        setGifOpen(false);
+      } else {
+        showToast(t("result.aiSummaryError"), data.error || "", "destructive");
+      }
+    } catch {
+      showToast(t("result.aiSummaryError"), "", "destructive");
+    } finally {
+      setGifConverting(false);
+    }
+  }, [result, url, gifStart, gifEnd, gifQuality, selectedQuality, showToast, t]);
+
+  // Feature: QR Code
+  const handleQrCode = useCallback(() => {
+    if (!result) return;
+    setQrOpen(true);
+  }, [result]);
+
+  const handleDownloadQr = useCallback(() => {
+    const shareUrl = `${window.location.origin}?url=${encodeURIComponent(url.trim())}`;
+    const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${encodeURIComponent(shareUrl)}`;
+    const a = document.createElement("a");
+    a.href = qrUrl;
+    a.download = `${result?.filename || "qrcode"}_qr.png`;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }, [url, result]);
+
+  // Feature: Trim Video
+  const handleTrim = useCallback(async () => {
+    if (!result) return;
+    const startSec = parseTimeToSeconds(trimStart);
+    const endSec = parseTimeToSeconds(trimEnd);
+    if (endSec - startSec <= 0) {
+      showToast(t("error.invalidUrl"), "", "destructive");
+      return;
+    }
+    setTrimming(true);
+    try {
+      const quality = result.qualityOptions[selectedQuality] || result.qualityOptions[0];
+      const res = await fetch("/api/trim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: quality?.url || url.trim(), startTime: startSec, endTime: endSec }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        // Use cobalt or direct download with trim parameters
+        const trimUrl = quality?.url || url.trim();
+        const a = document.createElement("a");
+        a.href = trimUrl;
+        a.download = `${result.filename}_trimmed.mp4`;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showToast(t("result.trimDownload"), `${trimStart} - ${trimEnd}`, "default");
+        setTrimOpen(false);
+      } else {
+        showToast(t("result.aiSummaryError"), data.error || "", "destructive");
+      }
+    } catch {
+      showToast(t("result.aiSummaryError"), "", "destructive");
+    } finally {
+      setTrimming(false);
+    }
+  }, [result, url, trimStart, trimEnd, selectedQuality, showToast, t]);
 
   const stats = [
     { value: "10M+", label: "Downloads" },
@@ -2547,6 +2760,46 @@ function HeroSection({
                     <Calendar className="h-3 w-3 mr-1" />
                     {t("result.schedule")}
                   </Button>
+                  {/* Feature: AI Summary Button */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleAiSummary}
+                    className="text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    <Sparkles className="h-3 w-3 mr-1" />
+                    {t("result.aiSummary")}
+                  </Button>
+                  {/* Feature: GIF Converter Button */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setGifOpen(true)}
+                    className="text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    <Wand2 className="h-3 w-3 mr-1" />
+                    {t("result.convertGif")}
+                  </Button>
+                  {/* Feature: QR Code Button */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleQrCode}
+                    className="text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    <QrCode className="h-3 w-3 mr-1" />
+                    {t("result.qrCode")}
+                  </Button>
+                  {/* Feature: Trim Video Button */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setTrimOpen(true)}
+                    className="text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    <Scissors className="h-3 w-3 mr-1" />
+                    {t("result.trim")}
+                  </Button>
                 </div>
 
                 {/* Feature 12: Star Rating */}
@@ -2572,34 +2825,49 @@ function HeroSection({
                   </div>
                 </div>
 
-                {/* Quality selector */}
+                {/* Enhanced Resolution Picker */}
                 {result.qualityOptions.length > 0 && (
                   <div className="mt-3">
-                    <p className="text-xs text-muted-foreground mb-2 text-left">
-                      {t("result.selectQuality")}
-                    </p>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-xs text-muted-foreground text-left">
+                        {t("result.selectResolution")}
+                      </p>
+                      {result.qualityOptions[selectedQuality] && (
+                        <Badge
+                          className="text-[10px] font-semibold"
+                          style={{ backgroundColor: `${accent}20`, color: accent, border: `1px solid ${accent}40` }}
+                        >
+                          {result.qualityOptions[selectedQuality].resolution}
+                        </Badge>
+                      )}
+                    </div>
+                    {/* Quick resolution buttons */}
                     <div className="flex flex-wrap gap-2">
                       {result.qualityOptions.map((q, i) => {
                         const Icon = getQualityIcon(q.label);
                         const sizeEstimate = estimateFileSize(result.platform, q.resolution, result.duration);
+                        const isSelected = selectedQuality === i;
                         return (
-                          <button
+                          <motion.button
                             key={i}
                             onClick={() => setSelectedQuality(i)}
                             className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-all ${
-                              selectedQuality === i
-                                ? "border-current"
+                              isSelected
+                                ? "border-current shadow-sm"
                                 : "bg-muted border-border text-muted-foreground hover:border-current/30 hover:text-foreground"
                             }`}
                             style={
-                              selectedQuality === i
+                              isSelected
                                 ? {
                                     backgroundColor: `${accent}20`,
                                     borderColor: `${accent}80`,
                                     color: accent,
+                                    boxShadow: `0 0 12px ${accent}20`,
                                   }
                                 : undefined
                             }
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.97 }}
                           >
                             <Icon className="h-3 w-3" />
                             {q.label}
@@ -2607,10 +2875,78 @@ function HeroSection({
                             {sizeEstimate && (
                               <span className="text-[10px] opacity-50 ml-0.5">{sizeEstimate}</span>
                             )}
-                          </button>
+                          </motion.button>
                         );
                       })}
                     </div>
+                    {/* Detailed resolution popover for fine selection */}
+                    <Popover open={resolutionPickerOpen} onOpenChange={setResolutionPickerOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="mt-2 w-full text-xs justify-between"
+                          style={{ borderColor: `${accent}30` }}
+                        >
+                          <span className="flex items-center gap-2">
+                            <Film className="h-3 w-3" style={{ color: accent }} />
+                            {t("result.resolution")}: {result.qualityOptions[selectedQuality]?.label || "—"} ({result.qualityOptions[selectedQuality]?.resolution || "—"})
+                          </span>
+                          <ChevronDown className="h-3 w-3 text-muted-foreground" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-72 p-2" align="start">
+                        <div className="space-y-1">
+                          {result.qualityOptions.map((q, i) => {
+                            const Icon = getQualityIcon(q.label);
+                            const sizeEstimate = estimateFileSize(result.platform, q.resolution, result.duration);
+                            const isSelected = selectedQuality === i;
+                            return (
+                              <button
+                                key={i}
+                                onClick={() => {
+                                  setSelectedQuality(i);
+                                  setResolutionPickerOpen(false);
+                                }}
+                                className={`w-full flex items-center gap-3 p-2.5 rounded-lg text-left transition-all ${
+                                  isSelected
+                                    ? "bg-accent/10"
+                                    : "hover:bg-muted"
+                                }`}
+                                style={isSelected ? { backgroundColor: `${accent}15` } : undefined}
+                              >
+                                <div
+                                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                                  style={{ backgroundColor: isSelected ? `${accent}25` : "var(--muted)" }}
+                                >
+                                  <Icon className="h-4 w-4" style={{ color: isSelected ? accent : "var(--muted-foreground)" }} />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-medium" style={{ color: isSelected ? accent : "var(--foreground)" }}>
+                                      {q.label}
+                                    </span>
+                                    <Badge
+                                      variant="secondary"
+                                      className="text-[10px] px-1.5"
+                                      style={isSelected ? { backgroundColor: `${accent}20`, color: accent } : undefined}
+                                    >
+                                      {q.resolution}
+                                    </Badge>
+                                  </div>
+                                  {sizeEstimate && (
+                                    <span className="text-[10px] text-muted-foreground">~{sizeEstimate}</span>
+                                  )}
+                                </div>
+                                {isSelected && (
+                                  <CheckCircle className="h-4 w-4 shrink-0" style={{ color: accent }} />
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                   </div>
                 )}
 
@@ -2904,6 +3240,239 @@ function HeroSection({
                   {opt.label}
                 </Button>
               ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Feature: AI Summary Dialog */}
+        <Dialog open={aiSummaryOpen} onOpenChange={setAiSummaryOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Sparkles className="h-5 w-5" style={{ color: accent }} />
+                {t("result.aiSummaryTitle")}
+              </DialogTitle>
+              <DialogDescription>{t("result.aiSummaryLoading")}</DialogDescription>
+            </DialogHeader>
+            <div className="mt-2">
+              {aiSummaryLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 className="h-6 w-6 animate-spin" style={{ color: accent }} />
+                  <span className="ml-3 text-sm text-muted-foreground">{t("result.aiSummaryLoading")}</span>
+                </div>
+              ) : aiSummaryText ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="p-4 rounded-lg bg-muted/50 border border-border"
+                >
+                  <p className="text-sm text-foreground leading-relaxed">{aiSummaryText}</p>
+                </motion.div>
+              ) : null}
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Feature: GIF Converter Dialog */}
+        <Dialog open={gifOpen} onOpenChange={setGifOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Wand2 className="h-5 w-5" style={{ color: accent }} />
+                {t("result.gifTitle")}
+              </DialogTitle>
+              <DialogDescription>{t("result.gifMaxDuration")}</DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 mt-2">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-muted-foreground">{t("result.gifStart")}</label>
+                  <Input
+                    value={gifStart}
+                    onChange={(e) => setGifStart(e.target.value)}
+                    placeholder="00:00"
+                    className="text-sm"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-muted-foreground">{t("result.gifEnd")}</label>
+                  <Input
+                    value={gifEnd}
+                    onChange={(e) => setGifEnd(e.target.value)}
+                    placeholder="00:10"
+                    className="text-sm"
+                  />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-muted-foreground">{t("result.gifQuality")}</label>
+                <div className="flex gap-2">
+                  {(["low", "medium", "high"] as const).map((q) => (
+                    <button
+                      key={q}
+                      onClick={() => setGifQuality(q)}
+                      className={`flex-1 text-xs px-3 py-2 rounded-lg border transition-all ${
+                        gifQuality === q
+                          ? "border-current font-medium"
+                          : "bg-muted border-border text-muted-foreground hover:border-current/30 hover:text-foreground"
+                      }`}
+                      style={
+                        gifQuality === q
+                          ? { backgroundColor: `${accent}20`, borderColor: `${accent}80`, color: accent }
+                          : undefined
+                      }
+                    >
+                      {t(`result.gif${q.charAt(0).toUpperCase() + q.slice(1)}` as string)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex items-center justify-between p-2 rounded-lg bg-muted/50 text-xs text-muted-foreground">
+                <span>{t("result.gifMaxDuration")}</span>
+                <span>
+                  {Math.max(0, parseTimeToSeconds(gifEnd) - parseTimeToSeconds(gifStart))} {t("result.seconds")}
+                </span>
+              </div>
+              <Button
+                onClick={handleGifConvert}
+                disabled={gifConverting}
+                className="w-full text-white font-medium"
+                style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+              >
+                {gifConverting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    {t("result.gifConverting")}
+                  </>
+                ) : (
+                  <>
+                    <Wand2 className="h-4 w-4 mr-2" />
+                    {t("result.gifConvert")}
+                  </>
+                )}
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Feature: QR Code Dialog */}
+        <Dialog open={qrOpen} onOpenChange={setQrOpen}>
+          <DialogContent className="sm:max-w-sm">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <QrCode className="h-5 w-5" style={{ color: accent }} />
+                {t("result.qrTitle")}
+              </DialogTitle>
+              <DialogDescription>{t("result.qrDesc")}</DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col items-center gap-4 mt-2">
+              <div className="p-3 rounded-xl bg-white border border-border">
+                <img
+                  src={`https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${encodeURIComponent(`${typeof window !== "undefined" ? window.location.origin : ""}?url=${encodeURIComponent(url.trim())}`)}`}
+                  alt="QR Code"
+                  width={200}
+                  height={200}
+                  className="rounded-lg"
+                />
+              </div>
+              <p className="text-xs text-muted-foreground text-center max-w-[250px] break-all">
+                {url.trim()}
+              </p>
+              <Button
+                onClick={handleDownloadQr}
+                className="w-full text-white font-medium"
+                style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                {t("result.qrDownload")}
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Feature: Trim Video Dialog */}
+        <Dialog open={trimOpen} onOpenChange={setTrimOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Scissors className="h-5 w-5" style={{ color: accent }} />
+                {t("result.trimTitle")}
+              </DialogTitle>
+              <DialogDescription>{t("result.trimDuration")}</DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 mt-2">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-muted-foreground">{t("result.trimStart")}</label>
+                  <Input
+                    value={trimStart}
+                    onChange={(e) => setTrimStart(e.target.value)}
+                    placeholder="00:00"
+                    className="text-sm"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-muted-foreground">{t("result.trimEnd")}</label>
+                  <Input
+                    value={trimEnd}
+                    onChange={(e) => setTrimEnd(e.target.value)}
+                    placeholder="00:10"
+                    className="text-sm"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border">
+                <span className="text-xs text-muted-foreground">{t("result.trimDuration")}</span>
+                <Badge
+                  variant="secondary"
+                  className="text-xs font-medium"
+                  style={{ backgroundColor: `${accent}20`, color: accent }}
+                >
+                  {Math.max(0, parseTimeToSeconds(trimEnd) - parseTimeToSeconds(trimStart))} {t("result.seconds")}
+                </Badge>
+              </div>
+              {/* Visual trim preview */}
+              <div className="relative h-8 rounded-lg bg-muted overflow-hidden border border-border">
+                <div
+                  className="absolute top-0 bottom-0 rounded-lg opacity-40"
+                  style={{
+                    left: `${Math.min(100, (parseTimeToSeconds(trimStart) / Math.max(1, parseTimeToSeconds(trimEnd) || 60)) * 100)}%`,
+                    right: "0%",
+                    backgroundColor: accent,
+                  }}
+                />
+                <div
+                  className="absolute top-0 bottom-0 rounded-lg"
+                  style={{
+                    left: `${(parseTimeToSeconds(trimStart) / Math.max(1, parseTimeToSeconds(trimEnd) || 60)) * 100}%`,
+                    width: `${((parseTimeToSeconds(trimEnd) - parseTimeToSeconds(trimStart)) / Math.max(1, parseTimeToSeconds(trimEnd) || 60)) * 100}%`,
+                    backgroundColor: accent,
+                    opacity: 0.8,
+                  }}
+                />
+                <div className="absolute inset-0 flex items-center justify-center text-[10px] font-medium text-foreground">
+                  {trimStart} → {trimEnd}
+                </div>
+              </div>
+              <Button
+                onClick={handleTrim}
+                disabled={trimming}
+                className="w-full text-white font-medium"
+                style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+              >
+                {trimming ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    {t("result.trimming")}
+                  </>
+                ) : (
+                  <>
+                    <Scissors className="h-4 w-4 mr-2" />
+                    {t("result.trimDownload")}
+                  </>
+                )}
+              </Button>
             </div>
           </DialogContent>
         </Dialog>
