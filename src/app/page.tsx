@@ -90,7 +90,11 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
-/* Popover removed - accent picker removed */
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { MovaLogo } from "@/components/mova-logo";
@@ -949,7 +953,7 @@ function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 bg-[#09090B]/95 border-b border-[#27272A]"
+      className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
@@ -1074,7 +1078,7 @@ function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden overflow-hidden bg-[#09090B] border-t border-[#27272A]"
+            className="md:hidden overflow-hidden bg-background border-t border-border"
           >
             <div className="px-4 py-4 space-y-1">
               {navLinks.map((l) => (
@@ -2113,18 +2117,18 @@ function HeroSection({
 
       <div className="relative z-10 mx-auto max-w-2xl px-6 text-center">
         {/* Badge */}
-        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA]">
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-border text-muted-foreground">
           {t("hero.badge")}
         </span>
 
         {/* Heading — HUGE, light weight */}
-        <h1 className="mt-8 text-5xl sm:text-7xl font-light tracking-tight text-[#FAFAFA]">
+        <h1 className="mt-8 text-5xl sm:text-7xl font-light tracking-tight text-foreground">
           {audioMode ? t("hero.audioTitle") : t("hero.title")}<br />
           <span className="font-bold text-[#E63946]">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
         </h1>
 
         {/* Subtitle — small, muted */}
-        <p className="mt-6 text-sm text-[#A1A1AA] max-w-md mx-auto leading-relaxed">
+        <p className="mt-6 text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
           {audioMode ? t("hero.audioSubtitle") : t("hero.subtitle")}
         </p>
 
@@ -2267,7 +2271,7 @@ function HeroSection({
                 <div className="mt-3">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs text-muted-foreground">{t("playlist.selectVideos")}</span>
-                    <Button variant="ghost" size="sm" onClick={handleSelectAllPlaylist} className="text-xs" className="text-[#E63946]">
+                    <Button variant="ghost" size="sm" onClick={handleSelectAllPlaylist} className="text-xs text-[#E63946]">
                       {t("playlist.downloadAll")}
                     </Button>
                   </div>
@@ -2278,8 +2282,7 @@ function HeroSection({
                           type="checkbox"
                           checked={v.selected}
                           onChange={() => handleTogglePlaylistVideo(i)}
-                          className="h-4 w-4 rounded border-border accent-current"
-                          className="accent-[#E63946]"
+                          className="h-4 w-4 rounded border-border accent-[#E63946]"
                         />
                         <div className="w-12 h-9 rounded bg-muted flex items-center justify-center shrink-0 overflow-hidden">
                           {v.thumbnail ? (
@@ -2297,8 +2300,7 @@ function HeroSection({
                   </div>
                   {playlistVideos.some((v) => v.selected) && (
                     <Button
-                      className="w-full mt-3 h-10 text-white font-semibold rounded-lg"
-                      className="bg-[#E63946]"
+                      className="w-full mt-3 h-10 bg-[#E63946] text-white font-semibold rounded-lg"
                       onClick={async () => {
                         const selected = playlistVideos.filter((v) => v.selected);
                         for (const v of selected) {
@@ -2573,7 +2575,7 @@ function HeroSection({
                           }}
                         />
                       ) : null}
-                      <Play className="h-8 w-8 absolute" className="text-[#E63946]" />
+                      <Play className="h-8 w-8 absolute text-[#E63946]" />
                     </div>
                     <div className="flex-1 text-left min-w-0">
                       <h3 className="font-semibold text-foreground text-sm line-clamp-2">
@@ -2804,7 +2806,7 @@ function HeroSection({
                           style={{ borderColor: `#E6394630` }}
                         >
                           <span className="flex items-center gap-2">
-                            <Film className="h-3 w-3" className="text-[#E63946]" />
+                            <Film className="h-3 w-3 text-[#E63946]" />
                             {t("result.resolution")}: {result.qualityOptions[selectedQuality]?.label || "—"} ({result.qualityOptions[selectedQuality]?.resolution || "—"})
                           </span>
                           <ChevronDown className="h-3 w-3 text-muted-foreground" />
@@ -2854,7 +2856,7 @@ function HeroSection({
                                   )}
                                 </div>
                                 {isSelected && (
-                                  <CheckCircle className="h-4 w-4 shrink-0" className="text-[#E63946]" />
+                                  <CheckCircle className="h-4 w-4 shrink-0 text-[#E63946]" />
                                 )}
                               </button>
                             );
@@ -2974,8 +2976,7 @@ function HeroSection({
                     <Button
                       size="sm"
                       onClick={() => handleBatchDownload(br)}
-                      className="text-white shrink-0"
-                      className="bg-[#E63946]"
+                      className="bg-[#E63946] text-white shrink-0"
                     >
                       <Download className="h-3 w-3 mr-1" />
                       <span className="text-xs">Download</span>
@@ -3061,7 +3062,7 @@ function HeroSection({
           >
             <div className="p-3 rounded-xl bg-card border border-border">
               <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 mb-2">
-                <Timer className="h-4 w-4" className="text-[#E63946]" />
+                <Timer className="h-4 w-4 text-[#E63946]" />
                 {t("schedule.title")}
               </h3>
               <div className="space-y-2 max-h-32 overflow-y-auto">
@@ -3111,8 +3112,7 @@ function HeroSection({
                       <Button
                         size="sm"
                         onClick={() => handleDownloadSubtitle(sub)}
-                        className="text-white"
-                        className="bg-[#E63946]"
+                        className="bg-[#E63946] text-white"
                       >
                         <Download className="h-3 w-3 mr-1" />
                         {t("subtitle.download")}
@@ -3151,7 +3151,7 @@ function HeroSection({
                   className="h-12 text-sm font-medium"
                   style={{ borderColor: `#E6394640` }}
                 >
-                  <Timer className="h-4 w-4 mr-2" className="text-[#E63946]" />
+                  <Timer className="h-4 w-4 mr-2 text-[#E63946]" />
                   {opt.label}
                 </Button>
               ))}
@@ -3164,7 +3164,7 @@ function HeroSection({
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Sparkles className="h-5 w-5" className="text-[#E63946]" />
+                <Sparkles className="h-5 w-5 text-[#E63946]" />
                 {t("result.aiSummaryTitle")}
               </DialogTitle>
               <DialogDescription>{t("result.aiSummaryLoading")}</DialogDescription>
@@ -3172,7 +3172,7 @@ function HeroSection({
             <div className="mt-2">
               {aiSummaryLoading ? (
                 <div className="flex items-center justify-center py-8">
-                  <Loader2 className="h-6 w-6 animate-spin" className="text-[#E63946]" />
+                  <Loader2 className="h-6 w-6 animate-spin text-[#E63946]" />
                   <span className="ml-3 text-sm text-muted-foreground">{t("result.aiSummaryLoading")}</span>
                 </div>
               ) : aiSummaryText ? (
@@ -3194,7 +3194,7 @@ function HeroSection({
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Wand2 className="h-5 w-5" className="text-[#E63946]" />
+                <Wand2 className="h-5 w-5 text-[#E63946]" />
                 {t("result.gifTitle")}
               </DialogTitle>
               <DialogDescription>{t("result.gifMaxDuration")}</DialogDescription>
@@ -3252,8 +3252,7 @@ function HeroSection({
               <Button
                 onClick={handleGifConvert}
                 disabled={gifConverting}
-                className="w-full text-white font-medium"
-                className="bg-[#E63946]"
+                className="w-full bg-[#E63946] text-white font-medium"
               >
                 {gifConverting ? (
                   <>
@@ -3276,7 +3275,7 @@ function HeroSection({
           <DialogContent className="sm:max-w-sm">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <QrCode className="h-5 w-5" className="text-[#E63946]" />
+                <QrCode className="h-5 w-5 text-[#E63946]" />
                 {t("result.qrTitle")}
               </DialogTitle>
               <DialogDescription>{t("result.qrDesc")}</DialogDescription>
@@ -3296,8 +3295,7 @@ function HeroSection({
               </p>
               <Button
                 onClick={handleDownloadQr}
-                className="w-full text-white font-medium"
-                className="bg-[#E63946]"
+                className="w-full bg-[#E63946] text-white font-medium"
               >
                 <Download className="h-4 w-4 mr-2" />
                 {t("result.qrDownload")}
@@ -3311,7 +3309,7 @@ function HeroSection({
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Scissors className="h-5 w-5" className="text-[#E63946]" />
+                <Scissors className="h-5 w-5 text-[#E63946]" />
                 {t("result.trimTitle")}
               </DialogTitle>
               <DialogDescription>{t("result.trimDuration")}</DialogDescription>
@@ -3373,8 +3371,7 @@ function HeroSection({
               <Button
                 onClick={handleTrim}
                 disabled={trimming}
-                className="w-full text-white font-medium"
-                className="bg-[#E63946]"
+                className="w-full bg-[#E63946] text-white font-medium"
               >
                 {trimming ? (
                   <>
@@ -3479,7 +3476,7 @@ function FeaturesSection() {
                   background: `linear-gradient(135deg, #E6394630, #00E5FF30)`,
                 }}
               >
-                <f.icon className="h-6 w-6" className="text-[#E63946]" />
+                <f.icon className="h-6 w-6 text-[#E63946]" />
               </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">{f.titleId}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -3619,20 +3616,20 @@ function StatistikSection() {
         >
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 flex items-center justify-center gap-2">
-              <BarChart3 className="h-6 w-6" className="text-[#E63946]" />
+              <BarChart3 className="h-6 w-6 text-[#E63946]" />
               <span className="gradient-text">{t("stats.title")}</span>
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <div className="p-4 rounded-xl bg-card border border-border text-center">
-              <p className="text-3xl font-extrabold" className="text-[#E63946]">
+              <p className="text-3xl font-extrabold text-[#E63946]">
                 {stats.total}
               </p>
               <p className="text-xs text-muted-foreground mt-1">{t("stats.total")}</p>
             </div>
             <div className="p-4 rounded-xl bg-card border border-border text-center">
-              <p className="text-3xl font-extrabold" className="text-[#E63946]">
+              <p className="text-3xl font-extrabold text-[#E63946]">
                 {formatSize(stats.totalSize)}
               </p>
               <p className="text-xs text-muted-foreground mt-1">{t("stats.totalData")}</p>
@@ -4193,7 +4190,7 @@ function MobileBottomNav({
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden">
-      <div className="bg-[#09090B] border-t border-[#27272A] safe-area-bottom">
+      <div className="bg-background border-t border-border safe-area-bottom">
         <div className="flex items-center justify-around px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
           {navItems.map((item) => {
             if (item.action === "bookmarks") {
@@ -4207,8 +4204,7 @@ function MobileBottomNav({
                     <item.icon className="h-5 w-5" />
                     {bookmarkCount > 0 && (
                       <span
-                        className="absolute -top-1.5 -right-1.5 min-w-[14px] h-[14px] rounded-full text-[8px] font-bold flex items-center justify-center text-white"
-                        className="bg-[#E63946]"
+                        className="absolute -top-1.5 -right-1.5 min-w-[14px] h-[14px] rounded-full text-[8px] font-bold flex items-center justify-center bg-[#E63946] text-white"
                       >
                         {bookmarkCount > 9 ? "9+" : bookmarkCount}
                       </span>
@@ -4223,9 +4219,8 @@ function MobileBottomNav({
                 key={item.label}
                 href={item.href}
                 className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-lg transition-colors ${
-                  item.highlight ? "" : "text-muted-foreground hover:text-foreground"
+                  item.highlight ? "text-[#E63946]" : "text-muted-foreground hover:text-foreground"
                 }`}
-                className={item.highlight ? "text-[#E63946]" : ""}
               >
                 <item.icon className="h-5 w-5" />
                 <span className="text-[10px]">{item.label}</span>
@@ -4377,8 +4372,7 @@ function ReportButton() {
             <Button
               onClick={handleSubmit}
               disabled={!issueType}
-              className="text-white"
-              className="bg-[#E63946]"
+              className="bg-[#E63946] text-white"
             >
               {t("report.submit")}
             </Button>
@@ -4552,7 +4546,7 @@ function BookmarkSheet({
       <SheetContent side="bottom" className="rounded-t-2xl max-h-[70vh]">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            <Bookmark className="h-5 w-5" className="text-[#E63946]" />
+            <Bookmark className="h-5 w-5 text-[#E63946]" />
             {t("bookmark.title")}
           </SheetTitle>
           <SheetDescription>{t("bookmark.empty")}</SheetDescription>
