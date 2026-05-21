@@ -93,6 +93,13 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { GutsytikLogo } from "@/components/gutsytik-logo";
 import { useToast } from "@/hooks/use-toast";
+import { ParticleBackground } from "@/components/particle-background";
+import { TypingHeroText } from "@/components/typing-hero-text";
+import { useConfetti } from "@/components/confetti-effect";
+import { CursorTrail } from "@/components/cursor-trail";
+import { useKonamiCode, KonamiOverlay } from "@/components/konami-code";
+import { LiveTicker } from "@/components/live-ticker";
+import { useDownloadStreak, StreakBadge } from "@/components/download-streak";
 
 /* ──────────────────── Types ──────────────────── */
 interface QualityOption {
@@ -1297,6 +1304,10 @@ function HeroSection({
 
   const { toast, dismiss } = useToast();
 
+  // WOW Features: Confetti & Download Streak
+  const { triggerConfetti, ConfettiCanvas } = useConfetti();
+  const { streakCount, incrementStreak, isOnFire } = useDownloadStreak();
+
   const showToast = useCallback(
     (title: string, description: string, variant: "default" | "destructive" = "default") => {
       const t2 = toast({ title, description, variant });
@@ -1644,6 +1655,10 @@ function HeroSection({
         // Feature 7: Browser notification
         sendDownloadNotification(result.title);
 
+        // WOW Feature: Confetti explosion & Streak increment
+        triggerConfetti();
+        incrementStreak();
+
         showToast(t("toast.downloadStart"), t("toast.saving"), "default");
         return true;
       } catch {
@@ -1689,6 +1704,9 @@ function HeroSection({
         showToast(t("toast.downloadStart"), t("toast.saving"), "default");
         playDingSound();
         sendDownloadNotification(result.title);
+        // WOW Feature: Confetti & Streak for fallback download
+        triggerConfetti();
+        incrementStreak();
       } catch {
         setError(t("error.downloadFail"));
         showToast(t("toast.downloadFail"), t("toast.tryAgain"), "destructive");
@@ -1702,7 +1720,7 @@ function HeroSection({
       setDownloadSize(0);
       setDownloadTotalSize(0);
     }, 2500);
-  }, [result, selectedQuality, url, showToast, t, downloadTotalSize, downloadSize, notifPermission]);
+  }, [result, selectedQuality, url, showToast, t, downloadTotalSize, downloadSize, notifPermission, triggerConfetti, incrementStreak]);
 
   // Share Button
   const handleShare = useCallback(async () => {
@@ -2140,10 +2158,11 @@ function HeroSection({
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 gradient-morph-bg"
     >
-      {/* Animated background orbs */}
+      {/* Particle Background + Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <ParticleBackground />
         <div
           className="animate-orb-1 absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20"
           style={{
@@ -2163,6 +2182,9 @@ function HeroSection({
           }}
         />
       </div>
+
+      {/* Confetti Canvas */}
+      <ConfettiCanvas />
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20 text-center">
         {/* Badge */}
@@ -2184,18 +2206,17 @@ function HeroSection({
           </span>
         </motion.div>
 
-        {/* Heading */}
-        <motion.h1
+        {/* Heading - Typing Animation */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6"
         >
-          {audioMode ? t("hero.audioTitle") : t("hero.title")}{" "}
-          <span className="gradient-text-animated">
-            {audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}
-          </span>
-        </motion.h1>
+          <TypingHeroText key={audioMode ? "audio" : "video"} audioMode={audioMode} t={t} />
+        </motion.div>
+
+        {/* Streak Badge */}
+        <StreakBadge streakCount={streakCount} isOnFire={isOnFire} />
 
         {/* Subtitle */}
         <motion.p
@@ -3493,6 +3514,9 @@ function HeroSection({
           </a>
         </motion.div>
       </div>
+
+      {/* Live Activity Ticker */}
+      <LiveTicker />
     </section>
   );
 }
@@ -4708,10 +4732,11 @@ function BookmarkSheet({
 export default function Home() {
   const [historySheetOpen, setHistorySheetOpen] = useState(false);
   const [bookmarkSheetOpen, setBookmarkSheetOpen] = useState(false);
+  const { retroMode, showNotification } = useKonamiCode();
 
   return (
     <LanguageProvider>
-      <div className="min-h-screen flex flex-col bg-background">
+      <div className={`min-h-screen flex flex-col bg-background ${retroMode ? "retro-mode" : ""}`}>
         <Navbar />
         <main className="flex-1">
           <HeroSection
@@ -4738,6 +4763,8 @@ export default function Home() {
         <ReportButton />
         <RiwayatSheet open={historySheetOpen} onOpenChange={setHistorySheetOpen} />
         <BookmarkSheet open={bookmarkSheetOpen} onOpenChange={setBookmarkSheetOpen} />
+        <CursorTrail />
+        <KonamiOverlay retroMode={retroMode} showNotification={showNotification} />
       </div>
     </LanguageProvider>
   );
