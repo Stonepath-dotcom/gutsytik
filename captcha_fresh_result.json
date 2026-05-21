@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "CLILJ",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1779388852,
+  "id": "20260522024051520a77219945415b",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260522024051520a77219945415b",
+  "usage": {
+    "completion_tokens": 6,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 397,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 403
+  }
+}

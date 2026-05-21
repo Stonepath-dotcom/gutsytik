@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "NlVWV",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1779388578,
+  "id": "20260522023615df4ffa596c174aab",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260522023615df4ffa596c174aab",
+  "usage": {
+    "completion_tokens": 8,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 654,
+    "prompt_tokens_details": {
+      "cached_tokens": 7
+    },
+    "total_tokens": 662
+  }
+}
