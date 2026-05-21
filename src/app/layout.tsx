@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mova.vercel.app"),
+  metadataBase: new URL("https://movadl.vercel.app"),
   title: "Mova - Download Video Tanpa Watermark",
   description:
     "Mova membantu kamu download video dari platform populer tanpa watermark, cepat dan gratis! Support TikTok, Instagram, YouTube, Facebook, Twitter/X, dan lainnya.",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     title: "Mova - Download Video Tanpa Watermark",
     description:
       "Download video dari TikTok, Instagram, YouTube, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
-    url: "https://mova.vercel.app",
+    url: "https://movadl.vercel.app",
     siteName: "Mova",
     type: "website",
   },
@@ -79,7 +79,7 @@ export default function RootLayout({
               name: "Mova",
               description:
                 "Download video tanpa watermark dari berbagai platform populer",
-              url: "https://mova.vercel.app",
+              url: "https://movadl.vercel.app",
               applicationCategory: "MultimediaApplication",
               operatingSystem: "All",
               offers: {
@@ -97,8 +97,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Mova",
-              url: "https://mova.vercel.app",
-              logo: "https://mova.vercel.app/logo.svg",
+              url: "https://movadl.vercel.app",
+              logo: "https://movadl.vercel.app/logo.svg",
             }),
           }}
         />
@@ -109,10 +109,10 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               name: "Mova",
-              url: "https://mova.vercel.app",
+              url: "https://movadl.vercel.app",
               potentialAction: {
                 "@type": "SearchAction",
-                target: "https://mova.vercel.app/?q={search_term_string}",
+                target: "https://movadl.vercel.app/?q={search_term_string}",
                 "query-input": "required name=search_term_string",
               },
             }),
