@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://github.com/orgs/community/discussions/187677",
+    "name": "How to get a free domain? · community · Discussion #187677 - GitHub",
+    "snippet": "Some platforms that provide free domains include GoogieHost, Blogger, GitHub Student Developer Pack, and Wix. In my case, I got a free domain from ...",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/gatsbyjs/comments/ctun98/what_subdomain_would_you_choose_for_your_static",
+    "name": "What subdomain would you choose for your static site, *.github.io or",
+    "snippet": "The question is: What subdomain would you choose for your static site, *.github.io or *.netlify.com or else? *.herokuapp.com seems not an ideal ...",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/frontendweb/how-to-obtain-a-free-subdomain-for-your-project-b143f260828d",
+    "name": "How to Obtain a Free Subdomain for Your Project? - Medium",
+    "snippet": "is-a.dev: Offers free *.is-a.dev subdomains for your project: you can register via a GitHub repository, choose a subdomain, and domains ...",
+    "host_name": "medium.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=QeMByHSaejM",
+    "name": "How to Host Websites on Netlify for Free and Add a Custom Domain",
+    "snippet": "Complete Web Developer Course: https://completewebdevcourse.com/ After 6+ months of work, the full stack web developer course is finally ...",
+    "host_name": "www.youtube.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://answers.netlify.com/t/using-a-subdomain-without-a-custom-domain/6717",
+    "name": "Using a subdomain without a custom domain - Netlify Support Forums",
+    "snippet": "I want to have a subdomain to my domain, and more specifically a branch-related subdomain (eg: development.domain.netlify.com ) without a custom ...",
+    "host_name": "answers.netlify.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/groups/selftaughtprogrammers/posts/1885090481854677",
+    "name": "Between GitHub and Netlify, which one is a good free web host?",
+    "snippet": "Depends on what project you're trying to deploy, if it's a simple javascript, HTML and CSS then definitely go with GitHub, but if it's a ...",
+    "host_name": "www.facebook.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.eliostruyf.com/manage-netlify-branch-subdomains-netlify-dns",
+    "name": "Manage branch subdomains without Netlify DNS - Elio Struyf",
+    "snippet": "Learn how to manage Netlify's branch subdomains using external DNS like Cloudflare, bypassing the need for Netlify DNS, for seamless ...",
+    "host_name": "www.eliostruyf.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dev.to/dthiwanka/get-your-free-is-adev-subdomain-step-by-step-guide-for-developers-27o7",
+    "name": "Get Your Free .is-a.dev Subdomain: Step-by-Step Guide for",
+    "snippet": ".is-a.dev is an open-source service that gives developers free subdomains for personal or software-related projects. Registration happens via a ...",
+    "host_name": "dev.to",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.name.com/partner/github-students",
+    "name": "Free Domain for Students - Name.com",
+    "snippet": "Name.com is now offering free domains for students who join the GitHub Student Developer Pack.",
+    "host_name": "www.name.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://stackoverflow.com/questions/46455900/subdomain-of-website-for-github-pages-project",
+    "name": "Subdomain of website for Github pages project - Stack Overflow",
+    "snippet": "I would like to add a subdomain of my personal website so that the website is accessible via the subdomain matrix.jeti.io of my website jeti.io.",
+    "host_name": "stackoverflow.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

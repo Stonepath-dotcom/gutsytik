@@ -1,0 +1,47 @@
+[
+  {
+    "url": "https://domain.digitalplat.org",
+    "name": "DigitalPlat Domain",
+    "snippet": "DigitalPlat Domain is a nonprofit stewarding free, public-benefit namespaces for people and organizations everywhere.",
+    "host_name": "domain.digitalplat.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://stackoverflow.com/questions/192767/how-do-i-register-domain-names-programmatically",
+    "name": "How do I register domain names programmatically? - Stack Overflow",
+    "snippet": "I looked at the APIs for several registrars when I was working on programatically registering domains. My needs were basic - I just wanted to ...",
+    "host_name": "stackoverflow.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/developersIndia/comments/1n32qyh/just_found_a_github_repo_that_lets_you_register",
+    "name": "Just found a GitHub repo that lets you register and manage domain",
+    "snippet": "Why it's awesome: ✓ You can register a free domain (like .dpdns.org, .us.kg, .qzz.io, etc.) ✓ You can then connect that domain to any DNS ...",
+    "host_name": "www.reddit.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=skQh7foJ1cU",
+    "name": "How to register a domain with dnsimple in python - YouTube",
+    "snippet": "When you're managing multiple domains with the same base configuration it can become error-prone. That's where our API can help.",
+    "host_name": "www.youtube.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ns1.digitalplat.org",
+    "name": "DigitalPlat Domain Dashboard",
+    "snippet": "Built for domain operations. A focused control surface for registration, routing, and lifecycle management. Registration. Register and manage your domains.",
+    "host_name": "ns1.digitalplat.org",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.youtube.com/watch?v=e5AwNU3Y2es",
+    "name": "How to Host a Website on GitHub Pages Free (Custom  - YouTube",
+    "snippet": "Master the art of hosting your website on GitHub Pages with a custom domain for that extra professional polish! In this comprehensive guide, ...",
+    "host_name": "www.youtube.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/developersIndia/comments/1n32qyh/just_found_a_github_repo_that_lets_you_register",
+    "name": "Just found a GitHub repo that lets you register and manage domain",
+    "snippet": "Just found a GitHub repo that lets you register and manage domain names 100% free · Visit their dashboard · Register your free domain · Connect it ...",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/topics/free-domain",
+    "name": "free-domain · GitHub Topics",
+    "snippet": "Here you can register your '.creepers.sbs/.cloud/.pro/.lol' + run-it.tech subdomains completely free. UP to 8 x account.",
+    "host_name": "github.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/orgs/community/discussions/182124",
+    "name": "Subdomain Help · community · Discussion #182124 - GitHub",
+    "snippet": "You are currently using a \"Web Forward\" configuration, but GitHub Pages requires a \"DNS-only\" (CNAME) configuration. In your FreeDNS screenshot, ...",
+    "host_name": "github.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/frontendweb/how-to-obtain-a-free-subdomain-for-your-project-b143f260828d",
+    "name": "How to Obtain a Free Subdomain for Your Project? | FrontEnd Web",
+    "snippet": "dev subdomains for your project: you can register via a GitHub repository, choose a subdomain, and domains are free to use for your projects ...\nis-a.dev: Offers free *.is-a.dev subdomains for your project: you can register via a GitHub repository, choose a subdomain, and domains ...\nthedev.id offers a free personal subdomain for your project, allowing you to claim yourname.thedev.id subdomain for your static site by forking ...",
+    "host_name": "medium.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=pLWofMzpAJY",
+    "name": "GitHub Pages Tutorial: Free Domain, Free Hosting and  - YouTube",
+    "snippet": "In this tutorial I want to show you how you can fast and easy setup a website using GitHub Pages. With GitHub Pages you will get free domain ...\n... all courses that I teach you could find here https ... GitHub Pages Tutorial: Free Domain, Free Hosting and Free TLS Certificate.",
+    "host_name": "www.youtube.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/orgs/community/discussions/187677",
+    "name": "How to get a free domain? · community · Discussion #187677 - GitHub",
+    "snippet": "I'm exploring options to get a free domain name for my project. I've seen mentions of services like Freenom, GitHub Student Pack, and some hosting providers ...\nSome platforms that provide free domains include GoogieHost, Blogger, GitHub Student Developer Pack, and Wix. In my case, I got a free domain from GoogieHost, ...",
+    "host_name": "github.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/orgs/community/discussions/63587",
+    "name": "custom domain for only one pages project #63587 - GitHub",
+    "snippet": "Go to your repository and click on github pages settings · In Custom domain field write your domain · In your DNS provider add new record like ...",
+    "host_name": "github.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://stackoverflow.com/questions/46455900/subdomain-of-website-for-github-pages-project",
+    "name": "Subdomain of website for Github pages project - Stack Overflow",
+    "snippet": "I would like to add a subdomain of my personal website so that the website is accessible via the subdomain matrix.jeti.io of my website jeti.io.",
+    "host_name": "stackoverflow.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/webdev/comments/1m9gq8z/where_can_i_get_free_subdomains",
+    "name": "Where can I get free subdomains? : r/webdev - Reddit",
+    "snippet": "Go on porkbun or namecheap, they have domains that go for $5-15/ per year. There's always some tlds that are even cheaper like 1 or 2 dollars ...",
+    "host_name": "www.reddit.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

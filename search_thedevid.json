@@ -1,0 +1,47 @@
+[
+  {
+    "url": "https://github.com/thedev-id/thedev.id",
+    "name": "thedev-id/thedev.id: Identity for developers on the web. - GitHub",
+    "snippet": "thedev.id is a free identity for developers on the web. This service offers a handy subdomain like foo.thedev.id or bar.thedev.id for use on your static sites.",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/frontendweb/how-to-obtain-a-free-subdomain-for-your-project-b143f260828d",
+    "name": "How to Obtain a Free Subdomain for Your Project? | FrontEnd Web",
+    "snippet": "thedev.id offers a free personal subdomain for your project, allowing you to claim yourname.thedev.id domain for your static site by forking the ...",
+    "host_name": "medium.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/thedev-id/thedev.id/discussions/918",
+    "name": "Sub-sub domain and multiple domains #918 - GitHub",
+    "snippet": "I'd like to have the short link 0.thedev.id and the normal site 0y.thedev.id. *: Would I even be allowed to just have a y.thedev.id if it's still free? Thanks ...",
+    "host_name": "github.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/abint7/free-domains",
+    "name": "GitHub - abint7/free-domains: Free subdomains for personal sites",
+    "snippet": "A collective list of free subdomains for use on personal sites, open source projects, and more. License This project is under the MIT License.",
+    "host_name": "github.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dev.to/0xkoji/get-a-developer-oriented-domain-for-free-3o4a",
+    "name": "Get a Developer Oriented Domain for Free and Use it with Vercel",
+    "snippet": "Add yourname.thedev.id to a service. Go to your project dashboard on Vercel and click Settings tab and select Domains then add subdomain.thedev.",
+    "host_name": "dev.to",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  }
+]
