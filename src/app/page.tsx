@@ -283,7 +283,7 @@ const translations: Record<string, Record<string, string>> = {
     "toast.bookmarkAdded": "Video disimpan ke bookmark!",
     "toast.bookmarkRemoved": "Bookmark dihapus.",
     "toast.thumbDownloaded": "Thumbnail berhasil didownload!",
-    "shortcut.hint": "Ctrl+V paste \u2022 Enter submit",
+    "shortcut.hint": "Ctrl+V paste \u2022 Enter submit \u2022 Ctrl+K focus",
     "link (maks 5)": "link (maks 5)",
     "processing": "Processing",
     "video...": "video...",
@@ -373,6 +373,23 @@ const translations: Record<string, Record<string, string>> = {
     "result.seconds": "detik",
     "footer.privacy": "Kebijakan Privasi",
     "nav.sound": "Suara",
+    "preview.loading": "Menganalisis link...",
+    "preview.found": "Video terdeteksi",
+    "clipboard.detected": "Link video terdeteksi di clipboard",
+    "clipboard.paste": "Tempel",
+    "clipboard.ignore": "Abaikan",
+    "quality.select": "Pilih Kualitas",
+    "quality.estimated": "~{size} MB",
+    "url.corrected": "Link diperbaiki otomatis",
+    "url.invalid": "URL tidak valid",
+    "shortcuts.title": "Pintasan Keyboard",
+    "shortcuts.focusInput": "Fokus Input",
+    "shortcuts.download": "Download",
+    "shortcuts.close": "Tutup Dialog",
+    "shortcuts.history": "Riwayat",
+    "shortcuts.bookmarks": "Bookmark",
+    "shortcuts.showShortcuts": "Tampilkan Pintasan",
+    "shortcuts.hint": "Tekan ? untuk pintasan",
   },
   en: {
     "nav.fitur": "Features",
@@ -463,7 +480,7 @@ const translations: Record<string, Record<string, string>> = {
     "toast.bookmarkAdded": "Video saved to bookmarks!",
     "toast.bookmarkRemoved": "Bookmark removed.",
     "toast.thumbDownloaded": "Thumbnail downloaded!",
-    "shortcut.hint": "Ctrl+V paste \u2022 Enter submit",
+    "shortcut.hint": "Ctrl+V paste \u2022 Enter submit \u2022 Ctrl+K focus",
     "link (maks 5)": "links (max 5)",
     "processing": "Processing",
     "video...": "videos...",
@@ -553,6 +570,23 @@ const translations: Record<string, Record<string, string>> = {
     "result.seconds": "seconds",
     "footer.privacy": "Privacy Policy",
     "nav.sound": "Sound",
+    "preview.loading": "Analyzing link...",
+    "preview.found": "Video detected",
+    "clipboard.detected": "Video link detected in clipboard",
+    "clipboard.paste": "Paste",
+    "clipboard.ignore": "Ignore",
+    "quality.select": "Select Quality",
+    "quality.estimated": "~{size} MB",
+    "url.corrected": "Link auto-corrected",
+    "url.invalid": "Invalid URL",
+    "shortcuts.title": "Keyboard Shortcuts",
+    "shortcuts.focusInput": "Focus Input",
+    "shortcuts.download": "Download",
+    "shortcuts.close": "Close Dialog",
+    "shortcuts.history": "History",
+    "shortcuts.bookmarks": "Bookmarks",
+    "shortcuts.showShortcuts": "Show Shortcuts",
+    "shortcuts.hint": "Press ? for shortcuts",
   },
 };
 
@@ -920,6 +954,85 @@ function formatDurationLong(durStr: string): string {
   return `00:00:${String(parts[0] || 0).padStart(2, "0")}`;
 }
 
+/* ──────────────────── Feature: Smart URL Correction ──────────────────── */
+const VIDEO_URL_PATTERNS = /tiktok|instagram|youtube|youtu\.be|twitter|x\.com|facebook|fb\.watch|pinterest|reddit|likee|snackvideo|snack|vm\.tiktok|vt\.tiktok/i;
+const TRACKING_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "fbclid", "gclid", "msclkid", "mc_eid", "_ga", "ref", "referrer"];
+
+/* Feature 3: Enhanced file size estimation (1080p≈50MB/min, 720p≈25MB/min, 480p≈12MB/min, Audio≈1.5MB/min) */
+function estimateFileSizeEnhanced(resolution: string, durationStr: string): number | null {
+  if (!durationStr || durationStr === "--:--") return null;
+  const parts = durationStr.split(":");
+  if (parts.length < 2) return null;
+  const totalSeconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+  if (totalSeconds <= 0) return null;
+  const minutes = totalSeconds / 60;
+
+  let mbPerMin: number;
+  if (resolution === "MP3") {
+    mbPerMin = 1.5;
+  } else {
+    const h = parseInt(resolution) || 720;
+    if (h >= 2160) mbPerMin = 150;
+    else if (h >= 1080) mbPerMin = 50;
+    else if (h >= 720) mbPerMin = 25;
+    else if (h >= 480) mbPerMin = 12;
+    else mbPerMin = 8;
+  }
+  return Math.max(1, Math.round(minutes * mbPerMin));
+}
+
+function smartCorrectUrl(raw: string): { corrected: string; wasCorrected: boolean } {
+  let url = raw.trim();
+
+  // Remove trailing ... from copy-paste truncation
+  url = url.replace(/\.{2,}$/, "");
+
+  // Remove leading/trailing whitespace again after removing ellipsis
+  url = url.trim();
+
+  // Add https:// if missing
+  if (url.startsWith("www.")) {
+    url = "https://" + url;
+  } else if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    // Check if it looks like a domain
+    const domainPattern = /^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z]{2,})+/;
+    if (domainPattern.test(url)) {
+      url = "https://" + url;
+    }
+  }
+
+  // Fix mobile subdomains
+  url = url.replace(/https?:\/\/m\.tiktok\.com/, "https://www.tiktok.com");
+  url = url.replace(/https?:\/\/m\.youtube\.com/, "https://www.youtube.com");
+
+  // Fix double slashes in path (but not in protocol)
+  try {
+    const parsed = new URL(url);
+    let pathname = parsed.pathname;
+    while (pathname.includes("//")) {
+      pathname = pathname.replace(/\/\//g, "/");
+    }
+
+    // Remove tracking parameters
+    const searchParams = new URLSearchParams(parsed.search);
+    for (const param of TRACKING_PARAMS) {
+      searchParams.delete(param);
+    }
+
+    const wasCorrected =
+      url !== raw.trim() ||
+      pathname !== parsed.pathname ||
+      parsed.search !== searchParams.toString();
+
+    const correctedUrl = `${parsed.protocol}//${parsed.host}${pathname}${searchParams.toString() ? "?" + searchParams.toString() : ""}${parsed.hash}`;
+
+    return { corrected: correctedUrl, wasCorrected };
+  } catch {
+    // If URL is completely invalid, return as-is
+    return { corrected: url, wasCorrected: false };
+  }
+}
+
 /* ──────────────────── Navbar ──────────────────── */
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -1244,8 +1357,19 @@ function HeroSection({
   const [trimming, setTrimming] = useState(false);
   // Feature: Resolution Picker enhanced
   const [resolutionPickerOpen, setResolutionPickerOpen] = useState(false);
+  // Feature: Thumbnail Preview (Live Preview saat paste link)
+  const [previewData, setPreviewData] = useState<Partial<DownloadResult> | null>(null);
+  const [previewLoading, setPreviewLoading] = useState(false);
+  // Feature: Auto-Detect Clipboard
+  const [clipboardDetected, setClipboardDetected] = useState(false);
+  const [clipboardUrl, setClipboardUrl] = useState("");
+  // Feature: Smart URL Correction
+  const [urlCorrected, setUrlCorrected] = useState(false);
+  // Feature: Keyboard Shortcuts
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
 
   const resultRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const urlRef = useRef(url);
   urlRef.current = url;
 
@@ -1351,10 +1475,81 @@ function HeroSection({
         setQrOpen(false);
         setTrimOpen(false);
         setResolutionPickerOpen(false);
+        setShortcutsOpen(false);
       }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
+  }, []);
+
+  // Feature 1: Thumbnail Preview — debounce URL changes
+  useEffect(() => {
+    if (!url.trim() || result) {
+      setPreviewData(null);
+      setPreviewLoading(false);
+      return;
+    }
+    // Check if URL looks like a video URL
+    if (!VIDEO_URL_PATTERNS.test(url)) {
+      setPreviewData(null);
+      setPreviewLoading(false);
+      return;
+    }
+    // Validate URL structure
+    try {
+      new URL(url.startsWith("www.") ? "https://" + url : url);
+    } catch {
+      setPreviewData(null);
+      setPreviewLoading(false);
+      return;
+    }
+    const timer = setTimeout(async () => {
+      setPreviewLoading(true);
+      try {
+        const res = await fetch("/api/download", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: url.trim() }),
+        });
+        const data = await res.json();
+        if (res.ok && data.title) {
+          setPreviewData(data);
+        } else {
+          setPreviewData(null);
+        }
+      } catch {
+        setPreviewData(null);
+      } finally {
+        setPreviewLoading(false);
+      }
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [url, result]);
+
+  // Feature 2: Auto-Detect Clipboard on mount and visibility change
+  useEffect(() => {
+    const checkClipboard = async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text && VIDEO_URL_PATTERNS.test(text)) {
+          try {
+            new URL(text.startsWith("www.") ? "https://" + text : text);
+            setClipboardUrl(text);
+            setClipboardDetected(true);
+          } catch {}
+        }
+      } catch {
+        // Permission denied — just don't show the banner
+      }
+    };
+    checkClipboard();
+    const handleVisibility = () => {
+      if (!document.hidden && !urlRef.current.trim()) {
+        checkClipboard();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
   }, []);
 
   // Feature 1: Auto-Detect Platform from URL
@@ -1444,12 +1639,42 @@ function HeroSection({
       setError(t("error.emptyUrl"));
       return;
     }
+    // Feature 4: Smart URL Correction
+    const { corrected, wasCorrected } = smartCorrectUrl(url.trim());
     try {
-      new URL(url.trim());
+      new URL(corrected);
     } catch {
-      setError(t("error.invalidUrl"));
+      setError(t("url.invalid"));
       return;
     }
+    if (wasCorrected) {
+      setUrl(corrected);
+      setUrlCorrected(true);
+      setTimeout(() => setUrlCorrected(false), 3000);
+    }
+
+    // Feature 1: If we already have previewData from the live preview, use it
+    if (previewData && previewData.title && previewData.qualityOptions && previewData.qualityOptions.length > 0) {
+      const fullResult = previewData as DownloadResult;
+      setResult(fullResult);
+      setSelectedQuality(0);
+      setShowPreview(false);
+      setPreviewError(false);
+      setIsBookmarkedState(isBookmarked(corrected));
+      if (audioMode) {
+        const audioIdx = fullResult.qualityOptions.findIndex(
+          (q: QualityOption) => q.label === "Audio" || q.resolution === "MP3"
+        );
+        if (audioIdx >= 0) setSelectedQuality(audioIdx);
+      }
+      setPreviewData(null);
+      showToast(t("toast.videoFound"), t("toast.selectQuality"), "default");
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 300);
+      return;
+    }
+
     setLoading(true);
     setError("");
     setResult(null);
@@ -1458,7 +1683,7 @@ function HeroSection({
       const res = await fetch("/api/download", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: url.trim() }),
+        body: JSON.stringify({ url: corrected }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -1471,7 +1696,7 @@ function HeroSection({
       setShowPreview(false);
       setPreviewError(false);
       // Feature 7: Check if bookmarked
-      setIsBookmarkedState(isBookmarked(url.trim()));
+      setIsBookmarkedState(isBookmarked(corrected));
       // Feature 2: Auto-select audio quality in audio mode
       if (audioMode) {
         const audioIdx = data.qualityOptions.findIndex(
@@ -1489,7 +1714,7 @@ function HeroSection({
     } finally {
       setLoading(false);
     }
-  }, [url, showToast, t, audioMode]);
+  }, [url, showToast, t, audioMode, previewData]);
 
   // Feature 3: Download with real progress bar + retry + sound + notifications
   const handleDownload = useCallback(async () => {
@@ -1667,6 +1892,46 @@ function HeroSection({
       setDownloadTotalSize(0);
     }, 2500);
   }, [result, selectedQuality, url, showToast, t, downloadTotalSize, downloadSize, notifPermission, incrementStreak]);
+
+  // Feature 5: Keyboard Shortcuts (placed after handleAnalyze/handleDownload)
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const isCmd = e.metaKey || e.ctrlKey;
+      // Ctrl+K / Cmd+K: Focus input
+      if (isCmd && e.key === "k") {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+      // Ctrl+Enter / Cmd+Enter: Submit/Download
+      if (isCmd && e.key === "Enter") {
+        e.preventDefault();
+        if (result) {
+          handleDownload();
+        } else {
+          handleAnalyze();
+        }
+      }
+      // Ctrl+Shift+H: Open history
+      if (isCmd && e.shiftKey && e.key === "H") {
+        e.preventDefault();
+        onOpenHistorySheet();
+      }
+      // Ctrl+Shift+B: Open bookmarks
+      if (isCmd && e.shiftKey && e.key === "B") {
+        e.preventDefault();
+        onOpenBookmarkSheet();
+      }
+      // ?: Show shortcuts (only when input is NOT focused)
+      if (e.key === "?" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        const active = document.activeElement;
+        if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA")) return;
+        e.preventDefault();
+        setShortcutsOpen(true);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [result, handleAnalyze, handleDownload, onOpenHistorySheet, onOpenBookmarkSheet]);
 
   // Share Button
   const handleShare = useCallback(async () => {
@@ -2339,9 +2604,51 @@ function HeroSection({
           ) : (
             /* Single mode input */
             <>
+            {/* Feature 2: Clipboard Detection Banner */}
+            <AnimatePresence>
+              {clipboardDetected && clipboardUrl && !url.trim() && (
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
+                  className="bg-[#E63946]/10 border border-[#E63946]/20 rounded-lg px-4 py-2 text-sm flex items-center justify-between mb-2"
+                >
+                  <span className="flex items-center gap-2 text-foreground">
+                    <Clipboard className="h-3.5 w-3.5 text-[#E63946]" />
+                    {t("clipboard.detected")}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        setUrl(clipboardUrl);
+                        setClipboardDetected(false);
+                        setPasted(true);
+                        setTimeout(() => setPasted(false), 2000);
+                        // Trigger analyze after pasting
+                        setTimeout(() => handleAnalyze(), 200);
+                      }}
+                      className="text-xs h-7 px-3 text-[#E63946] hover:text-[#C5303C] hover:bg-[#E63946]/10 font-medium"
+                    >
+                      {t("clipboard.paste")}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setClipboardDetected(false)}
+                      className="text-xs h-7 px-3 text-muted-foreground hover:text-foreground"
+                    >
+                      {t("clipboard.ignore")}
+                    </Button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
             <div className="flex gap-2 p-2 rounded-xl bg-card border border-border">
               <div className="relative flex-1">
                 <Input
+                  ref={inputRef}
                   type="url"
                   placeholder={audioMode ? t("input.audioPlaceholder") : t("input.placeholder")}
                   value={url}
@@ -2423,6 +2730,74 @@ function HeroSection({
                 </span>
               </motion.div>
             )}
+            {/* Feature 1: Thumbnail Preview Card (Live Preview saat paste link) */}
+            <AnimatePresence>
+              {previewLoading && !result && (
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
+                  className="mt-2 bg-card/50 border border-border rounded-lg p-3 flex items-center gap-3"
+                >
+                  <Loader2 className="h-4 w-4 animate-spin text-[#E63946]" />
+                  <span className="text-xs text-muted-foreground">{t("preview.loading")}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {previewData && !result && !previewLoading && (
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
+                  className="mt-2 bg-card/50 border border-border rounded-lg p-3 flex items-center gap-3"
+                >
+                  <div className="w-16 h-12 rounded bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
+                    {previewData.thumbnail ? (
+                      <img src={previewData.thumbnail} alt="" className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                    ) : null}
+                    <Play className="h-5 w-5 absolute text-[#E63946]" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-foreground line-clamp-1">{previewData.title}</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      {previewData.duration && previewData.duration !== "--:--" && (
+                        <span className="text-[10px] text-muted-foreground flex items-center gap-0.5">
+                          <Clock className="h-2.5 w-2.5" /> {previewData.duration}
+                        </span>
+                      )}
+                      {previewData.author && (
+                        <span className="text-[10px] text-muted-foreground flex items-center gap-0.5">
+                          <User className="h-2.5 w-2.5" /> {previewData.author}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    {previewData.platform && (
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-[#E63946]/10 text-[#E63946] font-medium">
+                        {previewData.platform}
+                      </span>
+                    )}
+                    <CheckCircle className="h-3.5 w-3.5 text-green-400" />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            {/* Feature 4: URL Corrected Notice */}
+            <AnimatePresence>
+              {urlCorrected && (
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
+                  className="mt-2 flex items-center justify-center gap-1.5"
+                >
+                  <CheckCircle className="h-3 w-3 text-green-400" />
+                  <span className="text-[11px] text-green-400">{t("url.corrected")}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
             </>
           )}
 
@@ -2742,55 +3117,56 @@ function HeroSection({
                   </div>
                 </div>
 
-                {/* Enhanced Resolution Picker */}
+                {/* Feature 3: Premium Quality Selector (Enhanced) */}
                 {result.qualityOptions.length > 0 && (
                   <div className="mt-3">
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-xs text-muted-foreground text-left">
-                        {t("result.selectResolution")}
+                    <div className="flex items-center justify-between mb-2.5">
+                      <p className="text-xs font-medium text-foreground text-left flex items-center gap-1.5">
+                        <Film className="h-3.5 w-3.5 text-[#E63946]" />
+                        {t("quality.select")}
                       </p>
                       {result.qualityOptions[selectedQuality] && (
                         <Badge
                           className="text-[10px] font-semibold"
                           style={{ backgroundColor: `#E6394620`, color: "#E63946", border: `1px solid #E6394640` }}
                         >
-                          {result.qualityOptions[selectedQuality].resolution}
+                          {result.qualityOptions[selectedQuality].label} · {result.qualityOptions[selectedQuality].resolution}
                         </Badge>
                       )}
                     </div>
-                    {/* Quick resolution buttons */}
+                    {/* Premium quality pills */}
                     <div className="flex flex-wrap gap-2">
                       {result.qualityOptions.map((q, i) => {
                         const Icon = getQualityIcon(q.label);
-                        const sizeEstimate = estimateFileSize(result.platform, q.resolution, result.duration);
+                        const estimatedSize = estimateFileSizeEnhanced(q.resolution, result.duration);
                         const isSelected = selectedQuality === i;
                         return (
                           <motion.button
                             key={i}
                             onClick={() => setSelectedQuality(i)}
-                            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-all ${
+                            className={`flex items-center gap-1.5 text-xs px-3.5 py-2 rounded-full border font-medium transition-all ${
                               isSelected
-                                ? "border-current shadow-sm"
-                                : "bg-muted border-border text-muted-foreground hover:border-current/30 hover:text-foreground"
+                                ? "text-white shadow-md"
+                                : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
                             }`}
                             style={
                               isSelected
                                 ? {
-                                    backgroundColor: `#E6394620`,
-                                    borderColor: `#E6394680`,
-                                    color: "#E63946",
-                                    boxShadow: `0 0 12px #E6394620`,
+                                    backgroundColor: "#E63946",
+                                    borderColor: "#E63946",
+                                    boxShadow: `0 4px 14px #E6394640`,
                                   }
-                                : undefined
+                                : { borderColor: "var(--border)" }
                             }
-                            whileHover={{ scale: 1.03 }}
-                            whileTap={{ scale: 0.97 }}
+                            whileHover={{ scale: 1.04 }}
+                            whileTap={{ scale: 0.96 }}
+                            title={estimatedSize ? `~${estimatedSize} MB` : undefined}
                           >
                             <Icon className="h-3 w-3" />
-                            {q.label}
-                            <span className="opacity-60">({q.resolution})</span>
-                            {sizeEstimate && (
-                              <span className="text-[10px] opacity-50 ml-0.5">{sizeEstimate}</span>
+                            <span>{q.label}</span>
+                            <span className="opacity-70">{q.resolution}</span>
+                            {estimatedSize && (
+                              <span className="text-[9px] opacity-50 ml-0.5">~{estimatedSize}MB</span>
                             )}
                           </motion.button>
                         );
@@ -2816,7 +3192,7 @@ function HeroSection({
                         <div className="space-y-1">
                           {result.qualityOptions.map((q, i) => {
                             const Icon = getQualityIcon(q.label);
-                            const sizeEstimate = estimateFileSize(result.platform, q.resolution, result.duration);
+                            const estimatedSize = estimateFileSizeEnhanced(q.resolution, result.duration);
                             const isSelected = selectedQuality === i;
                             return (
                               <button
@@ -2851,8 +3227,8 @@ function HeroSection({
                                       {q.resolution}
                                     </Badge>
                                   </div>
-                                  {sizeEstimate && (
-                                    <span className="text-[10px] text-muted-foreground">~{sizeEstimate}</span>
+                                  {estimatedSize && (
+                                    <span className="text-[10px] text-muted-foreground">~{estimatedSize} MB</span>
                                   )}
                                 </div>
                                 {isSelected && (
@@ -3405,6 +3781,55 @@ function HeroSection({
           </a>
         </motion.div>
       </div>
+
+      {/* Feature 5: Keyboard Shortcuts Cheat Sheet Button */}
+      <button
+        onClick={() => setShortcutsOpen(true)}
+        className="fixed bottom-4 left-4 z-50 w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#E63946]/30 transition-all"
+        title={t("shortcuts.hint")}
+        aria-label={t("shortcuts.showShortcuts")}
+      >
+        <HelpCircle className="h-4 w-4" />
+      </button>
+
+      {/* Feature 5: Keyboard Shortcuts Cheat Sheet Modal */}
+      <Dialog open={shortcutsOpen} onOpenChange={setShortcutsOpen}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Keyboard className="h-5 w-5 text-[#E63946]" />
+              {t("shortcuts.title")}
+            </DialogTitle>
+            <DialogDescription>{t("shortcuts.hint")}</DialogDescription>
+          </DialogHeader>
+          <div className="mt-2">
+            <div className="space-y-2">
+              {[
+                { keys: "Ctrl+K", label: t("shortcuts.focusInput") },
+                { keys: "Ctrl+Enter", label: t("shortcuts.download") },
+                { keys: "Escape", label: t("shortcuts.close") },
+                { keys: "Ctrl+Shift+H", label: t("shortcuts.history") },
+                { keys: "Ctrl+Shift+B", label: t("shortcuts.bookmarks") },
+                { keys: "?", label: t("shortcuts.showShortcuts") },
+              ].map((shortcut) => (
+                <div key={shortcut.keys} className="flex items-center justify-between p-2.5 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+                  <span className="text-sm text-foreground">{shortcut.label}</span>
+                  <div className="flex items-center gap-1">
+                    {shortcut.keys.split("+").map((key, i) => (
+                      <React.Fragment key={i}>
+                        {i > 0 && <span className="text-[10px] text-muted-foreground">+</span>}
+                        <kbd className="inline-flex items-center justify-center min-w-[28px] h-6 px-1.5 text-[11px] font-medium rounded-md bg-background border border-border text-foreground shadow-sm">
+                          {key}
+                        </kbd>
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Live Ticker removed */}
     </section>
