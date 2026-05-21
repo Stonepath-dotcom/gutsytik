@@ -2678,21 +2678,30 @@ function Footer() {
           <div>
             <h4 className="font-semibold text-foreground mb-3 text-sm">{t("footer.follow")}</h4>
             <div className="flex gap-3">
-              {[
-                { icon: Play, label: "TikTok", href: "https://tiktok.com/@abbbuw", bg: "#000000" },
-                { icon: Send, label: "Telegram", href: "https://t.me/sixte3nnn", bg: "#0088CC" },
-              ].map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-gutsy-pink/20 hover:text-gutsy-pink transition-colors text-muted-foreground"
-                >
-                  <s.icon className="h-4 w-4" />
-                </a>
-              ))}
+              {/* TikTok Logo */}
+              <a
+                href="https://tiktok.com/@abbbuw"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-gutsy-pink/20 hover:text-gutsy-pink transition-colors text-muted-foreground group"
+              >
+                <svg className="h-4 w-4 group-hover:text-gutsy-pink transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.25a8.16 8.16 0 004.76 1.52V7.34a4.83 4.83 0 01-1-.65z"/>
+                </svg>
+              </a>
+              {/* Telegram Logo */}
+              <a
+                href="https://t.me/sixte3nnn"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Telegram"
+                className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-gutsy-pink/20 hover:text-gutsy-pink transition-colors text-muted-foreground group"
+              >
+                <svg className="h-4 w-4 group-hover:text-gutsy-pink transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+              </a>
             </div>
           </div>
         </div>
