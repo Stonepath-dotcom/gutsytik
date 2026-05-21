@@ -90,17 +90,14 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+/* Popover removed - accent picker removed */
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { GutsytikLogo } from "@/components/gutsytik-logo";
+import { MovaLogo } from "@/components/mova-logo";
 import { useToast } from "@/hooks/use-toast";
-import { ParticleBackground } from "@/components/particle-background";
-import { TypingHeroText } from "@/components/typing-hero-text";
-import { useConfetti } from "@/components/confetti-effect";
-import { CursorTrail } from "@/components/cursor-trail";
+/* ParticleBackground, TypingHeroText, ConfettiEffect, CursorTrail - REMOVED */
 import { useKonamiCode, KonamiOverlay } from "@/components/konami-code";
-import { LiveTicker } from "@/components/live-ticker";
+/* LiveTicker - REMOVED from homepage */
 import { useDownloadStreak, StreakBadge } from "@/components/download-streak";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { PwaInstallPrompt } from "@/components/pwa-install-prompt";
@@ -183,12 +180,12 @@ interface PlatformRatings {
 }
 
 /* ──────────────────── Constants ──────────────────── */
-const HISTORY_KEY = "gutsytik_history";
-const BOOKMARK_KEY = "gutsytik_bookmarks";
-const STATS_KEY = "gutsytik_stats";
-const LANG_KEY = "gutsytik_lang";
-const ACCENT_KEY = "gutsytik_accent";
-const RATINGS_KEY = "gutsytik_ratings";
+const HISTORY_KEY = "mova_history";
+const BOOKMARK_KEY = "mova_bookmarks";
+const STATS_KEY = "mova_stats";
+const LANG_KEY = "mova_lang";
+const ACCENT_KEY = "mova_accent";
+const RATINGS_KEY = "mova_ratings";
 const MAX_HISTORY = 20;
 
 /* ──────────────────── Feature 6: Multi-Bahasa Translations ──────────────────── */
@@ -203,10 +200,10 @@ const translations: Record<string, Record<string, string>> = {
     "hero.badge": "Gratis & Tanpa Batas",
     "hero.title": "Download Video",
     "hero.titleHighlight": "Tanpa Watermark",
-    "hero.subtitle": "Gutsytik membantu kamu download video dari platform populer tanpa watermark, cepat dan gratis!",
+    "hero.subtitle": "Mova membantu kamu download video dari platform populer tanpa watermark, cepat dan gratis!",
     "hero.audioTitle": "Ekstrak Audio",
     "hero.audioTitleHighlight": "MP3 Gratis",
-    "hero.audioSubtitle": "Gutsytik bisa mengekstrak audio dari video manapun jadi file MP3, cepat dan berkualitas!",
+    "hero.audioSubtitle": "Mova bisa mengekstrak audio dari video manapun jadi file MP3, cepat dan berkualitas!",
     "input.placeholder": "Tempel link video di sini (TikTok, IG, YouTube...)",
     "input.audioPlaceholder": "Tempel link video untuk ekstrak audio MP3...",
     "input.paste": "Tempel dari clipboard",
@@ -242,23 +239,23 @@ const translations: Record<string, Record<string, string>> = {
     "trending.subtitle": "Platform yang paling banyak digunakan untuk download video hari ini.",
     "trending.search": "Cari platform...",
     "trending.popular": "Pencarian Populer",
-    "features.title": "Fitur Unggulan Gutsytik",
+    "features.title": "Fitur Unggulan Mova",
     "features.subtitle": "Semua yang kamu butuhkan untuk download video tanpa watermark ada di sini.",
-    "how.title": "Cara Menggunakan Gutsytik",
+    "how.title": "Cara Menggunakan Mova",
     "how.subtitle": "Hanya 3 langkah mudah untuk download video tanpa watermark.",
     "platforms.title": "Platform yang Didukung",
     "platforms.subtitle": "Download video dari berbagai platform sosial media populer.",
     "faq.title": "Pertanyaan yang Sering Diajukan",
-    "faq.subtitle": "Temukan jawaban dari pertanyaan umum tentang Gutsytik.",
+    "faq.subtitle": "Temukan jawaban dari pertanyaan umum tentang Mova.",
     "cta.title": "Siap Download Video Tanpa Watermark?",
-    "cta.subtitle": "Coba Gutsytik sekarang dan rasakan kemudahan download video tanpa watermark dari berbagai platform favoritmu!",
+    "cta.subtitle": "Coba Mova sekarang dan rasakan kemudahan download video tanpa watermark dari berbagai platform favoritmu!",
     "cta.button": "Mulai Download Sekarang",
     "footer.desc": "Download video tanpa watermark dari berbagai platform populer. Cepat, gratis, dan mudah.",
     "footer.nav": "Navigasi",
     "footer.legal": "Legal",
     "footer.follow": "Ikuti Kami",
     "report.title": "Laporkan Masalah",
-    "report.desc": "Bantu kami memperbaiki Gutsytik dengan melaporkan masalah yang kamu temui.",
+    "report.desc": "Bantu kami memperbaiki Mova dengan melaporkan masalah yang kamu temui.",
     "report.type": "Jenis Masalah",
     "report.typePlaceholder": "Pilih jenis masalah...",
     "report.descLabel": "Deskripsi (Opsional)",
@@ -383,10 +380,10 @@ const translations: Record<string, Record<string, string>> = {
     "hero.badge": "Free & Unlimited",
     "hero.title": "Download Video",
     "hero.titleHighlight": "Without Watermark",
-    "hero.subtitle": "Gutsytik helps you download videos from popular platforms without watermark, fast and free!",
+    "hero.subtitle": "Mova helps you download videos from popular platforms without watermark, fast and free!",
     "hero.audioTitle": "Extract Audio",
     "hero.audioTitleHighlight": "Free MP3",
-    "hero.audioSubtitle": "Gutsytik can extract audio from any video into MP3 files, fast and high quality!",
+    "hero.audioSubtitle": "Mova can extract audio from any video into MP3 files, fast and high quality!",
     "input.placeholder": "Paste video link here (TikTok, IG, YouTube...)",
     "input.audioPlaceholder": "Paste video link to extract MP3 audio...",
     "input.paste": "Paste from clipboard",
@@ -422,23 +419,23 @@ const translations: Record<string, Record<string, string>> = {
     "trending.subtitle": "Most popular platforms for video downloads today.",
     "trending.search": "Search platform...",
     "trending.popular": "Popular Searches",
-    "features.title": "Gutsytik Key Features",
+    "features.title": "Mova Key Features",
     "features.subtitle": "Everything you need to download videos without watermark is here.",
-    "how.title": "How to Use Gutsytik",
+    "how.title": "How to Use Mova",
     "how.subtitle": "Just 3 easy steps to download videos without watermark.",
     "platforms.title": "Supported Platforms",
     "platforms.subtitle": "Download videos from various popular social media platforms.",
     "faq.title": "Frequently Asked Questions",
-    "faq.subtitle": "Find answers to common questions about Gutsytik.",
+    "faq.subtitle": "Find answers to common questions about Mova.",
     "cta.title": "Ready to Download Videos Without Watermark?",
-    "cta.subtitle": "Try Gutsytik now and experience easy watermark-free video downloads from your favorite platforms!",
+    "cta.subtitle": "Try Mova now and experience easy watermark-free video downloads from your favorite platforms!",
     "cta.button": "Start Downloading Now",
     "footer.desc": "Download videos without watermark from popular platforms. Fast, free, and easy.",
     "footer.nav": "Navigation",
     "footer.legal": "Legal",
     "footer.follow": "Follow Us",
     "report.title": "Report an Issue",
-    "report.desc": "Help us improve Gutsytik by reporting issues you encounter.",
+    "report.desc": "Help us improve Mova by reporting issues you encounter.",
     "report.type": "Issue Type",
     "report.typePlaceholder": "Select issue type...",
     "report.descLabel": "Description (Optional)",
@@ -603,42 +600,8 @@ function LanguageProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-/* ──────────────────── Feature 10: Accent Color ──────────────────── */
-const ACCENT_COLORS = [
-  { name: "Pink", color: "#FF2D55" },
-  { name: "Purple", color: "#7C3AED" },
-  { name: "Cyan", color: "#00E5FF" },
-  { name: "Green", color: "#10B981" },
-  { name: "Orange", color: "#F97316" },
-  { name: "Red", color: "#EF4444" },
-  { name: "Blue", color: "#3B82F6" },
-];
-
-function getInitialAccent(): string {
-  if (typeof window === "undefined") return "#FF2D55";
-  try {
-    const saved = localStorage.getItem(ACCENT_KEY);
-    if (saved) {
-      document.documentElement.style.setProperty("--color-gutsy-accent", saved);
-      return saved;
-    }
-  } catch {}
-  return "#FF2D55";
-}
-
-function useAccentColor() {
-  const [accent, setAccentState] = useState(getInitialAccent);
-
-  const setAccent = useCallback((color: string) => {
-    setAccentState(color);
-    try {
-      localStorage.setItem(ACCENT_KEY, color);
-    } catch {}
-    document.documentElement.style.setProperty("--color-gutsy-accent", color);
-  }, []);
-
-  return { accent, setAccent };
-}
+/* ──────────────────── Accent Color (hardcoded red) ──────────────────── */
+const ACCENT = "#E63946";
 
 /* ──────────────────── Utility Functions ──────────────────── */
 function getHistory(): HistoryItem[] {
@@ -658,14 +621,14 @@ function saveToHistory(item: HistoryItem) {
     filtered.unshift(item);
     const trimmed = filtered.slice(0, MAX_HISTORY);
     localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmed));
-    window.dispatchEvent(new Event("gutsytik:history-changed"));
+    window.dispatchEvent(new Event("mova:history-changed"));
   } catch {}
 }
 
 function clearAllHistory() {
   try {
     localStorage.removeItem(HISTORY_KEY);
-    window.dispatchEvent(new Event("gutsytik:history-changed"));
+    window.dispatchEvent(new Event("mova:history-changed"));
   } catch {}
 }
 
@@ -686,7 +649,7 @@ function saveBookmark(item: BookmarkItem) {
     if (bookmarks.some((b) => b.url === item.url)) return;
     bookmarks.unshift(item);
     localStorage.setItem(BOOKMARK_KEY, JSON.stringify(bookmarks));
-    window.dispatchEvent(new Event("gutsytik:bookmarks-changed"));
+    window.dispatchEvent(new Event("mova:bookmarks-changed"));
   } catch {}
 }
 
@@ -694,7 +657,7 @@ function removeBookmark(url: string) {
   try {
     const bookmarks = getBookmarks().filter((b) => b.url !== url);
     localStorage.setItem(BOOKMARK_KEY, JSON.stringify(bookmarks));
-    window.dispatchEvent(new Event("gutsytik:bookmarks-changed"));
+    window.dispatchEvent(new Event("mova:bookmarks-changed"));
   } catch {}
 }
 
@@ -722,7 +685,7 @@ function incrementStats(platform: string, sizeMB: number) {
     stats.totalSize += sizeMB;
     if (!stats.startDate) stats.startDate = Date.now();
     localStorage.setItem(STATS_KEY, JSON.stringify(stats));
-    window.dispatchEvent(new Event("gutsytik:stats-changed"));
+    window.dispatchEvent(new Event("mova:stats-changed"));
   } catch {}
 }
 
@@ -871,7 +834,7 @@ async function requestNotificationPermission(): Promise<boolean> {
 function sendDownloadNotification(title: string) {
   try {
     if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "granted") {
-      new Notification("Gutsytik", {
+      new Notification("Mova", {
         body: `${title} - Download complete!`,
         icon: "/logo.svg",
       });
@@ -896,7 +859,7 @@ function addRating(platform: string, rating: number) {
     if (!ratings[platform]) ratings[platform] = [];
     ratings[platform].push(rating);
     localStorage.setItem(RATINGS_KEY, JSON.stringify(ratings));
-    window.dispatchEvent(new Event("gutsytik:ratings-changed"));
+    window.dispatchEvent(new Event("mova:ratings-changed"));
   } catch {}
 }
 
@@ -918,7 +881,7 @@ function exportHistoryCSV(history: HistoryItem[]) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `gutsytik_history_${Date.now()}.csv`;
+  a.download = `mova_history_${Date.now()}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -931,7 +894,7 @@ function exportHistoryJSON(history: HistoryItem[]) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `gutsytik_history_${Date.now()}.json`;
+  a.download = `mova_history_${Date.now()}.json`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -958,7 +921,7 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const { setTheme, theme } = useTheme();
   const { lang, setLang, t } = useLanguage();
-  const { accent, setAccent } = useAccentColor();
+  /* accent hardcoded to red */
   const [bookmarkCount, setBookmarkCount] = useState(0);
   const { soundEnabled, toggleSound } = useSoundToggle();
 
@@ -970,8 +933,8 @@ function Navbar() {
   useEffect(() => {
     const load = () => setBookmarkCount(getBookmarks().length);
     load();
-    window.addEventListener("gutsytik:bookmarks-changed", load);
-    return () => window.removeEventListener("gutsytik:bookmarks-changed", load);
+    window.addEventListener("mova:bookmarks-changed", load);
+    return () => window.removeEventListener("mova:bookmarks-changed", load);
   }, []);
 
   const navLinks = [
@@ -986,12 +949,12 @@ function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 glass-strong"
+      className="fixed top-0 left-0 right-0 z-50 bg-[#09090B]/95 border-b border-[#27272A]"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <a href="#" className="flex items-center gap-2">
-            <GutsytikLogo size={36} showText />
+            <MovaLogo size={36} showText />
           </a>
 
           <nav className="hidden md:flex items-center gap-1">
@@ -1017,41 +980,6 @@ function Navbar() {
             >
               <Languages className="h-4 w-4" />
             </Button>
-
-            {/* Feature 10: Accent Color Picker */}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="relative h-9 w-9"
-                  aria-label="Custom accent color"
-                >
-                  <Palette className="h-4 w-4" />
-                  <span
-                    className="absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full border border-border"
-                    style={{ backgroundColor: accent }}
-                  />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-3" align="end">
-                <p className="text-xs font-medium text-foreground mb-2">Accent Color</p>
-                <div className="flex gap-2">
-                  {ACCENT_COLORS.map((c) => (
-                    <button
-                      key={c.color}
-                      onClick={() => setAccent(c.color)}
-                      className="w-7 h-7 rounded-full border-2 transition-transform hover:scale-110"
-                      style={{
-                        backgroundColor: c.color,
-                        borderColor: accent === c.color ? "var(--foreground)" : "transparent",
-                      }}
-                      title={c.name}
-                    />
-                  ))}
-                </div>
-              </PopoverContent>
-            </Popover>
 
             {/* Sound Toggle */}
             <Button
@@ -1083,8 +1011,7 @@ function Navbar() {
             <a href="#hero">
               <Button
                 size="sm"
-                className="text-white font-semibold rounded-lg"
-                style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+                className="bg-[#E63946] text-white font-semibold rounded-lg hover:bg-[#C5303C]"
               >
                 <Download className="mr-2 h-4 w-4" />
                 {t("nav.download")}
@@ -1103,41 +1030,6 @@ function Navbar() {
             >
               <Languages className="h-4 w-4" />
             </Button>
-
-            {/* Feature 10: Accent Color (mobile) */}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="relative h-9 w-9"
-                  aria-label="Custom accent color"
-                >
-                  <Palette className="h-4 w-4" />
-                  <span
-                    className="absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full border border-border"
-                    style={{ backgroundColor: accent }}
-                  />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-3" align="end">
-                <p className="text-xs font-medium text-foreground mb-2">Accent Color</p>
-                <div className="flex gap-2">
-                  {ACCENT_COLORS.map((c) => (
-                    <button
-                      key={c.color}
-                      onClick={() => setAccent(c.color)}
-                      className="w-7 h-7 rounded-full border-2 transition-transform hover:scale-110"
-                      style={{
-                        backgroundColor: c.color,
-                        borderColor: accent === c.color ? "var(--foreground)" : "transparent",
-                      }}
-                      title={c.name}
-                    />
-                  ))}
-                </div>
-              </PopoverContent>
-            </Popover>
 
             {/* Sound Toggle (mobile) */}
             <Button
@@ -1182,7 +1074,7 @@ function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden overflow-hidden glass-strong border-t border-border"
+            className="md:hidden overflow-hidden bg-[#09090B] border-t border-[#27272A]"
           >
             <div className="px-4 py-4 space-y-1">
               {navLinks.map((l) => (
@@ -1197,8 +1089,7 @@ function Navbar() {
               ))}
               <a href="#hero" onClick={() => setOpen(false)}>
                 <Button
-                  className="w-full mt-2 text-white font-semibold rounded-lg"
-                  style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+                  className="w-full mt-2 bg-[#E63946] text-white font-semibold rounded-lg hover:bg-[#C5303C]"
                 >
                   <Download className="mr-2 h-4 w-4" />
                   {t("nav.download")}
@@ -1259,7 +1150,7 @@ function RiwayatList({
             <div className="flex-1 min-w-0">
               <p className="text-xs font-medium text-foreground truncate">{item.title}</p>
               <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-gutsy-pink/10 text-gutsy-pink">
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#E63946]/10 text-[#E63946]">
                   {item.platform}
                 </span>
                 <span className="text-[10px] text-muted-foreground">
@@ -1283,7 +1174,7 @@ function HeroSection({
   onOpenBookmarkSheet: () => void;
 }) {
   const { t } = useLanguage();
-  const { accent } = useAccentColor();
+  /* accent hardcoded to red */
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [downloading, setDownloading] = useState(false);
@@ -1356,8 +1247,7 @@ function HeroSection({
 
   const { toast, dismiss } = useToast();
 
-  // WOW Features: Confetti & Download Streak
-  const { triggerConfetti, ConfettiCanvas } = useConfetti();
+  // Download Streak
   const { streakCount, incrementStreak, isOnFire } = useDownloadStreak();
 
   const showToast = useCallback(
@@ -1372,8 +1262,8 @@ function HeroSection({
   useEffect(() => {
     const load = () => setHistoryItems(getHistory());
     load();
-    window.addEventListener("gutsytik:history-changed", load);
-    return () => window.removeEventListener("gutsytik:history-changed", load);
+    window.addEventListener("mova:history-changed", load);
+    return () => window.removeEventListener("mova:history-changed", load);
   }, []);
 
   // Feature 1: URL Parameter Auto-Download
@@ -1440,8 +1330,8 @@ function HeroSection({
       setPasted(true);
       setTimeout(() => setPasted(false), 2000);
     };
-    window.addEventListener("gutsytik:select-history", handler);
-    return () => window.removeEventListener("gutsytik:select-history", handler);
+    window.addEventListener("mova:select-history", handler);
+    return () => window.removeEventListener("mova:select-history", handler);
   }, []);
 
   // Feature 4: Global Escape keydown listener
@@ -1708,7 +1598,7 @@ function HeroSection({
         sendDownloadNotification(result.title);
 
         // WOW Feature: Confetti explosion & Streak increment
-        triggerConfetti();
+        
         incrementStreak();
 
         showToast(t("toast.downloadStart"), t("toast.saving"), "default");
@@ -1757,7 +1647,7 @@ function HeroSection({
         playDingSound();
         sendDownloadNotification(result.title);
         // WOW Feature: Confetti & Streak for fallback download
-        triggerConfetti();
+        
         incrementStreak();
       } catch {
         setError(t("error.downloadFail"));
@@ -1772,7 +1662,7 @@ function HeroSection({
       setDownloadSize(0);
       setDownloadTotalSize(0);
     }, 2500);
-  }, [result, selectedQuality, url, showToast, t, downloadTotalSize, downloadSize, notifPermission, triggerConfetti, incrementStreak]);
+  }, [result, selectedQuality, url, showToast, t, downloadTotalSize, downloadSize, notifPermission, incrementStreak]);
 
   // Share Button
   const handleShare = useCallback(async () => {
@@ -1782,7 +1672,7 @@ function HeroSection({
       try {
         await navigator.share({
           title: result.title,
-          text: `Download ${result.title} tanpa watermark di Gutsytik!`,
+          text: `Download ${result.title} tanpa watermark di Mova!`,
           url: shareUrl,
         });
       } catch {}
@@ -2210,83 +2100,39 @@ function HeroSection({
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 gradient-morph-bg"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16"
     >
-      {/* Particle Background + Animated background orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <ParticleBackground />
-        <div
-          className="animate-orb-1 absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20"
-          style={{
-            background: `radial-gradient(circle, ${accent}80 0%, transparent 70%)`,
-          }}
-        />
-        <div
-          className="animate-orb-2 absolute top-1/3 -right-32 w-[400px] h-[400px] rounded-full opacity-20"
-          style={{
-            background: "radial-gradient(circle, rgba(124,58,237,0.5) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          className="animate-orb-3 absolute -bottom-32 left-1/4 w-[450px] h-[450px] rounded-full opacity-15"
-          style={{
-            background: "radial-gradient(circle, rgba(0,229,255,0.4) 0%, transparent 70%)",
-          }}
-        />
-      </div>
+      {/* Noise texture overlay */}
+      <div className="absolute inset-0 noise-overlay pointer-events-none opacity-[0.03]" />
 
-      {/* Confetti Canvas */}
-      <ConfettiCanvas />
+      {/* Single subtle red glow behind input */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.07]"
+        style={{ background: 'radial-gradient(circle, #E63946 0%, transparent 70%)' }}
+      />
 
-      <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <div className="relative z-10 mx-auto max-w-2xl px-6 text-center">
         {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <span
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold border mb-6"
-            style={{
-              backgroundColor: `${accent}15`,
-              color: accent,
-              borderColor: `${accent}30`,
-            }}
-          >
-            <Zap className="h-3 w-3" />
-            {t("hero.badge")}
-          </span>
-        </motion.div>
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA]">
+          {t("hero.badge")}
+        </span>
 
-        {/* Heading - Typing Animation */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          <TypingHeroText key={audioMode ? "audio" : "video"} audioMode={audioMode} t={t} />
-        </motion.div>
+        {/* Heading — HUGE, light weight */}
+        <h1 className="mt-8 text-5xl sm:text-7xl font-light tracking-tight text-[#FAFAFA]">
+          {audioMode ? t("hero.audioTitle") : t("hero.title")}<br />
+          <span className="font-bold text-[#E63946]">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
+        </h1>
 
-        {/* Streak Badge */}
+        {/* Subtitle — small, muted */}
+        <p className="mt-6 text-sm text-[#A1A1AA] max-w-md mx-auto leading-relaxed">
+          {audioMode ? t("hero.audioSubtitle") : t("hero.subtitle")}
+        </p>
+
+        {/* Streak Badge — minimal */}
         <StreakBadge streakCount={streakCount} isOnFire={isOnFire} />
 
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
-        >
-          {audioMode ? t("hero.audioSubtitle") : t("hero.subtitle")}
-        </motion.p>
-
         {/* Download form */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="max-w-xl mx-auto mb-4"
-        >
+        <div className="mt-10 max-w-xl mx-auto mb-4">
           {/* Feature 2: Audio/Video tab toggle */}
           <div className="flex items-center justify-between mb-2">
             <Tabs
@@ -2319,8 +2165,7 @@ function HeroSection({
                 setBatchResults([]);
                 setBatchProgress({ current: 0, total: 0 });
               }}
-              className={`text-xs ${batchMode ? "" : "text-muted-foreground"}`}
-              style={batchMode ? { color: accent } : {}}
+              className={`text-xs ${batchMode ? "text-[#E63946]" : "text-muted-foreground"}`}
             >
               <Layers className="h-3 w-3 mr-1" />
               {batchMode ? t("btn.singleMode") : t("btn.batchDownload")}
@@ -2346,8 +2191,7 @@ function HeroSection({
                 <Button
                   onClick={handleBatchProcess}
                   disabled={batchProcessing}
-                  className="h-10 px-5 text-white font-semibold rounded-lg"
-                  style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+                  className="h-10 px-5 bg-[#E63946] text-white font-semibold rounded-lg hover:bg-[#C5303C]"
                 >
                   {batchProcessing ? (
                     <>
@@ -2401,8 +2245,7 @@ function HeroSection({
                 <Button
                   onClick={handleFetchPlaylist}
                   disabled={playlistFetching}
-                  className="h-12 px-6 text-white font-semibold rounded-lg shrink-0"
-                  style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+                  className="h-12 px-6 bg-[#E63946] text-white font-semibold rounded-lg shrink-0 hover:bg-[#C5303C]"
                 >
                   {playlistFetching ? (
                     <Loader2 className="h-5 w-5 animate-spin" />
@@ -2424,7 +2267,7 @@ function HeroSection({
                 <div className="mt-3">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs text-muted-foreground">{t("playlist.selectVideos")}</span>
-                    <Button variant="ghost" size="sm" onClick={handleSelectAllPlaylist} className="text-xs" style={{ color: accent }}>
+                    <Button variant="ghost" size="sm" onClick={handleSelectAllPlaylist} className="text-xs" className="text-[#E63946]">
                       {t("playlist.downloadAll")}
                     </Button>
                   </div>
@@ -2436,7 +2279,7 @@ function HeroSection({
                           checked={v.selected}
                           onChange={() => handleTogglePlaylistVideo(i)}
                           className="h-4 w-4 rounded border-border accent-current"
-                          style={{ accentColor: accent }}
+                          className="accent-[#E63946]"
                         />
                         <div className="w-12 h-9 rounded bg-muted flex items-center justify-center shrink-0 overflow-hidden">
                           {v.thumbnail ? (
@@ -2455,7 +2298,7 @@ function HeroSection({
                   {playlistVideos.some((v) => v.selected) && (
                     <Button
                       className="w-full mt-3 h-10 text-white font-semibold rounded-lg"
-                      style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+                      className="bg-[#E63946]"
                       onClick={async () => {
                         const selected = playlistVideos.filter((v) => v.selected);
                         for (const v of selected) {
@@ -2537,8 +2380,7 @@ function HeroSection({
               <Button
                 onClick={handleAnalyze}
                 disabled={loading}
-                className="h-12 px-6 text-white font-semibold rounded-lg shrink-0"
-                style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+                className="h-12 px-6 bg-[#E63946] text-white font-semibold rounded-lg shrink-0 hover:bg-[#C5303C]"
               >
                 {loading ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
@@ -2608,7 +2450,7 @@ function HeroSection({
               )}
             </AnimatePresence>
           )}
-        </motion.div>
+        </div>
 
         {/* Supported platform hints */}
         <motion.div
@@ -2637,13 +2479,13 @@ function HeroSection({
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
               className="max-w-xl mx-auto mb-6 rounded-xl bg-card border overflow-hidden"
-              style={{ borderColor: `${accent}30` }}
+              style={{ borderColor: `#E6394630` }}
             >
               {/* Platform badge */}
               <div
                 className="px-4 py-2 border-b border-border flex items-center gap-2"
                 style={{
-                  background: `linear-gradient(to right, ${accent}15, #7C3AED15)`,
+                  background: `linear-gradient(to right, #E6394615, #7C3AED15)`,
                 }}
               >
                 <CheckCircle className="h-4 w-4 text-green-400" />
@@ -2731,7 +2573,7 @@ function HeroSection({
                           }}
                         />
                       ) : null}
-                      <Play className="h-8 w-8 absolute" style={{ color: accent }} />
+                      <Play className="h-8 w-8 absolute" className="text-[#E63946]" />
                     </div>
                     <div className="flex-1 text-left min-w-0">
                       <h3 className="font-semibold text-foreground text-sm line-clamp-2">
@@ -2780,7 +2622,7 @@ function HeroSection({
                     size="sm"
                     onClick={handleToggleBookmark}
                     className="text-xs"
-                    style={isBookmarkedState ? { color: accent } : { color: "var(--muted-foreground)" }}
+                    style={isBookmarkedState ? { color: "#E63946" } : { color: "var(--muted-foreground)" }}
                   >
                     {isBookmarkedState ? (
                       <Bookmark className="h-3 w-3 mr-1 fill-current" />
@@ -2908,7 +2750,7 @@ function HeroSection({
                       {result.qualityOptions[selectedQuality] && (
                         <Badge
                           className="text-[10px] font-semibold"
-                          style={{ backgroundColor: `${accent}20`, color: accent, border: `1px solid ${accent}40` }}
+                          style={{ backgroundColor: `#E6394620`, color: "#E63946", border: `1px solid #E6394640` }}
                         >
                           {result.qualityOptions[selectedQuality].resolution}
                         </Badge>
@@ -2932,10 +2774,10 @@ function HeroSection({
                             style={
                               isSelected
                                 ? {
-                                    backgroundColor: `${accent}20`,
-                                    borderColor: `${accent}80`,
-                                    color: accent,
-                                    boxShadow: `0 0 12px ${accent}20`,
+                                    backgroundColor: `#E6394620`,
+                                    borderColor: `#E6394680`,
+                                    color: "#E63946",
+                                    boxShadow: `0 0 12px #E6394620`,
                                   }
                                 : undefined
                             }
@@ -2959,10 +2801,10 @@ function HeroSection({
                           variant="outline"
                           size="sm"
                           className="mt-2 w-full text-xs justify-between"
-                          style={{ borderColor: `${accent}30` }}
+                          style={{ borderColor: `#E6394630` }}
                         >
                           <span className="flex items-center gap-2">
-                            <Film className="h-3 w-3" style={{ color: accent }} />
+                            <Film className="h-3 w-3" className="text-[#E63946]" />
                             {t("result.resolution")}: {result.qualityOptions[selectedQuality]?.label || "—"} ({result.qualityOptions[selectedQuality]?.resolution || "—"})
                           </span>
                           <ChevronDown className="h-3 w-3 text-muted-foreground" />
@@ -2986,23 +2828,23 @@ function HeroSection({
                                     ? "bg-accent/10"
                                     : "hover:bg-muted"
                                 }`}
-                                style={isSelected ? { backgroundColor: `${accent}15` } : undefined}
+                                style={isSelected ? { backgroundColor: `#E6394615` } : undefined}
                               >
                                 <div
                                   className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                                  style={{ backgroundColor: isSelected ? `${accent}25` : "var(--muted)" }}
+                                  style={{ backgroundColor: isSelected ? `#E6394625` : "var(--muted)" }}
                                 >
-                                  <Icon className="h-4 w-4" style={{ color: isSelected ? accent : "var(--muted-foreground)" }} />
+                                  <Icon className="h-4 w-4" style={{ color: isSelected ? "#E63946" : "var(--muted-foreground)" }} />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-2">
-                                    <span className="text-sm font-medium" style={{ color: isSelected ? accent : "var(--foreground)" }}>
+                                    <span className="text-sm font-medium" style={{ color: isSelected ? "#E63946" : "var(--foreground)" }}>
                                       {q.label}
                                     </span>
                                     <Badge
                                       variant="secondary"
                                       className="text-[10px] px-1.5"
-                                      style={isSelected ? { backgroundColor: `${accent}20`, color: accent } : undefined}
+                                      style={isSelected ? { backgroundColor: `#E6394620`, color: "#E63946" } : undefined}
                                     >
                                       {q.resolution}
                                     </Badge>
@@ -3012,7 +2854,7 @@ function HeroSection({
                                   )}
                                 </div>
                                 {isSelected && (
-                                  <CheckCircle className="h-4 w-4 shrink-0" style={{ color: accent }} />
+                                  <CheckCircle className="h-4 w-4 shrink-0" className="text-[#E63946]" />
                                 )}
                               </button>
                             );
@@ -3072,7 +2914,7 @@ function HeroSection({
                   className="w-full mt-4 h-12 text-white font-semibold rounded-lg"
                   onClick={handleDownload}
                   disabled={downloading}
-                  style={{ background: `linear-gradient(to right, ${accent}, #00E5FF)` }}
+                  style={{ background: `linear-gradient(to right, #E63946, #00E5FF)` }}
                 >
                   {downloading ? (
                     <>
@@ -3120,7 +2962,7 @@ function HeroSection({
                       <div className="flex items-center gap-2 mt-0.5">
                         <span
                           className="text-[10px] px-1.5 py-0.5 rounded"
-                          style={{ backgroundColor: `${accent}15`, color: accent }}
+                          style={{ backgroundColor: `#E6394615`, color: "#E63946" }}
                         >
                           {br.platform}
                         </span>
@@ -3133,7 +2975,7 @@ function HeroSection({
                       size="sm"
                       onClick={() => handleBatchDownload(br)}
                       className="text-white shrink-0"
-                      style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+                      className="bg-[#E63946]"
                     >
                       <Download className="h-3 w-3 mr-1" />
                       <span className="text-xs">Download</span>
@@ -3219,7 +3061,7 @@ function HeroSection({
           >
             <div className="p-3 rounded-xl bg-card border border-border">
               <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 mb-2">
-                <Timer className="h-4 w-4" style={{ color: accent }} />
+                <Timer className="h-4 w-4" className="text-[#E63946]" />
                 {t("schedule.title")}
               </h3>
               <div className="space-y-2 max-h-32 overflow-y-auto">
@@ -3270,7 +3112,7 @@ function HeroSection({
                         size="sm"
                         onClick={() => handleDownloadSubtitle(sub)}
                         className="text-white"
-                        style={{ background: accent }}
+                        className="bg-[#E63946]"
                       >
                         <Download className="h-3 w-3 mr-1" />
                         {t("subtitle.download")}
@@ -3307,9 +3149,9 @@ function HeroSection({
                   variant="outline"
                   onClick={() => handleScheduleDownload(opt.ms)}
                   className="h-12 text-sm font-medium"
-                  style={{ borderColor: `${accent}40` }}
+                  style={{ borderColor: `#E6394640` }}
                 >
-                  <Timer className="h-4 w-4 mr-2" style={{ color: accent }} />
+                  <Timer className="h-4 w-4 mr-2" className="text-[#E63946]" />
                   {opt.label}
                 </Button>
               ))}
@@ -3322,7 +3164,7 @@ function HeroSection({
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Sparkles className="h-5 w-5" style={{ color: accent }} />
+                <Sparkles className="h-5 w-5" className="text-[#E63946]" />
                 {t("result.aiSummaryTitle")}
               </DialogTitle>
               <DialogDescription>{t("result.aiSummaryLoading")}</DialogDescription>
@@ -3330,7 +3172,7 @@ function HeroSection({
             <div className="mt-2">
               {aiSummaryLoading ? (
                 <div className="flex items-center justify-center py-8">
-                  <Loader2 className="h-6 w-6 animate-spin" style={{ color: accent }} />
+                  <Loader2 className="h-6 w-6 animate-spin" className="text-[#E63946]" />
                   <span className="ml-3 text-sm text-muted-foreground">{t("result.aiSummaryLoading")}</span>
                 </div>
               ) : aiSummaryText ? (
@@ -3352,7 +3194,7 @@ function HeroSection({
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Wand2 className="h-5 w-5" style={{ color: accent }} />
+                <Wand2 className="h-5 w-5" className="text-[#E63946]" />
                 {t("result.gifTitle")}
               </DialogTitle>
               <DialogDescription>{t("result.gifMaxDuration")}</DialogDescription>
@@ -3392,7 +3234,7 @@ function HeroSection({
                       }`}
                       style={
                         gifQuality === q
-                          ? { backgroundColor: `${accent}20`, borderColor: `${accent}80`, color: accent }
+                          ? { backgroundColor: `#E6394620`, borderColor: `#E6394680`, color: "#E63946" }
                           : undefined
                       }
                     >
@@ -3411,7 +3253,7 @@ function HeroSection({
                 onClick={handleGifConvert}
                 disabled={gifConverting}
                 className="w-full text-white font-medium"
-                style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+                className="bg-[#E63946]"
               >
                 {gifConverting ? (
                   <>
@@ -3434,7 +3276,7 @@ function HeroSection({
           <DialogContent className="sm:max-w-sm">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <QrCode className="h-5 w-5" style={{ color: accent }} />
+                <QrCode className="h-5 w-5" className="text-[#E63946]" />
                 {t("result.qrTitle")}
               </DialogTitle>
               <DialogDescription>{t("result.qrDesc")}</DialogDescription>
@@ -3455,7 +3297,7 @@ function HeroSection({
               <Button
                 onClick={handleDownloadQr}
                 className="w-full text-white font-medium"
-                style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+                className="bg-[#E63946]"
               >
                 <Download className="h-4 w-4 mr-2" />
                 {t("result.qrDownload")}
@@ -3469,7 +3311,7 @@ function HeroSection({
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Scissors className="h-5 w-5" style={{ color: accent }} />
+                <Scissors className="h-5 w-5" className="text-[#E63946]" />
                 {t("result.trimTitle")}
               </DialogTitle>
               <DialogDescription>{t("result.trimDuration")}</DialogDescription>
@@ -3500,7 +3342,7 @@ function HeroSection({
                 <Badge
                   variant="secondary"
                   className="text-xs font-medium"
-                  style={{ backgroundColor: `${accent}20`, color: accent }}
+                  style={{ backgroundColor: `#E6394620`, color: "#E63946" }}
                 >
                   {Math.max(0, parseTimeToSeconds(trimEnd) - parseTimeToSeconds(trimStart))} {t("result.seconds")}
                 </Badge>
@@ -3512,7 +3354,7 @@ function HeroSection({
                   style={{
                     left: `${Math.min(100, (parseTimeToSeconds(trimStart) / Math.max(1, parseTimeToSeconds(trimEnd) || 60)) * 100)}%`,
                     right: "0%",
-                    backgroundColor: accent,
+                    backgroundColor: "#E63946",
                   }}
                 />
                 <div
@@ -3520,7 +3362,7 @@ function HeroSection({
                   style={{
                     left: `${(parseTimeToSeconds(trimStart) / Math.max(1, parseTimeToSeconds(trimEnd) || 60)) * 100}%`,
                     width: `${((parseTimeToSeconds(trimEnd) - parseTimeToSeconds(trimStart)) / Math.max(1, parseTimeToSeconds(trimEnd) || 60)) * 100}%`,
-                    backgroundColor: accent,
+                    backgroundColor: "#E63946",
                     opacity: 0.8,
                   }}
                 />
@@ -3532,7 +3374,7 @@ function HeroSection({
                 onClick={handleTrim}
                 disabled={trimming}
                 className="w-full text-white font-medium"
-                style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+                className="bg-[#E63946]"
               >
                 {trimming ? (
                   <>
@@ -3567,8 +3409,7 @@ function HeroSection({
         </motion.div>
       </div>
 
-      {/* Live Activity Ticker */}
-      <LiveTicker />
+      {/* Live Ticker removed */}
     </section>
   );
 }
@@ -3604,7 +3445,7 @@ const featureDescs: Record<string, Record<string, string>> = {
 
 function FeaturesSection() {
   const { t } = useLanguage();
-  const { accent } = useAccentColor();
+  /* accent hardcoded to red */
   const lang = useLanguage().lang;
 
   return (
@@ -3635,10 +3476,10 @@ function FeaturesSection() {
               <div
                 className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300"
                 style={{
-                  background: `linear-gradient(135deg, ${accent}30, #00E5FF30)`,
+                  background: `linear-gradient(135deg, #E6394630, #00E5FF30)`,
                 }}
               >
-                <f.icon className="h-6 w-6" style={{ color: accent }} />
+                <f.icon className="h-6 w-6" className="text-[#E63946]" />
               </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">{f.titleId}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -3673,15 +3514,16 @@ const stepsDescs: Record<string, Record<string, string>> = {
 };
 
 function HowItWorksSection() {
-  const { accent } = useAccentColor();
+  /* accent hardcoded to red */
   const { lang, t } = useLanguage();
 
   return (
     <section id="how-it-works" className="relative py-20 sm:py-28">
+      {/* Subtle red glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
-          className="animate-orb-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10"
-          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.4) 0%, transparent 70%)" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full opacity-[0.04]"
+          style={{ background: "radial-gradient(circle, #E63946 0%, transparent 70%)" }}
         />
       </div>
       <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -3693,7 +3535,7 @@ function HowItWorksSection() {
           className="text-center mb-14"
         >
           <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">
-            {t("how.title")} <span className="gradient-text">Gutsytik</span>
+            {t("how.title")} <span className="gradient-text">Mova</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">{t("how.subtitle")}</p>
         </motion.div>
@@ -3710,13 +3552,12 @@ function HowItWorksSection() {
                 <div className="relative mb-4">
                   <div
                     className="w-16 h-16 rounded-full flex items-center justify-center"
-                    style={{ background: `linear-gradient(135deg, ${accent}, #7C3AED)` }}
+                    style={{ background: "#E63946" }}
                   >
                     <s.icon className="h-7 w-7 text-white" />
                   </div>
                   <span
-                    className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-background border-2 flex items-center justify-center text-[10px] font-bold"
-                    style={{ borderColor: accent, color: accent }}
+                    className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-background border-2 border-[#E63946] text-[#E63946] flex items-center justify-center text-[10px] font-bold"
                   >
                     {s.number}
                   </span>
@@ -3742,7 +3583,7 @@ function HowItWorksSection() {
 /* ──────────────────── Feature 8: Statistik Section ──────────────────── */
 function StatistikSection() {
   const { t } = useLanguage();
-  const { accent } = useAccentColor();
+  /* accent hardcoded to red */
   const [stats, setStats] = useState<DownloadStats>({
     total: 0,
     platforms: {},
@@ -3753,8 +3594,8 @@ function StatistikSection() {
   useEffect(() => {
     const load = () => setStats(getStats());
     load();
-    window.addEventListener("gutsytik:stats-changed", load);
-    return () => window.removeEventListener("gutsytik:stats-changed", load);
+    window.addEventListener("mova:stats-changed", load);
+    return () => window.removeEventListener("mova:stats-changed", load);
   }, []);
 
   if (stats.total === 0) return null;
@@ -3778,20 +3619,20 @@ function StatistikSection() {
         >
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 flex items-center justify-center gap-2">
-              <BarChart3 className="h-6 w-6" style={{ color: accent }} />
+              <BarChart3 className="h-6 w-6" className="text-[#E63946]" />
               <span className="gradient-text">{t("stats.title")}</span>
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <div className="p-4 rounded-xl bg-card border border-border text-center">
-              <p className="text-3xl font-extrabold" style={{ color: accent }}>
+              <p className="text-3xl font-extrabold" className="text-[#E63946]">
                 {stats.total}
               </p>
               <p className="text-xs text-muted-foreground mt-1">{t("stats.total")}</p>
             </div>
             <div className="p-4 rounded-xl bg-card border border-border text-center">
-              <p className="text-3xl font-extrabold" style={{ color: accent }}>
+              <p className="text-3xl font-extrabold" className="text-[#E63946]">
                 {formatSize(stats.totalSize)}
               </p>
               <p className="text-xs text-muted-foreground mt-1">{t("stats.totalData")}</p>
@@ -3816,7 +3657,7 @@ function StatistikSection() {
                         className="h-full rounded-full transition-all duration-500"
                         style={{
                           width: `${Math.max(4, (count / maxPlatformCount) * 100)}%`,
-                          background: `linear-gradient(to right, ${accent}, #7C3AED)`,
+                          background: `linear-gradient(to right, #E63946, #7C3AED)`,
                         }}
                       />
                     </div>
@@ -3916,7 +3757,7 @@ function CountUpNumber({ target, suffix }: { target: number; suffix: string }) {
 
 function TrendingSection() {
   const { t } = useLanguage();
-  const { accent } = useAccentColor();
+  /* accent hardcoded to red */
   // Feature 9: Search Trending
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTag, setActiveTag] = useState("");
@@ -3983,7 +3824,7 @@ function TrendingSection() {
                 className="text-[11px] px-2.5 py-1 rounded-full border transition-all"
                 style={
                   activeTag === tag
-                    ? { backgroundColor: `${accent}20`, borderColor: `${accent}50`, color: accent }
+                    ? { backgroundColor: `#E6394620`, borderColor: `#E6394650`, color: "#E63946" }
                     : { backgroundColor: "var(--muted)", borderColor: "var(--border)", color: "var(--muted-foreground)" }
                 }
               >
@@ -4022,7 +3863,7 @@ function TrendingSection() {
                 </span>
                 <span className="text-xs text-muted-foreground">{t("downloads hari ini")}</span>
               </div>
-              <TrendingUp className="absolute bottom-3 right-3 h-8 w-8" style={{ color: `${accent}15` }} />
+              <TrendingUp className="absolute bottom-3 right-3 h-8 w-8" style={{ color: `#E6394615` }} />
             </motion.div>
           ))}
         </div>
@@ -4047,7 +3888,7 @@ const platforms = [
 ];
 
 function PlatformsSection() {
-  const { accent } = useAccentColor();
+  /* accent hardcoded to red */
   const { t } = useLanguage();
 
   return (
@@ -4104,29 +3945,29 @@ const faqsData = [
 
 const faqContent: Record<string, Record<string, string>> = {
   id: {
-    faq1: "Apakah Gutsytik benar-benar gratis?",
-    ans1: "Ya, Gutsytik 100% gratis tanpa biaya tersembunyi. Kamu bisa download video sepuasnya tanpa perlu mendaftar atau membayar apapun.",
+    faq1: "Apakah Mova benar-benar gratis?",
+    ans1: "Ya, Mova 100% gratis tanpa biaya tersembunyi. Kamu bisa download video sepuasnya tanpa perlu mendaftar atau membayar apapun.",
     faq2: "Apakah ada batasan jumlah download?",
     ans2: "Tidak ada batasan! Kamu bisa mendownload video sebanyak yang kamu mau tanpa batas harian atau bulanan.",
     faq3: "Apakah kualitas video berkurang?",
     ans3: "Tidak, kami mempertahankan kualitas asli video. Kamu bisa memilih resolusi yang tersedia dari video aslinya, termasuk HD 1080p jika tersedia.",
     faq4: "Platform apa saja yang didukung?",
-    ans4: "Gutsytik mendukung TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, Likee, Snack Video, Reddit, dan masih banyak lagi.",
-    faq5: "Apakah Gutsytik aman digunakan?",
+    ans4: "Mova mendukung TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, Likee, Snack Video, Reddit, dan masih banyak lagi.",
+    faq5: "Apakah Mova aman digunakan?",
     ans5: "Sangat aman! Kami tidak menyimpan data pribadi atau riwayat download kamu. Semua proses dilakukan secara aman dan terenkripsi.",
     faq6: "Kenapa video saya gagal didownload?",
     ans6: "Pastikan link video benar dan video tidak bersifat private. Beberapa video dari akun private atau yang dibatasi region mungkin tidak bisa didownload. Coba gunakan link yang valid dan publik.",
   },
   en: {
-    faq1: "Is Gutsytik really free?",
-    ans1: "Yes, Gutsytik is 100% free with no hidden costs. You can download as many videos as you want without registering or paying anything.",
+    faq1: "Is Mova really free?",
+    ans1: "Yes, Mova is 100% free with no hidden costs. You can download as many videos as you want without registering or paying anything.",
     faq2: "Is there a download limit?",
     ans2: "No limits! You can download as many videos as you want without daily or monthly restrictions.",
     faq3: "Does video quality decrease?",
     ans3: "No, we maintain the original video quality. You can choose from available resolutions, including HD 1080p if available.",
     faq4: "What platforms are supported?",
-    ans4: "Gutsytik supports TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, Likee, Snack Video, Reddit, and many more.",
-    faq5: "Is Gutsytik safe to use?",
+    ans4: "Mova supports TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, Likee, Snack Video, Reddit, and many more.",
+    faq5: "Is Mova safe to use?",
     ans5: "Very safe! We don't store your personal data or download history. All processes are done securely and encrypted.",
     faq6: "Why did my video download fail?",
     ans6: "Make sure the video link is correct and the video is not private. Some videos from private accounts or region-restricted content may not be downloadable. Try using a valid public link.",
@@ -4135,7 +3976,7 @@ const faqContent: Record<string, Record<string, string>> = {
 
 function FAQSection() {
   const { t } = useLanguage();
-  const { accent } = useAccentColor();
+  /* accent hardcoded to red */
   const lang = useLanguage().lang;
 
   return (
@@ -4172,7 +4013,7 @@ function FAQSection() {
                 key={i}
                 value={`faq-${i}`}
                 className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-current/30 transition-colors"
-                style={{ "--current": accent } as React.CSSProperties}
+                style={{ "--current": "#E63946" } as React.CSSProperties}
               >
                 <AccordionTrigger className="text-left text-foreground font-medium hover:no-underline transition-colors">
                   {faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}
@@ -4192,18 +4033,18 @@ function FAQSection() {
 /* ──────────────────── CTA Section ──────────────────── */
 function CTASection() {
   const { t } = useLanguage();
-  const { accent } = useAccentColor();
+  /* accent hardcoded to red */
 
   return (
     <section className="relative py-20 sm:py-28 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div
-          className="animate-orb-1 absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full opacity-15"
-          style={{ background: `radial-gradient(circle, ${accent}80 0%, transparent 70%)` }}
+          className="absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full opacity-[0.04]"
+          style={{ background: `radial-gradient(circle, #E6394680 0%, transparent 70%)` }}
         />
         <div
-          className="animate-orb-3 absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full opacity-15"
-          style={{ background: "radial-gradient(circle, rgba(0,229,255,0.4) 0%, transparent 70%)" }}
+          className="absolute -top-40 -right-40 w-[400px] h-[400px] rounded-full opacity-[0.04]"
+          style={{ background: "radial-gradient(circle, #E6394640 0%, transparent 70%)" }}
         />
       </div>
       <div className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
@@ -4227,7 +4068,7 @@ function CTASection() {
             <Button
               size="lg"
               className="h-14 px-8 text-base text-white font-semibold rounded-xl animate-gradient-shift"
-              style={{ background: `linear-gradient(to right, ${accent}, #7C3AED, #00E5FF)`, backgroundSize: "200% 200%" }}
+              style={{ background: `linear-gradient(to right, #E63946, #7C3AED, #00E5FF)`, backgroundSize: "200% 200%" }}
             >
               <Download className="mr-2 h-5 w-5" />
               {t("cta.button")}
@@ -4249,7 +4090,7 @@ function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="sm:col-span-2 lg:col-span-1">
-            <GutsytikLogo size={32} showText />
+            <MovaLogo size={32} showText />
             <p className="mt-3 text-sm text-muted-foreground max-w-xs">{t("footer.desc")}</p>
           </div>
           <div>
@@ -4293,9 +4134,9 @@ function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="TikTok"
-                className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-gutsy-pink/20 hover:text-gutsy-pink transition-colors text-muted-foreground group"
+                className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors text-muted-foreground group"
               >
-                <svg className="h-4 w-4 group-hover:text-gutsy-pink transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                <svg className="h-4 w-4 group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.25a8.16 8.16 0 004.76 1.52V7.34a4.83 4.83 0 01-1-.65z"/>
                 </svg>
               </a>
@@ -4305,9 +4146,9 @@ function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Telegram"
-                className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-gutsy-pink/20 hover:text-gutsy-pink transition-colors text-muted-foreground group"
+                className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors text-muted-foreground group"
               >
-                <svg className="h-4 w-4 group-hover:text-gutsy-pink transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                <svg className="h-4 w-4 group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
                 </svg>
               </a>
@@ -4315,9 +4156,9 @@ function Footer() {
           </div>
         </div>
         <div className="mt-10 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-muted-foreground">&copy; 2026 Gutsytik. All rights reserved.</p>
+          <p className="text-xs text-muted-foreground">&copy; 2026 Mova. All rights reserved.</p>
           <p className="text-xs text-muted-foreground flex items-center gap-1">
-            Made with <Heart className="h-3 w-3 text-gutsy-pink" /> by Gutsytik Team
+            Made with <Heart className="h-3 w-3 text-primary" /> by Mova Team
           </p>
         </div>
       </div>
@@ -4333,14 +4174,14 @@ function MobileBottomNav({
   onOpenHistory: () => void;
   onOpenBookmarks: () => void;
 }) {
-  const { accent } = useAccentColor();
+  /* accent hardcoded to red */
   const [bookmarkCount, setBookmarkCount] = useState(0);
 
   useEffect(() => {
     const load = () => setBookmarkCount(getBookmarks().length);
     load();
-    window.addEventListener("gutsytik:bookmarks-changed", load);
-    return () => window.removeEventListener("gutsytik:bookmarks-changed", load);
+    window.addEventListener("mova:bookmarks-changed", load);
+    return () => window.removeEventListener("mova:bookmarks-changed", load);
   }, []);
 
   const navItems = [
@@ -4352,7 +4193,7 @@ function MobileBottomNav({
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden">
-      <div className="glass-strong border-t border-border safe-area-bottom">
+      <div className="bg-[#09090B] border-t border-[#27272A] safe-area-bottom">
         <div className="flex items-center justify-around px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
           {navItems.map((item) => {
             if (item.action === "bookmarks") {
@@ -4367,7 +4208,7 @@ function MobileBottomNav({
                     {bookmarkCount > 0 && (
                       <span
                         className="absolute -top-1.5 -right-1.5 min-w-[14px] h-[14px] rounded-full text-[8px] font-bold flex items-center justify-center text-white"
-                        style={{ backgroundColor: accent }}
+                        className="bg-[#E63946]"
                       >
                         {bookmarkCount > 9 ? "9+" : bookmarkCount}
                       </span>
@@ -4384,7 +4225,7 @@ function MobileBottomNav({
                 className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-lg transition-colors ${
                   item.highlight ? "" : "text-muted-foreground hover:text-foreground"
                 }`}
-                style={item.highlight ? { color: accent } : {}}
+                className={item.highlight ? "text-[#E63946]" : ""}
               >
                 <item.icon className="h-5 w-5" />
                 <span className="text-[10px]">{item.label}</span>
@@ -4406,7 +4247,7 @@ function QuickActionFAB({
   onOpenBookmarks: () => void;
 }) {
   const [expanded, setExpanded] = useState(false);
-  const { accent } = useAccentColor();
+  /* accent hardcoded to red */
   const { t } = useLanguage();
 
   return (
@@ -4454,7 +4295,7 @@ function QuickActionFAB({
         onClick={() => setExpanded(!expanded)}
         className="w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white transition-transform hover:scale-105"
         style={{
-          background: `linear-gradient(135deg, ${accent}, #7C3AED)`,
+          background: "#E63946",
           transform: expanded ? "rotate(45deg)" : "rotate(0deg)",
         }}
         aria-label="Quick actions"
@@ -4472,7 +4313,7 @@ function ReportButton() {
   const [description, setDescription] = useState("");
   const { toast, dismiss } = useToast();
   const { t } = useLanguage();
-  const { accent } = useAccentColor();
+  /* accent hardcoded to red */
 
   const handleSubmit = useCallback(() => {
     if (!issueType) return;
@@ -4537,7 +4378,7 @@ function ReportButton() {
               onClick={handleSubmit}
               disabled={!issueType}
               className="text-white"
-              style={{ background: `linear-gradient(to right, ${accent}, #7C3AED)` }}
+              className="bg-[#E63946]"
             >
               {t("report.submit")}
             </Button>
@@ -4563,13 +4404,13 @@ function RiwayatSheet({
   useEffect(() => {
     const load = () => setHistoryItems(getHistory());
     load();
-    window.addEventListener("gutsytik:history-changed", load);
-    return () => window.removeEventListener("gutsytik:history-changed", load);
+    window.addEventListener("mova:history-changed", load);
+    return () => window.removeEventListener("mova:history-changed", load);
   }, []);
 
   const handleSelect = useCallback(
     (item: HistoryItem) => {
-      window.dispatchEvent(new CustomEvent("gutsytik:select-history", { detail: item }));
+      window.dispatchEvent(new CustomEvent("mova:select-history", { detail: item }));
       onOpenChange(false);
     },
     [onOpenChange]
@@ -4661,13 +4502,13 @@ function BookmarkSheet({
   const [bookmarks, setBookmarks] = useState<BookmarkItem[]>([]);
   const { toast, dismiss } = useToast();
   const { t } = useLanguage();
-  const { accent } = useAccentColor();
+  /* accent hardcoded to red */
 
   useEffect(() => {
     const load = () => setBookmarks(getBookmarks());
     load();
-    window.addEventListener("gutsytik:bookmarks-changed", load);
-    return () => window.removeEventListener("gutsytik:bookmarks-changed", load);
+    window.addEventListener("mova:bookmarks-changed", load);
+    return () => window.removeEventListener("mova:bookmarks-changed", load);
   }, []);
 
   const showToastMsg = useCallback(
@@ -4689,7 +4530,7 @@ function BookmarkSheet({
   const handleClearAll = useCallback(() => {
     try {
       localStorage.removeItem(BOOKMARK_KEY);
-      window.dispatchEvent(new Event("gutsytik:bookmarks-changed"));
+      window.dispatchEvent(new Event("mova:bookmarks-changed"));
     } catch {}
     showToastMsg(t("toast.bookmarkRemoved"));
   }, [showToastMsg, t]);
@@ -4697,7 +4538,7 @@ function BookmarkSheet({
   const handleSelect = useCallback(
     (item: BookmarkItem) => {
       window.dispatchEvent(
-        new CustomEvent("gutsytik:select-history", {
+        new CustomEvent("mova:select-history", {
           detail: { ...item, downloadUrl: item.url },
         })
       );
@@ -4711,7 +4552,7 @@ function BookmarkSheet({
       <SheetContent side="bottom" className="rounded-t-2xl max-h-[70vh]">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            <Bookmark className="h-5 w-5" style={{ color: accent }} />
+            <Bookmark className="h-5 w-5" className="text-[#E63946]" />
             {t("bookmark.title")}
           </SheetTitle>
           <SheetDescription>{t("bookmark.empty")}</SheetDescription>
@@ -4752,7 +4593,7 @@ function BookmarkSheet({
                         <div className="flex items-center gap-2 mt-0.5">
                           <span
                             className="text-[10px] px-1.5 py-0.5 rounded"
-                            style={{ backgroundColor: `${accent}15`, color: accent }}
+                            style={{ backgroundColor: `#E6394615`, color: "#E63946" }}
                           >
                             {item.platform}
                           </span>
@@ -4820,7 +4661,6 @@ export default function Home() {
           <RiwayatSheet open={historySheetOpen} onOpenChange={setHistorySheetOpen} />
           <BookmarkSheet open={bookmarkSheetOpen} onOpenChange={setBookmarkSheetOpen} />
           <PwaInstallPrompt />
-          <CursorTrail />
           <KonamiOverlay retroMode={retroMode} showNotification={showNotification} />
         </div>
       </ErrorBoundary>

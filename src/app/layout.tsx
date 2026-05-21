@@ -15,12 +15,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gutsytik.vercel.app"),
-  title: "Gutsytik - Download Video Tanpa Watermark",
+  metadataBase: new URL("https://mova.vercel.app"),
+  title: "Mova - Download Video Tanpa Watermark",
   description:
-    "Gutsytik membantu kamu download video dari platform populer tanpa watermark, cepat dan gratis! Support TikTok, Instagram, YouTube, Facebook, Twitter/X, dan lainnya.",
+    "Mova membantu kamu download video dari platform populer tanpa watermark, cepat dan gratis! Support TikTok, Instagram, YouTube, Facebook, Twitter/X, dan lainnya.",
   keywords: [
-    "gutsytik",
+    "mova",
     "download video tanpa watermark",
     "tiktok downloader",
     "instagram downloader",
@@ -30,29 +30,29 @@ export const metadata: Metadata = {
     "gratis",
     "download video",
   ],
-  authors: [{ name: "Gutsytik" }],
+  authors: [{ name: "Mova" }],
   icons: {
     icon: "/logo.svg",
   },
   manifest: "/manifest.json",
   openGraph: {
-    title: "Gutsytik - Download Video Tanpa Watermark",
+    title: "Mova - Download Video Tanpa Watermark",
     description:
       "Download video dari TikTok, Instagram, YouTube, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
-    url: "https://gutsytik.vercel.app",
-    siteName: "Gutsytik",
+    url: "https://mova.vercel.app",
+    siteName: "Mova",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gutsytik - Download Video Tanpa Watermark",
+    title: "Mova - Download Video Tanpa Watermark",
     description:
       "Download video dari TikTok, Instagram, YouTube, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FF2D55",
+  themeColor: "#E63946",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -64,7 +64,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" suppressHydrationWarning>
+    <html lang="id" suppressHydrationWarning className="dark">
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -76,10 +76,10 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebApplication",
-              name: "Gutsytik",
+              name: "Mova",
               description:
                 "Download video tanpa watermark dari berbagai platform populer",
-              url: "https://gutsytik.vercel.app",
+              url: "https://mova.vercel.app",
               applicationCategory: "MultimediaApplication",
               operatingSystem: "All",
               offers: {
@@ -96,9 +96,9 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "Gutsytik",
-              url: "https://gutsytik.vercel.app",
-              logo: "https://gutsytik.vercel.app/logo.svg",
+              name: "Mova",
+              url: "https://mova.vercel.app",
+              logo: "https://mova.vercel.app/logo.svg",
             }),
           }}
         />
@@ -108,11 +108,11 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              name: "Gutsytik",
-              url: "https://gutsytik.vercel.app",
+              name: "Mova",
+              url: "https://mova.vercel.app",
               potentialAction: {
                 "@type": "SearchAction",
-                target: "https://gutsytik.vercel.app/?q={search_term_string}",
+                target: "https://mova.vercel.app/?q={search_term_string}",
                 "query-input": "required name=search_term_string",
               },
             }),

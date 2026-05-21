@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://gutsytik.vercel.app/sitemap.xml
+Sitemap: https://mova.vercel.app/sitemap.xml

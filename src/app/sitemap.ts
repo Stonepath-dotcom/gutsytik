@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://gutsytik.vercel.app";
+  const baseUrl = "https://mova.vercel.app";
 
   return [
     {

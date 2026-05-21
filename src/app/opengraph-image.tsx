@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Gutsytik - Download Video Tanpa Watermark";
+export const alt = "Mova - Download Video Tanpa Watermark";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -15,46 +15,22 @@ export default async function Image() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#0A0A0F",
+          backgroundColor: "#09090B",
           position: "relative",
           overflow: "hidden",
         }}
       >
-        {/* Background gradient orbs */}
-        <div
-          style={{
-            position: "absolute",
-            top: -80,
-            left: -80,
-            width: 400,
-            height: 400,
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(255,45,85,0.3), transparent)",
-            filter: "blur(60px)",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: -60,
-            right: -60,
-            width: 350,
-            height: 350,
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(124,58,237,0.3), transparent)",
-            filter: "blur(60px)",
-          }}
-        />
+        {/* Subtle red glow */}
         <div
           style={{
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 300,
-            height: 300,
+            width: 600,
+            height: 600,
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(0,229,255,0.15), transparent)",
+            background: "radial-gradient(circle, rgba(230,57,70,0.15), transparent 70%)",
             filter: "blur(80px)",
           }}
         />
@@ -84,7 +60,7 @@ export default async function Image() {
                 width: 64,
                 height: 64,
                 borderRadius: 16,
-                background: "linear-gradient(135deg, #FF2D55, #7C3AED)",
+                background: "#E63946",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -110,13 +86,11 @@ export default async function Image() {
               style={{
                 fontSize: 56,
                 fontWeight: 900,
-                background: "linear-gradient(135deg, #FF2D55, #7C3AED, #00E5FF)",
-                backgroundClip: "text",
-                color: "transparent",
+                color: "#FAFAFA",
                 letterSpacing: -2,
               }}
             >
-              Gutsytik
+              Mova
             </span>
           </div>
 
@@ -124,7 +98,7 @@ export default async function Image() {
           <div
             style={{
               fontSize: 28,
-              color: "#A0A0B8",
+              color: "#A1A1AA",
               fontWeight: 500,
               marginBottom: 16,
             }}
@@ -146,10 +120,10 @@ export default async function Image() {
                   key={platform}
                   style={{
                     padding: "8px 16px",
-                    borderRadius: 20,
-                    background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "#FFFFFF",
+                    borderRadius: 8,
+                    background: "#111113",
+                    border: "1px solid #27272A",
+                    color: "#FAFAFA",
                     fontSize: 14,
                     fontWeight: 500,
                   }}
@@ -169,7 +143,7 @@ export default async function Image() {
             left: 0,
             right: 0,
             height: 4,
-            background: "linear-gradient(to right, #FF2D55, #7C3AED, #00E5FF)",
+            background: "#E63946",
           }}
         />
       </div>

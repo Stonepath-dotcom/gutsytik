@@ -1,11 +1,11 @@
 {
-  "name": "Gutsytik - Download Video Tanpa Watermark",
-  "short_name": "Gutsytik",
+  "name": "Mova - Download Video Tanpa Watermark",
+  "short_name": "Mova",
   "description": "Download video tanpa watermark dari TikTok, Instagram, YouTube, dan platform populer lainnya",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0A0A0F",
-  "theme_color": "#FF2D55",
+  "background_color": "#09090B",
+  "theme_color": "#E63946",
   "orientation": "portrait",
   "icons": [
     {
