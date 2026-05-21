@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://github.com/js-org/js.org",
+    "name": "GitHub - js-org/js.org: Dedicated to JavaScript and its awesome",
+    "snippet": "To finish the procedure, make a pull request in this GitHub repository that adds your subdomain to the subdomains list of existing JS.ORG domains. Your new URL ...",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://js.org/index.html",
+    "name": "JS.ORG - the JavaScript organization",
+    "snippet": "Follow these four steps to get your own free JS.ORG subdomain for your GitHub Page: ... 4. To finish the procedure, make a pull request in our GitHub ...",
+    "host_name": "js.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/frontendweb/how-to-obtain-a-free-subdomain-for-your-project-b143f260828d",
+    "name": "How to Obtain a Free Subdomain for Your Project? | FrontEnd Web",
+    "snippet": "js.org: A free subdomain service aimed at JavaScript developers: you can claim a *.js.org subdomain for your project, it's clearly related to ...",
+    "host_name": "medium.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/orgs/community/discussions/187677",
+    "name": "How to get a free domain? · community · Discussion #187677 - GitHub",
+    "snippet": "1) Easiest “no card, forever”: use a free subdomain. GitHub Pages: username.github.io · 2) If you need a real domain (apex): GitHub Student Developer Pack · 3) “ ...",
+    "host_name": "github.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/developersIndia/comments/1n32qyh/just_found_a_github_repo_that_lets_you_register",
+    "name": "Just found a GitHub repo that lets you register and manage domain",
+    "snippet": "Visit their dashboard · Register your free domain · Connect it to your DNS provider · Launch whatever you're building.",
+    "host_name": "www.reddit.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dev.to/checkboxoz/how-to-get-a-js-org-subdomain-served-through-a-gh-pages-branch-1gdf",
+    "name": "How to get a JS.ORG subdomain served through a gh-pages branch",
+    "snippet": "Step 1 - Naming your repo · Step 2: Add a CNAME · Step 3: Commit build directory to gh-pages · Step 4: Make a Pull Request to the js.org repo.",
+    "host_name": "dev.to",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=dL8zQA5Q_EM",
+    "name": "Get js.org domain for your next project - YouTube",
+    "snippet": "Comments · I made a TERMINAL website, with HIDDEN Easter eggs · How to create free domains (Afraid DNS) · Where to Buy a Domain 2025? (Best Domain ...",
+    "host_name": "www.youtube.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/orgs/js-org/discussions/7220",
+    "name": "Am i allowed a subdomain like sub.domain.js.org ? #7220 - GitHub",
+    "snippet": "Yup, you can request sub-sub-domains for existing subdomains (assuming you were the person that requested the subdomain, or the person that ...",
+    "host_name": "github.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://kolappan.com/blog/2020/js-org-subdomain-for-your-js-projects",
+    "name": "Getting free js.org subdomains for your JavaScript projects",
+    "snippet": "Fork the js.org repo. Update the CNAME file for the GitHub pages send a pull request to the js.org repo. Wait till the Pull Request is processed ...",
+    "host_name": "kolappan.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://stackoverflow.com/questions/46455900/subdomain-of-website-for-github-pages-project",
+    "name": "Subdomain of website for Github pages project - Stack Overflow",
+    "snippet": "Create a file called CNAME at the root of your repository, and write your domain ( matrix.jeti.io in this case). And you're done! Wait a few ...",
+    "host_name": "stackoverflow.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

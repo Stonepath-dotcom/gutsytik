@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://freedns.afraid.org",
+    "name": "FreeDNS - Free DNS - Dynamic DNS - Static DNS subdomain and",
+    "snippet": "Free DNS hosting, lets you fully manage your own domain. Dynamic DNS and Static DNS services available. You may also create hosts off other domains that we ...",
+    "host_name": "freedns.afraid.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/selfhosted/comments/17n3t0s/a_domain_name_for_free_really_free",
+    "name": "a domain name for free? (really free) : r/selfhosted - Reddit",
+    "snippet": "FreeDNS (FreeDNS.afraid.org) is primarily a service that allows you to update your public DNS record anytime for Dynamic IP changes, but ...\npp.ua domains are free. They're not subdomains tho, they are third level domains. Obviously since it's free it has restrictions though. Free ...",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=0bmopLboeIc",
+    "name": "Free Domain Name — Use Anywhere, No Credit Cards, NO CATCH!",
+    "snippet": "... domain. To get this working you just need to register for freedns.afraid.org account, create your subdomain and point any IP address to your ...\n... free domain — https://freedns.afraid.org/ By the end of this tutorial, I have a fully working website on my new free domain name: emitreviews.us ...",
+    "host_name": "www.youtube.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=dm8i4IFTA7k",
+    "name": "How to create free domains (Afraid DNS) - YouTube",
+    "snippet": "GitHub: https://github.com/JesseGuerrero Afraid DNS is a free service to create domains for testing, deploying and developing network ...",
+    "host_name": "www.youtube.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.getfreedomain.name",
+    "name": "Get Free Domain Name",
+    "snippet": "Welcome to the world of free domain names and free short subdomain names with no ads and at no cost. Only GetFreeDomainName provides the most extensive, up-to- ...\nFree domain names and free short subdomains with no ads & full DNS support! Welcome to the world of free domain names and free short subdomain names with no ads ...",
+    "host_name": "www.getfreedomain.name",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://afraid-org.mutawakkil.com",
+    "name": "Afraid | FreeDNS - Free DNS - Dynamic DNS - Static DNS",
+    "snippet": "Afraid.org - Free DNS hosting, lets you fully manage your own domain. Dynamic DNS and Static DNS services available. You may also create hosts off other ...",
+    "host_name": "afraid-org.mutawakkil.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://lowendbox.com/blog/using-free-dynamic-dns-with-afraid-org",
+    "name": "Using Free Dynamic DNS with afraid.org - LowEndBox",
+    "snippet": "The method I use is to setup free dynamic DNS via afraid.org. To do this, you need to register for a free account at afraid.org.",
+    "host_name": "lowendbox.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hostballs.com/t/free-subdomain/8210",
+    "name": "Free subdomain? - HostBalls",
+    "snippet": "Free DNS hosting, lets you fully manage your own domain. Dynamic DNS and Static DNS services available. You may also create hosts off other ...",
+    "host_name": "hostballs.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://freedns.afraid.org/signup",
+    "name": "Create your account - FreeDNS",
+    "snippet": "Free DNS hosting, lets you fully manage your own domain. Dynamic DNS and Static DNS services available. You may also create hosts off other domains that we ...",
+    "host_name": "freedns.afraid.org",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/ading2210/freedns-client",
+    "name": "ading2210/freedns-client: A Python API wrapper for  - GitHub",
+    "snippet": "This is a Python wrapper for FreeDNS.afraid.org, which allows for the free registration of subdomains.",
+    "host_name": "github.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "url": "https://github.com/js-org/js.org",
+    "name": "GitHub - js-org/js.org: Dedicated to JavaScript and its awesome",
+    "snippet": "Head into the repository settings and under the Pages tab add your JS.ORG subdomain as a custom domain. Step 4. To finish the procedure, make a pull request in ...",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/orgs/js-org/discussions/8310",
+    "name": "Hosting on Vercel · js-org · Discussion #8310 - GitHub",
+    "snippet": "I wanted to ask if it is possible to host on Vercel while using this project for DNS. Vercel is incredible for hosting front-end projects, and it's free.",
+    "host_name": "github.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/js-org/js.org/wiki/3rd-party-hosts",
+    "name": "3rd party hosts · js-org/js.org Wiki - GitHub",
+    "snippet": "Any host that allows you to use a CNAME DNS record to add a custom subdomain to your site should work. So far, we've seen folks using primarily the ...",
+    "host_name": "github.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://blog.warengonzaga.com/the-perfect-domain-name-for-your-javascript-library-or-framework",
+    "name": "The Perfect Domain Name for your JavaScript Library or Framework",
+    "snippet": "Now let's add your preferred js.org subdomain or my buymeacoffee.js.org subdomain to the official list. Open the file cnames_active.js and add ...",
+    "host_name": "blog.warengonzaga.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/orgs/js-org/discussions/7220",
+    "name": "Am i allowed a subdomain like sub.domain.js.org ? #7220 - GitHub",
+    "snippet": "Yup, you can request sub-sub-domains for existing subdomains (assuming you were the person that requested the subdomain, or the person that ...",
+    "host_name": "github.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  }
+]
