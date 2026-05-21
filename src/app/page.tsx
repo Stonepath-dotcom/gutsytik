@@ -47,6 +47,7 @@ import {
   Palette,
   BarChart3,
   Keyboard,
+  Send,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -2678,13 +2679,14 @@ function Footer() {
             <h4 className="font-semibold text-foreground mb-3 text-sm">{t("footer.follow")}</h4>
             <div className="flex gap-3">
               {[
-                { icon: Twitter, label: "Twitter" },
-                { icon: Instagram, label: "Instagram" },
-                { icon: Youtube, label: "YouTube" },
+                { icon: Play, label: "TikTok", href: "https://tiktok.com/@abbbuw", bg: "#000000" },
+                { icon: Send, label: "Telegram", href: "https://t.me/sixte3nnn", bg: "#0088CC" },
               ].map((s) => (
                 <a
                   key={s.label}
-                  href="#"
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={s.label}
                   className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-gutsy-pink/20 hover:text-gutsy-pink transition-colors text-muted-foreground"
                 >
