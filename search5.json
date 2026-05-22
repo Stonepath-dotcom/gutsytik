@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.reddit.com/r/selfhosted/comments/13kyngc/finding_a_free_subdomainprovider_with_decent_dns",
+    "name": "finding a free (sub)domain-provider with decent dns : r/selfhosted",
+    "snippet": "desec.io provides .dedyn.io subdomains and also has flexible dns-hosting. Nice as well. Thank you all for helping!",
+    "host_name": "www.reddit.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://talk.desec.io/t/configuring-dns-records-and-setting-up-domain/1497",
+    "name": "Configuring DNS records and setting up domain - deSEC Community",
+    "snippet": "These are usually TXT records on the domain (for SPF, could also use SPF record type) and TXT records on subdomains of the _domainkey subdomain ...",
+    "host_name": "talk.desec.io",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://desec.io",
+    "name": "deSEC – Free Secure DNS",
+    "snippet": "deSEC is a free DNS hosting service, designed with security in mind. Running on open-source software and supported by SSE, deSEC is free for everyone to use.",
+    "host_name": "desec.io",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://talk.desec.io/latest?page=14",
+    "name": "The community is essential to how deSEC, a free and public service",
+    "snippet": "Cannot create CNAME and TXT-record for same subdomain. 4 ; DDNS Updater on Windows · dynDNS at dedyn.io. 2 ; NSEC3 TTL errors? Managed DNS Hosting. 3 ; Wildcard ...",
+    "host_name": "talk.desec.io",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/groups/274791304282884/posts/880977226997619",
+    "name": "vercel dns configuration help needed - Facebook",
+    "snippet": "I need to add a TXT Record, two @ Records and a CNAME Record? I keep clicking both \"Verify\" links and it keeps saying: Unable to verify ...",
+    "host_name": "www.facebook.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=hI6mXl1wUVc",
+    "name": "How to Set Up a Subdomain with Cloudflare DNS and  - YouTube",
+    "snippet": "n this detailed tutorial, learn how to create a subdomain, configure DNS records in Cloudflare, and seamlessly add it to your ...",
+    "host_name": "www.youtube.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://talk.desec.io/t/wildcard-cname-wont-resolve-when-txt-is-present-at-specific-subdomain/679",
+    "name": "Wildcard CNAME won't resolve when TXT is present at specific",
+    "snippet": "Hi, I've been struggling to get my domain verified at Brevo. These are the TXT records I am supposed to create.",
+    "host_name": "talk.desec.io",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://vercel.com/docs/domains/managing-dns-records",
+    "name": "Managing DNS Records - Vercel",
+    "snippet": "Once on the Advanced Settings page of your domain, select the Enable Vercel DNS button to fill out the DNS Record form. Once complete, click on ...",
+    "host_name": "vercel.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://talk.desec.io/t/add-nameserver-on-sub-domain/699",
+    "name": "Add nameserver on sub-domain - deSEC Community",
+    "snippet": "Are you asking whether you can add NS records to the subdomain test.your-domain.dedyn.io ? If so, the answer is yes.",
+    "host_name": "talk.desec.io",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://talk.desec.io/t/dns-records-mx-txt-cname-from-host/192",
+    "name": "DNS Records (MX, TXT, CNAME) from Host - deSEC Community",
+    "snippet": "When you set our nameservers in your domain's NS records, Internet users who try to connect to your domain will be directed to make a DNS query ...",
+    "host_name": "talk.desec.io",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

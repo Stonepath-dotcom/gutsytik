@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://vercel.com/docs/domains/working-with-domains/add-a-domain",
+    "name": "Adding & Configuring a Custom Domain - Vercel",
+    "snippet": "Subdomains. You can configure subdomains with a CNAME record. Each project has a unique CNAME record e.g. d1d4fc829fe7bc7c.vercel-dns-017.com .",
+    "host_name": "vercel.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=bVdOxQSsI2E",
+    "name": "Vercel Custom Domain Tutorial | Google Domains - YouTube",
+    "snippet": "In this Vercel custom domain tutorial, I show you step by step how to setup your own custom domain with your Vercel app!",
+    "host_name": "www.youtube.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.vercel.com/t/cannot-add-sub-domains-from-freedns-afraid/4607",
+    "name": "Cannot add sub-domains from FreeDNS Afraid - Vercel Community",
+    "snippet": "I'm trying to add a subdomain from freedns.afraid.org to my Vercel project. Vercel asks for a TXT record to be added to the root domain when the domain is ...",
+    "host_name": "community.vercel.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.vercel.com/t/help-i-am-unable-to-use-custom-domain-names/9701",
+    "name": "Help.I am unable to use custom domain names - Vercel Community",
+    "snippet": "I want to bind it to the “GitHub readme stats” project. But when customizing the domain, it requires me to record the cname in the root domain, ...",
+    "host_name": "community.vercel.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=k0cjBuQFFYA",
+    "name": "How to Add a Custom Domain on Vercel in 2025 (Updated) - YouTube",
+    "snippet": "In this tutorial, I'll show how to add a custom domain on Vercel.",
+    "host_name": "www.youtube.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/groups/274791304282884/posts/880977226997619",
+    "name": "vercel dns configuration help needed - Facebook",
+    "snippet": "I need to add a TXT Record, two @ Records and a CNAME Record? I keep clicking both \"Verify\" links and it keeps saying: Unable to verify domain ...",
+    "host_name": "www.facebook.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/vercel/comments/1m7dzae/vercel_domainsubdomain",
+    "name": "Vercel domain/subdomain - Reddit",
+    "snippet": "We have an existing project in Vercel for a couple of years. We have 7 subdomains pointing to different branches. Up to now, everything works very well.",
+    "host_name": "www.reddit.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@nurulislamrimon/how-to-dynamically-add-custom-domains-in-vercel-for-your-saas-application-9cdf16268187",
+    "name": "How to Dynamically Add Custom Domains in Vercel for Your SaaS",
+    "snippet": "This article walks you through how to dynamically add custom domains to your Vercel-hosted app, using their REST API — perfect for building ...",
+    "host_name": "medium.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.cloudflare.com/t/help-setting-up-a-cname-record-from-vercel/636105",
+    "name": "Help setting up a CNAME record from Vercel - Cloudflare Community",
+    "snippet": "I want to create an Alias or CNAME record in my Vercel DNS records for “sub1.domain-x.dev” to basically point to the same thing as “domain-y.xyz”.",
+    "host_name": "community.cloudflare.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.vercel.com/t/subdomain-provisioning-for-multi-tenant-setup-on-vercel/21431",
+    "name": "Subdomain Provisioning for Multi-Tenant Setup on Vercel - Help",
+    "snippet": "However, for the new subdomain to work, Vercel requires CNAME and TXT DNS records to be added in GoDaddy (domain registrar). Currently, this DNS ...",
+    "host_name": "community.vercel.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

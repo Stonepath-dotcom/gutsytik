@@ -1,46 +1,91 @@
 [
   {
-    "url": "https://github.com/is-a-dev/register",
-    "name": "GitHub - is-a-dev/register",
-    "snippet": "is-a.dev is a service that allows developers to get a sweet-looking .is-a.dev subdomain for their personal websites.",
-    "host_name": "github.com",
+    "url": "https://www.reddit.com/r/selfhosted/comments/13kyngc/finding_a_free_subdomainprovider_with_decent_dns",
+    "name": "finding a free (sub)domain-provider with decent dns : r/selfhosted",
+    "snippet": "desec.io and eu.org both seem like great options to me = free subdomain name + free/flexible dns (or dns delegation allowed)",
+    "host_name": "www.reddit.com",
     "rank": 0,
     "date": "",
     "favicon": ""
   },
   {
-    "url": "https://is-a.dev",
-    "name": "is-a.dev - Free subdomains for developers",
-    "snippet": "To register your own subdomain, visit the is-a-dev/register repository on GitHub and follow the provided instructions. Check Subdomain Availability. user-avatar ...",
-    "host_name": "is-a.dev",
+    "url": "https://freedns.afraid.org",
+    "name": "FreeDNS - Free DNS - Dynamic DNS - Static DNS subdomain and",
+    "snippet": "Free DNS hosting, lets you fully manage your own domain. Dynamic DNS and Static DNS services available. You may also create hosts off other domains that we ...",
+    "host_name": "freedns.afraid.org",
     "rank": 1,
     "date": "",
     "favicon": ""
   },
   {
-    "url": "https://www.reddit.com/r/javascript/comments/j6wnp5/a_free_and_open_source_service_to_get_a",
-    "name": "A free and open source service to get a name.is-a.dev domain for",
-    "snippet": "Uh, let's clarify one thing here-- you're not getting a domain, you're getting a subdomain spot on the domain is-a.dev.",
-    "host_name": "www.reddit.com",
+    "url": "https://www.youtube.com/watch?v=dm8i4IFTA7k",
+    "name": "How to create free domains (Afraid DNS) - YouTube",
+    "snippet": "GitHub: https://github.com/JesseGuerrero Afraid DNS is a free service to create domains for testing, deploying and developing network ...",
+    "host_name": "www.youtube.com",
     "rank": 2,
     "date": "",
     "favicon": ""
   },
   {
-    "url": "https://dev.to/dthiwanka/get-your-free-is-adev-subdomain-step-by-step-guide-for-developers-27o7",
-    "name": "Get Your Free .is-a.dev Subdomain: Step-by-Step Guide for",
-    "snippet": "The best part? You don't need to buy a domain or configure a registrar — you just submit a small JSON file via GitHub.",
-    "host_name": "dev.to",
+    "url": "https://community.vercel.com/t/cannot-add-sub-domains-from-freedns-afraid/4607",
+    "name": "Cannot add sub-domains from FreeDNS Afraid - Vercel Community",
+    "snippet": "It looks like FreeDNS by Afraid.org allows full DNS management, including services for both free and premium users. It supports dynamic DNS ( ...",
+    "host_name": "community.vercel.com",
     "rank": 3,
     "date": "",
     "favicon": ""
   },
   {
-    "url": "https://medium.com/@PowerUpSkills/your-dream-dev-subdomain-is-free-but-are-you-missing-out-on-the-is-a-dev-revolution-f1f1329c3991",
-    "name": "Your Dream Dev Subdomain is Free — But Are You Missing Out on",
-    "snippet": "... is-a.dev subdomain, free, for life. Just one catch: you register publicly via a GitHub pull request on their register repo, which means:.",
-    "host_name": "medium.com",
+    "url": "https://www.cloudns.net",
+    "name": "ClouDNS: Free DNS hosting, Cloud DNS hosting and Domain names",
+    "snippet": "ClouDNS provides Free DNS, Cloud DNS, Managed DNS, GeoDNS and DDoS Protected DNS hosting with included web redirects, mail forwards and Round-Robin load ...",
+    "host_name": "www.cloudns.net",
     "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.noip.com",
+    "name": "No-IP | Smarter DNS Starts Here",
+    "snippet": "No-IP is a Free Dynamic DNS and Managed DNS provider with 100% uptime. Get free DDNS, plus domain registration and SSL certificates, for home and business.",
+    "host_name": "www.noip.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/orgs/community/discussions/182124",
+    "name": "Subdomain Help · community · Discussion #182124 - GitHub",
+    "snippet": "You need to switch the record type on FreeDNS from a Web Forward to a proper DNS record. Log in to FreeDNS and go to the Subdomains menu.",
+    "host_name": "github.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.g2.com/products/freedns/competitors/alternatives",
+    "name": "Top 10 FreeDNS Alternatives & Competitors in 2026 - G2",
+    "snippet": "The best FreeDNS alternatives are WPMU DEV, Cloudflare Application Security and Performance, and Amazon Route 53. Find top-ranking free & paid apps similar ...",
+    "host_name": "www.g2.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hostballs.com/t/free-subdomain/8210",
+    "name": "Free subdomain? - HostBalls",
+    "snippet": "Free DNS hosting, lets you fully manage your own domain. Dynamic DNS and Static DNS services available. You may also create hosts off other ...",
+    "host_name": "hostballs.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.namecheap.com/domains/freedns",
+    "name": "Free DNS Hosting - Best FreeDNS Hosting Server by Namecheap",
+    "snippet": "Get free DNS service from Namecheap - best free dns hosting server provider. Our system will monitor your domain's DNS setting and manage your domains!",
+    "host_name": "www.namecheap.com",
+    "rank": 9,
     "date": "",
     "favicon": ""
   }
