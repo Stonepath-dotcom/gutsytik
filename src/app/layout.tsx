@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/providers";
@@ -12,6 +12,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -32,7 +38,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Mova" }],
   icons: {
-    icon: "/logo.svg",
+    icon: "/mova-logo.png",
   },
   manifest: "/manifest.json",
   openGraph: {
@@ -52,7 +58,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#E63946",
+  themeColor: "#F97316",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -98,7 +104,7 @@ export default function RootLayout({
               "@type": "Organization",
               name: "Mova",
               url: "https://getmova.vercel.app",
-              logo: "https://getmova.vercel.app/logo.svg",
+              logo: "https://getmova.vercel.app/mova-logo.png",
             }),
           }}
         />
@@ -120,7 +126,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} antialiased bg-background text-foreground`}
       >
         <Providers>
           {children}

@@ -12,12 +12,12 @@ export default function NotFound() {
           className="text-8xl sm:text-9xl font-light tracking-tighter text-[#FAFAFA] select-none"
           style={{ lineHeight: 1 }}
         >
-          4<span className="text-[#E63946] font-bold">0</span>4
+          4<span className="text-[#F97316] font-bold">0</span>4
         </h1>
 
         {/* Broken heart icon */}
         <div className="flex justify-center my-8">
-          <HeartCrack className="h-12 w-12 text-[#E63946]" strokeWidth={1.5} />
+          <HeartCrack className="h-12 w-12 text-[#F97316]" strokeWidth={1.5} />
         </div>
 
         {/* Message */}
@@ -41,7 +41,7 @@ export default function NotFound() {
         {/* Back to homepage button */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg text-white font-semibold text-base transition-all hover:opacity-90 btn-press bg-[#E63946]"
+          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg text-white font-semibold text-base transition-all hover:opacity-90 btn-press bg-[#F97316]"
         >
           <Home className="h-5 w-5" />
           Kembali ke Homepage

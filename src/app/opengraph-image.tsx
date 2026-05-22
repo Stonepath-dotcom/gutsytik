@@ -20,7 +20,7 @@ export default async function Image() {
           overflow: "hidden",
         }}
       >
-        {/* Subtle red glow */}
+        {/* Subtle orange glow */}
         <div
           style={{
             position: "absolute",
@@ -30,7 +30,7 @@ export default async function Image() {
             width: 600,
             height: 600,
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(230,57,70,0.15), transparent 70%)",
+            background: "radial-gradient(circle, rgba(249,115,22,0.15), transparent 70%)",
             filter: "blur(80px)",
           }}
         />
@@ -60,7 +60,7 @@ export default async function Image() {
                 width: 64,
                 height: 64,
                 borderRadius: 16,
-                background: "#E63946",
+                background: "#F97316",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -143,7 +143,7 @@ export default async function Image() {
             left: 0,
             right: 0,
             height: 4,
-            background: "#E63946",
+            background: "#F97316",
           }}
         />
       </div>

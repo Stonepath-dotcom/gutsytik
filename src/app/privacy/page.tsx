@@ -108,12 +108,12 @@ export default function PrivacyPage() {
           {/* Title section */}
           <div className="text-center mb-16">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA] mb-6">
-              <Shield className="h-3 w-3 text-[#E63946]" />
+              <Shield className="h-3 w-3 text-[#F97316]" />
               Legal
             </span>
             <h1 className="text-4xl sm:text-5xl font-light tracking-tight text-[#FAFAFA] mb-4 mt-4">
               Privacy Policy &{" "}
-              <span className="font-bold text-[#E63946]">Terms of Service</span>
+              <span className="font-bold text-[#F97316]">Terms of Service</span>
             </h1>
             <p className="text-[#A1A1AA] text-sm max-w-xl mx-auto leading-relaxed">
               Your privacy matters to us. Mova is designed to be a privacy-first tool that doesn&apos;t collect your personal data.
@@ -124,7 +124,7 @@ export default function PrivacyPage() {
           </div>
 
           {/* Important notice */}
-          <div className="mb-12 p-6 rounded-xl bg-[#111113] border-l-4 border-[#E63946]">
+          <div className="mb-12 p-6 rounded-xl bg-[#111113] border-l-4 border-[#F97316]">
             <p className="text-sm text-[#FAFAFA] font-medium">
               Mova is a free tool. We do not store any downloaded videos. All downloads are processed directly from the source platform.
             </p>
@@ -136,7 +136,7 @@ export default function PrivacyPage() {
               <section key={index} className="scroll-mt-20">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                    <section.icon className="h-5 w-5 text-[#E63946]" />
+                    <section.icon className="h-5 w-5 text-[#F97316]" />
                   </div>
                   <h2 className="text-lg font-bold text-[#FAFAFA]">{section.title}</h2>
                 </div>

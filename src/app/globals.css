@@ -41,8 +41,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-mova-red: #E63946;
-  --color-mova-red-hover: #C5303C;
+  --color-mova-red: #F97316;
+  --color-mova-red-hover: #EA580C;
   --color-mova-dark: #09090B;
   --color-mova-surface: #111113;
   --color-mova-elevated: #18181B;
@@ -60,31 +60,31 @@
   --card-foreground: #09090B;
   --popover: #FAFAFA;
   --popover-foreground: #09090B;
-  --primary: #E63946;
+  --primary: #F97316;
   --primary-foreground: #FAFAFA;
   --secondary: #F4F4F5;
   --secondary-foreground: #71717A;
   --muted: #F4F4F5;
   --muted-foreground: #71717A;
-  --accent: #E63946;
+  --accent: #F97316;
   --accent-foreground: #FAFAFA;
-  --destructive: #E63946;
+  --destructive: #F97316;
   --border: #E4E4E7;
   --input: #E4E4E7;
-  --ring: #E63946;
-  --chart-1: #E63946;
+  --ring: #F97316;
+  --chart-1: #F97316;
   --chart-2: #71717A;
   --chart-3: #A1A1AA;
   --chart-4: #27272A;
   --chart-5: #3F3F46;
   --sidebar: #FAFAFA;
   --sidebar-foreground: #09090B;
-  --sidebar-primary: #E63946;
+  --sidebar-primary: #F97316;
   --sidebar-primary-foreground: #FAFAFA;
   --sidebar-accent: #F4F4F5;
   --sidebar-accent-foreground: #09090B;
   --sidebar-border: #E4E4E7;
-  --sidebar-ring: #E63946;
+  --sidebar-ring: #F97316;
 }
 
 /* ─── Dark mode ─── */
@@ -95,31 +95,31 @@
   --card-foreground: #FAFAFA;
   --popover: #111113;
   --popover-foreground: #FAFAFA;
-  --primary: #E63946;
+  --primary: #F97316;
   --primary-foreground: #FAFAFA;
   --secondary: #18181B;
   --secondary-foreground: #A1A1AA;
   --muted: #18181B;
   --muted-foreground: #A1A1AA;
-  --accent: #E63946;
+  --accent: #F97316;
   --accent-foreground: #FAFAFA;
-  --destructive: #E63946;
+  --destructive: #F97316;
   --border: #27272A;
   --input: #27272A;
-  --ring: #E63946;
-  --chart-1: #E63946;
+  --ring: #F97316;
+  --chart-1: #F97316;
   --chart-2: #A1A1AA;
   --chart-3: #71717A;
   --chart-4: #3F3F46;
   --chart-5: #52525B;
   --sidebar: #111113;
   --sidebar-foreground: #FAFAFA;
-  --sidebar-primary: #E63946;
+  --sidebar-primary: #F97316;
   --sidebar-primary-foreground: #FAFAFA;
   --sidebar-accent: #18181B;
   --sidebar-accent-foreground: #FAFAFA;
   --sidebar-border: #27272A;
-  --sidebar-ring: #E63946;
+  --sidebar-ring: #F97316;
 }
 
 @layer base {
@@ -193,7 +193,7 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover {
 
 /* ─── Gradient Text (simple red) ─── */
 .gradient-text {
-  background: linear-gradient(135deg, #E63946, #C5303C);
+  background: linear-gradient(135deg, #F97316, #EA580C);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

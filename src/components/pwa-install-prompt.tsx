@@ -87,7 +87,7 @@ export function PwaInstallPrompt() {
         >
           <div className="bg-[#111113] border border-[#27272A] rounded-xl p-4 shadow-lg shadow-black/20">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-lg bg-[#E63946] flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-[#F97316] flex items-center justify-center shrink-0">
                 <Smartphone className="h-5 w-5 text-white" />
               </div>
               <div className="flex-1 min-w-0">
@@ -109,7 +109,7 @@ export function PwaInstallPrompt() {
             <div className="mt-3 flex gap-2">
               <button
                 onClick={handleInstall}
-                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#E63946] hover:bg-[#C5303C] text-white text-sm font-semibold transition-all btn-press"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#F97316] hover:bg-[#EA580C] text-white text-sm font-semibold transition-all btn-press"
               >
                 <Download className="h-4 w-4" />
                 Install

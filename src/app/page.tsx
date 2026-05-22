@@ -639,7 +639,7 @@ function LanguageProvider({ children }: { children: React.ReactNode }) {
 }
 
 /* ──────────────────── Accent Color (hardcoded red) ──────────────────── */
-const ACCENT = "#E63946";
+const ACCENT = "#F97316";
 
 /* ──────────────────── Utility Functions ──────────────────── */
 function getHistory(): HistoryItem[] {
@@ -1128,7 +1128,7 @@ function Navbar() {
             <a href="#hero">
               <Button
                 size="sm"
-                className="bg-[#E63946] text-white font-semibold rounded-lg hover:bg-[#C5303C]"
+                className="bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C]"
               >
                 <Download className="mr-2 h-4 w-4" />
                 {t("nav.download")}
@@ -1206,7 +1206,7 @@ function Navbar() {
               ))}
               <a href="#hero" onClick={() => setOpen(false)}>
                 <Button
-                  className="w-full mt-2 bg-[#E63946] text-white font-semibold rounded-lg hover:bg-[#C5303C]"
+                  className="w-full mt-2 bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C]"
                 >
                   <Download className="mr-2 h-4 w-4" />
                   {t("nav.download")}
@@ -1267,7 +1267,7 @@ function RiwayatList({
             <div className="flex-1 min-w-0">
               <p className="text-xs font-medium text-foreground truncate">{item.title}</p>
               <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#E63946]/10 text-[#E63946]">
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#F97316]/10 text-[#F97316]">
                   {item.platform}
                 </span>
                 <span className="text-[10px] text-muted-foreground">
@@ -2377,7 +2377,7 @@ function HeroSection({
       {/* Single subtle red glow behind input */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.07]"
-        style={{ background: 'radial-gradient(circle, #E63946 0%, transparent 70%)' }}
+        style={{ background: 'radial-gradient(circle, #F97316 0%, transparent 70%)' }}
       />
 
       <div className="relative z-10 mx-auto max-w-2xl px-6 text-center">
@@ -2389,7 +2389,7 @@ function HeroSection({
         {/* Heading — HUGE, light weight */}
         <h1 className="mt-8 text-5xl sm:text-7xl font-light tracking-tight text-foreground">
           {audioMode ? t("hero.audioTitle") : t("hero.title")}<br />
-          <span className="font-bold text-[#E63946]">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
+          <span className="font-bold text-[#F97316]">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
         </h1>
 
         {/* Subtitle — small, muted */}
@@ -2434,7 +2434,7 @@ function HeroSection({
                 setBatchResults([]);
                 setBatchProgress({ current: 0, total: 0 });
               }}
-              className={`text-xs ${batchMode ? "text-[#E63946]" : "text-muted-foreground"}`}
+              className={`text-xs ${batchMode ? "text-[#F97316]" : "text-muted-foreground"}`}
             >
               <Layers className="h-3 w-3 mr-1" />
               {batchMode ? t("btn.singleMode") : t("btn.batchDownload")}
@@ -2460,7 +2460,7 @@ function HeroSection({
                 <Button
                   onClick={handleBatchProcess}
                   disabled={batchProcessing}
-                  className="h-10 px-5 bg-[#E63946] text-white font-semibold rounded-lg hover:bg-[#C5303C]"
+                  className="h-10 px-5 bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C]"
                 >
                   {batchProcessing ? (
                     <>
@@ -2514,7 +2514,7 @@ function HeroSection({
                 <Button
                   onClick={handleFetchPlaylist}
                   disabled={playlistFetching}
-                  className="h-12 px-6 bg-[#E63946] text-white font-semibold rounded-lg shrink-0 hover:bg-[#C5303C]"
+                  className="h-12 px-6 bg-[#F97316] text-white font-semibold rounded-lg shrink-0 hover:bg-[#EA580C]"
                 >
                   {playlistFetching ? (
                     <Loader2 className="h-5 w-5 animate-spin" />
@@ -2536,7 +2536,7 @@ function HeroSection({
                 <div className="mt-3">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs text-muted-foreground">{t("playlist.selectVideos")}</span>
-                    <Button variant="ghost" size="sm" onClick={handleSelectAllPlaylist} className="text-xs text-[#E63946]">
+                    <Button variant="ghost" size="sm" onClick={handleSelectAllPlaylist} className="text-xs text-[#F97316]">
                       {t("playlist.downloadAll")}
                     </Button>
                   </div>
@@ -2547,7 +2547,7 @@ function HeroSection({
                           type="checkbox"
                           checked={v.selected}
                           onChange={() => handleTogglePlaylistVideo(i)}
-                          className="h-4 w-4 rounded border-border accent-[#E63946]"
+                          className="h-4 w-4 rounded border-border accent-[#F97316]"
                         />
                         <div className="w-12 h-9 rounded bg-muted flex items-center justify-center shrink-0 overflow-hidden">
                           {v.thumbnail ? (
@@ -2565,7 +2565,7 @@ function HeroSection({
                   </div>
                   {playlistVideos.some((v) => v.selected) && (
                     <Button
-                      className="w-full mt-3 h-10 bg-[#E63946] text-white font-semibold rounded-lg"
+                      className="w-full mt-3 h-10 bg-[#F97316] text-white font-semibold rounded-lg"
                       onClick={async () => {
                         const selected = playlistVideos.filter((v) => v.selected);
                         for (const v of selected) {
@@ -2611,10 +2611,10 @@ function HeroSection({
                   initial={{ opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -5 }}
-                  className="bg-[#E63946]/10 border border-[#E63946]/20 rounded-lg px-4 py-2 text-sm flex items-center justify-between mb-2"
+                  className="bg-[#F97316]/10 border border-[#F97316]/20 rounded-lg px-4 py-2 text-sm flex items-center justify-between mb-2"
                 >
                   <span className="flex items-center gap-2 text-foreground">
-                    <Clipboard className="h-3.5 w-3.5 text-[#E63946]" />
+                    <Clipboard className="h-3.5 w-3.5 text-[#F97316]" />
                     {t("clipboard.detected")}
                   </span>
                   <div className="flex items-center gap-2">
@@ -2629,7 +2629,7 @@ function HeroSection({
                         // Trigger analyze after pasting
                         setTimeout(() => handleAnalyze(), 200);
                       }}
-                      className="text-xs h-7 px-3 text-[#E63946] hover:text-[#C5303C] hover:bg-[#E63946]/10 font-medium"
+                      className="text-xs h-7 px-3 text-[#F97316] hover:text-[#EA580C] hover:bg-[#F97316]/10 font-medium"
                     >
                       {t("clipboard.paste")}
                     </Button>
@@ -2689,7 +2689,7 @@ function HeroSection({
               <Button
                 onClick={handleAnalyze}
                 disabled={loading}
-                className="h-12 px-6 bg-[#E63946] text-white font-semibold rounded-lg shrink-0 hover:bg-[#C5303C]"
+                className="h-12 px-6 bg-[#F97316] text-white font-semibold rounded-lg shrink-0 hover:bg-[#EA580C]"
               >
                 {loading ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
@@ -2739,7 +2739,7 @@ function HeroSection({
                   exit={{ opacity: 0, y: -5 }}
                   className="mt-2 bg-card/50 border border-border rounded-lg p-3 flex items-center gap-3"
                 >
-                  <Loader2 className="h-4 w-4 animate-spin text-[#E63946]" />
+                  <Loader2 className="h-4 w-4 animate-spin text-[#F97316]" />
                   <span className="text-xs text-muted-foreground">{t("preview.loading")}</span>
                 </motion.div>
               )}
@@ -2756,7 +2756,7 @@ function HeroSection({
                     {previewData.thumbnail ? (
                       <img src={previewData.thumbnail} alt="" className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
                     ) : null}
-                    <Play className="h-5 w-5 absolute text-[#E63946]" />
+                    <Play className="h-5 w-5 absolute text-[#F97316]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-medium text-foreground line-clamp-1">{previewData.title}</p>
@@ -2775,7 +2775,7 @@ function HeroSection({
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0">
                     {previewData.platform && (
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-[#E63946]/10 text-[#E63946] font-medium">
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-[#F97316]/10 text-[#F97316] font-medium">
                         {previewData.platform}
                       </span>
                     )}
@@ -2856,13 +2856,13 @@ function HeroSection({
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
               className="max-w-xl mx-auto mb-6 rounded-xl bg-card border overflow-hidden"
-              style={{ borderColor: `#E6394630` }}
+              style={{ borderColor: `#F9731630` }}
             >
               {/* Platform badge */}
               <div
                 className="px-4 py-2 border-b border-border flex items-center gap-2"
                 style={{
-                  background: `linear-gradient(to right, #E6394615, #7C3AED15)`,
+                  background: `linear-gradient(to right, #F9731615, #7C3AED15)`,
                 }}
               >
                 <CheckCircle className="h-4 w-4 text-green-400" />
@@ -2950,7 +2950,7 @@ function HeroSection({
                           }}
                         />
                       ) : null}
-                      <Play className="h-8 w-8 absolute text-[#E63946]" />
+                      <Play className="h-8 w-8 absolute text-[#F97316]" />
                     </div>
                     <div className="flex-1 text-left min-w-0">
                       <h3 className="font-semibold text-foreground text-sm line-clamp-2">
@@ -2999,7 +2999,7 @@ function HeroSection({
                     size="sm"
                     onClick={handleToggleBookmark}
                     className="text-xs"
-                    style={isBookmarkedState ? { color: "#E63946" } : { color: "var(--muted-foreground)" }}
+                    style={isBookmarkedState ? { color: "#F97316" } : { color: "var(--muted-foreground)" }}
                   >
                     {isBookmarkedState ? (
                       <Bookmark className="h-3 w-3 mr-1 fill-current" />
@@ -3122,13 +3122,13 @@ function HeroSection({
                   <div className="mt-3">
                     <div className="flex items-center justify-between mb-2.5">
                       <p className="text-xs font-medium text-foreground text-left flex items-center gap-1.5">
-                        <Film className="h-3.5 w-3.5 text-[#E63946]" />
+                        <Film className="h-3.5 w-3.5 text-[#F97316]" />
                         {t("quality.select")}
                       </p>
                       {result.qualityOptions[selectedQuality] && (
                         <Badge
                           className="text-[10px] font-semibold"
-                          style={{ backgroundColor: `#E6394620`, color: "#E63946", border: `1px solid #E6394640` }}
+                          style={{ backgroundColor: `#F9731620`, color: "#F97316", border: `1px solid #F9731640` }}
                         >
                           {result.qualityOptions[selectedQuality].label} · {result.qualityOptions[selectedQuality].resolution}
                         </Badge>
@@ -3152,9 +3152,9 @@ function HeroSection({
                             style={
                               isSelected
                                 ? {
-                                    backgroundColor: "#E63946",
-                                    borderColor: "#E63946",
-                                    boxShadow: `0 4px 14px #E6394640`,
+                                    backgroundColor: "#F97316",
+                                    borderColor: "#F97316",
+                                    boxShadow: `0 4px 14px #F9731640`,
                                   }
                                 : { borderColor: "var(--border)" }
                             }
@@ -3179,10 +3179,10 @@ function HeroSection({
                           variant="outline"
                           size="sm"
                           className="mt-2 w-full text-xs justify-between"
-                          style={{ borderColor: `#E6394630` }}
+                          style={{ borderColor: `#F9731630` }}
                         >
                           <span className="flex items-center gap-2">
-                            <Film className="h-3 w-3 text-[#E63946]" />
+                            <Film className="h-3 w-3 text-[#F97316]" />
                             {t("result.resolution")}: {result.qualityOptions[selectedQuality]?.label || "—"} ({result.qualityOptions[selectedQuality]?.resolution || "—"})
                           </span>
                           <ChevronDown className="h-3 w-3 text-muted-foreground" />
@@ -3206,23 +3206,23 @@ function HeroSection({
                                     ? "bg-accent/10"
                                     : "hover:bg-muted"
                                 }`}
-                                style={isSelected ? { backgroundColor: `#E6394615` } : undefined}
+                                style={isSelected ? { backgroundColor: `#F9731615` } : undefined}
                               >
                                 <div
                                   className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                                  style={{ backgroundColor: isSelected ? `#E6394625` : "var(--muted)" }}
+                                  style={{ backgroundColor: isSelected ? `#F9731625` : "var(--muted)" }}
                                 >
-                                  <Icon className="h-4 w-4" style={{ color: isSelected ? "#E63946" : "var(--muted-foreground)" }} />
+                                  <Icon className="h-4 w-4" style={{ color: isSelected ? "#F97316" : "var(--muted-foreground)" }} />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-2">
-                                    <span className="text-sm font-medium" style={{ color: isSelected ? "#E63946" : "var(--foreground)" }}>
+                                    <span className="text-sm font-medium" style={{ color: isSelected ? "#F97316" : "var(--foreground)" }}>
                                       {q.label}
                                     </span>
                                     <Badge
                                       variant="secondary"
                                       className="text-[10px] px-1.5"
-                                      style={isSelected ? { backgroundColor: `#E6394620`, color: "#E63946" } : undefined}
+                                      style={isSelected ? { backgroundColor: `#F9731620`, color: "#F97316" } : undefined}
                                     >
                                       {q.resolution}
                                     </Badge>
@@ -3232,7 +3232,7 @@ function HeroSection({
                                   )}
                                 </div>
                                 {isSelected && (
-                                  <CheckCircle className="h-4 w-4 shrink-0 text-[#E63946]" />
+                                  <CheckCircle className="h-4 w-4 shrink-0 text-[#F97316]" />
                                 )}
                               </button>
                             );
@@ -3292,7 +3292,7 @@ function HeroSection({
                   className="w-full mt-4 h-12 text-white font-semibold rounded-lg"
                   onClick={handleDownload}
                   disabled={downloading}
-                  style={{ background: `linear-gradient(to right, #E63946, #00E5FF)` }}
+                  style={{ background: `linear-gradient(to right, #F97316, #00E5FF)` }}
                 >
                   {downloading ? (
                     <>
@@ -3340,7 +3340,7 @@ function HeroSection({
                       <div className="flex items-center gap-2 mt-0.5">
                         <span
                           className="text-[10px] px-1.5 py-0.5 rounded"
-                          style={{ backgroundColor: `#E6394615`, color: "#E63946" }}
+                          style={{ backgroundColor: `#F9731615`, color: "#F97316" }}
                         >
                           {br.platform}
                         </span>
@@ -3352,7 +3352,7 @@ function HeroSection({
                     <Button
                       size="sm"
                       onClick={() => handleBatchDownload(br)}
-                      className="bg-[#E63946] text-white shrink-0"
+                      className="bg-[#F97316] text-white shrink-0"
                     >
                       <Download className="h-3 w-3 mr-1" />
                       <span className="text-xs">Download</span>
@@ -3438,7 +3438,7 @@ function HeroSection({
           >
             <div className="p-3 rounded-xl bg-card border border-border">
               <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 mb-2">
-                <Timer className="h-4 w-4 text-[#E63946]" />
+                <Timer className="h-4 w-4 text-[#F97316]" />
                 {t("schedule.title")}
               </h3>
               <div className="space-y-2 max-h-32 overflow-y-auto">
@@ -3488,7 +3488,7 @@ function HeroSection({
                       <Button
                         size="sm"
                         onClick={() => handleDownloadSubtitle(sub)}
-                        className="bg-[#E63946] text-white"
+                        className="bg-[#F97316] text-white"
                       >
                         <Download className="h-3 w-3 mr-1" />
                         {t("subtitle.download")}
@@ -3525,9 +3525,9 @@ function HeroSection({
                   variant="outline"
                   onClick={() => handleScheduleDownload(opt.ms)}
                   className="h-12 text-sm font-medium"
-                  style={{ borderColor: `#E6394640` }}
+                  style={{ borderColor: `#F9731640` }}
                 >
-                  <Timer className="h-4 w-4 mr-2 text-[#E63946]" />
+                  <Timer className="h-4 w-4 mr-2 text-[#F97316]" />
                   {opt.label}
                 </Button>
               ))}
@@ -3540,7 +3540,7 @@ function HeroSection({
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-[#E63946]" />
+                <Sparkles className="h-5 w-5 text-[#F97316]" />
                 {t("result.aiSummaryTitle")}
               </DialogTitle>
               <DialogDescription>{t("result.aiSummaryLoading")}</DialogDescription>
@@ -3548,7 +3548,7 @@ function HeroSection({
             <div className="mt-2">
               {aiSummaryLoading ? (
                 <div className="flex items-center justify-center py-8">
-                  <Loader2 className="h-6 w-6 animate-spin text-[#E63946]" />
+                  <Loader2 className="h-6 w-6 animate-spin text-[#F97316]" />
                   <span className="ml-3 text-sm text-muted-foreground">{t("result.aiSummaryLoading")}</span>
                 </div>
               ) : aiSummaryText ? (
@@ -3570,7 +3570,7 @@ function HeroSection({
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Wand2 className="h-5 w-5 text-[#E63946]" />
+                <Wand2 className="h-5 w-5 text-[#F97316]" />
                 {t("result.gifTitle")}
               </DialogTitle>
               <DialogDescription>{t("result.gifMaxDuration")}</DialogDescription>
@@ -3610,7 +3610,7 @@ function HeroSection({
                       }`}
                       style={
                         gifQuality === q
-                          ? { backgroundColor: `#E6394620`, borderColor: `#E6394680`, color: "#E63946" }
+                          ? { backgroundColor: `#F9731620`, borderColor: `#F9731680`, color: "#F97316" }
                           : undefined
                       }
                     >
@@ -3628,7 +3628,7 @@ function HeroSection({
               <Button
                 onClick={handleGifConvert}
                 disabled={gifConverting}
-                className="w-full bg-[#E63946] text-white font-medium"
+                className="w-full bg-[#F97316] text-white font-medium"
               >
                 {gifConverting ? (
                   <>
@@ -3651,7 +3651,7 @@ function HeroSection({
           <DialogContent className="sm:max-w-sm">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <QrCode className="h-5 w-5 text-[#E63946]" />
+                <QrCode className="h-5 w-5 text-[#F97316]" />
                 {t("result.qrTitle")}
               </DialogTitle>
               <DialogDescription>{t("result.qrDesc")}</DialogDescription>
@@ -3671,7 +3671,7 @@ function HeroSection({
               </p>
               <Button
                 onClick={handleDownloadQr}
-                className="w-full bg-[#E63946] text-white font-medium"
+                className="w-full bg-[#F97316] text-white font-medium"
               >
                 <Download className="h-4 w-4 mr-2" />
                 {t("result.qrDownload")}
@@ -3685,7 +3685,7 @@ function HeroSection({
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Scissors className="h-5 w-5 text-[#E63946]" />
+                <Scissors className="h-5 w-5 text-[#F97316]" />
                 {t("result.trimTitle")}
               </DialogTitle>
               <DialogDescription>{t("result.trimDuration")}</DialogDescription>
@@ -3716,7 +3716,7 @@ function HeroSection({
                 <Badge
                   variant="secondary"
                   className="text-xs font-medium"
-                  style={{ backgroundColor: `#E6394620`, color: "#E63946" }}
+                  style={{ backgroundColor: `#F9731620`, color: "#F97316" }}
                 >
                   {Math.max(0, parseTimeToSeconds(trimEnd) - parseTimeToSeconds(trimStart))} {t("result.seconds")}
                 </Badge>
@@ -3728,7 +3728,7 @@ function HeroSection({
                   style={{
                     left: `${Math.min(100, (parseTimeToSeconds(trimStart) / Math.max(1, parseTimeToSeconds(trimEnd) || 60)) * 100)}%`,
                     right: "0%",
-                    backgroundColor: "#E63946",
+                    backgroundColor: "#F97316",
                   }}
                 />
                 <div
@@ -3736,7 +3736,7 @@ function HeroSection({
                   style={{
                     left: `${(parseTimeToSeconds(trimStart) / Math.max(1, parseTimeToSeconds(trimEnd) || 60)) * 100}%`,
                     width: `${((parseTimeToSeconds(trimEnd) - parseTimeToSeconds(trimStart)) / Math.max(1, parseTimeToSeconds(trimEnd) || 60)) * 100}%`,
-                    backgroundColor: "#E63946",
+                    backgroundColor: "#F97316",
                     opacity: 0.8,
                   }}
                 />
@@ -3747,7 +3747,7 @@ function HeroSection({
               <Button
                 onClick={handleTrim}
                 disabled={trimming}
-                className="w-full bg-[#E63946] text-white font-medium"
+                className="w-full bg-[#F97316] text-white font-medium"
               >
                 {trimming ? (
                   <>
@@ -3785,7 +3785,7 @@ function HeroSection({
       {/* Feature 5: Keyboard Shortcuts Cheat Sheet Button */}
       <button
         onClick={() => setShortcutsOpen(true)}
-        className="fixed bottom-4 left-4 z-50 w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#E63946]/30 transition-all"
+        className="fixed bottom-4 left-4 z-50 w-9 h-9 rounded-full bg-background border border-border shadow-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#F97316]/30 transition-all"
         title={t("shortcuts.hint")}
         aria-label={t("shortcuts.showShortcuts")}
       >
@@ -3797,7 +3797,7 @@ function HeroSection({
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Keyboard className="h-5 w-5 text-[#E63946]" />
+              <Keyboard className="h-5 w-5 text-[#F97316]" />
               {t("shortcuts.title")}
             </DialogTitle>
             <DialogDescription>{t("shortcuts.hint")}</DialogDescription>
@@ -3898,10 +3898,10 @@ function FeaturesSection() {
               <div
                 className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300"
                 style={{
-                  background: `linear-gradient(135deg, #E6394630, #00E5FF30)`,
+                  background: `linear-gradient(135deg, #F9731630, #00E5FF30)`,
                 }}
               >
-                <f.icon className="h-6 w-6 text-[#E63946]" />
+                <f.icon className="h-6 w-6 text-[#F97316]" />
               </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">{f.titleId}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -3945,7 +3945,7 @@ function HowItWorksSection() {
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle, #E63946 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, #F97316 0%, transparent 70%)" }}
         />
       </div>
       <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -3974,12 +3974,12 @@ function HowItWorksSection() {
                 <div className="relative mb-4">
                   <div
                     className="w-16 h-16 rounded-full flex items-center justify-center"
-                    style={{ background: "#E63946" }}
+                    style={{ background: "#F97316" }}
                   >
                     <s.icon className="h-7 w-7 text-white" />
                   </div>
                   <span
-                    className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-background border-2 border-[#E63946] text-[#E63946] flex items-center justify-center text-[10px] font-bold"
+                    className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-background border-2 border-[#F97316] text-[#F97316] flex items-center justify-center text-[10px] font-bold"
                   >
                     {s.number}
                   </span>
@@ -4041,20 +4041,20 @@ function StatistikSection() {
         >
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 flex items-center justify-center gap-2">
-              <BarChart3 className="h-6 w-6 text-[#E63946]" />
+              <BarChart3 className="h-6 w-6 text-[#F97316]" />
               <span className="gradient-text">{t("stats.title")}</span>
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <div className="p-4 rounded-xl bg-card border border-border text-center">
-              <p className="text-3xl font-extrabold text-[#E63946]">
+              <p className="text-3xl font-extrabold text-[#F97316]">
                 {stats.total}
               </p>
               <p className="text-xs text-muted-foreground mt-1">{t("stats.total")}</p>
             </div>
             <div className="p-4 rounded-xl bg-card border border-border text-center">
-              <p className="text-3xl font-extrabold text-[#E63946]">
+              <p className="text-3xl font-extrabold text-[#F97316]">
                 {formatSize(stats.totalSize)}
               </p>
               <p className="text-xs text-muted-foreground mt-1">{t("stats.totalData")}</p>
@@ -4079,7 +4079,7 @@ function StatistikSection() {
                         className="h-full rounded-full transition-all duration-500"
                         style={{
                           width: `${Math.max(4, (count / maxPlatformCount) * 100)}%`,
-                          background: `linear-gradient(to right, #E63946, #7C3AED)`,
+                          background: `linear-gradient(to right, #F97316, #7C3AED)`,
                         }}
                       />
                     </div>
@@ -4246,7 +4246,7 @@ function TrendingSection() {
                 className="text-[11px] px-2.5 py-1 rounded-full border transition-all"
                 style={
                   activeTag === tag
-                    ? { backgroundColor: `#E6394620`, borderColor: `#E6394650`, color: "#E63946" }
+                    ? { backgroundColor: `#F9731620`, borderColor: `#F9731650`, color: "#F97316" }
                     : { backgroundColor: "var(--muted)", borderColor: "var(--border)", color: "var(--muted-foreground)" }
                 }
               >
@@ -4285,7 +4285,7 @@ function TrendingSection() {
                 </span>
                 <span className="text-xs text-muted-foreground">{t("downloads hari ini")}</span>
               </div>
-              <TrendingUp className="absolute bottom-3 right-3 h-8 w-8" style={{ color: `#E6394615` }} />
+              <TrendingUp className="absolute bottom-3 right-3 h-8 w-8" style={{ color: `#F9731615` }} />
             </motion.div>
           ))}
         </div>
@@ -4435,7 +4435,7 @@ function FAQSection() {
                 key={i}
                 value={`faq-${i}`}
                 className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-current/30 transition-colors"
-                style={{ "--current": "#E63946" } as React.CSSProperties}
+                style={{ "--current": "#F97316" } as React.CSSProperties}
               >
                 <AccordionTrigger className="text-left text-foreground font-medium hover:no-underline transition-colors">
                   {faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}
@@ -4462,11 +4462,11 @@ function CTASection() {
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full opacity-[0.04]"
-          style={{ background: `radial-gradient(circle, #E6394680 0%, transparent 70%)` }}
+          style={{ background: `radial-gradient(circle, #F9731680 0%, transparent 70%)` }}
         />
         <div
           className="absolute -top-40 -right-40 w-[400px] h-[400px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle, #E6394640 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, #F9731640 0%, transparent 70%)" }}
         />
       </div>
       <div className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
@@ -4490,7 +4490,7 @@ function CTASection() {
             <Button
               size="lg"
               className="h-14 px-8 text-base text-white font-semibold rounded-xl animate-gradient-shift"
-              style={{ background: `linear-gradient(to right, #E63946, #7C3AED, #00E5FF)`, backgroundSize: "200% 200%" }}
+              style={{ background: `linear-gradient(to right, #F97316, #7C3AED, #00E5FF)`, backgroundSize: "200% 200%" }}
             >
               <Download className="mr-2 h-5 w-5" />
               {t("cta.button")}
@@ -4629,7 +4629,7 @@ function MobileBottomNav({
                     <item.icon className="h-5 w-5" />
                     {bookmarkCount > 0 && (
                       <span
-                        className="absolute -top-1.5 -right-1.5 min-w-[14px] h-[14px] rounded-full text-[8px] font-bold flex items-center justify-center bg-[#E63946] text-white"
+                        className="absolute -top-1.5 -right-1.5 min-w-[14px] h-[14px] rounded-full text-[8px] font-bold flex items-center justify-center bg-[#F97316] text-white"
                       >
                         {bookmarkCount > 9 ? "9+" : bookmarkCount}
                       </span>
@@ -4644,7 +4644,7 @@ function MobileBottomNav({
                 key={item.label}
                 href={item.href}
                 className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-lg transition-colors ${
-                  item.highlight ? "text-[#E63946]" : "text-muted-foreground hover:text-foreground"
+                  item.highlight ? "text-[#F97316]" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 <item.icon className="h-5 w-5" />
@@ -4715,7 +4715,7 @@ function QuickActionFAB({
         onClick={() => setExpanded(!expanded)}
         className="w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white transition-transform hover:scale-105"
         style={{
-          background: "#E63946",
+          background: "#F97316",
           transform: expanded ? "rotate(45deg)" : "rotate(0deg)",
         }}
         aria-label="Quick actions"
@@ -4797,7 +4797,7 @@ function ReportButton() {
             <Button
               onClick={handleSubmit}
               disabled={!issueType}
-              className="bg-[#E63946] text-white"
+              className="bg-[#F97316] text-white"
             >
               {t("report.submit")}
             </Button>
@@ -4971,7 +4971,7 @@ function BookmarkSheet({
       <SheetContent side="bottom" className="rounded-t-2xl max-h-[70vh]">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            <Bookmark className="h-5 w-5 text-[#E63946]" />
+            <Bookmark className="h-5 w-5 text-[#F97316]" />
             {t("bookmark.title")}
           </SheetTitle>
           <SheetDescription>{t("bookmark.empty")}</SheetDescription>
@@ -5012,7 +5012,7 @@ function BookmarkSheet({
                         <div className="flex items-center gap-2 mt-0.5">
                           <span
                             className="text-[10px] px-1.5 py-0.5 rounded"
-                            style={{ backgroundColor: `#E6394615`, color: "#E63946" }}
+                            style={{ backgroundColor: `#F9731615`, color: "#F97316" }}
                           >
                             {item.platform}
                           </span>
