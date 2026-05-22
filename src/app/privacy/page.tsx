@@ -54,7 +54,7 @@ const sections = [
     content: [
       "Mova is a tool that facilitates downloading publicly available content. We do not host, store, or distribute any copyrighted material.",
       "Users are solely responsible for ensuring they have the right to download and use any content accessed through our service.",
-      "If you believe your copyrighted content is being accessed in violation of your rights, please contact us at support@mova.vercel.app with the URL in question and proof of ownership.",
+      "If you believe your copyrighted content is being accessed in violation of your rights, please contact us at support@getmova.vercel.app with the URL in question and proof of ownership.",
     ],
   },
   {
@@ -72,7 +72,7 @@ const sections = [
     title: "Contact Us",
     content: [
       "If you have any questions about this Privacy Policy or Terms of Service, please contact us at:",
-      "Email: support@mova.vercel.app",
+      "Email: support@getmova.vercel.app",
       "TikTok: @abbbuw",
       "Telegram: @sixte3nnn",
     ],
