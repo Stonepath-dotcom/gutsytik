@@ -1062,104 +1062,103 @@ function Navbar() {
   ];
 
   return (
-    <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border"
-    >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          <a href="#" className="flex items-center gap-2">
-            <MovaLogo size={36} showText />
+    <>
+      <motion.header
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4"
+      >
+        <div className="dock-nav px-3 sm:px-5 h-12 flex items-center gap-2 sm:gap-4 max-w-3xl w-full">
+          {/* Logo */}
+          <a href="#" className="flex items-center gap-2 shrink-0">
+            <MovaLogo size={28} showText />
           </a>
 
-          <nav className="hidden md:flex items-center gap-1">
+          {/* Center nav links - desktop only */}
+          <nav className="hidden md:flex items-center gap-0.5 flex-1 justify-center">
             {navLinks.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
-                className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-accent"
+                className="px-3 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-primary/10"
               >
                 {l.label}
               </a>
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-1.5">
-            {/* Feature 6: Language Toggle */}
+          {/* Right controls - desktop */}
+          <div className="hidden md:flex items-center gap-1 shrink-0">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setLang(lang === "id" ? "en" : "id")}
-              className="relative h-9 w-9"
+              className="relative h-8 w-8"
               aria-label="Toggle language"
             >
-              <Languages className="h-4 w-4" />
+              <Languages className="h-3.5 w-3.5" />
             </Button>
 
-            {/* Sound Toggle */}
             <Button
               variant="ghost"
               size="icon"
               onClick={toggleSound}
-              className="relative h-9 w-9"
+              className="relative h-8 w-8"
               aria-label={soundEnabled ? "Mute sounds" : "Unmute sounds"}
             >
               {soundEnabled ? (
-                <Volume2 className="h-4 w-4" />
+                <Volume2 className="h-3.5 w-3.5" />
               ) : (
-                <VolumeX className="h-4 w-4" />
+                <VolumeX className="h-3.5 w-3.5" />
               )}
             </Button>
 
-            {/* Theme Toggle */}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="relative h-9 w-9"
+              className="relative h-8 w-8"
               aria-label="Toggle theme"
             >
-              <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <Sun className="h-3.5 w-3.5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-3.5 w-3.5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             </Button>
 
             <a href="#hero">
               <Button
                 size="sm"
-                className="bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C]"
+                className="h-8 px-4 bg-[#F97316] text-white font-semibold rounded-full hover:bg-[#EA580C] btn-press text-xs"
               >
-                <Download className="mr-2 h-4 w-4" />
+                <Download className="mr-1.5 h-3.5 w-3.5" />
                 {t("nav.download")}
               </Button>
             </a>
           </div>
 
-          <div className="flex md:hidden items-center gap-1.5">
-            {/* Feature 6: Language Toggle (mobile) */}
+          {/* Mobile: logo + controls */}
+          <div className="flex md:hidden items-center gap-1 ml-auto shrink-0">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setLang(lang === "id" ? "en" : "id")}
-              className="relative h-9 w-9"
+              className="relative h-8 w-8"
               aria-label="Toggle language"
             >
-              <Languages className="h-4 w-4" />
+              <Languages className="h-3.5 w-3.5" />
             </Button>
 
-            {/* Sound Toggle (mobile) */}
             <Button
               variant="ghost"
               size="icon"
               onClick={toggleSound}
-              className="relative h-9 w-9"
+              className="relative h-8 w-8"
               aria-label={soundEnabled ? "Mute sounds" : "Unmute sounds"}
             >
               {soundEnabled ? (
-                <Volume2 className="h-4 w-4" />
+                <Volume2 className="h-3.5 w-3.5" />
               ) : (
-                <VolumeX className="h-4 w-4" />
+                <VolumeX className="h-3.5 w-3.5" />
               )}
             </Button>
 
@@ -1167,46 +1166,46 @@ function Navbar() {
               variant="ghost"
               size="icon"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="relative h-9 w-9"
+              className="relative h-8 w-8"
               aria-label="Toggle theme"
             >
-              <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <Sun className="h-3.5 w-3.5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-3.5 w-3.5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             </Button>
             <button
               onClick={() => setOpen(!open)}
-              className="p-2 rounded-md hover:bg-accent transition-colors"
+              className="p-1.5 rounded-full hover:bg-primary/10 transition-colors"
               aria-label="Toggle menu"
             >
-              {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
-      </div>
+      </motion.header>
 
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden overflow-hidden bg-background border-t border-border"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="fixed top-20 left-4 right-4 z-50 md:hidden dock-nav p-4"
           >
-            <div className="px-4 py-4 space-y-1">
+            <div className="space-y-1">
               {navLinks.map((l) => (
                 <a
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-accent"
+                  className="block px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-xl hover:bg-primary/10"
                 >
                   {l.label}
                 </a>
               ))}
-              <a href="#hero" onClick={() => setOpen(false)}>
+              <a href="#hero" onClick={() => setOpen(false)} className="block">
                 <Button
-                  className="w-full mt-2 bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C]"
+                  className="w-full mt-2 bg-[#F97316] text-white font-semibold rounded-xl hover:bg-[#EA580C] btn-press"
                 >
                   <Download className="mr-2 h-4 w-4" />
                   {t("nav.download")}
@@ -1216,7 +1215,7 @@ function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </>
   );
 }
 
@@ -2369,31 +2368,32 @@ function HeroSection({
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
+      {/* Animated mesh gradient background */}
+      <div className="absolute inset-0 mesh-gradient-animated pointer-events-none" />
       {/* Noise texture overlay */}
       <div className="absolute inset-0 noise-overlay pointer-events-none opacity-[0.03]" />
 
-      {/* Single subtle red glow behind input */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.07]"
-        style={{ background: 'radial-gradient(circle, #F97316 0%, transparent 70%)' }}
-      />
+      {/* Dot grid pattern */}
+      <div className="absolute inset-0 dot-grid pointer-events-none opacity-30" />
 
       <div className="relative z-10 mx-auto max-w-2xl px-6 text-center">
-        {/* Badge */}
-        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-border text-muted-foreground">
+        {/* Badge - subtle pill */}
+        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-live" />
           {t("hero.badge")}
         </span>
 
-        {/* Heading — HUGE, light weight */}
-        <h1 className="mt-8 text-5xl sm:text-7xl font-light tracking-tight text-foreground">
-          {audioMode ? t("hero.audioTitle") : t("hero.title")}<br />
-          <span className="font-bold text-[#F97316]">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
+        {/* Heading — HUGE, Montserrat font */}
+        <h1 className="mt-8 text-6xl sm:text-8xl lg:text-9xl font-extrabold tracking-tight text-foreground font-[family-name:var(--font-montserrat)] leading-[0.9]">
+          {audioMode ? t("hero.audioTitle") : t("hero.title")}
+          <br />
+          <span className="gradient-text-wide">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
         </h1>
 
-        {/* Subtitle — small, muted */}
-        <p className="mt-6 text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
+        {/* Subtitle — larger, lighter */}
+        <p className="mt-6 text-base sm:text-lg text-muted-foreground max-w-lg mx-auto leading-relaxed font-light">
           {audioMode ? t("hero.audioSubtitle") : t("hero.subtitle")}
         </p>
 
@@ -2401,7 +2401,7 @@ function HeroSection({
         <StreakBadge streakCount={streakCount} isOnFire={isOnFire} />
 
         {/* Download form */}
-        <div className="mt-10 max-w-xl mx-auto mb-4">
+        <div className="mt-10 max-w-2xl mx-auto mb-4">
           {/* Feature 2: Audio/Video tab toggle */}
           <div className="flex items-center justify-between mb-2">
             <Tabs
@@ -2443,7 +2443,7 @@ function HeroSection({
 
           {batchMode ? (
             /* Batch mode textarea */
-            <div className="p-2 rounded-xl bg-card border border-border">
+            <div className="p-3 rounded-2xl bento-card input-glow">
               <Textarea
                 placeholder={t("batch.placeholder")}
                 value={batchUrls}
@@ -2460,7 +2460,7 @@ function HeroSection({
                 <Button
                   onClick={handleBatchProcess}
                   disabled={batchProcessing}
-                  className="h-10 px-5 bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C]"
+                  className="h-12 px-6 bg-[#F97316] text-white font-semibold rounded-xl hover:bg-[#EA580C] glow-orange btn-press"
                 >
                   {batchProcessing ? (
                     <>
@@ -2499,7 +2499,7 @@ function HeroSection({
             </div>
           ) : playlistTab ? (
             /* Feature 4: Playlist mode */
-            <div className="p-3 rounded-xl bg-card border border-border">
+            <div className="p-4 rounded-2xl bento-card input-glow">
               <div className="flex gap-2">
                 <div className="relative flex-1">
                   <Input
@@ -2514,7 +2514,7 @@ function HeroSection({
                 <Button
                   onClick={handleFetchPlaylist}
                   disabled={playlistFetching}
-                  className="h-12 px-6 bg-[#F97316] text-white font-semibold rounded-lg shrink-0 hover:bg-[#EA580C]"
+                  className="h-12 px-6 bg-[#F97316] text-white font-semibold rounded-xl shrink-0 hover:bg-[#EA580C] glow-orange btn-press"
                 >
                   {playlistFetching ? (
                     <Loader2 className="h-5 w-5 animate-spin" />
@@ -2645,7 +2645,7 @@ function HeroSection({
                 </motion.div>
               )}
             </AnimatePresence>
-            <div className="flex gap-2 p-2 rounded-xl bg-card border border-border">
+            <div className="flex gap-2 p-2 rounded-2xl bento-card input-glow">
               <div className="relative flex-1">
                 <Input
                   ref={inputRef}
@@ -2689,7 +2689,7 @@ function HeroSection({
               <Button
                 onClick={handleAnalyze}
                 disabled={loading}
-                className="h-12 px-6 bg-[#F97316] text-white font-semibold rounded-lg shrink-0 hover:bg-[#EA580C]"
+                className="h-14 px-8 bg-[#F97316] text-white font-semibold rounded-xl shrink-0 hover:bg-[#EA580C] glow-orange btn-press text-base"
               >
                 {loading ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
@@ -2834,12 +2834,12 @@ function HeroSection({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="max-w-xl mx-auto mb-10 flex flex-wrap justify-center gap-2"
+          className="max-w-2xl mx-auto mb-10 flex flex-wrap justify-center gap-2"
         >
           {["TikTok", "Instagram", "YouTube", "Facebook", "Twitter/X", "Pinterest"].map((p) => (
             <span
               key={p}
-              className="text-[11px] px-2.5 py-1 rounded-full bg-muted/50 text-muted-foreground border border-border"
+              className="text-[11px] px-3 py-1.5 rounded-full bg-card/50 text-muted-foreground border border-border/50"
             >
               {p}
             </span>
@@ -3765,19 +3765,22 @@ function HeroSection({
           </DialogContent>
         </Dialog>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator — thin animated line */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 0.5 }}
-          className="mt-12"
+          className="mt-12 flex flex-col items-center gap-2"
         >
-          <a
-            href="#features"
-            className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-border hover:border-current/30 transition-colors"
-            style={{ borderColor: 'var(--border)' }}
-          >
-            <ChevronDown className="h-5 w-5 text-muted-foreground animate-bounce" />
+          <a href="#features" className="group flex flex-col items-center gap-2">
+            <span className="text-[10px] text-muted-foreground/50 uppercase tracking-widest">Scroll</span>
+            <div className="w-[1px] h-8 bg-gradient-to-b from-primary/40 to-transparent relative overflow-hidden">
+              <motion.div
+                className="absolute inset-x-0 h-3 bg-primary"
+                animate={{ y: [-12, 20] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </div>
           </a>
         </motion.div>
       </div>
@@ -3870,45 +3873,125 @@ function FeaturesSection() {
   /* accent hardcoded to red */
   const lang = useLanguage().lang;
 
+  const FirstIcon = featuresData[0].icon;
+  const SecondIcon = featuresData[1].icon;
+  const SixthIcon = featuresData[5].icon;
+
   return (
-    <section id="features" className="relative py-20 sm:py-28">
+    <section id="features" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-14"
+          className="mb-14 text-left"
         >
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">
+          <div className="w-12 h-1 rounded-full bg-primary mb-4" />
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 font-[family-name:var(--font-montserrat)]">
             <span className="gradient-text">{t("features.title")}</span>
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">{t("features.subtitle")}</p>
+          <p className="text-muted-foreground max-w-xl">{t("features.subtitle")}</p>
         </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuresData.map((f, i) => (
-            <motion.div
-              key={f.titleId}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="gradient-border group rounded-xl bg-card p-6 hover:bg-muted/50 transition-colors"
-            >
-              <div
-                className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300"
-                style={{
-                  background: `linear-gradient(135deg, #F9731630, #00E5FF30)`,
-                }}
-              >
-                <f.icon className="h-6 w-6 text-[#F97316]" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Row 1: Large card spanning 2 cols + 1 col */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0 }}
+            className="sm:col-span-2 bento-card spotlight-card shimmer p-8 flex flex-col justify-between min-h-[220px]"
+          >
+            <div>
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 bg-primary/10">
+                <FirstIcon className="h-7 w-7 text-[#F97316]" />
               </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">{f.titleId}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {featureDescs[lang]?.[f.titleId] || featureDescs.id[f.titleId]}
+              <h3 className="text-xl font-semibold text-foreground mb-2">{featuresData[0].titleId}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
+                {featureDescs[lang]?.[featuresData[0].titleId] || featureDescs.id[featuresData[0].titleId]}
               </p>
-            </motion.div>
-          ))}
+            </div>
+            <div className="mt-4 flex items-center gap-2 text-primary/30">
+              <Download className="h-20 w-20" />
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="bento-card spotlight-card p-6"
+          >
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 bg-primary/10">
+              <SecondIcon className="h-7 w-7 text-[#F97316]" />
+            </div>
+            <h3 className="text-lg font-semibold text-foreground mb-2">{featuresData[1].titleId}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {featureDescs[lang]?.[featuresData[1].titleId] || featureDescs.id[featuresData[1].titleId]}
+            </p>
+          </motion.div>
+
+          {/* Row 2: 3 individual cards */}
+          {featuresData.slice(2, 5).map((f, i) => {
+            const Icon = f.icon;
+            return (
+              <motion.div
+                key={f.titleId}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: 0.1 + i * 0.05 }}
+                className="bento-card spotlight-card p-6"
+              >
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 bg-primary/10">
+                  <Icon className="h-7 w-7 text-[#F97316]" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">{f.titleId}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {featureDescs[lang]?.[f.titleId] || featureDescs.id[f.titleId]}
+                </p>
+              </motion.div>
+            );
+          })}
+
+          {/* Row 3: 1 col + Large card spanning 2 cols */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="bento-card spotlight-card p-6"
+          >
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 bg-primary/10">
+              <SixthIcon className="h-7 w-7 text-[#F97316]" />
+            </div>
+            <h3 className="text-lg font-semibold text-foreground mb-2">{featuresData[5].titleId}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {featureDescs[lang]?.[featuresData[5].titleId] || featureDescs.id[featuresData[5].titleId]}
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="sm:col-span-2 bento-card spotlight-card shimmer p-8 flex items-center gap-6 min-h-[220px]"
+          >
+            <div className="flex-1">
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 bg-primary/10">
+                <Globe className="h-7 w-7 text-[#F97316]" />
+              </div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">{featuresData[4].titleId}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
+                {featureDescs[lang]?.[featuresData[4].titleId] || featureDescs.id[featuresData[4].titleId]}
+              </p>
+            </div>
+            <div className="hidden sm:flex flex-col items-center gap-1 text-5xl opacity-20 select-none">
+              <span>📱</span>
+              <span>💻</span>
+              <span>🖥️</span>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -3940,62 +4023,58 @@ function HowItWorksSection() {
   const { lang, t } = useLanguage();
 
   return (
-    <section id="how-it-works" className="relative py-20 sm:py-28">
-      {/* Subtle red glow */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle, #F97316 0%, transparent 70%)" }}
-        />
-      </div>
-      <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+    <section id="how-it-works" className="relative py-16 sm:py-24">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-14"
+          className="mb-14 text-left"
         >
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">
+          <div className="w-12 h-1 rounded-full bg-primary mb-4" />
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 font-[family-name:var(--font-montserrat)]">
             {t("how.title")} <span className="gradient-text">Mova</span>
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">{t("how.subtitle")}</p>
+          <p className="text-muted-foreground max-w-xl">{t("how.subtitle")}</p>
         </motion.div>
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-0">
-          {stepsData.map((s, i) => (
-            <React.Fragment key={s.number}>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.15 }}
-                className="flex flex-col items-center text-center flex-1 relative"
-              >
-                <div className="relative mb-4">
-                  <div
-                    className="w-16 h-16 rounded-full flex items-center justify-center"
-                    style={{ background: "#F97316" }}
-                  >
-                    <s.icon className="h-7 w-7 text-white" />
+        <div className="relative">
+          {/* Vertical connecting line */}
+          <div className="absolute left-6 sm:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-primary/30 via-primary/10 to-transparent" />
+          <div className="space-y-6">
+            {stepsData.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <motion.div
+                  key={s.number}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: i * 0.15 }}
+                  className="bento-card spotlight-card p-6 flex items-start gap-6 relative"
+                >
+                  {/* Big number on the left */}
+                  <div className="shrink-0 relative z-10">
+                    <span className="text-7xl font-extrabold text-primary/10 leading-none select-none">
+                      {s.number}
+                    </span>
                   </div>
-                  <span
-                    className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-background border-2 border-[#F97316] text-[#F97316] flex items-center justify-center text-[10px] font-bold"
-                  >
-                    {s.number}
-                  </span>
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-1">{s.titleId}</h3>
-                <p className="text-sm text-muted-foreground max-w-[200px]">
-                  {stepsDescs[lang]?.[s.titleId] || stepsDescs.id[s.titleId]}
-                </p>
-              </motion.div>
-              {i < stepsData.length - 1 && (
-                <div className="hidden md:flex items-center self-start mt-8 flex-1">
-                  <div className="w-full border-t-2 border-dashed border-border" />
-                </div>
-              )}
-            </React.Fragment>
-          ))}
+                  {/* Content on the right */}
+                  <div className="flex-1 pt-2">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-primary/10">
+                        <Icon className="h-5 w-5 text-[#F97316]" />
+                      </div>
+                      <h3 className="text-lg font-semibold text-foreground">{s.titleId}</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {stepsDescs[lang]?.[s.titleId] || stepsDescs.id[s.titleId]}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
@@ -4314,40 +4393,60 @@ function PlatformsSection() {
   const { t } = useLanguage();
 
   return (
-    <section id="platforms" className="relative py-20 sm:py-28">
+    <section id="platforms" className="relative py-12 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-14"
+          className="text-center mb-10"
         >
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 font-[family-name:var(--font-montserrat)]">
             {t("platforms.title")}
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">{t("platforms.subtitle")}</p>
         </motion.div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
-          {platforms.map((p, i) => (
-            <motion.div
-              key={p.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
-              whileHover={{ y: -4, scale: 1.03 }}
-              className="flex flex-col items-center gap-3 p-5 rounded-xl bg-card border border-border hover:border-current/20 transition-colors cursor-pointer"
-              style={{ borderColor: 'var(--border)' }}
+      </div>
+      {/* Marquee Row 1 — scrolling left */}
+      <div className="relative mb-4">
+        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+        <div className="flex animate-marquee scroll-hide">
+          {[...platforms, ...platforms].map((p, i) => (
+            <div
+              key={`row1-${p.name}-${i}`}
+              className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-card border border-border mx-2 shrink-0 hover:border-primary/30 transition-colors cursor-pointer"
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg"
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm"
                 style={{ background: p.gradient || p.bg }}
               >
-                {p.icon ? <p.icon className="h-6 w-6" /> : p.letter}
+                {p.icon ? <p.icon className="h-4 w-4" /> : p.letter}
               </div>
-              <span className="text-sm font-medium text-foreground">{p.name}</span>
-            </motion.div>
+              <span className="text-sm font-medium text-foreground whitespace-nowrap">{p.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Marquee Row 2 — scrolling right */}
+      <div className="relative">
+        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+        <div className="flex animate-marquee-reverse scroll-hide">
+          {[...platforms.slice().reverse(), ...platforms.slice().reverse()].map((p, i) => (
+            <div
+              key={`row2-${p.name}-${i}`}
+              className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-card border border-border mx-2 shrink-0 hover:border-primary/30 transition-colors cursor-pointer"
+            >
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm"
+                style={{ background: p.gradient || p.bg }}
+              >
+                {p.icon ? <p.icon className="h-4 w-4" /> : p.letter}
+              </div>
+              <span className="text-sm font-medium text-foreground whitespace-nowrap">{p.name}</span>
+            </div>
           ))}
         </div>
       </div>
@@ -4402,16 +4501,17 @@ function FAQSection() {
   const lang = useLanguage().lang;
 
   return (
-    <section id="faq" className="relative py-20 sm:py-28">
+    <section id="faq" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-14"
+          className="mb-14 text-left"
         >
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">
+          <div className="w-12 h-1 rounded-full bg-primary mb-4" />
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 font-[family-name:var(--font-montserrat)]">
             {t("faq.title").split(" ").map((word, i) => {
               const words = t("faq.title").split(" ");
               return i === words.length - 1 ? (
@@ -4421,32 +4521,38 @@ function FAQSection() {
               );
             })}
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">{t("faq.subtitle")}</p>
+          <p className="text-muted-foreground max-w-xl">{t("faq.subtitle")}</p>
         </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          <Accordion type="single" collapsible className="space-y-3">
-            {faqsData.map((f, i) => (
-              <AccordionItem
-                key={i}
-                value={`faq-${i}`}
-                className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-current/30 transition-colors"
-                style={{ "--current": "#F97316" } as React.CSSProperties}
-              >
-                <AccordionTrigger className="text-left text-foreground font-medium hover:no-underline transition-colors">
-                  {faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">
-                  {faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </motion.div>
+        <div className="space-y-4">
+          {faqsData.map((f, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+            >
+              <Accordion type="single" collapsible>
+                <AccordionItem
+                  value={`faq-${i}`}
+                  className="bento-card px-6 py-1 data-[state=open]:border-primary/20"
+                >
+                  <AccordionTrigger className="text-left text-foreground font-medium hover:no-underline py-5 flex items-center gap-4">
+                    <span className="text-4xl font-extrabold text-primary/10 shrink-0 select-none">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="flex-1">
+                      {faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed pl-16 pb-5">
+                    {faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -4458,43 +4564,42 @@ function CTASection() {
   /* accent hardcoded to red */
 
   return (
-    <section className="relative py-20 sm:py-28 overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full opacity-[0.04]"
-          style={{ background: `radial-gradient(circle, #F9731680 0%, transparent 70%)` }}
-        />
-        <div
-          className="absolute -top-40 -right-40 w-[400px] h-[400px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle, #F9731640 0%, transparent 70%)" }}
-        />
-      </div>
-      <div className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
+    <section className="relative py-24 sm:py-32 overflow-hidden">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6 }}
+          className="bento-card mesh-gradient-animated relative p-12 sm:p-16 text-center overflow-hidden"
         >
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">
+          {/* Floating particles/dots */}
+          <div className="absolute top-8 left-12 w-1.5 h-1.5 rounded-full bg-primary/30 animate-pulse" />
+          <div className="absolute top-16 right-20 w-1 h-1 rounded-full bg-primary/20 animate-pulse" style={{ animationDelay: "0.5s" }} />
+          <div className="absolute bottom-12 left-20 w-2 h-2 rounded-full bg-primary/15 animate-pulse" style={{ animationDelay: "1s" }} />
+          <div className="absolute bottom-20 right-16 w-1.5 h-1.5 rounded-full bg-primary/25 animate-pulse" style={{ animationDelay: "1.5s" }} />
+          <div className="absolute top-1/3 left-8 w-1 h-1 rounded-full bg-primary/20 animate-pulse" style={{ animationDelay: "2s" }} />
+          <div className="absolute top-1/2 right-8 w-1.5 h-1.5 rounded-full bg-primary/15 animate-pulse" style={{ animationDelay: "0.8s" }} />
+
+          <h2 className="text-3xl sm:text-5xl font-extrabold mb-4 font-[family-name:var(--font-montserrat)] relative z-10">
             {t("cta.title").includes("Tanpa Watermark") ? (
               <>
-                Siap Download Video <span className="gradient-text">Tanpa Watermark?</span>
+                Siap Download Video <span className="gradient-text-wide">Tanpa Watermark?</span>
               </>
             ) : (
-              <span className="gradient-text">{t("cta.title")}</span>
+              <span className="gradient-text-wide">{t("cta.title")}</span>
             )}
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto mb-8">{t("cta.subtitle")}</p>
-          <a href="#hero">
+          <p className="text-muted-foreground max-w-xl mx-auto mb-10 relative z-10">{t("cta.subtitle")}</p>
+          <a href="#hero" className="relative z-10">
             <Button
               size="lg"
-              className="h-14 px-8 text-base text-white font-semibold rounded-xl animate-gradient-shift"
-              style={{ background: `linear-gradient(to right, #F97316, #7C3AED, #00E5FF)`, backgroundSize: "200% 200%" }}
+              className="h-16 px-10 text-lg text-white font-bold rounded-2xl glow-orange-strong btn-press animate-gradient-shift"
+              style={{ background: `linear-gradient(to right, #F97316, #EA580C, #F97316)`, backgroundSize: "200% 200%" }}
             >
-              <Download className="mr-2 h-5 w-5" />
+              <Download className="mr-2 h-6 w-6" />
               {t("cta.button")}
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-6 w-6" />
             </Button>
           </a>
         </motion.div>
@@ -4508,79 +4613,48 @@ function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="border-t border-border bg-card">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="sm:col-span-2 lg:col-span-1">
-            <MovaLogo size={32} showText />
-            <p className="mt-3 text-sm text-muted-foreground max-w-xs">{t("footer.desc")}</p>
+    <footer className="relative bg-card/50">
+      {/* Thin gradient line at top */}
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+          {/* Logo and tagline */}
+          <div className="flex flex-col items-center sm:items-start gap-1">
+            <MovaLogo size={24} showText />
+            <p className="text-xs text-muted-foreground max-w-xs mt-1">{t("footer.desc")}</p>
           </div>
-          <div>
-            <h4 className="font-semibold text-foreground mb-3 text-sm">{t("footer.nav")}</h4>
-            <ul className="space-y-2">
-              {[
-                { label: t("nav.fitur"), href: "#features" },
-                { label: t("nav.caraPakai"), href: "#how-it-works" },
-                { label: t("nav.platform"), href: "#platforms" },
-                { label: t("nav.faq"), href: "#faq" },
-              ].map((l) => (
-                <li key={l.href}>
-                  <a href={l.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          {/* Nav links */}
+          <div className="flex items-center gap-6 text-xs text-muted-foreground">
+            <a href="#features" className="hover:text-foreground transition-colors">{t("nav.fitur")}</a>
+            <a href="#how-it-works" className="hover:text-foreground transition-colors">{t("nav.caraPakai")}</a>
+            <a href="#platforms" className="hover:text-foreground transition-colors">{t("nav.platform")}</a>
+            <a href="#faq" className="hover:text-foreground transition-colors">{t("nav.faq")}</a>
+            <a href="/privacy" className="hover:text-foreground transition-colors">{t("footer.privacy")}</a>
           </div>
-          <div>
-            <h4 className="font-semibold text-foreground mb-3 text-sm">{t("footer.legal")}</h4>
-            <ul className="space-y-2">
-              <li>
-                <a href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  {t("footer.privacy")}
-                </a>
-              </li>
-              <li>
-                <a href="/privacy#disclaimer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Terms of Service
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold text-foreground mb-3 text-sm">{t("footer.follow")}</h4>
-            <div className="flex gap-3">
-              {/* TikTok Logo */}
-              <a
-                href="https://tiktok.com/@abbbuw"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="TikTok"
-                className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors text-muted-foreground group"
-              >
-                <svg className="h-4 w-4 group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.25a8.16 8.16 0 004.76 1.52V7.34a4.83 4.83 0 01-1-.65z"/>
-                </svg>
-              </a>
-              {/* Telegram Logo */}
-              <a
-                href="https://t.me/sixte3nnn"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Telegram"
-                className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors text-muted-foreground group"
-              >
-                <svg className="h-4 w-4 group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                </svg>
-              </a>
-            </div>
+          {/* Social - simple text links */}
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <a
+              href="https://tiktok.com/@abbbuw"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors"
+            >
+              TikTok
+            </a>
+            <a
+              href="https://t.me/sixte3nnn"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors"
+            >
+              Telegram
+            </a>
           </div>
         </div>
-        <div className="mt-10 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-muted-foreground">&copy; 2026 Mova. All rights reserved.</p>
-          <p className="text-xs text-muted-foreground flex items-center gap-1">
-            Made with <Heart className="h-3 w-3 text-primary" /> by Mova Team
+        <div className="mt-6 pt-4 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-[11px] text-muted-foreground/60">&copy; 2026 Mova. All rights reserved.</p>
+          <p className="text-[11px] text-muted-foreground/60 flex items-center gap-1">
+            Made with <Heart className="h-2.5 w-2.5 text-primary" /> by Mova Team
           </p>
         </div>
       </div>
