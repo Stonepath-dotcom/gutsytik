@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://mova.is-a.dev";
+  const baseUrl = "https://movadl.vercel.app";
 
   return [
     {
