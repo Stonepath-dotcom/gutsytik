@@ -1,9 +1,9 @@
 {
   "functions": {
-    "src/app/api/proxy/route.ts": {
+    "src/app/api/download/route.ts": {
       "maxDuration": 60
     },
-    "src/app/api/download/route.ts": {
+    "src/app/api/proxy/route.ts": {
       "maxDuration": 30
     }
   }

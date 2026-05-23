@@ -69,7 +69,15 @@ async function downloadYouTube(url: string, audioOnly = false) {
 
   const errors: string[] = [];
 
-  // Strategy 1: InnerTube API with ANDROID_VR client (proven to work with API key)
+  // Strategy 1: Loader.to API (most reliable, handles all videos including music)
+  try {
+    const result = await youTubeLoaderTo(videoId, audioOnly);
+    if (result) return result;
+  } catch (e: unknown) {
+    errors.push(e instanceof Error ? e.message : "Loader.to gagal");
+  }
+
+  // Strategy 2: InnerTube API with ANDROID_VR client (fast, works for some videos)
   try {
     const result = await youTubeInnerTubeANDROIDVR(videoId, audioOnly);
     if (result) return result;
@@ -77,20 +85,12 @@ async function downloadYouTube(url: string, audioOnly = false) {
     errors.push(e instanceof Error ? e.message : "InnerTube ANDROID_VR gagal");
   }
 
-  // Strategy 2: InnerTube API with TVHTML5_SIMPLY_EMBEDDED_PLAYER client
+  // Strategy 3: InnerTube API with TVHTML5_SIMPLY_EMBEDDED_PLAYER client
   try {
     const result = await youTubeInnerTubeTV(videoId, audioOnly);
     if (result) return result;
   } catch (e: unknown) {
     errors.push(e instanceof Error ? e.message : "InnerTube TV gagal");
-  }
-
-  // Strategy 3: InnerTube API with IOS client (returns direct URLs without ciphers)
-  try {
-    const result = await youTubeInnerTubeIOS(videoId, audioOnly);
-    if (result) return result;
-  } catch (e: unknown) {
-    errors.push(e instanceof Error ? e.message : "InnerTube IOS gagal");
   }
 
   // Strategy 4: Invidious API instances
@@ -284,6 +284,80 @@ function parseYouTubeInnerTubeResponse(
     downloadUrl: qualityOptions[0].url,
     qualityOptions,
     filename: `mova_youtube_${videoId}`,
+  };
+}
+
+/* ─── YouTube via Loader.to API (async - starts process, client polls) ─── */
+async function youTubeLoaderTo(videoId: string, audioOnly: boolean) {
+  const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
+  const format = audioOnly ? "mp3" : "360";
+
+  // Start the download process
+  const initRes = await fetch(
+    `https://loader.to/ajax/download.php?url=${encodeURIComponent(youtubeUrl)}&format=${format}`,
+    {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept": "application/json",
+      },
+      signal: AbortSignal.timeout(10000),
+    }
+  );
+
+  if (!initRes.ok) throw new Error("Loader.to init gagal");
+  const initData = await initRes.json();
+  if (!initData.success || !initData.id) throw new Error("Loader.to tidak bisa memproses video");
+
+  const progressUrl = initData.progress_url as string;
+  const title = (initData.title as string) || "Video YouTube";
+  const info = initData.info as Record<string, string> | undefined;
+  const thumbnail = info?.image || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+
+  // Quick poll - try for up to 8 seconds (within Vercel's hobby plan limits)
+  let downloadUrl = "";
+  for (let i = 0; i < 8; i++) {
+    await new Promise((r) => setTimeout(r, 1000));
+    try {
+      const progressRes = await fetch(progressUrl, {
+        headers: { "User-Agent": "Mozilla/5.0", "Accept": "application/json" },
+        signal: AbortSignal.timeout(3000),
+      });
+      if (!progressRes.ok) continue;
+      const progressData = await progressRes.json();
+      if (progressData.success === 1 && progressData.download_url) {
+        downloadUrl = progressData.download_url as string;
+        break;
+      }
+    } catch { continue; }
+  }
+
+  // If we didn't get the URL in time, return the progress URL for client-side polling
+  const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+  const label = audioOnly ? "Audio" : "360p";
+  const resolution = audioOnly ? "MP3" : "360p";
+
+  if (downloadUrl) {
+    qualityOptions.push({ label, resolution, url: downloadUrl });
+  } else {
+    // Return a special polling URL that the frontend can check
+    qualityOptions.push({
+      label,
+      resolution,
+      url: `/api/youtube-poll?progressUrl=${encodeURIComponent(progressUrl)}&videoId=${videoId}&format=${format}`,
+    });
+  }
+
+  return {
+    title,
+    thumbnail,
+    duration: "--:--",
+    author: info?.channel || "@unknown",
+    platform: "YouTube",
+    downloadUrl: downloadUrl || qualityOptions[0].url,
+    qualityOptions,
+    filename: `mova_youtube_${videoId}`,
+    needsPolling: !downloadUrl,
+    progressUrl: !downloadUrl ? progressUrl : undefined,
   };
 }
 

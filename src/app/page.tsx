@@ -23,6 +23,7 @@ interface DownloadResult {
   title: string; thumbnail: string; duration: string;
   author: string; platform: string; downloadUrl: string; originalDownloadUrl?: string;
   qualityOptions: QualityOption[]; filename: string;
+  needsPolling?: boolean; progressUrl?: string;
 }
 interface HistoryItem {
   id: string; title: string; platform: string; author: string;
@@ -368,6 +369,38 @@ function HeroSection() {
   const [selectedQuality, setSelectedQuality] = useState(0);
   const [audioMode, setAudioMode] = useState(false);
   const [isBookmarkedState, setIsBookmarkedState] = useState(false);
+  const [pollingForUrl, setPollingForUrl] = useState(false);
+
+  // Auto-poll for YouTube download URL when needsPolling is true
+  useEffect(() => {
+    if (!result?.needsPolling || !result.progressUrl) return;
+    setPollingForUrl(true);
+    let cancelled = false;
+    const poll = async () => {
+      for (let i = 0; i < 30; i++) {
+        if (cancelled) break;
+        await new Promise(r => setTimeout(r, 2000));
+        try {
+          const res = await fetch(`/api/youtube-poll?progressUrl=${encodeURIComponent(result.progressUrl!)}&videoId=${result.filename.replace('mova_youtube_', '')}&format=${result.qualityOptions[0]?.resolution === 'MP3' ? 'mp3' : '360'}`);
+          const data = await res.json();
+          if (data.ready && data.downloadUrl) {
+            setResult(prev => prev ? {
+              ...prev,
+              needsPolling: false,
+              downloadUrl: data.downloadUrl,
+              qualityOptions: prev.qualityOptions.map(q => ({ ...q, url: data.downloadUrl })),
+            } : prev);
+            setPollingForUrl(false);
+            showToast(t("toast.videoFound"), t("toast.selectQuality"));
+            return;
+          }
+        } catch { continue; }
+      }
+      setPollingForUrl(false);
+    };
+    poll();
+    return () => { cancelled = true; };
+  }, [result?.needsPolling, result?.progressUrl]);
   const [showPreview, setShowPreview] = useState(false);
   const [previewError, setPreviewError] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -661,9 +694,18 @@ function HeroSection() {
               )}
 
               {/* Download button */}
-              <Button onClick={handleDownload} className="w-full h-11 bg-[#F97316] text-white font-bold rounded-xl hover:bg-[#EA580C] text-sm">
-                <Download className="mr-2 h-4 w-4" />
-                {audioMode ? t("btn.downloadAudio") : t("btn.downloadNoWM")}
+              <Button onClick={handleDownload} disabled={pollingForUrl || result.needsPolling} className="w-full h-11 bg-[#F97316] text-white font-bold rounded-xl hover:bg-[#EA580C] text-sm disabled:opacity-50">
+                {pollingForUrl || result.needsPolling ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Mempersiapkan download...
+                  </>
+                ) : (
+                  <>
+                    <Download className="mr-2 h-4 w-4" />
+                    {audioMode ? t("btn.downloadAudio") : t("btn.downloadNoWM")}
+                  </>
+                )}
               </Button>
             </div>
           </div>
