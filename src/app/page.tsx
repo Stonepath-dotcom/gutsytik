@@ -23,8 +23,6 @@ interface DownloadResult {
   title: string; thumbnail: string; duration: string;
   author: string; platform: string; downloadUrl: string; originalDownloadUrl?: string;
   qualityOptions: QualityOption[]; filename: string;
-  needsPolling?: boolean; progressUrl?: string;
-  needsClientFetch?: boolean; videoId?: string; audioOnly?: boolean;
 }
 interface HistoryItem {
   id: string; title: string; platform: string; author: string;
@@ -370,87 +368,6 @@ function HeroSection() {
   const [selectedQuality, setSelectedQuality] = useState(0);
   const [audioMode, setAudioMode] = useState(false);
   const [isBookmarkedState, setIsBookmarkedState] = useState(false);
-  const [pollingForUrl, setPollingForUrl] = useState(false);
-
-  // Auto-poll for YouTube download URL when needsPolling/needsClientFetch is true
-  useEffect(() => {
-    if (!result?.needsPolling && !result?.needsClientFetch) return;
-    setPollingForUrl(true);
-    let cancelled = false;
-
-    const poll = async () => {
-      try {
-        let progressUrl = result.progressUrl;
-
-        // If needsClientFetch, call Loader.to directly from the browser
-        if (result.needsClientFetch && result.videoId) {
-          const youtubeUrl = `https://www.youtube.com/watch?v=${result.videoId}`;
-          const format = result.audioOnly ? "mp3" : "360";
-          const initRes = await fetch(
-            `https://loader.to/ajax/download.php?url=${encodeURIComponent(youtubeUrl)}&format=${format}`,
-            { headers: { "Accept": "application/json" } }
-          );
-          if (!initRes.ok) throw new Error("Loader.to init gagal");
-          const initData = await initRes.json();
-          if (!initData.success || !initData.id) throw new Error("Loader.to gagal memproses");
-
-          progressUrl = initData.progress_url;
-          // Update title from Loader.to response
-          const loaderTitle = initData.title || result.title;
-          const loaderInfo = initData.info || {};
-          setResult(prev => prev ? {
-            ...prev,
-            title: loaderTitle,
-            author: loaderInfo.channel || prev.author,
-            thumbnail: loaderInfo.image || prev.thumbnail,
-            needsClientFetch: false,
-            needsPolling: true,
-            progressUrl,
-          } : prev);
-        }
-
-        if (!progressUrl) { setPollingForUrl(false); return; }
-
-        // Poll for the download URL
-        for (let i = 0; i < 30; i++) {
-          if (cancelled) break;
-          await new Promise(r => setTimeout(r, 2000));
-          try {
-            const res = await fetch(progressUrl, {
-              headers: { "Accept": "application/json" },
-            });
-            const data = await res.json();
-            if (data.success === 1 && data.download_url) {
-              const downloadUrl = data.download_url;
-              setResult(prev => prev ? {
-                ...prev,
-                needsPolling: false,
-                needsClientFetch: false,
-                downloadUrl: `/api/proxy?url=${encodeURIComponent(downloadUrl)}&filename=${encodeURIComponent(prev.filename)}&quality=${encodeURIComponent(prev.qualityOptions[0]?.label || 'best')}`,
-                qualityOptions: prev.qualityOptions.length > 0 ? prev.qualityOptions.map(q => ({
-                  ...q,
-                  url: `/api/proxy?url=${encodeURIComponent(downloadUrl)}&filename=${encodeURIComponent(prev.filename)}&quality=${encodeURIComponent(q.label || 'best')}`,
-                })) : [{
-                  label: result.audioOnly ? "Audio" : "360p",
-                  resolution: result.audioOnly ? "MP3" : "360p",
-                  url: `/api/proxy?url=${encodeURIComponent(downloadUrl)}&filename=${encodeURIComponent(prev.filename)}&quality=best`,
-                }],
-              } : prev);
-              setPollingForUrl(false);
-              showToast(t("toast.videoFound"), t("toast.selectQuality"));
-              return;
-            }
-          } catch { continue; }
-        }
-      } catch {
-        // Loader.to failed too
-        setResult(prev => prev ? { ...prev, needsPolling: false, needsClientFetch: false, downloadUrl: "", qualityOptions: [] } : prev);
-      }
-      setPollingForUrl(false);
-    };
-    poll();
-    return () => { cancelled = true; };
-  }, [result?.needsPolling, result?.needsClientFetch, result?.progressUrl, result?.videoId]);
   const [showPreview, setShowPreview] = useState(false);
   const [previewError, setPreviewError] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -744,18 +661,11 @@ function HeroSection() {
               )}
 
               {/* Download button */}
-              <Button onClick={handleDownload} disabled={pollingForUrl || result.needsPolling || result.needsClientFetch} className="w-full h-11 bg-[#F97316] text-white font-bold rounded-xl hover:bg-[#EA580C] text-sm disabled:opacity-50">
-                {pollingForUrl || result.needsPolling || result.needsClientFetch ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Mempersiapkan download...
-                  </>
-                ) : (
-                  <>
-                    <Download className="mr-2 h-4 w-4" />
-                    {audioMode ? t("btn.downloadAudio") : t("btn.downloadNoWM")}
-                  </>
-                )}
+              <Button onClick={handleDownload} className="w-full h-11 bg-[#F97316] text-white font-bold rounded-xl hover:bg-[#EA580C] text-sm disabled:opacity-50">
+                <>
+                  <Download className="mr-2 h-4 w-4" />
+                  {audioMode ? t("btn.downloadAudio") : t("btn.downloadNoWM")}
+                </>
               </Button>
             </div>
           </div>

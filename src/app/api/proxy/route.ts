@@ -4,7 +4,7 @@ import { rateLimit } from "@/lib/rate-limit";
 /**
  * Proxy endpoint to download video/audio files.
  * Handles CORS issues and provides proper download headers.
- * Supports Invidious, Piped, Googlevideo, TikTok CDN, and more.
+ * Supports Loader.to/savenow.to, TikTok CDN, YouTube, and more.
  *
  * For small files: streams through the proxy
  * For large files or when streaming fails: redirects to the original URL
@@ -21,30 +21,23 @@ export async function GET(request: NextRequest) {
     const videoUrl = searchParams.get("url");
     const filename = searchParams.get("filename") || "mova_video";
     const quality = searchParams.get("quality") || "video";
-    const redirect = searchParams.get("redirect"); // If "1", just redirect
+    const sourceUrl = searchParams.get("sourceUrl") || "";
 
     if (!videoUrl) {
       return NextResponse.json({ error: "URL video diperlukan." }, { status: 400 });
     }
 
     // Validate URL
+    let targetHost = "";
     try {
       const parsed = new URL(videoUrl);
       if (!["http:", "https:"].includes(parsed.protocol)) throw new Error("Invalid protocol");
+      targetHost = parsed.hostname.toLowerCase();
     } catch {
       return NextResponse.json({ error: "URL tidak valid." }, { status: 400 });
     }
 
-    // If redirect mode, just redirect to the URL
-    if (redirect === "1") {
-      return NextResponse.redirect(videoUrl);
-    }
-
     // Determine appropriate headers based on the target host
-    const targetHost = (() => {
-      try { return new URL(videoUrl).hostname.toLowerCase(); } catch { return ""; }
-    })();
-
     const headers: Record<string, string> = {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
       "Accept": "*/*",
@@ -52,18 +45,27 @@ export async function GET(request: NextRequest) {
     };
 
     // Add Referer for specific hosts to avoid 403 errors
-    if (targetHost.includes("tiktokcdn") || targetHost.includes("tiktok")) {
+    if (targetHost.includes("savenow.to") || targetHost.includes("nip.io") || targetHost.includes("sslip.io") || targetHost.includes("traefik.me")) {
+      // Loader.to download servers
+      headers["Referer"] = "https://loader.to/";
+      headers["Origin"] = "https://loader.to";
+    } else if (targetHost.includes("tiktokcdn") || targetHost.includes("tiktok") || targetHost.includes("tikwm")) {
       headers["Referer"] = "https://www.tiktok.com/";
     } else if (targetHost.includes("googlevideo") || targetHost.includes("youtube")) {
       headers["Referer"] = "https://www.youtube.com/";
-    } else if (targetHost.includes("piped.video") || targetHost.includes("pipedapi")) {
-      headers["Referer"] = "https://piped.video/";
-    } else if (targetHost.includes("invidious") || targetHost.includes("inv.") || targetHost.includes("yewtu.be") || targetHost.includes("nerdvpn") || targetHost.includes("ggtyler") || targetHost.includes("nadeko") || targetHost.includes("privacyredirect")) {
+    } else if (targetHost.includes("invidious") || targetHost.includes("inv.") || targetHost.includes("yewtu.be")) {
       headers["Referer"] = "https://www.youtube.com/";
     } else if (targetHost.includes("reddit") || targetHost.includes("redd.it")) {
       headers["Referer"] = "https://www.reddit.com/";
     } else if (targetHost.includes("fxtwitter") || targetHost.includes("vxtwitter")) {
       headers["Referer"] = "https://twitter.com/";
+    } else if (sourceUrl) {
+      try {
+        const sourceParsed = new URL(sourceUrl);
+        headers["Referer"] = `${sourceParsed.protocol}//${sourceParsed.host}/`;
+      } catch {
+        headers["Referer"] = videoUrl;
+      }
     } else {
       headers["Referer"] = videoUrl;
     }
