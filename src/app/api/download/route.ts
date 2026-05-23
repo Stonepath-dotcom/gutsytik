@@ -69,8 +69,15 @@ async function downloadYouTube(url: string, audioOnly = false) {
 
   const errors: string[] = [];
 
-  // Strategy 1: InnerTube API with TVHTML5_SIMPLY_EMBEDDED_PLAYER client
-  // This client type often bypasses bot detection
+  // Strategy 1: InnerTube API with ANDROID_VR client (proven to work with API key)
+  try {
+    const result = await youTubeInnerTubeANDROIDVR(videoId, audioOnly);
+    if (result) return result;
+  } catch (e: unknown) {
+    errors.push(e instanceof Error ? e.message : "InnerTube ANDROID_VR gagal");
+  }
+
+  // Strategy 2: InnerTube API with TVHTML5_SIMPLY_EMBEDDED_PLAYER client
   try {
     const result = await youTubeInnerTubeTV(videoId, audioOnly);
     if (result) return result;
@@ -78,7 +85,7 @@ async function downloadYouTube(url: string, audioOnly = false) {
     errors.push(e instanceof Error ? e.message : "InnerTube TV gagal");
   }
 
-  // Strategy 2: InnerTube API with IOS client (returns direct URLs without ciphers)
+  // Strategy 3: InnerTube API with IOS client (returns direct URLs without ciphers)
   try {
     const result = await youTubeInnerTubeIOS(videoId, audioOnly);
     if (result) return result;
@@ -86,7 +93,7 @@ async function downloadYouTube(url: string, audioOnly = false) {
     errors.push(e instanceof Error ? e.message : "InnerTube IOS gagal");
   }
 
-  // Strategy 3: Invidious API instances
+  // Strategy 4: Invidious API instances
   try {
     const result = await youTubeInvidious(videoId, audioOnly);
     if (result) return result;
@@ -94,7 +101,7 @@ async function downloadYouTube(url: string, audioOnly = false) {
     errors.push(e instanceof Error ? e.message : "Invidious gagal");
   }
 
-  // Strategy 4: Try Piped API instances
+  // Strategy 5: Try Piped API instances
   try {
     const result = await youTubePiped(videoId, audioOnly);
     if (result) return result;
@@ -105,10 +112,39 @@ async function downloadYouTube(url: string, audioOnly = false) {
   throw new Error("Gagal download dari YouTube. Server sedang memblokir request. Coba lagi nanti atau gunakan link TikTok.");
 }
 
+/* ─── YouTube InnerTube — ANDROID_VR Client (works with API key) ─── */
+async function youTubeInnerTubeANDROIDVR(videoId: string, audioOnly: boolean) {
+  const response = await fetch(
+    "https://www.youtube.com/youtubei/v1/player?prettyPrint=false&key=AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        videoId,
+        context: {
+          client: {
+            clientName: "ANDROID_VR",
+            clientVersion: "1.50.14",
+            hl: "en",
+            gl: "US",
+            androidSdkVersion: 32,
+            osName: "Android",
+            osVersion: "12",
+          },
+        },
+      }),
+    }
+  );
+
+  if (!response.ok) throw new Error("InnerTube ANDROID_VR response not OK");
+  const data = await response.json();
+  return parseYouTubeInnerTubeResponse(data, videoId, audioOnly);
+}
+
 /* ─── YouTube InnerTube — TVHTML5_SIMPLY_EMBEDDED_PLAYER ─── */
 async function youTubeInnerTubeTV(videoId: string, audioOnly: boolean) {
   const response = await fetch(
-    "https://www.youtube.com/youtubei/v1/player?prettyPrint=false",
+    "https://www.youtube.com/youtubei/v1/player?prettyPrint=false&key=AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w",
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -137,7 +173,7 @@ async function youTubeInnerTubeTV(videoId: string, audioOnly: boolean) {
 /* ─── YouTube InnerTube — IOS Client ─── */
 async function youTubeInnerTubeIOS(videoId: string, audioOnly: boolean) {
   const response = await fetch(
-    "https://www.youtube.com/youtubei/v1/player?prettyPrint=false",
+    "https://www.youtube.com/youtubei/v1/player?prettyPrint=false&key=AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w",
     {
       method: "POST",
       headers: {
