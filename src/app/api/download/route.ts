@@ -753,15 +753,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Convert download URLs to proxy URLs to avoid CORS issues
+    // Keep original URLs for preview/streaming, use proxy URLs for download
     const encodedSourceUrl = encodeURIComponent(trimmedUrl);
     const proxiedQualityOptions = result.qualityOptions.map((q) => ({
       ...q,
+      originalUrl: q.url, // Keep original URL for preview
       url: `/api/proxy?url=${encodeURIComponent(q.url)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=${encodeURIComponent(q.label)}`,
     }));
 
     return NextResponse.json(
       {
         ...result,
+        originalDownloadUrl: result.downloadUrl, // Keep original for preview
         downloadUrl: `/api/proxy?url=${encodeURIComponent(result.downloadUrl)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=best`,
         qualityOptions: proxiedQualityOptions,
       },

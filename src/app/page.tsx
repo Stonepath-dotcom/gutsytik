@@ -6,7 +6,7 @@ import {
   Download, Zap, Shield, Smartphone, Globe, CheckCircle,
   Menu, X, ChevronDown, Play, Clock, User, Loader2,
   Heart, AlertCircle, Film, Music, Sun, Moon,
-  Share2, Bookmark, Copy, Star, Volume2, VolumeX,
+  Share2, Bookmark, Copy, Star, Volume2, VolumeX, Eye, EyeOff,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,10 +18,10 @@ import { MovaLogo } from "@/components/mova-logo";
 import { useToast } from "@/hooks/use-toast";
 
 /* ──────── Types ──────── */
-interface QualityOption { label: string; resolution: string; url: string; }
+interface QualityOption { label: string; resolution: string; url: string; originalUrl?: string; }
 interface DownloadResult {
   title: string; thumbnail: string; duration: string;
-  author: string; platform: string; downloadUrl: string;
+  author: string; platform: string; downloadUrl: string; originalDownloadUrl?: string;
   qualityOptions: QualityOption[]; filename: string;
 }
 interface HistoryItem {
@@ -422,12 +422,15 @@ function HeroSection() {
     if (!q) return;
 
     try {
-      const res = await fetch(`/api/proxy?url=${encodeURIComponent(q.url)}`);
+      // q.url is already a proxied URL like /api/proxy?url=...
+      // Fetch it directly (no double-proxying)
+      const res = await fetch(q.url);
       if (!res.ok) throw new Error();
       const blob = await res.blob();
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = result.filename || `mova_${Date.now()}.mp4`;
+      const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
+      a.download = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -441,7 +444,7 @@ function HeroSection() {
       });
       showToast(t("toast.downloadStart"), "");
     } catch {
-      // Fallback: open in new tab
+      // Fallback: open the proxied URL in new tab
       window.open(q.url, "_blank");
     }
   }, [result, selectedQuality, url, t, showToast]);
@@ -590,7 +593,7 @@ function HeroSection() {
               {/* Video info */}
               {showPreview && !previewError ? (
                 <div className="w-full rounded-lg overflow-hidden bg-muted mb-3">
-                  <video src={result.qualityOptions[0]?.url} controls muted className="w-full object-contain" style={{ maxHeight: "200px" }} onError={() => setPreviewError(true)} />
+                  <video src={result.qualityOptions[0]?.originalUrl || result.qualityOptions[0]?.url} controls muted className="w-full object-contain" style={{ maxHeight: "200px" }} onError={() => setPreviewError(true)} />
                 </div>
               ) : (
                 <div className="flex gap-3 mb-3">
