@@ -370,6 +370,7 @@ function HeroSection() {
   const [isBookmarkedState, setIsBookmarkedState] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [previewError, setPreviewError] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast, dismiss } = useToast();
@@ -425,65 +426,131 @@ function HeroSection() {
   }, [url, t, showToast]);
 
   const handleDownload = useCallback(async () => {
-    if (!result) return;
+    if (!result || downloading) return;
     const q = result.qualityOptions[selectedQuality];
-    if (!q) return;
+    if (!q) {
+      showToast(t("error.downloadFail"), "", "destructive");
+      return;
+    }
 
     const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
     const downloadName = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
     const isAudio = q.resolution === "MP3" || q.label === "Audio";
+    // Use proxy URL for download, with original URL as fallback
+    const downloadUrl = q.url;
+    const fallbackUrl = q.originalUrl || q.url;
+
+    setDownloading(true);
 
     try {
-      // For audio files (small), try fetch+blob approach for reliable download with filename
+      // === Strategy 1: For audio files, try fetch+blob for reliable download with filename ===
       if (isAudio) {
         try {
-          const res = await fetch(q.url);
+          const res = await fetch(downloadUrl);
           if (res.ok) {
             const blob = await res.blob();
-            const blobUrl = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = blobUrl;
-            a.download = downloadName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+            if (blob.size > 1000) { // At least 1KB (real audio file)
+              const blobUrl = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = blobUrl;
+              a.download = downloadName;
+              a.style.display = "none";
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
 
-            saveToHistory({
-              id: Date.now().toString(), title: result.title, platform: result.platform,
-              author: result.author, thumbnail: result.thumbnail, duration: result.duration,
-              url: url.trim(), downloadUrl: q.url, timestamp: Date.now(),
-            });
-            showToast(t("toast.downloadStart"), "");
-            return;
+              saveToHistory({
+                id: Date.now().toString(), title: result.title, platform: result.platform,
+                author: result.author, thumbnail: result.thumbnail, duration: result.duration,
+                url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now(),
+              });
+              showToast(t("toast.downloadStart"), isAudio ? "MP3" : "");
+              setDownloading(false);
+              return;
+            }
           }
-        } catch {
-          // fetch+blob failed, fall through to direct link
+        } catch (e) {
+          console.log("Proxy fetch+blob failed, trying alternatives", e);
+        }
+
+        // === Strategy 1b: Try original URL directly for audio ===
+        if (fallbackUrl !== downloadUrl) {
+          try {
+            const res = await fetch(fallbackUrl);
+            if (res.ok) {
+              const blob = await res.blob();
+              if (blob.size > 1000) {
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = blobUrl;
+                a.download = downloadName;
+                a.style.display = "none";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+
+                saveToHistory({
+                  id: Date.now().toString(), title: result.title, platform: result.platform,
+                  author: result.author, thumbnail: result.thumbnail, duration: result.duration,
+                  url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now(),
+                });
+                showToast(t("toast.downloadStart"), "MP3");
+                setDownloading(false);
+                return;
+              }
+            }
+          } catch (e) {
+            console.log("Original URL fetch+blob also failed", e);
+          }
         }
       }
 
-      // For video files or if blob approach failed: use direct link download
-      // Create a hidden <a> tag and trigger click with download attribute
-      const a = document.createElement("a");
-      a.href = q.url;
-      a.download = downloadName;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      // === Strategy 2: Use <a> tag with download attribute ===
+      try {
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = downloadName;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
 
+        saveToHistory({
+          id: Date.now().toString(), title: result.title, platform: result.platform,
+          author: result.author, thumbnail: result.thumbnail, duration: result.duration,
+          url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now(),
+        });
+        showToast(t("toast.downloadStart"), "");
+        setDownloading(false);
+        return;
+      } catch (e) {
+        console.log("<a> tag approach failed", e);
+      }
+
+      // === Strategy 3: Open in new tab as last resort ===
+      window.open(downloadUrl, "_blank");
       saveToHistory({
         id: Date.now().toString(), title: result.title, platform: result.platform,
         author: result.author, thumbnail: result.thumbnail, duration: result.duration,
-        url: url.trim(), downloadUrl: q.url, timestamp: Date.now(),
+        url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now(),
       });
       showToast(t("toast.downloadStart"), "");
-    } catch {
-      // Ultimate fallback: open in new tab
-      window.open(q.url, "_blank");
+    } catch (e) {
+      console.error("Download failed:", e);
+      // Final fallback: open original URL in new tab
+      try {
+        window.open(fallbackUrl, "_blank");
+      } catch {
+        showToast(t("error.downloadFail"), "", "destructive");
+      }
+    } finally {
+      setDownloading(false);
     }
-  }, [result, selectedQuality, url, t, showToast]);
+  }, [result, selectedQuality, url, t, showToast, downloading]);
 
   const handlePaste = useCallback(async () => {
     try { const text = await navigator.clipboard.readText(); setUrl(text); } catch {}
@@ -697,12 +764,29 @@ function HeroSection() {
               )}
 
               {/* Download button */}
-              <Button onClick={handleDownload} className="w-full h-11 bg-[#F97316] text-white font-bold rounded-xl hover:bg-[#EA580C] text-sm disabled:opacity-50">
-                <>
-                  <Download className="mr-2 h-4 w-4" />
-                  {audioMode ? t("btn.downloadAudio") : t("btn.downloadNoWM")}
-                </>
+              <Button
+                onClick={handleDownload}
+                disabled={downloading}
+                className="w-full h-11 bg-[#F97316] text-white font-bold rounded-xl hover:bg-[#EA580C] text-sm"
+              >
+                {downloading ? (
+                  <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{audioMode ? "Downloading MP3..." : "Downloading..."}</>
+                ) : (
+                  <><Download className="mr-2 h-4 w-4" />{audioMode ? t("btn.downloadAudio") : t("btn.downloadNoWM")}</>
+                )}
               </Button>
+
+              {/* Fallback direct download link */}
+              {result.qualityOptions[selectedQuality]?.originalUrl && (
+                <a
+                  href={result.qualityOptions[selectedQuality].originalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block mt-2 text-center text-xs text-muted-foreground hover:text-[#F97316] transition-colors underline underline-offset-2"
+                >
+                  {audioMode ? "Open MP3 directly" : "Open download link directly"} ↗
+                </a>
+              )}
             </div>
           </div>
         )}

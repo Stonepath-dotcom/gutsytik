@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
 
+export const maxDuration = 60;
+
 /* ──────────────── Platform Detection ──────────────── */
 function detectPlatform(url: string): string {
   const hostname = (() => {
@@ -512,15 +514,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Convert download URLs to proxy URLs to avoid CORS issues
+    // Also keep original URL as fallback for direct download
     const encodedSourceUrl = encodeURIComponent(trimmedUrl);
     const proxiedQualityOptions = result.qualityOptions.map((q) => ({
       ...q,
+      originalUrl: q.url,
       url: `/api/proxy?url=${encodeURIComponent(q.url)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=${encodeURIComponent(q.label)}`,
     }));
 
     return NextResponse.json(
       {
         ...result,
+        originalDownloadUrl: result.downloadUrl,
         downloadUrl: `/api/proxy?url=${encodeURIComponent(result.downloadUrl)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=best`,
         qualityOptions: proxiedQualityOptions,
       },

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
 
+export const maxDuration = 30;
+
 /**
  * Proxy endpoint to download video/audio files.
  * Handles CORS issues and provides proper download headers.
