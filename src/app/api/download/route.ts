@@ -69,15 +69,7 @@ async function downloadYouTube(url: string, audioOnly = false) {
 
   const errors: string[] = [];
 
-  // Strategy 1: Loader.to API (most reliable, handles all videos including music)
-  try {
-    const result = await youTubeLoaderTo(videoId, audioOnly);
-    if (result) return result;
-  } catch (e: unknown) {
-    errors.push(e instanceof Error ? e.message : "Loader.to gagal");
-  }
-
-  // Strategy 2: InnerTube API with ANDROID_VR client (fast, works for some videos)
+  // Strategy 1: InnerTube API with ANDROID_VR client (fast, works for some videos)
   try {
     const result = await youTubeInnerTubeANDROIDVR(videoId, audioOnly);
     if (result) return result;
@@ -85,7 +77,7 @@ async function downloadYouTube(url: string, audioOnly = false) {
     errors.push(e instanceof Error ? e.message : "InnerTube ANDROID_VR gagal");
   }
 
-  // Strategy 3: InnerTube API with TVHTML5_SIMPLY_EMBEDDED_PLAYER client
+  // Strategy 2: InnerTube API with TVHTML5_SIMPLY_EMBEDDED_PLAYER client
   try {
     const result = await youTubeInnerTubeTV(videoId, audioOnly);
     if (result) return result;
@@ -93,7 +85,7 @@ async function downloadYouTube(url: string, audioOnly = false) {
     errors.push(e instanceof Error ? e.message : "InnerTube TV gagal");
   }
 
-  // Strategy 4: Invidious API instances
+  // Strategy 3: Invidious API instances
   try {
     const result = await youTubeInvidious(videoId, audioOnly);
     if (result) return result;
@@ -101,15 +93,21 @@ async function downloadYouTube(url: string, audioOnly = false) {
     errors.push(e instanceof Error ? e.message : "Invidious gagal");
   }
 
-  // Strategy 5: Try Piped API instances
-  try {
-    const result = await youTubePiped(videoId, audioOnly);
-    if (result) return result;
-  } catch (e: unknown) {
-    errors.push(e instanceof Error ? e.message : "Piped gagal");
-  }
-
-  throw new Error("Gagal download dari YouTube. Server sedang memblokir request. Coba lagi nanti atau gunakan link TikTok.");
+  // If all server-side strategies fail, return a special response that tells the client
+  // to use Loader.to directly from the browser
+  return {
+    title: "Video YouTube",
+    thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+    duration: "--:--",
+    author: "@unknown",
+    platform: "YouTube",
+    downloadUrl: "",
+    qualityOptions: [],
+    filename: `mova_youtube_${videoId}`,
+    needsClientFetch: true,
+    videoId,
+    audioOnly,
+  } as Record<string, unknown> & { qualityOptions: { label: string; resolution: string; url: string }[] };
 }
 
 /* ─── YouTube InnerTube — ANDROID_VR Client (works with API key) ─── */
@@ -287,7 +285,7 @@ function parseYouTubeInnerTubeResponse(
   };
 }
 
-/* ─── YouTube via Loader.to API (async - starts process, client polls) ─── */
+/* ─── YouTube via Loader.to API (returns progress URL for client-side polling) ─── */
 async function youTubeLoaderTo(videoId: string, audioOnly: boolean) {
   const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
   const format = audioOnly ? "mp3" : "360";
@@ -312,40 +310,12 @@ async function youTubeLoaderTo(videoId: string, audioOnly: boolean) {
   const title = (initData.title as string) || "Video YouTube";
   const info = initData.info as Record<string, string> | undefined;
   const thumbnail = info?.image || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-
-  // Quick poll - try for up to 8 seconds (within Vercel's hobby plan limits)
-  let downloadUrl = "";
-  for (let i = 0; i < 8; i++) {
-    await new Promise((r) => setTimeout(r, 1000));
-    try {
-      const progressRes = await fetch(progressUrl, {
-        headers: { "User-Agent": "Mozilla/5.0", "Accept": "application/json" },
-        signal: AbortSignal.timeout(3000),
-      });
-      if (!progressRes.ok) continue;
-      const progressData = await progressRes.json();
-      if (progressData.success === 1 && progressData.download_url) {
-        downloadUrl = progressData.download_url as string;
-        break;
-      }
-    } catch { continue; }
-  }
-
-  // If we didn't get the URL in time, return the progress URL for client-side polling
-  const qualityOptions: { label: string; resolution: string; url: string }[] = [];
   const label = audioOnly ? "Audio" : "360p";
   const resolution = audioOnly ? "MP3" : "360p";
 
-  if (downloadUrl) {
-    qualityOptions.push({ label, resolution, url: downloadUrl });
-  } else {
-    // Return a special polling URL that the frontend can check
-    qualityOptions.push({
-      label,
-      resolution,
-      url: `/api/youtube-poll?progressUrl=${encodeURIComponent(progressUrl)}&videoId=${videoId}&format=${format}`,
-    });
-  }
+  // Return result with needsPolling=true - frontend will poll for the actual URL
+  const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+  qualityOptions.push({ label, resolution, url: progressUrl });
 
   return {
     title,
@@ -353,11 +323,12 @@ async function youTubeLoaderTo(videoId: string, audioOnly: boolean) {
     duration: "--:--",
     author: info?.channel || "@unknown",
     platform: "YouTube",
-    downloadUrl: downloadUrl || qualityOptions[0].url,
+    downloadUrl: progressUrl,
     qualityOptions,
     filename: `mova_youtube_${videoId}`,
-    needsPolling: !downloadUrl,
-    progressUrl: !downloadUrl ? progressUrl : undefined,
+    needsPolling: true,
+    progressUrl,
+    loaderFormat: format,
   };
 }
 
