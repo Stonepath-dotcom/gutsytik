@@ -4,12 +4,13 @@ import { rateLimit } from "@/lib/rate-limit";
 /**
  * Proxy endpoint to download video/audio files.
  * Handles CORS issues and provides proper download headers.
+ * Supports Invidious, Piped, Googlevideo, TikTok CDN, and more.
  */
 export async function GET(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for") || "unknown";
   const { success } = rateLimit(ip, 10);
   if (!success) {
-    return NextResponse.json({ error: "Too many requests." }, { status: 429, headers: { "Retry-After": "60" } });
+    return NextResponse.json({ error: "Terlalu banyak request." }, { status: 429, headers: { "Retry-After": "60" } });
   }
 
   try {
@@ -41,11 +42,19 @@ export async function GET(request: NextRequest) {
       "Accept-Encoding": "identity",
     };
 
-    // Add Referer for specific hosts
+    // Add Referer for specific hosts to avoid 403 errors
     if (targetHost.includes("tiktokcdn") || targetHost.includes("tiktok")) {
       headers["Referer"] = "https://www.tiktok.com/";
     } else if (targetHost.includes("googlevideo") || targetHost.includes("youtube")) {
       headers["Referer"] = "https://www.youtube.com/";
+    } else if (targetHost.includes("piped.video") || targetHost.includes("pipedapi")) {
+      headers["Referer"] = "https://piped.video/";
+    } else if (targetHost.includes("invidious") || targetHost.includes("inv.") || targetHost.includes("yewtu.be") || targetHost.includes("nerdvpn") || targetHost.includes("ggtyler") || targetHost.includes("nadeko") || targetHost.includes("privacyredirect")) {
+      headers["Referer"] = "https://www.youtube.com/";
+    } else if (targetHost.includes("reddit") || targetHost.includes("redd.it")) {
+      headers["Referer"] = "https://www.reddit.com/";
+    } else if (targetHost.includes("fxtwitter") || targetHost.includes("vxtwitter")) {
+      headers["Referer"] = "https://twitter.com/";
     } else {
       headers["Referer"] = videoUrl;
     }
@@ -54,6 +63,7 @@ export async function GET(request: NextRequest) {
     const response = await fetch(videoUrl, {
       headers,
       redirect: "follow",
+      signal: AbortSignal.timeout(60000), // 60 second timeout for large files
     });
 
     if (!response.ok) {

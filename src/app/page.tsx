@@ -396,7 +396,7 @@ function HeroSection() {
       const res = await fetch("/api/download", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: trimmed }),
+        body: JSON.stringify({ url: trimmed, audioMode }),
       });
       const data = await res.json();
       if (res.ok) {
