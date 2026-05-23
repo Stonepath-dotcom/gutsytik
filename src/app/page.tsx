@@ -401,7 +401,15 @@ function HeroSection() {
       const data = await res.json();
       if (res.ok) {
         setResult(data);
-        setSelectedQuality(0);
+        // Auto-select audio quality in audio mode
+        if (audioMode) {
+          const audioIdx = data.qualityOptions?.findIndex(
+            (q: QualityOption) => q.label === "Audio" || q.resolution === "MP3"
+          );
+          setSelectedQuality(audioIdx >= 0 ? audioIdx : 0);
+        } else {
+          setSelectedQuality(0);
+        }
         setShowPreview(false);
         setPreviewError(false);
         showToast(t("toast.videoFound"), t("toast.selectQuality"));
@@ -421,22 +429,50 @@ function HeroSection() {
     const q = result.qualityOptions[selectedQuality];
     if (!q) return;
 
+    const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
+    const downloadName = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
+    const isAudio = q.resolution === "MP3" || q.label === "Audio";
+
     try {
-      // q.url is already a proxied URL like /api/proxy?url=...
-      // Fetch it directly (no double-proxying)
-      const res = await fetch(q.url);
-      if (!res.ok) throw new Error();
-      const blob = await res.blob();
+      // For audio files (small), try fetch+blob approach for reliable download with filename
+      if (isAudio) {
+        try {
+          const res = await fetch(q.url);
+          if (res.ok) {
+            const blob = await res.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = blobUrl;
+            a.download = downloadName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+
+            saveToHistory({
+              id: Date.now().toString(), title: result.title, platform: result.platform,
+              author: result.author, thumbnail: result.thumbnail, duration: result.duration,
+              url: url.trim(), downloadUrl: q.url, timestamp: Date.now(),
+            });
+            showToast(t("toast.downloadStart"), "");
+            return;
+          }
+        } catch {
+          // fetch+blob failed, fall through to direct link
+        }
+      }
+
+      // For video files or if blob approach failed: use direct link download
+      // Create a hidden <a> tag and trigger click with download attribute
       const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
-      a.download = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
+      a.href = q.url;
+      a.download = downloadName;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      URL.revokeObjectURL(a.href);
 
-      // Save to history
       saveToHistory({
         id: Date.now().toString(), title: result.title, platform: result.platform,
         author: result.author, thumbnail: result.thumbnail, duration: result.duration,
@@ -444,7 +480,7 @@ function HeroSection() {
       });
       showToast(t("toast.downloadStart"), "");
     } catch {
-      // Fallback: open the proxied URL in new tab
+      // Ultimate fallback: open in new tab
       window.open(q.url, "_blank");
     }
   }, [result, selectedQuality, url, t, showToast]);

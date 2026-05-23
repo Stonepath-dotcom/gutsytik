@@ -6,8 +6,10 @@ import { rateLimit } from "@/lib/rate-limit";
  * Handles CORS issues and provides proper download headers.
  * Supports Loader.to/savenow.to, TikTok CDN, YouTube, and more.
  *
- * For small files: streams through the proxy
- * For large files or when streaming fails: redirects to the original URL
+ * Strategy:
+ * - For audio files (MP3): Always stream through proxy (usually small enough)
+ * - For video files < 4MB: Stream through proxy
+ * - For video files >= 4MB: Redirect to source URL (Vercel hobby plan limit)
  */
 export async function GET(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for") || "unknown";
@@ -22,6 +24,7 @@ export async function GET(request: NextRequest) {
     const filename = searchParams.get("filename") || "mova_video";
     const quality = searchParams.get("quality") || "video";
     const sourceUrl = searchParams.get("sourceUrl") || "";
+    const direct = searchParams.get("direct"); // If "1", redirect directly to source
 
     if (!videoUrl) {
       return NextResponse.json({ error: "URL video diperlukan." }, { status: 400 });
@@ -37,6 +40,11 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "URL tidak valid." }, { status: 400 });
     }
 
+    // If direct mode, redirect to the source URL with proper download headers
+    if (direct === "1") {
+      return NextResponse.redirect(videoUrl);
+    }
+
     // Determine appropriate headers based on the target host
     const headers: Record<string, string> = {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -46,7 +54,6 @@ export async function GET(request: NextRequest) {
 
     // Add Referer for specific hosts to avoid 403 errors
     if (targetHost.includes("savenow.to") || targetHost.includes("nip.io") || targetHost.includes("sslip.io") || targetHost.includes("traefik.me")) {
-      // Loader.to download servers
       headers["Referer"] = "https://loader.to/";
       headers["Origin"] = "https://loader.to";
     } else if (targetHost.includes("tiktokcdn") || targetHost.includes("tiktok") || targetHost.includes("tikwm")) {
@@ -70,48 +77,57 @@ export async function GET(request: NextRequest) {
       headers["Referer"] = videoUrl;
     }
 
-    // Check Content-Length before downloading to avoid Vercel's response size limit
-    try {
-      const headRes = await fetch(videoUrl, { method: "HEAD", headers, redirect: "follow", signal: AbortSignal.timeout(5000) });
-      const contentLength = parseInt(headRes.headers.get("content-length") || "0");
+    // Determine if this is an audio download
+    const isAudioRequest = quality === "Audio" || quality === "MP3";
 
-      // Vercel has a ~4.5MB response limit on hobby plan
-      // For files larger than 4MB, redirect directly to the source URL
-      if (contentLength > 4 * 1024 * 1024) {
-        return NextResponse.redirect(videoUrl);
+    // For audio files, we try to stream through the proxy since they're usually small
+    // For video files, check size first
+    if (!isAudioRequest) {
+      try {
+        const headRes = await fetch(videoUrl, { method: "HEAD", headers, redirect: "follow", signal: AbortSignal.timeout(5000) });
+        const contentLength = parseInt(headRes.headers.get("content-length") || "0");
+
+        // Vercel has a ~4.5MB response limit on hobby plan
+        // For video files larger than 4MB, redirect directly to the source URL
+        if (contentLength > 4 * 1024 * 1024) {
+          return NextResponse.redirect(videoUrl);
+        }
+      } catch {
+        // HEAD request failed, continue with GET
       }
-    } catch {
-      // HEAD request failed, continue with GET
     }
 
     // Fetch the file
     const response = await fetch(videoUrl, {
       headers,
       redirect: "follow",
-      signal: AbortSignal.timeout(60000),
+      signal: AbortSignal.timeout(120000), // 2 min timeout for large files
     });
 
     if (!response.ok) {
-      // If proxy fails, try redirecting directly
+      console.error(`Proxy download failed: ${response.status} for ${videoUrl.substring(0, 100)}`);
+      // If proxy fails, redirect directly to the source URL
       return NextResponse.redirect(videoUrl);
     }
 
-    // Check content length from the actual response
-    const contentLength = parseInt(response.headers.get("content-length") || "0");
-    if (contentLength > 4 * 1024 * 1024) {
-      return NextResponse.redirect(videoUrl);
+    // Check content length from the actual response (only for video)
+    if (!isAudioRequest) {
+      const contentLength = parseInt(response.headers.get("content-length") || "0");
+      if (contentLength > 4 * 1024 * 1024) {
+        return NextResponse.redirect(videoUrl);
+      }
     }
 
     // Determine content type and file extension
     const contentType = response.headers.get("content-type") || "video/mp4";
-    const isAudio = contentType.includes("audio") || quality === "Audio" || quality === "MP3";
+    const isAudio = contentType.includes("audio") || isAudioRequest;
     const extension = isAudio ? "mp3" : "mp4";
     const downloadFilename = `${filename}_${quality}.${extension}`;
 
     return new NextResponse(response.body, {
       status: 200,
       headers: {
-        "Content-Type": contentType,
+        "Content-Type": isAudio ? "audio/mpeg" : contentType,
         "Content-Disposition": `attachment; filename="${downloadFilename}"`,
         "Cache-Control": "no-cache",
         "Access-Control-Allow-Origin": "*",
