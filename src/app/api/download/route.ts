@@ -5,7 +5,43 @@ export const maxDuration = 60;
 
 /* ──────────────── Configuration ──────────────── */
 // Local yt-dlp API server (runs on our server alongside Next.js)
+// On our server: uses localhost:8888 directly
+// On Vercel: uses our server's public /api/ytdlp endpoint
 const YT_DLP_API = process.env.YTDLP_API_URL || "http://127.0.0.1:8888";
+
+// Check if yt-dlp API is available
+async function isYtdlpAvailable(): Promise<boolean> {
+  try {
+    let healthUrl: string;
+    if (YT_DLP_API.includes("/api/ytdlp")) {
+      // For Next.js proxy, we can't check /health, just try it
+      return true;
+    } else {
+      healthUrl = `${YT_DLP_API}/health`;
+    }
+    const res = await fetch(healthUrl, {
+      signal: AbortSignal.timeout(3000),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+// Cache the availability check
+let ytdlpAvailable: boolean | null = null;
+let ytdlpLastCheck = 0;
+const YTDP_CHECK_INTERVAL = 60000; // Check every minute
+
+async function getYtdlpAvailable(): Promise<boolean> {
+  const now = Date.now();
+  if (ytdlpAvailable !== null && now - ytdlpLastCheck < YTDP_CHECK_INTERVAL) {
+    return ytdlpAvailable;
+  }
+  ytdlpAvailable = await isYtdlpAvailable();
+  ytdlpLastCheck = now;
+  return ytdlpAvailable;
+}
 
 /* ──────────────── Platform Detection ──────────────── */
 function detectPlatform(url: string): string {
@@ -47,7 +83,16 @@ async function downloadWithYtdlp(
   filename: string;
 } | null> {
   try {
-    const apiUrl = `${YT_DLP_API}/info?url=${encodeURIComponent(url)}&audio=${audioOnly ? "1" : "0"}`;
+    // Build the API URL - supports both direct yt-dlp API and Next.js proxy
+    let apiUrl: string;
+    if (YT_DLP_API.includes("/api/ytdlp")) {
+      // Using Next.js proxy route (for Vercel deployment)
+      apiUrl = `${YT_DLP_API}?url=${encodeURIComponent(url)}&audio=${audioOnly ? "1" : "0"}`;
+    } else {
+      // Direct yt-dlp API (local server)
+      apiUrl = `${YT_DLP_API}/info?url=${encodeURIComponent(url)}&audio=${audioOnly ? "1" : "0"}`;
+    }
+
     const res = await fetch(apiUrl, {
       signal: AbortSignal.timeout(35000),
       headers: { "Accept": "application/json" },
@@ -369,9 +414,12 @@ export async function POST(request: NextRequest) {
 
         case "YouTube": {
           // YouTube: try yt-dlp API first (reliable, real files), then InnerTube
-          result = await downloadWithYtdlp(trimmedUrl, audioMode === true);
+          const ytdlpOk = await getYtdlpAvailable();
+          if (ytdlpOk) {
+            result = await downloadWithYtdlp(trimmedUrl, audioMode === true);
+          }
           if (!result) {
-            console.log("yt-dlp API failed for YouTube, trying InnerTube...");
+            console.log(`yt-dlp API ${ytdlpOk ? "failed" : "unavailable"} for YouTube, trying InnerTube...`);
             const videoId = extractYouTubeVideoId(trimmedUrl);
             if (videoId) {
               result = await youTubeInnerTube(videoId, audioMode === true);
