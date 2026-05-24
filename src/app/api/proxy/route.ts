@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
 
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 /**
  * Proxy endpoint to download video/audio files.
  * Handles CORS issues and provides proper download headers.
  *
  * Strategy:
- * - For audio files (MP3/M4A): Always stream through proxy (usually small enough)
+ * - For audio files (MP3/M4A): Always stream through proxy
  * - For video files < 4MB: Stream through proxy
- * - For video files >= 4MB: Redirect to source URL (Vercel hobby plan limit)
+ * - For video files >= 4MB: Redirect to source URL
  * - Validates that audio files are actually audio before serving
  */
 export async function GET(request: NextRequest) {
@@ -49,23 +49,20 @@ export async function GET(request: NextRequest) {
 
     // Determine appropriate headers based on the target host
     const headers: Record<string, string> = {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
       "Accept": "*/*",
       "Accept-Encoding": "identity",
     };
 
     // Add Referer for specific hosts to avoid 403 errors
-    if (targetHost.includes("savenow.to") || targetHost.includes("nip.io") || targetHost.includes("sslip.io") || targetHost.includes("traefik.me")) {
+    if (targetHost.includes("googlevideo") || targetHost.includes("youtube")) {
+      headers["Referer"] = "https://www.youtube.com/";
+      headers["Origin"] = "https://www.youtube.com";
+    } else if (targetHost.includes("savenow.to") || targetHost.includes("nip.io") || targetHost.includes("sslip.io")) {
       headers["Referer"] = "https://loader.to/";
       headers["Origin"] = "https://loader.to";
     } else if (targetHost.includes("tiktokcdn") || targetHost.includes("tiktok") || targetHost.includes("tikwm")) {
       headers["Referer"] = "https://www.tiktok.com/";
-    } else if (targetHost.includes("googlevideo") || targetHost.includes("youtube")) {
-      // YouTube/Googlevideo doesn't need Referer, and adding it can cause issues
-      // Just use a generic one
-      headers["Referer"] = "https://www.youtube.com/";
-    } else if (targetHost.includes("invidious") || targetHost.includes("inv.") || targetHost.includes("yewtu.be")) {
-      headers["Referer"] = "https://www.youtube.com/";
     } else if (targetHost.includes("reddit") || targetHost.includes("redd.it")) {
       headers["Referer"] = "https://www.reddit.com/";
     } else if (targetHost.includes("fxtwitter") || targetHost.includes("vxtwitter")) {
@@ -121,9 +118,6 @@ export async function GET(request: NextRequest) {
     // Determine content type and file extension
     const sourceContentType = response.headers.get("content-type") || "";
     const isAudio = sourceContentType.includes("audio") || isAudioRequest;
-    // InnerTube returns audio/mp4 (m4a), which is better quality than fake MP3 from Loader.to
-    // We serve it as audio/mpeg for compatibility with most players
-    const isM4aAudio = sourceContentType.includes("audio/mp4") || sourceContentType.includes("audio/mp4");
     const extension = isAudio ? "mp3" : "mp4";
     const downloadFilename = `${filename}_${quality}.${extension}`;
 

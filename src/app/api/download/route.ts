@@ -3,6 +3,10 @@ import { rateLimit } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
+/* ──────────────── Configuration ──────────────── */
+// Local yt-dlp API server (runs on our server alongside Next.js)
+const YT_DLP_API = process.env.YTDLP_API_URL || "http://127.0.0.1:8888";
+
 /* ──────────────── Platform Detection ──────────────── */
 function detectPlatform(url: string): string {
   const hostname = (() => {
@@ -32,38 +36,59 @@ function extractYouTubeVideoId(url: string): string | null {
   return null;
 }
 
-/* ──────────────── Validate download URL returns real audio/video ─── */
-async function validateDownloadUrl(url: string, expectedType: "audio" | "video" = "audio"): Promise<boolean> {
+/* ──────────────── Strategy 1: Local yt-dlp API (BEST - real files, all platforms) ─── */
+async function downloadWithYtdlp(
+  url: string,
+  audioOnly = false
+): Promise<{
+  title: string; thumbnail: string; duration: string; author: string;
+  platform: string; downloadUrl: string;
+  qualityOptions: { label: string; resolution: string; url: string }[];
+  filename: string;
+} | null> {
   try {
-    const res = await fetch(url, {
-      method: "HEAD",
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        "Referer": "https://loader.to/",
-      },
-      redirect: "follow",
-      signal: AbortSignal.timeout(5000),
+    const apiUrl = `${YT_DLP_API}/info?url=${encodeURIComponent(url)}&audio=${audioOnly ? "1" : "0"}`;
+    const res = await fetch(apiUrl, {
+      signal: AbortSignal.timeout(35000),
+      headers: { "Accept": "application/json" },
     });
-    if (!res.ok) return false;
-    const contentType = (res.headers.get("content-type") || "").toLowerCase();
-    const contentLength = parseInt(res.headers.get("content-length") || "0");
 
-    if (expectedType === "audio") {
-      // Valid audio: content-type should be audio/* or octet-stream with reasonable size
-      const isAudioType = contentType.includes("audio") || contentType.includes("mpeg") || contentType.includes("mp4");
-      const isOctetStream = contentType.includes("octet-stream");
-      const hasReasonableSize = contentLength > 10000; // At least 10KB for real audio
-      return (isAudioType || isOctetStream) && hasReasonableSize;
-    } else {
-      const isVideoType = contentType.includes("video") || contentType.includes("mp4") || contentType.includes("octet-stream");
-      return isVideoType;
+    if (!res.ok) {
+      console.log(`yt-dlp API returned ${res.status}`);
+      return null;
     }
-  } catch {
-    return false;
+
+    const data = await res.json();
+
+    if (data.error || !data.qualityOptions || data.qualityOptions.length === 0) {
+      console.log(`yt-dlp API error: ${data.error || "no formats"}`);
+      return null;
+    }
+
+    // Map the quality options to our standard format
+    const qualityOptions = data.qualityOptions.map((q: { label: string; resolution: string; url: string; format?: string; bitrate?: number }) => ({
+      label: q.label,
+      resolution: q.resolution,
+      url: q.url,
+    }));
+
+    return {
+      title: data.title || "Video",
+      thumbnail: data.thumbnail || "",
+      duration: data.duration || "--:--",
+      author: data.author || "@unknown",
+      platform: data.platform || detectPlatform(url),
+      downloadUrl: data.downloadUrl || qualityOptions[0].url,
+      qualityOptions,
+      filename: data.filename || `mova_${Date.now()}`,
+    };
+  } catch (error) {
+    console.log(`yt-dlp API failed: ${error instanceof Error ? error.message : "timeout"}`);
+    return null;
   }
 }
 
-/* ──────────────── TikTok Downloader (tikwm.com) ──────────────── */
+/* ──────────────── Strategy 2: TikTok via tikwm.com ─── */
 async function downloadTikTok(url: string) {
   const apiUrl = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`;
   const res = await fetch(apiUrl, {
@@ -71,7 +96,7 @@ async function downloadTikTok(url: string) {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     signal: AbortSignal.timeout(10000),
   });
-  if (!res.ok) throw new Error("Gagal mengambil data dari TikTok. Coba lagi nanti.");
+  if (!res.ok) throw new Error("Gagal mengambil data dari TikTok.");
   const json = await res.json();
   if (json.code !== 0 || !json.data) throw new Error(json.msg || "Video TikTok tidak ditemukan.");
 
@@ -96,185 +121,76 @@ async function downloadTikTok(url: string) {
   };
 }
 
-/* ──────────────── Loader.to API — with validation ─── */
-async function downloadWithLoader(
-  url: string,
-  platform: string,
-  audioOnly = false
-): Promise<{
-  title: string; thumbnail: string; duration: string; author: string;
-  platform: string; downloadUrl: string;
-  qualityOptions: { label: string; resolution: string; url: string }[];
-  filename: string;
-} | null> {
-  const format = audioOnly ? "mp3" : "720";
-
-  const initUrl = `https://loader.to/ajax/download.php?format=${format}&url=${encodeURIComponent(url)}`;
-  const initRes = await fetch(initUrl, {
-    headers: {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-      "Accept": "application/json",
-      "Referer": "https://loader.to/",
-    },
-    signal: AbortSignal.timeout(10000),
-  });
-
-  if (!initRes.ok) return null;
-
-  const initData = await initRes.json();
-  if (!initData.success || !initData.id) return null;
-
-  const taskId = initData.id;
-  const progressUrl = initData.progress_url || `https://p.savenow.to/api/progress?id=${taskId}`;
-  let title = initData.title || `Video ${platform}`;
-  const info = initData.info as Record<string, string> | undefined;
-
-  // Poll with progressive backoff
-  let downloadUrl = "";
-  const pollSchedule = [1000, 1000, 1500, 1500, 2000, 2000, 2000, 2000, 2000, 2000];
-
-  for (let i = 0; i < pollSchedule.length; i++) {
-    await new Promise((resolve) => setTimeout(resolve, pollSchedule[i]));
-    try {
-      const progressRes = await fetch(progressUrl, {
-        headers: { "User-Agent": "Mozilla/5.0", "Accept": "application/json" },
-        signal: AbortSignal.timeout(5000),
-      });
-      if (!progressRes.ok) continue;
-      const progressData = await progressRes.json();
-      if (progressData.success === 1 && progressData.download_url) {
-        downloadUrl = progressData.download_url;
-        break;
-      }
-    } catch { continue; }
-  }
-
-  if (!downloadUrl) return null;
-
-  // *** VALIDATE: Check if the download URL returns real audio/video ***
-  const isValid = await validateDownloadUrl(downloadUrl, audioOnly ? "audio" : "video");
-  if (!isValid) {
-    console.log(`Loader.to returned invalid file for ${platform} (audioOnly=${audioOnly})`);
-    return null; // Don't use this fake/broken file
-  }
-
-  // Get video info
-  let thumbnail = "";
-  let duration = "";
-  let author = "@unknown";
-
-  if (platform === "YouTube") {
-    const videoId = extractYouTubeVideoId(url);
-    if (videoId) {
-      thumbnail = info?.image || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-      author = info?.channel || "@unknown";
-      try {
-        const oembedRes = await fetch(
-          `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
-          { signal: AbortSignal.timeout(3000) }
-        );
-        if (oembedRes.ok) {
-          const oembed = await oembedRes.json();
-          title = oembed.title || title;
-          author = oembed.author_name || author;
-        }
-      } catch {}
-    }
-  } else if (info) {
-    thumbnail = info.image || info.thumbnail || "";
-    author = info.channel || info.author || "@unknown";
-  }
-
-  const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-  if (audioOnly) {
-    qualityOptions.push({ label: "Audio", resolution: "MP3", url: downloadUrl });
-  } else {
-    qualityOptions.push({ label: "Best", resolution: "720p", url: downloadUrl });
-  }
-
-  const videoId = platform === "YouTube" ? extractYouTubeVideoId(url) : Date.now();
-  return {
-    title, thumbnail, duration, author, platform, downloadUrl, qualityOptions,
-    filename: `mova_${platform.toLowerCase()}_${videoId || Date.now()}`,
-  };
-}
-
-/* ──────────────── YouTube InnerTube — multiple client strategies ─── */
+/* ──────────────── Strategy 3: YouTube InnerTube (fallback for Vercel) ─── */
 async function youTubeInnerTube(videoId: string, audioOnly: boolean) {
-  // Multiple clients — ordered by reliability
   const clients: { clientName: string; clientVersion: string; extra?: Record<string, unknown>; thirdParty?: string }[] = [
     {
-      // WEB_CREATOR — often works, no bot detection
-      clientName: "WEB_CREATOR",
-      clientVersion: "1.20241217.01.00",
-    },
-    {
-      // TVHTML5_SIMPLY_EMBEDDED_PLAYER — embedded context, bypasses many restrictions
       clientName: "TVHTML5_SIMPLY_EMBEDDED_PLAYER",
       clientVersion: "2.0",
-      thirdParty: {
-        embedUrl: "https://www.google.com",
-      },
+      thirdParty: { embedUrl: "https://www.google.com" },
     },
     {
-      // ANDROID_VR — updated version
       clientName: "ANDROID_VR",
       clientVersion: "1.60.2",
       extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" },
     },
     {
-      // IOS — sometimes works when others don't
       clientName: "IOS",
       clientVersion: "19.45.4",
       extra: { deviceModel: "iPhone16,2", hl: "en", gl: "US" },
     },
     {
-      // WEB_EMBEDDED_PLAYER — another embedded context
       clientName: "WEB_EMBEDDED_PLAYER",
       clientVersion: "1.20241217.01.00",
-      thirdParty: {
-        embedUrl: "https://www.google.com",
-      },
+      thirdParty: { embedUrl: "https://www.google.com" },
     },
   ];
 
-  for (const client of clients) {
-    try {
-      const context: Record<string, unknown> = {
-        client: {
-          clientName: client.clientName,
-          clientVersion: client.clientVersion,
-          hl: "en",
-          gl: "US",
-          ...client.extra,
-        },
-      };
+  const apiKeys = [
+    "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
+    "AIzaSyDZNkyC-AtROwMBpLfevIvqYk-Gfi8ZOeo",
+  ];
 
-      if (client.thirdParty) {
-        context.thirdParty = client.thirdParty;
-      }
+  for (const key of apiKeys) {
+    for (const client of clients) {
+      try {
+        const context: Record<string, unknown> = {
+          client: {
+            clientName: client.clientName,
+            clientVersion: client.clientVersion,
+            hl: "en",
+            gl: "US",
+            ...client.extra,
+          },
+        };
+        if (client.thirdParty) context.thirdParty = client.thirdParty;
 
-      const response = await fetch(
-        "https://www.youtube.com/youtubei/v1/player?prettyPrint=false&key=AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ videoId, context }),
-          signal: AbortSignal.timeout(6000),
-        }
-      );
+        const response = await fetch(
+          `https://www.youtube.com/youtubei/v1/player?prettyPrint=false&key=${key}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Origin": "https://www.youtube.com",
+              "Referer": "https://www.youtube.com/",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+            },
+            body: JSON.stringify({ videoId, context }),
+            signal: AbortSignal.timeout(6000),
+          }
+        );
 
-      if (!response.ok) continue;
-      const data = await response.json();
-      const result = parseYouTubeInnerTubeResponse(data, videoId, audioOnly);
-      if (result) return result;
-    } catch { continue; }
+        if (!response.ok) continue;
+        const data = await response.json();
+        const result = parseYouTubeInnerTubeResponse(data, videoId, audioOnly);
+        if (result) return result;
+      } catch { continue; }
+    }
   }
 
   return null;
 }
 
-/* ─── Parse InnerTube Response ─── */
 function parseYouTubeInnerTubeResponse(
   data: Record<string, unknown>,
   videoId: string,
@@ -284,9 +200,7 @@ function parseYouTubeInnerTubeResponse(
   const streamingData = (data.streamingData || {}) as Record<string, unknown>;
   const playability = (data.playabilityStatus || {}) as Record<string, unknown>;
 
-  if (playability.status !== "OK") {
-    throw new Error((playability.reason as string) || "Video tidak tersedia.");
-  }
+  if (playability.status !== "OK") return null;
 
   const title = (videoDetails.title as string) || "Video YouTube";
   const author = (videoDetails.author as string) || "@unknown";
@@ -299,29 +213,24 @@ function parseYouTubeInnerTubeResponse(
 
   const qualityOptions: { label: string; resolution: string; url: string }[] = [];
 
-  // Get all audio formats with URLs
   const audioFormats = adaptiveFormats.filter(
     (f) => typeof f.mimeType === "string" && f.mimeType.includes("audio") && f.url
   );
 
   if (audioOnly) {
-    // Priority: itag 140 (m4a/AAC 128kbps) → any mp4 audio → best quality audio
     const mp4Audio = audioFormats.find((f) => f.itag === 140) ||
                      audioFormats.find((f) => typeof f.mimeType === "string" && f.mimeType.includes("mp4")) ||
                      audioFormats[0];
     if (mp4Audio?.url) {
-      // Note: InnerTube returns m4a, not mp3. Mark as M4A/MP3 for compatibility.
       qualityOptions.push({ label: "Audio", resolution: "MP3", url: mp4Audio.url as string });
     }
   } else {
-    // Video formats
     for (const f of formats) {
       if (f.url) {
         const quality = (f.qualityLabel as string) || (f.quality as string) || "360p";
         qualityOptions.push({ label: quality, resolution: quality, url: f.url as string });
       }
     }
-    // Add audio-only option
     const mp4Audio = audioFormats.find((f) => f.itag === 140) ||
                      audioFormats.find((f) => typeof f.mimeType === "string" && f.mimeType.includes("mp4")) ||
                      audioFormats[0];
@@ -341,31 +250,7 @@ function parseYouTubeInnerTubeResponse(
   };
 }
 
-/* ──────────────── YouTube Downloader — InnerTube first, Loader.to with validation ─── */
-async function downloadYouTube(url: string, audioOnly = false) {
-  const videoId = extractYouTubeVideoId(url);
-  if (!videoId) throw new Error("URL YouTube tidak valid. Pastikan link benar.");
-
-  // Strategy 1: Try InnerTube (instant when it works, no polling)
-  try {
-    const result = await youTubeInnerTube(videoId, audioOnly);
-    if (result) return result;
-  } catch {}
-
-  // Strategy 2: Loader.to with validation (returns null if file is fake)
-  try {
-    const result = await downloadWithLoader(url, "YouTube", audioOnly);
-    if (result) return result;
-  } catch {}
-
-  throw new Error(
-    audioOnly
-      ? "Gagal mengekstrak audio dari YouTube. Video mungkin dibatasi. Coba video lain."
-      : "Gagal mengunduh video dari YouTube. Video mungkin dibatasi. Coba video lain."
-  );
-}
-
-/* ──────────────── Reddit Downloader ──────────────── */
+/* ──────────────── Strategy 4: Reddit Downloader ─── */
 async function downloadReddit(url: string) {
   let jsonUrl = url;
   if (url.includes("reddit.com")) {
@@ -406,7 +291,7 @@ async function downloadReddit(url: string) {
   };
 }
 
-/* ──────────────── Twitter/X Downloader ──────────────── */
+/* ──────────────── Strategy 5: Twitter/X Downloader ─── */
 async function downloadTwitter(url: string) {
   const fxTwitterUrl = url.replace("twitter.com", "fxtwitter.com").replace("x.com", "fxtwitter.com");
 
@@ -472,25 +357,48 @@ export async function POST(request: NextRequest) {
 
     try {
       switch (platform) {
-        case "TikTok":
-          result = await downloadTikTok(trimmedUrl);
+        case "TikTok": {
+          // TikTok: try tikwm first (fast), then yt-dlp
+          try {
+            result = await downloadTikTok(trimmedUrl);
+          } catch {
+            result = await downloadWithYtdlp(trimmedUrl, audioMode === true);
+          }
           break;
-        case "YouTube":
-          result = await downloadYouTube(trimmedUrl, audioMode === true);
+        }
+
+        case "YouTube": {
+          // YouTube: try yt-dlp API first (reliable, real files), then InnerTube
+          result = await downloadWithYtdlp(trimmedUrl, audioMode === true);
+          if (!result) {
+            console.log("yt-dlp API failed for YouTube, trying InnerTube...");
+            const videoId = extractYouTubeVideoId(trimmedUrl);
+            if (videoId) {
+              result = await youTubeInnerTube(videoId, audioMode === true);
+            }
+          }
           break;
-        case "Reddit":
+        }
+
+        case "Reddit": {
           try { result = await downloadReddit(trimmedUrl); } catch {
-            result = await downloadWithLoader(trimmedUrl, platform, audioMode === true);
+            result = await downloadWithYtdlp(trimmedUrl, audioMode === true);
           }
           break;
-        case "Twitter/X":
+        }
+
+        case "Twitter/X": {
           try { result = await downloadTwitter(trimmedUrl); } catch {
-            result = await downloadWithLoader(trimmedUrl, platform, audioMode === true);
+            result = await downloadWithYtdlp(trimmedUrl, audioMode === true);
           }
           break;
-        default:
-          result = await downloadWithLoader(trimmedUrl, platform, audioMode === true);
+        }
+
+        default: {
+          // For all other platforms, try yt-dlp API first
+          result = await downloadWithYtdlp(trimmedUrl, audioMode === true);
           break;
+        }
       }
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Gagal memproses video.";
@@ -498,7 +406,11 @@ export async function POST(request: NextRequest) {
     }
 
     if (!result) {
-      return NextResponse.json({ error: "Gagal memproses video. Pastikan link valid dan video bersifat publik." }, { status: 500 });
+      return NextResponse.json({
+        error: audioMode
+          ? "Gagal mengekstrak audio. Video mungkin dibatasi atau privat. Coba video lain."
+          : "Gagal mengunduh video. Video mungkin dibatasi atau privat. Coba video lain."
+      }, { status: 500 });
     }
 
     // Convert download URLs to proxy URLs to avoid CORS issues
