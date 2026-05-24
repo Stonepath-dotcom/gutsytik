@@ -371,6 +371,7 @@ function HeroSection() {
   const [showPreview, setShowPreview] = useState(false);
   const [previewError, setPreviewError] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [loadingMsg, setLoadingMsg] = useState("");
   const resultRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast, dismiss } = useToast();
@@ -393,6 +394,18 @@ function HeroSection() {
     setLoading(true);
     setError("");
     setResult(null);
+    setLoadingMsg(audioMode ? "Extracting audio..." : "Finding video...");
+
+    // Show progress messages while waiting
+    const msgs = audioMode
+      ? ["Extracting audio...", "Converting to MP3...", "Almost done..."]
+      : ["Finding video...", "Getting download link...", "Almost done..."];
+    let msgIdx = 0;
+    const msgInterval = setInterval(() => {
+      msgIdx = Math.min(msgIdx + 1, msgs.length - 1);
+      setLoadingMsg(msgs[msgIdx]);
+    }, 5000);
+
     try {
       const res = await fetch("/api/download", {
         method: "POST",
@@ -421,7 +434,9 @@ function HeroSection() {
     } catch {
       setError(t("error.server"));
     } finally {
+      clearInterval(msgInterval);
       setLoading(false);
+      setLoadingMsg("");
     }
   }, [url, t, showToast]);
 
@@ -651,7 +666,7 @@ function HeroSection() {
           </button>
           <Button onClick={handleAnalyze} disabled={loading} className="h-11 px-5 bg-[#F97316] text-white font-semibold rounded-xl hover:bg-[#EA580C] shrink-0">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 sm:mr-1.5" />}
-            <span className="hidden sm:inline">{t("btn.download")}</span>
+            <span className="hidden sm:inline">{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
           </Button>
         </div>
 
@@ -666,6 +681,15 @@ function HeroSection() {
             </span>
           ))}
         </div>
+
+        {/* Loading progress indicator */}
+        {loading && !error && (
+          <div className="max-w-xl mx-auto mb-4 p-3 rounded-lg bg-[#F97316]/10 border border-[#F97316]/20 flex items-center gap-2">
+            <Loader2 className="h-4 w-4 text-[#F97316] animate-spin shrink-0" />
+            <p className="text-[#F97316] text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
+            <span className="text-xs text-muted-foreground ml-auto">Please wait</span>
+          </div>
+        )}
 
         {/* Error */}
         {error && (

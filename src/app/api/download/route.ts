@@ -38,6 +38,7 @@ async function downloadTikTok(url: string) {
   const res = await fetch(apiUrl, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    signal: AbortSignal.timeout(10000),
   });
   if (!res.ok) throw new Error("Gagal mengambil data dari TikTok. Coba lagi nanti.");
   const json = await res.json();
@@ -64,7 +65,7 @@ async function downloadTikTok(url: string) {
   };
 }
 
-/* ──────────────── Loader.to API (YouTube + all platforms) ──────────────── */
+/* ──────────────── Loader.to API — Fast polling with progressive intervals ─── */
 async function downloadWithLoader(
   url: string,
   platform: string,
@@ -75,31 +76,24 @@ async function downloadWithLoader(
   qualityOptions: { label: string; resolution: string; url: string }[];
   filename: string;
 }> {
-  // Determine format based on request and platform
   const format = audioOnly ? "mp3" : "720";
 
-  // Step 1: Initiate download request
+  // Step 1: Initiate download request (fast, 10s timeout)
   const initUrl = `https://loader.to/ajax/download.php?format=${format}&url=${encodeURIComponent(url)}`;
-  
   const initRes = await fetch(initUrl, {
     headers: {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
       "Accept": "application/json",
       "Referer": "https://loader.to/",
     },
-    signal: AbortSignal.timeout(15000),
+    signal: AbortSignal.timeout(10000),
   });
 
-  if (!initRes.ok) {
-    throw new Error(`Gagal menghubungi server download (${initRes.status}).`);
-  }
+  if (!initRes.ok) throw new Error(`Gagal menghubungi server download (${initRes.status}).`);
 
   const initData = await initRes.json();
-
   if (!initData.success || !initData.id) {
-    throw new Error(
-      initData.msg || `Gagal memproses video dari ${platform}. Pastikan link valid dan video bersifat publik.`
-    );
+    throw new Error(initData.msg || `Gagal memproses video dari ${platform}. Pastikan link valid dan video bersifat publik.`);
   }
 
   const taskId = initData.id;
@@ -107,47 +101,34 @@ async function downloadWithLoader(
   let title = initData.title || `Video ${platform}`;
   const info = initData.info as Record<string, string> | undefined;
 
-  // Step 2: Poll progress until complete (max 60 seconds)
-  const maxPolls = 30;
-  const pollInterval = 2000;
-  
+  // Step 2: Poll with progressive backoff (1s → 1.5s → 2s), max 25s total
   let downloadUrl = "";
-  for (let i = 0; i < maxPolls; i++) {
-    await new Promise((resolve) => setTimeout(resolve, pollInterval));
+  const pollSchedule = [1000, 1000, 1000, 1500, 1500, 1500, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000]; // ~25s total
+
+  for (let i = 0; i < pollSchedule.length; i++) {
+    await new Promise((resolve) => setTimeout(resolve, pollSchedule[i]));
 
     try {
       const progressRes = await fetch(progressUrl, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-          "Accept": "application/json",
-        },
-        signal: AbortSignal.timeout(8000),
+        headers: { "User-Agent": "Mozilla/5.0", "Accept": "application/json" },
+        signal: AbortSignal.timeout(5000),
       });
 
       if (!progressRes.ok) continue;
-
       const progressData = await progressRes.json();
 
       if (progressData.success === 1 && progressData.download_url) {
         downloadUrl = progressData.download_url;
         break;
       }
-    } catch {
-      continue;
-    }
-
-    if (i === maxPolls - 1) {
-      throw new Error(
-        `Timeout saat memproses video dari ${platform}. Server mungkin sedang sibuk, coba lagi nanti.`
-      );
-    }
+    } catch { continue; }
   }
 
   if (!downloadUrl) {
-    throw new Error(`Gagal mendapatkan link download dari ${platform}. Coba lagi nanti.`);
+    throw new Error(`Timeout saat memproses video dari ${platform}. Server mungkin sedang sibuk, coba lagi nanti.`);
   }
 
-  // Step 3: Get video info
+  // Step 3: Get video info (in parallel with other fetches if needed)
   let thumbnail = "";
   let duration = "";
   let author = "@unknown";
@@ -157,11 +138,11 @@ async function downloadWithLoader(
     if (videoId) {
       thumbnail = info?.image || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
       author = info?.channel || "@unknown";
-      // Try to get more info from YouTube oEmbed
+      // Fast oEmbed for title/author (5s max)
       try {
         const oembedRes = await fetch(
           `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
-          { signal: AbortSignal.timeout(5000) }
+          { signal: AbortSignal.timeout(3000) }
         );
         if (oembedRes.ok) {
           const oembed = await oembedRes.json();
@@ -175,114 +156,64 @@ async function downloadWithLoader(
     author = info.channel || info.author || "@unknown";
   }
 
-  // Build quality options
+  // Build quality options — NO secondary polling for MP3 (saves 40s!)
   const qualityOptions: { label: string; resolution: string; url: string }[] = [];
   const isAudio = format === "mp3";
 
   if (isAudio) {
-    qualityOptions.push({
-      label: "Audio",
-      resolution: "MP3",
-      url: downloadUrl,
-    });
+    qualityOptions.push({ label: "Audio", resolution: "MP3", url: downloadUrl });
   } else {
-    qualityOptions.push({
-      label: "Best",
-      resolution: "720p",
-      url: downloadUrl,
-    });
-  }
-
-  // For YouTube video downloads, also try to get MP3 link
-  if (!isAudio && platform === "YouTube") {
-    try {
-      const audioInitUrl = `https://loader.to/ajax/download.php?format=mp3&url=${encodeURIComponent(url)}`;
-      const audioInitRes = await fetch(audioInitUrl, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-          "Accept": "application/json",
-          "Referer": "https://loader.to/",
-        },
-        signal: AbortSignal.timeout(15000),
-      });
-      if (audioInitRes.ok) {
-        const audioInitData = await audioInitRes.json();
-        if (audioInitData.success && audioInitData.id) {
-          const audioProgressUrl = audioInitData.progress_url || `https://p.savenow.to/api/progress?id=${audioInitData.id}`;
-          const audioMaxPolls = 20;
-          let audioDownloadUrl = "";
-          for (let i = 0; i < audioMaxPolls; i++) {
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            try {
-              const apRes = await fetch(audioProgressUrl, {
-                headers: { "User-Agent": "Mozilla/5.0", "Accept": "application/json" },
-                signal: AbortSignal.timeout(8000),
-              });
-              if (apRes.ok) {
-                const apData = await apRes.json();
-                if (apData.success === 1 && apData.download_url) {
-                  audioDownloadUrl = apData.download_url;
-                  break;
-                }
-              }
-            } catch { continue; }
-          }
-          if (audioDownloadUrl) {
-            qualityOptions.push({
-              label: "Audio",
-              resolution: "MP3",
-              url: audioDownloadUrl,
-            });
-          }
-        }
-      }
-    } catch {
-      // Audio-only fetch is optional
-    }
+    qualityOptions.push({ label: "Best", resolution: "720p", url: downloadUrl });
   }
 
   const videoId = platform === "YouTube" ? extractYouTubeVideoId(url) : Date.now();
 
   return {
-    title,
-    thumbnail,
-    duration,
-    author,
-    platform,
-    downloadUrl,
-    qualityOptions,
+    title, thumbnail, duration, author, platform, downloadUrl, qualityOptions,
     filename: `mova_${platform.toLowerCase()}_${videoId || Date.now()}`,
   };
 }
 
-/* ──────────────── YouTube InnerTube — ANDROID_VR (fast, may be blocked) ─── */
+/* ──────────────── YouTube InnerTube — multiple client strategies ─── */
 async function youTubeInnerTube(videoId: string, audioOnly: boolean) {
-  const response = await fetch(
-    "https://www.youtube.com/youtubei/v1/player?prettyPrint=false&key=AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        videoId,
-        context: {
-          client: {
-            clientName: "ANDROID_VR",
-            clientVersion: "1.50.14",
-            hl: "en",
-            gl: "US",
-            androidSdkVersion: 32,
-            osName: "Android",
-            osVersion: "12",
-          },
-        },
-      }),
-      signal: AbortSignal.timeout(10000),
-    }
-  );
+  // Try multiple clients in order — fast ones first
+  const clients = [
+    { name: "WEB_CREATOR", clientName: "WEB_CREATOR", clientVersion: "1.20241217.01.00", hl: "en", gl: "US" },
+    { name: "ANDROID_VR", clientName: "ANDROID_VR", clientVersion: "1.50.14", hl: "en", gl: "US", androidSdkVersion: 32, osName: "Android", osVersion: "12" },
+    { name: "IOS", clientName: "IOS", clientVersion: "19.45.4", hl: "en", gl: "US", deviceModel: "iPhone16,2" },
+  ];
 
-  if (!response.ok) throw new Error("InnerTube response not OK");
-  const data = await response.json();
-  return parseYouTubeInnerTubeResponse(data, videoId, audioOnly);
+  for (const client of clients) {
+    try {
+      const context: Record<string, unknown> = {
+        client: {
+          clientName: client.clientName,
+          clientVersion: client.clientVersion,
+          hl: client.hl,
+          gl: client.gl,
+          ...(client.androidSdkVersion ? { androidSdkVersion: client.androidSdkVersion, osName: client.osName, osVersion: client.osVersion } : {}),
+          ...(client.deviceModel ? { deviceModel: client.deviceModel } : {}),
+        },
+      };
+
+      const response = await fetch(
+        "https://www.youtube.com/youtubei/v1/player?prettyPrint=false&key=AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ videoId, context }),
+          signal: AbortSignal.timeout(6000),
+        }
+      );
+
+      if (!response.ok) continue;
+      const data = await response.json();
+      const result = parseYouTubeInnerTubeResponse(data, videoId, audioOnly);
+      if (result) return result;
+    } catch { continue; }
+  }
+
+  return null;
 }
 
 /* ─── Parse InnerTube Response ─── */
@@ -328,7 +259,7 @@ function parseYouTubeInnerTubeResponse(
         qualityOptions.push({ label: quality, resolution: quality, url: f.url as string });
       }
     }
-    // Add audio-only option
+    // Add audio-only option from adaptive formats
     const audioFormats = adaptiveFormats.filter(
       (f) => typeof f.mimeType === "string" && f.mimeType.includes("audio") && f.url
     );
@@ -343,10 +274,7 @@ function parseYouTubeInnerTubeResponse(
   if (qualityOptions.length === 0) return null;
 
   return {
-    title,
-    thumbnail,
-    duration,
-    author,
+    title, thumbnail, duration, author,
     platform: "YouTube",
     downloadUrl: qualityOptions[0].url,
     qualityOptions,
@@ -354,18 +282,18 @@ function parseYouTubeInnerTubeResponse(
   };
 }
 
-/* ──────────────── YouTube Downloader — Try InnerTube first, then Loader.to ─── */
+/* ──────────────── YouTube Downloader — Fast: InnerTube first, then Loader.to ─── */
 async function downloadYouTube(url: string, audioOnly = false) {
   const videoId = extractYouTubeVideoId(url);
   if (!videoId) throw new Error("URL YouTube tidak valid. Pastikan link benar.");
 
-  // Strategy 1: Try InnerTube ANDROID_VR (fast when it works, no polling needed)
+  // Strategy 1: Try InnerTube (instant when it works, no polling)
   try {
     const result = await youTubeInnerTube(videoId, audioOnly);
     if (result) return result;
   } catch {}
 
-  // Strategy 2: Use Loader.to (server-side polling, most reliable)
+  // Strategy 2: Loader.to with fast polling
   return await downloadWithLoader(url, "YouTube", audioOnly);
 }
 
@@ -378,7 +306,7 @@ async function downloadReddit(url: string) {
 
   const res = await fetch(jsonUrl, {
     headers: { "User-Agent": "Mova/1.0 (by /u/movaproject)" },
-    signal: AbortSignal.timeout(10000),
+    signal: AbortSignal.timeout(8000),
   });
 
   if (!res.ok) throw new Error("Reddit API gagal");
@@ -412,12 +340,11 @@ async function downloadReddit(url: string) {
 
 /* ──────────────── Twitter/X Downloader ──────────────── */
 async function downloadTwitter(url: string) {
-  // Try using FxTwitter for direct video links
   const fxTwitterUrl = url.replace("twitter.com", "fxtwitter.com").replace("x.com", "fxtwitter.com");
 
   const res = await fetch(fxTwitterUrl, {
     headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" },
-    signal: AbortSignal.timeout(10000),
+    signal: AbortSignal.timeout(8000),
   });
 
   if (!res.ok) throw new Error("FxTwitter gagal");
@@ -484,23 +411,16 @@ export async function POST(request: NextRequest) {
           result = await downloadYouTube(trimmedUrl, audioMode === true);
           break;
         case "Reddit":
-          // Try Reddit JSON API first, then Loader.to
-          try {
-            result = await downloadReddit(trimmedUrl);
-          } catch {
+          try { result = await downloadReddit(trimmedUrl); } catch {
             result = await downloadWithLoader(trimmedUrl, platform, audioMode === true);
           }
           break;
         case "Twitter/X":
-          // Try FxTwitter first, then Loader.to
-          try {
-            result = await downloadTwitter(trimmedUrl);
-          } catch {
+          try { result = await downloadTwitter(trimmedUrl); } catch {
             result = await downloadWithLoader(trimmedUrl, platform, audioMode === true);
           }
           break;
         default:
-          // Instagram, Facebook, Pinterest, etc. — use Loader.to
           result = await downloadWithLoader(trimmedUrl, platform, audioMode === true);
           break;
       }
@@ -514,7 +434,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Convert download URLs to proxy URLs to avoid CORS issues
-    // Also keep original URL as fallback for direct download
     const encodedSourceUrl = encodeURIComponent(trimmedUrl);
     const proxiedQualityOptions = result.qualityOptions.map((q) => ({
       ...q,
