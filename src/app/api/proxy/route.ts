@@ -79,6 +79,14 @@ export async function GET(request: NextRequest) {
     // Determine if this is an audio download
     const isAudioRequest = quality === "Audio" || quality === "MP3";
 
+    // For audio files from YouTube/Googlevideo: redirect directly
+    // This is faster than proxying and avoids Vercel's response limits
+    if (isAudioRequest && (targetHost.includes("googlevideo") || targetHost.includes("youtube"))) {
+      // Redirect to the original URL - the browser can handle this directly
+      // Googlevideo URLs work in the browser without CORS issues for direct downloads
+      return NextResponse.redirect(videoUrl);
+    }
+
     // For video files, check size first with HEAD request
     if (!isAudioRequest) {
       try {
