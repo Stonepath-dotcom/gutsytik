@@ -6,12 +6,12 @@ export const maxDuration = 30;
 /**
  * Proxy endpoint to download video/audio files.
  * Handles CORS issues and provides proper download headers.
- * Supports Loader.to/savenow.to, TikTok CDN, YouTube, and more.
  *
  * Strategy:
- * - For audio files (MP3): Always stream through proxy (usually small enough)
+ * - For audio files (MP3/M4A): Always stream through proxy (usually small enough)
  * - For video files < 4MB: Stream through proxy
  * - For video files >= 4MB: Redirect to source URL (Vercel hobby plan limit)
+ * - Validates that audio files are actually audio before serving
  */
 export async function GET(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for") || "unknown";
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     const filename = searchParams.get("filename") || "mova_video";
     const quality = searchParams.get("quality") || "video";
     const sourceUrl = searchParams.get("sourceUrl") || "";
-    const direct = searchParams.get("direct"); // If "1", redirect directly to source
+    const direct = searchParams.get("direct");
 
     if (!videoUrl) {
       return NextResponse.json({ error: "URL video diperlukan." }, { status: 400 });
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "URL tidak valid." }, { status: 400 });
     }
 
-    // If direct mode, redirect to the source URL with proper download headers
+    // If direct mode, redirect to the source URL
     if (direct === "1") {
       return NextResponse.redirect(videoUrl);
     }
@@ -61,6 +61,8 @@ export async function GET(request: NextRequest) {
     } else if (targetHost.includes("tiktokcdn") || targetHost.includes("tiktok") || targetHost.includes("tikwm")) {
       headers["Referer"] = "https://www.tiktok.com/";
     } else if (targetHost.includes("googlevideo") || targetHost.includes("youtube")) {
+      // YouTube/Googlevideo doesn't need Referer, and adding it can cause issues
+      // Just use a generic one
       headers["Referer"] = "https://www.youtube.com/";
     } else if (targetHost.includes("invidious") || targetHost.includes("inv.") || targetHost.includes("yewtu.be")) {
       headers["Referer"] = "https://www.youtube.com/";
@@ -75,22 +77,18 @@ export async function GET(request: NextRequest) {
       } catch {
         headers["Referer"] = videoUrl;
       }
-    } else {
-      headers["Referer"] = videoUrl;
     }
 
     // Determine if this is an audio download
     const isAudioRequest = quality === "Audio" || quality === "MP3";
 
-    // For audio files, we try to stream through the proxy since they're usually small
-    // For video files, check size first
+    // For video files, check size first with HEAD request
     if (!isAudioRequest) {
       try {
         const headRes = await fetch(videoUrl, { method: "HEAD", headers, redirect: "follow", signal: AbortSignal.timeout(5000) });
         const contentLength = parseInt(headRes.headers.get("content-length") || "0");
 
-        // Vercel has a ~4.5MB response limit on hobby plan
-        // For video files larger than 4MB, redirect directly to the source URL
+        // Vercel has ~4.5MB response limit on hobby plan
         if (contentLength > 4 * 1024 * 1024) {
           return NextResponse.redirect(videoUrl);
         }
@@ -103,7 +101,7 @@ export async function GET(request: NextRequest) {
     const response = await fetch(videoUrl, {
       headers,
       redirect: "follow",
-      signal: AbortSignal.timeout(120000), // 2 min timeout for large files
+      signal: AbortSignal.timeout(120000),
     });
 
     if (!response.ok) {
@@ -121,18 +119,36 @@ export async function GET(request: NextRequest) {
     }
 
     // Determine content type and file extension
-    const contentType = response.headers.get("content-type") || "video/mp4";
-    const isAudio = contentType.includes("audio") || isAudioRequest;
+    const sourceContentType = response.headers.get("content-type") || "";
+    const isAudio = sourceContentType.includes("audio") || isAudioRequest;
+    // InnerTube returns audio/mp4 (m4a), which is better quality than fake MP3 from Loader.to
+    // We serve it as audio/mpeg for compatibility with most players
+    const isM4aAudio = sourceContentType.includes("audio/mp4") || sourceContentType.includes("audio/mp4");
     const extension = isAudio ? "mp3" : "mp4";
     const downloadFilename = `${filename}_${quality}.${extension}`;
+
+    // For audio: validate that the response is actually audio
+    if (isAudioRequest && response.body) {
+      const contentLength = parseInt(response.headers.get("content-length") || "0");
+      // If the file is suspiciously small (< 10KB), it's likely not real audio
+      if (contentLength > 0 && contentLength < 10000) {
+        console.error(`Proxy: Audio file too small (${contentLength} bytes), likely fake`);
+        return NextResponse.json({ error: "File audio tidak valid. Coba lagi nanti." }, { status: 500 });
+      }
+    }
 
     return new NextResponse(response.body, {
       status: 200,
       headers: {
-        "Content-Type": isAudio ? "audio/mpeg" : contentType,
+        // Use audio/mpeg for all audio files (m4a/mp3) for maximum compatibility
+        "Content-Type": isAudio ? "audio/mpeg" : (sourceContentType || "video/mp4"),
         "Content-Disposition": `attachment; filename="${downloadFilename}"`,
         "Cache-Control": "no-cache",
         "Access-Control-Allow-Origin": "*",
+        // Add content-length if available for progress display
+        ...(response.headers.get("content-length") ? {
+          "Content-Length": response.headers.get("content-length")!,
+        } : {}),
       },
     });
   } catch (error) {

@@ -32,6 +32,37 @@ function extractYouTubeVideoId(url: string): string | null {
   return null;
 }
 
+/* ──────────────── Validate download URL returns real audio/video ─── */
+async function validateDownloadUrl(url: string, expectedType: "audio" | "video" = "audio"): Promise<boolean> {
+  try {
+    const res = await fetch(url, {
+      method: "HEAD",
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Referer": "https://loader.to/",
+      },
+      redirect: "follow",
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) return false;
+    const contentType = (res.headers.get("content-type") || "").toLowerCase();
+    const contentLength = parseInt(res.headers.get("content-length") || "0");
+
+    if (expectedType === "audio") {
+      // Valid audio: content-type should be audio/* or octet-stream with reasonable size
+      const isAudioType = contentType.includes("audio") || contentType.includes("mpeg") || contentType.includes("mp4");
+      const isOctetStream = contentType.includes("octet-stream");
+      const hasReasonableSize = contentLength > 10000; // At least 10KB for real audio
+      return (isAudioType || isOctetStream) && hasReasonableSize;
+    } else {
+      const isVideoType = contentType.includes("video") || contentType.includes("mp4") || contentType.includes("octet-stream");
+      return isVideoType;
+    }
+  } catch {
+    return false;
+  }
+}
+
 /* ──────────────── TikTok Downloader (tikwm.com) ──────────────── */
 async function downloadTikTok(url: string) {
   const apiUrl = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`;
@@ -65,7 +96,7 @@ async function downloadTikTok(url: string) {
   };
 }
 
-/* ──────────────── Loader.to API — Fast polling with progressive intervals ─── */
+/* ──────────────── Loader.to API — with validation ─── */
 async function downloadWithLoader(
   url: string,
   platform: string,
@@ -75,10 +106,9 @@ async function downloadWithLoader(
   platform: string; downloadUrl: string;
   qualityOptions: { label: string; resolution: string; url: string }[];
   filename: string;
-}> {
+} | null> {
   const format = audioOnly ? "mp3" : "720";
 
-  // Step 1: Initiate download request (fast, 10s timeout)
   const initUrl = `https://loader.to/ajax/download.php?format=${format}&url=${encodeURIComponent(url)}`;
   const initRes = await fetch(initUrl, {
     headers: {
@@ -89,34 +119,29 @@ async function downloadWithLoader(
     signal: AbortSignal.timeout(10000),
   });
 
-  if (!initRes.ok) throw new Error(`Gagal menghubungi server download (${initRes.status}).`);
+  if (!initRes.ok) return null;
 
   const initData = await initRes.json();
-  if (!initData.success || !initData.id) {
-    throw new Error(initData.msg || `Gagal memproses video dari ${platform}. Pastikan link valid dan video bersifat publik.`);
-  }
+  if (!initData.success || !initData.id) return null;
 
   const taskId = initData.id;
   const progressUrl = initData.progress_url || `https://p.savenow.to/api/progress?id=${taskId}`;
   let title = initData.title || `Video ${platform}`;
   const info = initData.info as Record<string, string> | undefined;
 
-  // Step 2: Poll with progressive backoff (1s → 1.5s → 2s), max 25s total
+  // Poll with progressive backoff
   let downloadUrl = "";
-  const pollSchedule = [1000, 1000, 1000, 1500, 1500, 1500, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000]; // ~25s total
+  const pollSchedule = [1000, 1000, 1500, 1500, 2000, 2000, 2000, 2000, 2000, 2000];
 
   for (let i = 0; i < pollSchedule.length; i++) {
     await new Promise((resolve) => setTimeout(resolve, pollSchedule[i]));
-
     try {
       const progressRes = await fetch(progressUrl, {
         headers: { "User-Agent": "Mozilla/5.0", "Accept": "application/json" },
         signal: AbortSignal.timeout(5000),
       });
-
       if (!progressRes.ok) continue;
       const progressData = await progressRes.json();
-
       if (progressData.success === 1 && progressData.download_url) {
         downloadUrl = progressData.download_url;
         break;
@@ -124,11 +149,16 @@ async function downloadWithLoader(
     } catch { continue; }
   }
 
-  if (!downloadUrl) {
-    throw new Error(`Timeout saat memproses video dari ${platform}. Server mungkin sedang sibuk, coba lagi nanti.`);
+  if (!downloadUrl) return null;
+
+  // *** VALIDATE: Check if the download URL returns real audio/video ***
+  const isValid = await validateDownloadUrl(downloadUrl, audioOnly ? "audio" : "video");
+  if (!isValid) {
+    console.log(`Loader.to returned invalid file for ${platform} (audioOnly=${audioOnly})`);
+    return null; // Don't use this fake/broken file
   }
 
-  // Step 3: Get video info (in parallel with other fetches if needed)
+  // Get video info
   let thumbnail = "";
   let duration = "";
   let author = "@unknown";
@@ -138,7 +168,6 @@ async function downloadWithLoader(
     if (videoId) {
       thumbnail = info?.image || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
       author = info?.channel || "@unknown";
-      // Fast oEmbed for title/author (5s max)
       try {
         const oembedRes = await fetch(
           `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
@@ -156,18 +185,14 @@ async function downloadWithLoader(
     author = info.channel || info.author || "@unknown";
   }
 
-  // Build quality options — NO secondary polling for MP3 (saves 40s!)
   const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-  const isAudio = format === "mp3";
-
-  if (isAudio) {
+  if (audioOnly) {
     qualityOptions.push({ label: "Audio", resolution: "MP3", url: downloadUrl });
   } else {
     qualityOptions.push({ label: "Best", resolution: "720p", url: downloadUrl });
   }
 
   const videoId = platform === "YouTube" ? extractYouTubeVideoId(url) : Date.now();
-
   return {
     title, thumbnail, duration, author, platform, downloadUrl, qualityOptions,
     filename: `mova_${platform.toLowerCase()}_${videoId || Date.now()}`,
@@ -176,11 +201,41 @@ async function downloadWithLoader(
 
 /* ──────────────── YouTube InnerTube — multiple client strategies ─── */
 async function youTubeInnerTube(videoId: string, audioOnly: boolean) {
-  // Try multiple clients in order — fast ones first
-  const clients = [
-    { name: "WEB_CREATOR", clientName: "WEB_CREATOR", clientVersion: "1.20241217.01.00", hl: "en", gl: "US" },
-    { name: "ANDROID_VR", clientName: "ANDROID_VR", clientVersion: "1.50.14", hl: "en", gl: "US", androidSdkVersion: 32, osName: "Android", osVersion: "12" },
-    { name: "IOS", clientName: "IOS", clientVersion: "19.45.4", hl: "en", gl: "US", deviceModel: "iPhone16,2" },
+  // Multiple clients — ordered by reliability
+  const clients: { clientName: string; clientVersion: string; extra?: Record<string, unknown>; thirdParty?: string }[] = [
+    {
+      // WEB_CREATOR — often works, no bot detection
+      clientName: "WEB_CREATOR",
+      clientVersion: "1.20241217.01.00",
+    },
+    {
+      // TVHTML5_SIMPLY_EMBEDDED_PLAYER — embedded context, bypasses many restrictions
+      clientName: "TVHTML5_SIMPLY_EMBEDDED_PLAYER",
+      clientVersion: "2.0",
+      thirdParty: {
+        embedUrl: "https://www.google.com",
+      },
+    },
+    {
+      // ANDROID_VR — updated version
+      clientName: "ANDROID_VR",
+      clientVersion: "1.60.2",
+      extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" },
+    },
+    {
+      // IOS — sometimes works when others don't
+      clientName: "IOS",
+      clientVersion: "19.45.4",
+      extra: { deviceModel: "iPhone16,2", hl: "en", gl: "US" },
+    },
+    {
+      // WEB_EMBEDDED_PLAYER — another embedded context
+      clientName: "WEB_EMBEDDED_PLAYER",
+      clientVersion: "1.20241217.01.00",
+      thirdParty: {
+        embedUrl: "https://www.google.com",
+      },
+    },
   ];
 
   for (const client of clients) {
@@ -189,12 +244,15 @@ async function youTubeInnerTube(videoId: string, audioOnly: boolean) {
         client: {
           clientName: client.clientName,
           clientVersion: client.clientVersion,
-          hl: client.hl,
-          gl: client.gl,
-          ...(client.androidSdkVersion ? { androidSdkVersion: client.androidSdkVersion, osName: client.osName, osVersion: client.osVersion } : {}),
-          ...(client.deviceModel ? { deviceModel: client.deviceModel } : {}),
+          hl: "en",
+          gl: "US",
+          ...client.extra,
         },
       };
+
+      if (client.thirdParty) {
+        context.thirdParty = client.thirdParty;
+      }
 
       const response = await fetch(
         "https://www.youtube.com/youtubei/v1/player?prettyPrint=false&key=AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w",
@@ -227,8 +285,7 @@ function parseYouTubeInnerTubeResponse(
   const playability = (data.playabilityStatus || {}) as Record<string, unknown>;
 
   if (playability.status !== "OK") {
-    const reason = (playability.reason as string) || "Video tidak tersedia untuk download.";
-    throw new Error(reason);
+    throw new Error((playability.reason as string) || "Video tidak tersedia.");
   }
 
   const title = (videoDetails.title as string) || "Video YouTube";
@@ -242,32 +299,34 @@ function parseYouTubeInnerTubeResponse(
 
   const qualityOptions: { label: string; resolution: string; url: string }[] = [];
 
+  // Get all audio formats with URLs
+  const audioFormats = adaptiveFormats.filter(
+    (f) => typeof f.mimeType === "string" && f.mimeType.includes("audio") && f.url
+  );
+
   if (audioOnly) {
-    const audioFormats = adaptiveFormats.filter(
-      (f) => typeof f.mimeType === "string" && f.mimeType.includes("audio") && f.url
-    );
+    // Priority: itag 140 (m4a/AAC 128kbps) → any mp4 audio → best quality audio
     const mp4Audio = audioFormats.find((f) => f.itag === 140) ||
-                     audioFormats.find((f) => typeof f.mimeType === "string" && f.mimeType.includes("mp4"));
-    const bestAudio = mp4Audio || audioFormats[0];
-    if (bestAudio?.url) {
-      qualityOptions.push({ label: "Audio", resolution: "MP3", url: bestAudio.url as string });
+                     audioFormats.find((f) => typeof f.mimeType === "string" && f.mimeType.includes("mp4")) ||
+                     audioFormats[0];
+    if (mp4Audio?.url) {
+      // Note: InnerTube returns m4a, not mp3. Mark as M4A/MP3 for compatibility.
+      qualityOptions.push({ label: "Audio", resolution: "MP3", url: mp4Audio.url as string });
     }
   } else {
+    // Video formats
     for (const f of formats) {
       if (f.url) {
         const quality = (f.qualityLabel as string) || (f.quality as string) || "360p";
         qualityOptions.push({ label: quality, resolution: quality, url: f.url as string });
       }
     }
-    // Add audio-only option from adaptive formats
-    const audioFormats = adaptiveFormats.filter(
-      (f) => typeof f.mimeType === "string" && f.mimeType.includes("audio") && f.url
-    );
+    // Add audio-only option
     const mp4Audio = audioFormats.find((f) => f.itag === 140) ||
-                     audioFormats.find((f) => typeof f.mimeType === "string" && f.mimeType.includes("mp4"));
-    const bestAudio = mp4Audio || audioFormats[0];
-    if (bestAudio?.url) {
-      qualityOptions.push({ label: "Audio", resolution: "MP3", url: bestAudio.url as string });
+                     audioFormats.find((f) => typeof f.mimeType === "string" && f.mimeType.includes("mp4")) ||
+                     audioFormats[0];
+    if (mp4Audio?.url) {
+      qualityOptions.push({ label: "Audio", resolution: "MP3", url: mp4Audio.url as string });
     }
   }
 
@@ -282,7 +341,7 @@ function parseYouTubeInnerTubeResponse(
   };
 }
 
-/* ──────────────── YouTube Downloader — Fast: InnerTube first, then Loader.to ─── */
+/* ──────────────── YouTube Downloader — InnerTube first, Loader.to with validation ─── */
 async function downloadYouTube(url: string, audioOnly = false) {
   const videoId = extractYouTubeVideoId(url);
   if (!videoId) throw new Error("URL YouTube tidak valid. Pastikan link benar.");
@@ -293,8 +352,17 @@ async function downloadYouTube(url: string, audioOnly = false) {
     if (result) return result;
   } catch {}
 
-  // Strategy 2: Loader.to with fast polling
-  return await downloadWithLoader(url, "YouTube", audioOnly);
+  // Strategy 2: Loader.to with validation (returns null if file is fake)
+  try {
+    const result = await downloadWithLoader(url, "YouTube", audioOnly);
+    if (result) return result;
+  } catch {}
+
+  throw new Error(
+    audioOnly
+      ? "Gagal mengekstrak audio dari YouTube. Video mungkin dibatasi. Coba video lain."
+      : "Gagal mengunduh video dari YouTube. Video mungkin dibatasi. Coba video lain."
+  );
 }
 
 /* ──────────────── Reddit Downloader ──────────────── */
@@ -430,7 +498,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!result) {
-      return NextResponse.json({ error: "Gagal memproses video. Silakan coba lagi." }, { status: 500 });
+      return NextResponse.json({ error: "Gagal memproses video. Pastikan link valid dan video bersifat publik." }, { status: 500 });
     }
 
     // Convert download URLs to proxy URLs to avoid CORS issues
