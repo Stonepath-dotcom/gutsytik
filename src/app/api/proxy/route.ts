@@ -58,15 +58,18 @@ export async function GET(request: NextRequest) {
     if (targetHost.includes("googlevideo") || targetHost.includes("youtube")) {
       headers["Referer"] = "https://www.youtube.com/";
       headers["Origin"] = "https://www.youtube.com";
-    } else if (targetHost.includes("savenow.to") || targetHost.includes("nip.io") || targetHost.includes("sslip.io")) {
-      headers["Referer"] = "https://loader.to/";
-      headers["Origin"] = "https://loader.to";
     } else if (targetHost.includes("tiktokcdn") || targetHost.includes("tiktok") || targetHost.includes("tikwm")) {
       headers["Referer"] = "https://www.tiktok.com/";
     } else if (targetHost.includes("reddit") || targetHost.includes("redd.it")) {
       headers["Referer"] = "https://www.reddit.com/";
     } else if (targetHost.includes("fxtwitter") || targetHost.includes("vxtwitter")) {
       headers["Referer"] = "https://twitter.com/";
+    } else if (targetHost.includes("piped")) {
+      headers["Referer"] = "https://piped.video/";
+    } else if (targetHost.includes("instagram") || targetHost.includes("cdninstagram") || targetHost.includes("fbcdn")) {
+      headers["Referer"] = "https://www.instagram.com/";
+    } else if (targetHost.includes("facebook") || targetHost.includes("fbcdn")) {
+      headers["Referer"] = "https://www.facebook.com/";
     } else if (sourceUrl) {
       try {
         const sourceParsed = new URL(sourceUrl);
@@ -77,13 +80,49 @@ export async function GET(request: NextRequest) {
     }
 
     // Determine if this is an audio download
-    const isAudioRequest = quality === "Audio" || quality === "MP3";
+    const isAudioRequest = quality === "Audio" || quality === "MP3" || quality === "Audio (Low)";
 
-    // For audio files from YouTube/Googlevideo: redirect directly
-    // This is faster than proxying and avoids Vercel's response limits
+    // For YouTube/Googlevideo audio: try streaming through proxy first
+    // Direct redirect often doesn't work due to throttling and IP restrictions
     if (isAudioRequest && (targetHost.includes("googlevideo") || targetHost.includes("youtube"))) {
-      // Redirect to the original URL - the browser can handle this directly
-      // Googlevideo URLs work in the browser without CORS issues for direct downloads
+      try {
+        const audioRes = await fetch(videoUrl, {
+          headers,
+          redirect: "follow",
+          signal: AbortSignal.timeout(60000),
+        });
+
+        if (audioRes.ok) {
+          const contentType = audioRes.headers.get("content-type") || "";
+          const contentLength = parseInt(audioRes.headers.get("content-length") || "0");
+
+          // Validate this is actually audio content
+          const isAudioContent = contentType.includes("audio") || contentType.includes("video") || contentType.includes("octet-stream");
+
+          if (isAudioContent && (contentLength === 0 || contentLength > 10000)) {
+            // Stream the audio through our proxy with proper download headers
+            const extension = "mp3";
+            const downloadFilename = `${filename}_${quality}.${extension}`;
+
+            return new NextResponse(audioRes.body, {
+              status: 200,
+              headers: {
+                "Content-Type": "audio/mpeg",
+                "Content-Disposition": `attachment; filename="${downloadFilename}"`,
+                "Cache-Control": "no-cache",
+                "Access-Control-Allow-Origin": "*",
+                ...(contentLength > 0 ? { "Content-Length": contentLength.toString() } : {}),
+              },
+            });
+          } else {
+            console.log(`Proxy: Audio validation failed - type: ${contentType}, size: ${contentLength}`);
+          }
+        }
+      } catch (e) {
+        console.log(`Proxy: Audio stream failed: ${e instanceof Error ? e.message : "unknown"}`);
+      }
+
+      // If streaming failed, try redirect as fallback
       return NextResponse.redirect(videoUrl);
     }
 

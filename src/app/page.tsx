@@ -695,7 +695,9 @@ function HeroSection() {
         {error && (
           <div className="max-w-xl mx-auto mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-start gap-2">
             <AlertCircle className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-            <p className="text-red-400 text-sm text-left">{error}</p>
+            <div className="text-left">
+              <p className="text-red-400 text-sm">{error}</p>
+            </div>
           </div>
         )}
 
