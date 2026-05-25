@@ -308,7 +308,7 @@ function Navbar() {
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map(l => (
-            <a key={l.href} href={l.href} className="px-2.5 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted/50">{l.label}</a>
+            <a key={l.href} href={l.href} className="px-2.5 py-1.5 text-base font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted/50">{l.label}</a>
           ))}
         </nav>
 
@@ -321,7 +321,7 @@ function Navbar() {
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
           <a href="#hero">
-            <Button size="sm" className="h-8 px-4 bg-[#2563EB] text-white font-semibold rounded-lg hover:bg-[#1D4ED8] text-sm">
+            <Button size="sm" className="h-10 px-6 bg-[#2563EB] text-white font-semibold rounded-lg hover:bg-[#1D4ED8] text-base">
               <Download className="mr-1.5 h-3.5 w-3.5" />{t("nav.download")}
             </Button>
           </a>
@@ -616,34 +616,34 @@ function HeroSection() {
 
   return (
     <section id="hero" className="relative pt-16 md:pt-24 pb-12 md:pb-20 px-3 sm:px-4">
-      <div className="mx-auto max-w-3xl text-center">
+      <div className="mx-auto max-w-4xl text-center">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
           <Zap className="h-3.5 w-3.5 md:h-4 md:w-4 text-[#2563EB]" />
-          <span className="text-xs md:text-sm font-semibold text-[#2563EB]">{t("hero.badge")}</span>
+          <span className="text-xs md:text-base font-semibold text-[#2563EB]">{t("hero.badge")}</span>
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] leading-tight">
+        <h1 className="text-2xl sm:text-4xl md:text-6xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] leading-tight">
           {audioMode ? t("hero.audioTitle") : t("hero.title")}{" "}
           <span className="gradient-text">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
         </h1>
-        <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-6 max-w-xl mx-auto">
+        <p className="text-sm sm:text-base md:text-xl text-muted-foreground mb-6 max-w-2xl mx-auto">
           {audioMode ? t("hero.audioSubtitle") : t("hero.subtitle")}
         </p>
 
         {/* Video/Audio tabs */}
         <div className="flex items-center justify-center gap-1 mb-4 p-1 rounded-lg bg-muted/50 w-fit mx-auto">
-          <button onClick={() => { setAudioMode(false); setResult(null); setError(""); }} className={`px-4 py-1.5 md:px-6 md:py-2 rounded-md text-sm md:text-base font-medium transition-colors ${!audioMode ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}>
+          <button onClick={() => { setAudioMode(false); setResult(null); setError(""); }} className={`px-4 py-1.5 md:px-8 md:py-2.5 rounded-md text-sm md:text-lg font-medium transition-colors ${!audioMode ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}>
             <Film className="h-3.5 w-3.5 inline mr-1.5" />{t("tab.video")}
           </button>
-          <button onClick={() => { setAudioMode(true); setResult(null); setError(""); }} className={`px-4 py-1.5 md:px-6 md:py-2 rounded-md text-sm md:text-base font-medium transition-colors ${audioMode ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}>
+          <button onClick={() => { setAudioMode(true); setResult(null); setError(""); }} className={`px-4 py-1.5 md:px-8 md:py-2.5 rounded-md text-sm md:text-lg font-medium transition-colors ${audioMode ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}>
             <Music className="h-3.5 w-3.5 inline mr-1.5" />{t("tab.audio")}
           </button>
         </div>
 
         {/* Input */}
-        <div className="relative flex items-center gap-2 max-w-2xl mx-auto">
+        <div className="relative flex items-center gap-2 max-w-3xl mx-auto">
           <div className="flex-1 relative">
             {platformDef && !result && (
               <div className="absolute left-3 top-1/2 -translate-y-1/2">
@@ -658,10 +658,10 @@ function HeroSection() {
               onChange={e => setUrl(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleAnalyze()}
               placeholder={audioMode ? t("input.audioPlaceholder") : t("input.placeholder")}
-              className={`h-11 md:h-13 bg-card border-border rounded-xl text-sm md:text-base ${platformDef && !result ? "pl-10" : "pl-4"} pr-4`}
+              className={`h-11 md:h-13 bg-card border-border rounded-xl text-sm md:text-lg ${platformDef && !result ? "pl-10" : "pl-4"} pr-4`}
             />
           </div>
-          <button onClick={handlePaste} className="h-11 md:h-13 px-3 rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs md:text-sm font-medium shrink-0">
+          <button onClick={handlePaste} className="h-11 md:h-13 px-3 rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs md:text-base font-medium shrink-0">
             <Copy className="h-3.5 w-3.5 sm:mr-1.5" /><span className="hidden sm:inline">{t("input.paste")}</span>
           </button>
           <Button onClick={handleAnalyze} disabled={loading} className="h-11 md:h-13 px-5 md:px-8 bg-[#2563EB] text-white font-semibold rounded-xl hover:bg-[#1D4ED8] shrink-0">
@@ -673,7 +673,7 @@ function HeroSection() {
         {/* Platform hints with SVG icons */}
         <div className="flex flex-wrap justify-center gap-2 mt-4 mb-6">
           {PLATFORMS.map(p => (
-            <a key={p.name} href={`/${p.name.toLowerCase().replace("/","-").replace(" ","-")}-downloader`} className="inline-flex items-center gap-1.5 text-[11px] md:text-xs px-2.5 py-1 md:px-3 md:py-1.5 rounded-full bg-card/50 text-muted-foreground border border-border/50 hover:border-primary/30 hover:text-foreground transition-colors">
+            <a key={p.name} href={`/${p.name.toLowerCase().replace("/","-").replace(" ","-")}-downloader`} className="inline-flex items-center gap-1.5 text-[11px] md:text-sm px-2.5 py-1 md:px-4 md:py-2 rounded-full bg-card/50 text-muted-foreground border border-border/50 hover:border-primary/30 hover:text-foreground transition-colors">
               <div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: p.gradient || p.color }}>
                 <p.Icon className="h-2.5 w-2.5 text-white" />
               </div>
@@ -683,7 +683,7 @@ function HeroSection() {
         </div>
 
         {/* Micro trust line under input */}
-        <div className="flex items-center justify-center gap-3 md:gap-5 text-[10px] md:text-xs text-muted-foreground/60 mb-2">
+        <div className="flex items-center justify-center gap-3 md:gap-5 text-[10px] md:text-sm text-muted-foreground/60 mb-2">
           <span className="flex items-center gap-1"><Shield className="h-3 w-3 md:h-3.5 md:w-3.5" />SSL Secure</span>
           <span className="flex items-center gap-1"><Zap className="h-3 w-3 md:h-3.5 md:w-3.5" />No Signup</span>
           <span className="flex items-center gap-1"><CheckCircle className="h-3 w-3 md:h-3.5 md:w-3.5" />100% Free</span>
@@ -850,8 +850,8 @@ function TrustSection() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {stats.map((s, i) => (
             <div key={i} className="text-center p-3 rounded-xl bg-card/50 border border-border/30">
-              <p className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#2563EB] font-[family-name:var(--font-montserrat)]">{s.value}</p>
-              <p className="text-[11px] md:text-sm text-muted-foreground mt-0.5">{s.label[lang] || s.label.id}</p>
+              <p className="text-xl sm:text-2xl md:text-4xl font-extrabold text-[#2563EB] font-[family-name:var(--font-montserrat)]">{s.value}</p>
+              <p className="text-[11px] md:text-base text-muted-foreground mt-0.5">{s.label[lang] || s.label.id}</p>
             </div>
           ))}
         </div>
@@ -861,8 +861,8 @@ function TrustSection() {
             const Icon = b.icon;
             return (
               <div key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/5 border border-primary/10">
-                <Icon className="h-3.5 w-3.5 md:h-4 md:w-4 text-[#2563EB]" />
-                <span className="text-[11px] md:text-sm font-medium text-foreground">{b.label[lang] || b.label.id}</span>
+                <Icon className="h-3.5 w-3.5 md:h-5 md:w-5 text-[#2563EB]" />
+                <span className="text-[11px] md:text-base font-medium text-foreground">{b.label[lang] || b.label.id}</span>
               </div>
             );
           })}
@@ -870,9 +870,9 @@ function TrustSection() {
         {/* Star rating visual */}
         <div className="flex items-center justify-center gap-1 mt-4">
           {[1,2,3,4,5].map(i => (
-            <Star key={i} className={`h-4 w-4 md:h-5 md:w-5 ${i <= 4 ? 'text-yellow-400 fill-yellow-400' : 'text-yellow-400 fill-yellow-400/50'}`} />
+            <Star key={i} className={`h-4 w-4 md:h-6 md:w-6 ${i <= 4 ? 'text-yellow-400 fill-yellow-400' : 'text-yellow-400 fill-yellow-400/50'}`} />
           ))}
-          <span className="text-xs md:text-sm text-muted-foreground ml-2">{lang === 'id' ? 'Dipercaya ribuan pengguna' : 'Trusted by thousands of users'}</span>
+          <span className="text-xs md:text-base text-muted-foreground ml-2">{lang === 'id' ? 'Dipercaya ribuan pengguna' : 'Trusted by thousands of users'}</span>
         </div>
       </div>
     </section>
@@ -896,21 +896,21 @@ function FeaturesSection() {
       <div className="mx-auto max-w-6xl">
         <div className="text-center mb-8">
           <div className="w-10 h-1 rounded-full bg-[#2563EB] mx-auto mb-3" />
-          <h2 id="features-heading" className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">
+          <h2 id="features-heading" className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">
             <span className="gradient-text">{t("features.title")}</span>
           </h2>
-          <p className="text-sm md:text-base text-muted-foreground max-w-lg mx-auto">{t("features.subtitle")}</p>
+          <p className="text-sm md:text-lg text-muted-foreground max-w-lg mx-auto">{t("features.subtitle")}</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
           {featuresData.map((f, i) => {
             const Icon = f.icon;
             return (
               <article key={i} className="bento-card p-5 md:p-7 group">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-3 bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                  <Icon className="h-5 w-5 md:h-6 md:w-6 text-[#2563EB]" />
+                <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl flex items-center justify-center mb-3 bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                  <Icon className="h-5 w-5 md:h-7 md:w-7 text-[#2563EB]" />
                 </div>
-                <h3 className="text-sm md:text-base font-semibold text-foreground mb-1.5">{f.titleId}</h3>
-                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
+                <h3 className="text-sm md:text-lg font-semibold text-foreground mb-1.5">{f.titleId}</h3>
+                <p className="text-xs md:text-base text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
               </article>
             );
           })}
@@ -931,18 +931,18 @@ function HowItWorksSection() {
   const lang = useLanguage().lang;
   return (
     <section id="how" className="py-12 md:py-20 px-3 sm:px-4 bg-muted/30" aria-labelledby="how-heading">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-5xl">
         <div className="text-center mb-8">
           <div className="w-10 h-1 rounded-full bg-[#2563EB] mx-auto mb-3" />
-          <h2 id="how-heading" className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
-          <p className="text-sm md:text-base text-muted-foreground">{t("how.subtitle")}</p>
+          <h2 id="how-heading" className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
+          <p className="text-sm md:text-lg text-muted-foreground">{t("how.subtitle")}</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {steps.map((s, i) => (
             <div key={i} className="text-center p-5 md:p-8">
-              <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#2563EB] text-white font-bold text-lg md:text-xl flex items-center justify-center mx-auto mb-3">{s.num}</div>
-              <h3 className="text-sm md:text-base md:font-semibold text-foreground mb-1">{s.title[lang] || s.title.id}</h3>
-              <p className="text-xs md:text-sm text-muted-foreground">{s.desc[lang] || s.desc.id}</p>
+              <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-[#2563EB] text-white font-bold text-lg md:text-2xl flex items-center justify-center mx-auto mb-3">{s.num}</div>
+              <h3 className="text-sm md:text-lg md:font-semibold text-foreground mb-1">{s.title[lang] || s.title.id}</h3>
+              <p className="text-xs md:text-base text-muted-foreground">{s.desc[lang] || s.desc.id}</p>
             </div>
           ))}
         </div>
@@ -959,8 +959,8 @@ function PlatformsSection() {
       <div className="mx-auto max-w-5xl px-3 sm:px-4">
         <div className="text-center mb-8">
           <div className="w-10 h-1 rounded-full bg-[#2563EB] mx-auto mb-3" />
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("platforms.title")}</h2>
-          <p className="text-sm md:text-base text-muted-foreground max-w-lg mx-auto">{t("platforms.subtitle")}</p>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("platforms.title")}</h2>
+          <p className="text-sm md:text-lg text-muted-foreground max-w-lg mx-auto">{t("platforms.subtitle")}</p>
         </div>
       </div>
       {/* Marquee row */}
@@ -1028,17 +1028,17 @@ function FAQSection() {
   const { t, lang } = useLanguage();
   return (
     <section id="faq" className="py-12 sm:py-16 px-3 sm:px-4">
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-4xl">
         <div className="text-center mb-8">
           <div className="w-10 h-1 rounded-full bg-[#2563EB] mx-auto mb-3" />
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("faq.title")}</h2>
-          <p className="text-sm md:text-base text-muted-foreground">{t("faq.subtitle")}</p>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("faq.title")}</h2>
+          <p className="text-sm md:text-lg text-muted-foreground">{t("faq.subtitle")}</p>
         </div>
         <Accordion type="single" collapsible className="space-y-2">
           {faqData.map((f, i) => (
             <AccordionItem key={i} value={`item-${i}`} className="border rounded-xl px-4 md:px-6 bg-card">
-              <AccordionTrigger className="text-sm md:text-base font-medium text-left hover:no-underline py-3">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</AccordionTrigger>
-              <AccordionContent className="text-xs md:text-sm text-muted-foreground leading-relaxed pb-3">{faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}</AccordionContent>
+              <AccordionTrigger className="text-sm md:text-lg font-medium text-left hover:no-underline py-3">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</AccordionTrigger>
+              <AccordionContent className="text-xs md:text-base text-muted-foreground leading-relaxed pb-3">{faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
@@ -1052,9 +1052,9 @@ function CTASection() {
   const { t } = useLanguage();
   return (
     <section className="py-12 sm:py-16 px-3 sm:px-4">
-      <div className="mx-auto max-w-2xl text-center gradient-border p-8 md:p-14">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">{t("cta.title")}</h2>
-        <p className="text-sm md:text-base text-muted-foreground mb-5">{t("cta.subtitle")}</p>
+      <div className="mx-auto max-w-3xl text-center gradient-border p-8 md:p-14">
+        <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">{t("cta.title")}</h2>
+        <p className="text-sm md:text-lg text-muted-foreground mb-5">{t("cta.subtitle")}</p>
         <a href="#hero">
           <Button className="h-11 px-6 bg-[#2563EB] text-white font-bold rounded-xl hover:bg-[#1D4ED8] text-sm">
             <Download className="mr-2 h-4 w-4" />{t("cta.button")}
@@ -1075,8 +1075,8 @@ function Footer() {
           {/* Column 1: Logo + Description */}
           <div className="col-span-2 sm:col-span-1">
             <MovaLogo size={26} showText />
-            <p className="text-[11px] md:text-sm text-muted-foreground max-w-xs mt-2">{t("footer.desc")}</p>
-            <div className="flex items-center gap-3 mt-3 text-xs md:text-sm text-muted-foreground">
+            <p className="text-[11px] md:text-base text-muted-foreground max-w-xs mt-2">{t("footer.desc")}</p>
+            <div className="flex items-center gap-3 mt-3 text-xs md:text-base text-muted-foreground">
               <a href="https://tiktok.com/@abbbuw" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors flex items-center gap-1">
                 <TikTokIcon className="h-3.5 w-3.5" />TikTok
               </a>
@@ -1085,45 +1085,45 @@ function Footer() {
             {/* Verified badge */}
             <div className="inline-flex items-center gap-1.5 mt-3 px-2 py-1 rounded-md bg-primary/5 border border-primary/10">
               <Shield className="h-3 w-3 text-[#2563EB]" />
-              <span className="text-[10px] md:text-xs font-medium text-[#2563EB]">{lang === 'id' ? 'Situs Terverifikasi' : 'Verified Site'}</span>
+              <span className="text-[10px] md:text-sm font-medium text-[#2563EB]">{lang === 'id' ? 'Situs Terverifikasi' : 'Verified Site'}</span>
             </div>
           </div>
 
           {/* Column 2: Navigasi */}
           <div>
-            <h4 className="text-xs md:text-sm md:font-semibold text-foreground mb-3">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
+            <h4 className="text-xs md:text-base md:font-semibold text-foreground mb-3">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
             <ul className="space-y-2">
-              <li><a href="#features" className="text-[11px] md:text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a></li>
-              <li><a href="#how" className="text-[11px] md:text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a></li>
-              <li><a href="#platforms" className="text-[11px] md:text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.platform")}</a></li>
-              <li><a href="#faq" className="text-[11px] md:text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.faq")}</a></li>
+              <li><a href="#features" className="text-[11px] md:text-base text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a></li>
+              <li><a href="#how" className="text-[11px] md:text-base text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a></li>
+              <li><a href="#platforms" className="text-[11px] md:text-base text-muted-foreground hover:text-foreground transition-colors">{t("nav.platform")}</a></li>
+              <li><a href="#faq" className="text-[11px] md:text-base text-muted-foreground hover:text-foreground transition-colors">{t("nav.faq")}</a></li>
             </ul>
           </div>
 
           {/* Column 3: Perusahaan */}
           <div>
-            <h4 className="text-xs md:text-sm md:font-semibold text-foreground mb-3">{lang === 'id' ? 'Perusahaan' : 'Company'}</h4>
+            <h4 className="text-xs md:text-base md:font-semibold text-foreground mb-3">{lang === 'id' ? 'Perusahaan' : 'Company'}</h4>
             <ul className="space-y-2">
-              <li><a href="/about" className="text-[11px] md:text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
-              <li><a href="/contact" className="text-[11px] md:text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
-              <li><a href="/blog" className="text-[11px] md:text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
+              <li><a href="/about" className="text-[11px] md:text-base text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
+              <li><a href="/contact" className="text-[11px] md:text-base text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
+              <li><a href="/blog" className="text-[11px] md:text-base text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
             </ul>
           </div>
 
           {/* Column 4: Legal */}
           <div>
-            <h4 className="text-xs md:text-sm md:font-semibold text-foreground mb-3">Legal</h4>
+            <h4 className="text-xs md:text-base md:font-semibold text-foreground mb-3">Legal</h4>
             <ul className="space-y-2">
-              <li><a href="/privacy" className="text-[11px] md:text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
-              <li><a href="/terms" className="text-[11px] md:text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
-              <li><a href="/disclaimer" className="text-[11px] md:text-sm text-muted-foreground hover:text-foreground transition-colors">Disclaimer / DMCA</a></li>
+              <li><a href="/privacy" className="text-[11px] md:text-base text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
+              <li><a href="/terms" className="text-[11px] md:text-base text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
+              <li><a href="/disclaimer" className="text-[11px] md:text-base text-muted-foreground hover:text-foreground transition-colors">Disclaimer / DMCA</a></li>
             </ul>
           </div>
         </div>
         {/* Copyright + Disclaimer notice */}
         <div className="mt-6 pt-4 border-t border-border/50">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p className="text-[10px] md:text-xs text-muted-foreground/60">&copy; 2026 Mova. All rights reserved.</p>
+            <p className="text-[10px] md:text-sm text-muted-foreground/60">&copy; 2026 Mova. All rights reserved.</p>
             <p className="text-[9px] md:text-[11px] text-muted-foreground/30 text-center sm:text-right">
               {lang === 'id' ? 'Mova tidak menyimpan konten berhak cipta. Pengguna bertanggung jawab atas penggunaan konten yang diunduh.' : 'Mova does not store copyrighted content. Users are responsible for downloaded content usage.'}
               <a href="/disclaimer" className="hover:text-muted-foreground/50 underline ml-1">{lang === 'id' ? 'Selengkapnya' : 'Learn more'}</a>

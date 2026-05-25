@@ -220,3 +220,11 @@ main, section, footer { overflow-x: hidden; max-width: 100vw; }
 header, nav, footer {
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
+
+/* ─── Desktop base font boost ─── */
+@media screen and (min-width: 768px) {
+  html { font-size: 17px; }
+}
+@media screen and (min-width: 1280px) {
+  html { font-size: 18px; }
+}
