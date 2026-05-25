@@ -635,8 +635,8 @@ function HeroSection() {
           </button>
         </div>
 
-        {/* Input */}
-        <div className="relative flex items-center gap-2 max-w-2xl mx-auto">
+        {/* Input - stacked on mobile, inline on desktop */}
+        <div className="max-w-2xl mx-auto space-y-2 md:space-y-0 md:flex md:items-center md:gap-2">
           <div className="flex-1 relative">
             <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
@@ -645,31 +645,31 @@ function HeroSection() {
               onChange={e => setUrl(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleAnalyze()}
               placeholder={audioMode ? t("input.audioPlaceholder") : t("input.placeholder")}
-              className="h-12 md:h-14 bg-white border-0 rounded-lg text-sm md:text-base pl-11 pr-4 text-gray-900 placeholder:text-gray-400 shadow-lg"
+              className="h-12 md:h-14 bg-white border-0 rounded-lg text-base md:text-lg pl-11 pr-4 text-gray-900 placeholder:text-gray-400 shadow-lg"
             />
           </div>
-          <Button onClick={handleAnalyze} disabled={loading} className="h-12 md:h-14 px-6 md:px-8 bg-[#4F46E5] text-white font-semibold rounded-lg hover:bg-[#4338CA] shrink-0 shadow-lg">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 md:mr-1.5" />}
-            <span className="hidden sm:inline">{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
+          <Button onClick={handleAnalyze} disabled={loading} className="w-full md:w-auto h-12 md:h-14 px-6 md:px-8 bg-[#4F46E5] text-white font-semibold rounded-lg hover:bg-[#4338CA] shrink-0 shadow-lg">
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 mr-1.5" />}
+            <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
           </Button>
         </div>
 
+        {/* Trust line */}
+        <div className="flex items-center justify-center gap-3 md:gap-4 text-xs md:text-sm text-white/40 mt-5">
+          <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5" />SSL Secure</span>
+          <span>·</span>
+          <span>No Signup</span>
+          <span>·</span>
+          <span>100% Free</span>
+        </div>
+
         {/* Platform hints */}
-        <div className="flex flex-wrap justify-center gap-3 md:gap-4 mt-6">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-3 mt-5">
           {PLATFORMS.map(p => (
             <a key={p.name} href={`/${p.name.toLowerCase().replace("/","-").replace(" ","-")}-downloader`} className="text-xs md:text-sm text-white/50 hover:text-white/80 transition-colors font-medium">
               {p.name}
             </a>
           ))}
-        </div>
-
-        {/* Trust line */}
-        <div className="flex items-center justify-center gap-4 md:gap-5 text-[10px] md:text-xs text-white/40 mt-5">
-          <span className="flex items-center gap-1"><Shield className="h-3 w-3" />SSL Secure</span>
-          <span>·</span>
-          <span>No Signup</span>
-          <span>·</span>
-          <span>100% Free</span>
         </div>
 
         {/* Loading */}
@@ -820,15 +820,15 @@ function FeaturesSection() {
           </h2>
           <p className="text-sm md:text-base text-gray-500 max-w-xl mx-auto">{t("features.subtitle")}</p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
           {featuresData.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div key={i} className="bg-white border border-gray-100 rounded-xl p-5 md:p-6 shadow-sm hover:shadow-md transition-shadow">
-                <div className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 mb-3 ${f.color}`}>
+              <div key={i} className="bg-white border border-gray-100 rounded-xl p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className={`w-10 h-10 md:w-11 md:h-11 rounded-lg flex items-center justify-center shrink-0 mb-3 ${f.color}`}>
                   <Icon className="h-5 w-5" />
                 </div>
-                <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-1.5">{f.titleId}</h3>
+                <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-1">{f.titleId}</h3>
                 <p className="text-xs md:text-sm text-gray-500 leading-relaxed">{f.desc[lang] || f.desc.id}</p>
               </div>
             );
@@ -855,19 +855,16 @@ function HowItWorksSection() {
           <h2 id="how-heading" className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">{t("how.title")}</h2>
           <p className="text-sm md:text-base text-gray-500 max-w-lg mx-auto">{t("how.subtitle")}</p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
-          {steps.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <div key={i} className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 rounded-full bg-[#4F46E5] flex items-center justify-center mb-3">
-                  <Icon className="h-5 w-5 text-white" />
-                </div>
-                <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-1">{s.title[lang] || s.title.id}</h3>
-                <p className="text-xs md:text-sm text-gray-500 leading-relaxed">{s.desc[lang] || s.desc.id}</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8">
+          {steps.map((s, i) => (
+            <div key={i} className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-[#4F46E5] flex items-center justify-center mb-3 shadow-md">
+                <span className="text-white font-bold text-base">{s.num}</span>
               </div>
-            );
-          })}
+              <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-1">{s.title[lang] || s.title.id}</h3>
+              <p className="text-xs md:text-sm text-gray-500 leading-relaxed">{s.desc[lang] || s.desc.id}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -878,17 +875,17 @@ function HowItWorksSection() {
 function PlatformsSection() {
   const { t } = useLanguage();
   return (
-    <section id="platforms" className="py-14 md:py-24 px-3 sm:px-4 bg-white">
+    <section id="platforms" className="py-14 md:py-24 px-4 sm:px-6 bg-white">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-10 md:mb-14">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">{t("platforms.title")}</h2>
           <p className="text-sm md:text-base text-gray-500 max-w-lg mx-auto">{t("platforms.subtitle")}</p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
           {PLATFORMS.map((p) => {
             const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
             return (
-              <a key={p.name} href={`/${slug}`} className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-200 hover:border-[#4F46E5]/30 hover:shadow-sm transition-all">
+              <a key={p.name} href={`/${slug}`} className="flex items-center gap-3 p-3 md:p-4 rounded-xl bg-white border border-gray-200 hover:border-[#4F46E5]/30 hover:shadow-sm transition-all">
                 <div className="w-9 h-9 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: p.gradient || p.color }}>
                   <p.Icon className="h-4 w-4" />
                 </div>
@@ -964,13 +961,13 @@ function FAQSection() {
 function CTASection() {
   const { t } = useLanguage();
   return (
-    <section className="dark-section py-14 md:py-24 px-3 sm:px-4">
+    <section className="dark-section py-16 md:py-24 px-4 sm:px-6">
       <div className="mx-auto max-w-3xl text-center">
-        <div className="w-16 h-16 rounded-full bg-[#4F46E5]/20 flex items-center justify-center mx-auto mb-6">
-          <Shield className="h-8 w-8 text-[#4F46E5]" />
+        <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#4F46E5]/20 flex items-center justify-center mx-auto mb-5 md:mb-6">
+          <Shield className="h-7 w-7 md:h-8 md:w-8 text-[#4F46E5]" />
         </div>
-        <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-4 font-[family-name:var(--font-montserrat)] text-white">{t("cta.title")}</h2>
-        <p className="text-sm md:text-lg text-white/60 mb-8 max-w-md mx-auto">{t("cta.subtitle")}</p>
+        <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] text-white">{t("cta.title")}</h2>
+        <p className="text-sm md:text-base text-white/60 mb-6 md:mb-8 max-w-md mx-auto">{t("cta.subtitle")}</p>
         <a href="#hero">
           <Button className="h-12 md:h-14 px-8 md:px-10 bg-[#4F46E5] text-white font-bold rounded-lg hover:bg-[#4338CA] text-sm md:text-base">
             <Download className="mr-2 h-4 w-4 md:h-5 md:w-5" />{t("cta.button")}
@@ -1097,15 +1094,15 @@ export default function Home() {
           })}} />
 
           {/* Platform Download Pages */}
-          <section className="py-14 md:py-20 px-3 sm:px-4 bg-white">
+          <section className="py-14 md:py-20 px-4 sm:px-6 bg-gray-50">
             <div className="mx-auto max-w-5xl">
               <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2 tracking-tight text-gray-900">Download Video per Platform</h2>
               <p className="text-sm text-gray-500 text-center mb-8">Pilih platform untuk panduan download lengkap</p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
                 {PLATFORMS.slice(0, 5).map(p => {
                   const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
                   return (
-                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-white border border-gray-200 hover:border-[#4F46E5]/30 hover:shadow-sm transition-all">
+                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-2 p-3 md:p-4 rounded-xl bg-white border border-gray-200 hover:border-[#4F46E5]/30 hover:shadow-sm transition-all">
                       <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: p.gradient || p.color }}>
                         <p.Icon className="h-5 w-5 text-white" />
                       </div>
