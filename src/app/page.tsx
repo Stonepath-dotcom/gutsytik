@@ -586,7 +586,7 @@ function HeroSection() {
   const platformDef = detectedPlatform ? getPlatformDef(detectedPlatform) : null;
 
   return (
-    <section id="hero" className="hero-bg relative pt-24 md:pt-36 pb-14 md:pb-28 px-4 md:px-6">
+    <section id="hero" className="hero-bg relative pt-24 md:pt-36 pb-10 md:pb-28 px-4 md:px-6">
       <div className="relative z-10 mx-auto max-w-4xl text-center">
         {/* Badge */}
         <div className="mb-5 md:mb-6 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/10">
@@ -793,9 +793,7 @@ const featuresData = [
 function FeaturesSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="features" className="py-10 md:py-20 px-4 md:px-6 bg-white relative" aria-labelledby="features-heading">
-      {/* Transition from dark hero */}
-      <div className="absolute top-0 left-0 right-0 h-12 bg-[#0F172A] pointer-events-none" />
+    <section id="features" className="pt-6 pb-10 md:py-20 px-4 md:px-6 bg-white" aria-labelledby="features-heading">
       <div className="mx-auto max-w-6xl">
         <div className="text-center mb-8 md:mb-12">
           <h2 id="features-heading" className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">
