@@ -298,30 +298,30 @@ function Navbar() {
   }, [open]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
-      <div className="mx-auto max-w-6xl h-12 md:h-16 flex items-center justify-between px-3 sm:px-4">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40">
+      <div className="mx-auto max-w-6xl h-12 md:h-16 flex items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="Mova - Home">
           <MovaLogo size={28} showText={true} />
         </a>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-0.5">
           {navLinks.map(l => (
-            <a key={l.href} href={l.href} className="px-3 py-2 text-sm md:text-base font-medium text-muted-foreground hover:text-foreground transition-colors relative after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-[#2563EB] after:scale-x-0 after:transition-transform after:origin-center hover:after:scale-x-100">{l.label}</a>
+            <a key={l.href} href={l.href} className="px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted/50">{l.label}</a>
           ))}
         </nav>
 
         {/* Desktop controls */}
-        <div className="hidden md:flex items-center gap-1">
-          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs font-bold" aria-label="Toggle language">
+        <div className="hidden md:flex items-center gap-1.5">
+          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-9 w-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs font-bold" aria-label="Toggle language">
             {lang === "id" ? "EN" : "ID"}
           </button>
-          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors" aria-label="Toggle theme">
+          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-9 w-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors" aria-label="Toggle theme">
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
           <a href="#hero">
-            <Button size="sm" className="h-10 px-6 border border-[#2563EB] text-[#2563EB] bg-transparent font-semibold rounded-lg hover:bg-[#2563EB] hover:text-white transition-all text-base">
+            <Button size="sm" className="h-9 px-5 bg-[#2563EB] text-white font-semibold rounded-lg hover:bg-[#1D4ED8] transition-all text-sm">
               <Download className="mr-1.5 h-3.5 w-3.5" />{t("nav.download")}
             </Button>
           </a>
@@ -341,13 +341,13 @@ function Navbar() {
 
       {/* Mobile dropdown */}
       {open && (
-        <div ref={menuRef} className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-lg">
-          <div className="px-3 py-2 space-y-0.5">
+        <div ref={menuRef} className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-xl">
+          <div className="px-4 py-3 space-y-0.5">
             {navLinks.map(l => (
               <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50 transition-colors">{l.label}</a>
             ))}
             <a href="#hero" onClick={() => setOpen(false)} className="block pt-1">
-              <Button className="w-full bg-[#2563EB] text-white font-semibold rounded-lg hover:bg-[#1D4ED8]">
+              <Button className="w-full bg-[#2563EB] text-white font-semibold rounded-xl hover:bg-[#1D4ED8]">
                 <Download className="mr-2 h-4 w-4" />{t("nav.download")}
               </Button>
             </a>
@@ -615,36 +615,36 @@ function HeroSection() {
   const platformDef = detectedPlatform ? getPlatformDef(detectedPlatform) : null;
 
   return (
-    <section id="hero" className="relative pt-16 md:pt-24 pb-12 md:pb-20 px-3 sm:px-4">
-      <div className="mx-auto max-w-4xl text-center">
+    <section id="hero" className="relative pt-16 md:pt-28 pb-14 md:pb-24 px-3 sm:px-4 hero-bg">
+      <div className="hero-glow" />
+      <div className="mx-auto max-w-4xl text-center relative z-10">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 mb-6">
-          <span className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide uppercase">{t("hero.badge")}</span>
-          <span className="w-1 h-1 rounded-full bg-muted-foreground/40" />
-          <span className="text-xs md:text-sm text-muted-foreground">v2.0</span>
+        <div className="inline-flex items-center gap-2.5 mb-7 px-4 py-1.5 rounded-full border border-[#2563EB]/20 bg-[#2563EB]/5">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
+          <span className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide">{t("hero.badge")}</span>
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl sm:text-4xl md:text-6xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] leading-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-4 font-[family-name:var(--font-montserrat)] leading-[1.1] tracking-tight">
           {audioMode ? t("hero.audioTitle") : t("hero.title")}{" "}
-          <span className="text-[#2563EB]">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
+          <span className="bg-gradient-to-r from-[#2563EB] to-[#3B82F6] bg-clip-text text-transparent">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
         </h1>
-        <p className="text-sm sm:text-base md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+        <p className="text-sm sm:text-base md:text-xl text-muted-foreground mb-9 max-w-2xl mx-auto leading-relaxed">
           {audioMode ? t("hero.audioSubtitle") : t("hero.subtitle")}
         </p>
 
         {/* Video/Audio tabs */}
-        <div className="flex items-center justify-center gap-0 mb-6 border-b border-border w-fit mx-auto">
-          <button onClick={() => { setAudioMode(false); setResult(null); setError(""); }} className={`px-5 py-2.5 md:px-8 md:py-3 text-sm md:text-lg font-medium transition-colors border-b-2 ${!audioMode ? "border-[#2563EB] text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
-            <Film className="h-4 w-4 inline mr-2" />{t("tab.video")}
+        <div className="flex items-center justify-center gap-1 mb-7 p-1 w-fit mx-auto rounded-full bg-muted/60 border border-border/60">
+          <button onClick={() => { setAudioMode(false); setResult(null); setError(""); }} className={`px-5 py-2 md:px-7 md:py-2.5 text-sm md:text-base font-medium rounded-full transition-all ${!audioMode ? "bg-card text-foreground shadow-sm border border-border" : "text-muted-foreground hover:text-foreground"}`}>
+            <Film className="h-3.5 w-3.5 inline mr-1.5" />{t("tab.video")}
           </button>
-          <button onClick={() => { setAudioMode(true); setResult(null); setError(""); }} className={`px-5 py-2.5 md:px-8 md:py-3 text-sm md:text-lg font-medium transition-colors border-b-2 ${audioMode ? "border-[#2563EB] text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
-            <Music className="h-4 w-4 inline mr-2" />{t("tab.audio")}
+          <button onClick={() => { setAudioMode(true); setResult(null); setError(""); }} className={`px-5 py-2 md:px-7 md:py-2.5 text-sm md:text-base font-medium rounded-full transition-all ${audioMode ? "bg-card text-foreground shadow-sm border border-border" : "text-muted-foreground hover:text-foreground"}`}>
+            <Music className="h-3.5 w-3.5 inline mr-1.5" />{t("tab.audio")}
           </button>
         </div>
 
         {/* Input */}
-        <div className="relative flex items-center gap-2 max-w-3xl mx-auto">
+        <div className="mova-input relative flex items-center gap-2 max-w-3xl mx-auto p-1.5 rounded-2xl bg-card border border-border/80 transition-all">
           <div className="flex-1 relative">
             {platformDef && !result && (
               <div className="absolute left-3 top-1/2 -translate-y-1/2">
@@ -659,33 +659,33 @@ function HeroSection() {
               onChange={e => setUrl(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleAnalyze()}
               placeholder={audioMode ? t("input.audioPlaceholder") : t("input.placeholder")}
-              className={`h-11 md:h-13 bg-card border-border rounded-xl text-sm md:text-lg ${platformDef && !result ? "pl-10" : "pl-4"} pr-4`}
+              className={`h-10 md:h-12 bg-transparent border-0 rounded-xl text-sm md:text-lg focus-visible:ring-0 focus-visible:ring-offset-0 ${platformDef && !result ? "pl-10" : "pl-4"} pr-4`}
             />
           </div>
-          <button onClick={handlePaste} className="h-11 md:h-13 px-3 rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs md:text-base font-medium shrink-0">
+          <button onClick={handlePaste} className="h-10 md:h-12 px-3.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors text-xs md:text-sm font-medium shrink-0">
             <Copy className="h-3.5 w-3.5 sm:mr-1.5" /><span className="hidden sm:inline">{t("input.paste")}</span>
           </button>
-          <Button onClick={handleAnalyze} disabled={loading} className="h-11 md:h-13 px-5 md:px-8 bg-[#2563EB] text-white font-semibold rounded-xl hover:bg-[#1D4ED8] shrink-0 shadow-lg shadow-[#2563EB]/20">
+          <Button onClick={handleAnalyze} disabled={loading} className="h-10 md:h-12 px-5 md:px-7 bg-[#2563EB] text-white font-semibold rounded-xl hover:bg-[#1D4ED8] shrink-0 download-btn-pulse">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 sm:mr-1.5" />}
             <span className="hidden sm:inline">{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
           </Button>
         </div>
 
         {/* Platform hints */}
-        <div className="flex flex-wrap justify-center gap-3 md:gap-4 mt-5 mb-8">
+        <div className="flex flex-wrap justify-center gap-2.5 md:gap-3 mt-6 mb-8">
           {PLATFORMS.map(p => (
-            <a key={p.name} href={`/${p.name.toLowerCase().replace("/","-").replace(" ","-")}-downloader`} className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors font-medium">
-              {p.name}
+            <a key={p.name} href={`/${p.name.toLowerCase().replace("/","-").replace(" ","-")}-downloader`} className="inline-flex items-center gap-1.5 text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors font-medium px-2 py-1 rounded-lg hover:bg-[#2563EB]/5">
+              <p.Icon className="h-3 w-3" />{p.name}
             </a>
           ))}
         </div>
 
         {/* Micro trust line under input */}
-        <div className="flex items-center justify-center gap-2 md:gap-3 text-[10px] md:text-sm text-muted-foreground/50 mb-2">
-          <span className="flex items-center gap-1"><Shield className="h-3 w-3 md:h-4 md:w-4" />SSL Secure</span>
-          <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
+        <div className="flex items-center justify-center gap-3 md:gap-4 text-[10px] md:text-xs text-muted-foreground/60 mb-2">
+          <span className="flex items-center gap-1"><Shield className="h-3 w-3 md:h-3.5 md:w-3.5" />SSL Secure</span>
+          <span className="w-1 h-1 rounded-full bg-muted-foreground/20" />
           <span className="flex items-center gap-1">No Signup</span>
-          <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
+          <span className="w-1 h-1 rounded-full bg-muted-foreground/20" />
           <span className="flex items-center gap-1">100% Free</span>
         </div>
 
@@ -838,11 +838,11 @@ function TrustSection() {
     { value: "4.8", label: { id: "Rating", en: "Rating" } },
   ];
   return (
-    <section className="py-10 md:py-16 px-3 sm:px-4 border-y border-border/40" aria-label="Trust signals">
-      <div className="mx-auto max-w-6xl">
+    <section className="py-10 md:py-16 px-3 sm:px-4" aria-label="Trust signals">
+      <div className="mx-auto max-w-5xl">
         <div className="grid grid-cols-4 gap-4 md:gap-8">
           {stats.map((s, i) => (
-            <div key={i} className="text-center">
+            <div key={i} className="text-center p-3 md:p-5 rounded-2xl bg-muted/30 border border-border/30">
               <p className="text-lg sm:text-2xl md:text-4xl font-bold text-foreground font-[family-name:var(--font-montserrat)]">{s.value}</p>
               <p className="text-[10px] md:text-sm text-muted-foreground mt-1">{s.label[lang] || s.label.id}</p>
             </div>
@@ -866,27 +866,28 @@ const featuresData = [
 function FeaturesSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="features" className="py-12 md:py-24 px-3 sm:px-4" aria-labelledby="features-heading">
+    <section id="features" className="py-14 md:py-28 px-3 sm:px-4" aria-labelledby="features-heading">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-10 md:mb-14">
-          <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide uppercase mb-3">{t("nav.fitur")}</p>
-          <h2 id="features-heading" className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">
+        <div className="mb-10 md:mb-16 text-center md:text-left">
+          <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full border border-[#2563EB]/15 bg-[#2563EB]/5">
+            <Zap className="h-3 w-3 text-[#2563EB]" />
+            <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide">{t("nav.fitur")}</p>
+          </div>
+          <h2 id="features-heading" className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] tracking-tight">
             {t("features.title")}
           </h2>
           <p className="text-sm md:text-lg text-muted-foreground max-w-xl">{t("features.subtitle")}</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 md:gap-x-16 gap-y-6 md:gap-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
           {featuresData.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div key={i} className="feature-card p-4 md:p-6 flex gap-4 md:gap-5">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center shrink-0 bg-[#2563EB]/10">
-                  <Icon className="h-5 w-5 md:h-6 md:w-6 text-[#2563EB]" />
+              <div key={i} className={`feature-card p-5 md:p-6 relative z-10 ${i === 0 ? 'md:col-span-2 lg:col-span-2' : ''}`}>
+                <div className={`w-10 h-10 md:w-11 md:h-11 rounded-xl flex items-center justify-center shrink-0 bg-[#2563EB]/10 mb-3 md:mb-4`}>
+                  <Icon className="h-5 w-5 md:h-5.5 md:w-5.5 text-[#2563EB]" />
                 </div>
-                <div>
-                  <h3 className="text-sm md:text-lg font-semibold text-foreground mb-1">{f.titleId}</h3>
-                  <p className="text-xs md:text-base text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
-                </div>
+                <h3 className="text-sm md:text-base font-semibold text-foreground mb-1.5">{f.titleId}</h3>
+                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
               </div>
             );
           })}
@@ -906,20 +907,25 @@ function HowItWorksSection() {
   ];
   const lang = useLanguage().lang;
   return (
-    <section id="how" className="py-12 md:py-24 px-3 sm:px-4 bg-muted/30" aria-labelledby="how-heading">
+    <section id="how" className="py-14 md:py-28 px-3 sm:px-4 bg-muted/30" aria-labelledby="how-heading">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-10 md:mb-14">
-          <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide uppercase mb-3">{t("nav.caraPakai")}</p>
-          <h2 id="how-heading" className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
-          <p className="text-sm md:text-lg text-muted-foreground">{t("how.subtitle")}</p>
+        <div className="mb-10 md:mb-16 text-center">
+          <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full border border-[#2563EB]/15 bg-[#2563EB]/5">
+            <Play className="h-3 w-3 text-[#2563EB]" />
+            <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide">{t("nav.caraPakai")}</p>
+          </div>
+          <h2 id="how-heading" className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] tracking-tight">{t("how.title")}</h2>
+          <p className="text-sm md:text-lg text-muted-foreground max-w-lg mx-auto">{t("how.subtitle")}</p>
         </div>
-        <div className="space-y-6 md:space-y-8">
+        <div className="space-y-0">
           {steps.map((s, i) => (
-            <div key={i} className="flex items-start gap-4 md:gap-6">
-              <span className="text-3xl md:text-5xl font-extrabold text-muted-foreground/20 font-[family-name:var(--font-montserrat)] shrink-0 leading-none">{s.num}</span>
-              <div className="pt-1 md:pt-2">
+            <div key={i} className="step-line flex items-start gap-4 md:gap-6 pb-8 md:pb-10 relative">
+              <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[#2563EB]/10 border border-[#2563EB]/15 flex items-center justify-center shrink-0">
+                <span className="text-sm md:text-base font-bold text-[#2563EB]">{s.num}</span>
+              </div>
+              <div className="pt-1.5 md:pt-2.5">
                 <h3 className="text-sm md:text-lg font-semibold text-foreground mb-1">{s.title[lang] || s.title.id}</h3>
-                <p className="text-xs md:text-base text-muted-foreground leading-relaxed">{s.desc[lang] || s.desc.id}</p>
+                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed max-w-md">{s.desc[lang] || s.desc.id}</p>
               </div>
             </div>
           ))}
@@ -933,12 +939,15 @@ function HowItWorksSection() {
 function PlatformsSection() {
   const { t } = useLanguage();
   return (
-    <section id="platforms" className="py-12 md:py-24 overflow-hidden">
+    <section id="platforms" className="py-14 md:py-28 overflow-hidden">
       <div className="mx-auto max-w-5xl px-3 sm:px-4">
-        <div className="mb-10 md:mb-14">
-          <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide uppercase mb-3">{t("nav.platform")}</p>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">{t("platforms.title")}</h2>
-          <p className="text-sm md:text-lg text-muted-foreground max-w-lg">{t("platforms.subtitle")}</p>
+        <div className="mb-10 md:mb-16 text-center">
+          <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full border border-[#2563EB]/15 bg-[#2563EB]/5">
+            <Globe className="h-3 w-3 text-[#2563EB]" />
+            <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide">{t("nav.platform")}</p>
+          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] tracking-tight">{t("platforms.title")}</h2>
+          <p className="text-sm md:text-lg text-muted-foreground max-w-lg mx-auto">{t("platforms.subtitle")}</p>
         </div>
       </div>
       {/* Marquee row */}
@@ -947,9 +956,9 @@ function PlatformsSection() {
         <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
         <div className="flex animate-marquee scroll-hide">
           {[...PLATFORMS, ...PLATFORMS].map((p, i) => (
-            <div key={`r1-${p.name}-${i}`} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-card border border-border mx-2 shrink-0 hover:border-primary/30 transition-colors">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white" style={{ background: p.gradient || p.color }}>
-                <p.Icon className="h-3.5 w-3.5" />
+            <div key={`r1-${p.name}-${i}`} className="inline-flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-card border border-border mx-2 shrink-0 hover:border-[#2563EB]/25 transition-all hover:shadow-sm platform-card">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white" style={{ background: p.gradient || p.color }}>
+                <p.Icon className="h-4 w-4" />
               </div>
               <span className="text-sm font-medium text-foreground whitespace-nowrap">{p.name}</span>
             </div>
@@ -961,9 +970,9 @@ function PlatformsSection() {
         <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
         <div className="flex animate-marquee-reverse scroll-hide">
           {[...PLATFORMS.slice().reverse(), ...PLATFORMS.slice().reverse()].map((p, i) => (
-            <div key={`r2-${p.name}-${i}`} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-card border border-border mx-2 shrink-0 hover:border-primary/30 transition-colors">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white" style={{ background: p.gradient || p.color }}>
-                <p.Icon className="h-3.5 w-3.5" />
+            <div key={`r2-${p.name}-${i}`} className="inline-flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-card border border-border mx-2 shrink-0 hover:border-[#2563EB]/25 transition-all hover:shadow-sm platform-card">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white" style={{ background: p.gradient || p.color }}>
+                <p.Icon className="h-4 w-4" />
               </div>
               <span className="text-sm font-medium text-foreground whitespace-nowrap">{p.name}</span>
             </div>
@@ -1005,18 +1014,21 @@ const faqContent: Record<string, Record<string, string>> = {
 function FAQSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="faq" className="py-12 md:py-24 px-3 sm:px-4">
-      <div className="mx-auto max-w-4xl">
-        <div className="mb-10 md:mb-14">
-          <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide uppercase mb-3">FAQ</p>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">{t("faq.title")}</h2>
-          <p className="text-sm md:text-lg text-muted-foreground">{t("faq.subtitle")}</p>
+    <section id="faq" className="py-14 md:py-28 px-3 sm:px-4">
+      <div className="mx-auto max-w-3xl">
+        <div className="mb-10 md:mb-16 text-center">
+          <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full border border-[#2563EB]/15 bg-[#2563EB]/5">
+            <ChevronDown className="h-3 w-3 text-[#2563EB]" />
+            <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide">FAQ</p>
+          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] tracking-tight">{t("faq.title")}</h2>
+          <p className="text-sm md:text-lg text-muted-foreground max-w-md mx-auto">{t("faq.subtitle")}</p>
         </div>
-        <Accordion type="single" collapsible className="space-y-2">
+        <Accordion type="single" collapsible className="space-y-2.5">
           {faqData.map((f, i) => (
-            <AccordionItem key={i} value={`item-${i}`} className="border rounded-xl px-4 md:px-6 bg-card">
-              <AccordionTrigger className="text-sm md:text-lg font-medium text-left hover:no-underline py-4">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</AccordionTrigger>
-              <AccordionContent className="text-xs md:text-base text-muted-foreground leading-relaxed pb-4">{faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}</AccordionContent>
+            <AccordionItem key={i} value={`item-${i}`} className="faq-item px-5 md:px-7">
+              <AccordionTrigger className="text-sm md:text-base font-medium text-left hover:no-underline py-4 md:py-5">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</AccordionTrigger>
+              <AccordionContent className="text-xs md:text-sm text-muted-foreground leading-relaxed pb-4 md:pb-5">{faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
@@ -1029,13 +1041,13 @@ function FAQSection() {
 function CTASection() {
   const { t } = useLanguage();
   return (
-    <section className="py-12 md:py-24 px-3 sm:px-4">
-      <div className="mx-auto max-w-3xl text-center cta-card p-8 md:p-14">
-        <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-4 font-[family-name:var(--font-montserrat)]">{t("cta.title")}</h2>
-        <p className="text-sm md:text-lg text-muted-foreground mb-6">{t("cta.subtitle")}</p>
+    <section className="py-14 md:py-28 px-3 sm:px-4">
+      <div className="mx-auto max-w-3xl text-center cta-card p-8 md:p-14 relative z-10">
+        <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-4 font-[family-name:var(--font-montserrat)] tracking-tight">{t("cta.title")}</h2>
+        <p className="text-sm md:text-lg text-muted-foreground mb-8 max-w-md mx-auto">{t("cta.subtitle")}</p>
         <a href="#hero">
-          <Button className="h-12 px-8 bg-[#2563EB] text-white font-bold rounded-xl hover:bg-[#1D4ED8] text-sm md:text-base shadow-lg shadow-[#2563EB]/20">
-            <Download className="mr-2 h-4 w-4" />{t("cta.button")}
+          <Button className="h-12 md:h-14 px-8 md:px-10 bg-[#2563EB] text-white font-bold rounded-2xl hover:bg-[#1D4ED8] text-sm md:text-base download-btn-pulse">
+            <Download className="mr-2 h-4 w-4 md:h-5 md:w-5" />{t("cta.button")}
           </Button>
         </a>
       </div>
@@ -1048,47 +1060,47 @@ function Footer() {
   const { t, lang } = useLanguage();
   return (
     <footer className="border-t border-border/50" role="contentinfo">
-      <div className="mx-auto max-w-6xl px-3 sm:px-4 py-12 md:py-16">
+      <div className="mx-auto max-w-6xl px-3 sm:px-4 py-12 md:py-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {/* Column 1: Logo + Description */}
           <div className="col-span-2 md:col-span-1">
             <MovaLogo size={28} showText />
-            <p className="text-xs md:text-sm text-muted-foreground max-w-xs mt-3 leading-relaxed">{t("footer.desc")}</p>
+            <p className="text-xs md:text-sm text-muted-foreground max-w-xs mt-4 leading-relaxed">{t("footer.desc")}</p>
           </div>
 
           {/* Column 2: Navigasi */}
           <div>
             <h4 className="text-xs md:text-sm font-semibold text-foreground mb-4">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
-            <ul className="space-y-2.5">
-              <li><a href="#features" className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a></li>
-              <li><a href="#how" className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a></li>
-              <li><a href="#platforms" className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.platform")}</a></li>
-              <li><a href="#faq" className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.faq")}</a></li>
+            <ul className="space-y-3">
+              <li><a href="#features" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{t("nav.fitur")}</a></li>
+              <li><a href="#how" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{t("nav.caraPakai")}</a></li>
+              <li><a href="#platforms" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{t("nav.platform")}</a></li>
+              <li><a href="#faq" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{t("nav.faq")}</a></li>
             </ul>
           </div>
 
           {/* Column 3: Perusahaan */}
           <div>
             <h4 className="text-xs md:text-sm font-semibold text-foreground mb-4">{lang === 'id' ? 'Perusahaan' : 'Company'}</h4>
-            <ul className="space-y-2.5">
-              <li><a href="/about" className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
-              <li><a href="/contact" className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
-              <li><a href="/blog" className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
+            <ul className="space-y-3">
+              <li><a href="/about" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
+              <li><a href="/contact" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
+              <li><a href="/blog" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">Blog</a></li>
             </ul>
           </div>
 
           {/* Column 4: Legal */}
           <div>
             <h4 className="text-xs md:text-sm font-semibold text-foreground mb-4">Legal</h4>
-            <ul className="space-y-2.5">
-              <li><a href="/privacy" className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
-              <li><a href="/terms" className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
-              <li><a href="/disclaimer" className="text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">Disclaimer / DMCA</a></li>
+            <ul className="space-y-3">
+              <li><a href="/privacy" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
+              <li><a href="/terms" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
+              <li><a href="/disclaimer" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">Disclaimer / DMCA</a></li>
             </ul>
           </div>
         </div>
         {/* Bottom bar */}
-        <div className="mt-10 md:mt-14 pt-6 border-t border-border/50">
+        <div className="mt-12 md:mt-16 pt-6 border-t border-border/40">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-[10px] md:text-xs text-muted-foreground/50">&copy; 2026 Mova. All rights reserved.</p>
             <p className="text-[9px] md:text-[11px] text-muted-foreground/30 text-center sm:text-right">
@@ -1104,14 +1116,14 @@ function Footer() {
 /* ──────── Mobile Bottom Nav ──────── */
 function MobileBottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/90 backdrop-blur-md border-t border-border/50 safe-area-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/90 backdrop-blur-xl border-t border-border/40 safe-area-bottom">
       <div className="flex items-center justify-around px-2 py-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         {[
           { icon: Download, label: "Download", href: "#hero", highlight: true },
           { icon: Bookmark, label: "Saved", href: "#hero" },
           { icon: Shield, label: "FAQ", href: "#faq" },
         ].map(item => (
-          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-4 rounded-lg transition-colors ${item.highlight ? "text-[#2563EB]" : "text-muted-foreground"}`}>
+          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-5 rounded-xl transition-colors ${item.highlight ? "text-[#2563EB]" : "text-muted-foreground"}`}>
             <item.icon className="h-4.5 w-4.5" />
             <span className="text-[9px] font-medium">{item.label}</span>
           </a>
@@ -1168,20 +1180,20 @@ export default function Home() {
           })}} />
 
           {/* Platform Download Pages */}
-          <section className="py-12 px-3 sm:px-4 bg-muted/30">
+          <section className="py-14 md:py-20 px-3 sm:px-4 bg-muted/30">
             <div className="mx-auto max-w-5xl">
-              <h2 className="text-xl sm:text-2xl font-bold text-center mb-2">Download Video per Platform</h2>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2 tracking-tight">Download Video per Platform</h2>
               <p className="text-sm text-muted-foreground text-center mb-8">Pilih platform untuk panduan download lengkap</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                 {PLATFORMS.slice(0, 5).map(p => {
                   const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
                   return (
-                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card border border-border/50 hover:border-[#2563EB]/30 transition-all hover:shadow-md">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: p.gradient || p.color }}>
+                    <a key={p.name} href={`/${slug}`} className="platform-card flex flex-col items-center gap-2.5 p-5 rounded-2xl bg-card border border-border/50 hover:border-[#2563EB]/25">
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: p.gradient || p.color }}>
                         <p.Icon className="h-5 w-5 text-white" />
                       </div>
-                      <span className="text-xs font-medium text-foreground text-center">{p.name}</span>
-                      <span className="text-[10px] text-muted-foreground">Download</span>
+                      <span className="text-xs md:text-sm font-medium text-foreground text-center">{p.name}</span>
+                      <span className="text-[10px] md:text-xs text-muted-foreground">Download</span>
                     </a>
                   );
                 })}
