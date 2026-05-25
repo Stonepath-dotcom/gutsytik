@@ -50,7 +50,6 @@
   --color-mova-border: #1E1E22;
   --color-mova-text: #FAFAFA;
   --color-mova-text-secondary: #71717A;
-  --color-mova-glow: #2563EB;
 }
 
 /* ─── Light mode ─── */
@@ -138,79 +137,15 @@
 html:not(.dark) ::-webkit-scrollbar-thumb { background: #D4D4D8; }
 html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
 
-/* ═══════════════════════════════════════════════
-   MOVA — MODERN PROFESSIONAL UI
-   Built with attention to detail, not templated.
-   ═══════════════════════════════════════════════ */
-
-/* ─── Hero Background Pattern ─── */
-.hero-bg {
-  position: relative;
-}
-.hero-bg::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle at 1px 1px, rgba(37,99,235,0.06) 1px, transparent 0);
-  background-size: 32px 32px;
-  pointer-events: none;
-  mask-image: radial-gradient(ellipse 60% 70% at 50% 30%, black 20%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 30%, black 20%, transparent 80%);
-}
-.dark .hero-bg::before {
-  background-image: radial-gradient(circle at 1px 1px, rgba(37,99,235,0.1) 1px, transparent 0);
-}
-
-/* ─── Hero Glow Effect ─── */
-.hero-glow {
-  position: absolute;
-  width: 500px;
-  height: 350px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%);
-  top: -80px;
-  left: 50%;
-  transform: translateX(-50%);
-  pointer-events: none;
-  filter: blur(40px);
-}
-.dark .hero-glow {
-  background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%);
-}
-
-/* ─── Gradient Accent Line ─── */
-.gradient-line {
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #2563EB, #3B82F6, transparent);
-  border-radius: 2px;
-}
-
 /* ─── Feature Card ─── */
 .feature-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-.feature-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 0;
-  background: linear-gradient(135deg, rgba(37,99,235,0.05), rgba(59,130,246,0.03));
-  transition: height 0.3s ease;
+  border-radius: 12px;
+  transition: border-color 0.15s ease;
 }
 .feature-card:hover {
-  border-color: rgba(37,99,235,0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(37,99,235,0.08);
-}
-.feature-card:hover::after {
-  height: 100%;
+  border-color: rgba(37,99,235,0.25);
 }
 
 /* ─── CTA Card ─── */
@@ -218,7 +153,7 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
   position: relative;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
 }
 .cta-card::before {
@@ -227,36 +162,8 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #1D4ED8, #2563EB, #3B82F6, #60A5FA);
-}
-.cta-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(37,99,235,0.03) 0%, transparent 50%, rgba(59,130,246,0.02) 100%);
-  pointer-events: none;
-}
-
-/* ─── Step Connector Line ─── */
-.step-line {
-  position: relative;
-}
-.step-line:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  left: 23px;
-  top: 48px;
-  bottom: -24px;
-  width: 1px;
-  background: linear-gradient(to bottom, rgba(37,99,235,0.2), rgba(37,99,235,0.05));
-}
-@media (min-width: 768px) {
-  .step-line:not(:last-child)::after {
-    left: 27px;
-    top: 60px;
-    bottom: -32px;
-  }
+  height: 2px;
+  background: #2563EB;
 }
 
 /* ─── Marquee ─── */
@@ -270,27 +177,6 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
 }
 .animate-marquee { animation: marquee 30s linear infinite; }
 .animate-marquee-reverse { animation: marquee-reverse 30s linear infinite; }
-
-/* ─── Input Focus Ring ─── */
-.mova-input:focus-within {
-  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
-  border-color: rgba(37,99,235,0.4);
-}
-
-/* ─── Download Button Pulse ─── */
-@keyframes subtle-pulse {
-  0%, 100% { box-shadow: 0 4px 20px rgba(37,99,235,0.2); }
-  50% { box-shadow: 0 4px 30px rgba(37,99,235,0.35); }
-}
-.download-btn-pulse {
-  animation: subtle-pulse 3s ease-in-out infinite;
-}
-
-/* ─── Section Divider ─── */
-.section-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent 5%, var(--border) 50%, transparent 95%);
-}
 
 /* ─── Safe Area for notched phones ─── */
 .safe-top { padding-top: env(safe-area-inset-top, 0px); }
@@ -324,49 +210,10 @@ header, nav, footer {
   html { font-size: 18px; }
 }
 
-/* ─── FAQ Accordion polish ─── */
-.faq-item {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--card);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.faq-item:hover {
-  border-color: rgba(37,99,235,0.15);
-}
-.faq-item[data-state="open"] {
-  border-color: rgba(37,99,235,0.2);
-  box-shadow: 0 2px 12px rgba(37,99,235,0.05);
-}
-
 /* ─── Platform card hover ─── */
 .platform-card {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: border-color 0.15s ease;
 }
 .platform-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-}
-.dark .platform-card:hover {
-  box-shadow: 0 4px 16px rgba(37,99,235,0.1);
-}
-
-/* ─── Trust badge subtle animation ─── */
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.trust-animate {
-  animation: fade-in-up 0.5s ease-out both;
-}
-
-/* ─── Result card shimmer ─── */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-.result-shimmer {
-  background: linear-gradient(90deg, transparent 25%, rgba(37,99,235,0.04) 50%, transparent 75%);
-  background-size: 200% 100%;
-  animation: shimmer 2s ease-in-out infinite;
+  border-color: rgba(37,99,235,0.3);
 }
