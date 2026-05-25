@@ -1,0 +1,113 @@
+import type { Metadata } from "next";
+import { YouTubeDownloaderPage } from "./client";
+
+export const metadata: Metadata = {
+  title: "Download Video YouTube MP4 HD - Gratis & Cepat 2025 | Mova",
+  description:
+    "Download video YouTube MP4 HD gratis dan cepat. Konversi YouTube ke MP3 atau MP4 dengan kualitas terbaik. Support video panjang, Shorts, dan playlist.",
+  keywords: [
+    "youtube downloader",
+    "download youtube mp4",
+    "youtube video download",
+    "youtube mp3",
+    "download video youtube hd",
+    "youtube to mp3",
+    "youtube to mp4",
+    "convert youtube",
+  ],
+  openGraph: {
+    title: "Download Video YouTube MP4 HD - Gratis & Cepat 2025 | Mova",
+    description:
+      "Download video YouTube MP4 HD gratis dan cepat. Konversi YouTube ke MP3 atau MP4 dengan kualitas terbaik.",
+    url: "https://getmova.my.id/youtube-downloader",
+    siteName: "Mova",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Download Video YouTube MP4 HD - Gratis & Cepat 2025 | Mova",
+    description:
+      "Download video YouTube MP4 HD gratis dan cepat. Konversi YouTube ke MP3 atau MP4 dengan kualitas terbaik.",
+  },
+  alternates: {
+    canonical: "https://getmova.my.id/youtube-downloader",
+  },
+};
+
+const jsonLdWebApp = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Mova YouTube Downloader",
+  description: "Download video YouTube MP4 HD dan konversi ke MP3 gratis. Kualitas terbaik, cepat, tanpa registrasi.",
+  url: "https://getmova.my.id/youtube-downloader",
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "All",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "IDR",
+  },
+};
+
+const jsonLdFaq = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Apakah Mova bisa download video YouTube dalam format MP4?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Ya, Mova mendukung download video YouTube dalam format MP4 dengan berbagai pilihan kualitas, mulai dari 360p hingga 1080p HD. Kamu bisa memilih resolusi yang sesuai dengan kebutuhan.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Bisakah Mova mengkonversi YouTube ke MP3?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Ya, Mova bisa mengekstrak audio dari video YouTube dan menyimpannya dalam format MP3. Fitur ini cocok untuk menyimpan musik, podcast, atau konten audio lainnya dari YouTube.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Berapa kualitas video YouTube terbaik yang bisa didownload?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Kualitas tergantung pada video aslinya. Jika video tersedia dalam 1080p, Mova bisa mendownloadnya dalam 1080p. Mova menyediakan semua opsi kualitas yang tersedia untuk setiap video.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Apakah Mova bisa download video YouTube yang berdurasi panjang?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Ya, Mova mendukung download video YouTube berdurasi panjang. Namun, video yang sangat panjang mungkin membutuhkan waktu lebih lama untuk diproses. Pastikan koneksi internet stabil saat mendownload.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Apakah download video YouTube di Mova gratis?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Ya, 100% gratis tanpa batas. Tidak perlu registrasi atau berlangganan. Semua fitur YouTube downloader Mova tersedia secara cuma-cuma.",
+      },
+    },
+  ],
+};
+
+export default function Page() {
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebApp) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <YouTubeDownloaderPage />
+    </>
+  );
+}

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Montserrat } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/providers";
@@ -21,7 +22,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://getmova.vercel.app"),
+  metadataBase: new URL("https://getmova.my.id"),
   title: "Mova - Download Video Tanpa Watermark",
   description:
     "Mova membantu kamu download video dari platform populer tanpa watermark, cepat dan gratis! Support TikTok, Instagram, YouTube, Facebook, Twitter/X, dan lainnya.",
@@ -41,11 +42,14 @@ export const metadata: Metadata = {
     icon: "/mova-logo.png",
   },
   manifest: "/manifest.json",
+  verification: {
+    google: "google-site-verification=PLACEHOLDER_REPLACE_WITH_YOUR_CODE",
+  },
   openGraph: {
     title: "Mova - Download Video Tanpa Watermark",
     description:
       "Download video dari TikTok, Instagram, YouTube, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
-    url: "https://getmova.vercel.app",
+    url: "https://getmova.my.id",
     siteName: "Mova",
     type: "website",
   },
@@ -75,6 +79,8 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="manifest" href="/manifest.json" />
+        {/* Google Search Console Verification - Replace PLACEHOLDER with your verification code */}
+        <meta name="google-site-verification" content="PLACEHOLDER_REPLACE_WITH_YOUR_CODE" />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
@@ -85,7 +91,7 @@ export default function RootLayout({
               name: "Mova",
               description:
                 "Download video tanpa watermark dari berbagai platform populer",
-              url: "https://getmova.vercel.app",
+              url: "https://getmova.my.id",
               applicationCategory: "MultimediaApplication",
               operatingSystem: "All",
               offers: {
@@ -103,8 +109,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Mova",
-              url: "https://getmova.vercel.app",
-              logo: "https://getmova.vercel.app/mova-logo.png",
+              url: "https://getmova.my.id",
+              logo: "https://getmova.my.id/mova-logo.png",
             }),
           }}
         />
@@ -115,10 +121,10 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               name: "Mova",
-              url: "https://getmova.vercel.app",
+              url: "https://getmova.my.id",
               potentialAction: {
                 "@type": "SearchAction",
-                target: "https://getmova.vercel.app/?q={search_term_string}",
+                target: "https://getmova.my.id/?q={search_term_string}",
                 "query-input": "required name=search_term_string",
               },
             }),
@@ -132,6 +138,19 @@ export default function RootLayout({
           {children}
           <Toaster />
         </Providers>
+        {/* Google Analytics - Replace G-XXXXXXXXXX with your GA4 Measurement ID */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-XXXXXXXXXX');
+          `}
+        </Script>
       </body>
     </html>
   );
