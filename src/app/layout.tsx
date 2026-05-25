@@ -53,12 +53,21 @@ export const metadata: Metadata = {
     url: "https://getmova.my.id",
     siteName: "Mova",
     type: "website",
+    images: [
+      {
+        url: "https://getmova.my.id/og-image.png",
+        width: 1344,
+        height: 768,
+        alt: "Mova - Download Video Tanpa Watermark",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Mova - Download Video Tanpa Watermark",
     description:
       "Download video dari TikTok, Instagram, YouTube, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
+    images: ["https://getmova.my.id/og-image.png"],
   },
 };
 
@@ -111,6 +120,34 @@ export default function RootLayout({
               name: "Mova",
               url: "https://getmova.my.id",
               logo: "https://getmova.my.id/mova-logo.png",
+              sameAs: [
+                "https://tiktok.com/@abbbuw",
+                "https://t.me/sixte3nnn"
+              ],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "Mova",
+              applicationCategory: "MultimediaApplication",
+              operatingSystem: "Web",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "IDR",
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.8",
+                ratingCount: "2450",
+                bestRating: "5",
+                worstRating: "1",
+              },
             }),
           }}
         />

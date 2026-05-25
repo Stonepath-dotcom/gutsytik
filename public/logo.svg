@@ -1,22 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#2563EB"/>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="50%" stop-color="#2563EB"/>
       <stop offset="100%" stop-color="#1D4ED8"/>
     </linearGradient>
-    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="icon" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#FFFFFF"/>
       <stop offset="100%" stop-color="#DBEAFE"/>
     </linearGradient>
   </defs>
-  <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#bgGrad)"/>
-  <rect x="28" y="28" width="456" height="456" rx="96" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
-  <path d="M190 155 L190 310 L320 232.5 Z" fill="url(#iconGrad)" opacity="0.95"/>
-  <g opacity="0.95">
-    <rect x="310" y="250" width="42" height="100" rx="8" fill="url(#iconGrad)"/>
-    <path d="M256 330 L331 410 L406 330 L370 330 L370 322 L292 322 L292 330 Z" fill="url(#iconGrad)"/>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect x="12" y="12" width="488" height="488" rx="100" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+  <!-- Play button triangle -->
+  <path d="M175 135 L175 345 L350 240 Z" fill="url(#icon)" opacity="0.95"/>
+  <!-- Download arrow -->
+  <path d="M310 280 L310 370 L350 370 L310 370 M310 370 L270 370 L310 370" stroke="url(#icon)" stroke-width="0" fill="url(#icon)" opacity="0"/>
+  <g opacity="0.9">
+    <!-- Down arrow body -->
+    <rect x="328" y="260" width="32" height="70" rx="6" fill="url(#icon)"/>
+    <!-- Down arrow head -->
+    <path d="M344 370 L388 318 L364 318 L364 310 L324 310 L324 318 L300 318 Z" fill="url(#icon)"/>
   </g>
-  <circle cx="140" cy="400" r="12" fill="rgba(255,255,255,0.2)"/>
-  <circle cx="110" cy="370" r="8" fill="rgba(255,255,255,0.15)"/>
-  <circle cx="400" cy="130" r="10" fill="rgba(255,255,255,0.18)"/>
+  <!-- Decorative dots -->
+  <circle cx="120" cy="420" r="10" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="95" cy="395" r="6" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="420" cy="110" r="8" fill="rgba(255,255,255,0.1)"/>
 </svg>

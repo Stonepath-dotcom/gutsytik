@@ -4,7 +4,7 @@
   "description": "Download video tanpa watermark dari TikTok, Instagram, YouTube, dan platform populer lainnya",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#09090B",
+  "background_color": "#050507",
   "theme_color": "#2563EB",
   "orientation": "portrait",
   "icons": [
@@ -23,6 +23,16 @@
     {
       "src": "/apple-touch-icon.png",
       "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-16.png",
+      "sizes": "16x16",
       "type": "image/png"
     }
   ]

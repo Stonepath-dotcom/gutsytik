@@ -301,9 +301,8 @@ function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
       <div className="mx-auto max-w-5xl h-12 flex items-center justify-between px-3 sm:px-4">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-1.5 shrink-0">
-          <MovaLogo size={22} showText={false} />
-          <span className="font-bold text-sm text-foreground" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>Mova</span>
+        <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="Mova - Home">
+          <MovaLogo size={24} showText={true} />
         </a>
 
         {/* Desktop nav */}
@@ -672,15 +671,22 @@ function HeroSection() {
         </div>
 
         {/* Platform hints with SVG icons */}
-        <div className="flex flex-wrap justify-center gap-2 mt-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-2 mt-4 mb-6">
           {PLATFORMS.map(p => (
-            <span key={p.name} className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-card/50 text-muted-foreground border border-border/50">
+            <a key={p.name} href={`/${p.name.toLowerCase().replace("/","-").replace(" ","-")}-downloader`} className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-card/50 text-muted-foreground border border-border/50 hover:border-primary/30 hover:text-foreground transition-colors">
               <div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: p.gradient || p.color }}>
                 <p.Icon className="h-2.5 w-2.5 text-white" />
               </div>
               {p.name}
-            </span>
+            </a>
           ))}
+        </div>
+
+        {/* Micro trust line under input */}
+        <div className="flex items-center justify-center gap-3 text-[10px] text-muted-foreground/60 mb-2">
+          <span className="flex items-center gap-1"><Shield className="h-3 w-3" />SSL Secure</span>
+          <span className="flex items-center gap-1"><Zap className="h-3 w-3" />No Signup</span>
+          <span className="flex items-center gap-1"><CheckCircle className="h-3 w-3" />100% Free</span>
         </div>
 
         {/* Loading progress indicator */}
@@ -827,29 +833,30 @@ function TrustSection() {
   const stats = [
     { value: "500K+", label: { id: "Video Diunduh", en: "Videos Downloaded" } },
     { value: "7+", label: { id: "Platform Didukung", en: "Platforms Supported" } },
-    { value: "100%", label: { id: "Gratis", en: "Free" } },
-    { value: "4.8", label: { id: "Rating Pengguna", en: "User Rating" } },
+    { value: "100%", label: { id: "Gratis Selamanya", en: "Free Forever" } },
+    { value: "4.8/5", label: { id: "Rating Pengguna", en: "User Rating" } },
   ];
   const trustBadges = [
     { icon: Shield, label: { id: "Privasi Terjamin", en: "Privacy Protected" } },
     { icon: Zap, label: { id: "Tanpa Iklan Pop-up", en: "No Pop-up Ads" } },
     { icon: Globe, label: { id: "Tanpa Registrasi", en: "No Registration" } },
+    { icon: CheckCircle, label: { id: "SSL Terenkripsi", en: "SSL Encrypted" } },
   ];
   const { lang } = useLanguage();
   return (
-    <section className="py-8 sm:py-12 px-3 sm:px-4 border-y border-border/30 bg-card/30">
+    <section className="py-8 sm:py-12 px-3 sm:px-4 border-y border-border/30 bg-card/30" aria-label="Trust signals">
       <div className="mx-auto max-w-5xl">
         {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {stats.map((s, i) => (
-            <div key={i} className="text-center">
+            <div key={i} className="text-center p-3 rounded-xl bg-card/50 border border-border/30">
               <p className="text-xl sm:text-2xl font-extrabold text-[#2563EB] font-[family-name:var(--font-montserrat)]">{s.value}</p>
               <p className="text-[11px] text-muted-foreground mt-0.5">{s.label[lang] || s.label.id}</p>
             </div>
           ))}
         </div>
         {/* Trust badges */}
-        <div className="flex flex-wrap justify-center gap-3">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
           {trustBadges.map((b, i) => {
             const Icon = b.icon;
             return (
@@ -859,6 +866,13 @@ function TrustSection() {
               </div>
             );
           })}
+        </div>
+        {/* Star rating visual */}
+        <div className="flex items-center justify-center gap-1 mt-4">
+          {[1,2,3,4,5].map(i => (
+            <Star key={i} className={`h-4 w-4 ${i <= 4 ? 'text-yellow-400 fill-yellow-400' : 'text-yellow-400 fill-yellow-400/50'}`} />
+          ))}
+          <span className="text-xs text-muted-foreground ml-2">{lang === 'id' ? 'Dipercaya ribuan pengguna' : 'Trusted by thousands of users'}</span>
         </div>
       </div>
     </section>
@@ -878,11 +892,11 @@ const featuresData = [
 function FeaturesSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="features" className="py-12 sm:py-16 px-3 sm:px-4">
+    <section id="features" className="py-12 sm:py-16 px-3 sm:px-4" aria-labelledby="features-heading">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-8">
           <div className="w-10 h-1 rounded-full bg-[#2563EB] mx-auto mb-3" />
-          <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">
+          <h2 id="features-heading" className="text-2xl sm:text-3xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">
             <span className="gradient-text">{t("features.title")}</span>
           </h2>
           <p className="text-sm text-muted-foreground max-w-lg mx-auto">{t("features.subtitle")}</p>
@@ -891,13 +905,13 @@ function FeaturesSection() {
           {featuresData.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div key={i} className="bento-card p-5">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3 bg-primary/10">
+              <article key={i} className="bento-card p-5 group">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3 bg-primary/10 group-hover:bg-primary/20 transition-colors">
                   <Icon className="h-5 w-5 text-[#2563EB]" />
                 </div>
-                <h3 className="text-sm font-semibold text-foreground mb-1">{f.titleId}</h3>
+                <h3 className="text-sm font-semibold text-foreground mb-1.5">{f.titleId}</h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
-              </div>
+              </article>
             );
           })}
         </div>
@@ -916,11 +930,11 @@ function HowItWorksSection() {
   ];
   const lang = useLanguage().lang;
   return (
-    <section id="how" className="py-12 sm:py-16 px-3 sm:px-4 bg-muted/30">
+    <section id="how" className="py-12 sm:py-16 px-3 sm:px-4 bg-muted/30" aria-labelledby="how-heading">
       <div className="mx-auto max-w-3xl">
         <div className="text-center mb-8">
           <div className="w-10 h-1 rounded-full bg-[#2563EB] mx-auto mb-3" />
-          <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
+          <h2 id="how-heading" className="text-2xl sm:text-3xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
           <p className="text-sm text-muted-foreground">{t("how.subtitle")}</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -1053,14 +1067,14 @@ function CTASection() {
 
 /* ──────── Footer ──────── */
 function Footer() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   return (
-    <footer className="bg-card/50 border-t border-border/50">
-      <div className="mx-auto max-w-5xl px-3 sm:px-4 py-8">
+    <footer className="bg-card/50 border-t border-border/50" role="contentinfo">
+      <div className="mx-auto max-w-5xl px-3 sm:px-4 py-10">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
           {/* Column 1: Logo + Description */}
           <div className="col-span-2 sm:col-span-1">
-            <MovaLogo size={20} showText />
+            <MovaLogo size={22} showText />
             <p className="text-[11px] text-muted-foreground max-w-xs mt-2">{t("footer.desc")}</p>
             <div className="flex items-center gap-3 mt-3 text-xs text-muted-foreground">
               <a href="https://tiktok.com/@abbbuw" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors flex items-center gap-1">
@@ -1068,11 +1082,16 @@ function Footer() {
               </a>
               <a href="https://t.me/sixte3nnn" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors">Telegram</a>
             </div>
+            {/* Verified badge */}
+            <div className="inline-flex items-center gap-1.5 mt-3 px-2 py-1 rounded-md bg-primary/5 border border-primary/10">
+              <Shield className="h-3 w-3 text-[#2563EB]" />
+              <span className="text-[10px] font-medium text-[#2563EB]">{lang === 'id' ? 'Situs Terverifikasi' : 'Verified Site'}</span>
+            </div>
           </div>
 
           {/* Column 2: Navigasi */}
           <div>
-            <h4 className="text-xs font-semibold text-foreground mb-3">Navigasi</h4>
+            <h4 className="text-xs font-semibold text-foreground mb-3">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
             <ul className="space-y-2">
               <li><a href="#features" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a></li>
               <li><a href="#how" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a></li>
@@ -1083,10 +1102,10 @@ function Footer() {
 
           {/* Column 3: Perusahaan */}
           <div>
-            <h4 className="text-xs font-semibold text-foreground mb-3">Perusahaan</h4>
+            <h4 className="text-xs font-semibold text-foreground mb-3">{lang === 'id' ? 'Perusahaan' : 'Company'}</h4>
             <ul className="space-y-2">
-              <li><a href="/about" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Tentang Kami</a></li>
-              <li><a href="/contact" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Kontak</a></li>
+              <li><a href="/about" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
+              <li><a href="/contact" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
               <li><a href="/blog" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
             </ul>
           </div>
@@ -1095,19 +1114,21 @@ function Footer() {
           <div>
             <h4 className="text-xs font-semibold text-foreground mb-3">Legal</h4>
             <ul className="space-y-2">
-              <li><a href="/privacy" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Kebijakan Privasi</a></li>
-              <li><a href="/terms" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Syarat & Ketentuan</a></li>
-              <li><a href="/disclaimer" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Disclaimer</a></li>
+              <li><a href="/privacy" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
+              <li><a href="/terms" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
+              <li><a href="/disclaimer" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Disclaimer / DMCA</a></li>
             </ul>
           </div>
         </div>
         {/* Copyright + Disclaimer notice */}
         <div className="mt-6 pt-4 border-t border-border/50">
-          <p className="text-[10px] text-muted-foreground/50 text-center">&copy; 2026 Mova. All rights reserved.</p>
-          <p className="text-[9px] text-muted-foreground/30 text-center mt-1">
-            Mova tidak menyimpan konten berhak cipta. Pengguna bertanggung jawab atas penggunaan konten yang diunduh.
-            <a href="/disclaimer" className="hover:text-muted-foreground/50 underline ml-1">Selengkapnya</a>
-          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p className="text-[10px] text-muted-foreground/60">&copy; 2026 Mova. All rights reserved.</p>
+            <p className="text-[9px] text-muted-foreground/30 text-center sm:text-right">
+              {lang === 'id' ? 'Mova tidak menyimpan konten berhak cipta. Pengguna bertanggung jawab atas penggunaan konten yang diunduh.' : 'Mova does not store copyrighted content. Users are responsible for downloaded content usage.'}
+              <a href="/disclaimer" className="hover:text-muted-foreground/50 underline ml-1">{lang === 'id' ? 'Selengkapnya' : 'Learn more'}</a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

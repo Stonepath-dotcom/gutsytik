@@ -15,35 +15,40 @@ export function MovaLogo({ size = 40, className = "", showText = true }: MovaLog
         viewBox="0 0 512 512"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="rounded-md shrink-0"
+        className="shrink-0"
       >
         <defs>
-          <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#2563EB" />
+          <linearGradient id="mova-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#3B82F6" />
+            <stop offset="50%" stopColor="#2563EB" />
             <stop offset="100%" stopColor="#1D4ED8" />
           </linearGradient>
-          <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="mova-icon" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#FFFFFF" />
             <stop offset="100%" stopColor="#DBEAFE" />
           </linearGradient>
         </defs>
-        <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#bgGrad)" />
-        <rect x="28" y="28" width="456" height="456" rx="96" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="2" />
-        <path d="M190 155 L190 310 L320 232.5 Z" fill="url(#iconGrad)" opacity="0.95" />
-        <g opacity="0.95">
-          <rect x="310" y="250" width="42" height="100" rx="8" fill="url(#iconGrad)" />
-          <path d="M256 330 L331 410 L406 330 L370 330 L370 322 L292 322 L292 330 Z" fill="url(#iconGrad)" />
+        <rect width="512" height="512" rx="112" fill="url(#mova-bg)" />
+        <rect x="12" y="12" width="488" height="488" rx="100" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="2" />
+        {/* Play triangle */}
+        <path d="M175 140 L175 340 L345 240 Z" fill="url(#mova-icon)" opacity="0.95" />
+        {/* Download arrow - shaft */}
+        <g opacity="0.9">
+          <rect x="328" y="265" width="30" height="62" rx="5" fill="url(#mova-icon)" />
+          {/* Download arrow - head */}
+          <path d="M343 362 L385 312 L362 312 L362 305 L324 305 L324 312 L301 312 Z" fill="url(#mova-icon)" />
         </g>
-        <circle cx="140" cy="400" r="12" fill="rgba(255,255,255,0.2)" />
-        <circle cx="110" cy="370" r="8" fill="rgba(255,255,255,0.15)" />
-        <circle cx="400" cy="130" r="10" fill="rgba(255,255,255,0.18)" />
+        {/* Decorative accents */}
+        <circle cx="120" cy="420" r="10" fill="rgba(255,255,255,0.12)" />
+        <circle cx="96" cy="396" r="6" fill="rgba(255,255,255,0.08)" />
+        <circle cx="420" cy="112" r="8" fill="rgba(255,255,255,0.1)" />
       </svg>
       {showText && (
         <span
-          className="font-[family-name:var(--font-montserrat)] font-extrabold text-xl tracking-tight text-foreground"
-          style={{ letterSpacing: "-0.02em" }}
+          className="font-[family-name:var(--font-montserrat)] font-extrabold tracking-tight text-foreground"
+          style={{ letterSpacing: "-0.03em", fontSize: size * 0.5 }}
         >
-          Mova
+          <span className="gradient-text">Mo</span>va
         </span>
       )}
     </div>
