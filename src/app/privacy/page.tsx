@@ -54,7 +54,7 @@ const sections = [
     content: [
       "Mova is a tool that facilitates downloading publicly available content. We do not host, store, or distribute any copyrighted material.",
       "Users are solely responsible for ensuring they have the right to download and use any content accessed through our service.",
-      "If you believe your copyrighted content is being accessed in violation of your rights, please contact us at support@getmova.vercel.app with the URL in question and proof of ownership.",
+      "If you believe your copyrighted content is being accessed in violation of your rights, please contact us at support@getmova.my.id with the URL in question and proof of ownership.",
     ],
   },
   {
@@ -72,7 +72,7 @@ const sections = [
     title: "Contact Us",
     content: [
       "If you have any questions about this Privacy Policy or Terms of Service, please contact us at:",
-      "Email: support@getmova.vercel.app",
+      "Email: support@getmova.my.id",
       "TikTok: @abbbuw",
       "Telegram: @sixte3nnn",
     ],
@@ -151,8 +151,27 @@ export default function PrivacyPage() {
             ))}
           </div>
 
+          {/* Internal Links */}
+          <div className="mt-16 pt-8 border-t border-[#27272A]">
+            <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4">Halaman Terkait</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <a href="/terms" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Syarat & Ketentuan</span>
+                <span className="text-[#A1A1AA] group-hover:text-[#F97316] transition-colors">→</span>
+              </a>
+              <a href="/about" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Tentang Kami</span>
+                <span className="text-[#A1A1AA] group-hover:text-[#F97316] transition-colors">→</span>
+              </a>
+              <a href="/contact" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Hubungi Kami</span>
+                <span className="text-[#A1A1AA] group-hover:text-[#F97316] transition-colors">→</span>
+              </a>
+            </div>
+          </div>
+
           {/* Footer notice */}
-          <div className="mt-16 pt-8 border-t border-[#27272A] text-center">
+          <div className="mt-8 pt-6 border-t border-[#27272A] text-center">
             <p className="text-xs text-[#A1A1AA]">
               &copy; 2026 Mova. All rights reserved. This policy may be updated from time to time.
             </p>

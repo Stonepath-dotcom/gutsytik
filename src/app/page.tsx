@@ -283,6 +283,7 @@ function Navbar() {
     { label: t("nav.caraPakai"), href: "#how" },
     { label: t("nav.platform"), href: "#platforms" },
     { label: t("nav.faq"), href: "#faq" },
+    { label: "Blog", href: "/blog" },
   ];
 
   // Close menu on outside click
@@ -1012,26 +1013,51 @@ function Footer() {
   const { t } = useLanguage();
   return (
     <footer className="bg-card/50 border-t border-border/50">
-      <div className="mx-auto max-w-5xl px-3 sm:px-4 py-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex flex-col items-center sm:items-start gap-1">
+      <div className="mx-auto max-w-5xl px-3 sm:px-4 py-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+          {/* Column 1: Logo + Description */}
+          <div className="col-span-2 sm:col-span-1">
             <MovaLogo size={20} showText />
-            <p className="text-[11px] text-muted-foreground max-w-xs mt-1">{t("footer.desc")}</p>
+            <p className="text-[11px] text-muted-foreground max-w-xs mt-2">{t("footer.desc")}</p>
+            <div className="flex items-center gap-3 mt-3 text-xs text-muted-foreground">
+              <a href="https://tiktok.com/@abbbuw" target="_blank" rel="noopener noreferrer" className="hover:text-[#F97316] transition-colors flex items-center gap-1">
+                <TikTokIcon className="h-3.5 w-3.5" />TikTok
+              </a>
+              <a href="https://t.me/sixte3nnn" target="_blank" rel="noopener noreferrer" className="hover:text-[#F97316] transition-colors">Telegram</a>
+            </div>
           </div>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <a href="#features" className="hover:text-foreground transition-colors">{t("nav.fitur")}</a>
-            <a href="#how" className="hover:text-foreground transition-colors">{t("nav.caraPakai")}</a>
-            <a href="#platforms" className="hover:text-foreground transition-colors">{t("nav.platform")}</a>
-            <a href="#faq" className="hover:text-foreground transition-colors">{t("nav.faq")}</a>
+
+          {/* Column 2: Navigasi */}
+          <div>
+            <h4 className="text-xs font-semibold text-foreground mb-3">Navigasi</h4>
+            <ul className="space-y-2">
+              <li><a href="#features" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a></li>
+              <li><a href="#how" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a></li>
+              <li><a href="#platforms" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">{t("nav.platform")}</a></li>
+              <li><a href="#faq" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">{t("nav.faq")}</a></li>
+            </ul>
           </div>
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
-            <a href="https://tiktok.com/@abbbuw" target="_blank" rel="noopener noreferrer" className="hover:text-[#F97316] transition-colors flex items-center gap-1">
-              <TikTokIcon className="h-3.5 w-3.5" />TikTok
-            </a>
-            <a href="https://t.me/sixte3nnn" target="_blank" rel="noopener noreferrer" className="hover:text-[#F97316] transition-colors">Telegram</a>
+
+          {/* Column 3: Perusahaan */}
+          <div>
+            <h4 className="text-xs font-semibold text-foreground mb-3">Perusahaan</h4>
+            <ul className="space-y-2">
+              <li><a href="/about" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Tentang Kami</a></li>
+              <li><a href="/contact" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Kontak</a></li>
+              <li><a href="/blog" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
+            </ul>
+          </div>
+
+          {/* Column 4: Legal */}
+          <div>
+            <h4 className="text-xs font-semibold text-foreground mb-3">Legal</h4>
+            <ul className="space-y-2">
+              <li><a href="/privacy" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Kebijakan Privasi</a></li>
+              <li><a href="/terms" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Syarat & Ketentuan</a></li>
+            </ul>
           </div>
         </div>
-        <div className="mt-4 pt-3 border-t border-border/50 text-center">
+        <div className="mt-6 pt-4 border-t border-border/50 text-center">
           <p className="text-[10px] text-muted-foreground/50">&copy; 2026 Mova. All rights reserved.</p>
         </div>
       </div>
