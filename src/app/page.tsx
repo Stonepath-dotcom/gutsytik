@@ -110,6 +110,8 @@ const BOOKMARK_KEY = "mova_bookmarks";
 const LANG_KEY = "mova_lang";
 const MAX_HISTORY = 20;
 const ACCENT = "#4F46E5";
+const INDIRGO_BG = "bg-indigo-50";
+const INDIGO_TEXT = "text-indigo-600";
 
 /* ──────── Translations (ID/EN) ──────── */
 const translations: Record<string, Record<string, string>> = {
@@ -621,31 +623,34 @@ function HeroSection() {
               onChange={e => setUrl(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleAnalyze()}
               placeholder={audioMode ? t("input.audioPlaceholder") : t("input.placeholder")}
-              className="h-12 md:h-14 bg-white border-0 rounded-lg text-[15px] md:text-lg pl-10 md:pl-11 pr-3 md:pr-4 text-gray-900 placeholder:text-gray-400 shadow-lg"
+              className="h-12 md:h-14 bg-white border border-gray-200 rounded-xl text-[15px] md:text-lg pl-10 md:pl-11 pr-10 md:pr-12 text-gray-900 placeholder:text-gray-400 shadow-lg focus:border-[#4F46E5] focus:ring-2 focus:ring-[#4F46E5]/20"
             />
           </div>
-          <Button onClick={handleAnalyze} disabled={loading} className="w-full md:w-auto h-12 md:h-14 px-5 md:px-8 bg-[#4F46E5] text-white font-semibold rounded-lg hover:bg-[#4338CA] shrink-0 shadow-lg text-[15px] md:text-base">
+          <Button onClick={handleAnalyze} disabled={loading} className="w-full md:w-auto h-12 md:h-14 px-5 md:px-8 bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] active:scale-[0.98] shrink-0 shadow-lg shadow-[#4F46E5]/25 text-[15px] md:text-base transition-all">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 mr-1.5" />}
             <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
           </Button>
         </div>
 
         {/* Trust line */}
-        <div className="flex items-center justify-center gap-2.5 md:gap-4 text-[11px] md:text-sm text-white/40 mt-4 md:mt-5">
-          <span className="flex items-center gap-1"><Shield className="h-3 w-3 md:h-3.5 md:w-3.5" />SSL Secure</span>
-          <span>·</span>
+        <div className="flex items-center justify-center gap-3 md:gap-5 text-[12px] md:text-sm text-white/50 mt-5 md:mt-6">
+          <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5" />SSL Secure</span>
+          <span className="text-white/20">|</span>
           <span>No Signup</span>
-          <span>·</span>
+          <span className="text-white/20">|</span>
           <span>100% Free</span>
         </div>
 
         {/* Platform hints */}
         <div className="flex flex-wrap justify-center gap-1.5 md:gap-3 mt-4 md:mt-5">
-          {PLATFORMS.map(p => (
-            <a key={p.name} href={`/${p.name.toLowerCase().replace("/","-").replace(" ","-")}-downloader`} className="text-[11px] md:text-sm text-white/40 hover:text-white/70 transition-colors font-medium">
-              {p.name}
-            </a>
-          ))}
+          {PLATFORMS.map(p => {
+            const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
+            return (
+              <a key={p.name} href={`/${slug}`} className="inline-flex items-center gap-1 text-[11px] md:text-[13px] text-white/40 hover:text-white/80 transition-colors font-medium px-2 py-1 rounded-md hover:bg-white/5">
+                <p.Icon className="h-3 w-3" />{p.name}
+              </a>
+            );
+          })}
         </div>
 
         {/* Loading */}
@@ -779,16 +784,18 @@ function HeroSection() {
 
 /* ──────── Features Section ──────── */
 const featuresData = [
-  { icon: Download, color: "bg-purple-100 text-purple-600", titleId: "Tanpa Watermark", desc: { id: "Download video dari TikTok, Instagram, YouTube tanpa watermark. Kualitas asli dipertahankan.", en: "Download videos from TikTok, Instagram, YouTube without watermark. Original quality preserved." } },
-  { icon: Zap, color: "bg-green-100 text-green-600", titleId: "Super Cepat", desc: { id: "Proses download instan tanpa perlu menunggu lama. Server cepat untuk pengalaman terbaik.", en: "Instant download process without long waits. Fast servers for the best experience." } },
-  { icon: Shield, color: "bg-blue-100 text-blue-600", titleId: "Aman & Privat", desc: { id: "Tidak ada data pribadi yang disimpan. Semua proses dilakukan secara aman dan terenkripsi.", en: "No personal data stored. All processes are done securely and encrypted." } },
-  { icon: Smartphone, color: "bg-orange-100 text-orange-600", titleId: "Mobile Friendly", desc: { id: "Optimal untuk HP. Download video langsung dari browser HP tanpa install app.", en: "Optimized for mobile. Download videos directly from your phone browser without installing an app." } },
+  { icon: Download, color: "bg-indigo-100 text-indigo-600", titleId: "Tanpa Watermark", desc: { id: "Download video dari TikTok, Instagram, YouTube tanpa watermark. Kualitas asli dipertahankan.", en: "Download videos from TikTok, Instagram, YouTube without watermark. Original quality preserved." } },
+  { icon: Zap, color: "bg-indigo-100 text-indigo-600", titleId: "Super Cepat", desc: { id: "Proses download instan tanpa perlu menunggu lama. Server cepat untuk pengalaman terbaik.", en: "Instant download process without long waits. Fast servers for the best experience." } },
+  { icon: Shield, color: "bg-indigo-100 text-indigo-600", titleId: "Aman & Privat", desc: { id: "Tidak ada data pribadi yang disimpan. Semua proses dilakukan secara aman dan terenkripsi.", en: "No personal data stored. All processes are done securely and encrypted." } },
+  { icon: Smartphone, color: "bg-indigo-100 text-indigo-600", titleId: "Mobile Friendly", desc: { id: "Optimal untuk HP. Download video langsung dari browser HP tanpa install app.", en: "Optimized for mobile. Download videos directly from your phone browser without installing an app." } },
 ];
 
 function FeaturesSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="features" className="py-10 md:py-20 px-4 md:px-6 bg-white" aria-labelledby="features-heading">
+    <section id="features" className="py-10 md:py-20 px-4 md:px-6 bg-white relative" aria-labelledby="features-heading">
+      {/* Transition from dark hero */}
+      <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-[#0F172A] to-white pointer-events-none" />
       <div className="mx-auto max-w-6xl">
         <div className="text-center mb-8 md:mb-12">
           <h2 id="features-heading" className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">
@@ -800,7 +807,7 @@ function FeaturesSection() {
           {featuresData.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div key={i} className="bg-white border border-gray-100 rounded-xl p-3.5 md:p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div key={i} className="bg-white border border-gray-100 rounded-xl p-3.5 md:p-6 shadow-sm hover:shadow-md hover:border-[#4F46E5]/20 hover:-translate-y-0.5 transition-all">
                 <div className={`w-9 h-9 md:w-11 md:h-11 rounded-lg flex items-center justify-center shrink-0 mb-2.5 md:mb-3 ${f.color}`}>
                   <Icon className="h-4 w-4 md:h-5 md:w-5" />
                 </div>
@@ -860,7 +867,7 @@ function HowItWorksSection() {
 function PlatformsSection() {
   const { t } = useLanguage();
   return (
-    <section id="platforms" className="py-10 md:py-20 px-4 md:px-6 bg-white">
+    <section id="platforms" className="py-10 md:py-20 px-4 md:px-6 bg-white border-t border-gray-100">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">{t("platforms.title")}</h2>
@@ -870,13 +877,13 @@ function PlatformsSection() {
           {PLATFORMS.map((p) => {
             const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
             return (
-              <a key={p.name} href={`/${slug}`} className="flex items-center gap-2.5 md:gap-3 p-2.5 md:p-4 rounded-xl bg-white border border-gray-200 hover:border-[#4F46E5]/30 hover:shadow-sm transition-all">
-                <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: p.gradient || p.color }}>
-                  <p.Icon className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              <a key={p.name} href={`/${slug}`} className="flex items-center gap-2.5 md:gap-3 p-2.5 md:p-4 rounded-xl bg-white border border-gray-200 hover:border-[#4F46E5]/40 hover:shadow-md hover:-translate-y-0.5 transition-all group">
+                <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: p.gradient || p.color }}>
+                  <p.Icon className="h-4 w-4 md:h-4.5 md:w-4.5" />
                 </div>
-                <div className="min-w-0">
-                  <p className="text-[13px] md:text-sm font-medium text-gray-900 truncate">{p.name}</p>
-                  <p className="text-[10px] md:text-[11px] text-gray-400">Download</p>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13px] md:text-sm font-semibold text-gray-900 truncate group-hover:text-[#4F46E5] transition-colors">{p.name}</p>
+                  <p className="text-[10px] md:text-[11px] text-[#4F46E5] font-medium">Download →</p>
                 </div>
               </a>
             );
@@ -926,12 +933,12 @@ function FAQSection() {
         </div>
         <div className="space-y-2.5 md:space-y-3">
           {faqData.map((f, i) => (
-            <details key={i} className="group bg-white border border-gray-200 rounded-xl">
+            <details key={i} className="group bg-white border border-gray-200 rounded-xl hover:border-[#4F46E5]/30 transition-colors">
               <summary className="flex items-center justify-between px-4 md:px-6 py-3.5 md:py-4 cursor-pointer text-[13px] md:text-base font-medium text-gray-900 hover:text-[#4F46E5] transition-colors list-none">
                 <span className="pr-3">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</span>
-                <ChevronDown className="h-4 w-4 text-gray-400 shrink-0 group-open:rotate-180 transition-transform" />
+                <ChevronDown className="h-4 w-4 text-gray-400 shrink-0 group-open:rotate-180 transition-transform duration-200" />
               </summary>
-              <div className="px-4 md:px-6 pb-3.5 md:pb-4 text-[12px] md:text-sm text-gray-500 leading-relaxed">
+              <div className="px-4 md:px-6 pb-3.5 md:pb-4 text-[12px] md:text-sm text-gray-500 leading-relaxed border-t border-gray-100 pt-3">
                 {faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}
               </div>
             </details>
@@ -946,7 +953,7 @@ function FAQSection() {
 function CTASection() {
   const { t } = useLanguage();
   return (
-    <section className="dark-section py-12 md:py-24 px-4 md:px-6">
+    <section className="dark-section py-12 md:py-24 px-4 md:px-6 border-t border-white/5">
       <div className="mx-auto max-w-3xl text-center">
         <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-[#4F46E5]/20 flex items-center justify-center mx-auto mb-4 md:mb-6">
           <Shield className="h-6 w-6 md:h-8 md:w-8 text-[#4F46E5]" />
@@ -977,26 +984,26 @@ function Footer() {
           <div>
             <h4 className="text-[11px] md:text-sm font-semibold text-white mb-3 md:mb-4">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
             <ul className="space-y-2 md:space-y-3">
-              <li><a href="#features" className="text-[11px] md:text-sm text-white/50 hover:text-white transition-colors">{t("nav.fitur")}</a></li>
-              <li><a href="#how" className="text-[11px] md:text-sm text-white/50 hover:text-white transition-colors">{t("nav.caraPakai")}</a></li>
-              <li><a href="#platforms" className="text-[11px] md:text-sm text-white/50 hover:text-white transition-colors">{t("nav.platform")}</a></li>
-              <li><a href="#faq" className="text-[11px] md:text-sm text-white/50 hover:text-white transition-colors">{t("nav.faq")}</a></li>
+              <li><a href="#features" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{t("nav.fitur")}</a></li>
+              <li><a href="#how" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{t("nav.caraPakai")}</a></li>
+              <li><a href="#platforms" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{t("nav.platform")}</a></li>
+              <li><a href="#faq" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{t("nav.faq")}</a></li>
             </ul>
           </div>
           <div>
             <h4 className="text-[11px] md:text-sm font-semibold text-white mb-3 md:mb-4">{lang === 'id' ? 'Perusahaan' : 'Company'}</h4>
             <ul className="space-y-2 md:space-y-3">
-              <li><a href="/about" className="text-[11px] md:text-sm text-white/50 hover:text-white transition-colors">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
-              <li><a href="/contact" className="text-[11px] md:text-sm text-white/50 hover:text-white transition-colors">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
-              <li><a href="/blog" className="text-[11px] md:text-sm text-white/50 hover:text-white transition-colors">Blog</a></li>
+              <li><a href="/about" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
+              <li><a href="/contact" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
+              <li><a href="/blog" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">Blog</a></li>
             </ul>
           </div>
           <div>
             <h4 className="text-[11px] md:text-sm font-semibold text-white mb-3 md:mb-4">Legal</h4>
             <ul className="space-y-2 md:space-y-3">
-              <li><a href="/privacy" className="text-[11px] md:text-sm text-white/50 hover:text-white transition-colors">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
-              <li><a href="/terms" className="text-[11px] md:text-sm text-white/50 hover:text-white transition-colors">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
-              <li><a href="/disclaimer" className="text-[11px] md:text-sm text-white/50 hover:text-white transition-colors">Disclaimer / DMCA</a></li>
+              <li><a href="/privacy" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
+              <li><a href="/terms" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
+              <li><a href="/disclaimer" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">Disclaimer / DMCA</a></li>
             </ul>
           </div>
         </div>
@@ -1092,8 +1099,8 @@ export default function Home() {
                       <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center" style={{ background: p.gradient || p.color }}>
                         <p.Icon className="h-4 w-4 md:h-5 md:w-5 text-white" />
                       </div>
-                      <span className="text-[11px] md:text-xs font-medium text-gray-900 text-center">{p.name}</span>
-                      <span className="text-[9px] md:text-[10px] text-gray-400">Download</span>
+                      <span className="text-[11px] md:text-xs font-semibold text-gray-900 text-center">{p.name}</span>
+                      <span className="text-[9px] md:text-[10px] text-[#4F46E5] font-medium">Download →</span>
                     </a>
                   );
                 })}

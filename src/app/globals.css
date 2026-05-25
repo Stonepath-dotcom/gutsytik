@@ -156,7 +156,7 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
 
 /* ─── Gradient text ─── */
 .gradient-text {
-  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
