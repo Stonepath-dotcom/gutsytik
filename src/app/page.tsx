@@ -3,17 +3,14 @@
 import React, { useState, useCallback, useRef, useEffect, createContext, useContext } from "react";
 import { useTheme } from "next-themes";
 import {
-  Download, Zap, Shield, Smartphone, Globe, CheckCircle,
+  Download, Zap, Shield, Smartphone, CheckCircle,
   Menu, X, ChevronDown, Play, Clock, User, Loader2,
-  Heart, AlertCircle, Film, Music, Sun, Moon,
-  Share2, Bookmark, Copy, Star, Volume2, VolumeX, Eye, EyeOff,
+  AlertCircle, Film, Music, Sun, Moon,
+  Share2, Bookmark, Copy, Eye, EyeOff,
+  Link as LinkIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
 import { MovaLogo } from "@/components/mova-logo";
 import { useToast } from "@/hooks/use-toast";
 
@@ -112,36 +109,34 @@ const HISTORY_KEY = "mova_history";
 const BOOKMARK_KEY = "mova_bookmarks";
 const LANG_KEY = "mova_lang";
 const MAX_HISTORY = 20;
-const ACCENT = "#F97316";
+const ACCENT = "#4F46E5";
+const INDIRGO_BG = "bg-indigo-50";
+const INDIGO_TEXT = "text-indigo-600";
 
 /* ──────── Translations (ID/EN) ──────── */
 const translations: Record<string, Record<string, string>> = {
   id: {
     "nav.fitur": "Fitur", "nav.caraPakai": "Cara Pakai", "nav.platform": "Platform", "nav.faq": "FAQ", "nav.download": "Download",
-    "hero.badge": "Gratis & Tanpa Batas",
+    "hero.badge": "100% Gratis & Tanpa Watermark",
     "hero.title": "Download Video", "hero.titleHighlight": "Tanpa Watermark",
-    "hero.subtitle": "Mova membantu kamu download video dari platform populer tanpa watermark, cepat dan gratis!",
+    "hero.subtitle": "Download video dari TikTok, Instagram, Facebook, YouTube dan banyak platform lainnya tanpa watermark.",
     "hero.audioTitle": "Ekstrak Audio", "hero.audioTitleHighlight": "MP3 Gratis",
     "hero.audioSubtitle": "Mova bisa mengekstrak audio dari video manapun jadi file MP3, cepat dan berkualitas!",
-    "input.placeholder": "Tempel link video di sini (TikTok, IG, YouTube...)",
-    "input.audioPlaceholder": "Tempel link video untuk ekstrak audio MP3...",
-    "input.paste": "Tempel",
+    "input.placeholder": "Paste link video di sini...",
+    "input.audioPlaceholder": "Paste link video untuk ekstrak audio MP3...",
     "btn.download": "Download", "btn.downloadNoWM": "Download Tanpa Watermark", "btn.downloadAudio": "Download Audio MP3",
     "tab.video": "Video", "tab.audio": "Audio",
     "result.found": "Video berhasil ditemukan!", "result.audioFound": "Audio berhasil ditemukan!",
     "result.selectQuality": "Pilih kualitas:", "result.preview": "Preview", "result.share": "Bagikan",
     "result.bookmark": "Bookmark", "result.bookmarked": "Tersimpan", "result.downloadThumb": "Thumbnail",
     "result.copyCaption": "Salin Caption", "result.captionCopied": "Caption disalin!",
-    "history.title": "Riwayat Download", "history.clear": "Hapus Semua", "history.empty": "Belum ada riwayat download.",
-    "bookmark.title": "Video Tersimpan", "bookmark.clear": "Hapus Semua", "bookmark.empty": "Belum ada video yang disimpan.",
-    "features.title": "Fitur Unggulan Mova", "features.subtitle": "Semua yang kamu butuhkan untuk download video tanpa watermark.",
-    "how.title": "Cara Menggunakan Mova", "how.subtitle": "Hanya 3 langkah mudah untuk download video tanpa watermark.",
+    "features.title": "Kenapa Harus Mova?", "features.subtitle": "Download video tanpa watermark dari berbagai platform populer dengan cepat dan mudah.",
+    "how.title": "Cara Menggunakan Mova", "how.subtitle": "Hanya 4 langkah mudah untuk download video tanpa watermark.",
     "platforms.title": "Platform yang Didukung", "platforms.subtitle": "Download video dari berbagai platform sosial media populer.",
     "faq.title": "Pertanyaan yang Sering Diajukan", "faq.subtitle": "Temukan jawaban dari pertanyaan umum tentang Mova.",
-    "cta.title": "Siap Download Video Tanpa Watermark?", "cta.subtitle": "Coba Mova sekarang dan rasakan kemudahan download video tanpa watermark!",
-    "cta.button": "Mulai Download Sekarang",
+    "cta.title": "Gratis, Tanpa Batas, Tanpa Watermark", "cta.subtitle": "Download video sepuasnya tanpa batas dan tanpa watermark dari berbagai platform populer.",
+    "cta.button": "Mulai Download",
     "footer.desc": "Download video tanpa watermark dari berbagai platform populer. Cepat, gratis, dan mudah.",
-    "footer.privacy": "Kebijakan Privasi",
     "error.emptyUrl": "Masukkan link video terlebih dahulu!",
     "error.invalidUrl": "URL tidak valid. Pastikan link yang dimasukkan benar.",
     "error.server": "Gagal terhubung ke server. Silakan coba lagi.",
@@ -149,36 +144,30 @@ const translations: Record<string, Record<string, string>> = {
     "toast.videoFound": "Video ditemukan!", "toast.selectQuality": "Pilih kualitas dan download.",
     "toast.downloadStart": "Download dimulai!", "toast.linkCopied": "Link berhasil disalin!",
     "toast.bookmarkAdded": "Video disimpan ke bookmark!", "toast.bookmarkRemoved": "Bookmark dihapus.",
-    "toast.historyCleared": "Riwayat download dihapus.",
-    "info.duration": "Durasi", "info.resolution": "Resolusi", "info.author": "Pembuat", "info.platform": "Platform",
     "Baru saja": "Baru saja", "menit lalu": "menit lalu", "jam lalu": "jam lalu", "hari lalu": "hari lalu",
   },
   en: {
     "nav.fitur": "Features", "nav.caraPakai": "How to Use", "nav.platform": "Platforms", "nav.faq": "FAQ", "nav.download": "Download",
-    "hero.badge": "Free & Unlimited",
+    "hero.badge": "100% Free & No Watermark",
     "hero.title": "Download Video", "hero.titleHighlight": "Without Watermark",
-    "hero.subtitle": "Mova helps you download videos from popular platforms without watermark, fast and free!",
+    "hero.subtitle": "Download videos from TikTok, Instagram, Facebook, YouTube and many other platforms without watermark.",
     "hero.audioTitle": "Extract Audio", "hero.audioTitleHighlight": "Free MP3",
     "hero.audioSubtitle": "Mova can extract audio from any video into MP3 files, fast and high quality!",
-    "input.placeholder": "Paste video link here (TikTok, IG, YouTube...)",
+    "input.placeholder": "Paste video link here...",
     "input.audioPlaceholder": "Paste video link to extract MP3 audio...",
-    "input.paste": "Paste",
     "btn.download": "Download", "btn.downloadNoWM": "Download Without Watermark", "btn.downloadAudio": "Download Audio MP3",
     "tab.video": "Video", "tab.audio": "Audio",
     "result.found": "Video found successfully!", "result.audioFound": "Audio found successfully!",
     "result.selectQuality": "Select quality:", "result.preview": "Preview", "result.share": "Share",
     "result.bookmark": "Bookmark", "result.bookmarked": "Saved", "result.downloadThumb": "Thumbnail",
     "result.copyCaption": "Copy Caption", "result.captionCopied": "Caption copied!",
-    "history.title": "Download History", "history.clear": "Clear All", "history.empty": "No download history yet.",
-    "bookmark.title": "Saved Videos", "bookmark.clear": "Clear All", "bookmark.empty": "No saved videos yet.",
-    "features.title": "Mova Key Features", "features.subtitle": "Everything you need to download videos without watermark.",
-    "how.title": "How to Use Mova", "how.subtitle": "Just 3 easy steps to download videos without watermark.",
+    "features.title": "Why Choose Mova?", "features.subtitle": "Download videos without watermark from various popular platforms quickly and easily.",
+    "how.title": "How to Use Mova", "how.subtitle": "Just 4 easy steps to download videos without watermark.",
     "platforms.title": "Supported Platforms", "platforms.subtitle": "Download videos from various popular social media platforms.",
     "faq.title": "Frequently Asked Questions", "faq.subtitle": "Find answers to common questions about Mova.",
-    "cta.title": "Ready to Download Videos Without Watermark?", "cta.subtitle": "Try Mova now and experience easy watermark-free video downloads!",
-    "cta.button": "Start Downloading Now",
+    "cta.title": "Free, Unlimited, No Watermark", "cta.subtitle": "Download as many videos as you want without limits and without watermark from various popular platforms.",
+    "cta.button": "Start Downloading",
     "footer.desc": "Download videos without watermark from popular platforms. Fast, free, and easy.",
-    "footer.privacy": "Privacy Policy",
     "error.emptyUrl": "Please enter a video link first!",
     "error.invalidUrl": "Invalid URL. Make sure the link is correct.",
     "error.server": "Failed to connect to server. Please try again.",
@@ -186,8 +175,6 @@ const translations: Record<string, Record<string, string>> = {
     "toast.videoFound": "Video found!", "toast.selectQuality": "Select quality and download.",
     "toast.downloadStart": "Download started!", "toast.linkCopied": "Link copied successfully!",
     "toast.bookmarkAdded": "Video saved to bookmarks!", "toast.bookmarkRemoved": "Bookmark removed.",
-    "toast.historyCleared": "Download history cleared.",
-    "info.duration": "Duration", "info.resolution": "Resolution", "info.author": "Author", "info.platform": "Platform",
     "Baru saja": "Just now", "menit lalu": "min ago", "jam lalu": "hr ago", "hari lalu": "days ago",
   },
 };
@@ -225,9 +212,6 @@ function saveToHistory(item: HistoryItem) {
     window.dispatchEvent(new Event("mova:history-changed"));
   } catch {}
 }
-function clearAllHistory() {
-  try { localStorage.removeItem(HISTORY_KEY); window.dispatchEvent(new Event("mova:history-changed")); } catch {}
-}
 function getBookmarks(): BookmarkItem[] {
   if (typeof window === "undefined") return [];
   try { const d = localStorage.getItem(BOOKMARK_KEY); return d ? JSON.parse(d) : []; } catch { return []; }
@@ -249,14 +233,6 @@ function removeBookmark(url: string) {
 }
 function isBookmarked(url: string): boolean { return getBookmarks().some(b => b.url === url); }
 
-function timeAgo(ts: number, t: (k: string) => string): string {
-  const s = Math.floor((Date.now() - ts) / 1000);
-  if (s < 60) return t("Baru saja");
-  const m = Math.floor(s / 60); if (m < 60) return `${m} ${t("menit lalu")}`;
-  const h = Math.floor(m / 60); if (h < 24) return `${h} ${t("jam lalu")}`;
-  return `${Math.floor(h / 24)} ${t("hari lalu")}`;
-}
-
 function detectPlatform(urlStr: string): string {
   try {
     const h = new URL(urlStr).hostname.toLowerCase();
@@ -274,18 +250,19 @@ function detectPlatform(urlStr: string): string {
 /* ──────── Navbar ──────── */
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { setTheme, theme } = useTheme();
   const { lang, setLang, t } = useLanguage();
   const menuRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
-    { label: t("nav.fitur"), href: "#features" },
+    { label: "Home", href: "#hero" },
     { label: t("nav.caraPakai"), href: "#how" },
+    { label: t("nav.fitur"), href: "#features" },
     { label: t("nav.platform"), href: "#platforms" },
     { label: t("nav.faq"), href: "#faq" },
   ];
 
-  // Close menu on outside click
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
@@ -296,58 +273,61 @@ function Navbar() {
     return () => { document.removeEventListener("mousedown", handler); document.removeEventListener("touchstart", handler); };
   }, [open]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
-      <div className="mx-auto max-w-5xl h-12 flex items-center justify-between px-3 sm:px-4">
-        {/* Logo */}
-        <a href="#" className="flex items-center gap-1.5 shrink-0">
-          <MovaLogo size={22} showText={false} />
-          <span className="font-bold text-sm text-foreground" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>Mova</span>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ${scrolled ? "mobile-solid-bg bg-[#0F172A]/95 md:backdrop-blur-md border-b border-white/10 md:shadow-lg" : "bg-transparent border-b border-transparent"}`}>
+      <div className="mx-auto max-w-6xl h-14 md:h-16 flex items-center justify-between px-4 md:px-6">
+        <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="Mova - Home">
+          <MovaLogo size={28} showText={true} />
         </a>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map(l => (
-            <a key={l.href} href={l.href} className="px-2.5 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted/50">{l.label}</a>
+            <a key={l.href} href={l.href} className="px-3 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors rounded-lg">{l.label}</a>
           ))}
         </nav>
 
-        {/* Desktop controls */}
-        <div className="hidden md:flex items-center gap-1">
-          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs font-bold" aria-label="Toggle language">
+        <div className="hidden md:flex items-center gap-2">
+          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-9 w-9 flex items-center justify-center rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors text-xs font-bold" aria-label="Toggle language">
             {lang === "id" ? "EN" : "ID"}
           </button>
-          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors" aria-label="Toggle theme">
+          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-9 w-9 flex items-center justify-center rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors" aria-label="Toggle theme">
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
           <a href="#hero">
-            <Button size="sm" className="h-8 px-4 bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C] text-xs">
+            <Button size="sm" className="h-9 px-5 bg-[#4F46E5] text-white font-semibold rounded-lg hover:bg-[#4338CA] transition-colors text-sm">
               <Download className="mr-1.5 h-3.5 w-3.5" />{t("nav.download")}
             </Button>
           </a>
         </div>
 
-        {/* Mobile controls */}
+        {/* Mobile buttons */}
         <div className="flex md:hidden items-center gap-1">
-          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground text-[10px] font-bold">{lang === "id" ? "EN" : "ID"}</button>
-          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground">
+          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-8 w-8 flex items-center justify-center rounded-lg text-white/70 text-[10px] font-bold">{lang === "id" ? "EN" : "ID"}</button>
+          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-8 w-8 flex items-center justify-center rounded-lg text-white/70">
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
-          <button onClick={() => setOpen(!open)} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground" aria-label="Menu">
+          <button onClick={() => setOpen(!open)} className="h-8 w-8 flex items-center justify-center rounded-lg text-white/70" aria-label="Menu">
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Mobile menu */}
       {open && (
-        <div ref={menuRef} className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-lg">
-          <div className="px-3 py-2 space-y-0.5">
+        <div ref={menuRef} className="md:hidden border-t border-white/10 bg-[#0F172A]/98">
+          <div className="px-4 py-3 space-y-0.5">
             {navLinks.map(l => (
-              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50 transition-colors">{l.label}</a>
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-white/70 hover:text-white rounded-lg hover:bg-white/10 transition-colors">{l.label}</a>
             ))}
             <a href="#hero" onClick={() => setOpen(false)} className="block pt-1">
-              <Button className="w-full bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C]">
+              <Button className="w-full bg-[#4F46E5] text-white font-semibold rounded-lg hover:bg-[#4338CA]">
                 <Download className="mr-2 h-4 w-4" />{t("nav.download")}
               </Button>
             </a>
@@ -381,7 +361,6 @@ function HeroSection() {
     setTimeout(() => dismiss(id), 3000);
   }, [toast, dismiss]);
 
-  // Check bookmark on result change
   useEffect(() => {
     if (result) setIsBookmarkedState(isBookmarked(result.downloadUrl));
   }, [result]);
@@ -396,7 +375,6 @@ function HeroSection() {
     setResult(null);
     setLoadingMsg(audioMode ? "Extracting audio..." : "Finding video...");
 
-    // Show progress messages while waiting
     const msgs = audioMode
       ? ["Extracting audio...", "Converting to MP3...", "Almost done..."]
       : ["Finding video...", "Getting download link...", "Almost done..."];
@@ -415,7 +393,6 @@ function HeroSection() {
       const data = await res.json();
       if (res.ok) {
         setResult(data);
-        // Auto-select audio quality in audio mode
         if (audioMode) {
           const audioIdx = data.qualityOptions?.findIndex(
             (q: QualityOption) => q.label === "Audio" || q.resolution === "MP3"
@@ -451,20 +428,18 @@ function HeroSection() {
     const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
     const downloadName = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
     const isAudio = q.resolution === "MP3" || q.label === "Audio";
-    // Use proxy URL for download, with original URL as fallback
     const downloadUrl = q.url;
     const fallbackUrl = q.originalUrl || q.url;
 
     setDownloading(true);
 
     try {
-      // === Strategy 1: For audio files, try fetch+blob for reliable download with filename ===
       if (isAudio) {
         try {
           const res = await fetch(downloadUrl);
           if (res.ok) {
             const blob = await res.blob();
-            if (blob.size > 1000) { // At least 1KB (real audio file)
+            if (blob.size > 1000) {
               const blobUrl = URL.createObjectURL(blob);
               const a = document.createElement("a");
               a.href = blobUrl;
@@ -486,10 +461,9 @@ function HeroSection() {
             }
           }
         } catch (e) {
-          console.log("Proxy fetch+blob failed, trying alternatives", e);
+          console.log("Proxy fetch+blob failed", e);
         }
 
-        // === Strategy 1b: Try original URL directly for audio ===
         if (fallbackUrl !== downloadUrl) {
           try {
             const res = await fetch(fallbackUrl);
@@ -522,7 +496,6 @@ function HeroSection() {
         }
       }
 
-      // === Strategy 2: Use <a> tag with download attribute ===
       try {
         const a = document.createElement("a");
         a.href = downloadUrl;
@@ -546,7 +519,6 @@ function HeroSection() {
         console.log("<a> tag approach failed", e);
       }
 
-      // === Strategy 3: Open in new tab as last resort ===
       window.open(downloadUrl, "_blank");
       saveToHistory({
         id: Date.now().toString(), title: result.title, platform: result.platform,
@@ -556,7 +528,6 @@ function HeroSection() {
       showToast(t("toast.downloadStart"), "");
     } catch (e) {
       console.error("Download failed:", e);
-      // Final fallback: open original URL in new tab
       try {
         window.open(fallbackUrl, "_blank");
       } catch {
@@ -615,124 +586,119 @@ function HeroSection() {
   const platformDef = detectedPlatform ? getPlatformDef(detectedPlatform) : null;
 
   return (
-    <section id="hero" className="relative pt-16 pb-12 px-3 sm:px-4">
-      <div className="mx-auto max-w-2xl text-center">
+    <section id="hero" className="hero-bg relative pt-24 md:pt-36 pb-10 md:pb-28 px-4 md:px-6">
+      <div className="relative z-10 mx-auto max-w-4xl text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
-          <Zap className="h-3.5 w-3.5 text-[#F97316]" />
-          <span className="text-xs font-semibold text-[#F97316]">{t("hero.badge")}</span>
+        <div className="mb-5 md:mb-6 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/10">
+          <Zap className="h-3.5 w-3.5 text-yellow-400" />
+          <span className="text-[11px] md:text-sm font-medium text-white/90">{t("hero.badge")}</span>
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl sm:text-4xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] leading-tight">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-5 font-[family-name:var(--font-montserrat)] leading-[1.15] tracking-tight text-white">
           {audioMode ? t("hero.audioTitle") : t("hero.title")}{" "}
           <span className="gradient-text">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
         </h1>
-        <p className="text-sm sm:text-base text-muted-foreground mb-6 max-w-lg mx-auto">
+        <p className="text-[13px] sm:text-base md:text-lg text-white/60 mb-7 md:mb-9 max-w-xl md:max-w-2xl mx-auto leading-relaxed">
           {audioMode ? t("hero.audioSubtitle") : t("hero.subtitle")}
         </p>
 
         {/* Video/Audio tabs */}
-        <div className="flex items-center justify-center gap-1 mb-4 p-1 rounded-lg bg-muted/50 w-fit mx-auto">
-          <button onClick={() => { setAudioMode(false); setResult(null); setError(""); }} className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${!audioMode ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}>
-            <Film className="h-3.5 w-3.5 inline mr-1.5" />{t("tab.video")}
+        <div className="flex items-center justify-center mb-6 md:mb-7">
+          <button onClick={() => { setAudioMode(false); setResult(null); setError(""); }} className={`px-4 md:px-5 py-2 text-[13px] md:text-sm font-medium rounded-l-lg border transition-colors ${!audioMode ? "bg-white text-gray-900 border-white" : "bg-white/10 text-white/70 border-white/20 hover:bg-white/15"}`}>
+            <Film className="h-3.5 w-3.5 md:h-4 md:w-4 inline mr-1" />{t("tab.video")}
           </button>
-          <button onClick={() => { setAudioMode(true); setResult(null); setError(""); }} className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${audioMode ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}>
-            <Music className="h-3.5 w-3.5 inline mr-1.5" />{t("tab.audio")}
+          <button onClick={() => { setAudioMode(true); setResult(null); setError(""); }} className={`px-4 md:px-5 py-2 text-[13px] md:text-sm font-medium rounded-r-lg border transition-colors ${audioMode ? "bg-white text-gray-900 border-white" : "bg-white/10 text-white/70 border-white/20 hover:bg-white/15"}`}>
+            <Music className="h-3.5 w-3.5 md:h-4 md:w-4 inline mr-1" />{t("tab.audio")}
           </button>
         </div>
 
-        {/* Input */}
-        <div className="relative flex items-center gap-2 max-w-xl mx-auto">
+        {/* Input - stacked on mobile, inline on desktop */}
+        <div className="max-w-2xl mx-auto space-y-2.5 md:space-y-0 md:flex md:items-center md:gap-2.5">
           <div className="flex-1 relative">
-            {platformDef && !result && (
-              <div className="absolute left-3 top-1/2 -translate-y-1/2">
-                <div className="w-5 h-5 rounded flex items-center justify-center" style={{ background: platformDef.gradient || platformDef.color }}>
-                  <platformDef.Icon className="h-3 w-3 text-white" />
-                </div>
-              </div>
-            )}
+            <LinkIcon className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               ref={inputRef}
               value={url}
               onChange={e => setUrl(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleAnalyze()}
               placeholder={audioMode ? t("input.audioPlaceholder") : t("input.placeholder")}
-              className={`h-11 bg-card border-border rounded-xl text-sm ${platformDef && !result ? "pl-10" : "pl-4"} pr-4`}
+              className="h-12 md:h-14 bg-white border border-gray-200 rounded-xl text-[15px] md:text-lg pl-10 md:pl-11 pr-10 md:pr-12 text-gray-900 placeholder:text-gray-400 md:shadow-lg focus:border-[#4F46E5] focus:ring-2 focus:ring-[#4F46E5]/20"
             />
           </div>
-          <button onClick={handlePaste} className="h-11 px-3 rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs font-medium shrink-0">
-            <Copy className="h-3.5 w-3.5 sm:mr-1.5" /><span className="hidden sm:inline">{t("input.paste")}</span>
-          </button>
-          <Button onClick={handleAnalyze} disabled={loading} className="h-11 px-5 bg-[#F97316] text-white font-semibold rounded-xl hover:bg-[#EA580C] shrink-0">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 sm:mr-1.5" />}
-            <span className="hidden sm:inline">{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
+          <Button onClick={handleAnalyze} disabled={loading} className="w-full md:w-auto h-12 md:h-14 px-5 md:px-8 bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] active:scale-[0.98] shrink-0 md:shadow-lg md:shadow-[#4F46E5]/25 text-[15px] md:text-base transition-colors">
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 mr-1.5" />}
+            <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
           </Button>
         </div>
 
-        {/* Platform hints with SVG icons */}
-        <div className="flex flex-wrap justify-center gap-2 mt-4 mb-8">
-          {PLATFORMS.map(p => (
-            <span key={p.name} className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-card/50 text-muted-foreground border border-border/50">
-              <div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: p.gradient || p.color }}>
-                <p.Icon className="h-2.5 w-2.5 text-white" />
-              </div>
-              {p.name}
-            </span>
-          ))}
+        {/* Trust line */}
+        <div className="flex items-center justify-center gap-3 md:gap-5 text-[12px] md:text-sm text-white/50 mt-5 md:mt-6">
+          <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5" />SSL Secure</span>
+          <span className="text-white/20">|</span>
+          <span>No Signup</span>
+          <span className="text-white/20">|</span>
+          <span>100% Free</span>
         </div>
 
-        {/* Loading progress indicator */}
+        {/* Platform hints */}
+        <div className="flex flex-wrap justify-center gap-1.5 md:gap-3 mt-4 md:mt-5">
+          {PLATFORMS.map(p => {
+            const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
+            return (
+              <a key={p.name} href={`/${slug}`} className="inline-flex items-center gap-1 text-[11px] md:text-[13px] text-white/40 hover:text-white/80 transition-colors font-medium px-2 py-1 rounded-md hover:bg-white/5">
+                <p.Icon className="h-3 w-3" />{p.name}
+              </a>
+            );
+          })}
+        </div>
+
+        {/* Loading */}
         {loading && !error && (
-          <div className="max-w-xl mx-auto mb-4 p-3 rounded-lg bg-[#F97316]/10 border border-[#F97316]/20 flex items-center gap-2">
-            <Loader2 className="h-4 w-4 text-[#F97316] animate-spin shrink-0" />
-            <p className="text-[#F97316] text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
-            <span className="text-xs text-muted-foreground ml-auto">Please wait</span>
+          <div className="max-w-lg mx-auto mt-5 md:mt-6 p-3 rounded-lg bg-white/10 border border-white/10 flex items-center gap-2">
+            <Loader2 className="h-4 w-4 text-white animate-spin shrink-0" />
+            <p className="text-white text-[13px] md:text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
           </div>
         )}
 
         {/* Error */}
         {error && (
-          <div className="max-w-xl mx-auto mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-start gap-2">
-            <AlertCircle className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-            <div className="text-left">
-              <p className="text-red-400 text-sm">{error}</p>
-            </div>
+          <div className="max-w-lg mx-auto mt-5 md:mt-6 p-3 rounded-lg bg-red-500/20 border border-red-500/30 flex items-start gap-2">
+            <AlertCircle className="h-4 w-4 text-red-300 mt-0.5 shrink-0" />
+            <p className="text-red-300 text-[13px] md:text-sm text-left">{error}</p>
           </div>
         )}
 
         {/* Result card */}
         {result && (
-          <div ref={resultRef} className="max-w-xl mx-auto rounded-xl bg-card border overflow-hidden" style={{ borderColor: `${ACCENT}30` }}>
-            {/* Platform badge header */}
-            <div className="px-4 py-2 border-b border-border flex items-center gap-2" style={{ background: `linear-gradient(to right, ${ACCENT}15, #7C3AED15)` }}>
-              <CheckCircle className="h-4 w-4 text-green-400" />
-              <span className="text-sm text-green-400 font-medium">{audioMode ? t("result.audioFound") : t("result.found")}</span>
+          <div ref={resultRef} className="max-w-lg mx-auto mt-5 md:mt-6 rounded-xl bg-white border border-gray-200 overflow-hidden text-gray-900 md:shadow-xl text-left">
+            <div className="px-3.5 md:px-4 py-2.5 border-b border-gray-100 flex items-center gap-2 bg-gray-50">
+              <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
+              <span className="text-[13px] md:text-sm text-green-600 font-medium">{audioMode ? t("result.audioFound") : t("result.found")}</span>
               <div className="ml-auto flex items-center gap-1.5">
                 {(() => { const pd = getPlatformDef(result.platform); return (
                   <div className="w-5 h-5 rounded flex items-center justify-center" style={{ background: pd.gradient || pd.color }}>
                     <pd.Icon className="h-3 w-3 text-white" />
                   </div>
                 ); })()}
-                <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">{result.platform}</span>
+                <span className="text-[11px] md:text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">{result.platform}</span>
               </div>
             </div>
 
-            <div className="p-4">
-              {/* Video info */}
+            <div className="p-3.5 md:p-4">
               {showPreview && !previewError ? (
-                <div className="w-full rounded-lg overflow-hidden bg-muted mb-3">
+                <div className="w-full rounded-lg overflow-hidden bg-gray-100 mb-3">
                   <video src={result.qualityOptions[0]?.originalUrl || result.qualityOptions[0]?.url} controls muted className="w-full object-contain" style={{ maxHeight: "200px" }} onError={() => setPreviewError(true)} />
                 </div>
               ) : (
                 <div className="flex gap-3 mb-3">
-                  <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
+                  <div className="w-20 h-14 md:w-24 md:h-16 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden relative">
                     {result.thumbnail && <img src={result.thumbnail} alt="" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
-                    <Play className="h-6 w-6 absolute text-[#F97316]" />
+                    <Play className="h-5 w-5 md:h-6 md:w-6 absolute text-[#4F46E5]" />
                   </div>
-                  <div className="flex-1 text-left min-w-0">
-                    <h3 className="font-semibold text-foreground text-sm line-clamp-2">{result.title}</h3>
-                    <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-gray-900 text-[13px] md:text-sm line-clamp-2">{result.title}</h3>
+                    <div className="flex items-center gap-3 mt-1 text-[11px] md:text-xs text-gray-500">
                       {result.duration !== "--:--" && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{result.duration}</span>}
                       <span className="flex items-center gap-1"><User className="h-3 w-3" />{result.author}</span>
                     </div>
@@ -740,44 +706,41 @@ function HeroSection() {
                 </div>
               )}
 
-              {/* Action buttons */}
-              <div className="flex flex-wrap gap-1 mb-3">
-                <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-xs text-muted-foreground hover:text-foreground h-7">
+              <div className="flex flex-wrap gap-0.5 mb-3">
+                <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-[11px] md:text-xs text-gray-500 hover:text-gray-900 h-7">
                   {showPreview ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}{t("result.preview")}
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs text-muted-foreground hover:text-foreground h-7">
+                <Button variant="ghost" size="sm" onClick={handleShare} className="text-[11px] md:text-xs text-gray-500 hover:text-gray-900 h-7">
                   <Share2 className="h-3 w-3 mr-1" />{t("result.share")}
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleToggleBookmark} className="text-xs h-7" style={{ color: isBookmarkedState ? ACCENT : "var(--muted-foreground)" }}>
+                <Button variant="ghost" size="sm" onClick={handleToggleBookmark} className="text-[11px] md:text-xs h-7" style={{ color: isBookmarkedState ? ACCENT : "#6B7280" }}>
                   <Bookmark className={`h-3 w-3 mr-1 ${isBookmarkedState ? "fill-current" : ""}`} />{isBookmarkedState ? t("result.bookmarked") : t("result.bookmark")}
                 </Button>
                 {result.thumbnail && (
-                  <Button variant="ghost" size="sm" onClick={handleDownloadThumbnail} className="text-xs text-muted-foreground hover:text-foreground h-7">
+                  <Button variant="ghost" size="sm" onClick={handleDownloadThumbnail} className="text-[11px] md:text-xs text-gray-500 hover:text-gray-900 h-7">
                     <Copy className="h-3 w-3 mr-1" />{t("result.downloadThumb")}
                   </Button>
                 )}
-                <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-xs text-muted-foreground hover:text-foreground h-7">
+                <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-[11px] md:text-xs text-gray-500 hover:text-gray-900 h-7">
                   <Copy className="h-3 w-3 mr-1" />{t("result.copyCaption")}
                 </Button>
               </div>
 
-              {/* Quality selector */}
               {result.qualityOptions.length > 0 && (
                 <div className="mb-3">
-                  <p className="text-xs font-medium text-foreground mb-2 text-left flex items-center gap-1.5">
-                    <Film className="h-3.5 w-3.5 text-[#F97316]" />{t("result.selectQuality")}
+                  <p className="text-[11px] md:text-xs font-medium text-gray-700 mb-2 flex items-center gap-1.5">
+                    <Film className="h-3 w-3 md:h-3.5 md:w-3.5 text-[#4F46E5]" />{t("result.selectQuality")}
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 md:gap-2">
                     {result.qualityOptions.map((q, i) => {
                       const isSelected = selectedQuality === i;
                       return (
                         <button
                           key={i}
                           onClick={() => setSelectedQuality(i)}
-                          className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border font-medium transition-colors ${
-                            isSelected ? "text-white" : "bg-muted text-muted-foreground hover:text-foreground"
+                          className={`flex items-center gap-1 text-[11px] md:text-xs px-2.5 md:px-3 py-1.5 rounded-lg border font-medium transition-colors ${
+                            isSelected ? "text-white bg-[#4F46E5] border-[#4F46E5]" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-300"
                           }`}
-                          style={isSelected ? { backgroundColor: ACCENT, borderColor: ACCENT } : { borderColor: "var(--border)" }}
                         >
                           {q.resolution === "MP3" ? <Music className="h-3 w-3" /> : <Film className="h-3 w-3" />}
                           <span>{q.label}</span>
@@ -789,11 +752,10 @@ function HeroSection() {
                 </div>
               )}
 
-              {/* Download button */}
               <Button
                 onClick={handleDownload}
                 disabled={downloading}
-                className="w-full h-11 bg-[#F97316] text-white font-bold rounded-xl hover:bg-[#EA580C] text-sm"
+                className="w-full h-10 md:h-11 bg-[#4F46E5] text-white font-bold rounded-lg hover:bg-[#4338CA] text-[13px] md:text-sm"
               >
                 {downloading ? (
                   <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{audioMode ? "Downloading MP3..." : "Downloading..."}</>
@@ -802,13 +764,12 @@ function HeroSection() {
                 )}
               </Button>
 
-              {/* Fallback direct download link */}
               {result.qualityOptions[selectedQuality]?.originalUrl && (
                 <a
                   href={result.qualityOptions[selectedQuality].originalUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block mt-2 text-center text-xs text-muted-foreground hover:text-[#F97316] transition-colors underline underline-offset-2"
+                  className="block mt-2 text-center text-[11px] md:text-xs text-gray-400 hover:text-[#4F46E5] transition-colors underline underline-offset-2"
                 >
                   {audioMode ? "Open MP3 directly" : "Open download link directly"} ↗
                 </a>
@@ -823,36 +784,33 @@ function HeroSection() {
 
 /* ──────── Features Section ──────── */
 const featuresData = [
-  { icon: Download, titleId: "Download Tanpa Watermark", desc: { id: "Download video dari TikTok, Instagram, YouTube tanpa watermark. Kualitas asli dipertahankan.", en: "Download videos from TikTok, Instagram, YouTube without watermark. Original quality preserved." } },
-  { icon: Zap, titleId: "Super Cepat", desc: { id: "Proses download instan tanpa perlu menunggu lama. Server cepat untuk pengalaman terbaik.", en: "Instant download process without long waits. Fast servers for the best experience." } },
-  { icon: Shield, titleId: "Aman & Privat", desc: { id: "Tidak ada data pribadi yang disimpan. Semua proses dilakukan secara aman dan terenkripsi.", en: "No personal data stored. All processes are done securely and encrypted." } },
-  { icon: Smartphone, titleId: "Mobile Friendly", desc: { id: "Optimal untuk HP. Download video langsung dari browser HP tanpa install app.", en: "Optimized for mobile. Download videos directly from your phone browser without installing an app." } },
-  { icon: Music, titleId: "Ekstrak Audio MP3", desc: { id: "Konversi video ke MP3 dengan kualitas tinggi. Cocok untuk download lagu dari TikTok.", en: "Convert video to MP3 with high quality. Perfect for downloading songs from TikTok." } },
-  { icon: Globe, titleId: "Multi Platform", desc: { id: "Support TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, Reddit, dan lainnya.", en: "Support TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, Reddit, and more." } },
+  { icon: Download, color: "bg-indigo-100 text-indigo-600", titleId: "Tanpa Watermark", desc: { id: "Download video dari TikTok, Instagram, YouTube tanpa watermark. Kualitas asli dipertahankan.", en: "Download videos from TikTok, Instagram, YouTube without watermark. Original quality preserved." } },
+  { icon: Zap, color: "bg-indigo-100 text-indigo-600", titleId: "Super Cepat", desc: { id: "Proses download instan tanpa perlu menunggu lama. Server cepat untuk pengalaman terbaik.", en: "Instant download process without long waits. Fast servers for the best experience." } },
+  { icon: Shield, color: "bg-indigo-100 text-indigo-600", titleId: "Aman & Privat", desc: { id: "Tidak ada data pribadi yang disimpan. Semua proses dilakukan secara aman dan terenkripsi.", en: "No personal data stored. All processes are done securely and encrypted." } },
+  { icon: Smartphone, color: "bg-indigo-100 text-indigo-600", titleId: "Mobile Friendly", desc: { id: "Optimal untuk HP. Download video langsung dari browser HP tanpa install app.", en: "Optimized for mobile. Download videos directly from your phone browser without installing an app." } },
 ];
 
 function FeaturesSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="features" className="py-12 sm:py-16 px-3 sm:px-4">
-      <div className="mx-auto max-w-5xl">
-        <div className="text-center mb-8">
-          <div className="w-10 h-1 rounded-full bg-[#F97316] mx-auto mb-3" />
-          <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">
-            <span className="gradient-text">{t("features.title")}</span>
+    <section id="features" className="pt-6 pb-10 md:py-20 px-4 md:px-6 bg-white" aria-labelledby="features-heading">
+      <div className="mx-auto max-w-6xl">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 id="features-heading" className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">
+            {t("features.title")}
           </h2>
-          <p className="text-sm text-muted-foreground max-w-lg mx-auto">{t("features.subtitle")}</p>
+          <p className="text-[13px] md:text-base text-gray-500 max-w-md md:max-w-xl mx-auto">{t("features.subtitle")}</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-5">
           {featuresData.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div key={i} className="bento-card p-5">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3 bg-primary/10">
-                  <Icon className="h-5 w-5 text-[#F97316]" />
+              <div key={i} className="bg-white border border-gray-100 rounded-xl p-3.5 md:p-6 md:shadow-sm md:hover:shadow-md md:hover:border-[#4F46E5]/20 md:hover:-translate-y-0.5 transition-colors">
+                <div className={`w-9 h-9 md:w-11 md:h-11 rounded-lg flex items-center justify-center shrink-0 mb-2.5 md:mb-3 ${f.color}`}>
+                  <Icon className="h-4 w-4 md:h-5 md:w-5" />
                 </div>
-                <h3 className="text-sm font-semibold text-foreground mb-1">{f.titleId}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
+                <h3 className="text-[13px] md:text-base font-semibold text-gray-900 mb-1">{f.titleId}</h3>
+                <p className="text-[11px] md:text-sm text-gray-500 leading-relaxed">{f.desc[lang] || f.desc.id}</p>
               </div>
             );
           })}
@@ -864,29 +822,39 @@ function FeaturesSection() {
 
 /* ──────── How It Works ──────── */
 function HowItWorksSection() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const steps = [
-    { num: "1", title: { id: "Salin Link Video", en: "Copy Video Link" }, desc: { id: "Salin link video dari TikTok, Instagram, YouTube, atau platform lainnya.", en: "Copy the video link from TikTok, Instagram, YouTube, or other platforms." } },
-    { num: "2", title: { id: "Tempel & Download", en: "Paste & Download" }, desc: { id: "Tempel link di kolom input lalu klik tombol Download.", en: "Paste the link in the input field and click the Download button." } },
-    { num: "3", title: { id: "Simpan Video", en: "Save Video" }, desc: { id: "Pilih kualitas dan simpan video tanpa watermark ke perangkatmu.", en: "Select quality and save the video without watermark to your device." } },
+    { num: 1, icon: LinkIcon, title: { id: "Salin Link", en: "Copy Link" }, desc: { id: "Salin link video dari TikTok, Instagram, YouTube, atau platform lainnya.", en: "Copy the video link from TikTok, Instagram, YouTube, or other platforms." } },
+    { num: 2, icon: Share2, title: { id: "Tempel Link", en: "Paste Link" }, desc: { id: "Tempel link di kolom input di atas.", en: "Paste the link in the input field above." } },
+    { num: 3, icon: Download, title: { id: "Klik Download", en: "Click Download" }, desc: { id: "Klik tombol Download dan pilih kualitas video yang diinginkan.", en: "Click the Download button and select your preferred video quality." } },
+    { num: 4, icon: CheckCircle, title: { id: "Simpan Video", en: "Save Video" }, desc: { id: "Video akan otomatis terunduh tanpa watermark ke perangkatmu.", en: "The video will automatically download without watermark to your device." } },
   ];
-  const lang = useLanguage().lang;
   return (
-    <section id="how" className="py-12 sm:py-16 px-3 sm:px-4 bg-muted/30">
-      <div className="mx-auto max-w-3xl">
-        <div className="text-center mb-8">
-          <div className="w-10 h-1 rounded-full bg-[#F97316] mx-auto mb-3" />
-          <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
-          <p className="text-sm text-muted-foreground">{t("how.subtitle")}</p>
+    <section id="how" className="py-10 md:py-20 px-4 md:px-6 bg-gray-50" aria-labelledby="how-heading">
+      <div className="mx-auto max-w-5xl">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 id="how-heading" className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">{t("how.title")}</h2>
+          <p className="text-[13px] md:text-base text-gray-500 max-w-md md:max-w-lg mx-auto">{t("how.subtitle")}</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {steps.map((s, i) => (
-            <div key={i} className="text-center p-5">
-              <div className="w-10 h-10 rounded-full bg-[#F97316] text-white font-bold text-lg flex items-center justify-center mx-auto mb-3">{s.num}</div>
-              <h3 className="text-sm font-semibold text-foreground mb-1">{s.title[lang] || s.title.id}</h3>
-              <p className="text-xs text-muted-foreground">{s.desc[lang] || s.desc.id}</p>
-            </div>
-          ))}
+        {/* Mobile: 2x2 grid, Desktop: 4 cols with arrows */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          {steps.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <div key={i} className="flex flex-col items-center text-center">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#4F46E5] flex items-center justify-center mb-2.5 md:mb-3">
+                  <span className="text-white font-bold text-sm md:text-base">{s.num}</span>
+                </div>
+                <h3 className="text-[13px] md:text-base font-semibold text-gray-900 mb-1">{s.title[lang] || s.title.id}</h3>
+                <p className="text-[11px] md:text-sm text-gray-500 leading-relaxed">{s.desc[lang] || s.desc.id}</p>
+                {i < 3 && (
+                  <div className="hidden md:block mt-3">
+                    <span className="text-gray-300 text-lg">&#8594;</span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -897,41 +865,27 @@ function HowItWorksSection() {
 function PlatformsSection() {
   const { t } = useLanguage();
   return (
-    <section id="platforms" className="py-12 sm:py-16 overflow-hidden">
-      <div className="mx-auto max-w-5xl px-3 sm:px-4">
-        <div className="text-center mb-8">
-          <div className="w-10 h-1 rounded-full bg-[#F97316] mx-auto mb-3" />
-          <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("platforms.title")}</h2>
-          <p className="text-sm text-muted-foreground max-w-lg mx-auto">{t("platforms.subtitle")}</p>
+    <section id="platforms" className="py-10 md:py-20 px-4 md:px-6 bg-white border-t border-gray-100">
+      <div className="mx-auto max-w-5xl">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">{t("platforms.title")}</h2>
+          <p className="text-[13px] md:text-base text-gray-500 max-w-md md:max-w-lg mx-auto">{t("platforms.subtitle")}</p>
         </div>
-      </div>
-      {/* Marquee row */}
-      <div className="relative mb-3">
-        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-        <div className="flex animate-marquee scroll-hide">
-          {[...PLATFORMS, ...PLATFORMS].map((p, i) => (
-            <div key={`r1-${p.name}-${i}`} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-card border border-border mx-2 shrink-0 hover:border-primary/30 transition-colors">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white" style={{ background: p.gradient || p.color }}>
-                <p.Icon className="h-3.5 w-3.5" />
-              </div>
-              <span className="text-sm font-medium text-foreground whitespace-nowrap">{p.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-        <div className="flex animate-marquee-reverse scroll-hide">
-          {[...PLATFORMS.slice().reverse(), ...PLATFORMS.slice().reverse()].map((p, i) => (
-            <div key={`r2-${p.name}-${i}`} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-card border border-border mx-2 shrink-0 hover:border-primary/30 transition-colors">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white" style={{ background: p.gradient || p.color }}>
-                <p.Icon className="h-3.5 w-3.5" />
-              </div>
-              <span className="text-sm font-medium text-foreground whitespace-nowrap">{p.name}</span>
-            </div>
-          ))}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-4">
+          {PLATFORMS.map((p) => {
+            const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
+            return (
+              <a key={p.name} href={`/${slug}`} className="flex items-center gap-2.5 md:gap-3 p-2.5 md:p-4 rounded-xl bg-white border border-gray-200 md:hover:border-[#4F46E5]/40 md:hover:shadow-md md:hover:-translate-y-0.5 transition-colors group">
+                <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: p.gradient || p.color }}>
+                  <p.Icon className="h-4 w-4 md:h-4.5 md:w-4.5" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13px] md:text-sm font-semibold text-gray-900 truncate group-hover:text-[#4F46E5] transition-colors">{p.name}</p>
+                  <p className="text-[10px] md:text-[11px] text-[#4F46E5] font-medium">Download →</p>
+                </div>
+              </a>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -969,21 +923,25 @@ const faqContent: Record<string, Record<string, string>> = {
 function FAQSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="faq" className="py-12 sm:py-16 px-3 sm:px-4">
-      <div className="mx-auto max-w-2xl">
-        <div className="text-center mb-8">
-          <div className="w-10 h-1 rounded-full bg-[#F97316] mx-auto mb-3" />
-          <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("faq.title")}</h2>
-          <p className="text-sm text-muted-foreground">{t("faq.subtitle")}</p>
+    <section id="faq" className="py-10 md:py-20 px-4 md:px-6 bg-gray-50">
+      <div className="mx-auto max-w-3xl">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">{t("faq.title")}</h2>
+          <p className="text-[13px] md:text-base text-gray-500">{t("faq.subtitle")}</p>
         </div>
-        <Accordion type="single" collapsible className="space-y-2">
+        <div className="space-y-2.5 md:space-y-3">
           {faqData.map((f, i) => (
-            <AccordionItem key={i} value={`item-${i}`} className="border rounded-xl px-4 bg-card">
-              <AccordionTrigger className="text-sm font-medium text-left hover:no-underline py-3">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</AccordionTrigger>
-              <AccordionContent className="text-xs text-muted-foreground leading-relaxed pb-3">{faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}</AccordionContent>
-            </AccordionItem>
+            <details key={i} className="group bg-white border border-gray-200 rounded-xl md:hover:border-[#4F46E5]/30 transition-colors">
+              <summary className="flex items-center justify-between px-4 md:px-6 py-3.5 md:py-4 cursor-pointer text-[13px] md:text-base font-medium text-gray-900 hover:text-[#4F46E5] transition-colors list-none">
+                <span className="pr-3">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</span>
+                <ChevronDown className="h-4 w-4 text-gray-400 shrink-0 group-open:rotate-180 transition-transform duration-200" />
+              </summary>
+              <div className="px-4 md:px-6 pb-3.5 md:pb-4 text-[12px] md:text-sm text-gray-500 leading-relaxed border-t border-gray-100 pt-3">
+                {faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}
+              </div>
+            </details>
           ))}
-        </Accordion>
+        </div>
       </div>
     </section>
   );
@@ -993,13 +951,16 @@ function FAQSection() {
 function CTASection() {
   const { t } = useLanguage();
   return (
-    <section className="py-12 sm:py-16 px-3 sm:px-4">
-      <div className="mx-auto max-w-xl text-center gradient-border p-8 sm:p-10">
-        <h2 className="text-xl sm:text-2xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">{t("cta.title")}</h2>
-        <p className="text-sm text-muted-foreground mb-5">{t("cta.subtitle")}</p>
+    <section className="dark-section py-12 md:py-24 px-4 md:px-6 border-t border-white/5">
+      <div className="mx-auto max-w-3xl text-center">
+        <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-[#4F46E5]/20 flex items-center justify-center mx-auto mb-4 md:mb-6">
+          <Shield className="h-6 w-6 md:h-8 md:w-8 text-[#4F46E5]" />
+        </div>
+        <h2 className="text-lg sm:text-2xl md:text-4xl font-extrabold mb-2.5 md:mb-4 font-[family-name:var(--font-montserrat)] text-white">{t("cta.title")}</h2>
+        <p className="text-[13px] md:text-base text-white/60 mb-5 md:mb-8 max-w-md mx-auto">{t("cta.subtitle")}</p>
         <a href="#hero">
-          <Button className="h-11 px-6 bg-[#F97316] text-white font-bold rounded-xl hover:bg-[#EA580C] text-sm">
-            <Download className="mr-2 h-4 w-4" />{t("cta.button")}
+          <Button className="h-11 md:h-14 px-7 md:px-10 bg-[#4F46E5] text-white font-bold rounded-lg hover:bg-[#4338CA] text-[13px] md:text-base">
+            <Download className="mr-2 h-4 w-4 md:h-5 md:w-5" />{t("cta.button")}
           </Button>
         </a>
       </div>
@@ -1009,30 +970,48 @@ function CTASection() {
 
 /* ──────── Footer ──────── */
 function Footer() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   return (
-    <footer className="bg-card/50 border-t border-border/50">
-      <div className="mx-auto max-w-5xl px-3 sm:px-4 py-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex flex-col items-center sm:items-start gap-1">
-            <MovaLogo size={20} showText />
-            <p className="text-[11px] text-muted-foreground max-w-xs mt-1">{t("footer.desc")}</p>
+    <footer className="dark-section border-t border-white/10" role="contentinfo">
+      <div className="mx-auto max-w-6xl px-4 md:px-6 py-10 md:py-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12">
+          <div className="col-span-2 md:col-span-1">
+            <MovaLogo size={24} showText />
+            <p className="text-[11px] md:text-sm text-white/50 max-w-xs mt-3 leading-relaxed">{t("footer.desc")}</p>
           </div>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <a href="#features" className="hover:text-foreground transition-colors">{t("nav.fitur")}</a>
-            <a href="#how" className="hover:text-foreground transition-colors">{t("nav.caraPakai")}</a>
-            <a href="#platforms" className="hover:text-foreground transition-colors">{t("nav.platform")}</a>
-            <a href="#faq" className="hover:text-foreground transition-colors">{t("nav.faq")}</a>
+          <div>
+            <h4 className="text-[11px] md:text-sm font-semibold text-white mb-3 md:mb-4">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
+            <ul className="space-y-2 md:space-y-3">
+              <li><a href="#features" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{t("nav.fitur")}</a></li>
+              <li><a href="#how" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{t("nav.caraPakai")}</a></li>
+              <li><a href="#platforms" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{t("nav.platform")}</a></li>
+              <li><a href="#faq" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{t("nav.faq")}</a></li>
+            </ul>
           </div>
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
-            <a href="https://tiktok.com/@abbbuw" target="_blank" rel="noopener noreferrer" className="hover:text-[#F97316] transition-colors flex items-center gap-1">
-              <TikTokIcon className="h-3.5 w-3.5" />TikTok
-            </a>
-            <a href="https://t.me/sixte3nnn" target="_blank" rel="noopener noreferrer" className="hover:text-[#F97316] transition-colors">Telegram</a>
+          <div>
+            <h4 className="text-[11px] md:text-sm font-semibold text-white mb-3 md:mb-4">{lang === 'id' ? 'Perusahaan' : 'Company'}</h4>
+            <ul className="space-y-2 md:space-y-3">
+              <li><a href="/about" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
+              <li><a href="/contact" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
+              <li><a href="/blog" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">Blog</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-[11px] md:text-sm font-semibold text-white mb-3 md:mb-4">Legal</h4>
+            <ul className="space-y-2 md:space-y-3">
+              <li><a href="/privacy" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
+              <li><a href="/terms" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
+              <li><a href="/disclaimer" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">Disclaimer / DMCA</a></li>
+            </ul>
           </div>
         </div>
-        <div className="mt-4 pt-3 border-t border-border/50 text-center">
-          <p className="text-[10px] text-muted-foreground/50">&copy; 2026 Mova. All rights reserved.</p>
+        <div className="mt-10 md:mt-16 pt-5 md:pt-6 border-t border-white/10">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p className="text-[10px] md:text-xs text-white/30">&copy; 2026 Mova. All rights reserved.</p>
+            <p className="text-[9px] md:text-[11px] text-white/20 text-center sm:text-right">
+              {lang === 'id' ? 'Mova tidak menyimpan konten berhak cipta. Pengguna bertanggung jawab atas penggunaan konten yang diunduh.' : 'Mova does not store copyrighted content. Users are responsible for downloaded content usage.'}
+            </p>
+          </div>
         </div>
       </div>
     </footer>
@@ -1042,19 +1021,20 @@ function Footer() {
 /* ──────── Mobile Bottom Nav ──────── */
 function MobileBottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/90 backdrop-blur-md border-t border-border/50 safe-area-bottom">
-      <div className="flex items-center justify-around px-2 py-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden mobile-solid-bg bg-[#0F172A] border-t border-white/10">
+      <div className="flex items-center justify-around px-2 py-2">
         {[
           { icon: Download, label: "Download", href: "#hero", highlight: true },
           { icon: Bookmark, label: "Saved", href: "#hero" },
           { icon: Shield, label: "FAQ", href: "#faq" },
         ].map(item => (
-          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-4 rounded-lg transition-colors ${item.highlight ? "text-[#F97316]" : "text-muted-foreground"}`}>
-            <item.icon className="h-4.5 w-4.5" />
+          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-6 rounded-lg transition-colors ${item.highlight ? "text-[#4F46E5]" : "text-white/50"}`}>
+            <item.icon className="h-4 w-4" />
             <span className="text-[9px] font-medium">{item.label}</span>
           </a>
         ))}
       </div>
+      <div className="h-[env(safe-area-inset-bottom,0px)]" />
     </nav>
   );
 }
@@ -1063,14 +1043,69 @@ function MobileBottomNav() {
 export default function Home() {
   return (
     <LanguageProvider>
-      <div className="min-h-screen flex flex-col bg-background">
+      <div className="min-h-screen flex flex-col bg-white">
         <Navbar />
-        <main className="flex-1 pb-16 md:pb-0">
+        <main className="flex-1 pb-14 md:pb-0">
           <HeroSection />
           <FeaturesSection />
           <HowItWorksSection />
           <PlatformsSection />
           <FAQSection />
+          {/* FAQPage Schema */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              { "@type": "Question", name: "Bagaimana cara download video tanpa watermark dengan Mova?", acceptedAnswer: { "@type": "Answer", text: "Salin link video dari platform (TikTok, YouTube, Instagram, dll), tempel di kolom input Mova, klik Download, pilih kualitas, dan video akan otomatis terunduh tanpa watermark." } },
+              { "@type": "Question", name: "Apakah Mova gratis?", acceptedAnswer: { "@type": "Answer", text: "Ya, Mova 100% gratis dan tanpa batas. Kamu bisa download video sebanyak yang kamu mau tanpa biaya apapun." } },
+              { "@type": "Question", name: "Apakah Mova bisa download video YouTube ke MP3?", acceptedAnswer: { "@type": "Answer", text: "Ya, Mova mendukung ekstraksi audio MP3 dari video YouTube. Cukup tempel link YouTube, pilih mode Audio, dan download file MP3 berkualitas tinggi." } },
+              { "@type": "Question", name: "Apakah Mova aman digunakan?", acceptedAnswer: { "@type": "Answer", text: "Ya, Mova aman. Kami tidak menyimpan data pribadi pengguna, tidak menggunakan tracking cookies, dan semua proses dilakukan langsung dari platform sumber." } },
+              { "@type": "Question", name: "Platform apa saja yang didukung Mova?", acceptedAnswer: { "@type": "Answer", text: "Mova mendukung download video dari TikTok, YouTube, Instagram, Facebook, Twitter/X, Pinterest, dan Reddit." } }
+            ]
+          })}} />
+          {/* HowTo Schema */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: "Cara Download Video Tanpa Watermark dengan Mova",
+            description: "Panduan langkah demi langkah untuk download video tanpa watermark menggunakan Mova",
+            step: [
+              { "@type": "HowToStep", position: 1, name: "Salin Link Video", text: "Buka aplikasi TikTok, YouTube, Instagram, atau platform lain, temukan video yang ingin didownload, dan salin link-nya." },
+              { "@type": "HowToStep", position: 2, name: "Tempel Link di Mova", text: "Buka getmova.my.id, tempel link video yang sudah disalin di kolom input, lalu klik tombol Download." },
+              { "@type": "HowToStep", position: 3, name: "Pilih Kualitas", text: "Pilih kualitas video yang diinginkan (360p, 480p, 720p, atau 1080p) lalu klik download." }
+            ]
+          })}} />
+          {/* BreadcrumbList Schema */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" }
+            ]
+          })}} />
+
+          {/* Platform Download Pages */}
+          <section className="py-10 md:py-16 px-4 md:px-6 bg-gray-50">
+            <div className="mx-auto max-w-5xl">
+              <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-center mb-1.5 md:mb-2 tracking-tight text-gray-900">Download Video per Platform</h2>
+              <p className="text-[13px] md:text-sm text-gray-500 text-center mb-6 md:mb-8">Pilih platform untuk panduan download lengkap</p>
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 md:gap-3">
+                {PLATFORMS.slice(0, 5).map(p => {
+                  const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
+                  return (
+                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-1.5 md:gap-2 p-2.5 md:p-4 rounded-xl bg-white border border-gray-200 md:hover:border-[#4F46E5]/30 md:hover:shadow-sm transition-colors">
+                      <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center" style={{ background: p.gradient || p.color }}>
+                        <p.Icon className="h-4 w-4 md:h-5 md:w-5 text-white" />
+                      </div>
+                      <span className="text-[11px] md:text-xs font-semibold text-gray-900 text-center">{p.name}</span>
+                      <span className="text-[9px] md:text-[10px] text-[#4F46E5] font-medium">Download →</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
           <CTASection />
         </main>
         <Footer />
