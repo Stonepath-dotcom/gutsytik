@@ -112,7 +112,7 @@ const HISTORY_KEY = "mova_history";
 const BOOKMARK_KEY = "mova_bookmarks";
 const LANG_KEY = "mova_lang";
 const MAX_HISTORY = 20;
-const ACCENT = "#F97316";
+const ACCENT = "#2563EB";
 
 /* ──────── Translations (ID/EN) ──────── */
 const translations: Record<string, Record<string, string>> = {
@@ -322,7 +322,7 @@ function Navbar() {
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
           <a href="#hero">
-            <Button size="sm" className="h-8 px-4 bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C] text-xs">
+            <Button size="sm" className="h-8 px-4 bg-[#2563EB] text-white font-semibold rounded-lg hover:bg-[#1D4ED8] text-xs">
               <Download className="mr-1.5 h-3.5 w-3.5" />{t("nav.download")}
             </Button>
           </a>
@@ -348,7 +348,7 @@ function Navbar() {
               <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50 transition-colors">{l.label}</a>
             ))}
             <a href="#hero" onClick={() => setOpen(false)} className="block pt-1">
-              <Button className="w-full bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C]">
+              <Button className="w-full bg-[#2563EB] text-white font-semibold rounded-lg hover:bg-[#1D4ED8]">
                 <Download className="mr-2 h-4 w-4" />{t("nav.download")}
               </Button>
             </a>
@@ -620,8 +620,8 @@ function HeroSection() {
       <div className="mx-auto max-w-2xl text-center">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
-          <Zap className="h-3.5 w-3.5 text-[#F97316]" />
-          <span className="text-xs font-semibold text-[#F97316]">{t("hero.badge")}</span>
+          <Zap className="h-3.5 w-3.5 text-[#2563EB]" />
+          <span className="text-xs font-semibold text-[#2563EB]">{t("hero.badge")}</span>
         </div>
 
         {/* Title */}
@@ -665,7 +665,7 @@ function HeroSection() {
           <button onClick={handlePaste} className="h-11 px-3 rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs font-medium shrink-0">
             <Copy className="h-3.5 w-3.5 sm:mr-1.5" /><span className="hidden sm:inline">{t("input.paste")}</span>
           </button>
-          <Button onClick={handleAnalyze} disabled={loading} className="h-11 px-5 bg-[#F97316] text-white font-semibold rounded-xl hover:bg-[#EA580C] shrink-0">
+          <Button onClick={handleAnalyze} disabled={loading} className="h-11 px-5 bg-[#2563EB] text-white font-semibold rounded-xl hover:bg-[#1D4ED8] shrink-0">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 sm:mr-1.5" />}
             <span className="hidden sm:inline">{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
           </Button>
@@ -685,9 +685,9 @@ function HeroSection() {
 
         {/* Loading progress indicator */}
         {loading && !error && (
-          <div className="max-w-xl mx-auto mb-4 p-3 rounded-lg bg-[#F97316]/10 border border-[#F97316]/20 flex items-center gap-2">
-            <Loader2 className="h-4 w-4 text-[#F97316] animate-spin shrink-0" />
-            <p className="text-[#F97316] text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
+          <div className="max-w-xl mx-auto mb-4 p-3 rounded-lg bg-[#2563EB]/10 border border-[#2563EB]/20 flex items-center gap-2">
+            <Loader2 className="h-4 w-4 text-[#2563EB] animate-spin shrink-0" />
+            <p className="text-[#2563EB] text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
             <span className="text-xs text-muted-foreground ml-auto">Please wait</span>
           </div>
         )}
@@ -729,7 +729,7 @@ function HeroSection() {
                 <div className="flex gap-3 mb-3">
                   <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
                     {result.thumbnail && <img src={result.thumbnail} alt="" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
-                    <Play className="h-6 w-6 absolute text-[#F97316]" />
+                    <Play className="h-6 w-6 absolute text-[#2563EB]" />
                   </div>
                   <div className="flex-1 text-left min-w-0">
                     <h3 className="font-semibold text-foreground text-sm line-clamp-2">{result.title}</h3>
@@ -766,7 +766,7 @@ function HeroSection() {
               {result.qualityOptions.length > 0 && (
                 <div className="mb-3">
                   <p className="text-xs font-medium text-foreground mb-2 text-left flex items-center gap-1.5">
-                    <Film className="h-3.5 w-3.5 text-[#F97316]" />{t("result.selectQuality")}
+                    <Film className="h-3.5 w-3.5 text-[#2563EB]" />{t("result.selectQuality")}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {result.qualityOptions.map((q, i) => {
@@ -794,7 +794,7 @@ function HeroSection() {
               <Button
                 onClick={handleDownload}
                 disabled={downloading}
-                className="w-full h-11 bg-[#F97316] text-white font-bold rounded-xl hover:bg-[#EA580C] text-sm"
+                className="w-full h-11 bg-[#2563EB] text-white font-bold rounded-xl hover:bg-[#1D4ED8] text-sm"
               >
                 {downloading ? (
                   <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{audioMode ? "Downloading MP3..." : "Downloading..."}</>
@@ -809,7 +809,7 @@ function HeroSection() {
                   href={result.qualityOptions[selectedQuality].originalUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block mt-2 text-center text-xs text-muted-foreground hover:text-[#F97316] transition-colors underline underline-offset-2"
+                  className="block mt-2 text-center text-xs text-muted-foreground hover:text-[#2563EB] transition-colors underline underline-offset-2"
                 >
                   {audioMode ? "Open MP3 directly" : "Open download link directly"} ↗
                 </a>
@@ -838,7 +838,7 @@ function FeaturesSection() {
     <section id="features" className="py-12 sm:py-16 px-3 sm:px-4">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-8">
-          <div className="w-10 h-1 rounded-full bg-[#F97316] mx-auto mb-3" />
+          <div className="w-10 h-1 rounded-full bg-[#2563EB] mx-auto mb-3" />
           <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">
             <span className="gradient-text">{t("features.title")}</span>
           </h2>
@@ -850,7 +850,7 @@ function FeaturesSection() {
             return (
               <div key={i} className="bento-card p-5">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3 bg-primary/10">
-                  <Icon className="h-5 w-5 text-[#F97316]" />
+                  <Icon className="h-5 w-5 text-[#2563EB]" />
                 </div>
                 <h3 className="text-sm font-semibold text-foreground mb-1">{f.titleId}</h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
@@ -876,14 +876,14 @@ function HowItWorksSection() {
     <section id="how" className="py-12 sm:py-16 px-3 sm:px-4 bg-muted/30">
       <div className="mx-auto max-w-3xl">
         <div className="text-center mb-8">
-          <div className="w-10 h-1 rounded-full bg-[#F97316] mx-auto mb-3" />
+          <div className="w-10 h-1 rounded-full bg-[#2563EB] mx-auto mb-3" />
           <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
           <p className="text-sm text-muted-foreground">{t("how.subtitle")}</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {steps.map((s, i) => (
             <div key={i} className="text-center p-5">
-              <div className="w-10 h-10 rounded-full bg-[#F97316] text-white font-bold text-lg flex items-center justify-center mx-auto mb-3">{s.num}</div>
+              <div className="w-10 h-10 rounded-full bg-[#2563EB] text-white font-bold text-lg flex items-center justify-center mx-auto mb-3">{s.num}</div>
               <h3 className="text-sm font-semibold text-foreground mb-1">{s.title[lang] || s.title.id}</h3>
               <p className="text-xs text-muted-foreground">{s.desc[lang] || s.desc.id}</p>
             </div>
@@ -901,7 +901,7 @@ function PlatformsSection() {
     <section id="platforms" className="py-12 sm:py-16 overflow-hidden">
       <div className="mx-auto max-w-5xl px-3 sm:px-4">
         <div className="text-center mb-8">
-          <div className="w-10 h-1 rounded-full bg-[#F97316] mx-auto mb-3" />
+          <div className="w-10 h-1 rounded-full bg-[#2563EB] mx-auto mb-3" />
           <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("platforms.title")}</h2>
           <p className="text-sm text-muted-foreground max-w-lg mx-auto">{t("platforms.subtitle")}</p>
         </div>
@@ -973,7 +973,7 @@ function FAQSection() {
     <section id="faq" className="py-12 sm:py-16 px-3 sm:px-4">
       <div className="mx-auto max-w-2xl">
         <div className="text-center mb-8">
-          <div className="w-10 h-1 rounded-full bg-[#F97316] mx-auto mb-3" />
+          <div className="w-10 h-1 rounded-full bg-[#2563EB] mx-auto mb-3" />
           <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 font-[family-name:var(--font-montserrat)]">{t("faq.title")}</h2>
           <p className="text-sm text-muted-foreground">{t("faq.subtitle")}</p>
         </div>
@@ -999,7 +999,7 @@ function CTASection() {
         <h2 className="text-xl sm:text-2xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">{t("cta.title")}</h2>
         <p className="text-sm text-muted-foreground mb-5">{t("cta.subtitle")}</p>
         <a href="#hero">
-          <Button className="h-11 px-6 bg-[#F97316] text-white font-bold rounded-xl hover:bg-[#EA580C] text-sm">
+          <Button className="h-11 px-6 bg-[#2563EB] text-white font-bold rounded-xl hover:bg-[#1D4ED8] text-sm">
             <Download className="mr-2 h-4 w-4" />{t("cta.button")}
           </Button>
         </a>
@@ -1020,10 +1020,10 @@ function Footer() {
             <MovaLogo size={20} showText />
             <p className="text-[11px] text-muted-foreground max-w-xs mt-2">{t("footer.desc")}</p>
             <div className="flex items-center gap-3 mt-3 text-xs text-muted-foreground">
-              <a href="https://tiktok.com/@abbbuw" target="_blank" rel="noopener noreferrer" className="hover:text-[#F97316] transition-colors flex items-center gap-1">
+              <a href="https://tiktok.com/@abbbuw" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors flex items-center gap-1">
                 <TikTokIcon className="h-3.5 w-3.5" />TikTok
               </a>
-              <a href="https://t.me/sixte3nnn" target="_blank" rel="noopener noreferrer" className="hover:text-[#F97316] transition-colors">Telegram</a>
+              <a href="https://t.me/sixte3nnn" target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] transition-colors">Telegram</a>
             </div>
           </div>
 
@@ -1081,7 +1081,7 @@ function MobileBottomNav() {
           { icon: Bookmark, label: "Saved", href: "#hero" },
           { icon: Shield, label: "FAQ", href: "#faq" },
         ].map(item => (
-          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-4 rounded-lg transition-colors ${item.highlight ? "text-[#F97316]" : "text-muted-foreground"}`}>
+          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-4 rounded-lg transition-colors ${item.highlight ? "text-[#2563EB]" : "text-muted-foreground"}`}>
             <item.icon className="h-4.5 w-4.5" />
             <span className="text-[9px] font-medium">{item.label}</span>
           </a>
@@ -1145,7 +1145,7 @@ export default function Home() {
                 {PLATFORMS.slice(0, 5).map(p => {
                   const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
                   return (
-                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card border border-border/50 hover:border-[#F97316]/30 transition-all hover:shadow-md">
+                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card border border-border/50 hover:border-[#2563EB]/30 transition-all hover:shadow-md">
                       <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: p.gradient || p.color }}>
                         <p.Icon className="h-5 w-5 text-white" />
                       </div>

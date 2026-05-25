@@ -115,12 +115,12 @@ export default function ContactPage() {
           {/* Title section */}
           <div className="text-center mb-16">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA] mb-6">
-              <MessageSquare className="h-3 w-3 text-[#F97316]" />
+              <MessageSquare className="h-3 w-3 text-[#2563EB]" />
               Kontak
             </span>
             <h1 className="text-4xl sm:text-5xl font-light tracking-tight text-[#FAFAFA] mb-4 mt-4">
               Hubungi{" "}
-              <span className="font-bold text-[#F97316]">Kami</span>
+              <span className="font-bold text-[#2563EB]">Kami</span>
             </h1>
             <p className="text-[#A1A1AA] text-sm max-w-xl mx-auto leading-relaxed">
               Punya pertanyaan, saran, atau ingin melaporkan masalah? Kami siap membantu kamu.
@@ -137,14 +137,14 @@ export default function ContactPage() {
                   href={method.href}
                   target={method.href.startsWith("mailto") ? undefined : "_blank"}
                   rel={method.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                  className="p-6 rounded-xl border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group block"
+                  className="p-6 rounded-xl border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group block"
                 >
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#09090B] border border-[#27272A] mb-4 group-hover:border-[#F97316]/50 transition-colors">
-                    <method.icon className="h-5 w-5 text-[#F97316]" />
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#09090B] border border-[#27272A] mb-4 group-hover:border-[#2563EB]/50 transition-colors">
+                    <method.icon className="h-5 w-5 text-[#2563EB]" />
                   </div>
                   <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">{method.title}</h3>
                   <p className="text-xs text-[#A1A1AA] mb-2">{method.description}</p>
-                  <p className="text-sm text-[#F97316] font-medium">{method.value}</p>
+                  <p className="text-sm text-[#2563EB] font-medium">{method.value}</p>
                 </a>
               ))}
             </div>
@@ -161,7 +161,7 @@ export default function ContactPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Nama kamu"
-                    className="h-10 bg-[#09090B] border-[#27272A] text-[#FAFAFA] text-sm placeholder:text-[#A1A1AA]/50 focus:border-[#F97316]/50"
+                    className="h-10 bg-[#09090B] border-[#27272A] text-[#FAFAFA] text-sm placeholder:text-[#A1A1AA]/50 focus:border-[#2563EB]/50"
                   />
                 </div>
                 <div>
@@ -171,7 +171,7 @@ export default function ContactPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="email@contoh.com"
-                    className="h-10 bg-[#09090B] border-[#27272A] text-[#FAFAFA] text-sm placeholder:text-[#A1A1AA]/50 focus:border-[#F97316]/50"
+                    className="h-10 bg-[#09090B] border-[#27272A] text-[#FAFAFA] text-sm placeholder:text-[#A1A1AA]/50 focus:border-[#2563EB]/50"
                   />
                 </div>
               </div>
@@ -182,13 +182,13 @@ export default function ContactPage() {
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Tulis pesan kamu di sini..."
                   rows={5}
-                  className="bg-[#09090B] border-[#27272A] text-[#FAFAFA] text-sm placeholder:text-[#A1A1AA]/50 focus:border-[#F97316]/50 resize-none"
+                  className="bg-[#09090B] border-[#27272A] text-[#FAFAFA] text-sm placeholder:text-[#A1A1AA]/50 focus:border-[#2563EB]/50 resize-none"
                 />
               </div>
               <Button
                 type="submit"
                 disabled={submitting}
-                className="bg-[#F97316] text-white font-semibold hover:bg-[#EA580C] rounded-lg"
+                className="bg-[#2563EB] text-white font-semibold hover:bg-[#1D4ED8] rounded-lg"
               >
                 {submitting ? (
                   <span className="flex items-center gap-2">
@@ -223,7 +223,7 @@ export default function ContactPage() {
                   >
                     <span className="text-sm font-medium text-[#FAFAFA]">{faq.question}</span>
                     {openFaq === i ? (
-                      <ChevronUp className="h-4 w-4 text-[#F97316] shrink-0" />
+                      <ChevronUp className="h-4 w-4 text-[#2563EB] shrink-0" />
                     ) : (
                       <ChevronDown className="h-4 w-4 text-[#A1A1AA] shrink-0" />
                     )}
@@ -242,17 +242,17 @@ export default function ContactPage() {
           <div className="mt-16 pt-8 border-t border-[#27272A]">
             <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4">Halaman Terkait</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <a href="/privacy" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/privacy" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Kebijakan Privasi</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
-              <a href="/terms" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/terms" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Syarat & Ketentuan</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
-              <a href="/about" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/about" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Tentang Kami</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
             </div>
           </div>

@@ -65,12 +65,12 @@ export default function TermsPage() {
           {/* Title section */}
           <div className="text-center mb-16">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA] mb-6">
-              <FileText className="h-3 w-3 text-[#F97316]" />
+              <FileText className="h-3 w-3 text-[#2563EB]" />
               Legal
             </span>
             <h1 className="text-4xl sm:text-5xl font-light tracking-tight text-[#FAFAFA] mb-4 mt-4">
               Syarat &{" "}
-              <span className="font-bold text-[#F97316]">Ketentuan</span>
+              <span className="font-bold text-[#2563EB]">Ketentuan</span>
             </h1>
             <p className="text-[#A1A1AA] text-sm max-w-xl mx-auto leading-relaxed">
               Dengan menggunakan Mova, Anda menyetujui syarat dan ketentuan berikut. Harap baca dengan seksama.
@@ -81,7 +81,7 @@ export default function TermsPage() {
           </div>
 
           {/* Important notice */}
-          <div className="mb-12 p-6 rounded-xl bg-[#111113] border-l-4 border-[#F97316]">
+          <div className="mb-12 p-6 rounded-xl bg-[#111113] border-l-4 border-[#2563EB]">
             <p className="text-sm text-[#FAFAFA] font-medium">
               Dengan mengakses dan menggunakan layanan Mova, Anda menyatakan bahwa Anda telah membaca, memahami, dan menyetujui untuk terikat oleh syarat dan ketentuan ini.
             </p>
@@ -93,7 +93,7 @@ export default function TermsPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                  <Scale className="h-5 w-5 text-[#F97316]" />
+                  <Scale className="h-5 w-5 text-[#2563EB]" />
                 </div>
                 <h2 className="text-lg font-bold text-[#FAFAFA]">1. Ketentuan Umum</h2>
               </div>
@@ -114,7 +114,7 @@ export default function TermsPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                  <Globe className="h-5 w-5 text-[#F97316]" />
+                  <Globe className="h-5 w-5 text-[#2563EB]" />
                 </div>
                 <h2 className="text-lg font-bold text-[#FAFAFA]">2. Penggunaan Layanan</h2>
               </div>
@@ -145,7 +145,7 @@ export default function TermsPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                  <Shield className="h-5 w-5 text-[#F97316]" />
+                  <Shield className="h-5 w-5 text-[#2563EB]" />
                 </div>
                 <h2 className="text-lg font-bold text-[#FAFAFA]">3. Konten & Hak Cipta</h2>
               </div>
@@ -166,7 +166,7 @@ export default function TermsPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                  <AlertTriangle className="h-5 w-5 text-[#F97316]" />
+                  <AlertTriangle className="h-5 w-5 text-[#2563EB]" />
                 </div>
                 <h2 className="text-lg font-bold text-[#FAFAFA]">4. Batasan Tanggung Jawab</h2>
               </div>
@@ -187,7 +187,7 @@ export default function TermsPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                  <RefreshCw className="h-5 w-5 text-[#F97316]" />
+                  <RefreshCw className="h-5 w-5 text-[#2563EB]" />
                 </div>
                 <h2 className="text-lg font-bold text-[#FAFAFA]">5. Perubahan Layanan</h2>
               </div>
@@ -205,7 +205,7 @@ export default function TermsPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                  <Gavel className="h-5 w-5 text-[#F97316]" />
+                  <Gavel className="h-5 w-5 text-[#2563EB]" />
                 </div>
                 <h2 className="text-lg font-bold text-[#FAFAFA]">6. Hukum yang Berlaku</h2>
               </div>
@@ -220,7 +220,7 @@ export default function TermsPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                  <Mail className="h-5 w-5 text-[#F97316]" />
+                  <Mail className="h-5 w-5 text-[#2563EB]" />
                 </div>
                 <h2 className="text-lg font-bold text-[#FAFAFA]">7. Kontak</h2>
               </div>
@@ -231,19 +231,19 @@ export default function TermsPage() {
                 <ul className="space-y-2">
                   <li className="text-sm text-[#A1A1AA]">
                     <span className="text-[#FAFAFA] font-medium">Email:</span>{" "}
-                    <a href="mailto:support@getmova.my.id" className="text-[#F97316] hover:underline">
+                    <a href="mailto:support@getmova.my.id" className="text-[#2563EB] hover:underline">
                       support@getmova.my.id
                     </a>
                   </li>
                   <li className="text-sm text-[#A1A1AA]">
                     <span className="text-[#FAFAFA] font-medium">TikTok:</span>{" "}
-                    <a href="https://tiktok.com/@abbbuw" target="_blank" rel="noopener noreferrer" className="text-[#F97316] hover:underline">
+                    <a href="https://tiktok.com/@abbbuw" target="_blank" rel="noopener noreferrer" className="text-[#2563EB] hover:underline">
                       @abbbuw
                     </a>
                   </li>
                   <li className="text-sm text-[#A1A1AA]">
                     <span className="text-[#FAFAFA] font-medium">Telegram:</span>{" "}
-                    <a href="https://t.me/sixte3nnn" target="_blank" rel="noopener noreferrer" className="text-[#F97316] hover:underline">
+                    <a href="https://t.me/sixte3nnn" target="_blank" rel="noopener noreferrer" className="text-[#2563EB] hover:underline">
                       @sixte3nnn
                     </a>
                   </li>
@@ -256,17 +256,17 @@ export default function TermsPage() {
           <div className="mt-16 pt-8 border-t border-[#27272A]">
             <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4">Halaman Terkait</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <a href="/privacy" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/privacy" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Kebijakan Privasi</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
-              <a href="/about" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/about" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Tentang Kami</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
-              <a href="/contact" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/contact" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Hubungi Kami</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
             </div>
           </div>

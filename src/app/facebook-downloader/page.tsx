@@ -119,7 +119,7 @@ export default function FacebookDownloaderPage() {
         {/* Breadcrumb */}
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-6">
           <nav className="flex items-center gap-2 text-xs text-[#A1A1AA]" aria-label="Breadcrumb">
-            <a href="/" className="hover:text-[#F97316] transition-colors">Home</a>
+            <a href="/" className="hover:text-[#2563EB] transition-colors">Home</a>
             <ChevronRight className="h-3 w-3" />
             <span className="text-[#FAFAFA]">Facebook Downloader</span>
           </nav>
@@ -128,13 +128,13 @@ export default function FacebookDownloaderPage() {
         {/* Hero */}
         <section className="py-12 px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F97316]/10 border border-[#F97316]/20 mb-4">
-              <Zap className="h-3.5 w-3.5 text-[#F97316]" />
-              <span className="text-xs font-semibold text-[#F97316]">HD Quality • Gratis</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563EB]/10 border border-[#2563EB]/20 mb-4">
+              <Zap className="h-3.5 w-3.5 text-[#2563EB]" />
+              <span className="text-xs font-semibold text-[#2563EB]">HD Quality • Gratis</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold mb-3 leading-tight">
               Download Video Facebook{" "}
-              <span className="text-[#F97316]">Gratis &amp; Cepat</span>
+              <span className="text-[#2563EB]">Gratis &amp; Cepat</span>
             </h1>
             <p className="text-sm sm:text-base text-[#A1A1AA] mb-8 max-w-2xl mx-auto">
               Simpan video Facebook berkualitas HD tanpa batas. Download dari Reels, Stories, Watch, dan post video — semua gratis!
@@ -155,7 +155,7 @@ export default function FacebookDownloaderPage() {
                 { title: "Facebook Watch", desc: "Video panjang dari Facebook Watch, termasuk konten dari kreator dan publisher. Semua video publik dari Watch bisa diunduh.", color: "#0B5FCC" },
                 { title: "Video Post Biasa", desc: "Video yang diunggah langsung di timeline atau halaman Facebook. Post video dari akun publik bisa didownload dengan mudah.", color: "#1A6DE3" },
               ].map((item, i) => (
-                <div key={i} className="p-4 rounded-xl bg-card border border-[#27272A] hover:border-[#F97316]/30 transition-all">
+                <div key={i} className="p-4 rounded-xl bg-card border border-[#27272A] hover:border-[#2563EB]/30 transition-all">
                   <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: item.color }}>
                     <CheckCircle className="h-5 w-5 text-white" />
                   </div>
@@ -181,9 +181,9 @@ export default function FacebookDownloaderPage() {
                 { icon: CheckCircle, title: "Kualitas HD", desc: "Download video Facebook dalam kualitas tertinggi yang tersedia. Pilih antara HD (720p) atau SD (360p)." },
                 { icon: Zap, title: "Gratis Selamanya", desc: "100% gratis tanpa biaya tersembunyi. Tidak ada batasan jumlah download per hari." },
               ].map((item, i) => (
-                <div key={i} className="p-4 rounded-xl bg-card border border-[#27272A] hover:border-[#F97316]/30 transition-all">
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#F97316]/10 mb-3">
-                    <item.icon className="h-5 w-5 text-[#F97316]" />
+                <div key={i} className="p-4 rounded-xl bg-card border border-[#27272A] hover:border-[#2563EB]/30 transition-all">
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#2563EB]/10 mb-3">
+                    <item.icon className="h-5 w-5 text-[#2563EB]" />
                   </div>
                   <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">{item.title}</h3>
                   <p className="text-xs text-[#A1A1AA] leading-relaxed">{item.desc}</p>
@@ -205,7 +205,7 @@ export default function FacebookDownloaderPage() {
                 { step: 3, title: "Pilih Kualitas dan Download", desc: "Setelah video ditemukan, pilih kualitas yang diinginkan (HD atau SD) lalu klik download. Video Facebook akan langsung tersimpan di perangkat kamu dalam format MP4." },
               ].map((item) => (
                 <div key={item.step} className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">
                     {item.step}
                   </div>
                   <div>
@@ -239,7 +239,7 @@ export default function FacebookDownloaderPage() {
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-xl sm:text-2xl font-bold mb-2">Siap Download Video Facebook HD?</h2>
             <p className="text-sm text-[#A1A1AA] mb-6">Simpan video Facebook favorit kamu dengan kualitas terbaik!</p>
-            <a href="/facebook-downloader" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[#F97316] text-white hover:bg-[#EA580C] transition-colors">
+            <a href="/facebook-downloader" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[#2563EB] text-white hover:bg-[#1D4ED8] transition-colors">
               Coba Mova Sekarang
               <ArrowRight className="h-4 w-4" />
             </a>
@@ -257,7 +257,7 @@ export default function FacebookDownloaderPage() {
                 { name: "Instagram", href: "/instagram-downloader" },
                 { name: "Twitter/X", href: "/twitter-downloader" },
               ].map((p) => (
-                <a key={p.name} href={p.href} className="px-4 py-2 rounded-lg border border-[#27272A] bg-[#111113] text-sm text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors">
+                <a key={p.name} href={p.href} className="px-4 py-2 rounded-lg border border-[#27272A] bg-[#111113] text-sm text-[#A1A1AA] hover:text-[#2563EB] hover:border-[#2563EB]/30 transition-colors">
                   {p.name} Downloader
                 </a>
               ))}
@@ -271,10 +271,10 @@ export default function FacebookDownloaderPage() {
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6 text-center">
           <p className="text-xs text-[#A1A1AA]">&copy; 2026 Mova. All rights reserved.</p>
           <div className="flex justify-center gap-4 mt-2">
-            <a href="/blog" className="text-xs text-[#A1A1AA] hover:text-[#F97316] transition-colors">Blog</a>
-            <a href="/about" className="text-xs text-[#A1A1AA] hover:text-[#F97316] transition-colors">Tentang</a>
-            <a href="/privacy" className="text-xs text-[#A1A1AA] hover:text-[#F97316] transition-colors">Privasi</a>
-            <a href="/terms" className="text-xs text-[#A1A1AA] hover:text-[#F97316] transition-colors">Ketentuan</a>
+            <a href="/blog" className="text-xs text-[#A1A1AA] hover:text-[#2563EB] transition-colors">Blog</a>
+            <a href="/about" className="text-xs text-[#A1A1AA] hover:text-[#2563EB] transition-colors">Tentang</a>
+            <a href="/privacy" className="text-xs text-[#A1A1AA] hover:text-[#2563EB] transition-colors">Privasi</a>
+            <a href="/terms" className="text-xs text-[#A1A1AA] hover:text-[#2563EB] transition-colors">Ketentuan</a>
           </div>
         </div>
       </footer>

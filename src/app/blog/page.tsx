@@ -105,7 +105,7 @@ const tagColors: Record<string, string> = {
   Instagram: "bg-gradient-to-r from-[#833AB4] to-[#FD1D1D] text-white",
   Facebook: "bg-[#1877F2] text-white",
   "Twitter/X": "bg-[#14171A] text-white",
-  Tips: "bg-[#F97316] text-white",
+  Tips: "bg-[#2563EB] text-white",
   Perbandingan: "bg-[#6D28D9] text-white",
   Keamanan: "bg-[#16A34A] text-white",
 };
@@ -137,12 +137,12 @@ export default function BlogPage() {
           {/* Title section */}
           <div className="text-center mb-12">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA] mb-6">
-              <BookOpen className="h-3 w-3 text-[#F97316]" />
+              <BookOpen className="h-3 w-3 text-[#2563EB]" />
               Blog
             </span>
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#FAFAFA] mb-4 mt-4">
               Tips &{" "}
-              <span className="text-[#F97316]">Tutorial</span> Download Video
+              <span className="text-[#2563EB]">Tutorial</span> Download Video
             </h1>
             <p className="text-[#A1A1AA] text-sm max-w-xl mx-auto leading-relaxed">
               Panduan lengkap cara download video dari berbagai platform sosial media. Artikel ditulis oleh tim Mova untuk membantu kamu mendapatkan konten dengan aman dan bertanggung jawab.
@@ -155,7 +155,7 @@ export default function BlogPage() {
               <a
                 key={i}
                 href={post.slug}
-                className="group flex flex-col sm:flex-row gap-4 sm:gap-6 p-5 rounded-xl border border-[#27272A] bg-[#111113] hover:border-[#F97316]/40 transition-all duration-200"
+                className="group flex flex-col sm:flex-row gap-4 sm:gap-6 p-5 rounded-xl border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/40 transition-all duration-200"
               >
                 {/* Left: Number + Tag */}
                 <div className="flex sm:flex-col items-start gap-3 sm:gap-2 sm:w-32 shrink-0">
@@ -176,14 +176,14 @@ export default function BlogPage() {
 
                 {/* Right: Title + Excerpt */}
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-sm sm:text-base font-bold text-[#FAFAFA] mb-1.5 group-hover:text-[#F97316] transition-colors line-clamp-2">
+                  <h2 className="text-sm sm:text-base font-bold text-[#FAFAFA] mb-1.5 group-hover:text-[#2563EB] transition-colors line-clamp-2">
                     {post.title}
                   </h2>
                   <p className="text-xs sm:text-sm text-[#A1A1AA] leading-relaxed line-clamp-2">
                     {post.excerpt}
                   </p>
                   <div className="flex items-center gap-2 mt-3">
-                    <div className="w-5 h-5 rounded-full bg-[#F97316] flex items-center justify-center">
+                    <div className="w-5 h-5 rounded-full bg-[#2563EB] flex items-center justify-center">
                       <User className="h-3 w-3 text-white" />
                     </div>
                     <span className="text-[10px] text-[#A1A1AA]/60">Tim Mova</span>
@@ -194,7 +194,7 @@ export default function BlogPage() {
 
                 {/* Arrow */}
                 <div className="hidden sm:flex items-center">
-                  <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                  <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
                 </div>
               </a>
             ))}
@@ -206,7 +206,7 @@ export default function BlogPage() {
             <p className="text-xs sm:text-sm text-[#A1A1AA] mb-4">Download video tanpa watermark dari platform favorit kamu sekarang!</p>
             <a
               href="/"
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[#F97316] text-white hover:bg-[#EA580C] transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[#2563EB] text-white hover:bg-[#1D4ED8] transition-colors"
             >
               Coba Mova Sekarang
               <ArrowRight className="h-4 w-4" />
@@ -217,7 +217,7 @@ export default function BlogPage() {
           <div className="mt-8 p-4 rounded-lg bg-[#0C0C0E] border border-[#27272A]/50">
             <p className="text-[10px] text-[#A1A1AA]/50 leading-relaxed text-center">
               Konten blog ini bersifat informatif dan edukatif. Mova tidak mendorong pelanggaran hak cipta. Pastikan kamu menggunakan konten yang diunduh secara bertanggung jawab dan sesuai dengan hukum yang berlaku.{" "}
-              <a href="/disclaimer" className="text-[#F97316]/60 hover:text-[#F97316] underline">Baca disclaimer</a>
+              <a href="/disclaimer" className="text-[#2563EB]/60 hover:text-[#2563EB] underline">Baca disclaimer</a>
             </p>
           </div>
 

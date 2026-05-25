@@ -69,12 +69,12 @@ export default function AboutPage() {
           {/* Title section */}
           <div className="text-center mb-16">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA] mb-6">
-              <Users className="h-3 w-3 text-[#F97316]" />
+              <Users className="h-3 w-3 text-[#2563EB]" />
               Tentang Kami
             </span>
             <h1 className="text-4xl sm:text-5xl font-light tracking-tight text-[#FAFAFA] mb-4 mt-4">
               Kenali{" "}
-              <span className="font-bold text-[#F97316]">Mova</span>
+              <span className="font-bold text-[#2563EB]">Mova</span>
             </h1>
             <p className="text-[#A1A1AA] text-sm max-w-xl mx-auto leading-relaxed">
               Layanan download video tanpa watermark yang gratis dan mudah digunakan oleh siapa saja.
@@ -85,7 +85,7 @@ export default function AboutPage() {
           <section className="mb-12">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                <Users className="h-5 w-5 text-[#F97316]" />
+                <Users className="h-5 w-5 text-[#2563EB]" />
               </div>
               <h2 className="text-lg font-bold text-[#FAFAFA]">Tentang Mova</h2>
             </div>
@@ -103,7 +103,7 @@ export default function AboutPage() {
           <section className="mb-12">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                <Target className="h-5 w-5 text-[#F97316]" />
+                <Target className="h-5 w-5 text-[#2563EB]" />
               </div>
               <h2 className="text-lg font-bold text-[#FAFAFA]">Misi Kami</h2>
             </div>
@@ -120,7 +120,7 @@ export default function AboutPage() {
                   "Melindungi privasi pengguna — tidak ada data yang disimpan",
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                    <span className="text-[#F97316] mt-1 shrink-0">&#10003;</span>
+                    <span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span>
                     {item}
                   </li>
                 ))}
@@ -132,7 +132,7 @@ export default function AboutPage() {
           <section className="mb-12">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                <Cpu className="h-5 w-5 text-[#F97316]" />
+                <Cpu className="h-5 w-5 text-[#2563EB]" />
               </div>
               <h2 className="text-lg font-bold text-[#FAFAFA]">Teknologi</h2>
             </div>
@@ -150,7 +150,7 @@ export default function AboutPage() {
           <section className="mb-12">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                <Scale className="h-5 w-5 text-[#F97316]" />
+                <Scale className="h-5 w-5 text-[#2563EB]" />
               </div>
               <h2 className="text-lg font-bold text-[#FAFAFA]">Komitmen terhadap Penggunaan Wajar</h2>
             </div>
@@ -168,7 +168,7 @@ export default function AboutPage() {
           <section className="mb-12">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                <ShieldCheck className="h-5 w-5 text-[#F97316]" />
+                <ShieldCheck className="h-5 w-5 text-[#2563EB]" />
               </div>
               <h2 className="text-lg font-bold text-[#FAFAFA]">Transparansi & Keamanan</h2>
             </div>
@@ -186,7 +186,7 @@ export default function AboutPage() {
           <section className="mb-12">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                <Users className="h-5 w-5 text-[#F97316]" />
+                <Users className="h-5 w-5 text-[#2563EB]" />
               </div>
               <h2 className="text-lg font-bold text-[#FAFAFA]">Tim Kami</h2>
             </div>
@@ -201,7 +201,7 @@ export default function AboutPage() {
           <section className="mb-12">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                <Mail className="h-5 w-5 text-[#F97316]" />
+                <Mail className="h-5 w-5 text-[#2563EB]" />
               </div>
               <h2 className="text-lg font-bold text-[#FAFAFA]">Kontak</h2>
             </div>
@@ -212,19 +212,19 @@ export default function AboutPage() {
               <ul className="space-y-2">
                 <li className="text-sm text-[#A1A1AA]">
                   <span className="text-[#FAFAFA] font-medium">Email:</span>{" "}
-                  <a href="mailto:support@getmova.my.id" className="text-[#F97316] hover:underline">
+                  <a href="mailto:support@getmova.my.id" className="text-[#2563EB] hover:underline">
                     support@getmova.my.id
                   </a>
                 </li>
                 <li className="text-sm text-[#A1A1AA]">
                   <span className="text-[#FAFAFA] font-medium">TikTok:</span>{" "}
-                  <a href="https://tiktok.com/@abbbuw" target="_blank" rel="noopener noreferrer" className="text-[#F97316] hover:underline">
+                  <a href="https://tiktok.com/@abbbuw" target="_blank" rel="noopener noreferrer" className="text-[#2563EB] hover:underline">
                     @abbbuw
                   </a>
                 </li>
                 <li className="text-sm text-[#A1A1AA]">
                   <span className="text-[#FAFAFA] font-medium">Telegram:</span>{" "}
-                  <a href="https://t.me/sixte3nnn" target="_blank" rel="noopener noreferrer" className="text-[#F97316] hover:underline">
+                  <a href="https://t.me/sixte3nnn" target="_blank" rel="noopener noreferrer" className="text-[#2563EB] hover:underline">
                     @sixte3nnn
                   </a>
                 </li>
@@ -236,17 +236,17 @@ export default function AboutPage() {
           <div className="mt-16 pt-8 border-t border-[#27272A]">
             <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4">Halaman Terkait</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <a href="/privacy" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/privacy" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Kebijakan Privasi</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
-              <a href="/terms" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/terms" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Syarat & Ketentuan</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
-              <a href="/disclaimer" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/disclaimer" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Disclaimer</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
             </div>
           </div>

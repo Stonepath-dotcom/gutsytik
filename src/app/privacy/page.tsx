@@ -107,12 +107,12 @@ export default function PrivacyPage() {
           {/* Title section */}
           <div className="text-center mb-16">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA] mb-6">
-              <Shield className="h-3 w-3 text-[#F97316]" />
+              <Shield className="h-3 w-3 text-[#2563EB]" />
               Legal
             </span>
             <h1 className="text-4xl sm:text-5xl font-light tracking-tight text-[#FAFAFA] mb-4 mt-4">
               Kebijakan Privasi &{" "}
-              <span className="font-bold text-[#F97316]">Syarat Ketentuan</span>
+              <span className="font-bold text-[#2563EB]">Syarat Ketentuan</span>
             </h1>
             <p className="text-[#A1A1AA] text-sm max-w-xl mx-auto leading-relaxed">
               Privasi Anda penting bagi kami. Mova dirancang sebagai alat yang mengutamakan privasi dan tidak mengumpulkan data pribadi Anda.
@@ -123,7 +123,7 @@ export default function PrivacyPage() {
           </div>
 
           {/* Important notice */}
-          <div className="mb-12 p-6 rounded-xl bg-[#111113] border-l-4 border-[#F97316]">
+          <div className="mb-12 p-6 rounded-xl bg-[#111113] border-l-4 border-[#2563EB]">
             <p className="text-sm text-[#FAFAFA] font-medium">
               Mova adalah alat gratis. Kami tidak menyimpan video yang diunduh. Semua proses unduhan dilakukan langsung dari platform sumber.
             </p>
@@ -135,7 +135,7 @@ export default function PrivacyPage() {
               <section key={index} className="scroll-mt-20">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                    <section.icon className="h-5 w-5 text-[#F97316]" />
+                    <section.icon className="h-5 w-5 text-[#2563EB]" />
                   </div>
                   <h2 className="text-lg font-bold text-[#FAFAFA]">{section.title}</h2>
                 </div>
@@ -154,17 +154,17 @@ export default function PrivacyPage() {
           <div className="mt-16 pt-8 border-t border-[#27272A]">
             <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4">Halaman Terkait</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <a href="/terms" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/terms" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Syarat & Ketentuan</span>
-                <span className="text-[#A1A1AA] group-hover:text-[#F97316] transition-colors">&rarr;</span>
+                <span className="text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors">&rarr;</span>
               </a>
-              <a href="/about" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/about" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Tentang Kami</span>
-                <span className="text-[#A1A1AA] group-hover:text-[#F97316] transition-colors">&rarr;</span>
+                <span className="text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors">&rarr;</span>
               </a>
-              <a href="/disclaimer" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/disclaimer" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Disclaimer</span>
-                <span className="text-[#A1A1AA] group-hover:text-[#F97316] transition-colors">&rarr;</span>
+                <span className="text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors">&rarr;</span>
               </a>
             </div>
           </div>

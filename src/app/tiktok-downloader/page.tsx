@@ -121,7 +121,7 @@ export default function TikTokDownloaderPage() {
         {/* Breadcrumb */}
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-6">
           <nav className="flex items-center gap-2 text-xs text-[#A1A1AA]" aria-label="Breadcrumb">
-            <a href="/" className="hover:text-[#F97316] transition-colors">Home</a>
+            <a href="/" className="hover:text-[#2563EB] transition-colors">Home</a>
             <ChevronRight className="h-3 w-3" />
             <span className="text-[#FAFAFA]">TikTok Downloader</span>
           </nav>
@@ -130,13 +130,13 @@ export default function TikTokDownloaderPage() {
         {/* Hero */}
         <section className="py-12 px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F97316]/10 border border-[#F97316]/20 mb-4">
-              <Zap className="h-3.5 w-3.5 text-[#F97316]" />
-              <span className="text-xs font-semibold text-[#F97316]">Gratis & Tanpa Batas</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563EB]/10 border border-[#2563EB]/20 mb-4">
+              <Zap className="h-3.5 w-3.5 text-[#2563EB]" />
+              <span className="text-xs font-semibold text-[#2563EB]">Gratis & Tanpa Batas</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold mb-3 leading-tight">
               Download Video TikTok{" "}
-              <span className="text-[#F97316]">Tanpa Watermark</span>
+              <span className="text-[#2563EB]">Tanpa Watermark</span>
             </h1>
             <p className="text-sm sm:text-base text-[#A1A1AA] mb-8 max-w-2xl mx-auto">
               Simpan video TikTok berkualitas HD tanpa logo watermark. Cepat, gratis, dan mudah — cukup tempel link dan download!
@@ -159,9 +159,9 @@ export default function TikTokDownloaderPage() {
                 { icon: CheckCircle, title: "Gratis Selamanya", desc: "100% gratis tanpa biaya tersembunyi. Download sepuasnya tanpa batas jumlah." },
                 { icon: Zap, title: "Audio MP3", desc: "Ekstrak audio dari video TikTok jadi file MP3. Simpan lagu atau sound favorit kamu." },
               ].map((item, i) => (
-                <div key={i} className="p-4 rounded-xl bg-card border border-[#27272A] hover:border-[#F97316]/30 transition-all">
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#F97316]/10 mb-3">
-                    <item.icon className="h-5 w-5 text-[#F97316]" />
+                <div key={i} className="p-4 rounded-xl bg-card border border-[#27272A] hover:border-[#2563EB]/30 transition-all">
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#2563EB]/10 mb-3">
+                    <item.icon className="h-5 w-5 text-[#2563EB]" />
                   </div>
                   <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">{item.title}</h3>
                   <p className="text-xs text-[#A1A1AA] leading-relaxed">{item.desc}</p>
@@ -184,7 +184,7 @@ export default function TikTokDownloaderPage() {
                 { step: 4, title: "Pilih Kualitas dan Simpan", desc: "Pilih kualitas video yang kamu inginkan (360p, 480p, 720p, atau 1080p HD), lalu klik download. Video tanpa watermark akan langsung tersimpan di perangkat kamu." },
               ].map((item) => (
                 <div key={item.step} className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">
                     {item.step}
                   </div>
                   <div>
@@ -214,13 +214,13 @@ export default function TikTokDownloaderPage() {
                 </thead>
                 <tbody className="text-[#A1A1AA]">
                   <tr className="border-b border-[#27272A]/50">
-                    <td className="py-2.5 px-3 font-medium text-[#F97316]">HD</td>
+                    <td className="py-2.5 px-3 font-medium text-[#2563EB]">HD</td>
                     <td className="py-2.5 px-3">1080p</td>
                     <td className="py-2.5 px-3">~15-30 MB</td>
                     <td className="py-2.5 px-3">Koleksi pribadi, edit video</td>
                   </tr>
                   <tr className="border-b border-[#27272A]/50">
-                    <td className="py-2.5 px-3 font-medium text-[#F97316]">SD</td>
+                    <td className="py-2.5 px-3 font-medium text-[#2563EB]">SD</td>
                     <td className="py-2.5 px-3">720p</td>
                     <td className="py-2.5 px-3">~8-15 MB</td>
                     <td className="py-2.5 px-3">Penggunaan umum, sharing</td>
@@ -264,7 +264,7 @@ export default function TikTokDownloaderPage() {
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-xl sm:text-2xl font-bold mb-2">Siap Download Video TikTok Tanpa Watermark?</h2>
             <p className="text-sm text-[#A1A1AA] mb-6">Coba Mova sekarang dan rasakan kemudahan download video TikTok tanpa watermark!</p>
-            <a href="/tiktok-downloader" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[#F97316] text-white hover:bg-[#EA580C] transition-colors">
+            <a href="/tiktok-downloader" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[#2563EB] text-white hover:bg-[#1D4ED8] transition-colors">
               Coba Mova Sekarang
               <ArrowRight className="h-4 w-4" />
             </a>
@@ -282,7 +282,7 @@ export default function TikTokDownloaderPage() {
                 { name: "Facebook", href: "/facebook-downloader" },
                 { name: "Twitter/X", href: "/twitter-downloader" },
               ].map((p) => (
-                <a key={p.name} href={p.href} className="px-4 py-2 rounded-lg border border-[#27272A] bg-[#111113] text-sm text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors">
+                <a key={p.name} href={p.href} className="px-4 py-2 rounded-lg border border-[#27272A] bg-[#111113] text-sm text-[#A1A1AA] hover:text-[#2563EB] hover:border-[#2563EB]/30 transition-colors">
                   {p.name} Downloader
                 </a>
               ))}
@@ -296,10 +296,10 @@ export default function TikTokDownloaderPage() {
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6 text-center">
           <p className="text-xs text-[#A1A1AA]">&copy; 2026 Mova. All rights reserved.</p>
           <div className="flex justify-center gap-4 mt-2">
-            <a href="/blog" className="text-xs text-[#A1A1AA] hover:text-[#F97316] transition-colors">Blog</a>
-            <a href="/about" className="text-xs text-[#A1A1AA] hover:text-[#F97316] transition-colors">Tentang</a>
-            <a href="/privacy" className="text-xs text-[#A1A1AA] hover:text-[#F97316] transition-colors">Privasi</a>
-            <a href="/terms" className="text-xs text-[#A1A1AA] hover:text-[#F97316] transition-colors">Ketentuan</a>
+            <a href="/blog" className="text-xs text-[#A1A1AA] hover:text-[#2563EB] transition-colors">Blog</a>
+            <a href="/about" className="text-xs text-[#A1A1AA] hover:text-[#2563EB] transition-colors">Tentang</a>
+            <a href="/privacy" className="text-xs text-[#A1A1AA] hover:text-[#2563EB] transition-colors">Privasi</a>
+            <a href="/terms" className="text-xs text-[#A1A1AA] hover:text-[#2563EB] transition-colors">Ketentuan</a>
           </div>
         </div>
       </footer>

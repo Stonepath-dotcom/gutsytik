@@ -139,7 +139,7 @@ export default function DownloadTiktokPage() {
 
               <div className="space-y-4">
                 <div className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">1</div>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">1</div>
                   <div>
                     <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">Buka Aplikasi TikTok dan Salin Link Video</h3>
                     <p className="text-xs text-[#A1A1AA] leading-relaxed">Buka aplikasi TikTok, temukan video yang ingin kamu download, lalu ketuk tombol &quot;Bagikan&quot; (Share) dan pilih &quot;Salin Tautan&quot; (Copy Link). Link video akan tersalin ke clipboard kamu.</p>
@@ -147,7 +147,7 @@ export default function DownloadTiktokPage() {
                 </div>
 
                 <div className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">2</div>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">2</div>
                   <div>
                     <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">Buka Mova dan Tempel Link</h3>
                     <p className="text-xs text-[#A1A1AA] leading-relaxed">Buka website Mova di getmova.my.id, tempel link TikTok yang sudah kamu salin ke kolom input yang tersedia. Kamu juga bisa menggunakan tombol &quot;Tempel&quot; untuk langsung menempelkan link dari clipboard.</p>
@@ -155,7 +155,7 @@ export default function DownloadTiktokPage() {
                 </div>
 
                 <div className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">3</div>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">3</div>
                   <div>
                     <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">Klik Download dan Pilih Kualitas</h3>
                     <p className="text-xs text-[#A1A1AA] leading-relaxed">Klik tombol &quot;Download&quot; dan Mova akan memproses video. Setelah selesai, kamu akan melihat informasi video dan beberapa pilihan kualitas. Pilih kualitas yang kamu inginkan — kami merekomendasikan kualitas tertinggi untuk hasil terbaik.</p>
@@ -163,7 +163,7 @@ export default function DownloadTiktokPage() {
                 </div>
 
                 <div className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">4</div>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">4</div>
                   <div>
                     <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">Video Siap Disimpan</h3>
                     <p className="text-xs text-[#A1A1AA] leading-relaxed">Klik tombol download pada kualitas yang dipilih, dan video tanpa watermark akan otomatis tersimpan di perangkat kamu. Prosesnya sangat cepat dan tidak memerlukan registrasi!</p>
@@ -184,7 +184,7 @@ export default function DownloadTiktokPage() {
                   <thead>
                     <tr className="border-b border-[#27272A]">
                       <th className="text-left py-3 px-3 text-[#FAFAFA] font-semibold">Fitur</th>
-                      <th className="text-left py-3 px-3 text-[#F97316] font-semibold">Mova</th>
+                      <th className="text-left py-3 px-3 text-[#2563EB] font-semibold">Mova</th>
                       <th className="text-left py-3 px-3 text-[#A1A1AA] font-semibold">SnapTik</th>
                       <th className="text-left py-3 px-3 text-[#A1A1AA] font-semibold">SSSTikTok</th>
                     </tr>
@@ -192,37 +192,37 @@ export default function DownloadTiktokPage() {
                   <tbody className="text-[#A1A1AA]">
                     <tr className="border-b border-[#27272A]/50">
                       <td className="py-2.5 px-3">Gratis</td>
-                      <td className="py-2.5 px-3 text-[#F97316]">&#10003;</td>
+                      <td className="py-2.5 px-3 text-[#2563EB]">&#10003;</td>
                       <td className="py-2.5 px-3">&#10003;</td>
                       <td className="py-2.5 px-3">&#10003;</td>
                     </tr>
                     <tr className="border-b border-[#27272A]/50">
                       <td className="py-2.5 px-3">Tanpa Watermark</td>
-                      <td className="py-2.5 px-3 text-[#F97316]">&#10003;</td>
+                      <td className="py-2.5 px-3 text-[#2563EB]">&#10003;</td>
                       <td className="py-2.5 px-3">&#10003;</td>
                       <td className="py-2.5 px-3">&#10003;</td>
                     </tr>
                     <tr className="border-b border-[#27272A]/50">
                       <td className="py-2.5 px-3">Multi-Platform</td>
-                      <td className="py-2.5 px-3 text-[#F97316]">&#10003;</td>
+                      <td className="py-2.5 px-3 text-[#2563EB]">&#10003;</td>
                       <td className="py-2.5 px-3">&#10007;</td>
                       <td className="py-2.5 px-3">&#10007;</td>
                     </tr>
                     <tr className="border-b border-[#27272A]/50">
                       <td className="py-2.5 px-3">Ekstrak Audio MP3</td>
-                      <td className="py-2.5 px-3 text-[#F97316]">&#10003;</td>
+                      <td className="py-2.5 px-3 text-[#2563EB]">&#10003;</td>
                       <td className="py-2.5 px-3">&#10007;</td>
                       <td className="py-2.5 px-3">&#10007;</td>
                     </tr>
                     <tr className="border-b border-[#27272A]/50">
                       <td className="py-2.5 px-3">Privasi Terjaga</td>
-                      <td className="py-2.5 px-3 text-[#F97316]">&#10003;</td>
+                      <td className="py-2.5 px-3 text-[#2563EB]">&#10003;</td>
                       <td className="py-2.5 px-3">&#10007;</td>
                       <td className="py-2.5 px-3">&#10007;</td>
                     </tr>
                     <tr>
                       <td className="py-2.5 px-3">Tanpa Iklan Mengganggu</td>
-                      <td className="py-2.5 px-3 text-[#F97316]">&#10003;</td>
+                      <td className="py-2.5 px-3 text-[#2563EB]">&#10003;</td>
                       <td className="py-2.5 px-3">&#10007;</td>
                       <td className="py-2.5 px-3">&#10007;</td>
                     </tr>
@@ -243,19 +243,19 @@ export default function DownloadTiktokPage() {
               </p>
               <ul className="space-y-2 mt-3">
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#10003;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span>
                   <span><strong className="text-[#FAFAFA]">Pilih kualitas tertinggi yang tersedia</strong> — Mova biasanya menampilkan beberapa opsi kualitas. Pilih yang paling tinggi untuk hasil terbaik.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#10003;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span>
                   <span><strong className="text-[#FAFAFA]">Perhatikan resolusi video</strong> — Video TikTok biasanya dalam resolusi 720p atau 1080p. Resolusi yang lebih tinggi menghasilkan gambar yang lebih tajam.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#10003;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span>
                   <span><strong className="text-[#FAFAFA]">Gunakan koneksi internet yang stabil</strong> — Koneksi yang stabil memastikan proses download berjalan lancar tanpa terputus.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#10003;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span>
                   <span><strong className="text-[#FAFAFA]">Cek ukuran file</strong> — Kualitas yang lebih tinggi biasanya menghasilkan file yang lebih besar. Pertimbangkan kebutuhan ruang penyimpanan perangkat kamu.</span>
                 </li>
               </ul>
@@ -269,19 +269,19 @@ export default function DownloadTiktokPage() {
               </p>
               <ul className="space-y-2 mt-3">
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Hak Cipta:</strong> Video yang diunggah di TikTok merupakan karya berhak cipta dari kreatornya. Mengunduh untuk keperluan pribadi umumnya diperbolehkan, tetapi mendistribusikan ulang tanpa izin bisa melanggar hak cipta.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Penggunaan Wajar (Fair Use):</strong> Menggunakan sebagian kecil konten untuk tujuan komentar, kritik, berita, atau pendidikan bisa termasuk dalam kategori penggunaan wajar.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Ketentuan TikTok:</strong> Download video dari TikTok untuk keperluan pribadi umumnya tidak melanggar ketentuan layanan TikTok. Namun, mendistribusikan ulang konten kreator lain tanpa izin bisa melanggar ketentuan tersebut.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Atribusi:</strong> Jika kamu ingin menggunakan video orang lain, selalu berikan kredit kepada kreator aslinya sebagai bentuk penghormatan terhadap karya mereka.</span>
                 </li>
               </ul>
@@ -298,12 +298,12 @@ export default function DownloadTiktokPage() {
               </p>
 
               {/* CTA */}
-              <div className="mt-8 p-6 rounded-xl bg-[#111113] border border-[#F97316]/30 text-center">
+              <div className="mt-8 p-6 rounded-xl bg-[#111113] border border-[#2563EB]/30 text-center">
                 <h3 className="text-base font-bold text-[#FAFAFA] mb-2">Coba Download TikTok Tanpa Watermark Sekarang!</h3>
                 <p className="text-xs text-[#A1A1AA] mb-4">Gratis, cepat, dan tanpa watermark.</p>
                 <a
                   href="/"
-                  className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#F97316] text-white hover:bg-[#EA580C] transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#2563EB] text-white hover:bg-[#1D4ED8] transition-colors"
                 >
                   Coba Mova Sekarang
                   <ArrowRight className="h-4 w-4" />
@@ -316,20 +316,20 @@ export default function DownloadTiktokPage() {
           <div className="mt-16 pt-8 border-t border-[#27272A]">
             <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4">Artikel Terkait</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <a href="/blog/download-youtube-mp3" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/blog/download-youtube-mp3" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Download YouTube ke MP3</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
-              <a href="/blog/download-instagram-reels" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/blog/download-instagram-reels" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Download Instagram Reels</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
             </div>
           </div>
 
           {/* Back to blog */}
           <div className="mt-8 text-center">
-            <a href="/blog" className="inline-flex items-center gap-2 text-sm text-[#F97316] hover:underline">
+            <a href="/blog" className="inline-flex items-center gap-2 text-sm text-[#2563EB] hover:underline">
               <ArrowLeft className="h-4 w-4" />
               Kembali ke Blog
             </a>
