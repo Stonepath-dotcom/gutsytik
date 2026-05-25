@@ -36,8 +36,19 @@ export const metadata: Metadata = {
     "tanpa watermark",
     "gratis",
     "download video",
+    "tiktok tanpa watermark",
+    "download tiktok",
+    "download instagram reels",
+    "download youtube mp3",
+    "download video facebook",
+    "download twitter video",
+    "video downloader online",
+    "unduh video",
   ],
   authors: [{ name: "Mova" }],
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || "",
+  },
   icons: {
     icon: [
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
@@ -89,8 +100,11 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="canonical" href="https://getmova.my.id" />
+        <link rel="sitemap" type="application/xml" href="https://getmova.my.id/sitemap.xml" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
