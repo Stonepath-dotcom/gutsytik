@@ -171,12 +171,8 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
 /* ─── Prevent horizontal overflow ─── */
-html, body { overflow-x: hidden; max-width: 100vw; width: 100%; }
-main { max-width: 100vw; }
+body { overflow-x: hidden; width: 100%; }
 img, video, svg, iframe { max-width: 100%; height: auto; }
-
-/* ─── Prevent overscroll bounce on iOS ─── */
-body { overscroll-behavior-y: contain; touch-action: pan-y; }
 
 /* ─── iOS text zoom prevention ─── */
 @media screen and (max-width: 768px) {
