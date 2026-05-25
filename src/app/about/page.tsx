@@ -1,4 +1,4 @@
-import { Home, Users, Target, Cpu, Mail, ArrowRight } from "lucide-react";
+import { Home, Users, Target, Cpu, Mail, ArrowRight, Scale, ShieldCheck } from "lucide-react";
 import { MovaLogo } from "@/components/mova-logo";
 import type { Metadata } from "next";
 
@@ -146,6 +146,42 @@ export default function AboutPage() {
             </div>
           </section>
 
+          {/* Fair Use Section */}
+          <section className="mb-12">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
+                <Scale className="h-5 w-5 text-[#F97316]" />
+              </div>
+              <h2 className="text-lg font-bold text-[#FAFAFA]">Komitmen terhadap Penggunaan Wajar</h2>
+            </div>
+            <div className="ml-14 space-y-3">
+              <p className="text-sm text-[#A1A1AA] leading-relaxed">
+                Mova berkomitmen untuk mendukung prinsip penggunaan wajar (fair use) dan menghormati hak kekayaan intelektual setiap kreator konten. Layanan kami dirancang untuk membantu pengguna mengakses konten yang sudah tersedia secara publik untuk keperluan yang sah.
+              </p>
+              <p className="text-sm text-[#A1A1AA] leading-relaxed">
+                Kami mendorong semua pengguna untuk menggunakan konten yang diunduh secara bertanggung jawab: memberikan atribusi kepada kreator asli, tidak mendistribusikan ulang konten tanpa izin, dan mematuhi ketentuan layanan dari platform sumber. Mova tidak menyimpan, meng-host, atau mendistribusikan konten berhak cipta apapun.
+              </p>
+            </div>
+          </section>
+
+          {/* Transparency Section */}
+          <section className="mb-12">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
+                <ShieldCheck className="h-5 w-5 text-[#F97316]" />
+              </div>
+              <h2 className="text-lg font-bold text-[#FAFAFA]">Transparansi & Keamanan</h2>
+            </div>
+            <div className="ml-14 space-y-3">
+              <p className="text-sm text-[#A1A1AA] leading-relaxed">
+                Transparansi adalah salah satu nilai utama kami. Mova tidak menyimpan data pribadi pengguna, tidak menggunakan cookie pelacakan, dan tidak menjual informasi ke pihak ketiga. Semua proses unduhan dilakukan langsung dari platform sumber tanpa melalui server kami.
+              </p>
+              <p className="text-sm text-[#A1A1AA] leading-relaxed">
+                Jika Anda memiliki kekhawatiran tentang hak cipta atau ingin melaporkan pelanggaran, kami memiliki prosedur DMCA yang jelas. Silakan hubungi kami melalui email dan kami akan merespons dengan segera.
+              </p>
+            </div>
+          </section>
+
           {/* Team Section */}
           <section className="mb-12">
             <div className="flex items-center gap-4 mb-4">
@@ -157,9 +193,6 @@ export default function AboutPage() {
             <div className="ml-14 space-y-3">
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Mova dikembangkan oleh tim kecil dari Indonesia yang passionate tentang membuat alat-alat digital yang gratis dan bermanfaat untuk semua orang. Kami percaya bahwa teknologi harus dapat diakses oleh siapa saja, tanpa harus membayar atau menyerahkan data pribadi.
-              </p>
-              <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                Meskipun kami adalah tim kecil, kami berkomitmen untuk terus mengembangkan Mova dan menambahkan fitur-fitur baru yang berguna bagi pengguna kami.
               </p>
             </div>
           </section>
@@ -211,8 +244,8 @@ export default function AboutPage() {
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Syarat & Ketentuan</span>
                 <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
               </a>
-              <a href="/contact" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
-                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Hubungi Kami</span>
+              <a href="/disclaimer" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Disclaimer</span>
                 <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
               </a>
             </div>

@@ -1054,11 +1054,17 @@ function Footer() {
             <ul className="space-y-2">
               <li><a href="/privacy" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Kebijakan Privasi</a></li>
               <li><a href="/terms" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Syarat & Ketentuan</a></li>
+              <li><a href="/disclaimer" className="text-[11px] text-muted-foreground hover:text-foreground transition-colors">Disclaimer</a></li>
             </ul>
           </div>
         </div>
-        <div className="mt-6 pt-4 border-t border-border/50 text-center">
-          <p className="text-[10px] text-muted-foreground/50">&copy; 2026 Mova. All rights reserved.</p>
+        {/* Copyright + Disclaimer notice */}
+        <div className="mt-6 pt-4 border-t border-border/50">
+          <p className="text-[10px] text-muted-foreground/50 text-center">&copy; 2026 Mova. All rights reserved.</p>
+          <p className="text-[9px] text-muted-foreground/30 text-center mt-1">
+            Mova tidak menyimpan konten berhak cipta. Pengguna bertanggung jawab atas penggunaan konten yang diunduh.
+            <a href="/disclaimer" className="hover:text-muted-foreground/50 underline ml-1">Selengkapnya</a>
+          </p>
         </div>
       </div>
     </footer>

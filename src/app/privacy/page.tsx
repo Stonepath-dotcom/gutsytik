@@ -1,77 +1,76 @@
 "use client";
 
-import { Home, Shield, Lock, Eye, Globe, FileText, AlertTriangle, Mail } from "lucide-react";
+import { Home, Shield, Lock, Eye, Globe, FileText, AlertTriangle, Mail, Scale, Server, UserX } from "lucide-react";
 import { MovaLogo } from "@/components/mova-logo";
 
 const sections = [
   {
     icon: Eye,
-    title: "Data Collection",
+    title: "Pengumpulan Data",
     content: [
-      "Mova does not collect, store, or process any personal data from our users. We do not require user registration, login, or any form of personal identification.",
-      "When you use our service, we temporarily process the video URL you provide solely for the purpose of fetching the video information. This URL is not stored on our servers after the download is complete.",
-      "We do not store any downloaded videos on our servers. All downloads are processed directly from the source platform.",
+      "Mova tidak mengumpulkan, menyimpan, atau memproses data pribadi dari pengguna kami. Kami tidak mewajibkan registrasi, login, atau bentuk identifikasi pribadi apapun.",
+      "Saat Anda menggunakan layanan kami, kami hanya memproses URL video yang Anda berikan untuk tujuan mengambil informasi video. URL ini tidak disimpan di server kami setelah proses unduhan selesai.",
+      "Kami tidak menyimpan video yang diunduh di server kami. Semua proses unduhan dilakukan langsung dari platform sumber.",
     ],
   },
   {
     icon: Globe,
-    title: "How We Use Data",
+    title: "Penggunaan Data",
     content: [
-      "Since we do not collect personal data, there is no data usage to describe. Your browsing and downloading activity on Mova remains private and is not tracked, analyzed, or sold to third parties.",
-      "Download statistics stored locally in your browser (via localStorage) are used solely to provide you with a personalized experience, such as showing your download history and streak count. This data never leaves your device.",
+      "Karena kami tidak mengumpulkan data pribadi, tidak ada penggunaan data yang perlu dijelaskan. Aktivitas browsing dan unduhan Anda di Mova tetap privat dan tidak dilacak, dianalisis, atau dijual kepada pihak ketiga.",
+      "Statistik unduhan yang disimpan secara lokal di browser Anda (melalui localStorage) hanya digunakan untuk memberikan pengalaman yang dipersonalisasi, seperti menampilkan riwayat unduhan dan jumlah streak. Data ini tidak pernah meninggalkan perangkat Anda.",
     ],
   },
   {
-    icon: Shield,
-    title: "Third-Party Services",
+    icon: Server,
+    title: "Layanan Pihak Ketiga",
     content: [
-      "Mova may use third-party APIs to fetch video information from supported platforms (TikTok, Instagram, YouTube, etc.). These services have their own privacy policies governing the data they collect.",
-      "We use Invidious API for YouTube-related features. Invidious is a privacy-focused front-end for YouTube that does not track users.",
-      "Our website is hosted on Vercel, which may collect standard web analytics data as described in Vercel's privacy policy.",
+      "Mova dapat menggunakan API pihak ketiga untuk mengambil informasi video dari platform yang didukung (TikTok, Instagram, YouTube, dll.). Layanan ini memiliki kebijakan privasi sendiri yang mengatur data yang mereka kumpulkan.",
+      "Kami menggunakan API Invidious untuk fitur terkait YouTube. Invidious adalah front-end berbasis privasi untuk YouTube yang tidak melacak pengguna.",
+      "Website kami di-hosting di Vercel, yang mungkin mengumpulkan data analitik web standar seperti yang dijelaskan dalam kebijakan privasi Vercel.",
     ],
   },
   {
     icon: Lock,
-    title: "Cookies & Local Storage",
+    title: "Cookie & Penyimpanan Lokal",
     content: [
-      "Mova uses browser localStorage to save your preferences, including: language preference, download history, bookmarked videos, download statistics, and sound settings.",
-      "We do not use tracking cookies. All data stored locally in your browser can be cleared at any time through your browser settings or by using the 'Clear All' feature within the app.",
+      "Mova menggunakan penyimpanan lokal browser (localStorage) untuk menyimpan preferensi Anda, termasuk: preferensi bahasa, riwayat unduhan, video yang disimpan (bookmark), statistik unduhan, dan pengaturan suara.",
+      "Kami tidak menggunakan cookie pelacakan. Semua data yang disimpan secara lokal di browser Anda dapat dihapus kapan saja melalui pengaturan browser atau dengan menggunakan fitur 'Hapus Semua' di dalam aplikasi.",
+    ],
+  },
+  {
+    icon: UserX,
+    title: "Hak Pengguna",
+    content: [
+      "Anda memiliki kendali penuh atas data Anda. Karena semua data disimpan secara lokal di browser Anda, Anda dapat:",
+      "Melihat data Anda kapan saja melalui antarmuka aplikasi (riwayat, bookmark, statistik).",
+      "Menghapus data Anda dengan membersihkan localStorage browser atau menggunakan fitur 'Hapus Semua' di dalam aplikasi.",
     ],
   },
   {
     icon: FileText,
-    title: "User Rights",
+    title: "DMCA & Hak Cipta",
     content: [
-      "You have complete control over your data. Since all data is stored locally in your browser, you can:",
-      "View your data at any time through the app's interface (history, bookmarks, statistics).",
-      "Delete your data by clearing your browser's localStorage or using the in-app 'Clear All' features.",
-      "Export your download history in CSV or JSON format for your records.",
+      "Mova adalah alat bantu yang memfasilitasi pengunduhan konten yang tersedia secara publik. Kami tidak menyimpan, mendistribusikan, atau menjadi tuan rumah atas materi berhak cipta apapun.",
+      "Pengguna bertanggung jawab sepenuhnya untuk memastikan bahwa mereka memiliki hak untuk mengunduh dan menggunakan konten apapun yang diakses melalui layanan kami.",
+      "Jika Anda meyakini bahwa konten berhak cipta Anda diakses secara melanggar hak Anda, silakan hubungi kami di support@getmova.my.id dengan menyertakan URL yang bersangkutan dan bukti kepemilikan.",
     ],
   },
   {
-    icon: AlertTriangle,
-    title: "DMCA & Copyright",
-    content: [
-      "Mova is a tool that facilitates downloading publicly available content. We do not host, store, or distribute any copyrighted material.",
-      "Users are solely responsible for ensuring they have the right to download and use any content accessed through our service.",
-      "If you believe your copyrighted content is being accessed in violation of your rights, please contact us at support@getmova.my.id with the URL in question and proof of ownership.",
-    ],
-  },
-  {
-    icon: Shield,
+    icon: Scale,
     title: "Disclaimer",
     content: [
-      "Mova is a free tool provided 'as is' without any warranties, express or implied. We do not guarantee the availability, accuracy, or reliability of the service.",
-      "We are not responsible for any misuse of downloaded content. Users must comply with the terms of service of the original platforms and applicable copyright laws.",
-      "Mova does not store any downloaded videos. All downloads are processed directly from the source platform.",
-      "We reserve the right to modify or discontinue the service at any time without prior notice.",
+      "Mova adalah alat gratis yang disediakan 'sebagaimana adanya' tanpa jaminan apapun, baik tersurat maupun tersirat. Kami tidak menjamin ketersediaan, akurasi, atau keandalan layanan ini.",
+      "Kami tidak bertanggung jawab atas penyalahgunaan konten yang diunduh. Pengguna harus mematuhi ketentuan layanan dari platform asli dan hukum hak cipta yang berlaku.",
+      "Mova tidak menyimpan video yang diunduh. Semua proses unduhan dilakukan langsung dari platform sumber.",
+      "Kami berhak memodifikasi atau menghentikan layanan ini kapan saja tanpa pemberitahuan sebelumnya.",
     ],
   },
   {
     icon: Mail,
-    title: "Contact Us",
+    title: "Hubungi Kami",
     content: [
-      "If you have any questions about this Privacy Policy or Terms of Service, please contact us at:",
+      "Jika Anda memiliki pertanyaan tentang Kebijakan Privasi atau Syarat & Ketentuan ini, silakan hubungi kami di:",
       "Email: support@getmova.my.id",
       "TikTok: @abbbuw",
       "Telegram: @sixte3nnn",
@@ -80,7 +79,7 @@ const sections = [
 ];
 
 export default function PrivacyPage() {
-  const lastUpdated = "March 4, 2026";
+  const lastUpdated = "25 Mei 2026";
 
   return (
     <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
@@ -96,7 +95,7 @@ export default function PrivacyPage() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-[#27272A] bg-[#111113] text-[#FAFAFA] hover:bg-[#18181B] transition-colors"
             >
               <Home className="h-4 w-4" />
-              Homepage
+              Beranda
             </a>
           </div>
         </div>
@@ -112,21 +111,21 @@ export default function PrivacyPage() {
               Legal
             </span>
             <h1 className="text-4xl sm:text-5xl font-light tracking-tight text-[#FAFAFA] mb-4 mt-4">
-              Privacy Policy &{" "}
-              <span className="font-bold text-[#F97316]">Terms of Service</span>
+              Kebijakan Privasi &{" "}
+              <span className="font-bold text-[#F97316]">Syarat Ketentuan</span>
             </h1>
             <p className="text-[#A1A1AA] text-sm max-w-xl mx-auto leading-relaxed">
-              Your privacy matters to us. Mova is designed to be a privacy-first tool that doesn&apos;t collect your personal data.
+              Privasi Anda penting bagi kami. Mova dirancang sebagai alat yang mengutamakan privasi dan tidak mengumpulkan data pribadi Anda.
             </p>
             <p className="text-xs text-[#A1A1AA]/60 mt-3">
-              Last updated: {lastUpdated}
+              Terakhir diperbarui: {lastUpdated}
             </p>
           </div>
 
           {/* Important notice */}
           <div className="mb-12 p-6 rounded-xl bg-[#111113] border-l-4 border-[#F97316]">
             <p className="text-sm text-[#FAFAFA] font-medium">
-              Mova is a free tool. We do not store any downloaded videos. All downloads are processed directly from the source platform.
+              Mova adalah alat gratis. Kami tidak menyimpan video yang diunduh. Semua proses unduhan dilakukan langsung dari platform sumber.
             </p>
           </div>
 
@@ -157,15 +156,15 @@ export default function PrivacyPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <a href="/terms" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Syarat & Ketentuan</span>
-                <span className="text-[#A1A1AA] group-hover:text-[#F97316] transition-colors">→</span>
+                <span className="text-[#A1A1AA] group-hover:text-[#F97316] transition-colors">&rarr;</span>
               </a>
               <a href="/about" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Tentang Kami</span>
-                <span className="text-[#A1A1AA] group-hover:text-[#F97316] transition-colors">→</span>
+                <span className="text-[#A1A1AA] group-hover:text-[#F97316] transition-colors">&rarr;</span>
               </a>
-              <a href="/contact" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
-                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Hubungi Kami</span>
-                <span className="text-[#A1A1AA] group-hover:text-[#F97316] transition-colors">→</span>
+              <a href="/disclaimer" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Disclaimer</span>
+                <span className="text-[#A1A1AA] group-hover:text-[#F97316] transition-colors">&rarr;</span>
               </a>
             </div>
           </div>
@@ -173,7 +172,7 @@ export default function PrivacyPage() {
           {/* Footer notice */}
           <div className="mt-8 pt-6 border-t border-[#27272A] text-center">
             <p className="text-xs text-[#A1A1AA]">
-              &copy; 2026 Mova. All rights reserved. This policy may be updated from time to time.
+              &copy; 2026 Mova. All rights reserved. Kebijakan ini dapat diperbarui dari waktu ke waktu.
             </p>
           </div>
         </div>

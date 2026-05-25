@@ -1,4 +1,4 @@
-import { Home, BookOpen, ArrowRight, Clock, Calendar } from "lucide-react";
+import { Home, BookOpen, ArrowRight, Clock, Calendar, User, Search } from "lucide-react";
 import { MovaLogo } from "@/components/mova-logo";
 import type { Metadata } from "next";
 
@@ -20,74 +20,82 @@ const blogPosts = [
   {
     title: "Cara Download Video TikTok Tanpa Watermark 2026",
     excerpt:
-      "Panduan lengkap cara download video TikTok tanpa watermark menggunakan Mova. Simak langkah-langkah mudah dan tips memilih kualitas video terbaik.",
+      "Panduan lengkap cara download video TikTok tanpa watermark menggunakan Mova. Simak langkah-langkah mudah, perbandingan dengan tools lain, tips kualitas video, dan pertimbangan hukum yang perlu kamu ketahui.",
     slug: "/blog/download-tiktok-tanpa-watermark",
     date: "25 Mei 2026",
     readTime: "5 menit",
     tag: "TikTok",
+    tagDesc: "Tutorial TikTok",
   },
   {
     title: "Cara Download YouTube ke MP3 Gratis dan Cepat",
     excerpt:
-      "Tutorial cara mengunduh video YouTube menjadi file MP3 berkualitas tinggi. Bandingkan kualitas audio 128kbps vs 320kbps dan pilih yang terbaik.",
+      "Tutorial cara mengunduh video YouTube menjadi file MP3 berkualitas tinggi. Bandingkan kualitas audio 128kbps vs 320kbps, pahami format audio yang berbeda, dan pilih yang terbaik untuk kebutuhanmu.",
     slug: "/blog/download-youtube-mp3",
     date: "20 Mei 2026",
     readTime: "6 menit",
     tag: "YouTube",
+    tagDesc: "Tutorial YouTube",
   },
   {
     title: "Download Video Instagram Reels Tanpa Watermark",
     excerpt:
-      "Langkah mudah untuk download Instagram Reels tanpa watermark. Dapatkan video Reels berkualitas tinggi langsung dari Instagram.",
+      "Langkah mudah untuk download Instagram Reels tanpa watermark. Dapatkan video Reels berkualitas tinggi langsung dari Instagram dengan Mova — termasuk tips untuk Stories dan IGTV.",
     slug: "/blog/download-instagram-reels",
     date: "15 Mei 2026",
     readTime: "5 menit",
     tag: "Instagram",
+    tagDesc: "Tutorial Instagram",
   },
   {
     title: "Cara Download Video Facebook HD Gratis 2026",
     excerpt:
-      "Panduan lengkap cara download video Facebook HD gratis. Simpan video Facebook berkualitas tinggi dengan Mova — cepat, gratis, dan aman.",
+      "Panduan lengkap cara download video Facebook HD gratis. Simpan video Facebook berkualitas tinggi dengan Mova — cepat, gratis, dan aman. Termasuk cara download video private dan Reels.",
     slug: "/blog/download-video-facebook-hd",
     date: "10 Mei 2026",
     readTime: "6 menit",
     tag: "Facebook",
+    tagDesc: "Tutorial Facebook",
   },
   {
     title: "Cara Download Video Twitter X (Twitter) Gratis 2026",
     excerpt:
-      "Panduan cara download video dari Twitter/X gratis dan cepat. Simpan video tweet favorit kamu tanpa watermark menggunakan Mova.",
+      "Panduan cara download video dari Twitter/X gratis dan cepat. Simpan video tweet favorit kamu tanpa watermark menggunakan Mova. Support video GIF, threaded videos, dan live streams.",
     slug: "/blog/download-video-twitter-x",
     date: "8 Mei 2026",
     readTime: "5 menit",
     tag: "Twitter/X",
+    tagDesc: "Tutorial Twitter",
   },
   {
     title: "Cara Download Video Tanpa Aplikasi Tambahan 2026",
     excerpt:
-      "Download video langsung dari browser tanpa install aplikasi. Lebih aman, hemat storage, dan bebas malware dengan Mova.",
+      "Download video langsung dari browser tanpa install aplikasi apapun. Lebih aman, hemat storage, dan bebas malware. Panduan lengkap untuk download video via web browser di HP dan komputer.",
     slug: "/blog/download-video-tanpa-aplikasi",
     date: "5 Mei 2026",
     readTime: "7 menit",
     tag: "Tips",
+    tagDesc: "Tips & Trik",
   },
   {
     title: "Perbedaan Download Video MP4 dan Audio MP3 — Mana yang Lebih Baik?",
     excerpt:
-      "Perbandingan lengkap antara format video MP4 dan audio MP3. Temukan mana yang lebih cocok untuk kebutuhanmu.",
+      "Perbandingan lengkap antara format video MP4 dan audio MP3. Temukan mana yang lebih cocok untuk kebutuhanmu berdasarkan kualitas, ukuran file, kompatibilitas, dan tujuan penggunaan.",
     slug: "/blog/perbedaan-download-video-dan-audio-mp3",
     date: "3 Mei 2026",
     readTime: "8 menit",
     tag: "Perbandingan",
+    tagDesc: "Perbandingan Format",
   },
   {
     title: "Tips Aman Download Video Online Tanpa Virus 2026",
     excerpt:
-      "Tips dan panduan lengkap untuk download video online dengan aman tanpa virus, malware, dan ancaman keamanan lainnya.",
+      "Tips dan panduan lengkap untuk download video online dengan aman tanpa virus, malware, dan ancaman keamanan lainnya. Pelajari cara mengenali situs berbahaya dan melindungi perangkatmu.",
     slug: "/blog/tips-aman-download-video-online",
     date: "1 Mei 2026",
     readTime: "7 menit",
     tag: "Keamanan",
+    tagDesc: "Keamanan Online",
   },
 ];
 
@@ -117,7 +125,7 @@ export default function BlogPage() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-[#27272A] bg-[#111113] text-[#FAFAFA] hover:bg-[#18181B] transition-colors"
             >
               <Home className="h-4 w-4" />
-              Kembali ke Beranda
+              Beranda
             </a>
           </div>
         </div>
@@ -127,43 +135,34 @@ export default function BlogPage() {
       <main className="flex-1">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           {/* Title section */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA] mb-6">
               <BookOpen className="h-3 w-3 text-[#F97316]" />
               Blog
             </span>
-            <h1 className="text-4xl sm:text-5xl font-light tracking-tight text-[#FAFAFA] mb-4 mt-4">
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#FAFAFA] mb-4 mt-4">
               Tips &{" "}
-              <span className="font-bold text-[#F97316]">Tutorial</span>
+              <span className="text-[#F97316]">Tutorial</span> Download Video
             </h1>
             <p className="text-[#A1A1AA] text-sm max-w-xl mx-auto leading-relaxed">
-              Pelajari cara download video tanpa watermark dari berbagai platform dengan panduan lengkap dari Mova.
+              Panduan lengkap cara download video dari berbagai platform sosial media. Artikel ditulis oleh tim Mova untuk membantu kamu mendapatkan konten dengan aman dan bertanggung jawab.
             </p>
           </div>
 
-          {/* Blog Posts Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Blog Posts - List Layout (better for reading) */}
+          <div className="space-y-4">
             {blogPosts.map((post, i) => (
               <a
                 key={i}
                 href={post.slug}
-                className="group rounded-xl border border-[#27272A] bg-[#111113] overflow-hidden hover:border-[#F97316]/50 transition-all duration-300 hover:-translate-y-1"
+                className="group flex flex-col sm:flex-row gap-4 sm:gap-6 p-5 rounded-xl border border-[#27272A] bg-[#111113] hover:border-[#F97316]/40 transition-all duration-200"
               >
-                {/* Card header with gradient */}
-                <div className="h-32 flex items-end p-4" style={{ background: "linear-gradient(135deg, #F97316 0%, #EA580C 100%)" }}>
+                {/* Left: Number + Tag */}
+                <div className="flex sm:flex-col items-start gap-3 sm:gap-2 sm:w-32 shrink-0">
                   <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${tagColors[post.tag] || "bg-[#27272A] text-[#FAFAFA]"}`}>
                     {post.tag}
                   </span>
-                </div>
-                {/* Card content */}
-                <div className="p-5">
-                  <h2 className="text-sm font-bold text-[#FAFAFA] mb-2 line-clamp-2 group-hover:text-[#F97316] transition-colors">
-                    {post.title}
-                  </h2>
-                  <p className="text-xs text-[#A1A1AA] leading-relaxed mb-4 line-clamp-3">
-                    {post.excerpt}
-                  </p>
-                  <div className="flex items-center justify-between text-[10px] text-[#A1A1AA]/60">
+                  <div className="flex items-center gap-3 text-[10px] text-[#A1A1AA]/60 sm:mt-1">
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
                       {post.date}
@@ -174,14 +173,37 @@ export default function BlogPage() {
                     </span>
                   </div>
                 </div>
+
+                {/* Right: Title + Excerpt */}
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-sm sm:text-base font-bold text-[#FAFAFA] mb-1.5 group-hover:text-[#F97316] transition-colors line-clamp-2">
+                    {post.title}
+                  </h2>
+                  <p className="text-xs sm:text-sm text-[#A1A1AA] leading-relaxed line-clamp-2">
+                    {post.excerpt}
+                  </p>
+                  <div className="flex items-center gap-2 mt-3">
+                    <div className="w-5 h-5 rounded-full bg-[#F97316] flex items-center justify-center">
+                      <User className="h-3 w-3 text-white" />
+                    </div>
+                    <span className="text-[10px] text-[#A1A1AA]/60">Tim Mova</span>
+                    <span className="text-[10px] text-[#A1A1AA]/40">|</span>
+                    <span className="text-[10px] text-[#A1A1AA]/60">{post.tagDesc}</span>
+                  </div>
+                </div>
+
+                {/* Arrow */}
+                <div className="hidden sm:flex items-center">
+                  <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                </div>
               </a>
             ))}
           </div>
 
           {/* CTA Section */}
-          <div className="mt-16 p-8 rounded-xl bg-[#111113] border border-[#27272A] text-center">
-            <h2 className="text-lg font-bold text-[#FAFAFA] mb-2">Siap Mencoba Mova?</h2>
-            <p className="text-sm text-[#A1A1AA] mb-4">Download video tanpa watermark dari platform favorit kamu sekarang!</p>
+          <div className="mt-12 p-6 sm:p-8 rounded-xl bg-[#111113] border border-[#27272A] text-center">
+            <h2 className="text-base sm:text-lg font-bold text-[#FAFAFA] mb-2">Siap Mencoba Mova?</h2>
+            <p className="text-xs sm:text-sm text-[#A1A1AA] mb-4">Download video tanpa watermark dari platform favorit kamu sekarang!</p>
             <a
               href="/"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[#F97316] text-white hover:bg-[#EA580C] transition-colors"
@@ -191,8 +213,16 @@ export default function BlogPage() {
             </a>
           </div>
 
+          {/* Disclaimer */}
+          <div className="mt-8 p-4 rounded-lg bg-[#0C0C0E] border border-[#27272A]/50">
+            <p className="text-[10px] text-[#A1A1AA]/50 leading-relaxed text-center">
+              Konten blog ini bersifat informatif dan edukatif. Mova tidak mendorong pelanggaran hak cipta. Pastikan kamu menggunakan konten yang diunduh secara bertanggung jawab dan sesuai dengan hukum yang berlaku.{" "}
+              <a href="/disclaimer" className="text-[#F97316]/60 hover:text-[#F97316] underline">Baca disclaimer</a>
+            </p>
+          </div>
+
           {/* Footer notice */}
-          <div className="mt-8 pt-6 border-t border-[#27272A] text-center">
+          <div className="mt-6 pt-6 border-t border-[#27272A] text-center">
             <p className="text-xs text-[#A1A1AA]">
               &copy; 2026 Mova. All rights reserved.
             </p>
