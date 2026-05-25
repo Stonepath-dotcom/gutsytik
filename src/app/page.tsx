@@ -1097,6 +1097,61 @@ export default function Home() {
           <HowItWorksSection />
           <PlatformsSection />
           <FAQSection />
+          {/* FAQPage Schema */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              { "@type": "Question", name: "Bagaimana cara download video tanpa watermark dengan Mova?", acceptedAnswer: { "@type": "Answer", text: "Salin link video dari platform (TikTok, YouTube, Instagram, dll), tempel di kolom input Mova, klik Download, pilih kualitas, dan video akan otomatis terunduh tanpa watermark." } },
+              { "@type": "Question", name: "Apakah Mova gratis?", acceptedAnswer: { "@type": "Answer", text: "Ya, Mova 100% gratis dan tanpa batas. Kamu bisa download video sebanyak yang kamu mau tanpa biaya apapun." } },
+              { "@type": "Question", name: "Apakah Mova bisa download video YouTube ke MP3?", acceptedAnswer: { "@type": "Answer", text: "Ya, Mova mendukung ekstraksi audio MP3 dari video YouTube. Cukup tempel link YouTube, pilih mode Audio, dan download file MP3 berkualitas tinggi." } },
+              { "@type": "Question", name: "Apakah Mova aman digunakan?", acceptedAnswer: { "@type": "Answer", text: "Ya, Mova aman. Kami tidak menyimpan data pribadi pengguna, tidak menggunakan tracking cookies, dan semua proses dilakukan langsung dari platform sumber." } },
+              { "@type": "Question", name: "Platform apa saja yang didukung Mova?", acceptedAnswer: { "@type": "Answer", text: "Mova mendukung download video dari TikTok, YouTube, Instagram, Facebook, Twitter/X, Pinterest, dan Reddit." } }
+            ]
+          })}} />
+          {/* HowTo Schema */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: "Cara Download Video Tanpa Watermark dengan Mova",
+            description: "Panduan langkah demi langkah untuk download video tanpa watermark menggunakan Mova",
+            step: [
+              { "@type": "HowToStep", position: 1, name: "Salin Link Video", text: "Buka aplikasi TikTok, YouTube, Instagram, atau platform lain, temukan video yang ingin didownload, dan salin link-nya." },
+              { "@type": "HowToStep", position: 2, name: "Tempel Link di Mova", text: "Buka getmova.my.id, tempel link video yang sudah disalin di kolom input, lalu klik tombol Download." },
+              { "@type": "HowToStep", position: 3, name: "Pilih Kualitas", text: "Pilih kualitas video yang diinginkan (360p, 480p, 720p, atau 1080p) lalu klik download." }
+            ]
+          })}} />
+          {/* BreadcrumbList Schema */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" }
+            ]
+          })}} />
+
+          {/* Platform Download Pages */}
+          <section className="py-12 px-3 sm:px-4 bg-muted/30">
+            <div className="mx-auto max-w-5xl">
+              <h2 className="text-xl sm:text-2xl font-bold text-center mb-2">Download Video per Platform</h2>
+              <p className="text-sm text-muted-foreground text-center mb-8">Pilih platform untuk panduan download lengkap</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                {PLATFORMS.slice(0, 5).map(p => {
+                  const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
+                  return (
+                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card border border-border/50 hover:border-[#F97316]/30 transition-all hover:shadow-md">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: p.gradient || p.color }}>
+                        <p.Icon className="h-5 w-5 text-white" />
+                      </div>
+                      <span className="text-xs font-medium text-foreground text-center">{p.name}</span>
+                      <span className="text-[10px] text-muted-foreground">Download</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
           <CTASection />
         </main>
         <Footer />

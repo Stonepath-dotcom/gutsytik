@@ -44,12 +44,62 @@ const blogPosts = [
     readTime: "5 menit",
     tag: "Instagram",
   },
+  {
+    title: "Cara Download Video Facebook HD Gratis 2026",
+    excerpt:
+      "Panduan lengkap cara download video Facebook HD gratis. Simpan video Facebook berkualitas tinggi dengan Mova — cepat, gratis, dan aman.",
+    slug: "/blog/download-video-facebook-hd",
+    date: "10 Mei 2026",
+    readTime: "6 menit",
+    tag: "Facebook",
+  },
+  {
+    title: "Cara Download Video Twitter X (Twitter) Gratis 2026",
+    excerpt:
+      "Panduan cara download video dari Twitter/X gratis dan cepat. Simpan video tweet favorit kamu tanpa watermark menggunakan Mova.",
+    slug: "/blog/download-video-twitter-x",
+    date: "8 Mei 2026",
+    readTime: "5 menit",
+    tag: "Twitter/X",
+  },
+  {
+    title: "Cara Download Video Tanpa Aplikasi Tambahan 2026",
+    excerpt:
+      "Download video langsung dari browser tanpa install aplikasi. Lebih aman, hemat storage, dan bebas malware dengan Mova.",
+    slug: "/blog/download-video-tanpa-aplikasi",
+    date: "5 Mei 2026",
+    readTime: "7 menit",
+    tag: "Tips",
+  },
+  {
+    title: "Perbedaan Download Video MP4 dan Audio MP3 — Mana yang Lebih Baik?",
+    excerpt:
+      "Perbandingan lengkap antara format video MP4 dan audio MP3. Temukan mana yang lebih cocok untuk kebutuhanmu.",
+    slug: "/blog/perbedaan-download-video-dan-audio-mp3",
+    date: "3 Mei 2026",
+    readTime: "8 menit",
+    tag: "Perbandingan",
+  },
+  {
+    title: "Tips Aman Download Video Online Tanpa Virus 2026",
+    excerpt:
+      "Tips dan panduan lengkap untuk download video online dengan aman tanpa virus, malware, dan ancaman keamanan lainnya.",
+    slug: "/blog/tips-aman-download-video-online",
+    date: "1 Mei 2026",
+    readTime: "7 menit",
+    tag: "Keamanan",
+  },
 ];
 
 const tagColors: Record<string, string> = {
   TikTok: "bg-[#010101] text-white",
   YouTube: "bg-[#FF0000] text-white",
   Instagram: "bg-gradient-to-r from-[#833AB4] to-[#FD1D1D] text-white",
+  Facebook: "bg-[#1877F2] text-white",
+  "Twitter/X": "bg-[#14171A] text-white",
+  Tips: "bg-[#F97316] text-white",
+  Perbandingan: "bg-[#6D28D9] text-white",
+  Keamanan: "bg-[#16A34A] text-white",
 };
 
 export default function BlogPage() {
