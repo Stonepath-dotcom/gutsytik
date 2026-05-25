@@ -44,12 +44,6 @@
   --radius-xl: calc(var(--radius) + 4px);
   --color-mova-blue: #2563EB;
   --color-mova-blue-hover: #1D4ED8;
-  --color-mova-dark: #050507;
-  --color-mova-surface: #0C0C0E;
-  --color-mova-elevated: #141416;
-  --color-mova-border: #1E1E22;
-  --color-mova-text: #FAFAFA;
-  --color-mova-text-secondary: #71717A;
 }
 
 /* ─── Light mode ─── */
@@ -137,11 +131,40 @@
 html:not(.dark) ::-webkit-scrollbar-thumb { background: #D4D4D8; }
 html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
 
-/* ─── CTA Card ─── */
-.cta-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
+/* ─── Hero gradient background (always dark) ─── */
+.hero-bg {
+  background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #0F172A 100%);
+  position: relative;
+}
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 70% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 30% 70%, rgba(37, 99, 235, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ─── Dark section (CTA, Footer) ─── */
+.dark-section {
+  background: #0F172A;
+  color: #FAFAFA;
+}
+
+/* ─── Gradient text ─── */
+.gradient-text {
+  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Step connector arrow ─── */
+.step-arrow {
+  color: #94A3B8;
 }
 
 /* ─── Safe Area for notched phones ─── */
@@ -162,11 +185,6 @@ main, section, footer { overflow-x: hidden; max-width: 100vw; }
   scrollbar-width: none;
 }
 .scroll-hide::-webkit-scrollbar { display: none; }
-
-/* ─── Theme transition ─── */
-header, nav, footer {
-  transition: background-color 0.15s ease, border-color 0.15s ease;
-}
 
 /* ─── Desktop base font boost ─── */
 @media screen and (min-width: 768px) {

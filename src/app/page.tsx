@@ -7,6 +7,7 @@ import {
   Menu, X, ChevronDown, Play, Clock, User, Loader2,
   Heart, AlertCircle, Film, Music, Sun, Moon,
   Share2, Bookmark, Copy, Star, Volume2, VolumeX, Eye, EyeOff,
+  ArrowRight, Link as LinkIcon, ClipboardPaste,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -118,13 +119,13 @@ const ACCENT = "#2563EB";
 const translations: Record<string, Record<string, string>> = {
   id: {
     "nav.fitur": "Fitur", "nav.caraPakai": "Cara Pakai", "nav.platform": "Platform", "nav.faq": "FAQ", "nav.download": "Download",
-    "hero.badge": "Gratis & Tanpa Batas",
+    "hero.badge": "100% Gratis & Tanpa Watermark",
     "hero.title": "Download Video", "hero.titleHighlight": "Tanpa Watermark",
-    "hero.subtitle": "Mova membantu kamu download video dari platform populer tanpa watermark, cepat dan gratis!",
+    "hero.subtitle": "Download video dari TikTok, Instagram, Facebook, YouTube dan banyak platform lainnya tanpa watermark.",
     "hero.audioTitle": "Ekstrak Audio", "hero.audioTitleHighlight": "MP3 Gratis",
     "hero.audioSubtitle": "Mova bisa mengekstrak audio dari video manapun jadi file MP3, cepat dan berkualitas!",
-    "input.placeholder": "Tempel link video di sini (TikTok, IG, YouTube...)",
-    "input.audioPlaceholder": "Tempel link video untuk ekstrak audio MP3...",
+    "input.placeholder": "Paste link video di sini...",
+    "input.audioPlaceholder": "Paste link video untuk ekstrak audio MP3...",
     "input.paste": "Tempel",
     "btn.download": "Download", "btn.downloadNoWM": "Download Tanpa Watermark", "btn.downloadAudio": "Download Audio MP3",
     "tab.video": "Video", "tab.audio": "Audio",
@@ -134,12 +135,12 @@ const translations: Record<string, Record<string, string>> = {
     "result.copyCaption": "Salin Caption", "result.captionCopied": "Caption disalin!",
     "history.title": "Riwayat Download", "history.clear": "Hapus Semua", "history.empty": "Belum ada riwayat download.",
     "bookmark.title": "Video Tersimpan", "bookmark.clear": "Hapus Semua", "bookmark.empty": "Belum ada video yang disimpan.",
-    "features.title": "Fitur Unggulan Mova", "features.subtitle": "Semua yang kamu butuhkan untuk download video tanpa watermark.",
-    "how.title": "Cara Menggunakan Mova", "how.subtitle": "Hanya 3 langkah mudah untuk download video tanpa watermark.",
+    "features.title": "Kenapa Harus Mova?", "features.subtitle": "Download video tanpa watermark dari berbagai platform populer dengan cepat dan mudah.",
+    "how.title": "Cara Menggunakan Mova", "how.subtitle": "Hanya 4 langkah mudah untuk download video tanpa watermark.",
     "platforms.title": "Platform yang Didukung", "platforms.subtitle": "Download video dari berbagai platform sosial media populer.",
     "faq.title": "Pertanyaan yang Sering Diajukan", "faq.subtitle": "Temukan jawaban dari pertanyaan umum tentang Mova.",
-    "cta.title": "Siap Download Video Tanpa Watermark?", "cta.subtitle": "Coba Mova sekarang dan rasakan kemudahan download video tanpa watermark!",
-    "cta.button": "Mulai Download Sekarang",
+    "cta.title": "Gratis, Tanpa Batas, Tanpa Watermark", "cta.subtitle": "Download video sepuasnya tanpa batas dan tanpa watermark dari berbagai platform populer.",
+    "cta.button": "Mulai Download",
     "footer.desc": "Download video tanpa watermark dari berbagai platform populer. Cepat, gratis, dan mudah.",
     "footer.privacy": "Kebijakan Privasi",
     "error.emptyUrl": "Masukkan link video terlebih dahulu!",
@@ -155,12 +156,12 @@ const translations: Record<string, Record<string, string>> = {
   },
   en: {
     "nav.fitur": "Features", "nav.caraPakai": "How to Use", "nav.platform": "Platforms", "nav.faq": "FAQ", "nav.download": "Download",
-    "hero.badge": "Free & Unlimited",
+    "hero.badge": "100% Free & No Watermark",
     "hero.title": "Download Video", "hero.titleHighlight": "Without Watermark",
-    "hero.subtitle": "Mova helps you download videos from popular platforms without watermark, fast and free!",
+    "hero.subtitle": "Download videos from TikTok, Instagram, Facebook, YouTube and many other platforms without watermark.",
     "hero.audioTitle": "Extract Audio", "hero.audioTitleHighlight": "Free MP3",
     "hero.audioSubtitle": "Mova can extract audio from any video into MP3 files, fast and high quality!",
-    "input.placeholder": "Paste video link here (TikTok, IG, YouTube...)",
+    "input.placeholder": "Paste video link here...",
     "input.audioPlaceholder": "Paste video link to extract MP3 audio...",
     "input.paste": "Paste",
     "btn.download": "Download", "btn.downloadNoWM": "Download Without Watermark", "btn.downloadAudio": "Download Audio MP3",
@@ -171,12 +172,12 @@ const translations: Record<string, Record<string, string>> = {
     "result.copyCaption": "Copy Caption", "result.captionCopied": "Caption copied!",
     "history.title": "Download History", "history.clear": "Clear All", "history.empty": "No download history yet.",
     "bookmark.title": "Saved Videos", "bookmark.clear": "Clear All", "bookmark.empty": "No saved videos yet.",
-    "features.title": "Mova Key Features", "features.subtitle": "Everything you need to download videos without watermark.",
-    "how.title": "How to Use Mova", "how.subtitle": "Just 3 easy steps to download videos without watermark.",
+    "features.title": "Why Choose Mova?", "features.subtitle": "Download videos without watermark from various popular platforms quickly and easily.",
+    "how.title": "How to Use Mova", "how.subtitle": "Just 4 easy steps to download videos without watermark.",
     "platforms.title": "Supported Platforms", "platforms.subtitle": "Download videos from various popular social media platforms.",
     "faq.title": "Frequently Asked Questions", "faq.subtitle": "Find answers to common questions about Mova.",
-    "cta.title": "Ready to Download Videos Without Watermark?", "cta.subtitle": "Try Mova now and experience easy watermark-free video downloads!",
-    "cta.button": "Start Downloading Now",
+    "cta.title": "Free, Unlimited, No Watermark", "cta.subtitle": "Download as many videos as you want without limits and without watermark from various popular platforms.",
+    "cta.button": "Start Downloading",
     "footer.desc": "Download videos without watermark from popular platforms. Fast, free, and easy.",
     "footer.privacy": "Privacy Policy",
     "error.emptyUrl": "Please enter a video link first!",
@@ -274,19 +275,19 @@ function detectPlatform(urlStr: string): string {
 /* ──────── Navbar ──────── */
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { setTheme, theme } = useTheme();
   const { lang, setLang, t } = useLanguage();
   const menuRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
-    { label: t("nav.fitur"), href: "#features" },
+    { label: "Home", href: "#hero" },
     { label: t("nav.caraPakai"), href: "#how" },
+    { label: t("nav.fitur"), href: "#features" },
     { label: t("nav.platform"), href: "#platforms" },
     { label: t("nav.faq"), href: "#faq" },
-    { label: "Blog", href: "/blog" },
   ];
 
-  // Close menu on outside click
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
@@ -297,57 +298,58 @@ function Navbar() {
     return () => { document.removeEventListener("mousedown", handler); document.removeEventListener("touchstart", handler); };
   }, [open]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
-      <div className="mx-auto max-w-6xl h-12 md:h-16 flex items-center justify-between px-4 sm:px-6">
-        {/* Logo */}
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ${scrolled ? "bg-[#0F172A]/95 backdrop-blur-md border-b border-white/10" : "bg-transparent border-b border-transparent"}`}>
+      <div className="mx-auto max-w-6xl h-14 md:h-16 flex items-center justify-between px-4 sm:px-6">
         <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="Mova - Home">
           <MovaLogo size={28} showText={true} />
         </a>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-0.5">
+        <nav className="hidden md:flex items-center gap-1">
           {navLinks.map(l => (
-            <a key={l.href} href={l.href} className="px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted/50">{l.label}</a>
+            <a key={l.href} href={l.href} className="px-3 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors rounded-lg">{l.label}</a>
           ))}
         </nav>
 
-        {/* Desktop controls */}
-        <div className="hidden md:flex items-center gap-1.5">
-          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-9 w-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs font-bold" aria-label="Toggle language">
+        <div className="hidden md:flex items-center gap-2">
+          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-9 w-9 flex items-center justify-center rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors text-xs font-bold" aria-label="Toggle language">
             {lang === "id" ? "EN" : "ID"}
           </button>
-          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-9 w-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors" aria-label="Toggle theme">
+          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-9 w-9 flex items-center justify-center rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors" aria-label="Toggle theme">
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
           <a href="#hero">
-            <Button size="sm" className="h-9 px-5 bg-[#2563EB] text-white font-semibold rounded-lg hover:bg-[#1D4ED8] transition-all text-sm">
+            <Button size="sm" className="h-9 px-5 bg-[#4F46E5] text-white font-semibold rounded-lg hover:bg-[#4338CA] transition-colors text-sm">
               <Download className="mr-1.5 h-3.5 w-3.5" />{t("nav.download")}
             </Button>
           </a>
         </div>
 
-        {/* Mobile controls */}
         <div className="flex md:hidden items-center gap-1">
-          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground text-[10px] font-bold">{lang === "id" ? "EN" : "ID"}</button>
-          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground">
+          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-8 w-8 flex items-center justify-center rounded-lg text-white/70 text-[10px] font-bold">{lang === "id" ? "EN" : "ID"}</button>
+          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-8 w-8 flex items-center justify-center rounded-lg text-white/70">
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
-          <button onClick={() => setOpen(!open)} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground" aria-label="Menu">
+          <button onClick={() => setOpen(!open)} className="h-8 w-8 flex items-center justify-center rounded-lg text-white/70" aria-label="Menu">
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile dropdown */}
       {open && (
-        <div ref={menuRef} className="md:hidden border-t border-border bg-background">
+        <div ref={menuRef} className="md:hidden border-t border-white/10 bg-[#0F172A]/98">
           <div className="px-4 py-3 space-y-0.5">
             {navLinks.map(l => (
-              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50 transition-colors">{l.label}</a>
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-white/70 hover:text-white rounded-lg hover:bg-white/10 transition-colors">{l.label}</a>
             ))}
             <a href="#hero" onClick={() => setOpen(false)} className="block pt-1">
-              <Button className="w-full bg-[#2563EB] text-white font-semibold rounded-xl hover:bg-[#1D4ED8]">
+              <Button className="w-full bg-[#4F46E5] text-white font-semibold rounded-lg hover:bg-[#4338CA]">
                 <Download className="mr-2 h-4 w-4" />{t("nav.download")}
               </Button>
             </a>
@@ -381,7 +383,6 @@ function HeroSection() {
     setTimeout(() => dismiss(id), 3000);
   }, [toast, dismiss]);
 
-  // Check bookmark on result change
   useEffect(() => {
     if (result) setIsBookmarkedState(isBookmarked(result.downloadUrl));
   }, [result]);
@@ -396,7 +397,6 @@ function HeroSection() {
     setResult(null);
     setLoadingMsg(audioMode ? "Extracting audio..." : "Finding video...");
 
-    // Show progress messages while waiting
     const msgs = audioMode
       ? ["Extracting audio...", "Converting to MP3...", "Almost done..."]
       : ["Finding video...", "Getting download link...", "Almost done..."];
@@ -415,7 +415,6 @@ function HeroSection() {
       const data = await res.json();
       if (res.ok) {
         setResult(data);
-        // Auto-select audio quality in audio mode
         if (audioMode) {
           const audioIdx = data.qualityOptions?.findIndex(
             (q: QualityOption) => q.label === "Audio" || q.resolution === "MP3"
@@ -451,20 +450,18 @@ function HeroSection() {
     const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
     const downloadName = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
     const isAudio = q.resolution === "MP3" || q.label === "Audio";
-    // Use proxy URL for download, with original URL as fallback
     const downloadUrl = q.url;
     const fallbackUrl = q.originalUrl || q.url;
 
     setDownloading(true);
 
     try {
-      // === Strategy 1: For audio files, try fetch+blob for reliable download with filename ===
       if (isAudio) {
         try {
           const res = await fetch(downloadUrl);
           if (res.ok) {
             const blob = await res.blob();
-            if (blob.size > 1000) { // At least 1KB (real audio file)
+            if (blob.size > 1000) {
               const blobUrl = URL.createObjectURL(blob);
               const a = document.createElement("a");
               a.href = blobUrl;
@@ -489,7 +486,6 @@ function HeroSection() {
           console.log("Proxy fetch+blob failed, trying alternatives", e);
         }
 
-        // === Strategy 1b: Try original URL directly for audio ===
         if (fallbackUrl !== downloadUrl) {
           try {
             const res = await fetch(fallbackUrl);
@@ -522,7 +518,6 @@ function HeroSection() {
         }
       }
 
-      // === Strategy 2: Use <a> tag with download attribute ===
       try {
         const a = document.createElement("a");
         a.href = downloadUrl;
@@ -546,7 +541,6 @@ function HeroSection() {
         console.log("<a> tag approach failed", e);
       }
 
-      // === Strategy 3: Open in new tab as last resort ===
       window.open(downloadUrl, "_blank");
       saveToHistory({
         id: Date.now().toString(), title: result.title, platform: result.platform,
@@ -556,7 +550,6 @@ function HeroSection() {
       showToast(t("toast.downloadStart"), "");
     } catch (e) {
       console.error("Download failed:", e);
-      // Final fallback: open original URL in new tab
       try {
         window.open(fallbackUrl, "_blank");
       } catch {
@@ -615,129 +608,116 @@ function HeroSection() {
   const platformDef = detectedPlatform ? getPlatformDef(detectedPlatform) : null;
 
   return (
-    <section id="hero" className="relative pt-16 md:pt-28 pb-14 md:pb-24 px-4 sm:px-6">
-      <div className="mx-auto max-w-4xl text-center">
+    <section id="hero" className="hero-bg relative pt-20 md:pt-32 pb-16 md:pb-28 px-4 sm:px-6">
+      <div className="relative z-10 mx-auto max-w-4xl text-center">
         {/* Badge */}
-        <div className="mb-6">
-          <span className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide uppercase">{t("hero.badge")}</span>
+        <div className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/10">
+          <Zap className="h-3.5 w-3.5 text-yellow-400" />
+          <span className="text-xs md:text-sm font-medium text-white/90">{t("hero.badge")}</span>
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-4 font-[family-name:var(--font-montserrat)] leading-[1.1] tracking-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-5 font-[family-name:var(--font-montserrat)] leading-[1.1] tracking-tight text-white">
           {audioMode ? t("hero.audioTitle") : t("hero.title")}{" "}
-          <span className="text-[#2563EB]">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
+          <span className="gradient-text">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
         </h1>
-        <p className="text-sm sm:text-base md:text-xl text-muted-foreground mb-9 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-sm sm:text-base md:text-lg text-white/60 mb-9 max-w-2xl mx-auto leading-relaxed">
           {audioMode ? t("hero.audioSubtitle") : t("hero.subtitle")}
         </p>
 
         {/* Video/Audio tabs */}
-        <div className="flex items-center justify-center gap-0 mb-7 border-b border-border w-fit mx-auto">
-          <button onClick={() => { setAudioMode(false); setResult(null); setError(""); }} className={`px-5 py-2.5 md:px-7 md:py-3 text-sm md:text-base font-medium transition-colors border-b-2 ${!audioMode ? "border-[#2563EB] text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
+        <div className="flex items-center justify-center gap-0 mb-7">
+          <button onClick={() => { setAudioMode(false); setResult(null); setError(""); }} className={`px-5 py-2 text-sm font-medium rounded-l-lg border transition-colors ${!audioMode ? "bg-white text-gray-900 border-white" : "bg-white/10 text-white/70 border-white/20 hover:bg-white/15"}`}>
             <Film className="h-4 w-4 inline mr-1.5" />{t("tab.video")}
           </button>
-          <button onClick={() => { setAudioMode(true); setResult(null); setError(""); }} className={`px-5 py-2.5 md:px-7 md:py-3 text-sm md:text-base font-medium transition-colors border-b-2 ${audioMode ? "border-[#2563EB] text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
+          <button onClick={() => { setAudioMode(true); setResult(null); setError(""); }} className={`px-5 py-2 text-sm font-medium rounded-r-lg border transition-colors ${audioMode ? "bg-white text-gray-900 border-white" : "bg-white/10 text-white/70 border-white/20 hover:bg-white/15"}`}>
             <Music className="h-4 w-4 inline mr-1.5" />{t("tab.audio")}
           </button>
         </div>
 
         {/* Input */}
-        <div className="relative flex items-center gap-2 max-w-3xl mx-auto">
+        <div className="relative flex items-center gap-2 max-w-2xl mx-auto">
           <div className="flex-1 relative">
-            {platformDef && !result && (
-              <div className="absolute left-3 top-1/2 -translate-y-1/2">
-                <div className="w-5 h-5 rounded flex items-center justify-center" style={{ background: platformDef.gradient || platformDef.color }}>
-                  <platformDef.Icon className="h-3 w-3 text-white" />
-                </div>
-              </div>
-            )}
+            <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               ref={inputRef}
               value={url}
               onChange={e => setUrl(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleAnalyze()}
               placeholder={audioMode ? t("input.audioPlaceholder") : t("input.placeholder")}
-              className={`h-11 md:h-13 bg-card border border-border rounded-xl text-sm md:text-lg ${platformDef && !result ? "pl-10" : "pl-4"} pr-4`}
+              className="h-12 md:h-14 bg-white border-0 rounded-lg text-sm md:text-base pl-11 pr-4 text-gray-900 placeholder:text-gray-400 shadow-lg"
             />
           </div>
-          <button onClick={handlePaste} className="h-11 md:h-13 px-3 rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs md:text-sm font-medium shrink-0">
-            <Copy className="h-3.5 w-3.5 sm:mr-1.5" /><span className="hidden sm:inline">{t("input.paste")}</span>
-          </button>
-          <Button onClick={handleAnalyze} disabled={loading} className="h-11 md:h-13 px-5 md:px-7 bg-[#2563EB] text-white font-semibold rounded-xl hover:bg-[#1D4ED8] shrink-0">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 sm:mr-1.5" />}
+          <Button onClick={handleAnalyze} disabled={loading} className="h-12 md:h-14 px-6 md:px-8 bg-[#4F46E5] text-white font-semibold rounded-lg hover:bg-[#4338CA] shrink-0 shadow-lg">
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 md:mr-1.5" />}
             <span className="hidden sm:inline">{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
           </Button>
         </div>
 
         {/* Platform hints */}
-        <div className="flex flex-wrap justify-center gap-2.5 md:gap-3 mt-6 mb-8">
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4 mt-6">
           {PLATFORMS.map(p => (
-            <a key={p.name} href={`/${p.name.toLowerCase().replace("/","-").replace(" ","-")}-downloader`} className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors font-medium">
+            <a key={p.name} href={`/${p.name.toLowerCase().replace("/","-").replace(" ","-")}-downloader`} className="text-xs md:text-sm text-white/50 hover:text-white/80 transition-colors font-medium">
               {p.name}
             </a>
           ))}
         </div>
 
-        {/* Micro trust line under input */}
-        <div className="flex items-center justify-center gap-3 md:gap-4 text-[10px] md:text-xs text-muted-foreground mb-2">
-          <span className="flex items-center gap-1"><Shield className="h-3 w-3 md:h-3.5 md:w-3.5" />SSL Secure</span>
+        {/* Trust line */}
+        <div className="flex items-center justify-center gap-4 md:gap-5 text-[10px] md:text-xs text-white/40 mt-5">
+          <span className="flex items-center gap-1"><Shield className="h-3 w-3" />SSL Secure</span>
           <span>·</span>
           <span>No Signup</span>
           <span>·</span>
-          <span className="flex items-center gap-1">100% Free</span>
+          <span>100% Free</span>
         </div>
 
-        {/* Loading progress indicator */}
+        {/* Loading */}
         {loading && !error && (
-          <div className="max-w-xl mx-auto mb-4 p-3 rounded-lg bg-[#2563EB]/10 border border-[#2563EB]/20 flex items-center gap-2">
-            <Loader2 className="h-4 w-4 text-[#2563EB] animate-spin shrink-0" />
-            <p className="text-[#2563EB] text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
-            <span className="text-xs text-muted-foreground ml-auto">Please wait</span>
+          <div className="max-w-xl mx-auto mt-6 p-3 rounded-lg bg-white/10 border border-white/10 flex items-center gap-2">
+            <Loader2 className="h-4 w-4 text-white animate-spin shrink-0" />
+            <p className="text-white text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
           </div>
         )}
 
         {/* Error */}
         {error && (
-          <div className="max-w-xl mx-auto mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-start gap-2">
-            <AlertCircle className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-            <div className="text-left">
-              <p className="text-red-400 text-sm">{error}</p>
-            </div>
+          <div className="max-w-xl mx-auto mt-6 p-3 rounded-lg bg-red-500/20 border border-red-500/30 flex items-start gap-2">
+            <AlertCircle className="h-4 w-4 text-red-300 mt-0.5 shrink-0" />
+            <p className="text-red-300 text-sm text-left">{error}</p>
           </div>
         )}
 
         {/* Result card */}
         {result && (
-          <div ref={resultRef} className="max-w-xl mx-auto rounded-xl bg-card border border-border overflow-hidden">
-            {/* Platform badge header */}
-            <div className="px-4 py-2 border-b border-border flex items-center gap-2 bg-muted/50">
-              <CheckCircle className="h-4 w-4 text-green-400" />
-              <span className="text-sm text-green-400 font-medium">{audioMode ? t("result.audioFound") : t("result.found")}</span>
+          <div ref={resultRef} className="max-w-xl mx-auto mt-6 rounded-xl bg-white border border-gray-200 overflow-hidden text-gray-900 shadow-xl">
+            <div className="px-4 py-2.5 border-b border-gray-100 flex items-center gap-2 bg-gray-50">
+              <CheckCircle className="h-4 w-4 text-green-500" />
+              <span className="text-sm text-green-600 font-medium">{audioMode ? t("result.audioFound") : t("result.found")}</span>
               <div className="ml-auto flex items-center gap-1.5">
                 {(() => { const pd = getPlatformDef(result.platform); return (
                   <div className="w-5 h-5 rounded flex items-center justify-center" style={{ background: pd.gradient || pd.color }}>
                     <pd.Icon className="h-3 w-3 text-white" />
                   </div>
                 ); })()}
-                <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">{result.platform}</span>
+                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">{result.platform}</span>
               </div>
             </div>
 
             <div className="p-4">
-              {/* Video info */}
               {showPreview && !previewError ? (
-                <div className="w-full rounded-lg overflow-hidden bg-muted mb-3">
+                <div className="w-full rounded-lg overflow-hidden bg-gray-100 mb-3">
                   <video src={result.qualityOptions[0]?.originalUrl || result.qualityOptions[0]?.url} controls muted className="w-full object-contain" style={{ maxHeight: "200px" }} onError={() => setPreviewError(true)} />
                 </div>
               ) : (
                 <div className="flex gap-3 mb-3">
-                  <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
+                  <div className="w-24 h-16 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden relative">
                     {result.thumbnail && <img src={result.thumbnail} alt="" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
-                    <Play className="h-6 w-6 absolute text-[#2563EB]" />
+                    <Play className="h-6 w-6 absolute text-[#4F46E5]" />
                   </div>
                   <div className="flex-1 text-left min-w-0">
-                    <h3 className="font-semibold text-foreground text-sm line-clamp-2">{result.title}</h3>
-                    <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                    <h3 className="font-semibold text-gray-900 text-sm line-clamp-2">{result.title}</h3>
+                    <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
                       {result.duration !== "--:--" && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{result.duration}</span>}
                       <span className="flex items-center gap-1"><User className="h-3 w-3" />{result.author}</span>
                     </div>
@@ -745,32 +725,30 @@ function HeroSection() {
                 </div>
               )}
 
-              {/* Action buttons */}
               <div className="flex flex-wrap gap-1 mb-3">
-                <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-xs text-muted-foreground hover:text-foreground h-7">
+                <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-xs text-gray-500 hover:text-gray-900 h-7">
                   {showPreview ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}{t("result.preview")}
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs text-muted-foreground hover:text-foreground h-7">
+                <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs text-gray-500 hover:text-gray-900 h-7">
                   <Share2 className="h-3 w-3 mr-1" />{t("result.share")}
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleToggleBookmark} className="text-xs h-7" style={{ color: isBookmarkedState ? ACCENT : "var(--muted-foreground)" }}>
+                <Button variant="ghost" size="sm" onClick={handleToggleBookmark} className="text-xs h-7" style={{ color: isBookmarkedState ? ACCENT : "#6B7280" }}>
                   <Bookmark className={`h-3 w-3 mr-1 ${isBookmarkedState ? "fill-current" : ""}`} />{isBookmarkedState ? t("result.bookmarked") : t("result.bookmark")}
                 </Button>
                 {result.thumbnail && (
-                  <Button variant="ghost" size="sm" onClick={handleDownloadThumbnail} className="text-xs text-muted-foreground hover:text-foreground h-7">
+                  <Button variant="ghost" size="sm" onClick={handleDownloadThumbnail} className="text-xs text-gray-500 hover:text-gray-900 h-7">
                     <Copy className="h-3 w-3 mr-1" />{t("result.downloadThumb")}
                   </Button>
                 )}
-                <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-xs text-muted-foreground hover:text-foreground h-7">
+                <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-xs text-gray-500 hover:text-gray-900 h-7">
                   <Copy className="h-3 w-3 mr-1" />{t("result.copyCaption")}
                 </Button>
               </div>
 
-              {/* Quality selector */}
               {result.qualityOptions.length > 0 && (
                 <div className="mb-3">
-                  <p className="text-xs font-medium text-foreground mb-2 text-left flex items-center gap-1.5">
-                    <Film className="h-3.5 w-3.5 text-[#2563EB]" />{t("result.selectQuality")}
+                  <p className="text-xs font-medium text-gray-700 mb-2 text-left flex items-center gap-1.5">
+                    <Film className="h-3.5 w-3.5 text-[#4F46E5]" />{t("result.selectQuality")}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {result.qualityOptions.map((q, i) => {
@@ -779,10 +757,9 @@ function HeroSection() {
                         <button
                           key={i}
                           onClick={() => setSelectedQuality(i)}
-                          className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border font-medium transition-colors ${
-                            isSelected ? "text-white" : "bg-muted text-muted-foreground hover:text-foreground"
+                          className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors ${
+                            isSelected ? "text-white bg-[#4F46E5] border-[#4F46E5]" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-300"
                           }`}
-                          style={isSelected ? { backgroundColor: ACCENT, borderColor: ACCENT } : { borderColor: "var(--border)" }}
                         >
                           {q.resolution === "MP3" ? <Music className="h-3 w-3" /> : <Film className="h-3 w-3" />}
                           <span>{q.label}</span>
@@ -794,11 +771,10 @@ function HeroSection() {
                 </div>
               )}
 
-              {/* Download button */}
               <Button
                 onClick={handleDownload}
                 disabled={downloading}
-                className="w-full h-11 bg-[#2563EB] text-white font-bold rounded-xl hover:bg-[#1D4ED8] text-sm"
+                className="w-full h-11 bg-[#4F46E5] text-white font-bold rounded-lg hover:bg-[#4338CA] text-sm"
               >
                 {downloading ? (
                   <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{audioMode ? "Downloading MP3..." : "Downloading..."}</>
@@ -807,13 +783,12 @@ function HeroSection() {
                 )}
               </Button>
 
-              {/* Fallback direct download link */}
               {result.qualityOptions[selectedQuality]?.originalUrl && (
                 <a
                   href={result.qualityOptions[selectedQuality].originalUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block mt-2 text-center text-xs text-muted-foreground hover:text-[#2563EB] transition-colors underline underline-offset-2"
+                  className="block mt-2 text-center text-xs text-gray-400 hover:text-[#4F46E5] transition-colors underline underline-offset-2"
                 >
                   {audioMode ? "Open MP3 directly" : "Open download link directly"} ↗
                 </a>
@@ -826,63 +801,35 @@ function HeroSection() {
   );
 }
 
-/* ──────── Trust / Social Proof Section ──────── */
-function TrustSection() {
-  const { lang } = useLanguage();
-  const stats = [
-    { value: "500K+", label: { id: "Video Diunduh", en: "Videos Downloaded" } },
-    { value: "7+", label: { id: "Platform Didukung", en: "Platforms Supported" } },
-    { value: "100%", label: { id: "Gratis", en: "Free" } },
-    { value: "4.8", label: { id: "Rating", en: "Rating" } },
-  ];
-  return (
-    <section className="py-10 md:py-16 px-4 sm:px-6 border-y border-border" aria-label="Trust signals">
-      <div className="mx-auto max-w-5xl">
-        <div className="grid grid-cols-4 gap-4 md:gap-8">
-          {stats.map((s, i) => (
-            <div key={i} className="text-center">
-              <p className="text-lg sm:text-2xl md:text-4xl font-bold text-foreground font-[family-name:var(--font-montserrat)]">{s.value}</p>
-              <p className="text-[10px] md:text-sm text-muted-foreground mt-1">{s.label[lang] || s.label.id}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ──────── Features Section ──────── */
 const featuresData = [
-  { icon: Download, titleId: "Download Tanpa Watermark", desc: { id: "Download video dari TikTok, Instagram, YouTube tanpa watermark. Kualitas asli dipertahankan.", en: "Download videos from TikTok, Instagram, YouTube without watermark. Original quality preserved." } },
-  { icon: Zap, titleId: "Super Cepat", desc: { id: "Proses download instan tanpa perlu menunggu lama. Server cepat untuk pengalaman terbaik.", en: "Instant download process without long waits. Fast servers for the best experience." } },
-  { icon: Shield, titleId: "Aman & Privat", desc: { id: "Tidak ada data pribadi yang disimpan. Semua proses dilakukan secara aman dan terenkripsi.", en: "No personal data stored. All processes are done securely and encrypted." } },
-  { icon: Smartphone, titleId: "Mobile Friendly", desc: { id: "Optimal untuk HP. Download video langsung dari browser HP tanpa install app.", en: "Optimized for mobile. Download videos directly from your phone browser without installing an app." } },
-  { icon: Music, titleId: "Ekstrak Audio MP3", desc: { id: "Konversi video ke MP3 dengan kualitas tinggi. Cocok untuk download lagu dari TikTok.", en: "Convert video to MP3 with high quality. Perfect for downloading songs from TikTok." } },
-  { icon: Globe, titleId: "Multi Platform", desc: { id: "Support TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, Reddit, dan lainnya.", en: "Support TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, Reddit, and more." } },
+  { icon: Download, color: "bg-purple-100 text-purple-600", titleId: "Tanpa Watermark", desc: { id: "Download video dari TikTok, Instagram, YouTube tanpa watermark. Kualitas asli dipertahankan.", en: "Download videos from TikTok, Instagram, YouTube without watermark. Original quality preserved." } },
+  { icon: Zap, color: "bg-green-100 text-green-600", titleId: "Super Cepat", desc: { id: "Proses download instan tanpa perlu menunggu lama. Server cepat untuk pengalaman terbaik.", en: "Instant download process without long waits. Fast servers for the best experience." } },
+  { icon: Shield, color: "bg-blue-100 text-blue-600", titleId: "Aman & Privat", desc: { id: "Tidak ada data pribadi yang disimpan. Semua proses dilakukan secara aman dan terenkripsi.", en: "No personal data stored. All processes are done securely and encrypted." } },
+  { icon: Smartphone, color: "bg-orange-100 text-orange-600", titleId: "Mobile Friendly", desc: { id: "Optimal untuk HP. Download video langsung dari browser HP tanpa install app.", en: "Optimized for mobile. Download videos directly from your phone browser without installing an app." } },
 ];
 
 function FeaturesSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="features" className="py-14 md:py-28 px-3 sm:px-4" aria-labelledby="features-heading">
+    <section id="features" className="py-14 md:py-24 px-3 sm:px-4 bg-white" aria-labelledby="features-heading">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-10 md:mb-14">
-          <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide uppercase mb-3">{t("nav.fitur")}</p>
-          <h2 id="features-heading" className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">
+        <div className="text-center mb-10 md:mb-14">
+          <h2 id="features-heading" className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">
             {t("features.title")}
           </h2>
-          <p className="text-sm md:text-lg text-muted-foreground max-w-xl">{t("features.subtitle")}</p>
+          <p className="text-sm md:text-base text-gray-500 max-w-xl mx-auto">{t("features.subtitle")}</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {featuresData.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div key={i} className={`feature-card p-5 md:p-6 ${i === 0 ? 'md:col-span-2 lg:col-span-1' : ''}`}>
-                <div className={`w-10 h-10 md:w-11 md:h-11 rounded-lg flex items-center justify-center shrink-0 bg-[#2563EB]/10 mb-3`}>
-                  <Icon className="h-5 w-5 text-[#2563EB]" />
+              <div key={i} className="bg-white border border-gray-100 rounded-xl p-5 md:p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 mb-3 ${f.color}`}>
+                  <Icon className="h-5 w-5" />
                 </div>
-                <h3 className="text-sm md:text-base font-semibold text-foreground mb-1.5">{f.titleId}</h3>
-                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
+                <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-1.5">{f.titleId}</h3>
+                <p className="text-xs md:text-sm text-gray-500 leading-relaxed">{f.desc[lang] || f.desc.id}</p>
               </div>
             );
           })}
@@ -894,31 +841,33 @@ function FeaturesSection() {
 
 /* ──────── How It Works ──────── */
 function HowItWorksSection() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const steps = [
-    { num: "01", title: { id: "Salin Link Video", en: "Copy Video Link" }, desc: { id: "Salin link video dari TikTok, Instagram, YouTube, atau platform lainnya.", en: "Copy the video link from TikTok, Instagram, YouTube, or other platforms." } },
-    { num: "02", title: { id: "Tempel & Download", en: "Paste & Download" }, desc: { id: "Tempel link di kolom input lalu klik tombol Download.", en: "Paste the link in the input field and click the Download button." } },
-    { num: "03", title: { id: "Simpan Video", en: "Save Video" }, desc: { id: "Pilih kualitas dan simpan video tanpa watermark ke perangkatmu.", en: "Select quality and save the video without watermark to your device." } },
+    { num: 1, icon: LinkIcon, title: { id: "Salin Link", en: "Copy Link" }, desc: { id: "Salin link video dari TikTok, Instagram, YouTube, atau platform lainnya.", en: "Copy the video link from TikTok, Instagram, YouTube, or other platforms." } },
+    { num: 2, icon: ClipboardPaste, title: { id: "Tempel Link", en: "Paste Link" }, desc: { id: "Tempel link di kolom input di atas.", en: "Paste the link in the input field above." } },
+    { num: 3, icon: Download, title: { id: "Klik Download", en: "Click Download" }, desc: { id: "Klik tombol Download dan pilih kualitas video yang diinginkan.", en: "Click the Download button and select your preferred video quality." } },
+    { num: 4, icon: CheckCircle, title: { id: "Simpan Video", en: "Save Video" }, desc: { id: "Video akan otomatis terunduh tanpa watermark ke perangkatmu.", en: "The video will automatically download without watermark to your device." } },
   ];
-  const lang = useLanguage().lang;
   return (
-    <section id="how" className="py-14 md:py-28 px-3 sm:px-4 bg-muted/30" aria-labelledby="how-heading">
+    <section id="how" className="py-14 md:py-24 px-3 sm:px-4 bg-gray-50" aria-labelledby="how-heading">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-10 md:mb-14">
-          <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide uppercase mb-3">{t("nav.caraPakai")}</p>
-          <h2 id="how-heading" className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
-          <p className="text-sm md:text-lg text-muted-foreground max-w-lg">{t("how.subtitle")}</p>
+        <div className="text-center mb-10 md:mb-14">
+          <h2 id="how-heading" className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">{t("how.title")}</h2>
+          <p className="text-sm md:text-base text-gray-500 max-w-lg mx-auto">{t("how.subtitle")}</p>
         </div>
-        <div className="space-y-6 md:space-y-8">
-          {steps.map((s, i) => (
-            <div key={i} className="flex items-start gap-4 md:gap-6">
-              <span className="text-3xl md:text-5xl font-extrabold text-muted-foreground/20 font-[family-name:var(--font-montserrat)] shrink-0 leading-none">{s.num}</span>
-              <div className="pt-1 md:pt-2">
-                <h3 className="text-sm md:text-lg font-semibold text-foreground mb-1">{s.title[lang] || s.title.id}</h3>
-                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{s.desc[lang] || s.desc.id}</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
+          {steps.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <div key={i} className="flex flex-col items-center text-center">
+                <div className="w-12 h-12 rounded-full bg-[#4F46E5] flex items-center justify-center mb-3">
+                  <Icon className="h-5 w-5 text-white" />
+                </div>
+                <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-1">{s.title[lang] || s.title.id}</h3>
+                <p className="text-xs md:text-sm text-gray-500 leading-relaxed">{s.desc[lang] || s.desc.id}</p>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -929,24 +878,23 @@ function HowItWorksSection() {
 function PlatformsSection() {
   const { t } = useLanguage();
   return (
-    <section id="platforms" className="py-14 md:py-28 px-3 sm:px-4">
+    <section id="platforms" className="py-14 md:py-24 px-3 sm:px-4 bg-white">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-10 md:mb-14">
-          <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide uppercase mb-3">{t("nav.platform")}</p>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">{t("platforms.title")}</h2>
-          <p className="text-sm md:text-lg text-muted-foreground max-w-lg">{t("platforms.subtitle")}</p>
+        <div className="text-center mb-10 md:mb-14">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">{t("platforms.title")}</h2>
+          <p className="text-sm md:text-base text-gray-500 max-w-lg mx-auto">{t("platforms.subtitle")}</p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
-          {PLATFORMS.map((p, i) => {
+          {PLATFORMS.map((p) => {
             const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
             return (
-              <a key={p.name} href={`/${slug}`} className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border hover:border-[#2563EB]/30 transition-colors">
+              <a key={p.name} href={`/${slug}`} className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-200 hover:border-[#4F46E5]/30 hover:shadow-sm transition-all">
                 <div className="w-9 h-9 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: p.gradient || p.color }}>
                   <p.Icon className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-foreground">{p.name}</p>
-                  <p className="text-[11px] text-muted-foreground">Download</p>
+                  <p className="text-sm font-medium text-gray-900">{p.name}</p>
+                  <p className="text-[11px] text-gray-400">Download</p>
                 </div>
               </a>
             );
@@ -988,21 +936,25 @@ const faqContent: Record<string, Record<string, string>> = {
 function FAQSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="faq" className="py-14 md:py-28 px-3 sm:px-4">
+    <section id="faq" className="py-14 md:py-24 px-3 sm:px-4 bg-gray-50">
       <div className="mx-auto max-w-3xl">
-        <div className="mb-10 md:mb-14">
-          <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide uppercase mb-3">FAQ</p>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">{t("faq.title")}</h2>
-          <p className="text-sm md:text-lg text-muted-foreground">{t("faq.subtitle")}</p>
+        <div className="text-center mb-10 md:mb-14">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">{t("faq.title")}</h2>
+          <p className="text-sm md:text-base text-gray-500">{t("faq.subtitle")}</p>
         </div>
-        <Accordion type="single" collapsible className="space-y-2">
+        <div className="space-y-3">
           {faqData.map((f, i) => (
-            <AccordionItem key={i} value={`item-${i}`} className="border rounded-xl px-5 md:px-6 bg-card">
-              <AccordionTrigger className="text-sm md:text-base font-medium text-left hover:no-underline py-4">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</AccordionTrigger>
-              <AccordionContent className="text-xs md:text-sm text-muted-foreground leading-relaxed pb-4">{faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}</AccordionContent>
-            </AccordionItem>
+            <details key={i} className="group bg-white border border-gray-200 rounded-xl">
+              <summary className="flex items-center justify-between px-5 md:px-6 py-4 cursor-pointer text-sm md:text-base font-medium text-gray-900 hover:text-[#4F46E5] transition-colors list-none">
+                {faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}
+                <ChevronDown className="h-4 w-4 text-gray-400 shrink-0 ml-2 group-open:rotate-180 transition-transform" />
+              </summary>
+              <div className="px-5 md:px-6 pb-4 text-xs md:text-sm text-gray-500 leading-relaxed">
+                {faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}
+              </div>
+            </details>
           ))}
-        </Accordion>
+        </div>
       </div>
     </section>
   );
@@ -1012,12 +964,15 @@ function FAQSection() {
 function CTASection() {
   const { t } = useLanguage();
   return (
-    <section className="py-14 md:py-28 px-3 sm:px-4">
-      <div className="mx-auto max-w-3xl text-center cta-card p-8 md:p-14 relative z-10">
-        <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-4 font-[family-name:var(--font-montserrat)]">{t("cta.title")}</h2>
-        <p className="text-sm md:text-lg text-muted-foreground mb-8 max-w-md mx-auto">{t("cta.subtitle")}</p>
+    <section className="dark-section py-14 md:py-24 px-3 sm:px-4">
+      <div className="mx-auto max-w-3xl text-center">
+        <div className="w-16 h-16 rounded-full bg-[#4F46E5]/20 flex items-center justify-center mx-auto mb-6">
+          <Shield className="h-8 w-8 text-[#4F46E5]" />
+        </div>
+        <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-4 font-[family-name:var(--font-montserrat)] text-white">{t("cta.title")}</h2>
+        <p className="text-sm md:text-lg text-white/60 mb-8 max-w-md mx-auto">{t("cta.subtitle")}</p>
         <a href="#hero">
-          <Button className="h-12 md:h-14 px-8 md:px-10 bg-[#2563EB] text-white font-bold rounded-xl hover:bg-[#1D4ED8] text-sm md:text-base">
+          <Button className="h-12 md:h-14 px-8 md:px-10 bg-[#4F46E5] text-white font-bold rounded-lg hover:bg-[#4338CA] text-sm md:text-base">
             <Download className="mr-2 h-4 w-4 md:h-5 md:w-5" />{t("cta.button")}
           </Button>
         </a>
@@ -1030,51 +985,43 @@ function CTASection() {
 function Footer() {
   const { t, lang } = useLanguage();
   return (
-    <footer className="border-t border-border" role="contentinfo">
-      <div className="mx-auto max-w-6xl px-3 sm:px-4 py-12 md:py-20">
+    <footer className="dark-section border-t border-white/10" role="contentinfo">
+      <div className="mx-auto max-w-6xl px-3 sm:px-4 py-12 md:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-          {/* Column 1: Logo + Description */}
           <div className="col-span-2 md:col-span-1">
             <MovaLogo size={28} showText />
-            <p className="text-xs md:text-sm text-muted-foreground max-w-xs mt-4 leading-relaxed">{t("footer.desc")}</p>
+            <p className="text-xs md:text-sm text-white/50 max-w-xs mt-4 leading-relaxed">{t("footer.desc")}</p>
           </div>
-
-          {/* Column 2: Navigasi */}
           <div>
-            <h4 className="text-xs md:text-sm font-semibold text-foreground mb-4">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
+            <h4 className="text-xs md:text-sm font-semibold text-white mb-4">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
             <ul className="space-y-3">
-              <li><a href="#features" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{t("nav.fitur")}</a></li>
-              <li><a href="#how" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{t("nav.caraPakai")}</a></li>
-              <li><a href="#platforms" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{t("nav.platform")}</a></li>
-              <li><a href="#faq" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{t("nav.faq")}</a></li>
+              <li><a href="#features" className="text-xs md:text-sm text-white/50 hover:text-white transition-colors">{t("nav.fitur")}</a></li>
+              <li><a href="#how" className="text-xs md:text-sm text-white/50 hover:text-white transition-colors">{t("nav.caraPakai")}</a></li>
+              <li><a href="#platforms" className="text-xs md:text-sm text-white/50 hover:text-white transition-colors">{t("nav.platform")}</a></li>
+              <li><a href="#faq" className="text-xs md:text-sm text-white/50 hover:text-white transition-colors">{t("nav.faq")}</a></li>
             </ul>
           </div>
-
-          {/* Column 3: Perusahaan */}
           <div>
-            <h4 className="text-xs md:text-sm font-semibold text-foreground mb-4">{lang === 'id' ? 'Perusahaan' : 'Company'}</h4>
+            <h4 className="text-xs md:text-sm font-semibold text-white mb-4">{lang === 'id' ? 'Perusahaan' : 'Company'}</h4>
             <ul className="space-y-3">
-              <li><a href="/about" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
-              <li><a href="/contact" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
-              <li><a href="/blog" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">Blog</a></li>
+              <li><a href="/about" className="text-xs md:text-sm text-white/50 hover:text-white transition-colors">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
+              <li><a href="/contact" className="text-xs md:text-sm text-white/50 hover:text-white transition-colors">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
+              <li><a href="/blog" className="text-xs md:text-sm text-white/50 hover:text-white transition-colors">Blog</a></li>
             </ul>
           </div>
-
-          {/* Column 4: Legal */}
           <div>
-            <h4 className="text-xs md:text-sm font-semibold text-foreground mb-4">Legal</h4>
+            <h4 className="text-xs md:text-sm font-semibold text-white mb-4">Legal</h4>
             <ul className="space-y-3">
-              <li><a href="/privacy" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
-              <li><a href="/terms" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
-              <li><a href="/disclaimer" className="text-xs md:text-sm text-muted-foreground hover:text-[#2563EB] transition-colors">Disclaimer / DMCA</a></li>
+              <li><a href="/privacy" className="text-xs md:text-sm text-white/50 hover:text-white transition-colors">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
+              <li><a href="/terms" className="text-xs md:text-sm text-white/50 hover:text-white transition-colors">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
+              <li><a href="/disclaimer" className="text-xs md:text-sm text-white/50 hover:text-white transition-colors">Disclaimer / DMCA</a></li>
             </ul>
           </div>
         </div>
-        {/* Bottom bar */}
-        <div className="mt-12 md:mt-16 pt-6 border-t border-border">
+        <div className="mt-12 md:mt-16 pt-6 border-t border-white/10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-[10px] md:text-xs text-muted-foreground/50">&copy; 2026 Mova. All rights reserved.</p>
-            <p className="text-[9px] md:text-[11px] text-muted-foreground/30 text-center sm:text-right">
+            <p className="text-[10px] md:text-xs text-white/30">&copy; 2026 Mova. All rights reserved.</p>
+            <p className="text-[9px] md:text-[11px] text-white/20 text-center sm:text-right">
               {lang === 'id' ? 'Mova tidak menyimpan konten berhak cipta. Pengguna bertanggung jawab atas penggunaan konten yang diunduh.' : 'Mova does not store copyrighted content. Users are responsible for downloaded content usage.'}
             </p>
           </div>
@@ -1087,14 +1034,14 @@ function Footer() {
 /* ──────── Mobile Bottom Nav ──────── */
 function MobileBottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background border-t border-border safe-area-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#0F172A] border-t border-white/10 safe-area-bottom">
       <div className="flex items-center justify-around px-2 py-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         {[
           { icon: Download, label: "Download", href: "#hero", highlight: true },
           { icon: Bookmark, label: "Saved", href: "#hero" },
           { icon: Shield, label: "FAQ", href: "#faq" },
         ].map(item => (
-          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-5 rounded-xl transition-colors ${item.highlight ? "text-[#2563EB]" : "text-muted-foreground"}`}>
+          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-5 rounded-lg transition-colors ${item.highlight ? "text-[#4F46E5]" : "text-white/50"}`}>
             <item.icon className="h-4.5 w-4.5" />
             <span className="text-[9px] font-medium">{item.label}</span>
           </a>
@@ -1108,11 +1055,10 @@ function MobileBottomNav() {
 export default function Home() {
   return (
     <LanguageProvider>
-      <div className="min-h-screen flex flex-col bg-background">
+      <div className="min-h-screen flex flex-col bg-white">
         <Navbar />
         <main className="flex-1 pb-16 md:pb-0">
           <HeroSection />
-          <TrustSection />
           <FeaturesSection />
           <HowItWorksSection />
           <PlatformsSection />
@@ -1151,20 +1097,20 @@ export default function Home() {
           })}} />
 
           {/* Platform Download Pages */}
-          <section className="py-14 md:py-20 px-3 sm:px-4 bg-muted/30">
+          <section className="py-14 md:py-20 px-3 sm:px-4 bg-white">
             <div className="mx-auto max-w-5xl">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2 tracking-tight">Download Video per Platform</h2>
-              <p className="text-sm text-muted-foreground text-center mb-8">Pilih platform untuk panduan download lengkap</p>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2 tracking-tight text-gray-900">Download Video per Platform</h2>
+              <p className="text-sm text-gray-500 text-center mb-8">Pilih platform untuk panduan download lengkap</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                 {PLATFORMS.slice(0, 5).map(p => {
                   const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
                   return (
-                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card border border-border/50 hover:border-[#2563EB]/25 transition-colors">
+                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-white border border-gray-200 hover:border-[#4F46E5]/30 hover:shadow-sm transition-all">
                       <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: p.gradient || p.color }}>
                         <p.Icon className="h-5 w-5 text-white" />
                       </div>
-                      <span className="text-xs font-medium text-foreground text-center">{p.name}</span>
-                      <span className="text-[10px] text-muted-foreground">Download</span>
+                      <span className="text-xs font-medium text-gray-900 text-center">{p.name}</span>
+                      <span className="text-[10px] text-gray-400">Download</span>
                     </a>
                   );
                 })}
