@@ -280,7 +280,7 @@ function Navbar() {
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${scrolled ? "bg-[#0F172A]/95 backdrop-blur-md border-b border-white/10 shadow-lg" : "bg-transparent border-b border-transparent"}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ${scrolled ? "mobile-solid-bg bg-[#0F172A]/95 md:backdrop-blur-md border-b border-white/10 md:shadow-lg" : "bg-transparent border-b border-transparent"}`}>
       <div className="mx-auto max-w-6xl h-14 md:h-16 flex items-center justify-between px-4 md:px-6">
         <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="Mova - Home">
           <MovaLogo size={28} showText={true} />
@@ -623,10 +623,10 @@ function HeroSection() {
               onChange={e => setUrl(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleAnalyze()}
               placeholder={audioMode ? t("input.audioPlaceholder") : t("input.placeholder")}
-              className="h-12 md:h-14 bg-white border border-gray-200 rounded-xl text-[15px] md:text-lg pl-10 md:pl-11 pr-10 md:pr-12 text-gray-900 placeholder:text-gray-400 shadow-lg focus:border-[#4F46E5] focus:ring-2 focus:ring-[#4F46E5]/20"
+              className="h-12 md:h-14 bg-white border border-gray-200 rounded-xl text-[15px] md:text-lg pl-10 md:pl-11 pr-10 md:pr-12 text-gray-900 placeholder:text-gray-400 md:shadow-lg focus:border-[#4F46E5] focus:ring-2 focus:ring-[#4F46E5]/20"
             />
           </div>
-          <Button onClick={handleAnalyze} disabled={loading} className="w-full md:w-auto h-12 md:h-14 px-5 md:px-8 bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] active:scale-[0.98] shrink-0 shadow-lg shadow-[#4F46E5]/25 text-[15px] md:text-base transition-all">
+          <Button onClick={handleAnalyze} disabled={loading} className="w-full md:w-auto h-12 md:h-14 px-5 md:px-8 bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] active:scale-[0.98] shrink-0 md:shadow-lg md:shadow-[#4F46E5]/25 text-[15px] md:text-base transition-colors">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 mr-1.5" />}
             <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
           </Button>
@@ -671,7 +671,7 @@ function HeroSection() {
 
         {/* Result card */}
         {result && (
-          <div ref={resultRef} className="max-w-lg mx-auto mt-5 md:mt-6 rounded-xl bg-white border border-gray-200 overflow-hidden text-gray-900 shadow-xl text-left">
+          <div ref={resultRef} className="max-w-lg mx-auto mt-5 md:mt-6 rounded-xl bg-white border border-gray-200 overflow-hidden text-gray-900 md:shadow-xl text-left">
             <div className="px-3.5 md:px-4 py-2.5 border-b border-gray-100 flex items-center gap-2 bg-gray-50">
               <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
               <span className="text-[13px] md:text-sm text-green-600 font-medium">{audioMode ? t("result.audioFound") : t("result.found")}</span>
@@ -795,7 +795,7 @@ function FeaturesSection() {
   return (
     <section id="features" className="py-10 md:py-20 px-4 md:px-6 bg-white relative" aria-labelledby="features-heading">
       {/* Transition from dark hero */}
-      <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-[#0F172A] to-white pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-12 bg-[#0F172A] pointer-events-none" />
       <div className="mx-auto max-w-6xl">
         <div className="text-center mb-8 md:mb-12">
           <h2 id="features-heading" className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">
@@ -807,7 +807,7 @@ function FeaturesSection() {
           {featuresData.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div key={i} className="bg-white border border-gray-100 rounded-xl p-3.5 md:p-6 shadow-sm hover:shadow-md hover:border-[#4F46E5]/20 hover:-translate-y-0.5 transition-all">
+              <div key={i} className="bg-white border border-gray-100 rounded-xl p-3.5 md:p-6 md:shadow-sm md:hover:shadow-md md:hover:border-[#4F46E5]/20 md:hover:-translate-y-0.5 transition-colors">
                 <div className={`w-9 h-9 md:w-11 md:h-11 rounded-lg flex items-center justify-center shrink-0 mb-2.5 md:mb-3 ${f.color}`}>
                   <Icon className="h-4 w-4 md:h-5 md:w-5" />
                 </div>
@@ -844,7 +844,7 @@ function HowItWorksSection() {
             const Icon = s.icon;
             return (
               <div key={i} className="flex flex-col items-center text-center">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#4F46E5] flex items-center justify-center mb-2.5 md:mb-3 shadow-md">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#4F46E5] flex items-center justify-center mb-2.5 md:mb-3">
                   <span className="text-white font-bold text-sm md:text-base">{s.num}</span>
                 </div>
                 <h3 className="text-[13px] md:text-base font-semibold text-gray-900 mb-1">{s.title[lang] || s.title.id}</h3>
@@ -877,7 +877,7 @@ function PlatformsSection() {
           {PLATFORMS.map((p) => {
             const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
             return (
-              <a key={p.name} href={`/${slug}`} className="flex items-center gap-2.5 md:gap-3 p-2.5 md:p-4 rounded-xl bg-white border border-gray-200 hover:border-[#4F46E5]/40 hover:shadow-md hover:-translate-y-0.5 transition-all group">
+              <a key={p.name} href={`/${slug}`} className="flex items-center gap-2.5 md:gap-3 p-2.5 md:p-4 rounded-xl bg-white border border-gray-200 md:hover:border-[#4F46E5]/40 md:hover:shadow-md md:hover:-translate-y-0.5 transition-colors group">
                 <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: p.gradient || p.color }}>
                   <p.Icon className="h-4 w-4 md:h-4.5 md:w-4.5" />
                 </div>
@@ -933,7 +933,7 @@ function FAQSection() {
         </div>
         <div className="space-y-2.5 md:space-y-3">
           {faqData.map((f, i) => (
-            <details key={i} className="group bg-white border border-gray-200 rounded-xl hover:border-[#4F46E5]/30 transition-colors">
+            <details key={i} className="group bg-white border border-gray-200 rounded-xl md:hover:border-[#4F46E5]/30 transition-colors">
               <summary className="flex items-center justify-between px-4 md:px-6 py-3.5 md:py-4 cursor-pointer text-[13px] md:text-base font-medium text-gray-900 hover:text-[#4F46E5] transition-colors list-none">
                 <span className="pr-3">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</span>
                 <ChevronDown className="h-4 w-4 text-gray-400 shrink-0 group-open:rotate-180 transition-transform duration-200" />
@@ -1023,7 +1023,7 @@ function Footer() {
 /* ──────── Mobile Bottom Nav ──────── */
 function MobileBottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#0F172A]/98 backdrop-blur-md border-t border-white/10">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden mobile-solid-bg bg-[#0F172A] border-t border-white/10">
       <div className="flex items-center justify-around px-2 py-2">
         {[
           { icon: Download, label: "Download", href: "#hero", highlight: true },
@@ -1095,7 +1095,7 @@ export default function Home() {
                 {PLATFORMS.slice(0, 5).map(p => {
                   const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
                   return (
-                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-1.5 md:gap-2 p-2.5 md:p-4 rounded-xl bg-white border border-gray-200 hover:border-[#4F46E5]/30 hover:shadow-sm transition-all">
+                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-1.5 md:gap-2 p-2.5 md:p-4 rounded-xl bg-white border border-gray-200 md:hover:border-[#4F46E5]/30 md:hover:shadow-sm transition-colors">
                       <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center" style={{ background: p.gradient || p.color }}>
                         <p.Icon className="h-4 w-4 md:h-5 md:w-5 text-white" />
                       </div>
