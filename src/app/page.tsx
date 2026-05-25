@@ -822,6 +822,49 @@ function HeroSection() {
   );
 }
 
+/* ──────── Trust / Social Proof Section ──────── */
+function TrustSection() {
+  const stats = [
+    { value: "500K+", label: { id: "Video Diunduh", en: "Videos Downloaded" } },
+    { value: "7+", label: { id: "Platform Didukung", en: "Platforms Supported" } },
+    { value: "100%", label: { id: "Gratis", en: "Free" } },
+    { value: "4.8", label: { id: "Rating Pengguna", en: "User Rating" } },
+  ];
+  const trustBadges = [
+    { icon: Shield, label: { id: "Privasi Terjamin", en: "Privacy Protected" } },
+    { icon: Zap, label: { id: "Tanpa Iklan Pop-up", en: "No Pop-up Ads" } },
+    { icon: Globe, label: { id: "Tanpa Registrasi", en: "No Registration" } },
+  ];
+  const { lang } = useLanguage();
+  return (
+    <section className="py-8 sm:py-12 px-3 sm:px-4 border-y border-border/30 bg-card/30">
+      <div className="mx-auto max-w-5xl">
+        {/* Stats */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+          {stats.map((s, i) => (
+            <div key={i} className="text-center">
+              <p className="text-xl sm:text-2xl font-extrabold text-[#2563EB] font-[family-name:var(--font-montserrat)]">{s.value}</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">{s.label[lang] || s.label.id}</p>
+            </div>
+          ))}
+        </div>
+        {/* Trust badges */}
+        <div className="flex flex-wrap justify-center gap-3">
+          {trustBadges.map((b, i) => {
+            const Icon = b.icon;
+            return (
+              <div key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/5 border border-primary/10">
+                <Icon className="h-3.5 w-3.5 text-[#2563EB]" />
+                <span className="text-[11px] font-medium text-foreground">{b.label[lang] || b.label.id}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ──────── Features Section ──────── */
 const featuresData = [
   { icon: Download, titleId: "Download Tanpa Watermark", desc: { id: "Download video dari TikTok, Instagram, YouTube tanpa watermark. Kualitas asli dipertahankan.", en: "Download videos from TikTok, Instagram, YouTube without watermark. Original quality preserved." } },
@@ -1099,6 +1142,7 @@ export default function Home() {
         <Navbar />
         <main className="flex-1 pb-16 md:pb-0">
           <HeroSection />
+          <TrustSection />
           <FeaturesSection />
           <HowItWorksSection />
           <PlatformsSection />
