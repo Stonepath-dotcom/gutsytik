@@ -9,21 +9,30 @@
       <stop offset="0%" stop-color="#FFFFFF"/>
       <stop offset="100%" stop-color="#DBEAFE"/>
     </linearGradient>
+    <linearGradient id="arrow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#93C5FD"/>
+      <stop offset="100%" stop-color="#DBEAFE"/>
+    </linearGradient>
   </defs>
+  <!-- Background rounded square -->
   <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <rect x="12" y="12" width="488" height="488" rx="100" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
-  <!-- Play button triangle -->
-  <path d="M175 135 L175 345 L350 240 Z" fill="url(#icon)" opacity="0.95"/>
-  <!-- Download arrow -->
-  <path d="M310 280 L310 370 L350 370 L310 370 M310 370 L270 370 L310 370" stroke="url(#icon)" stroke-width="0" fill="url(#icon)" opacity="0"/>
-  <g opacity="0.9">
-    <!-- Down arrow body -->
-    <rect x="328" y="260" width="32" height="70" rx="6" fill="url(#icon)"/>
-    <!-- Down arrow head -->
-    <path d="M344 370 L388 318 L364 318 L364 310 L324 310 L324 318 L300 318 Z" fill="url(#icon)"/>
+  <!-- Inner border accent -->
+  <rect x="14" y="14" width="484" height="484" rx="98" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+  <!-- Play button circle -->
+  <circle cx="230" cy="256" r="130" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="230" cy="256" r="100" fill="rgba(255,255,255,0.06)"/>
+  <!-- Play triangle -->
+  <path d="M200 180 L200 332 L320 256 Z" fill="url(#icon)" opacity="0.95"/>
+  <!-- Download arrow overlay -->
+  <g opacity="0.92">
+    <!-- Arrow shaft -->
+    <rect x="338" y="270" width="36" height="72" rx="8" fill="url(#arrow)"/>
+    <!-- Arrow head -->
+    <path d="M356 375 L410 310 L382 310 L382 300 L330 300 L330 310 L302 310 Z" fill="url(#arrow)"/>
   </g>
   <!-- Decorative dots -->
-  <circle cx="120" cy="420" r="10" fill="rgba(255,255,255,0.12)"/>
-  <circle cx="95" cy="395" r="6" fill="rgba(255,255,255,0.08)"/>
-  <circle cx="420" cy="110" r="8" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="100" cy="420" r="12" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="76" cy="396" r="7" fill="rgba(255,255,255,0.06)"/>
+  <circle cx="420" cy="100" r="9" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="440" cy="130" r="5" fill="rgba(255,255,255,0.05)"/>
 </svg>

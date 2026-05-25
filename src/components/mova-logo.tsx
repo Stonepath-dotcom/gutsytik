@@ -8,7 +8,7 @@ interface MovaLogoProps {
 
 export function MovaLogo({ size = 40, className = "", showText = true }: MovaLogoProps) {
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
+    <div className={`flex items-center gap-1.5 md:gap-2 ${className}`}>
       <svg
         width={size}
         height={size}
@@ -27,26 +27,37 @@ export function MovaLogo({ size = 40, className = "", showText = true }: MovaLog
             <stop offset="0%" stopColor="#FFFFFF" />
             <stop offset="100%" stopColor="#DBEAFE" />
           </linearGradient>
+          <linearGradient id="mova-arrow" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#93C5FD" />
+            <stop offset="100%" stopColor="#DBEAFE" />
+          </linearGradient>
         </defs>
+        {/* Background rounded square */}
         <rect width="512" height="512" rx="112" fill="url(#mova-bg)" />
-        <rect x="12" y="12" width="488" height="488" rx="100" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="2" />
+        {/* Inner border accent */}
+        <rect x="14" y="14" width="484" height="484" rx="98" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="2" />
+        {/* Play button circle */}
+        <circle cx="230" cy="256" r="130" fill="rgba(255,255,255,0.08)" />
+        <circle cx="230" cy="256" r="100" fill="rgba(255,255,255,0.06)" />
         {/* Play triangle */}
-        <path d="M175 140 L175 340 L345 240 Z" fill="url(#mova-icon)" opacity="0.95" />
-        {/* Download arrow - shaft */}
-        <g opacity="0.9">
-          <rect x="328" y="265" width="30" height="62" rx="5" fill="url(#mova-icon)" />
-          {/* Download arrow - head */}
-          <path d="M343 362 L385 312 L362 312 L362 305 L324 305 L324 312 L301 312 Z" fill="url(#mova-icon)" />
+        <path d="M200 180 L200 332 L320 256 Z" fill="url(#mova-icon)" opacity="0.95" />
+        {/* Download arrow overlay (bottom-right) */}
+        <g opacity="0.92">
+          {/* Arrow shaft */}
+          <rect x="338" y="270" width="36" height="72" rx="8" fill="url(#mova-arrow)" />
+          {/* Arrow head */}
+          <path d="M356 375 L410 310 L382 310 L382 300 L330 300 L330 310 L302 310 Z" fill="url(#mova-arrow)" />
         </g>
-        {/* Decorative accents */}
-        <circle cx="120" cy="420" r="10" fill="rgba(255,255,255,0.12)" />
-        <circle cx="96" cy="396" r="6" fill="rgba(255,255,255,0.08)" />
-        <circle cx="420" cy="112" r="8" fill="rgba(255,255,255,0.1)" />
+        {/* Subtle decorative dots */}
+        <circle cx="100" cy="420" r="12" fill="rgba(255,255,255,0.1)" />
+        <circle cx="76" cy="396" r="7" fill="rgba(255,255,255,0.06)" />
+        <circle cx="420" cy="100" r="9" fill="rgba(255,255,255,0.08)" />
+        <circle cx="440" cy="130" r="5" fill="rgba(255,255,255,0.05)" />
       </svg>
       {showText && (
         <span
           className="font-[family-name:var(--font-montserrat)] font-extrabold tracking-tight text-foreground"
-          style={{ letterSpacing: "-0.03em", fontSize: size * 0.5 }}
+          style={{ letterSpacing: "-0.03em", fontSize: size * 0.52 }}
         >
           <span className="gradient-text">Mo</span>va
         </span>
