@@ -298,7 +298,7 @@ function Navbar() {
   }, [open]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
       <div className="mx-auto max-w-6xl h-12 md:h-16 flex items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="Mova - Home">
@@ -341,7 +341,7 @@ function Navbar() {
 
       {/* Mobile dropdown */}
       {open && (
-        <div ref={menuRef} className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-xl">
+        <div ref={menuRef} className="md:hidden border-t border-border bg-background">
           <div className="px-4 py-3 space-y-0.5">
             {navLinks.map(l => (
               <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50 transition-colors">{l.label}</a>
@@ -679,11 +679,11 @@ function HeroSection() {
         </div>
 
         {/* Micro trust line under input */}
-        <div className="flex items-center justify-center gap-3 md:gap-4 text-[10px] md:text-xs text-muted-foreground/60 mb-2">
+        <div className="flex items-center justify-center gap-3 md:gap-4 text-[10px] md:text-xs text-muted-foreground mb-2">
           <span className="flex items-center gap-1"><Shield className="h-3 w-3 md:h-3.5 md:w-3.5" />SSL Secure</span>
-          <span className="w-1 h-1 rounded-full bg-muted-foreground/20" />
-          <span className="flex items-center gap-1">No Signup</span>
-          <span className="w-1 h-1 rounded-full bg-muted-foreground/20" />
+          <span>·</span>
+          <span>No Signup</span>
+          <span>·</span>
           <span className="flex items-center gap-1">100% Free</span>
         </div>
 
@@ -708,9 +708,9 @@ function HeroSection() {
 
         {/* Result card */}
         {result && (
-          <div ref={resultRef} className="max-w-xl mx-auto rounded-xl bg-card border overflow-hidden" style={{ borderColor: `${ACCENT}30` }}>
+          <div ref={resultRef} className="max-w-xl mx-auto rounded-xl bg-card border border-border overflow-hidden">
             {/* Platform badge header */}
-            <div className="px-4 py-2 border-b border-border flex items-center gap-2" style={{ background: `linear-gradient(to right, ${ACCENT}15, #7C3AED15)` }}>
+            <div className="px-4 py-2 border-b border-border flex items-center gap-2 bg-muted/50">
               <CheckCircle className="h-4 w-4 text-green-400" />
               <span className="text-sm text-green-400 font-medium">{audioMode ? t("result.audioFound") : t("result.found")}</span>
               <div className="ml-auto flex items-center gap-1.5">
@@ -836,7 +836,7 @@ function TrustSection() {
     { value: "4.8", label: { id: "Rating", en: "Rating" } },
   ];
   return (
-    <section className="py-10 md:py-16 px-4 sm:px-6 border-y border-border/40" aria-label="Trust signals">
+    <section className="py-10 md:py-16 px-4 sm:px-6 border-y border-border" aria-label="Trust signals">
       <div className="mx-auto max-w-5xl">
         <div className="grid grid-cols-4 gap-4 md:gap-8">
           {stats.map((s, i) => (
@@ -929,41 +929,28 @@ function HowItWorksSection() {
 function PlatformsSection() {
   const { t } = useLanguage();
   return (
-    <section id="platforms" className="py-14 md:py-28 overflow-hidden">
-      <div className="mx-auto max-w-5xl px-3 sm:px-4">
+    <section id="platforms" className="py-14 md:py-28 px-3 sm:px-4">
+      <div className="mx-auto max-w-5xl">
         <div className="mb-10 md:mb-14">
           <p className="text-xs md:text-sm font-semibold text-[#2563EB] tracking-wide uppercase mb-3">{t("nav.platform")}</p>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-3 font-[family-name:var(--font-montserrat)]">{t("platforms.title")}</h2>
           <p className="text-sm md:text-lg text-muted-foreground max-w-lg">{t("platforms.subtitle")}</p>
         </div>
-      </div>
-      {/* Marquee row */}
-      <div className="relative mb-3">
-        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-        <div className="flex animate-marquee scroll-hide">
-          {[...PLATFORMS, ...PLATFORMS].map((p, i) => (
-            <div key={`r1-${p.name}-${i}`} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-card border border-border mx-2 shrink-0 hover:border-[#2563EB]/25 transition-colors platform-card">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white" style={{ background: p.gradient || p.color }}>
-                <p.Icon className="h-3.5 w-3.5" />
-              </div>
-              <span className="text-sm font-medium text-foreground whitespace-nowrap">{p.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-        <div className="flex animate-marquee-reverse scroll-hide">
-          {[...PLATFORMS.slice().reverse(), ...PLATFORMS.slice().reverse()].map((p, i) => (
-            <div key={`r2-${p.name}-${i}`} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-card border border-border mx-2 shrink-0 hover:border-[#2563EB]/25 transition-colors platform-card">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white" style={{ background: p.gradient || p.color }}>
-                <p.Icon className="h-3.5 w-3.5" />
-              </div>
-              <span className="text-sm font-medium text-foreground whitespace-nowrap">{p.name}</span>
-            </div>
-          ))}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
+          {PLATFORMS.map((p, i) => {
+            const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
+            return (
+              <a key={p.name} href={`/${slug}`} className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border hover:border-[#2563EB]/30 transition-colors">
+                <div className="w-9 h-9 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: p.gradient || p.color }}>
+                  <p.Icon className="h-4 w-4" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-foreground">{p.name}</p>
+                  <p className="text-[11px] text-muted-foreground">Download</p>
+                </div>
+              </a>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -1043,7 +1030,7 @@ function CTASection() {
 function Footer() {
   const { t, lang } = useLanguage();
   return (
-    <footer className="border-t border-border/50" role="contentinfo">
+    <footer className="border-t border-border" role="contentinfo">
       <div className="mx-auto max-w-6xl px-3 sm:px-4 py-12 md:py-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {/* Column 1: Logo + Description */}
@@ -1084,7 +1071,7 @@ function Footer() {
           </div>
         </div>
         {/* Bottom bar */}
-        <div className="mt-12 md:mt-16 pt-6 border-t border-border/40">
+        <div className="mt-12 md:mt-16 pt-6 border-t border-border">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-[10px] md:text-xs text-muted-foreground/50">&copy; 2026 Mova. All rights reserved.</p>
             <p className="text-[9px] md:text-[11px] text-muted-foreground/30 text-center sm:text-right">
@@ -1100,7 +1087,7 @@ function Footer() {
 /* ──────── Mobile Bottom Nav ──────── */
 function MobileBottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/90 backdrop-blur-xl border-t border-border/40 safe-area-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background border-t border-border safe-area-bottom">
       <div className="flex items-center justify-around px-2 py-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         {[
           { icon: Download, label: "Download", href: "#hero", highlight: true },

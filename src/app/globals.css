@@ -137,46 +137,12 @@
 html:not(.dark) ::-webkit-scrollbar-thumb { background: #D4D4D8; }
 html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
 
-/* ─── Feature Card ─── */
-.feature-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  transition: border-color 0.15s ease;
-}
-.feature-card:hover {
-  border-color: rgba(37,99,235,0.25);
-}
-
 /* ─── CTA Card ─── */
 .cta-card {
-  position: relative;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  overflow: hidden;
 }
-.cta-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #2563EB;
-}
-
-/* ─── Marquee ─── */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-@keyframes marquee-reverse {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
-}
-.animate-marquee { animation: marquee 30s linear infinite; }
-.animate-marquee-reverse { animation: marquee-reverse 30s linear infinite; }
 
 /* ─── Safe Area for notched phones ─── */
 .safe-top { padding-top: env(safe-area-inset-top, 0px); }
@@ -208,12 +174,4 @@ header, nav, footer {
 }
 @media screen and (min-width: 1280px) {
   html { font-size: 18px; }
-}
-
-/* ─── Platform card hover ─── */
-.platform-card {
-  transition: border-color 0.15s ease;
-}
-.platform-card:hover {
-  border-color: rgba(37,99,235,0.3);
 }
