@@ -77,6 +77,8 @@ export default function RootLayout({
         <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
         <link rel="canonical" href="https://getmova.my.id" />
         <link rel="manifest" href="/manifest.json" />
+        {/* Google AdSense */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8487073388720076" crossOrigin="anonymous" />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
