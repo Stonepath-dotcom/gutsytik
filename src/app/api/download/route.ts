@@ -32,7 +32,6 @@ async function resolveShortUrl(url: string): Promise<string> {
       signal: AbortSignal.timeout(5000),
     });
     const resolved = res.url || url;
-    // Only return resolved URL if it looks like a valid URL
     if (resolved && resolved.startsWith("http")) return resolved;
   } catch {}
   return url;
@@ -50,88 +49,20 @@ function extractYouTubeVideoId(url: string): string | null {
   return null;
 }
 
-/* ──────────────── Cobalt API (Universal Fallback) ─── */
-async function cobaltDownload(url: string, audioOnly: boolean) {
-  const cobaltInstances = [
-    "https://api.cobalt.tools",
-  ];
-
-  for (const instance of cobaltInstances) {
-    try {
-      const res = await fetch(instance, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        },
-        body: JSON.stringify({
-          url,
-          videoQuality: "1080",
-          audioFormat: "mp3",
-          downloadMode: audioOnly ? "audio" : "auto",
-          filenameStyle: "basic",
-        }),
-        signal: AbortSignal.timeout(15000),
-      });
-
-      if (!res.ok) continue;
-      const data = await res.json();
-
-      if (data.status === "redirect" || data.status === "tunnel") {
-        const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-        const dlUrl = data.url as string;
-
-        if (audioOnly) {
-          qualityOptions.push({ label: "Audio", resolution: "MP3", url: dlUrl });
-        } else {
-          qualityOptions.push({ label: "HD", resolution: "1080p", url: dlUrl });
-        }
-
-        return {
-          title: "Video",
-          thumbnail: "",
-          duration: "--:--",
-          author: "@unknown",
-          platform: detectPlatform(url),
-          downloadUrl: dlUrl,
-          qualityOptions,
-          filename: `mova_${detectPlatform(url).toLowerCase()}_${Date.now()}`,
-        };
-      }
-
-      if (data.status === "picker" && data.picker && data.picker.length > 0) {
-        const picker = data.picker as Array<{ url: string; type: string }>;
-        const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-
-        for (const item of picker) {
-          if (item.type === "photo" || item.url) {
-            qualityOptions.push({
-              label: qualityOptions.length === 0 ? "Best" : `Option ${qualityOptions.length + 1}`,
-              resolution: "Auto",
-              url: item.url,
-            });
-          }
-        }
-
-        if (qualityOptions.length > 0) {
-          return {
-            title: "Video",
-            thumbnail: "",
-            duration: "--:--",
-            author: "@unknown",
-            platform: detectPlatform(url),
-            downloadUrl: qualityOptions[0].url,
-            qualityOptions,
-            filename: `mova_${detectPlatform(url).toLowerCase()}_${Date.now()}`,
-          };
-        }
-      }
-    } catch (e) {
-      console.log(`Cobalt failed (${instance}): ${e instanceof Error ? e.message : "unknown"}`);
+/* ──────────────── Extract Twitter/X tweet ID and username from URL ─── */
+function extractTwitterInfo(url: string): { username: string; tweetId: string } | null {
+  try {
+    const parsed = new URL(url);
+    const pathParts = parsed.pathname.split("/").filter(Boolean);
+    // URL format: /username/status/tweetId or /username/status/tweetId/video/1
+    const statusIdx = pathParts.findIndex(p => p === "status");
+    if (statusIdx >= 1 && statusIdx + 1 < pathParts.length) {
+      return {
+        username: pathParts[statusIdx - 1],
+        tweetId: pathParts[statusIdx + 1],
+      };
     }
-  }
-
+  } catch {}
   return null;
 }
 
@@ -225,50 +156,18 @@ async function downloadTikTok(url: string) {
     console.log(`TikTok tikwm GET failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
-  // Strategy 3: Cobalt API
-  console.log("TikTok: Trying Cobalt API fallback...");
-  const cobaltResult = await cobaltDownload(resolvedUrl, false);
-  if (cobaltResult) {
-    cobaltResult.platform = "TikTok";
-    return cobaltResult;
-  }
-
   return null;
 }
 
-/* ──────────────── YouTube Strategy A: InnerTube API (multiple clients) ─── */
+/* ──────────────── YouTube Strategy A: InnerTube API ─── */
 async function youTubeInnerTube(videoId: string, audioOnly: boolean) {
   const clients: { clientName: string; clientVersion: string; extra?: Record<string, unknown>; thirdParty?: string }[] = [
-    {
-      clientName: "ANDROID",
-      clientVersion: "19.29.37",
-      extra: { androidSdkVersion: 30, osName: "Android", osVersion: "11", hl: "en", gl: "US" },
-    },
-    {
-      clientName: "TVHTML5_SIMPLY_EMBEDDED_PLAYER",
-      clientVersion: "2.0",
-      thirdParty: "https://www.google.com",
-    },
-    {
-      clientName: "ANDROID_VR",
-      clientVersion: "1.60.2",
-      extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" },
-    },
-    {
-      clientName: "IOS",
-      clientVersion: "19.45.4",
-      extra: { deviceModel: "iPhone16,2", hl: "en", gl: "US" },
-    },
-    {
-      clientName: "WEB_EMBEDDED_PLAYER",
-      clientVersion: "1.20241217.01.00",
-      thirdParty: "https://www.google.com",
-    },
-    {
-      clientName: "WEB_CREATOR",
-      clientVersion: "1.20241217.01.00",
-      extra: { hl: "en", gl: "US" },
-    },
+    { clientName: "ANDROID", clientVersion: "19.29.37", extra: { androidSdkVersion: 30, osName: "Android", osVersion: "11", hl: "en", gl: "US" } },
+    { clientName: "TVHTML5_SIMPLY_EMBEDDED_PLAYER", clientVersion: "2.0", thirdParty: "https://www.google.com" },
+    { clientName: "ANDROID_VR", clientVersion: "1.60.2", extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" } },
+    { clientName: "IOS", clientVersion: "19.45.4", extra: { deviceModel: "iPhone16,2", hl: "en", gl: "US" } },
+    { clientName: "WEB_EMBEDDED_PLAYER", clientVersion: "1.20241217.01.00", thirdParty: "https://www.google.com" },
+    { clientName: "WEB_CREATOR", clientVersion: "1.20241217.01.00", extra: { hl: "en", gl: "US" } },
   ];
 
   const apiKeys = [
@@ -282,13 +181,7 @@ async function youTubeInnerTube(videoId: string, audioOnly: boolean) {
     for (const client of clients) {
       try {
         const context: Record<string, unknown> = {
-          client: {
-            clientName: client.clientName,
-            clientVersion: client.clientVersion,
-            hl: "en",
-            gl: "US",
-            ...client.extra,
-          },
+          client: { clientName: client.clientName, clientVersion: client.clientVersion, hl: "en", gl: "US", ...client.extra },
         };
         if (client.thirdParty) context.thirdParty = { embedUrl: client.thirdParty };
 
@@ -321,11 +214,7 @@ async function youTubeInnerTube(videoId: string, audioOnly: boolean) {
   return null;
 }
 
-function parseYouTubeInnerTubeResponse(
-  data: Record<string, unknown>,
-  videoId: string,
-  audioOnly: boolean
-) {
+function parseYouTubeInnerTubeResponse(data: Record<string, unknown>, videoId: string, audioOnly: boolean) {
   const videoDetails = (data.videoDetails || {}) as Record<string, unknown>;
   const streamingData = (data.streamingData || {}) as Record<string, unknown>;
   const playability = (data.playabilityStatus || {}) as Record<string, unknown>;
@@ -345,27 +234,15 @@ function parseYouTubeInnerTubeResponse(
   const adaptiveFormats = (streamingData.adaptiveFormats || []) as Record<string, unknown>[];
 
   const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-
   const audioFormats = adaptiveFormats
     .filter((f) => typeof f.mimeType === "string" && f.mimeType.includes("audio") && f.url)
     .sort((a, b) => ((b.bitrate as number) || 0) - ((a.bitrate as number) || 0));
 
   if (audioOnly) {
     if (audioFormats.length > 0) {
-      const best = audioFormats[0];
-      const bitrate = best.bitrate ? Math.round((best.bitrate as number) / 1000) : 128;
-      qualityOptions.push({
-        label: "Audio",
-        resolution: "MP3",
-        url: best.url as string,
-      });
+      qualityOptions.push({ label: "Audio", resolution: "MP3", url: audioFormats[0].url as string });
       if (audioFormats.length > 1) {
-        const lowQuality = audioFormats[audioFormats.length - 1];
-        qualityOptions.push({
-          label: "Audio (Low)",
-          resolution: "MP3",
-          url: lowQuality.url as string,
-        });
+        qualityOptions.push({ label: "Audio (Low)", resolution: "MP3", url: audioFormats[audioFormats.length - 1].url as string });
       }
     }
   } else {
@@ -375,11 +252,9 @@ function parseYouTubeInnerTubeResponse(
         qualityOptions.push({ label: quality, resolution: quality, url: f.url as string });
       }
     }
-
     const videoFormats = adaptiveFormats
       .filter((f) => typeof f.mimeType === "string" && f.mimeType.includes("video") && f.url)
       .sort((a, b) => ((b.width as number) || 0) - ((a.width as number) || 0));
-
     const existingLabels = new Set(qualityOptions.map(q => q.label));
     for (const f of videoFormats) {
       const quality = (f.qualityLabel as string) || (f.quality as string) || "";
@@ -388,7 +263,6 @@ function parseYouTubeInnerTubeResponse(
         existingLabels.add(quality);
       }
     }
-
     if (audioFormats.length > 0) {
       qualityOptions.push({ label: "Audio", resolution: "MP3", url: audioFormats[0].url as string });
     }
@@ -417,13 +291,9 @@ async function youTubePiped(videoId: string, audioOnly: boolean) {
   for (const instance of pipedInstances) {
     try {
       const res = await fetch(`${instance}/streams/${videoId}`, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-          "Accept": "application/json",
-        },
+        headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36", "Accept": "application/json" },
         signal: AbortSignal.timeout(8000),
       });
-
       if (!res.ok) continue;
       const data = await res.json();
       if (data.error || !data.audioStreams) continue;
@@ -450,7 +320,6 @@ async function youTubePiped(videoId: string, audioOnly: boolean) {
         const videoStreams = (data.videoStreams as Array<Record<string, unknown>>)
           .filter((s) => s.url)
           .sort((a, b) => ((b.width as number) || 0) - ((a.width as number) || 0));
-
         const seen = new Set<string>();
         for (const v of videoStreams) {
           const q = (v.quality as string) || "";
@@ -467,16 +336,9 @@ async function youTubePiped(videoId: string, audioOnly: boolean) {
       if (qualityOptions.length === 0) continue;
 
       console.log(`Piped API success with instance: ${instance}`);
-      return {
-        title, thumbnail, duration, author,
-        platform: "YouTube",
-        downloadUrl: qualityOptions[0].url,
-        qualityOptions,
-        filename: `mova_youtube_${videoId}`,
-      };
+      return { title, thumbnail, duration, author, platform: "YouTube", downloadUrl: qualityOptions[0].url, qualityOptions, filename: `mova_youtube_${videoId}` };
     } catch { continue; }
   }
-
   return null;
 }
 
@@ -531,11 +393,9 @@ async function youTubeEdgeProxy(videoId: string, audioOnly: boolean) {
       body: JSON.stringify({ videoId, audioOnly }),
       signal: AbortSignal.timeout(30000),
     });
-
     if (!res.ok) return null;
     const data = await res.json();
     if (!data.success) return null;
-
     console.log(`Edge proxy success for video: ${videoId}`);
     return data as {
       title: string; thumbnail: string; duration: string; author: string;
@@ -570,14 +430,6 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
   const scrapeResult = await youTubePageScrape(videoId, audioOnly);
   if (scrapeResult) return scrapeResult;
 
-  // Final fallback: Cobalt
-  console.log(`YouTube: All strategies failed, trying Cobalt...`);
-  const cobaltResult = await cobaltDownload(url, audioOnly);
-  if (cobaltResult) {
-    cobaltResult.platform = "YouTube";
-    return cobaltResult;
-  }
-
   return null;
 }
 
@@ -585,49 +437,69 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
 async function downloadInstagram(url: string) {
   // Extract shortcode from Instagram URL
   let shortcode = "";
+  let contentType: "p" | "reel" | "tv" = "p";
   try {
     const parsed = new URL(url);
     const pathParts = parsed.pathname.split("/").filter(Boolean);
-    // URL patterns: /p/SHORTCODE/, /reel/SHORTCODE/, /reels/SHORTCODE/, /tv/SHORTCODE/
     const contentIdx = pathParts.findIndex(p => ["p", "reel", "reels", "tv"].includes(p));
     if (contentIdx >= 0 && pathParts[contentIdx + 1]) {
+      contentType = pathParts[contentIdx] as "p" | "reel" | "tv";
       shortcode = pathParts[contentIdx + 1];
     }
   } catch {}
 
-  // Strategy 1: Try Cobalt API (most reliable for Instagram)
-  console.log("Instagram: Trying Cobalt API...");
-  const cobaltResult = await cobaltDownload(url, false);
-  if (cobaltResult) {
-    cobaltResult.platform = "Instagram";
-    // Try to get a better title/thumbnail
-    if (!cobaltResult.thumbnail || cobaltResult.title === "Video") {
-      try {
-        const oembedRes = await fetch(`https://www.instagram.com/p/${shortcode}/?__a=1&__d=dis`, {
-          headers: {
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15",
-            "Accept": "text/html",
-          },
-          signal: AbortSignal.timeout(5000),
-          redirect: "follow",
-        });
-        if (oembedRes.ok) {
-          const html = await oembedRes.text();
-          const titleMatch = html.match(/content="([^"]+)"\s+property="og:title"/);
-          if (titleMatch) cobaltResult.title = titleMatch[1];
-          const imageMatch = html.match(/content="([^"]+)"\s+property="og:image"/);
-          if (imageMatch) cobaltResult.thumbnail = imageMatch[1];
-        }
-      } catch {}
+  // Strategy 1: Try Instagram page scraping with Googlebot UA (gets server-rendered content)
+  console.log("Instagram: Trying page scrape with bot UA...");
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+      },
+      signal: AbortSignal.timeout(10000),
+      redirect: "follow",
+    });
+
+    if (res.ok) {
+      const html = await res.text();
+      const result = extractInstagramVideo(html, shortcode);
+      if (result) return result;
     }
-    return cobaltResult;
+  } catch (e) {
+    console.log(`Instagram bot scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
-  // Strategy 2: Try Instagram embed endpoint
+  // Strategy 2: Try with mobile user agent
+  console.log("Instagram: Trying mobile UA scrape...");
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+        "Accept": "text/html,application/xhtml+xml",
+        "Accept-Language": "en-US,en;q=0.9",
+      },
+      signal: AbortSignal.timeout(10000),
+      redirect: "follow",
+    });
+
+    if (res.ok) {
+      const html = await res.text();
+      const result = extractInstagramVideo(html, shortcode);
+      if (result) return result;
+    }
+  } catch (e) {
+    console.log(`Instagram mobile scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
+  }
+
+  // Strategy 3: Try Instagram embed endpoint
   if (shortcode) {
     console.log(`Instagram: Trying embed endpoint for shortcode: ${shortcode}`);
     try {
-      const embedUrl = `https://www.instagram.com/p/${shortcode}/embed/`;
+      // For reels, embed uses /p/ path
+      const embedPath = contentType === "reel" || contentType === "reels" ? `/p/${shortcode}/embed/` : `/${contentType}/${shortcode}/embed/`;
+      const embedUrl = `https://www.instagram.com${embedPath}`;
+
       const res = await fetch(embedUrl, {
         headers: {
           "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
@@ -639,51 +511,16 @@ async function downloadInstagram(url: string) {
 
       if (res.ok) {
         const html = await res.text();
-
-        // Try to find video URL in embed page
-        const videoMatches = [
-          html.match(/video_url&quot;:&quot;([^&]+)&quot;/),
-          html.match(/"video_url":"([^"]+)"/),
-          html.match(/og:video:secure_url"\s+content="([^"]+)"/),
-          html.match(/og:video"\s+content="([^"]+)"/),
-          html.match(/src="([^"]+)"\s+type="video\/mp4"/),
-        ];
-
-        let videoUrl: string | null = null;
-        for (const match of videoMatches) {
-          if (match?.[1]) {
-            videoUrl = match[1].replace(/\\u002F/g, "/").replace(/&amp;/g, "&");
-            break;
-          }
-        }
-
-        if (videoUrl) {
-          // Get thumbnail
-          const thumbMatch = html.match(/og:image"\s+content="([^"]+)"/);
-          const thumbnail = thumbMatch?.[1]?.replace(/&amp;/g, "&") || "";
-
-          const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-          qualityOptions.push({ label: "Best", resolution: "Auto", url: videoUrl });
-
-          return {
-            title: "Instagram Video",
-            thumbnail,
-            duration: "--:--",
-            author: "@unknown",
-            platform: "Instagram",
-            downloadUrl: videoUrl,
-            qualityOptions,
-            filename: `mova_instagram_${shortcode}_${Date.now()}`,
-          };
-        }
+        const result = extractInstagramVideo(html, shortcode);
+        if (result) return result;
       }
     } catch (e) {
       console.log(`Instagram embed failed: ${e instanceof Error ? e.message : "unknown"}`);
     }
   }
 
-  // Strategy 3: Try scraping the page directly with desktop user agent
-  console.log("Instagram: Trying direct page scrape...");
+  // Strategy 4: Try desktop user agent
+  console.log("Instagram: Trying desktop UA scrape...");
   try {
     const res = await fetch(url, {
       headers: {
@@ -699,58 +536,72 @@ async function downloadInstagram(url: string) {
 
     if (res.ok) {
       const html = await res.text();
-
-      let videoUrl: string | null = null;
-      let thumbnail: string | null = null;
-      let title: string = "Instagram Video";
-
-      // Try multiple patterns
-      const patterns = [
-        html.match(/"video_url":"([^"]+)"/),
-        html.match(/content="([^"]+)"\s+property="og:video(:secure_url)?"/),
-        html.match(/"playable_url":"([^"]+)"/),
-        html.match(/"dash_manifest":"[^"]*","dash_playable_url":"([^"]+)"/),
-      ];
-
-      for (const match of patterns) {
-        if (match?.[1]) {
-          videoUrl = match[1].replace(/\\u002F/g, "/").replace(/&amp;/g, "&");
-          break;
-        }
-      }
-
-      const ogImageMatch = html.match(/content="([^"]+)"\s+property="og:image"/);
-      if (ogImageMatch) thumbnail = ogImageMatch[1].replace(/&amp;/g, "&");
-
-      const ogTitleMatch = html.match(/content="([^"]+)"\s+property="og:title"/);
-      if (ogTitleMatch) title = ogTitleMatch[1];
-
-      if (videoUrl) {
-        const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-        qualityOptions.push({ label: "Best", resolution: "Auto", url: videoUrl });
-
-        return {
-          title,
-          thumbnail: thumbnail || "",
-          duration: "--:--",
-          author: "@unknown",
-          platform: "Instagram",
-          downloadUrl: videoUrl,
-          qualityOptions,
-          filename: `mova_instagram_${Date.now()}`,
-        };
-      }
+      const result = extractInstagramVideo(html, shortcode);
+      if (result) return result;
     }
   } catch (e) {
-    console.log(`Instagram direct scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
+    console.log(`Instagram desktop scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
   return null;
 }
 
+function extractInstagramVideo(html: string, shortcode: string) {
+  let videoUrl: string | null = null;
+  let thumbnail: string | null = null;
+  let title: string = "Instagram Video";
+  let author: string = "@unknown";
+
+  // Try multiple patterns to find video URL
+  const videoPatterns = [
+    /"video_url":"([^"]+)"/,
+    /content="([^"]+)"\s+property="og:video(:secure_url)?"/,
+    /"playable_url":"([^"]+)"/,
+    /video_url&quot;:&quot;([^&]+)&quot;/,
+    /"dash_playable_url":"([^"]+)"/,
+    /src="([^"]+)"\s+type="video\/mp4"/,
+  ];
+
+  for (const pattern of videoPatterns) {
+    const match = html.match(pattern);
+    if (match?.[1]) {
+      videoUrl = match[1].replace(/\\u002F/g, "/").replace(/&amp;/g, "&");
+      break;
+    }
+  }
+
+  // Get thumbnail
+  const thumbMatch = html.match(/content="([^"]+)"\s+property="og:image"/);
+  if (thumbMatch) thumbnail = thumbMatch[1].replace(/&amp;/g, "&");
+
+  // Get title
+  const titleMatch = html.match(/content="([^"]+)"\s+property="og:title"/);
+  if (titleMatch) title = titleMatch[1];
+
+  // Get author
+  const authorMatch = html.match(/content="([^"]+)"\s+name="twitter:creator"/) ||
+                      html.match(/"username":"([^"]+)"/);
+  if (authorMatch) author = authorMatch[1];
+
+  if (!videoUrl) return null;
+
+  const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+  qualityOptions.push({ label: "Best", resolution: "Auto", url: videoUrl });
+
+  return {
+    title,
+    thumbnail: thumbnail || "",
+    duration: "--:--",
+    author,
+    platform: "Instagram",
+    downloadUrl: videoUrl,
+    qualityOptions,
+    filename: `mova_instagram_${shortcode || Date.now()}`,
+  };
+}
+
 /* ──────────────── Reddit Downloader ─── */
 async function downloadReddit(url: string) {
-  // Strategy 1: Reddit JSON API
   try {
     let jsonUrl = url;
     if (url.includes("reddit.com")) {
@@ -793,64 +644,178 @@ async function downloadReddit(url: string) {
     console.log(`Reddit JSON API failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
-  // Strategy 2: Cobalt fallback
-  const cobaltResult = await cobaltDownload(url, false);
-  if (cobaltResult) {
-    cobaltResult.platform = "Reddit";
-    return cobaltResult;
-  }
-
   return null;
 }
 
 /* ──────────────── Twitter/X Downloader ─── */
 async function downloadTwitter(url: string) {
-  // Strategy 1: fxtwitter
-  try {
-    const fxTwitterUrl = url.replace("twitter.com", "fxtwitter.com").replace("x.com", "fxtwitter.com");
+  const info = extractTwitterInfo(url);
+  const tweetId = info?.tweetId || "";
+  const username = info?.username || "";
 
-    const res = await fetch(fxTwitterUrl, {
-      headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" },
-      signal: AbortSignal.timeout(8000),
-    });
+  // Strategy 1: fxtwitter API (JSON endpoint)
+  if (username && tweetId) {
+    console.log(`Twitter: Trying fxtwitter API for @${username}/${tweetId}`);
+    try {
+      const res = await fetch(`https://api.fxtwitter.com/${username}/status/${tweetId}`, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (compatible; MovaBot/1.0)",
+          "Accept": "application/json",
+        },
+        signal: AbortSignal.timeout(10000),
+      });
 
-    if (!res.ok) throw new Error("FxTwitter gagal");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.code === 200 && data.tweet) {
+          const tweet = data.tweet;
+          const media = tweet.media || {};
+          const videos = media.videos || [];
+          const allMedia = media.all || [];
 
-    const html = await res.text();
-    const videoMatch = html.match(/content="([^"]+)"\s+property="og:video(:secure_url)?"/);
-    const videoUrl = videoMatch?.[1];
+          // Get the best video URL
+          let videoUrl: string | null = null;
+          let videoFormat: string = "mp4";
 
-    if (videoUrl) {
-      const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-      qualityOptions.push({ label: "Best", resolution: "Auto", url: videoUrl });
+          if (videos.length > 0) {
+            // Get highest quality video
+            const bestVideo = videos[0];
+            videoUrl = bestVideo.url || null;
+            videoFormat = bestVideo.format || "mp4";
 
-      return {
-        title: "Twitter/X Video",
-        thumbnail: "",
-        duration: "--:--",
-        author: "@unknown",
-        platform: "Twitter/X",
-        downloadUrl: videoUrl,
-        qualityOptions,
-        filename: `mova_twitter_${Date.now()}`,
-      };
+            // Some fxtwitter responses have variants with different qualities
+            if (bestVideo.variants && Array.isArray(bestVideo.variants)) {
+              // Sort by bitrate (highest first) and pick MP4
+              const mp4Variants = bestVideo.variants
+                .filter((v: { content_type?: string; bitrate?: number }) => v.content_type === "video/mp4" && v.url)
+                .sort((a: { bitrate?: number }, b: { bitrate?: number }) => (b.bitrate || 0) - (a.bitrate || 0));
+
+              if (mp4Variants.length > 0) {
+                videoUrl = mp4Variants[0].url;
+              }
+            }
+          }
+
+          if (videoUrl) {
+            const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+            qualityOptions.push({ label: "Best", resolution: "Auto", url: videoUrl });
+
+            // If there are multiple videos (e.g., GIF alternatives)
+            if (videos.length > 1) {
+              for (let i = 1; i < Math.min(videos.length, 4); i++) {
+                if (videos[i]?.url) {
+                  qualityOptions.push({ label: `Video ${i + 1}`, resolution: "Auto", url: videos[i].url });
+                }
+              }
+            }
+
+            return {
+              title: tweet.text || "Twitter/X Video",
+              thumbnail: allMedia.find((m: { type: string }) => m.type === "photo")?.url || "",
+              duration: "--:--",
+              author: tweet.author?.screen_name || username || "@unknown",
+              platform: "Twitter/X",
+              downloadUrl: videoUrl,
+              qualityOptions,
+              filename: `mova_twitter_${tweetId}`,
+            };
+          }
+        }
+      }
+    } catch (e) {
+      console.log(`fxtwitter API failed: ${e instanceof Error ? e.message : "unknown"}`);
     }
-  } catch (e) {
-    console.log(`fxtwitter failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
-  // Strategy 2: vxtwitter
+  // Strategy 2: fxtwitter HTML with bot User-Agent (gets server-rendered og:video tags)
   try {
-    const vxUrl = url.replace("twitter.com", "vxtwitter.com").replace("x.com", "vxtwitter.com");
-    const res = await fetch(vxUrl, {
-      headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" },
-      signal: AbortSignal.timeout(8000),
+    const fxTwitterUrl = url.replace("twitter.com", "fxtwitter.com").replace("x.com", "fxtwitter.com");
+    console.log(`Twitter: Trying fxtwitter HTML: ${fxTwitterUrl}`);
+
+    const res = await fetch(fxTwitterUrl, {
+      headers: {
+        // Bot user agents get server-rendered pages with og:video meta tags
+        "User-Agent": "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)",
+        "Accept": "text/html",
+      },
+      signal: AbortSignal.timeout(10000),
     });
 
     if (res.ok) {
       const html = await res.text();
-      const videoMatch = html.match(/content="([^"]+)"\s+property="og:video(:secure_url)?"/);
-      const videoUrl = videoMatch?.[1];
+
+      // Try multiple patterns for og:video
+      const videoPatterns = [
+        /content="([^"]+)"\s+property="og:video:secure_url"/,
+        /content="([^"]+)"\s+property="og:video"/,
+        /property="og:video:secure_url"\s+content="([^"]+)"/,
+        /property="og:video"\s+content="([^"]+)"/,
+      ];
+
+      let videoUrl: string | null = null;
+      for (const pattern of videoPatterns) {
+        const match = html.match(pattern);
+        if (match?.[1]) {
+          videoUrl = match[1];
+          break;
+        }
+      }
+
+      if (videoUrl) {
+        // Get title and author
+        const titleMatch = html.match(/content="([^"]+)"\s+property="og:description"/) ||
+                          html.match(/content="([^"]+)"\s+property="og:title"/);
+        const thumbMatch = html.match(/content="([^"]+)"\s+property="og:image"/);
+
+        const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+        qualityOptions.push({ label: "Best", resolution: "Auto", url: videoUrl });
+
+        return {
+          title: titleMatch?.[1] || "Twitter/X Video",
+          thumbnail: thumbMatch?.[1] || "",
+          duration: "--:--",
+          author: username ? `@${username}` : "@unknown",
+          platform: "Twitter/X",
+          downloadUrl: videoUrl,
+          qualityOptions,
+          filename: `mova_twitter_${tweetId || Date.now()}`,
+        };
+      }
+    }
+  } catch (e) {
+    console.log(`fxtwitter HTML failed: ${e instanceof Error ? e.message : "unknown"}`);
+  }
+
+  // Strategy 3: vxtwitter HTML with bot User-Agent
+  try {
+    const vxUrl = url.replace("twitter.com", "vxtwitter.com").replace("x.com", "vxtwitter.com");
+    console.log(`Twitter: Trying vxtwitter HTML: ${vxUrl}`);
+
+    const res = await fetch(vxUrl, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)",
+        "Accept": "text/html",
+      },
+      signal: AbortSignal.timeout(10000),
+    });
+
+    if (res.ok) {
+      const html = await res.text();
+      const videoPatterns = [
+        /content="([^"]+)"\s+property="og:video:secure_url"/,
+        /content="([^"]+)"\s+property="og:video"/,
+        /property="og:video:secure_url"\s+content="([^"]+)"/,
+        /property="og:video"\s+content="([^"]+)"/,
+      ];
+
+      let videoUrl: string | null = null;
+      for (const pattern of videoPatterns) {
+        const match = html.match(pattern);
+        if (match?.[1]) {
+          videoUrl = match[1];
+          break;
+        }
+      }
 
       if (videoUrl) {
         const qualityOptions: { label: string; resolution: string; url: string }[] = [];
@@ -860,11 +825,11 @@ async function downloadTwitter(url: string) {
           title: "Twitter/X Video",
           thumbnail: "",
           duration: "--:--",
-          author: "@unknown",
+          author: username ? `@${username}` : "@unknown",
           platform: "Twitter/X",
           downloadUrl: videoUrl,
           qualityOptions,
-          filename: `mova_twitter_${Date.now()}`,
+          filename: `mova_twitter_${tweetId || Date.now()}`,
         };
       }
     }
@@ -872,11 +837,53 @@ async function downloadTwitter(url: string) {
     console.log(`vxtwitter failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
-  // Strategy 3: Cobalt fallback
-  const cobaltResult = await cobaltDownload(url, false);
-  if (cobaltResult) {
-    cobaltResult.platform = "Twitter/X";
-    return cobaltResult;
+  // Strategy 4: Try with TelegramBot user agent (gets different response from fxtwitter)
+  try {
+    const fxTwitterUrl = url.replace("twitter.com", "fxtwitter.com").replace("x.com", "fxtwitter.com");
+    const res = await fetch(fxTwitterUrl, {
+      headers: {
+        "User-Agent": "TelegramBot (like TwitterBot)",
+        "Accept": "text/html",
+      },
+      signal: AbortSignal.timeout(10000),
+    });
+
+    if (res.ok) {
+      const html = await res.text();
+      const videoPatterns = [
+        /content="([^"]+)"\s+property="og:video:secure_url"/,
+        /content="([^"]+)"\s+property="og:video"/,
+        /property="og:video:secure_url"\s+content="([^"]+)"/,
+        /property="og:video"\s+content="([^"]+)"/,
+      ];
+
+      let videoUrl: string | null = null;
+      for (const pattern of videoPatterns) {
+        const match = html.match(pattern);
+        if (match?.[1]) {
+          videoUrl = match[1];
+          break;
+        }
+      }
+
+      if (videoUrl) {
+        const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+        qualityOptions.push({ label: "Best", resolution: "Auto", url: videoUrl });
+
+        return {
+          title: "Twitter/X Video",
+          thumbnail: "",
+          duration: "--:--",
+          author: username ? `@${username}` : "@unknown",
+          platform: "Twitter/X",
+          downloadUrl: videoUrl,
+          qualityOptions,
+          filename: `mova_twitter_${tweetId || Date.now()}`,
+        };
+      }
+    }
+  } catch (e) {
+    console.log(`fxtwitter TelegramBot UA failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
   return null;
@@ -884,7 +891,6 @@ async function downloadTwitter(url: string) {
 
 /* ──────────────── Pinterest Downloader ─── */
 async function downloadPinterest(url: string) {
-  // Strategy 1: Page scraping
   try {
     const res = await fetch(url, {
       headers: {
@@ -928,27 +934,32 @@ async function downloadPinterest(url: string) {
     console.log(`Pinterest scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
-  // Strategy 2: Cobalt fallback
-  const cobaltResult = await cobaltDownload(url, false);
-  if (cobaltResult) {
-    cobaltResult.platform = "Pinterest";
-    return cobaltResult;
-  }
-
   return null;
 }
 
 /* ──────────────── Facebook Downloader ─── */
 async function downloadFacebook(url: string) {
-  // Strategy 1: Cobalt API (most reliable for Facebook)
-  console.log("Facebook: Trying Cobalt API...");
-  const cobaltResult = await cobaltDownload(url, false);
-  if (cobaltResult) {
-    cobaltResult.platform = "Facebook";
-    return cobaltResult;
+  // Strategy 1: Page scraping with bot UA
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+        "Accept": "text/html",
+      },
+      signal: AbortSignal.timeout(10000),
+      redirect: "follow",
+    });
+
+    if (res.ok) {
+      const html = await res.text();
+      const result = extractFacebookVideo(html);
+      if (result) return result;
+    }
+  } catch (e) {
+    console.log(`Facebook bot scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
-  // Strategy 2: Page scraping
+  // Strategy 2: Page scraping with regular UA
   try {
     const res = await fetch(url, {
       headers: {
@@ -959,35 +970,53 @@ async function downloadFacebook(url: string) {
       redirect: "follow",
     });
 
-    if (!res.ok) throw new Error("Facebook gagal diakses");
-    const html = await res.text();
-
-    const ogVideoMatch = html.match(/content="([^"]+)"\s+property="og:video(:secure_url)?"/);
-    let videoUrl = ogVideoMatch?.[1];
-
-    if (!videoUrl) {
-      const sdMatch = html.match(/"sd_src_no_ratelimit":"([^"]+)"/);
-      const hdMatch = html.match(/"hd_src_no_ratelimit":"([^"]+)"/);
-      videoUrl = hdMatch?.[1]?.replace(/\\u002F/g, "/") || sdMatch?.[1]?.replace(/\\u002F/g, "/");
-    }
-
-    if (videoUrl) {
-      const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-      qualityOptions.push({ label: "Best", resolution: "Auto", url: videoUrl });
-
-      return {
-        title: "Facebook Video",
-        thumbnail: "",
-        duration: "--:--",
-        author: "@unknown",
-        platform: "Facebook",
-        downloadUrl: videoUrl,
-        qualityOptions,
-        filename: `mova_facebook_${Date.now()}`,
-      };
+    if (res.ok) {
+      const html = await res.text();
+      const result = extractFacebookVideo(html);
+      if (result) return result;
     }
   } catch (e) {
     console.log(`Facebook scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
+  }
+
+  return null;
+}
+
+function extractFacebookVideo(html: string) {
+  const ogVideoMatch = html.match(/content="([^"]+)"\s+property="og:video(:secure_url)?"/);
+  let videoUrl = ogVideoMatch?.[1];
+
+  if (!videoUrl) {
+    const sdMatch = html.match(/"sd_src_no_ratelimit":"([^"]+)"/);
+    const hdMatch = html.match(/"hd_src_no_ratelimit":"([^"]+)"/);
+    videoUrl = hdMatch?.[1]?.replace(/\\u002F/g, "/") || sdMatch?.[1]?.replace(/\\u002F/g, "/");
+  }
+
+  // Also try looking for video in the page data
+  if (!videoUrl) {
+    const dataMatch = html.match(/"playable_url_quality_hd":"([^"]+)"/);
+    if (dataMatch) videoUrl = dataMatch[1].replace(/\\u002F/g, "/");
+  }
+
+  if (!videoUrl) {
+    const dataMatch = html.match(/"playable_url":"([^"]+)"/);
+    if (dataMatch) videoUrl = dataMatch[1].replace(/\\u002F/g, "/");
+  }
+
+  if (videoUrl) {
+    const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+    qualityOptions.push({ label: "Best", resolution: "Auto", url: videoUrl });
+
+    return {
+      title: "Facebook Video",
+      thumbnail: "",
+      duration: "--:--",
+      author: "@unknown",
+      platform: "Facebook",
+      downloadUrl: videoUrl,
+      qualityOptions,
+      filename: `mova_facebook_${Date.now()}`,
+    };
   }
 
   return null;
@@ -1067,10 +1096,17 @@ export async function POST(request: NextRequest) {
     }
 
     if (!result) {
+      const platformErrors: Record<string, string> = {
+        "Instagram": "Gagal mengunduh video Instagram. Instagram membatasi akses dari server. Pastikan video bersifat publik dan coba lagi.",
+        "Facebook": "Gagal mengunduh video Facebook. Facebook membatasi akses dari server. Pastikan video bersifat publik dan coba lagi.",
+        "Twitter/X": "Gagal mengunduh video Twitter/X. Pastikan tweet berisi video dan bersifat publik.",
+        "YouTube": audioMode
+          ? "Gagal mengekstrak audio YouTube. YouTube membatasi download dari server. Coba video lain."
+          : "Gagal mengunduh video YouTube. YouTube membatasi download dari server. Coba video lain.",
+      };
+
       return NextResponse.json({
-        error: audioMode
-          ? "Gagal mengekstrak audio. Video mungkin dibatasi atau privat. Coba video lain."
-          : "Gagal mengunduh video. Video mungkin dibatasi atau privat. Pastikan link video publik dan coba lagi.",
+        error: platformErrors[platform] || "Gagal mengunduh video. Video mungkin dibatasi atau privat. Pastikan link video publik dan coba lagi.",
       }, { status: 500 });
     }
 
