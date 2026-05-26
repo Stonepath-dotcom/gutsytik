@@ -62,9 +62,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video YouTube MP4",
+  "description": "Panduan cara download video YouTube dalam format MP4 berkualitas tinggi menggunakan Mova.",
+  "totalTime": "PT3M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Salin link video YouTube",
+      "text": "Buka YouTube dan salin link video dari address bar atau tombol Share. Link bisa dalam format youtube.com/watch?v=... atau youtu.be/..."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Buka Mova dan tempel link",
+      "text": "Kunjungi getmova.my.id, paste link YouTube ke kolom input, lalu klik tombol Download."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Pilih format MP4 dan kualitas",
+      "text": "Setelah video diproses, pilih format MP4 dan kualitas yang kamu inginkan (360p hingga 1080p), lalu klik download. File MP4 akan tersimpan di perangkatmu."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa keunggulan format MP4 untuk download video?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MP4 adalah format video yang paling kompatibel — bisa diputar di semua perangkat dan video player tanpa perlu konversi tambahan. Format ini juga menawarkan keseimbangan bagus antara ukuran file dan kualitas."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download video YouTube lebih dari 1080p?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ketersediaan resolusi lebih tinggi (seperti 4K) tergantung pada video aslinya. Jika video diunggah dalam resolusi 4K, Mova bisa menyediakan opsi download tersebut."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah perlu konversi setelah download?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, file MP4 yang dihasilkan Mova sudah siap diputar di semua perangkat. Tidak perlu konversi atau software tambahan."
+      }
+    }
+  ]
+};
+
 export default function CaraDownloadVideoYoutubeMp4() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Cara Download Video YouTube MP4 HD - Gratis & Cepat 2025"
       slug="cara-download-video-youtube-mp4"
       description="Tutorial lengkap cara download video YouTube dalam format MP4 HD. Gratis, cepat, dan mudah."
@@ -329,5 +389,6 @@ export default function CaraDownloadVideoYoutubeMp4() {
         perlu install aplikasi apapun!
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

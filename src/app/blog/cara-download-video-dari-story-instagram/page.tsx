@@ -63,9 +63,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video dari Story Instagram",
+  "description": "Panduan lengkap cara download video dari Story Instagram dengan mudah dan cepat menggunakan Mova.",
+  "totalTime": "PT3M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Buka profil Instagram target",
+      "text": "Buka profil Instagram orang yang Story-nya ingin kamu download. Perhatikan username-nya atau copy username dari profil."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Buka Mova dan masukkan username",
+      "text": "Kunjungi getmova.my.id dari browser, masukkan username Instagram atau link Story ke kolom input."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Pilih Story dan download",
+      "text": "Klik Download, Mova akan menampilkan daftar Story yang sedang aktif. Pilih Story yang ingin kamu simpan dan klik download."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download Story dari akun privat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, Story dari akun private tidak bisa didownload oleh tool manapun karena kontennya tidak bisa diakses secara publik. Ini adalah batasan teknis yang tidak bisa diakali."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Berapa lama Story Instagram bisa didownload?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Story Instagram hanya bertahan 24 jam setelah diposting. Kamu harus download sebelum Story-nya hilang. Namun, Story yang disimpan sebagai Highlight bisa diakses kapan saja."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah kualitas Story yang didownload sama dengan aslinya?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova mendownload Story Instagram dalam kualitas aslinya tanpa kompresi. Video tetap tajam dan audio tetap jernih."
+      }
+    }
+  ]
+};
+
 export default function CaraDownloadVideoDariStoryInstagram() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Cara Download Video dari Story Instagram - Tutorial Lengkap 2025"
       slug="cara-download-video-dari-story-instagram"
       description="Panduan lengkap cara download video dari Story Instagram dengan mudah, gratis, dan cepat. Tanpa aplikasi tambahan, langsung dari browser."
@@ -403,5 +463,6 @@ export default function CaraDownloadVideoDariStoryInstagram() {
         <a href="/">Mova di getmova.my.id</a>. Dijamin nggak nyesel!
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

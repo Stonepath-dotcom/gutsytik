@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Montserrat } from "next/font/google";
-import Script from "next/script";
+
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/providers";
@@ -92,15 +92,9 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="manifest" href="/manifest.json" />
-        {/* Google Search Console Verification - Replace PLACEHOLDER with your verification code */}
+        {/* TODO: Replace PLACEHOLDER with your actual Google Search Console verification code from https://search.google.com/search-console */}
         <meta name="google-site-verification" content="PLACEHOLDER_REPLACE_WITH_YOUR_CODE" />
-        {/* Google AdSense - Auto Ads */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8487073388720076"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+        {/* AdSense loads via CookieConsent after user accepts */}
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
@@ -221,6 +215,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} antialiased bg-background text-foreground`}
       >
+        <a href="#hero" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-lg focus:text-sm focus:font-medium">
+          Langsung ke konten utama
+        </a>
         <Providers>
           {children}
           <Toaster />

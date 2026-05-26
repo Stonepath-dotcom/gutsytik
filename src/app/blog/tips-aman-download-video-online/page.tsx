@@ -63,9 +63,74 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Tips Aman Download Video Online",
+  "description": "Panduan cara aman download video online untuk menghindari virus, malware, dan situs berbahaya.",
+  "totalTime": "PT5M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Gunakan situs yang terpercaya",
+      "text": "Pilih situs download video yang sudah punya reputasi baik dan menggunakan HTTPS. Mova adalah salah satu opsi yang aman dan terpercaya."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Hindari klik tombol download palsu",
+      "text": "Tombol download yang benar biasanya lebih kecil dan muncul setelah video selesai diproses. Jangan klik tombol besar yang mencurigakan karena biasanya iklan."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Periksa ekstensi file",
+      "text": "Pastikan file yang kamu download berakhiran .mp4, .mkv, .webm, atau .mp3. Jika berakhiran .exe, .dmg, atau .apk, jangan dibuka karena kemungkinan malware."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Scan file setelah download",
+      "text": "Jika kamu ragu tentang keamanan file, scan dulu dengan antivirus sebelum membuka. Ini langkah ekstra yang bisa menyelamatkan perangkat kamu."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa tanda-tanda situs download video yang berbahaya?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tanda bahaya termasuk: redirect berlebihan ke situs lain, pop-up yang tidak bisa ditutup, URL mencurigakan, diminta login akun sosial media, dan desain yang terlihat asal-asalan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah Mova aman untuk download video?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova aman karena tidak perlu install software, tidak ada pop-up berbahaya, menggunakan HTTPS encryption, tidak mengumpulkan data pengguna, dan file video yang dihasilkan bersih tanpa malware."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apa yang harus dilakukan jika sudah terinfeksi malware?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Putuskan koneksi internet, jalankan scan antivirus, hapus file yang mencurigakan, uninstall program yang tidak dikenali, clear browser cache, dan ganti password jika pernah memasukkannya di situs mencurigakan."
+      }
+    }
+  ]
+};
+
 export default function TipsAmanDownloadVideoOnline() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Tips Aman Download Video Online - Hindari Virus & Malware 2025"
       slug="tips-aman-download-video-online"
       description="Panduan lengkap tips aman download video online. Pelajari cara menghindari virus, malware, dan situs berbahaya."
@@ -379,6 +444,6 @@ export default function TipsAmanDownloadVideoOnline() {
         video yang aman dan nyaman!
       </p>
     </BlogArticleLayout>
-
+    </>
   );
 }

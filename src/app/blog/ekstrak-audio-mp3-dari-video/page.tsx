@@ -62,9 +62,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Ekstrak Audio MP3 dari Video",
+  "description": "Panduan lengkap cara mengekstrak audio MP3 dari video online menggunakan Mova.",
+  "totalTime": "PT2M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Salin link video sumber",
+      "text": "Copy link video dari YouTube, TikTok, Instagram, atau platform lain yang ingin kamu ekstrak audionya."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Buka Mova dan aktifkan mode Audio",
+      "text": "Kunjungi getmova.my.id, klik tab 'Audio' untuk beralih ke mode ekstraksi audio."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste link, pilih kualitas, dan download",
+      "text": "Tempel link video ke kolom input, klik Download, pilih kualitas audio (128kbps atau 320kbps), dan file MP3 akan tersimpan di perangkatmu."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah ekstrak audio MP3 dari video mengurangi kualitas?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak signifikan. Mova mengekstrak audio langsung dari video tanpa kompresi tambahan. Dengan memilih 320kbps, kualitas MP3 yang dihasilkan sangat baik dan hampir tidak terdengar bedanya dari audio asli."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Video dari platform apa saja yang bisa diekstrak audionya?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mova bisa mengekstrak audio dari video YouTube, TikTok, Instagram, Facebook, Twitter/X, dan platform lainnya. Semua dilakukan secara gratis di browser."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Berapa ukuran file MP3 yang dihasilkan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "File MP3 berukuran sekitar 1-2 MB per menit audio untuk kualitas 128kbps, dan 2-3 MB per menit untuk 320kbps. Jauh lebih kecil dibanding file video."
+      }
+    }
+  ]
+};
+
 export default function EkstrakAudioMp3DariVideo() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2025"
       slug="ekstrak-audio-mp3-dari-video"
       description="Panduan lengkap cara mengekstrak audio MP3 dari video online. Gratis, cepat, dan berkualitas."
@@ -334,5 +394,6 @@ export default function EkstrakAudioMp3DariVideo() {
         dan download MP3-nya. Gratis dan tanpa batas!
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

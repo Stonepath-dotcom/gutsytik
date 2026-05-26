@@ -63,9 +63,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Memilih Antara Video HD dan SD",
+  "description": "Panduan cara memilih kualitas video yang tepat antara HD dan SD saat mendownload video.",
+  "totalTime": "PT3M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Pertimbangkan perangkat untuk menonton",
+      "text": "Untuk HP, kualitas SD (480p-720p) sudah cukup. Untuk laptop, monitor, atau TV, pilih HD (1080p) agar tampilan tajam."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Perhatikan koneksi internet",
+      "text": "Jika koneksi lambat atau kuota terbatas, pilih SD karena ukuran file lebih kecil. HD membutuhkan koneksi yang lebih stabil dan cepat."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Sesuaikan dengan kebutuhan penyimpanan",
+      "text": "Video HD berukuran 5-10x lebih besar dari SD. Pastikan perangkatmu memiliki cukup ruang sebelum mendownload video HD."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa perbedaan utama antara video HD dan SD?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "HD (High Definition) memiliki resolusi minimal 720p dengan gambar yang lebih tajam, sedangkan SD (Standard Definition) biasanya 480p atau lebih rendah. Video HD berukuran lebih besar tapi kualitasnya jauh lebih baik."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kapan sebaiknya memilih SD daripada HD?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pilih SD saat koneksi internet lambat, kuota terbatas, ruang penyimpanan sempit, atau jika video hanya ditonton di layar kecil HP. SD juga cukup untuk konten yang hanya didengar seperti podcast."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah video SD bisa ditingkatkan menjadi HD?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, kualitas video tidak bisa ditingkatkan melebihi resolusi aslinya. Jika video diunggah dalam kualitas SD, hasil download juga akan SD meskipun kamu memilih opsi HD."
+      }
+    }
+  ]
+};
+
 export default function PerbedaanDownloadVideoHdDanSd() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Perbedaan Kualitas Video HD vs SD - Mana yang Harus Kamu Download?"
       slug="perbedaan-download-video-hd-dan-sd"
       description="Panduan lengkap perbedaan kualitas video HD dan SD. Pelajari kapan harus pilih HD atau SD saat download video."
@@ -438,5 +498,6 @@ export default function PerbedaanDownloadVideoHdDanSd() {
         di <a href="/">getmova.my.id</a>!
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

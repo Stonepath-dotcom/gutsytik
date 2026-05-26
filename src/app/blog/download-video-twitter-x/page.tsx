@@ -22,6 +22,38 @@ export const metadata: Metadata = {
   },
 };
 
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah Mova mendukung domain twitter.com dan x.com?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova mendukung kedua domain — twitter.com dan x.com. Kamu bisa memasukkan link dari domain manapun dan Mova akan memproses video-nya."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download video dari tweet akun privat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, hanya video dari tweet publik yang bisa diunduh. Video dari akun privat tidak dapat diakses oleh Mova karena dibatasi oleh pengaturan privasi Twitter/X."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Format video apa yang dihasilkan saat download dari Twitter/X?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Video dari Twitter/X akan tersimpan dalam format MP4 yang kompatibel dengan semua perangkat dan bisa diputar di aplikasi video manapun."
+      }
+    }
+  ]
+};
+
 export default function DownloadTwitterXPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
@@ -73,6 +105,8 @@ export default function DownloadTwitterXPage() {
           }),
         }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
 
       <header className="border-b border-[#27272A] bg-[#111113]">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">

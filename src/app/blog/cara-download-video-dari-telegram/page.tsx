@@ -21,6 +21,63 @@ export const metadata: Metadata = {
   },
 };
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video dari Telegram",
+  "description": "Panduan cara download video dari Telegram ke galeri HP dengan mudah dan cepat.",
+  "totalTime": "PT3M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Buka chat Telegram yang berisi video",
+      "text": "Temukan video yang ingin kamu download di chat pribadi, grup, atau channel Telegram."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Klik kanan atau tahan video lalu pilih Save",
+      "text": "Di HP, tahan video lalu pilih ikon download/save. Di desktop, klik kanan pada video dan pilih 'Save As' atau klik ikon download di pojok video."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Untuk video dari platform lain, gunakan Mova",
+      "text": "Jika video asalnya dari YouTube, TikTok, dll, copy link sumbernya dan paste di getmova.my.id untuk mendapatkan kualitas terbaik."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah Telegram punya fitur download video bawaan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Telegram menyediakan tombol download/save bawaan untuk video yang diterima di chat. Video bisa langsung disimpan ke galeri HP atau folder download di komputer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download video dari channel Telegram yang privat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Untuk channel privat, kamu harus menjadi anggota channel terlebih dahulu. Setelah bergabung, kamu bisa download video seperti biasa menggunakan fitur save bawaan Telegram."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kenapa video Telegram terkompresi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Telegram mengompres video saat dikirim sebagai media biasa. Untuk mengirim tanpa kompresi, pengirim harus memilih 'Send as Document' atau 'Send without compression'."
+      }
+    }
+  ]
+};
+
 export default function CaraDownloadVideoDariTelegram() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -53,6 +110,9 @@ export default function CaraDownloadVideoDariTelegram() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
       <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
         <header className="border-b border-[#27272A] bg-[#111113]">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">

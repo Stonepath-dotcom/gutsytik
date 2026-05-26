@@ -62,9 +62,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video Facebook HD",
+  "description": "Panduan cara download video Facebook dalam kualitas HD dengan mudah, cepat, dan gratis menggunakan Mova.",
+  "totalTime": "PT3M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Buka Facebook dan salin link video",
+      "text": "Buka aplikasi atau website Facebook, cari video yang ingin didownload. Klik ikon tiga titik di pojok kanan atas postingan, lalu pilih 'Copy Link' atau 'Salin Tautan'."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Buka Mova dan tempel link",
+      "text": "Kunjungi getmova.my.id di browser, tempel link Facebook ke kolom input, lalu klik tombol Download."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Pilih kualitas HD dan download",
+      "text": "Mova akan memproses video dan menampilkan opsi kualitas. Pilih HD (1080p atau kualitas tertinggi) dan klik download. Video akan tersimpan di perangkatmu."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download video Facebook yang bersifat private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, Mova hanya bisa mengunduh video dari postingan publik. Video yang di-set 'Friends Only' atau di group tertutup tidak bisa diakses oleh Mova."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mengapa video Facebook yang didownload tidak HD?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Kualitas video tergantung pada resolusi asli saat diunggah. Jika pembuat video mengunggah dalam kualitas rendah, Mova tidak bisa meningkatkan kualitasnya."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Jenis video Facebook apa saja yang bisa didownload?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mova bisa download video dari Feed/Postingan, Facebook Reels, Facebook Stories (selama masih aktif), Facebook Watch, dan rekaman siaran langsung (Live Replay) yang bersifat publik."
+      }
+    }
+  ]
+};
+
 export default function CaraDownloadVideoFacebookHd() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Cara Download Video Facebook HD - Mudah & Cepat 2025"
       slug="cara-download-video-facebook-hd"
       description="Panduan lengkap cara download video Facebook dalam kualitas HD. Mudah, cepat, dan gratis."
@@ -339,5 +399,6 @@ export default function CaraDownloadVideoFacebookHd() {
         <a href="/">getmova.my.id</a>!
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

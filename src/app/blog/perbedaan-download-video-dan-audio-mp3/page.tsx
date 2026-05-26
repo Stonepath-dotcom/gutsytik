@@ -23,6 +23,63 @@ export const metadata: Metadata = {
   },
 };
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Memilih Antara Download Video dan Audio MP3",
+  "description": "Panduan cara memilih format yang tepat antara video (MP4) dan audio (MP3) saat mendownload konten dari internet.",
+  "totalTime": "PT3M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Tentukan kebutuhanmu",
+      "text": "Jika kamu butuh visual (untuk ditonton, presentasi, atau editing), pilih format video MP4. Jika hanya butuh suara (musik, podcast, belajar), pilih format audio MP3."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Pertimbangkan ukuran file",
+      "text": "File MP3 jauh lebih kecil (1-2 MB per menit) dibanding MP4 (40-80 MB per menit untuk 1080p). Pilih MP3 untuk hemat kuota dan penyimpanan."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Gunakan Mova untuk kedua format",
+      "text": "Buka getmova.my.id, paste link video, dan pilih format yang kamu butuhkan — MP4 untuk video atau MP3 untuk audio saja."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Kapan sebaiknya memilih MP3 daripada MP4?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pilih MP3 jika kamu hanya butuh audionya, seperti untuk mendengarkan musik, podcast, atau kuliah offline. MP3 jauh lebih kecil dan lebih hemat kuota serta penyimpanan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah kualitas audio MP3 sama dengan audio di video?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova mengekstrak audio langsung dari video tanpa kompresi tambahan. Dengan opsi hingga 320kbps, kualitas MP3 yang dihasilkan sama baiknya dengan audio di video aslinya."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bisakah mengkonversi video yang sudah didownload ke MP3?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, tapi lebih efisien langsung mengekstrak MP3 menggunakan Mova saat download. Mova memproses konversi di server sehingga tidak membebani perangkatmu."
+      }
+    }
+  ]
+};
+
 export default function PerbedaanVideoAudioPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
@@ -42,6 +99,9 @@ export default function PerbedaanVideoAudioPage() {
           }),
         }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
 
       <header className="border-b border-[#27272A] bg-[#111113]">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">

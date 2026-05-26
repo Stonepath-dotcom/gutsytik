@@ -62,9 +62,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video TikTok Tanpa Watermark",
+  "description": "Panduan cara download video TikTok tanpa watermark menggunakan Mova. Mudah, gratis, dan cepat.",
+  "totalTime": "PT2M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Buka TikTok dan salin link video",
+      "text": "Buka aplikasi TikTok, cari video yang ingin kamu download, tap tombol Share lalu pilih 'Salin tautan' atau 'Copy Link'."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Buka Mova di browser",
+      "text": "Kunjungi getmova.my.id dari browser HP atau laptop. Tidak perlu install aplikasi apapun."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Tempel link dan download",
+      "text": "Paste link TikTok ke kolom input Mova, klik Download, pilih kualitas yang kamu inginkan, dan video tanpa watermark akan tersimpan di perangkatmu."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah download TikTok tanpa watermark legal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mendownload video untuk penggunaan pribadi umumnya tidak masalah. Namun, mengunggah ulang video milik orang lain tanpa izin bisa melanggar hak cipta. Selalu hormati karya kreator."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah Mova bisa download semua video TikTok?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mova bisa download video TikTok yang bersifat publik. Video dari akun privat atau video yang sudah dihapus tidak bisa diunduh."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apa bedanya Mova dengan aplikasi downloader lain?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mova berbasis web sehingga tidak perlu install, tidak ada iklan pop-up mengganggu, tidak ada malware, dan mendukung multi-platform selain TikTok. Semua gratis tanpa batas."
+      }
+    }
+  ]
+};
+
 export default function CaraDownloadVideoTiktokTanpaWatermark() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Cara Download Video TikTok Tanpa Watermark 2025 - Mudah & Gratis"
       slug="cara-download-video-tiktok-tanpa-watermark"
       description="Panduan lengkap cara download video TikTok tanpa watermark. Langkah mudah, gratis, dan cepat untuk menyimpan video TikTok bersih tanpa logo."
@@ -308,5 +368,6 @@ export default function CaraDownloadVideoTiktokTanpaWatermark() {
         <a href="/">Mova di getmova.my.id</a>. Dijamin nggak nyesel!
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

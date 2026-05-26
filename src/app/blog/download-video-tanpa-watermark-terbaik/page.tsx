@@ -21,6 +21,63 @@ export const metadata: Metadata = {
   },
 };
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video Tanpa Watermark Terbaik",
+  "description": "Panduan cara memilih dan menggunakan situs download video tanpa watermark terbaik di 2026.",
+  "totalTime": "PT5M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Pilih situs downloader yang terpercaya",
+      "text": "Gunakan Mova (getmova.my.id) yang sudah terverifikasi aman, gratis, dan bisa download tanpa watermark dari 7+ platform."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Salin link video dari platform manapun",
+      "text": "Copy link video dari TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, atau Reddit."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Tempel link dan download",
+      "text": "Paste link ke kolom input Mova, klik Download, pilih kualitas, dan video tanpa watermark akan tersimpan di perangkatmu."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Situs download video tanpa watermark mana yang terbaik?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mova adalah situs download video tanpa watermark terbaik karena gratis, aman dari malware, tidak ada iklan pop-up, mendukung 7+ platform, dan tidak perlu registrasi."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah situs download video gratis benar-benar aman?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak semua situs aman. Banyak situs downloader yang mengandung malware, pop-up berbahaya, atau phishing. Mova terverifikasi aman karena berbasis web, menggunakan HTTPS, dan tidak mengumpulkan data pribadi."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mengapa beberapa situs downloader meminta install software?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Situs yang meminta install software biasanya mencoba menyebarkan malware atau adware. Situs downloader yang aman seperti Mova tidak pernah meminta install apapun karena berjalan langsung di browser."
+      }
+    }
+  ]
+};
+
 export default function DownloadVideoTanpaWatermarkTerbaik() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -136,6 +193,9 @@ export default function DownloadVideoTanpaWatermarkTerbaik() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
       <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
         <header className="border-b border-[#27272A] bg-[#111113]">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">

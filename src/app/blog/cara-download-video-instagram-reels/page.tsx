@@ -62,9 +62,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video Instagram Reels, Story & IGTV",
+  "description": "Panduan cara download video Instagram Reels, Story, dan IGTV dengan mudah menggunakan Mova.",
+  "totalTime": "PT3M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Buka Instagram dan salin link video",
+      "text": "Untuk Reels, tap ikon tiga titik di pojok kanan bawah video lalu pilih 'Copy Link'. Untuk Story, copy username Instagram akun tersebut."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Buka Mova dan masukkan link atau username",
+      "text": "Kunjungi getmova.my.id, tempel link Reels atau masukkan username untuk Story ke kolom input."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Pilih kualitas dan download",
+      "text": "Klik Download, pilih kualitas yang kamu inginkan, dan video akan tersimpan di perangkatmu. Prosesnya hanya butuh beberapa detik."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah kualitas video Instagram yang didownload sama dengan aslinya?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mova akan selalu berusaha memberikan kualitas tertinggi yang tersedia dari server Instagram. Namun, Instagram mengompres video saat diunggah, sehingga kualitas tidak akan persis sama dengan file asli sebelum upload."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bisakah Mova download foto dan carousel Instagram?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova tidak hanya bisa download video, tetapi juga foto dan carousel dari Instagram. Semua dalam satu tool yang mudah digunakan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah download video Instagram menggunakan Mova aman?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova tidak meminta login Instagram sehingga akun kamu 100% aman. Tidak ada risiko akun di-hack atau di-banned karena Mova mengakses konten publik secara langsung."
+      }
+    }
+  ]
+};
+
 export default function CaraDownloadVideoInstagramReels() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Cara Download Video Instagram Reels, Story & IGTV - Terbaru 2025"
       slug="cara-download-video-instagram-reels"
       description="Panduan lengkap cara download video Instagram Reels, Story, dan IGTV. Mudah, gratis, dan cepat."
@@ -311,5 +371,6 @@ export default function CaraDownloadVideoInstagramReels() {
         — semudah itu!
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

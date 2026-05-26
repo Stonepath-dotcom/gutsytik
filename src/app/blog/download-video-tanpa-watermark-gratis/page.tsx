@@ -62,9 +62,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video Tanpa Watermark Gratis",
+  "description": "Panduan cara download video tanpa watermark dari semua platform sosial media menggunakan Mova.",
+  "totalTime": "PT2M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Copy link video dari platform manapun",
+      "text": "Salin link video dari TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, atau Reddit."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Buka Mova dan paste link",
+      "text": "Kunjungi getmova.my.id dan paste link video ke kolom input."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Klik Download dan pilih kualitas",
+      "text": "Klik tombol Download, pilih kualitas yang kamu inginkan, dan video tanpa watermark akan tersimpan di perangkatmu."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah semua platform bisa di-download tanpa watermark?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova secara otomatis menghapus watermark dari platform seperti TikTok. Untuk platform lain seperti YouTube dan Instagram yang tidak menambahkan watermark, Mova mengunduh video dalam kualitas aslinya."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah ada batasan jumlah download per hari?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, Mova tidak membatasi jumlah download. Kamu bisa download video sepuasnya tanpa batas harian dan tanpa perlu bayar."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mengapa banyak tools downloader lain yang berbahaya?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Banyak situs downloader menyebarkan malware lewat tombol download palsu, melakukan phishing untuk mencuri data, menampilkan iklan pop-up agresif, dan melacak aktivitas browsing pengguna tanpa izin."
+      }
+    }
+  ]
+};
+
 export default function DownloadVideoTanpaWatermarkGratis() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Download Video Tanpa Watermark Gratis - Semua Platform 2025"
       slug="download-video-tanpa-watermark-gratis"
       description="Panduan komprehensif cara download video tanpa watermark dari semua platform. Perbandingan tools dan tips terbaik."
@@ -335,5 +395,6 @@ export default function DownloadVideoTanpaWatermarkGratis() {
         batas!
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

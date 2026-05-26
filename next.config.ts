@@ -30,6 +30,25 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://www.googletagmanager.com https://googleads.g.doubleclick.net",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob: https://*.googleusercontent.com https://*.ggpht.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google.com https://www.google.co.id",
+              "frame-src https://googleads.g.doubleclick.net https://www.google.com https://www.youtube.com",
+              "connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google.com",
+              "font-src 'self'",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+            ].join("; "),
+          },
         ],
       },
       {
@@ -49,6 +68,25 @@ const nextConfig: NextConfig = {
             value: "public, max-age=3600, s-maxage=3600",
           },
         ],
+      },
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.getmova.my.id" }],
+        destination: "https://getmova.my.id/:path*",
+        permanent: true,
       },
     ];
   },

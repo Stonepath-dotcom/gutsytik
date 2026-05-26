@@ -21,6 +21,38 @@ export const metadata: Metadata = {
   },
 };
 
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download Instagram Story tanpa aplikasi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, kamu bisa download Instagram Story tanpa install aplikasi apapun menggunakan Mova. Cukup masukkan username Instagram ke kolom input di getmova.my.id dan Mova akan menampilkan Story yang sedang aktif."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Berapa lama Story Instagram bisa didownload?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Story Instagram hanya bertahan 24 jam setelah diposting. Kamu harus segera download sebelum Story-nya hilang. Setelah 24 jam, Story tidak bisa diakses lagi kecuali disimpan sebagai Highlight."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah Mova bisa download Story dari akun privat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, Mova hanya bisa mengakses Story dan Reels dari akun Instagram yang bersifat publik. Akun private tidak bisa di-download karena dibatasi oleh pengaturan privasi Instagram."
+      }
+    }
+  ]
+};
+
 export default function DownloadVideoInstagramStoryDanReels() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -109,6 +141,8 @@ export default function DownloadVideoInstagramStoryDanReels() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToReelsJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToStoryJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
       <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
         <header className="border-b border-[#27272A] bg-[#111113]">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">

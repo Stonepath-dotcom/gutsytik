@@ -24,6 +24,38 @@ export const metadata: Metadata = {
   },
 };
 
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download Instagram Reels tanpa watermark?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova bisa download Instagram Reels tanpa watermark. Salin link Reels, tempel di getmova.my.id, dan video akan tersimpan dalam kualitas asli tanpa logo Instagram."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download Reels dari akun privat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, Mova hanya bisa mengunduh Reels dari akun publik. Reels dari akun privat tidak dapat diakses karena dibatasi oleh pengaturan privasi Instagram."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Berapa lama waktu yang dibutuhkan untuk download Reels?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Proses download Instagram Reels menggunakan Mova biasanya hanya membutuhkan beberapa detik, tergantung pada durasi video dan kecepatan koneksi internet kamu."
+      }
+    }
+  ]
+};
+
 export default function DownloadInstagramReelsPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
@@ -96,6 +128,8 @@ export default function DownloadInstagramReelsPage() {
           }),
         }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
 
       {/* Header */}
       <header className="border-b border-[#27272A] bg-[#111113]">

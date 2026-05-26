@@ -62,9 +62,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video Twitter/X Tanpa Watermark",
+  "description": "Panduan cara download video dari Twitter/X tanpa watermark menggunakan Mova.",
+  "totalTime": "PT2M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Temukan tweet dengan video",
+      "text": "Buka Twitter/X dan cari tweet yang berisi video yang ingin kamu download."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Salin link tweet",
+      "text": "Klik ikon 'Bagikan' di bawah tweet, lalu pilih 'Salin tautan' atau 'Copy link'."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Tempel di Mova dan download",
+      "text": "Buka getmova.my.id, paste link tweet di kolom input, klik Download, dan video akan tersimpan di perangkatmu dalam format MP4."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah Twitter/X menambahkan watermark ke video?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, Twitter/X tidak menambahkan watermark ke video yang diunggah di platformnya. Namun, kualitas video di Twitter/X sering dikompres, sehingga menggunakan Mova bisa memberikan kualitas terbaik yang tersedia."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bisakah download GIF dari Twitter/X?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova bisa mengunduh GIF dari Twitter/X dan mengkonversinya ke format video MP4 yang bisa diputar di semua perangkat."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah link dari x.com dan twitter.com sama saja?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova mendukung kedua domain. Baik link dari twitter.com maupun x.com bisa diproses dengan lancar."
+      }
+    }
+  ]
+};
+
 export default function DownloadVideoTwitterXTanpaWatermark() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Cara Download Video Twitter/X Tanpa Watermark - Gratis 2025"
       slug="download-video-twitter-x-tanpa-watermark"
       description="Panduan lengkap cara download video Twitter/X tanpa watermark. Gratis, cepat, dan mudah."
@@ -335,5 +395,6 @@ export default function DownloadVideoTwitterXTanpaWatermark() {
         download — semudah itu!
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

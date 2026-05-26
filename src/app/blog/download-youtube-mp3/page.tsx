@@ -24,6 +24,38 @@ export const metadata: Metadata = {
   },
 };
 
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah kualitas MP3 yang dihasilkan bagus?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova menyediakan opsi kualitas audio hingga 320kbps yang merupakan kualitas MP3 tertinggi. Namun, kualitas akhir tergantung pada sumber audio asli dari video YouTube."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah perlu install aplikasi untuk download YouTube ke MP3?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, Mova berbasis web sehingga kamu tidak perlu install aplikasi apapun. Cukup buka getmova.my.id di browser, aktifkan mode Audio, dan langsung download."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Berapa lama waktu konversi video YouTube ke MP3?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Proses konversi biasanya hanya membutuhkan beberapa detik hingga satu menit, tergantung pada durasi video dan beban server. Mova memproses konversi di server sehingga tidak membebani perangkat kamu."
+      }
+    }
+  ]
+};
+
 export default function DownloadYoutubeMp3Page() {
   return (
     <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
@@ -90,6 +122,8 @@ export default function DownloadYoutubeMp3Page() {
           }),
         }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
 
       {/* Header */}
       <header className="border-b border-[#27272A] bg-[#111113]">

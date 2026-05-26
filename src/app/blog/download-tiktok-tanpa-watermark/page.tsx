@@ -24,6 +24,38 @@ export const metadata: Metadata = {
   },
 };
 
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download video TikTok tanpa watermark?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, kamu bisa download video TikTok tanpa watermark menggunakan Mova. Cukup salin link video TikTok, tempel di getmova.my.id, klik Download, dan video akan tersimpan tanpa logo TikTok."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah download video TikTok tanpa watermark gratis?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova menyediakan layanan download video TikTok tanpa watermark secara 100% gratis tanpa batasan jumlah download per hari."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah kualitas video berkurang saat download tanpa watermark?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, Mova mengunduh video dalam kualitas aslinya tanpa kompresi. Kualitas video yang dihasilkan sama dengan video asli yang diunggah oleh kreator."
+      }
+    }
+  ]
+};
+
 export default function DownloadTiktokPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
@@ -96,6 +128,8 @@ export default function DownloadTiktokPage() {
           }),
         }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
 
       {/* Header */}
       <header className="border-b border-[#27272A] bg-[#111113]">

@@ -62,9 +62,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video YouTube Tanpa Aplikasi",
+  "description": "Panduan cara download video YouTube langsung dari browser tanpa install aplikasi apapun menggunakan Mova.",
+  "totalTime": "PT2M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Salin link video YouTube",
+      "text": "Buka YouTube, cari video yang ingin didownload, lalu salin link dari address bar atau tombol Share."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Buka Mova di browser",
+      "text": "Kunjungi getmova.my.id dari browser apapun — Chrome, Safari, Firefox, atau Edge. Tidak perlu install software."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Tempel link dan download",
+      "text": "Paste link YouTube ke kolom input Mova, klik Download, pilih kualitas video yang kamu inginkan, dan file akan otomatis tersimpan di perangkatmu."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download video YouTube tanpa install aplikasi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova adalah tool berbasis web yang bisa digunakan langsung di browser tanpa install apapun. Cukup buka getmova.my.id dan langsung download video YouTube."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kualitas video apa yang tersedia saat download tanpa aplikasi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mova menyediakan berbagai opsi kualitas mulai dari 360p hingga 1080p untuk video, dan hingga 320kbps untuk audio MP3. Ketersediaan tergantung pada video aslinya."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah download YouTube tanpa aplikasi lebih aman?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, berbasis web berarti tidak ada risiko malware dari instalasi software. Mova juga menggunakan HTTPS dan tidak mengumpulkan data pribadi pengguna."
+      }
+    }
+  ]
+};
+
 export default function DownloadVideoYouTubeTanpaAplikasi() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Download Video YouTube Tanpa Aplikasi - Langsung dari Browser 2025"
       slug="download-video-youtube-tanpa-aplikasi"
       description="Panduan lengkap cara download video YouTube tanpa install aplikasi apapun. Langsung dari browser, gratis, cepat, dan aman."
@@ -418,5 +478,6 @@ export default function DownloadVideoYouTubeTanpaAplikasi() {
         paste link, download. Semudah itu!
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

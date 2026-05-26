@@ -21,6 +21,63 @@ export const metadata: Metadata = {
   },
 };
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Membandingkan TikTok Downloader Terbaik",
+  "description": "Panduan cara memilih TikTok downloader terbaik berdasarkan fitur, keamanan, dan kemudahan penggunaan.",
+  "totalTime": "PT5M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Identifikasi kebutuhan download",
+      "text": "Tentukan apakah kamu butuh download tanpa watermark, ekstrak audio, atau download massal. Ini akan mempengaruhi pilihan tool yang tepat."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Evaluasi keamanan tool",
+      "text": "Periksa apakah tool tersebut aman dari malware, tidak meminta login, dan tidak menampilkan pop-up berbahaya. Mova adalah pilihan yang terverifikasi aman."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Coba dan bandingkan",
+      "text": "Coba beberapa tool dan bandingkan kecepatan, kualitas output, dan pengalaman pengguna. Mova biasanya menjadi pilihan terbaik untuk kebanyakan pengguna."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "TikTok downloader mana yang paling aman?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mova adalah salah satu TikTok downloader paling aman karena berbasis web (tanpa install), tidak ada pop-up berbahaya, dan tidak mengumpulkan data pribadi pengguna."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah SnapTik aman untuk download TikTok?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SnapTik bisa digunakan namun situsnya menampilkan banyak iklan dan pop-up. Untuk pengalaman yang lebih bersih dan aman, Mova adalah alternatif yang lebih baik."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah ada TikTok downloader yang bisa download massal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Beberapa tool desktop seperti yt-dlp bisa download massal, namun untuk kebanyakan pengguna, Mova sudah cukup karena proses download-nya sangat cepat dan tanpa batas jumlah."
+      }
+    }
+  ]
+};
+
 export default function PerbandinganTiktokDownloader() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -53,6 +110,9 @@ export default function PerbandinganTiktokDownloader() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
       <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
         <header className="border-b border-[#27272A] bg-[#111113]">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">

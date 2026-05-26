@@ -1,7 +1,7 @@
-const CACHE_NAME = 'gutsytik-v2';
+const CACHE_NAME = 'mova-v1';
 const urlsToCache = [
   '/manifest.json',
-  '/logo.svg',
+  '/mova-logo.png',
 ];
 
 self.addEventListener('install', (event) => {

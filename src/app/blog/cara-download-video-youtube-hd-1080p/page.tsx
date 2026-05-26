@@ -21,6 +21,63 @@ export const metadata: Metadata = {
   },
 };
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video YouTube HD 1080p Gratis",
+  "description": "Panduan cara download video YouTube dalam kualitas HD 1080p secara gratis di HP dan PC menggunakan Mova.",
+  "totalTime": "PT3M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Buka YouTube dan salin link video",
+      "text": "Cari video yang ingin didownload, tap tombol Share di bawah video, lalu pilih 'Salin tautan' atau 'Copy Link'."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Buka Mova di browser",
+      "text": "Kunjungi getmova.my.id dari browser HP atau PC. Mova bisa diakses dari Android, iPhone, maupun komputer."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Pilih kualitas 1080p dan download",
+      "text": "Paste link YouTube ke kolom input Mova, klik Download, pilih kualitas 1080p (Full HD), dan video akan tersimpan di perangkatmu."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah semua video YouTube tersedia dalam 1080p?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, ketersediaan resolusi 1080p tergantung pada kualitas asli saat video diunggah. Video lama atau yang di-upload dalam resolusi rendah hanya bisa didownload dalam resolusi maksimal yang tersedia."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Berapa ukuran file video YouTube 1080p?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Video YouTube 1080p berdurasi 5 menit biasanya berukuran sekitar 100 MB. Pastikan perangkatmu memiliki cukup ruang penyimpanan sebelum mendownload."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apa bedanya download dengan Mova dan YouTube Premium?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mova gratis dan menghasilkan file MP4 yang bisa diputar di mana saja dan tersimpan selamanya. YouTube Premium berbayar Rp 59.900/bulan, video hanya bisa diputar di app YouTube, dan expired setelah 30 hari offline."
+      }
+    }
+  ]
+};
+
 export default function CaraDownloadVideoYoutubeHd1080p() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -53,6 +110,9 @@ export default function CaraDownloadVideoYoutubeHd1080p() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
       <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
         <header className="border-b border-[#27272A] bg-[#111113]">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">

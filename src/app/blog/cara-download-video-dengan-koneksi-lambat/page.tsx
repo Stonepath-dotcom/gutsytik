@@ -101,9 +101,74 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video Dengan Koneksi Lambat",
+  "description": "Tips dan trik cara download video dengan koneksi internet lambat menggunakan Mova dan teknik optimasi download.",
+  "totalTime": "PT5M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Pilih resolusi rendah",
+      "text": "Saat menggunakan Mova, pilih resolusi 360p atau 480p untuk download lebih cepat. Kualitas ini cukup untuk ditonton di layar HP."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Download di jam sepi",
+      "text": "Download video di jam dini hari (01:00-05:00) saat traffic internet rendah untuk kecepatan optimal."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Gunakan format audio jika cukup",
+      "text": "Jika kamu hanya butuh audionya, pilih format MP3 di Mova. File MP3 jauh lebih kecil dan download-nya jauh lebih cepat."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Optimalkan koneksi internet",
+      "text": "Restart router, dekati sumber Wi-Fi, atau gunakan kabel LAN untuk koneksi yang lebih stabil saat download."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Berapa kecepatan minimum untuk download video?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Untuk download video 360p dibutuhkan kecepatan minimum sekitar 0.7 Mbps. Untuk 720p, butuh minimal 4 Mbps. Untuk 1080p, idealnya 10 Mbps atau lebih."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah download manager bisa mempercepat download?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, download manager bisa mempercepat download 2-5x dengan teknik multi-thread dan koneksi optimization. Namun kecepatan maksimal tetap dibatasi oleh kecepatan internet kamu."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kenapa download selalu gagal di tengah jalan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Penyebab paling umum: koneksi yang tidak stabil, server timeout, atau browser yang membatasi ukuran file. Gunakan download manager dengan fitur resume, pilih resolusi lebih rendah, dan download di jam sepi."
+      }
+    }
+  ]
+};
+
 export default function CaraDownloadVideoDenganKoneksiLambat() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Cara Download Video Dengan Koneksi Lambat — Tips & Trik 2026"
       slug="cara-download-video-dengan-koneksi-lambat"
       description="Tips dan trik cara download video dengan koneksi lambat. Pelajari cara mengatasi internet lambat dan tetap bisa download video meski koneksi tidak stabil."
@@ -519,5 +584,6 @@ export default function CaraDownloadVideoDenganKoneksiLambat() {
         Semoga bermanfaat dan selamat download! 💪
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

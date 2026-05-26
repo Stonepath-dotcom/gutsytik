@@ -8,6 +8,15 @@ const COOKIE_CONSENT_KEY = "mova_cookie_consent";
 export function CookieConsent() {
   const [show, setShow] = useState(false);
 
+  const loadAdSense = () => {
+    if (document.querySelector('script[src*="adsbygoogle"]')) return;
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8487073388720076';
+    script.crossOrigin = 'anonymous';
+    document.head.appendChild(script);
+  };
+
   useEffect(() => {
     try {
       const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
@@ -15,6 +24,11 @@ export function CookieConsent() {
         // Show after a short delay so page loads first
         const timer = setTimeout(() => setShow(true), 1500);
         return () => clearTimeout(timer);
+      } else {
+        const parsed = JSON.parse(consent);
+        if (parsed.accepted && parsed.advertising) {
+          loadAdSense();
+        }
       }
     } catch {}
   }, []);
@@ -28,6 +42,8 @@ export function CookieConsent() {
         advertising: true,
       }));
     } catch {}
+    // Load AdSense after consent
+    loadAdSense();
     setShow(false);
   };
 

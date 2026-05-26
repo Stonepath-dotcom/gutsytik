@@ -101,9 +101,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video Lengkap Dengan Subtitle",
+  "description": "Panduan cara download video beserta subtitle dari YouTube dan platform lainnya.",
+  "totalTime": "PT5M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Salin link video yang memiliki subtitle",
+      "text": "Buka YouTube dan cari video yang memiliki subtitle (cc). Salin link video dari address bar atau tombol Share."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Buka Mova dan masukkan link",
+      "text": "Kunjungi getmova.my.id, tempel link video ke kolom input, dan klik Download."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Pilih opsi subtitle dan download",
+      "text": "Setelah video diproses, pilih opsi subtitle yang tersedia (jika ada) beserta kualitas video, lalu klik download. Video dan subtitle akan tersimpan di perangkatmu."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah semua video YouTube memiliki subtitle?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, tidak semua video YouTube memiliki subtitle. Subtitle tersedia jika kreator mengunggahnya atau jika YouTube menghasilkan subtitle otomatis. Ketersediaan subtitle tergantung pada masing-masing video."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Format subtitle apa yang didukung?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Subtitle biasanya tersedia dalam format SRT yang kompatibel dengan hampir semua video player. Format ini bisa digunakan di VLC, MPC-HC, dan player lainnya."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bisakah subtitle di-embed ke dalam video?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mova mengunduh subtitle secara terpisah dari video. Untuk meng-embed subtitle ke video, kamu bisa menggunakan tool editing video seperti HandBrake atau VLC."
+      }
+    }
+  ]
+};
+
 export default function DownloadVideoLengkapDenganSubtitle() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Cara Download Video Lengkap Dengan Subtitle — Tutorial 2026"
       slug="download-video-lengkap-dengan-subtitle"
       description="Tutorial lengkap cara download video lengkap dengan subtitle. Pelajari cara menyimpan video dengan subtitle hardcode maupun softcode dari berbagai platform."
@@ -432,5 +492,6 @@ export default function DownloadVideoLengkapDenganSubtitle() {
         Selamat menonton dengan subtitle yang sempurna! 🎬📝
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

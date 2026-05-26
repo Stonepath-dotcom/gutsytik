@@ -63,9 +63,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video Reddit Dengan Audio",
+  "description": "Panduan cara download video Reddit lengkap dengan audio menggunakan Mova.",
+  "totalTime": "PT3M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Buka Reddit dan salin link post video",
+      "text": "Temukan post yang berisi video di Reddit, klik tombol Share lalu pilih 'Copy Link' atau salin URL dari address bar."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Buka Mova dan tempel link",
+      "text": "Kunjungi getmova.my.id, paste link Reddit ke kolom input, lalu klik tombol Download."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Pilih kualitas dan download",
+      "text": "Mova akan memproses video Reddit lengkap dengan audio. Pilih kualitas yang kamu inginkan dan klik download."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Mengapa video Reddit yang didownload sering tanpa audio?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Reddit menyimpan video dan audio secara terpisah. Banyak downloader hanya mengunduh video tanpa audio. Mova menggabungkan keduanya secara otomatis sehingga hasil download selalu lengkap dengan audio."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download video dari subreddit private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, Mova hanya bisa mengunduh video dari post yang bersifat publik. Video dari subreddit private atau quarantined tidak bisa diakses."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Format video apa yang dihasilkan dari Reddit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Video dari Reddit akan tersimpan dalam format MP4 yang kompatibel dengan semua perangkat. Audio dan video sudah digabung dalam satu file."
+      }
+    }
+  ]
+};
+
 export default function CaraDownloadRedditVideoDenganAudio() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2025"
       slug="cara-download-reddit-video-dengan-audio"
       description="Panduan lengkap cara download video Reddit dengan audio. Atasi masalah video Reddit tanpa suara dengan mudah."
@@ -468,5 +528,6 @@ export default function CaraDownloadRedditVideoDenganAudio() {
         suaranya!
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

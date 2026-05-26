@@ -22,6 +22,63 @@ export const metadata: Metadata = {
   },
 };
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video Tanpa Aplikasi Tambahan",
+  "description": "Panduan cara download video dari berbagai platform tanpa install aplikasi apapun, langsung dari browser menggunakan Mova.",
+  "totalTime": "PT2M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Buka browser di perangkatmu",
+      "text": "Gunakan Chrome, Safari, Firefox, atau browser apapun di HP, tablet, atau laptop. Tidak perlu browser khusus."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Kunjungi getmova.my.id",
+      "text": "Ketik getmova.my.id di address bar browser. Website Mova akan terbuka dan kamu bisa langsung mulai download video."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Tempel link video dan download",
+      "text": "Salin link video dari TikTok, YouTube, Instagram, Facebook, atau Twitter/X, lalu tempel di kolom input Mova. Klik Download, pilih kualitas, dan video akan tersimpan di perangkatmu."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah aman download video tanpa aplikasi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, menggunakan tool berbasis web seperti Mova justru lebih aman karena tidak perlu install aplikasi yang bisa mengandung malware atau adware. Mova berjalan di browser tanpa meminta permission yang tidak perlu."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Platform apa saja yang didukung Mova?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mova mendukung download video dari TikTok, YouTube, Instagram, Facebook, Twitter/X, Pinterest, dan Reddit — semua dari satu situs tanpa perlu install apapun."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah download video tanpa aplikasi bisa di HP dan laptop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova bisa diakses dari perangkat apapun yang memiliki browser — Android, iPhone, iPad, Windows, Mac, atau Linux. Tidak terbatas pada satu sistem operasi."
+      }
+    }
+  ]
+};
+
 export default function DownloadVideoTanpaAplikasiPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
@@ -41,6 +98,9 @@ export default function DownloadVideoTanpaAplikasiPage() {
           }),
         }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
 
       <header className="border-b border-[#27272A] bg-[#111113]">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">

@@ -101,9 +101,69 @@ const relatedArticles = [
   },
 ];
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video dari WhatsApp",
+  "description": "Panduan lengkap cara download video dari WhatsApp, termasuk video status, video chat, dan video dari grup WhatsApp.",
+  "totalTime": "PT3M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Buka chat yang berisi video",
+      "text": "Buka percakapan WhatsApp tempat video dikirim, baik dari chat pribadi maupun grup."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Tekan dan tahan video",
+      "text": "Tahan jari di atas video sampai muncul menu opsi. Di iPhone, pilih 'Save'. Di Android, klik ikon download di toolbar atas."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Video tersimpan ke galeri",
+      "text": "Video akan otomatis tersimpan ke galeri HP atau album Camera Roll. Untuk video status, gunakan folder tersembunyi di Android atau aplikasi Status Saver."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah ada batasan ukuran video di WhatsApp?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, WhatsApp membatasi ukuran video yang bisa dikirim hingga 16 MB per pesan. Untuk video yang lebih besar, gunakan fitur 'Send as Document' yang memungkinkan mengirim file hingga 2 GB."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bagaimana cara download video status WhatsApp?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Di Android, video status yang sudah dilihat tersimpan di folder tersembunyi: Android/media/com.whatsapp/WhatsApp/Media/.Statuses. Aktifkan 'Show hidden files' di File Manager untuk mengaksesnya. Alternatifnya, gunakan aplikasi Status Saver."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download video WhatsApp yang asalnya dari platform lain?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, jika video yang beredar di WhatsApp asalnya dari YouTube, TikTok, atau Instagram, kamu bisa menggunakan Mova untuk mendownload versi asli dengan kualitas terbaik. Cukup tempel link sumber video di getmova.my.id."
+      }
+    }
+  ]
+};
+
 export default function CaraDownloadVideoDariWhatsApp() {
   return (
-    <BlogArticleLayout
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <BlogArticleLayout
       title="Cara Download Video dari WhatsApp — Panduan Lengkap 2026"
       slug="cara-download-video-dari-whatsapp"
       description="Panduan lengkap cara download video dari WhatsApp. Pelajari cara menyimpan video status, video chat, dan video dari grup WhatsApp dengan mudah dan aman."
@@ -464,5 +524,6 @@ export default function CaraDownloadVideoDariWhatsApp() {
         Selamat mencoba dan happy downloading! 🎬
       </p>
     </BlogArticleLayout>
+    </>
   );
 }

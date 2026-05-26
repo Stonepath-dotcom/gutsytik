@@ -21,6 +21,38 @@ export const metadata: Metadata = {
   },
 };
 
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah Pinterest punya fitur download video bawaan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak, Pinterest sengaja tidak menyediakan tombol download bawaan untuk video. Kamu perlu menggunakan tool pihak ketiga seperti Mova untuk menyimpan video Pinterest ke galeri HP."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Format video apa yang dihasilkan saat download dari Pinterest?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Video dari Pinterest akan tersimpan dalam format MP4 yang kompatibel dengan semua perangkat. Resolusi video tergantung pada kualitas asli yang diunggah, biasanya antara 720p hingga 1080p."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah download video Pinterest dengan Mova gratis?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova menyediakan layanan download video Pinterest secara 100% gratis tanpa batasan jumlah download dan tanpa perlu registrasi."
+      }
+    }
+  ]
+};
+
 export default function CaraDownloadVideoPinterest() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -87,6 +119,8 @@ export default function CaraDownloadVideoPinterest() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
       <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
         <header className="border-b border-[#27272A] bg-[#111113]">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">

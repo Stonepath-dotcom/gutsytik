@@ -22,6 +22,63 @@ export const metadata: Metadata = {
   },
 };
 
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cara Download Video Facebook HD Gratis",
+  "description": "Panduan cara download video Facebook dalam kualitas HD secara gratis menggunakan Mova.",
+  "totalTime": "PT3M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Temukan video Facebook yang ingin didownload",
+      "text": "Buka aplikasi Facebook atau website facebook.com, lalu temukan video yang ingin kamu download dari timeline, halaman, atau grup publik."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Salin link video",
+      "text": "Klik kanan pada video (di komputer) atau ketuk tombol 'Bagikan' lalu pilih 'Salin Tautan' (di HP). Link video akan tersalin ke clipboard."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Tempel link di Mova dan download",
+      "text": "Buka getmova.my.id, tempel link video Facebook di kolom input, klik Download, pilih kualitas HD, dan video akan otomatis tersimpan di perangkatmu."
+    }
+  ]
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah bisa download video Facebook Reels?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova bisa download video Facebook Reels, Stories, video post, Facebook Watch, dan Live Replay yang bersifat publik."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bagaimana cara mendapatkan link video Facebook yang benar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Di aplikasi Facebook, tap ikon tiga titik di postingan lalu pilih 'Copy Link'. Di website, klik kanan pada video dan pilih 'Show video URL'. Pastikan link mengandung 'facebook.com' atau 'fb.watch'."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah download video Facebook HD dengan Mova gratis?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, Mova menyediakan layanan download video Facebook HD secara 100% gratis tanpa perlu registrasi atau install aplikasi apapun."
+      }
+    }
+  ]
+};
+
 export default function DownloadFacebookHdPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
@@ -41,6 +98,9 @@ export default function DownloadFacebookHdPage() {
           }),
         }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
 
       <header className="border-b border-[#27272A] bg-[#111113]">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">
