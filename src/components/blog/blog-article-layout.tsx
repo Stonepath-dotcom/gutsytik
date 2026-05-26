@@ -68,9 +68,9 @@ export function BlogArticleLayout({
       {/* Hero Section */}
       <section className="relative pt-20 pb-12 px-4 sm:px-6 overflow-hidden">
         {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0E27] via-[#111340] to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#EEF2FF] via-[#E0E7FF] to-background dark:from-[#0A0E27] dark:via-[#111340]" />
         <div className="absolute inset-0 opacity-20" style={{
-          backgroundImage: "radial-gradient(circle at 20% 50%, rgba(249,115,22,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(124,58,237,0.1) 0%, transparent 50%)"
+          backgroundImage: "radial-gradient(circle at 20% 50%, rgba(79,70,229,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(124,58,237,0.1) 0%, transparent 50%)"
         }} />
 
         <div className="relative mx-auto max-w-3xl">
@@ -121,10 +121,10 @@ export function BlogArticleLayout({
             {headings && headings.length > 0 && (
               <aside className="hidden lg:block w-56 shrink-0">
                 <nav
-                  className="sticky top-24 rounded-xl p-4 bg-[#0F172A] border border-[#1E293B]"
+                  className="sticky top-24 rounded-xl p-4 bg-card border border-border"
                   aria-label="Daftar Isi"
                 >
-                  <h3 className="text-sm font-bold text-[#A5B4FC] mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-[#4F46E5] mb-3 flex items-center gap-2">
                     <List className="h-4 w-4" />
                     Daftar Isi
                   </h3>
@@ -133,13 +133,13 @@ export function BlogArticleLayout({
                       <li key={h.id}>
                         <a
                           href={`#${h.id}`}
-                          className="text-xs text-[#94A3B8] hover:text-[#A5B4FC] transition-colors leading-relaxed block py-0.5"
+                          className="text-xs text-muted-foreground hover:text-[#4F46E5] transition-colors leading-relaxed block py-0.5"
                           onClick={(e) => {
                             e.preventDefault();
                             document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
                           }}
                         >
-                          <span className="text-[#4F46E5]/60 mr-1.5">{i + 1}.</span>
+                          <span className="text-[#4F46E5]/40 mr-1.5">{i + 1}.</span>
                           {h.text}
                         </a>
                       </li>
@@ -156,22 +156,22 @@ export function BlogArticleLayout({
                 <div className="lg:hidden mb-6">
                   <button
                     onClick={() => setTocOpen(!tocOpen)}
-                    className="w-full flex items-center justify-between p-3 rounded-xl bg-[#0F172A] border border-[#1E293B] text-left"
+                    className="w-full flex items-center justify-between p-3 rounded-xl bg-card border border-border text-left"
                     aria-expanded={tocOpen}
                     aria-controls="mobile-toc"
                   >
-                    <span className="text-sm font-bold text-[#A5B4FC] flex items-center gap-2">
+                    <span className="text-sm font-bold text-[#4F46E5] flex items-center gap-2">
                       <List className="h-4 w-4" />
                       Daftar Isi
                     </span>
                     <ChevronDown
-                      className={`h-4 w-4 text-[#94A3B8] transition-transform ${tocOpen ? "rotate-180" : ""}`}
+                      className={`h-4 w-4 text-muted-foreground transition-transform ${tocOpen ? "rotate-180" : ""}`}
                     />
                   </button>
                   {tocOpen && (
                     <nav
                       id="mobile-toc"
-                      className="mt-2 p-3 rounded-xl bg-[#0F172A] border border-[#1E293B]"
+                      className="mt-2 p-3 rounded-xl bg-card border border-border"
                       aria-label="Daftar Isi"
                     >
                       <ol className="space-y-2">
@@ -179,14 +179,14 @@ export function BlogArticleLayout({
                           <li key={h.id}>
                             <a
                               href={`#${h.id}`}
-                              className="text-sm text-[#94A3B8] hover:text-[#A5B4FC] transition-colors"
+                              className="text-sm text-muted-foreground hover:text-[#4F46E5] transition-colors"
                               onClick={(e) => {
                                 e.preventDefault();
                                 setTocOpen(false);
                                 document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
                               }}
                             >
-                              <span className="text-[#4F46E5]/60 mr-1.5">{i + 1}.</span>
+                              <span className="text-[#4F46E5]/40 mr-1.5">{i + 1}.</span>
                               {h.text}
                             </a>
                           </li>
@@ -209,8 +209,8 @@ export function BlogArticleLayout({
       <section className="px-4 sm:px-6 pb-12">
         <div className="mx-auto max-w-3xl">
           <div className="rounded-2xl p-6 sm:p-8 text-center" style={{
-            background: "linear-gradient(135deg, rgba(249,115,22,0.1) 0%, rgba(124,58,237,0.08) 100%)",
-            border: "1px solid rgba(249,115,22,0.2)"
+            background: "linear-gradient(135deg, rgba(79,70,229,0.1) 0%, rgba(124,58,237,0.08) 100%)",
+            border: "1px solid rgba(79,70,229,0.2)"
           }}>
             <Zap className="h-8 w-8 text-[#4F46E5] mx-auto mb-3" />
             <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]">
