@@ -39,13 +39,13 @@ export const metadata: Metadata = {
 };
 
 const platforms = [
-  { name: "TikTok", color: "#010101" },
-  { name: "YouTube", color: "#FF0000" },
-  { name: "Instagram", color: "#E4405F" },
-  { name: "Facebook", color: "#1877F2" },
-  { name: "Twitter/X", color: "#14171A" },
-  { name: "Pinterest", color: "#E60023" },
-  { name: "Reddit", color: "#FF4500" },
+  { name: "TikTok", color: "#010101", href: "/tiktok-downloader" },
+  { name: "YouTube", color: "#FF0000", href: "/youtube-downloader" },
+  { name: "Instagram", color: "#E4405F", href: "/instagram-downloader" },
+  { name: "Facebook", color: "#1877F2", href: "/facebook-downloader" },
+  { name: "Twitter/X", color: "#14171A", href: "/twitter-downloader" },
+  { name: "Pinterest", color: "#E60023", href: "/pinterest-downloader" },
+  { name: "Reddit", color: "#FF4500", href: "/reddit-downloader" },
 ];
 
 const values = [
@@ -240,7 +240,7 @@ export default function AboutPage() {
                 {platforms.map((platform) => (
                   <a
                     key={platform.name}
-                    href="/"
+                    href={platform.href}
                     className="flex items-center gap-3 p-3 rounded-xl bg-[#111113] border border-[#27272A] hover:border-[#F97316]/30 transition-colors group"
                   >
                     <div

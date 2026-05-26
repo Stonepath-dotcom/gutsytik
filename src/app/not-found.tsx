@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HeartCrack, Home, Search } from "lucide-react";
+import { HeartCrack, Home, Search, ChevronRight } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -12,12 +12,12 @@ export default function NotFound() {
           className="text-8xl sm:text-9xl font-light tracking-tighter text-[#FAFAFA] select-none"
           style={{ lineHeight: 1 }}
         >
-          4<span className="text-[#2563EB] font-bold">0</span>4
+          4<span className="text-[#F97316] font-bold">0</span>4
         </h1>
 
         {/* Broken heart icon */}
         <div className="flex justify-center my-8">
-          <HeartCrack className="h-12 w-12 text-[#2563EB]" strokeWidth={1.5} />
+          <HeartCrack className="h-12 w-12 text-[#F97316]" strokeWidth={1.5} />
         </div>
 
         {/* Message */}
@@ -31,21 +31,45 @@ export default function NotFound() {
           The page you&apos;re looking for got lost in the digital world
         </p>
 
-        {/* Search icon */}
-        <div className="flex justify-center mb-8">
-          <div className="w-16 h-16 rounded-xl bg-[#111113] border border-[#27272A] flex items-center justify-center">
-            <Search className="h-6 w-6 text-[#A1A1AA]" />
-          </div>
-        </div>
-
         {/* Back to homepage button */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg text-white font-semibold text-base transition-all hover:opacity-90 btn-press bg-[#2563EB]"
+          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg text-white font-semibold text-base transition-all hover:opacity-90 btn-press bg-[#F97316]"
         >
           <Home className="h-5 w-5" />
           Kembali ke Homepage
         </Link>
+
+        {/* Helpful links */}
+        <div className="mt-12 pt-8 border-t border-[#27272A]">
+          <p className="text-xs text-[#A1A1AA] mb-4">Atau coba cari yang kamu butuhkan:</p>
+          <div className="grid grid-cols-2 gap-3 text-left">
+            <Link href="/tiktok-downloader" className="flex items-center gap-2 p-3 rounded-lg bg-[#111113] border border-[#27272A] text-sm text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors">
+              <ChevronRight className="h-3.5 w-3.5" /> TikTok Downloader
+            </Link>
+            <Link href="/youtube-downloader" className="flex items-center gap-2 p-3 rounded-lg bg-[#111113] border border-[#27272A] text-sm text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors">
+              <ChevronRight className="h-3.5 w-3.5" /> YouTube Downloader
+            </Link>
+            <Link href="/instagram-downloader" className="flex items-center gap-2 p-3 rounded-lg bg-[#111113] border border-[#27272A] text-sm text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors">
+              <ChevronRight className="h-3.5 w-3.5" /> Instagram Downloader
+            </Link>
+            <Link href="/youtube-mp3" className="flex items-center gap-2 p-3 rounded-lg bg-[#111113] border border-[#27272A] text-sm text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors">
+              <ChevronRight className="h-3.5 w-3.5" /> YouTube MP3
+            </Link>
+            <Link href="/blog" className="flex items-center gap-2 p-3 rounded-lg bg-[#111113] border border-[#27272A] text-sm text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors">
+              <ChevronRight className="h-3.5 w-3.5" /> Blog & Panduan
+            </Link>
+            <Link href="/faq" className="flex items-center gap-2 p-3 rounded-lg bg-[#111113] border border-[#27272A] text-sm text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors">
+              <ChevronRight className="h-3.5 w-3.5" /> FAQ
+            </Link>
+            <Link href="/contact" className="flex items-center gap-2 p-3 rounded-lg bg-[#111113] border border-[#27272A] text-sm text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors">
+              <ChevronRight className="h-3.5 w-3.5" /> Hubungi Kami
+            </Link>
+            <Link href="/facebook-downloader" className="flex items-center gap-2 p-3 rounded-lg bg-[#111113] border border-[#27272A] text-sm text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors">
+              <ChevronRight className="h-3.5 w-3.5" /> Facebook Downloader
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

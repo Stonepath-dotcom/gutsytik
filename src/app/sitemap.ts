@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "twitter-downloader",
     "pinterest-downloader",
     "reddit-downloader",
+    "telegram-downloader",
     "youtube-mp3",
   ];
 
@@ -42,6 +43,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "download-video-instagram-story-dan-reels",
     "perbandingan-tiktok-downloader",
     "cara-download-video-dari-telegram",
+    "cara-download-video-dari-whatsapp",
+    "download-video-lengkap-dengan-subtitle",
+    "cara-konversi-video-ke-mp3",
+    "perbandingan-youtube-downloader-terbaik",
+    "cara-download-video-dengan-koneksi-lambat",
   ];
 
   // Legal & info pages

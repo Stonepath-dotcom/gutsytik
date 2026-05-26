@@ -275,6 +275,56 @@ const articles = [
     gradient: "from-[#6366F1]/15 via-[#EC4899]/10 to-[#0C0C0E]",
     icon: "📊",
   },
+  {
+    slug: "cara-download-video-dari-whatsapp",
+    title: "Cara Download Video dari WhatsApp — Panduan Lengkap 2026",
+    description:
+      "Tutorial lengkap download video dari WhatsApp chat, grup, dan status. Simpan video WhatsApp ke galeri dengan mudah dan cepat.",
+    date: "9 Mei 2026",
+    readingTime: "7 menit",
+    gradient: "from-[#25D366]/20 via-[#128C7E]/15 to-[#075E54]/10",
+    icon: "💬",
+  },
+  {
+    slug: "download-video-lengkap-dengan-subtitle",
+    title: "Cara Download Video Lengkap Dengan Subtitle — Tutorial 2026",
+    description:
+      "Panduan download video beserta subtitle (SRT, VTT). Cara soft-merge dan hard-merge subtitle ke video untuk nonton offline.",
+    date: "8 Mei 2026",
+    readingTime: "8 menit",
+    gradient: "from-[#EAB308]/20 via-[#A16207]/15 to-[#0C0C0E]",
+    icon: "📝",
+  },
+  {
+    slug: "cara-konversi-video-ke-mp3",
+    title: "Cara Konversi Video ke MP3 — Panduan Audio Terbaik 2026",
+    description:
+      "Tutorial konversi video ke MP3 dengan kualitas terbaik. Panduan bitrate, format audio, dan tools terbaik untuk extract audio dari video.",
+    date: "7 Mei 2026",
+    readingTime: "8 menit",
+    gradient: "from-[#7C3AED]/20 via-[#EC4899]/15 to-[#F97316]/10",
+    icon: "🎵",
+  },
+  {
+    slug: "perbandingan-youtube-downloader-terbaik",
+    title: "Perbandingan YouTube Downloader Terbaik 2026 — Mana yang Worth It?",
+    description:
+      "Review dan perbandingan YouTube downloader terbaik tahun 2026. Perbandingan fitur, kecepatan, keamanan, dan kemudahan setiap tool.",
+    date: "6 Mei 2026",
+    readingTime: "10 menit",
+    gradient: "from-[#FF0000]/20 via-[#4F46E5]/15 to-[#0C0C0E]",
+    icon: "⭐",
+  },
+  {
+    slug: "cara-download-video-dengan-koneksi-lambat",
+    title: "Cara Download Video Dengan Koneksi Lambat — Tips & Trik 2026",
+    description:
+      "Tips download video saat koneksi internet lambat. Optimasi download, pilih resolusi tepat, dan trik hemat kuota data.",
+    date: "5 Mei 2026",
+    readingTime: "9 menit",
+    gradient: "from-[#F97316]/15 via-[#10B981]/10 to-[#0C0C0E]",
+    icon: "📶",
+  },
 ];
 
 export default function BlogPage() {
@@ -289,7 +339,7 @@ export default function BlogPage() {
       name: "Mova",
       logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
     },
-    blogPost: articles.slice(0, 10).map((article) => ({
+    blogPost: articles.map((article) => ({
       "@type": "BlogPosting",
       headline: article.title,
       description: article.description,
