@@ -130,6 +130,66 @@ export default function RootLayout({
             }),
           }}
         />
+        {/* FAQPage Schema for Google Rich Results */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "Apakah Mova benar-benar gratis?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Ya, Mova 100% gratis tanpa biaya tersembunyi. Kamu bisa download video sepuasnya tanpa perlu mendaftar atau membayar apapun."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  name: "Apakah ada batasan jumlah download?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Tidak ada batasan! Kamu bisa mendownload video sebanyak yang kamu mau tanpa batas harian atau bulanan."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  name: "Apakah kualitas video berkurang saat download?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Tidak, kami mempertahankan kualitas asli video. Kamu bisa memilih resolusi yang tersedia dari video aslinya, termasuk HD 1080p jika tersedia."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  name: "Platform apa saja yang didukung Mova?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Mova mendukung TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, Reddit, dan masih banyak lagi."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  name: "Apakah Mova aman digunakan?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Sangat aman! Kami tidak menyimpan data pribadi atau riwayat download kamu. Semua proses dilakukan secara aman dan terenkripsi."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  name: "Kenapa video saya gagal didownload?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Pastikan link video benar dan video tidak bersifat private. Beberapa video dari akun private atau yang dibatasi region mungkin tidak bisa didownload."
+                  }
+                }
+              ]
+            }),
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} antialiased bg-background text-foreground`}

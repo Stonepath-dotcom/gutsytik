@@ -26,6 +26,46 @@ export const metadata: Metadata = {
 
 const articles = [
   {
+    slug: "cara-download-reddit-video-dengan-audio",
+    title: "Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2025",
+    description:
+      "Panduan lengkap cara download video Reddit dengan audio. Atasi masalah video Reddit tanpa suara dengan langkah mudah dan gratis.",
+    date: "26 Mei 2025",
+    readingTime: "9 menit",
+    gradient: "from-[#FF4500]/20 via-[#1A1A2E]/30 to-[#FF4500]/10",
+    icon: "🔴",
+  },
+  {
+    slug: "perbedaan-download-video-hd-dan-sd",
+    title: "Perbedaan Kualitas Video HD vs SD - Mana yang Harus Kamu Download?",
+    description:
+      "Panduan lengkap perbedaan kualitas video HD dan SD. Pelajari kapan harus pilih HD atau SD saat download video.",
+    date: "26 Mei 2025",
+    readingTime: "10 menit",
+    gradient: "from-[#6366F1]/20 via-[#8B5CF6]/15 to-[#0C0C0E]",
+    icon: "📺",
+  },
+  {
+    slug: "download-video-youtube-tanpa-aplikasi",
+    title: "Download Video YouTube Tanpa Aplikasi - Langsung dari Browser 2025",
+    description:
+      "Panduan lengkap cara download video YouTube tanpa install aplikasi. Langsung dari browser, gratis, cepat, dan aman.",
+    date: "26 Mei 2025",
+    readingTime: "9 menit",
+    gradient: "from-[#FF0000]/20 via-[#282828]/30 to-[#F97316]/10",
+    icon: "🌐",
+  },
+  {
+    slug: "cara-download-video-dari-story-instagram",
+    title: "Cara Download Video dari Story Instagram - Tutorial Lengkap 2025",
+    description:
+      "Panduan lengkap cara download video dari Story Instagram dengan mudah, gratis, dan cepat. Tanpa aplikasi tambahan.",
+    date: "26 Mei 2025",
+    readingTime: "9 menit",
+    gradient: "from-[#833AB4]/25 via-[#E1306C]/15 to-[#FCAF45]/15",
+    icon: "📱",
+  },
+  {
     slug: "cara-download-video-tiktok-tanpa-watermark",
     title: "Cara Download Video TikTok Tanpa Watermark 2025 - Mudah & Gratis",
     description:

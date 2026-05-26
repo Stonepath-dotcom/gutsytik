@@ -947,6 +947,53 @@ function FAQSection() {
   );
 }
 
+/* ──────── Blog Section ──────── */
+const blogPosts = [
+  { slug: "cara-download-video-tiktok-tanpa-watermark", title: "Cara Download Video TikTok Tanpa Watermark 2025", desc: "Panduan lengkap download video TikTok tanpa watermark dengan mudah dan gratis.", color: "#010101" },
+  { slug: "cara-download-video-instagram-reels", title: "Cara Download Video Instagram Reels & Story", desc: "Tutorial download video Instagram Reels, Story, dan IGTV terbaru.", color: "#E1306C" },
+  { slug: "cara-download-video-youtube-mp4", title: "Cara Download Video YouTube MP4 HD", desc: "Download video YouTube dalam format MP4 HD dengan cepat dan gratis.", color: "#FF0000" },
+  { slug: "download-video-tanpa-watermark-gratis", title: "Download Video Tanpa Watermark - Semua Platform", desc: "Panduan komprehensif download video tanpa watermark dari semua platform populer.", color: "#4F46E5" },
+  { slug: "cara-download-video-facebook-hd", title: "Cara Download Video Facebook HD", desc: "Tutorial download video Facebook dalam kualitas HD dengan mudah.", color: "#1877F2" },
+  { slug: "ekstrak-audio-mp3-dari-video", title: "Cara Ekstrak Audio MP3 dari Video Online", desc: "Konversi video ke MP3 secara online, cepat dan berkualitas tinggi.", color: "#8B5CF6" },
+];
+
+function BlogSection() {
+  const { t, lang } = useLanguage();
+  return (
+    <section id="blog" className="py-10 md:py-20 px-4 md:px-6 bg-white border-t border-gray-100">
+      <div className="mx-auto max-w-5xl">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-gray-900">
+            {lang === "id" ? "Artikel & Tutorial Terbaru" : "Latest Articles & Tutorials"}
+          </h2>
+          <p className="text-[13px] md:text-base text-gray-500 max-w-md md:max-w-lg mx-auto">
+            {lang === "id" ? "Pelajari cara download video dari berbagai platform dengan panduan lengkap kami." : "Learn how to download videos from various platforms with our complete guides."}
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+          {blogPosts.map((post) => (
+            <a key={post.slug} href={`/blog/${post.slug}`} className="group flex flex-col p-4 md:p-5 rounded-xl bg-white border border-gray-200 md:hover:border-[#4F46E5]/40 md:hover:shadow-lg md:hover:-translate-y-1 transition-all duration-200">
+              <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: `${post.color}15` }}>
+                <Film className="h-4 w-4 md:h-5 md:w-5" style={{ color: post.color }} />
+              </div>
+              <h3 className="text-[13px] md:text-sm font-semibold text-gray-900 mb-1.5 group-hover:text-[#4F46E5] transition-colors line-clamp-2 leading-snug">{post.title}</h3>
+              <p className="text-[11px] md:text-xs text-gray-500 line-clamp-2 leading-relaxed flex-1">{post.desc}</p>
+              <span className="text-[11px] md:text-xs text-[#4F46E5] font-medium mt-2.5 inline-flex items-center gap-1">
+                {lang === "id" ? "Baca Selengkapnya" : "Read More"} →
+              </span>
+            </a>
+          ))}
+        </div>
+        <div className="text-center mt-6 md:mt-8">
+          <a href="/blog" className="inline-flex items-center gap-2 text-[13px] md:text-sm font-semibold text-[#4F46E5] hover:text-[#4338CA] transition-colors">
+            {lang === "id" ? "Lihat Semua Artikel" : "View All Articles"} →
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ──────── CTA Section ──────── */
 function CTASection() {
   const { t } = useLanguage();
@@ -1051,6 +1098,7 @@ export default function Home() {
           <HowItWorksSection />
           <PlatformsSection />
           <FAQSection />
+          <BlogSection />
           {/* FAQPage Schema */}
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
             "@context": "https://schema.org",

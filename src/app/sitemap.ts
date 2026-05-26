@@ -22,6 +22,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "ekstrak-audio-mp3-dari-video",
     "download-video-twitter-x-tanpa-watermark",
     "tips-aman-download-video-online",
+    "cara-download-video-dari-story-instagram",
+    "download-video-youtube-tanpa-aplikasi",
+    "perbedaan-download-video-hd-dan-sd",
+    "cara-download-reddit-video-dengan-audio",
   ];
 
   // Legal pages
