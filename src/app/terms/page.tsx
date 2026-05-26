@@ -177,21 +177,21 @@ export default function TermsPage() {
             <nav aria-label="Breadcrumb" className="mb-8">
               <ol className="flex items-center gap-1.5 text-sm text-[#A1A1AA]">
                 <li>
-                  <a href="/" className="hover:text-[#F97316] transition-colors">
+                  <a href="/" className="hover:text-[#4F46E5] transition-colors">
                     Beranda
                   </a>
                 </li>
                 <li>
                   <ChevronRight className="h-3.5 w-3.5" />
                 </li>
-                <li className="text-[#F97316] font-medium">Syarat & Ketentuan</li>
+                <li className="text-[#4F46E5] font-medium">Syarat & Ketentuan</li>
               </ol>
             </nav>
 
             {/* Title section */}
             <div className="text-center mb-16">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA] mb-6">
-                <FileText className="h-3 w-3 text-[#F97316]" />
+                <FileText className="h-3 w-3 text-[#4F46E5]" />
                 Legal
               </span>
               <h1
@@ -199,7 +199,7 @@ export default function TermsPage() {
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
                 Syarat &{" "}
-                <span className="font-bold text-[#F97316]">Ketentuan</span>
+                <span className="font-bold text-[#4F46E5]">Ketentuan</span>
               </h1>
               <p className="text-[#A1A1AA] text-sm max-w-xl mx-auto leading-relaxed">
                 Harap baca syarat dan ketentuan ini dengan saksama sebelum menggunakan layanan Mova. Dengan menggunakan layanan kami, Anda menyetujui ketentuan ini.
@@ -210,7 +210,7 @@ export default function TermsPage() {
             </div>
 
             {/* Important notice */}
-            <div className="mb-12 p-6 rounded-xl bg-[#111113] border-l-4 border-[#F97316]">
+            <div className="mb-12 p-6 rounded-xl bg-[#111113] border-l-4 border-[#4F46E5]">
               <p className="text-sm text-[#FAFAFA] font-medium">
                 Dengan mengakses dan menggunakan Mova, Anda menyatakan telah membaca dan menyetujui seluruh Syarat & Ketentuan yang tercantum di halaman ini. Jika Anda tidak setuju, harap tidak menggunakan layanan ini.
               </p>
@@ -222,7 +222,7 @@ export default function TermsPage() {
                 <section key={index} className="scroll-mt-20">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A] shrink-0">
-                      <section.icon className="h-5 w-5 text-[#F97316]" />
+                      <section.icon className="h-5 w-5 text-[#4F46E5]" />
                     </div>
                     <h2
                       className="text-lg font-bold text-[#FAFAFA]"
@@ -253,21 +253,21 @@ export default function TermsPage() {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="/privacy"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <ShieldAlert className="h-4 w-4" />
                   Kebijakan Privasi
                 </a>
                 <a
                   href="/about"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <Users className="h-4 w-4" />
                   Tentang Kami
                 </a>
                 <a
                   href="/contact"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <Mail className="h-4 w-4" />
                   Hubungi Kami

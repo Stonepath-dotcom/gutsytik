@@ -166,21 +166,21 @@ export default function AboutPage() {
             <nav aria-label="Breadcrumb" className="mb-8">
               <ol className="flex items-center gap-1.5 text-sm text-[#A1A1AA]">
                 <li>
-                  <a href="/" className="hover:text-[#F97316] transition-colors">
+                  <a href="/" className="hover:text-[#4F46E5] transition-colors">
                     Beranda
                   </a>
                 </li>
                 <li>
                   <ChevronRight className="h-3.5 w-3.5" />
                 </li>
-                <li className="text-[#F97316] font-medium">Tentang Kami</li>
+                <li className="text-[#4F46E5] font-medium">Tentang Kami</li>
               </ol>
             </nav>
 
             {/* Title section */}
             <div className="text-center mb-16">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA] mb-6">
-                <Heart className="h-3 w-3 text-[#F97316]" />
+                <Heart className="h-3 w-3 text-[#4F46E5]" />
                 Tentang Kami
               </span>
               <h1
@@ -188,7 +188,7 @@ export default function AboutPage() {
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
                 Tentang{" "}
-                <span className="font-bold text-[#F97316]">Mova</span>
+                <span className="font-bold text-[#4F46E5]">Mova</span>
               </h1>
               <p className="text-[#A1A1AA] text-sm max-w-2xl mx-auto leading-relaxed">
                 Mova adalah layanan download video tanpa watermark yang gratis, cepat, dan menghormati privasi Anda. Kenali kami lebih dekat dan temukan mengapa ribuan orang mempercayai Mova.
@@ -197,7 +197,7 @@ export default function AboutPage() {
 
             {/* Intro highlight */}
             <div className="mb-16 p-6 sm:p-8 rounded-xl bg-gradient-to-br from-[#111113] to-[#0F0F11] border border-[#27272A] relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#F97316]/5 rounded-full blur-3xl" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#4F46E5]/5 rounded-full blur-3xl" />
               <div className="relative">
                 <div className="flex items-center gap-3 mb-4">
                   <MovaLogo size={40} showText={false} />
@@ -224,7 +224,7 @@ export default function AboutPage() {
             <div className="mb-16">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A] shrink-0">
-                  <Globe className="h-5 w-5 text-[#F97316]" />
+                  <Globe className="h-5 w-5 text-[#4F46E5]" />
                 </div>
                 <h2
                   className="text-xl font-bold text-[#FAFAFA]"
@@ -241,7 +241,7 @@ export default function AboutPage() {
                   <a
                     key={platform.name}
                     href={platform.href}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-[#111113] border border-[#27272A] hover:border-[#F97316]/30 transition-colors group"
+                    className="flex items-center gap-3 p-3 rounded-xl bg-[#111113] border border-[#27272A] hover:border-[#4F46E5]/30 transition-colors group"
                   >
                     <div
                       className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0"
@@ -264,7 +264,7 @@ export default function AboutPage() {
                   className="text-2xl font-bold text-[#FAFAFA] mb-3"
                   style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                 >
-                  Nilai-Nilai <span className="text-[#F97316]">Kami</span>
+                  Nilai-Nilai <span className="text-[#4F46E5]">Kami</span>
                 </h2>
                 <p className="text-sm text-[#A1A1AA] max-w-lg mx-auto">
                   Prinsip-prinsip yang memandu setiap keputusan dan fitur yang kami bangun di Mova.
@@ -274,10 +274,10 @@ export default function AboutPage() {
                 {values.map((value, index) => (
                   <div
                     key={index}
-                    className="p-6 rounded-xl bg-[#111113] border border-[#27272A] hover:border-[#F97316]/20 transition-colors group"
+                    className="p-6 rounded-xl bg-[#111113] border border-[#27272A] hover:border-[#4F46E5]/20 transition-colors group"
                   >
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#09090B] border border-[#27272A] mb-4 group-hover:border-[#F97316]/30 transition-colors">
-                      <value.icon className="h-5 w-5 text-[#F97316]" />
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#09090B] border border-[#27272A] mb-4 group-hover:border-[#4F46E5]/30 transition-colors">
+                      <value.icon className="h-5 w-5 text-[#4F46E5]" />
                     </div>
                     <h3
                       className="text-base font-bold text-[#FAFAFA] mb-2"
@@ -300,7 +300,7 @@ export default function AboutPage() {
                   className="text-2xl font-bold text-[#FAFAFA] mb-3"
                   style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                 >
-                  Cerita <span className="text-[#F97316]">Kami</span>
+                  Cerita <span className="text-[#4F46E5]">Kami</span>
                 </h2>
                 <p className="text-sm text-[#A1A1AA] max-w-lg mx-auto">
                   Perjalanan dan komitmen kami dalam membangun Mova untuk Anda.
@@ -311,7 +311,7 @@ export default function AboutPage() {
                   <div key={index} className="flex gap-4">
                     <div className="flex flex-col items-center shrink-0">
                       <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
-                        <milestone.icon className="h-5 w-5 text-[#F97316]" />
+                        <milestone.icon className="h-5 w-5 text-[#4F46E5]" />
                       </div>
                       {index < milestones.length - 1 && (
                         <div className="w-px h-full bg-[#27272A] mt-2" />
@@ -337,7 +337,7 @@ export default function AboutPage() {
             <div className="mb-16 p-6 sm:p-8 rounded-xl bg-[#111113] border border-[#27272A]">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#09090B] border border-[#27272A]">
-                  <Users className="h-5 w-5 text-[#F97316]" />
+                  <Users className="h-5 w-5 text-[#4F46E5]" />
                 </div>
                 <h2
                   className="text-xl font-bold text-[#FAFAFA]"
@@ -372,7 +372,7 @@ export default function AboutPage() {
                   className="text-center p-4 rounded-xl bg-[#111113] border border-[#27272A]"
                 >
                   <p
-                    className="text-2xl sm:text-3xl font-bold text-[#F97316] mb-1"
+                    className="text-2xl sm:text-3xl font-bold text-[#4F46E5] mb-1"
                     style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                   >
                     {stat.value}
@@ -393,21 +393,21 @@ export default function AboutPage() {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="/privacy"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <Shield className="h-4 w-4" />
                   Kebijakan Privasi
                 </a>
                 <a
                   href="/terms"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <Smartphone className="h-4 w-4" />
                   Syarat & Ketentuan
                 </a>
                 <a
                   href="/contact"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <MessageCircle className="h-4 w-4" />
                   Hubungi Kami

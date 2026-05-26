@@ -49,9 +49,9 @@ export function BlogArticleLayout({
         <div className="relative mx-auto max-w-3xl">
           {/* Breadcrumb */}
           <nav className="mb-6 flex items-center gap-1.5 text-sm text-muted-foreground" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-[#F97316] transition-colors">Home</Link>
+            <Link href="/" className="hover:text-[#4F46E5] transition-colors">Home</Link>
             <ChevronRight className="h-3.5 w-3.5" />
-            <Link href="/blog" className="hover:text-[#F97316] transition-colors">Blog</Link>
+            <Link href="/blog" className="hover:text-[#4F46E5] transition-colors">Blog</Link>
             <ChevronRight className="h-3.5 w-3.5" />
             <span className="text-foreground truncate max-w-[200px] sm:max-w-none">{title}</span>
           </nav>
@@ -64,11 +64,11 @@ export function BlogArticleLayout({
           {/* Meta */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-4">
             <span className="flex items-center gap-1.5">
-              <Calendar className="h-4 w-4 text-[#F97316]" />
+              <Calendar className="h-4 w-4 text-[#4F46E5]" />
               {date}
             </span>
             <span className="flex items-center gap-1.5">
-              <Clock className="h-4 w-4 text-[#F97316]" />
+              <Clock className="h-4 w-4 text-[#4F46E5]" />
               {readingTime}
             </span>
           </div>
@@ -94,7 +94,7 @@ export function BlogArticleLayout({
             background: "linear-gradient(135deg, rgba(249,115,22,0.1) 0%, rgba(124,58,237,0.08) 100%)",
             border: "1px solid rgba(249,115,22,0.2)"
           }}>
-            <Zap className="h-8 w-8 text-[#F97316] mx-auto mb-3" />
+            <Zap className="h-8 w-8 text-[#4F46E5] mx-auto mb-3" />
             <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]">
               Siap Download Video Tanpa Watermark?
             </h2>
@@ -102,7 +102,7 @@ export function BlogArticleLayout({
               Coba Mova sekarang dan rasakan kemudahan download video tanpa watermark dari berbagai platform!
             </p>
             <Link href="/">
-              <Button className="bg-[#F97316] text-white font-semibold rounded-xl hover:bg-[#EA580C] px-8 h-12 text-base">
+              <Button className="bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] px-8 h-12 text-base">
                 <Download className="mr-2 h-5 w-5" />
                 Mulai Download Gratis
               </Button>
@@ -123,9 +123,9 @@ export function BlogArticleLayout({
                 <Link
                   key={article.slug}
                   href={`/blog/${article.slug}`}
-                  className="group rounded-xl p-5 bg-card border border-border hover:border-[#F97316]/30 transition-all duration-200"
+                  className="group rounded-xl p-5 bg-card border border-border hover:border-[#4F46E5]/30 transition-all duration-200"
                 >
-                  <h3 className="font-semibold text-foreground text-sm mb-1.5 group-hover:text-[#F97316] transition-colors line-clamp-2">
+                  <h3 className="font-semibold text-foreground text-sm mb-1.5 group-hover:text-[#4F46E5] transition-colors line-clamp-2">
                     {article.title}
                   </h3>
                   <p className="text-xs text-muted-foreground line-clamp-2">
@@ -143,7 +143,7 @@ export function BlogArticleLayout({
         <div className="mx-auto max-w-3xl">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-[#F97316] transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-[#4F46E5] transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
             Kembali ke Halaman Utama

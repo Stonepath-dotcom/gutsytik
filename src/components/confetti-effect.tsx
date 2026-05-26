@@ -23,7 +23,7 @@ const CONFETTI_COLORS = [
   "#A78BFA",
   "#FBBF24",
   "#10B981",
-  "#F97316",
+  "#4F46E5",
 ];
 
 function useConfetti() {

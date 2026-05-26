@@ -62,7 +62,7 @@ const articles = [
       "Daftar 10 situs download video tanpa watermark terbaik tahun 2026. Perbandingan fitur, kecepatan, dan kemudahan setiap situs downloader.",
     date: "26 Mei 2026",
     readingTime: "9 menit",
-    gradient: "from-[#F97316]/20 via-[#7C3AED]/15 to-[#F97316]/10",
+    gradient: "from-[#4F46E5]/20 via-[#7C3AED]/15 to-[#4F46E5]/10",
     icon: "🏆",
   },
   {
@@ -112,7 +112,7 @@ const articles = [
       "Panduan lengkap cara download video YouTube tanpa install aplikasi. Langsung dari browser, gratis, cepat, dan aman.",
     date: "25 Mei 2026",
     readingTime: "9 menit",
-    gradient: "from-[#FF0000]/20 via-[#282828]/30 to-[#F97316]/10",
+    gradient: "from-[#FF0000]/20 via-[#282828]/30 to-[#4F46E5]/10",
     icon: "🌐",
   },
   {
@@ -162,7 +162,7 @@ const articles = [
       "Panduan komprehensif download video tanpa watermark dari semua platform. Perbandingan tools dan mengapa Mova adalah pilihan terbaik.",
     date: "21 Mei 2026",
     readingTime: "9 menit",
-    gradient: "from-[#F97316]/20 via-[#7C3AED]/15 to-[#F97316]/10",
+    gradient: "from-[#4F46E5]/20 via-[#7C3AED]/15 to-[#4F46E5]/10",
     icon: "✨",
   },
   {
@@ -302,7 +302,7 @@ const articles = [
       "Tutorial konversi video ke MP3 dengan kualitas terbaik. Panduan bitrate, format audio, dan tools terbaik untuk extract audio dari video.",
     date: "7 Mei 2026",
     readingTime: "8 menit",
-    gradient: "from-[#7C3AED]/20 via-[#EC4899]/15 to-[#F97316]/10",
+    gradient: "from-[#7C3AED]/20 via-[#EC4899]/15 to-[#4F46E5]/10",
     icon: "🎵",
   },
   {
@@ -322,7 +322,7 @@ const articles = [
       "Tips download video saat koneksi internet lambat. Optimasi download, pilih resolusi tepat, dan trik hemat kuota data.",
     date: "5 Mei 2026",
     readingTime: "9 menit",
-    gradient: "from-[#F97316]/15 via-[#10B981]/10 to-[#0C0C0E]",
+    gradient: "from-[#4F46E5]/15 via-[#10B981]/10 to-[#0C0C0E]",
     icon: "📶",
   },
 ];

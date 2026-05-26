@@ -263,7 +263,7 @@ details summary { list-style: none; }
 }
 
 .prose-blog li::marker {
-  color: #F97316;
+  color: #4F46E5;
 }
 
 .prose-blog strong {
@@ -272,21 +272,21 @@ details summary { list-style: none; }
 }
 
 .prose-blog a {
-  color: #F97316;
+  color: #4F46E5;
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: color 0.15s ease;
 }
 
 .prose-blog a:hover {
-  color: #FB923C;
+  color: #6366F1;
 }
 
 .prose-blog blockquote {
-  border-left: 3px solid #F97316;
+  border-left: 3px solid #4F46E5;
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
-  background: rgba(249,115,22,0.05);
+  background: rgba(79,70,229,0.05);
   border-radius: 0 8px 8px 0;
 }
 
@@ -297,8 +297,8 @@ details summary { list-style: none; }
 }
 
 .prose-blog .info-box {
-  background: rgba(249,115,22,0.08);
-  border: 1px solid rgba(249,115,22,0.2);
+  background: rgba(79,70,229,0.08);
+  border: 1px solid rgba(79,70,229,0.2);
   border-radius: 12px;
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
@@ -310,8 +310,8 @@ details summary { list-style: none; }
 }
 
 .prose-blog .warning-box {
-  background: rgba(234,88,12,0.08);
-  border: 1px solid rgba(234,88,12,0.2);
+  background: rgba(67,56,202,0.08);
+  border: 1px solid rgba(67,56,202,0.2);
   border-radius: 12px;
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
@@ -337,7 +337,7 @@ details summary { list-style: none; }
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #F97316;
+  background: #4F46E5;
   color: white;
   font-weight: 700;
   font-size: 0.875rem;

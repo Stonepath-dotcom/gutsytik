@@ -79,7 +79,7 @@ export interface PlatformPageProps {
   breadcrumbLabel: string;
 }
 
-const ACCENT = "#F97316";
+const ACCENT = "#4F46E5";
 
 /* ──────── Main Component ──────── */
 export function PlatformPageClient(props: PlatformPageProps) {
@@ -198,7 +198,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
             <a href="#faq" className="px-2.5 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted/50">FAQ</a>
           </nav>
           <a href="#download">
-            <Button size="sm" className="h-8 px-4 bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C] text-xs">
+            <Button size="sm" className="h-8 px-4 bg-[#4F46E5] text-white font-semibold rounded-lg hover:bg-[#4338CA] text-xs">
               <Download className="mr-1.5 h-3.5 w-3.5" />Download
             </Button>
           </a>
@@ -229,8 +229,8 @@ export function PlatformPageClient(props: PlatformPageProps) {
         <div className="relative mx-auto max-w-2xl text-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
-            <Zap className="h-3.5 w-3.5 text-[#F97316]" />
-            <span className="text-xs font-semibold text-[#F97316]">{heroBadge}</span>
+            <Zap className="h-3.5 w-3.5 text-[#4F46E5]" />
+            <span className="text-xs font-semibold text-[#4F46E5]">{heroBadge}</span>
           </div>
 
           {/* Title */}
@@ -261,7 +261,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
             <button onClick={handlePaste} className="h-11 px-3 rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs font-medium shrink-0">
               <Copy className="h-3.5 w-3.5 sm:mr-1.5" /><span className="hidden sm:inline">Tempel</span>
             </button>
-            <Button onClick={handleAnalyze} disabled={loading} className="h-11 px-5 bg-[#F97316] text-white font-semibold rounded-xl hover:bg-[#EA580C] shrink-0">
+            <Button onClick={handleAnalyze} disabled={loading} className="h-11 px-5 bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] shrink-0">
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 sm:mr-1.5" />}
               <span className="hidden sm:inline">{loading ? (loadingMsg || "Download") : "Download"}</span>
             </Button>
@@ -269,9 +269,9 @@ export function PlatformPageClient(props: PlatformPageProps) {
 
           {/* Loading indicator */}
           {loading && !error && (
-            <div className="max-w-xl mx-auto mt-4 p-3 rounded-lg bg-[#F97316]/10 border border-[#F97316]/20 flex items-center gap-2">
-              <Loader2 className="h-4 w-4 text-[#F97316] animate-spin shrink-0" />
-              <p className="text-[#F97316] text-sm text-left font-medium">{loadingMsg || "Memproses..."}</p>
+            <div className="max-w-xl mx-auto mt-4 p-3 rounded-lg bg-[#4F46E5]/10 border border-[#4F46E5]/20 flex items-center gap-2">
+              <Loader2 className="h-4 w-4 text-[#4F46E5] animate-spin shrink-0" />
+              <p className="text-[#4F46E5] text-sm text-left font-medium">{loadingMsg || "Memproses..."}</p>
             </div>
           )}
 
@@ -295,7 +295,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
                 <div className="flex gap-3 mb-3">
                   <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
                     {result.thumbnail && <img src={result.thumbnail} alt="" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
-                    <Play className="h-6 w-6 absolute text-[#F97316]" />
+                    <Play className="h-6 w-6 absolute text-[#4F46E5]" />
                   </div>
                   <div className="flex-1 text-left min-w-0">
                     <h3 className="font-semibold text-foreground text-sm line-clamp-2">{result.title}</h3>
@@ -317,7 +317,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
                           onClick={() => setSelectedQuality(i)}
                           className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                             i === selectedQuality
-                              ? "bg-[#F97316] text-white"
+                              ? "bg-[#4F46E5] text-white"
                               : "bg-muted text-muted-foreground hover:bg-muted/80"
                           }`}
                         >
@@ -331,7 +331,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
                 <Button
                   onClick={handleDownload}
                   disabled={downloading}
-                  className="w-full bg-[#F97316] text-white font-semibold rounded-xl hover:bg-[#EA580C] h-11"
+                  className="w-full bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] h-11"
                 >
                   {downloading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Download className="h-4 w-4 mr-2" />}
                   {downloading ? "Mengunduh..." : "Download Sekarang"}
@@ -356,9 +356,9 @@ export function PlatformPageClient(props: PlatformPageProps) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((f, i) => (
-              <div key={i} className="bento-card p-5 group hover:border-[#F97316]/30 transition-all">
+              <div key={i} className="bento-card p-5 group hover:border-[#4F46E5]/30 transition-all">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ background: `${platformColor}15` }}>
-                  <div className="text-[#F97316]">{f.icon}</div>
+                  <div className="text-[#4F46E5]">{f.icon}</div>
                 </div>
                 <h3 className="font-semibold text-foreground text-sm mb-1.5">{f.title}</h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">{f.description}</p>
@@ -383,7 +383,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
           <div className="space-y-4 max-w-2xl mx-auto">
             {steps.map((s, i) => (
               <div key={i} className="flex gap-4 items-start p-4 rounded-xl bg-card border border-border">
-                <div className="w-9 h-9 rounded-full bg-[#F97316] flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-full bg-[#4F46E5] flex items-center justify-center shrink-0">
                   <span className="text-white font-bold text-sm">{i + 1}</span>
                 </div>
                 <div>
@@ -422,7 +422,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
 
           <Accordion type="single" collapsible className="space-y-2">
             {faqs.map((faq, i) => (
-              <AccordionItem key={i} value={`faq-${i}`} className="bg-card border border-border rounded-xl px-4 data-[state=open]:border-[#F97316]/30">
+              <AccordionItem key={i} value={`faq-${i}`} className="bg-card border border-border rounded-xl px-4 data-[state=open]:border-[#4F46E5]/30">
                 <AccordionTrigger className="text-sm font-semibold text-foreground text-left hover:no-underline py-4">
                   {faq.question}
                 </AccordionTrigger>
@@ -439,7 +439,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
       <section className="py-12 px-3 sm:px-4">
         <div className="mx-auto max-w-2xl">
           <div className="relative rounded-2xl overflow-hidden p-6 sm:p-8 text-center" style={{ background: `linear-gradient(135deg, ${platformColor}20, ${ACCENT}10)` }}>
-            <div className="absolute inset-0 border border-[#F97316]/20 rounded-2xl pointer-events-none" />
+            <div className="absolute inset-0 border border-[#4F46E5]/20 rounded-2xl pointer-events-none" />
             <h2 className="text-xl sm:text-2xl font-extrabold font-[family-name:var(--font-montserrat)] mb-2 relative z-10">
               {ctaTitle}
             </h2>
@@ -447,7 +447,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
               {ctaSubtitle}
             </p>
             <a href="#download" className="relative z-10 inline-block">
-              <Button className="h-11 px-8 bg-[#F97316] text-white font-semibold rounded-xl hover:bg-[#EA580C] text-sm">
+              <Button className="h-11 px-8 bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] text-sm">
                 <Download className="h-4 w-4 mr-2" />Mulai Download Sekarang
               </Button>
             </a>
@@ -469,16 +469,16 @@ export function PlatformPageClient(props: PlatformPageProps) {
                   <a
                     key={p.name}
                     href={p.href}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-[#F97316]/30 transition-all group"
+                    className="flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-[#4F46E5]/30 transition-all group"
                   >
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: p.gradient || p.color }}>
                       <span className="text-white text-xs font-bold">{p.name[0]}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-foreground group-hover:text-[#F97316] transition-colors">{p.name} Downloader</p>
+                      <p className="text-sm font-semibold text-foreground group-hover:text-[#4F46E5] transition-colors">{p.name} Downloader</p>
                       <p className="text-xs text-muted-foreground">Download video {p.name} tanpa watermark</p>
                     </div>
-                    <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-[#F97316] transition-colors shrink-0" />
+                    <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-[#4F46E5] transition-colors shrink-0" />
                   </a>
                 ))}
               </div>
@@ -494,15 +494,15 @@ export function PlatformPageClient(props: PlatformPageProps) {
                   <a
                     key={b.href}
                     href={b.href}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-[#F97316]/30 transition-all group"
+                    className="flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-[#4F46E5]/30 transition-all group"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-[#F97316]/10 flex items-center justify-center shrink-0">
-                      <Sparkles className="h-4 w-4 text-[#F97316]" />
+                    <div className="w-8 h-8 rounded-lg bg-[#4F46E5]/10 flex items-center justify-center shrink-0">
+                      <Sparkles className="h-4 w-4 text-[#4F46E5]" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-foreground group-hover:text-[#F97316] transition-colors line-clamp-2">{b.title}</p>
+                      <p className="text-sm font-semibold text-foreground group-hover:text-[#4F46E5] transition-colors line-clamp-2">{b.title}</p>
                     </div>
-                    <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-[#F97316] transition-colors shrink-0" />
+                    <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-[#4F46E5] transition-colors shrink-0" />
                   </a>
                 ))}
               </div>

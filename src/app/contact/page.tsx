@@ -184,21 +184,21 @@ export default function ContactPage() {
             <nav aria-label="Breadcrumb" className="mb-8">
               <ol className="flex items-center gap-1.5 text-sm text-[#A1A1AA]">
                 <li>
-                  <a href="/" className="hover:text-[#F97316] transition-colors">
+                  <a href="/" className="hover:text-[#4F46E5] transition-colors">
                     Beranda
                   </a>
                 </li>
                 <li>
                   <ChevronRight className="h-3.5 w-3.5" />
                 </li>
-                <li className="text-[#F97316] font-medium">Hubungi Kami</li>
+                <li className="text-[#4F46E5] font-medium">Hubungi Kami</li>
               </ol>
             </nav>
 
             {/* Title section */}
             <div className="text-center mb-16">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA] mb-6">
-                <Mail className="h-3 w-3 text-[#F97316]" />
+                <Mail className="h-3 w-3 text-[#4F46E5]" />
                 Kontak
               </span>
               <h1
@@ -206,7 +206,7 @@ export default function ContactPage() {
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
                 Hubungi{" "}
-                <span className="font-bold text-[#F97316]">Kami</span>
+                <span className="font-bold text-[#4F46E5]">Kami</span>
               </h1>
               <p className="text-[#A1A1AA] text-sm max-w-xl mx-auto leading-relaxed">
                 Kami selalu senang mendengar dari Anda. Baik pertanyaan, saran, masukan, atau laporan masalah — tim kami siap membantu.
@@ -217,7 +217,7 @@ export default function ContactPage() {
             <div className="mb-16">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A] shrink-0">
-                  <Globe className="h-5 w-5 text-[#F97316]" />
+                  <Globe className="h-5 w-5 text-[#4F46E5]" />
                 </div>
                 <h2
                   className="text-xl font-bold text-[#FAFAFA]"
@@ -233,10 +233,10 @@ export default function ContactPage() {
                     href={method.href}
                     target={method.href.startsWith("http") ? "_blank" : undefined}
                     rel={method.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="p-5 rounded-xl bg-[#111113] border border-[#27272A] hover:border-[#F97316]/30 transition-colors group block"
+                    className="p-5 rounded-xl bg-[#111113] border border-[#27272A] hover:border-[#4F46E5]/30 transition-colors group block"
                   >
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#09090B] border border-[#27272A] mb-3 group-hover:border-[#F97316]/30 transition-colors">
-                      <method.icon className="h-5 w-5 text-[#F97316]" />
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#09090B] border border-[#27272A] mb-3 group-hover:border-[#4F46E5]/30 transition-colors">
+                      <method.icon className="h-5 w-5 text-[#4F46E5]" />
                     </div>
                     <h3
                       className="text-base font-bold text-[#FAFAFA] mb-1"
@@ -244,7 +244,7 @@ export default function ContactPage() {
                     >
                       {method.title}
                     </h3>
-                    <p className="text-sm text-[#F97316] font-medium mb-2">{method.value}</p>
+                    <p className="text-sm text-[#4F46E5] font-medium mb-2">{method.value}</p>
                     <p className="text-xs text-[#A1A1AA] leading-relaxed">{method.description}</p>
                   </a>
                 ))}
@@ -252,9 +252,9 @@ export default function ContactPage() {
             </div>
 
             {/* Response time notice */}
-            <div className="mb-12 p-5 rounded-xl bg-[#111113] border-l-4 border-[#F97316]">
+            <div className="mb-12 p-5 rounded-xl bg-[#111113] border-l-4 border-[#4F46E5]">
               <div className="flex items-start gap-3">
-                <Clock className="h-5 w-5 text-[#F97316] mt-0.5 shrink-0" />
+                <Clock className="h-5 w-5 text-[#4F46E5] mt-0.5 shrink-0" />
                 <div>
                   <p className="text-sm text-[#FAFAFA] font-medium mb-1">Waktu Respons</p>
                   <p className="text-sm text-[#A1A1AA] leading-relaxed">
@@ -273,7 +273,7 @@ export default function ContactPage() {
             <div className="mb-16">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A] shrink-0">
-                  <AlertTriangle className="h-5 w-5 text-[#F97316]" />
+                  <AlertTriangle className="h-5 w-5 text-[#4F46E5]" />
                 </div>
                 <h2
                   className="text-xl font-bold text-[#FAFAFA]"
@@ -289,7 +289,7 @@ export default function ContactPage() {
                     className="p-5 rounded-xl bg-[#111113] border border-[#27272A]"
                   >
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#09090B] border border-[#27272A] mb-3">
-                      <type.icon className="h-5 w-5 text-[#F97316]" />
+                      <type.icon className="h-5 w-5 text-[#4F46E5]" />
                     </div>
                     <h3
                       className="text-base font-bold text-[#FAFAFA] mb-2"
@@ -310,7 +310,7 @@ export default function ContactPage() {
                   className="text-2xl font-bold text-[#FAFAFA] mb-3"
                   style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                 >
-                  Pertanyaan <span className="text-[#F97316]">Umum</span>
+                  Pertanyaan <span className="text-[#4F46E5]">Umum</span>
                 </h2>
                 <p className="text-sm text-[#A1A1AA] max-w-lg mx-auto">
                   Temukan jawaban untuk pertanyaan yang sering diajukan tentang Mova.
@@ -324,7 +324,7 @@ export default function ContactPage() {
                   >
                     <div className="flex items-start gap-3">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-[#09090B] border border-[#27272A] shrink-0 mt-0.5">
-                        <faq.icon className="h-4 w-4 text-[#F97316]" />
+                        <faq.icon className="h-4 w-4 text-[#4F46E5]" />
                       </div>
                       <div>
                         <h3
@@ -352,21 +352,21 @@ export default function ContactPage() {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="/privacy"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <Shield className="h-4 w-4" />
                   Kebijakan Privasi
                 </a>
                 <a
                   href="/terms"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <Phone className="h-4 w-4" />
                   Syarat & Ketentuan
                 </a>
                 <a
                   href="/about"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#F97316] hover:border-[#F97316]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <Globe className="h-4 w-4" />
                   Tentang Kami
