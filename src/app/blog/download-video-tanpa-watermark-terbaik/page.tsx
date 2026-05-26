@@ -151,11 +151,11 @@ export default function DownloadVideoTanpaWatermarkTerbaik() {
             {/* Breadcrumb */}
             <nav aria-label="Breadcrumb" className="mb-8">
               <ol className="flex items-center gap-1.5 text-sm text-[#A1A1AA]">
-                <li><a href="/" className="hover:text-[#4F46E5] transition-colors">Beranda</a></li>
+                <li><a href="/" className="hover:text-[#F97316] transition-colors">Beranda</a></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li><a href="/blog" className="hover:text-[#4F46E5] transition-colors">Blog</a></li>
+                <li><a href="/blog" className="hover:text-[#F97316] transition-colors">Blog</a></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li className="text-[#4F46E5] font-medium">Situs Download Video Tanpa Watermark</li>
+                <li className="text-[#F97316] font-medium">Situs Download Video Tanpa Watermark</li>
               </ol>
             </nav>
 
@@ -190,7 +190,7 @@ export default function DownloadVideoTanpaWatermarkTerbaik() {
               {sites.map((site) => (
                 <div key={site.num} className="space-y-3">
                   <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
-                    {site.num}. {site.name} {site.num === 1 && <span className="text-sm font-normal text-[#4F46E5] ml-2">⭐ Pilihan Terbaik</span>}
+                    {site.num}. {site.name} {site.num === 1 && <span className="text-sm font-normal text-[#F97316] ml-2">⭐ Pilihan Terbaik</span>}
                   </h2>
                   <p className="text-sm text-[#A1A1AA] leading-relaxed">
                     <strong className="text-[#FAFAFA]">URL:</strong> {site.url} <br />
@@ -198,7 +198,7 @@ export default function DownloadVideoTanpaWatermarkTerbaik() {
                   </p>
                   {site.num === 1 ? (
                     <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                      <a href="/" className="text-[#4F46E5] hover:underline">Mova</a> adalah pilihan terbaik untuk download video tanpa watermark di 2026. Kenapa? Karena Mova menggabungkan kemudahan, keamanan, dan dukungan multi-platform yang paling lengkap. Kamu bisa download video dari TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, dan masih banyak lagi — semua dari satu situs. Nggak perlu ganti-ganti tool untuk setiap platform. Ditambah lagi, Mova 100% gratis, nggak perlu registrasi, dan bebas iklan pop-up yang mengganggu.
+                      <a href="/" className="text-[#F97316] hover:underline">Mova</a> adalah pilihan terbaik untuk download video tanpa watermark di 2026. Kenapa? Karena Mova menggabungkan kemudahan, keamanan, dan dukungan multi-platform yang paling lengkap. Kamu bisa download video dari TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, dan masih banyak lagi — semua dari satu situs. Nggak perlu ganti-ganti tool untuk setiap platform. Ditambah lagi, Mova 100% gratis, nggak perlu registrasi, dan bebas iklan pop-up yang mengganggu.
                     </p>
                   ) : (
                     <p className="text-sm text-[#A1A1AA] leading-relaxed">
@@ -230,18 +230,18 @@ export default function DownloadVideoTanpaWatermarkTerbaik() {
                 Kesimpulan: Mana yang Terbaik?
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                Dari 10 situs yang kita bahas di atas, <a href="/" className="text-[#4F46E5] hover:underline">Mova</a> jelas menjadi pilihan terbaik secara keseluruhan. Alasannya sederhana: Mova menawarkan dukungan multi-platform paling lengkap, tanpa iklan yang mengganggu, tanpa perlu registrasi, dan yang paling penting — 100% gratis. Situs-situs lain mungkin bagus untuk platform tertentu, tapi kalau kamu mau satu tool yang bisa dipakai untuk semua platform, Mova jawabannya.
+                Dari 10 situs yang kita bahas di atas, <a href="/" className="text-[#F97316] hover:underline">Mova</a> jelas menjadi pilihan terbaik secara keseluruhan. Alasannya sederhana: Mova menawarkan dukungan multi-platform paling lengkap, tanpa iklan yang mengganggu, tanpa perlu registrasi, dan yang paling penting — 100% gratis. Situs-situs lain mungkin bagus untuk platform tertentu, tapi kalau kamu mau satu tool yang bisa dipakai untuk semua platform, Mova jawabannya.
               </p>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                Kalau kamu cuma butuh download video TikTok, SnapTik atau SSSTikTok juga cukup memadai. Tapi bersiaplah dengan iklan pop-up yang cukup agresif. Untuk YouTube, YT1s bisa jadi alternatif, tapi lagi-lagi iklan jadi masalah utama. Pada akhirnya, <a href="/" className="text-[#4F46E5] hover:underline">Mova</a> memberikan pengalaman paling seimbang antara fitur, kemudahan, dan keamanan. Kamu juga bisa membaca panduan <a href="/blog/cara-download-video-pinterest" className="text-[#4F46E5] hover:underline">download video Pinterest</a> atau <a href="/blog/perbandingan-tiktok-downloader" className="text-[#4F46E5] hover:underline">perbandingan TikTok downloader</a> untuk informasi lebih lanjut.
+                Kalau kamu cuma butuh download video TikTok, SnapTik atau SSSTikTok juga cukup memadai. Tapi bersiaplah dengan iklan pop-up yang cukup agresif. Untuk YouTube, YT1s bisa jadi alternatif, tapi lagi-lagi iklan jadi masalah utama. Pada akhirnya, <a href="/" className="text-[#F97316] hover:underline">Mova</a> memberikan pengalaman paling seimbang antara fitur, kemudahan, dan keamanan. Kamu juga bisa membaca panduan <a href="/blog/cara-download-video-pinterest" className="text-[#F97316] hover:underline">download video Pinterest</a> atau <a href="/blog/perbandingan-tiktok-downloader" className="text-[#F97316] hover:underline">perbandingan TikTok downloader</a> untuk informasi lebih lanjut.
               </p>
             </article>
 
             {/* CTA */}
-            <div className="mt-12 p-6 rounded-xl bg-gradient-to-br from-[#4F46E5]/20 to-[#7C3AED]/10 border border-[#4F46E5]/30 text-center">
+            <div className="mt-12 p-6 rounded-xl bg-gradient-to-br from-[#F97316]/20 to-[#EA580C]/10 border border-[#F97316]/30 text-center">
               <h3 className="text-lg font-bold text-[#FAFAFA] mb-2">Coba Mova Sekarang — Gratis!</h3>
               <p className="text-sm text-[#A1A1AA] mb-4">Download video tanpa watermark dari berbagai platform populer dengan cepat dan mudah.</p>
-              <a href="/" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold bg-[#4F46E5] text-white hover:bg-[#4338CA] transition-colors">
+              <a href="/" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold bg-[#F97316] text-white hover:bg-[#EA580C] transition-colors">
                 Mulai Download <ArrowRight className="h-4 w-4" />
               </a>
             </div>
@@ -252,20 +252,20 @@ export default function DownloadVideoTanpaWatermarkTerbaik() {
                 Artikel Terkait
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <a href="/blog/cara-download-video-pinterest" className="p-3 rounded-lg border border-[#27272A] hover:border-[#4F46E5]/50 transition-colors">
-                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#4F46E5]">Cara Download Video Pinterest ke Galeri HP</p>
+                <a href="/blog/cara-download-video-pinterest" className="p-3 rounded-lg border border-[#27272A] hover:border-[#F97316]/50 transition-colors">
+                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#F97316]">Cara Download Video Pinterest ke Galeri HP</p>
                   <p className="text-xs text-[#A1A1AA] mt-1">Panduan download video Pinterest dengan mudah.</p>
                 </a>
-                <a href="/blog/perbandingan-tiktok-downloader" className="p-3 rounded-lg border border-[#27272A] hover:border-[#4F46E5]/50 transition-colors">
-                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#4F46E5]">Perbandingan TikTok Downloader Terbaik 2026</p>
+                <a href="/blog/perbandingan-tiktok-downloader" className="p-3 rounded-lg border border-[#27272A] hover:border-[#F97316]/50 transition-colors">
+                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#F97316]">Perbandingan TikTok Downloader Terbaik 2026</p>
                   <p className="text-xs text-[#A1A1AA] mt-1">Mana TikTok downloader yang paling bagus?</p>
                 </a>
-                <a href="/blog/cara-download-video-youtube-hd-1080p" className="p-3 rounded-lg border border-[#27272A] hover:border-[#4F46E5]/50 transition-colors">
-                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#4F46E5]">Cara Download Video YouTube HD 1080p Gratis</p>
+                <a href="/blog/cara-download-video-youtube-hd-1080p" className="p-3 rounded-lg border border-[#27272A] hover:border-[#F97316]/50 transition-colors">
+                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#F97316]">Cara Download Video YouTube HD 1080p Gratis</p>
                   <p className="text-xs text-[#A1A1AA] mt-1">Download YouTube dalam kualitas terbaik.</p>
                 </a>
-                <a href="/blog/download-video-instagram-story-dan-reels" className="p-3 rounded-lg border border-[#27272A] hover:border-[#4F46E5]/50 transition-colors">
-                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#4F46E5]">Download Video Instagram Story dan Reels</p>
+                <a href="/blog/download-video-instagram-story-dan-reels" className="p-3 rounded-lg border border-[#27272A] hover:border-[#F97316]/50 transition-colors">
+                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#F97316]">Download Video Instagram Story dan Reels</p>
                   <p className="text-xs text-[#A1A1AA] mt-1">Simpan Story dan Reels IG tanpa aplikasi.</p>
                 </a>
               </div>

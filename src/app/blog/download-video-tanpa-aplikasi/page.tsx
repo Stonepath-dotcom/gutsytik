@@ -55,15 +55,15 @@ export default function DownloadVideoTanpaAplikasiPage() {
       <main className="flex-1">
         <article className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <nav className="flex items-center gap-2 text-xs text-[#A1A1AA] mb-6">
-            <a href="/" className="hover:text-[#2563EB] transition-colors">Home</a>
+            <a href="/" className="hover:text-[#F97316] transition-colors">Home</a>
             <span>/</span>
-            <a href="/blog" className="hover:text-[#2563EB] transition-colors">Blog</a>
+            <a href="/blog" className="hover:text-[#F97316] transition-colors">Blog</a>
             <span>/</span>
             <span className="text-[#FAFAFA]">Download Video Tanpa Aplikasi</span>
           </nav>
 
           <div className="mb-10">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-[#2563EB] text-white mb-4">Tips</span>
+            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-[#F97316] text-white mb-4">Tips</span>
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#FAFAFA] mb-4 leading-tight">Cara Download Video Tanpa Aplikasi Tambahan 2026</h1>
             <p className="text-[#A1A1AA] text-sm leading-relaxed mb-4">Tidak perlu install aplikasi — download video langsung dari browser dengan Mova.</p>
             <div className="flex items-center gap-4 text-xs text-[#A1A1AA]/60">
@@ -92,7 +92,7 @@ export default function DownloadVideoTanpaAplikasiPage() {
                   { title: "Tidak Ada Iklan Mengganggu", desc: "Banyak aplikasi downloader gratis penuh dengan iklan pop-up dan banner. Mova memberikan pengalaman yang bersih dan nyaman." },
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                    <span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span>
+                    <span className="text-[#F97316] mt-1 shrink-0">&#10003;</span>
                     <span><strong className="text-[#FAFAFA]">{item.title}:</strong> {item.desc}</span>
                   </li>
                 ))}
@@ -110,7 +110,7 @@ export default function DownloadVideoTanpaAplikasiPage() {
                   { step: 4, title: "Pilih Kualitas dan Download", desc: "Setelah video ditemukan, pilih kualitas yang kamu inginkan dan klik download. Video akan otomatis tersimpan di perangkatmu. Selesai!" },
                 ].map((item) => (
                   <div key={item.step} className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">{item.step}</div>
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">{item.step}</div>
                     <div>
                       <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">{item.title}</h3>
                       <p className="text-xs text-[#A1A1AA] leading-relaxed">{item.desc}</p>
@@ -134,7 +134,7 @@ export default function DownloadVideoTanpaAplikasiPage() {
                   { name: "Reddit", desc: "Download video dari post Reddit yang berisi video." },
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                    <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
+                    <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
                     <span><strong className="text-[#FAFAFA]">{item.name}:</strong> {item.desc}</span>
                   </li>
                 ))}
@@ -148,16 +148,16 @@ export default function DownloadVideoTanpaAplikasiPage() {
                   <thead>
                     <tr className="border-b border-[#27272A]">
                       <th className="text-left py-3 px-3 text-[#FAFAFA] font-semibold">Fitur</th>
-                      <th className="text-left py-3 px-3 text-[#2563EB] font-semibold">Mova (Web)</th>
+                      <th className="text-left py-3 px-3 text-[#F97316] font-semibold">Mova (Web)</th>
                       <th className="text-left py-3 px-3 text-[#A1A1AA] font-semibold">Aplikasi</th>
                     </tr>
                   </thead>
                   <tbody className="text-[#A1A1AA]">
-                    <tr className="border-b border-[#27272A]/50"><td className="py-2.5 px-3">Install</td><td className="py-2.5 px-3 text-[#2563EB]">Tidak perlu</td><td className="py-2.5 px-3">Perlu install</td></tr>
-                    <tr className="border-b border-[#27272A]/50"><td className="py-2.5 px-3">Ruang Penyimpanan</td><td className="py-2.5 px-3 text-[#2563EB]">0 MB</td><td className="py-2.5 px-3">50-200 MB</td></tr>
-                    <tr className="border-b border-[#27272A]/50"><td className="py-2.5 px-3">Multi-Platform</td><td className="py-2.5 px-3 text-[#2563EB]">&#10003;</td><td className="py-2.5 px-3">Terbatas</td></tr>
-                    <tr className="border-b border-[#27272A]/50"><td className="py-2.5 px-3">Malware Risk</td><td className="py-2.5 px-3 text-[#2563EB]">Tidak ada</td><td className="py-2.5 px-3">Risiko ada</td></tr>
-                    <tr><td className="py-2.5 px-3">Update</td><td className="py-2.5 px-3 text-[#2563EB]">Otomatis</td><td className="py-2.5 px-3">Manual</td></tr>
+                    <tr className="border-b border-[#27272A]/50"><td className="py-2.5 px-3">Install</td><td className="py-2.5 px-3 text-[#F97316]">Tidak perlu</td><td className="py-2.5 px-3">Perlu install</td></tr>
+                    <tr className="border-b border-[#27272A]/50"><td className="py-2.5 px-3">Ruang Penyimpanan</td><td className="py-2.5 px-3 text-[#F97316]">0 MB</td><td className="py-2.5 px-3">50-200 MB</td></tr>
+                    <tr className="border-b border-[#27272A]/50"><td className="py-2.5 px-3">Multi-Platform</td><td className="py-2.5 px-3 text-[#F97316]">&#10003;</td><td className="py-2.5 px-3">Terbatas</td></tr>
+                    <tr className="border-b border-[#27272A]/50"><td className="py-2.5 px-3">Malware Risk</td><td className="py-2.5 px-3 text-[#F97316]">Tidak ada</td><td className="py-2.5 px-3">Risiko ada</td></tr>
+                    <tr><td className="py-2.5 px-3">Update</td><td className="py-2.5 px-3 text-[#F97316]">Otomatis</td><td className="py-2.5 px-3">Manual</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -167,10 +167,10 @@ export default function DownloadVideoTanpaAplikasiPage() {
               <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Kesimpulan</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">Download video tanpa aplikasi tambahan bukan hanya mungkin, tetapi juga lebih aman dan praktis. Dengan Mova, kamu bisa mengunduh video dari berbagai platform media sosial langsung dari browser tanpa perlu install apapun. Prosesnya cepat, gratis, dan aman — tidak ada malware, tidak ada iklan mengganggu, dan privasi kamu terjaga.</p>
               <p className="text-sm text-[#A1A1AA] leading-relaxed mt-3">Jadi kenapa masih repot install aplikasi downloader? Coba Mova sekarang dan rasakan kemudahan download video langsung dari browser!</p>
-              <div className="mt-8 p-6 rounded-xl bg-[#111113] border border-[#2563EB]/30 text-center">
+              <div className="mt-8 p-6 rounded-xl bg-[#111113] border border-[#F97316]/30 text-center">
                 <h3 className="text-base font-bold text-[#FAFAFA] mb-2">Coba Download Video Tanpa Aplikasi Sekarang!</h3>
                 <p className="text-xs text-[#A1A1AA] mb-4">Gratis, aman, dan tanpa install.</p>
-                <a href="/" className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#2563EB] text-white hover:bg-[#1D4ED8] transition-colors">Coba Mova Sekarang <ArrowRight className="h-4 w-4" /></a>
+                <a href="/" className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#F97316] text-white hover:bg-[#EA580C] transition-colors">Coba Mova Sekarang <ArrowRight className="h-4 w-4" /></a>
               </div>
             </section>
           </div>
@@ -178,17 +178,17 @@ export default function DownloadVideoTanpaAplikasiPage() {
           <div className="mt-16 pt-8 border-t border-[#27272A]">
             <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4">Artikel Terkait</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <a href="/blog/tips-aman-download-video-online" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
-                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Tips Aman Download Video</span><ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
+              <a href="/blog/tips-aman-download-video-online" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Tips Aman Download Video</span><ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
               </a>
-              <a href="/blog/perbedaan-download-video-dan-audio-mp3" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
-                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Video MP4 vs Audio MP3</span><ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
+              <a href="/blog/perbedaan-download-video-dan-audio-mp3" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Video MP4 vs Audio MP3</span><ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
               </a>
             </div>
           </div>
 
           <div className="mt-8 text-center">
-            <a href="/blog" className="inline-flex items-center gap-2 text-sm text-[#2563EB] hover:underline"><ArrowLeft className="h-4 w-4" />Kembali ke Blog</a>
+            <a href="/blog" className="inline-flex items-center gap-2 text-sm text-[#F97316] hover:underline"><ArrowLeft className="h-4 w-4" />Kembali ke Blog</a>
           </div>
           <div className="mt-8 pt-6 border-t border-[#27272A] text-center"><p className="text-xs text-[#A1A1AA]">&copy; 2026 Mova. All rights reserved.</p></div>
         </article>

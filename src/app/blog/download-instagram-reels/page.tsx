@@ -139,7 +139,7 @@ export default function DownloadInstagramReelsPage() {
 
               <div className="space-y-4">
                 <div className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">1</div>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">1</div>
                   <div>
                     <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">Buka Instagram dan Temukan Reels yang Ingin Didownload</h3>
                     <p className="text-xs text-[#A1A1AA] leading-relaxed">Buka aplikasi Instagram, cari video Reels yang ingin kamu download. Kamu bisa menemukan Reels di tab Reels, feed beranda, atau profil pengguna.</p>
@@ -147,7 +147,7 @@ export default function DownloadInstagramReelsPage() {
                 </div>
 
                 <div className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">2</div>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">2</div>
                   <div>
                     <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">Salin Link Reels</h3>
                     <p className="text-xs text-[#A1A1AA] leading-relaxed">Ketuk tombol &quot;...&quot; (tiga titik) di bagian bawah video Reels, lalu pilih &quot;Link&quot; atau &quot;Copy Link&quot;. Link Reels akan tersalin ke clipboard kamu. Link Instagram Reels biasanya berformat instagram.com/reel/... atau instagram.com/p/...</p>
@@ -155,7 +155,7 @@ export default function DownloadInstagramReelsPage() {
                 </div>
 
                 <div className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">3</div>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">3</div>
                   <div>
                     <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">Buka Mova dan Tempel Link</h3>
                     <p className="text-xs text-[#A1A1AA] leading-relaxed">Buka Mova di getmova.my.id, tempel link Instagram Reels ke kolom input, dan klik tombol &quot;Download&quot;. Mova akan memproses video dan menampilkan informasi video beserta pilihan kualitas.</p>
@@ -163,7 +163,7 @@ export default function DownloadInstagramReelsPage() {
                 </div>
 
                 <div className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">4</div>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">4</div>
                   <div>
                     <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">Pilih Kualitas dan Download</h3>
                     <p className="text-xs text-[#A1A1AA] leading-relaxed">Pilih kualitas video yang kamu inginkan dan klik tombol download. Video Reels tanpa watermark akan otomatis tersimpan di perangkat kamu. Prosesnya sangat cepat dan tidak memerlukan login!</p>
@@ -180,19 +180,19 @@ export default function DownloadInstagramReelsPage() {
               </p>
               <ul className="space-y-2 mt-3">
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span>
+                  <span className="text-[#F97316] mt-1 shrink-0">&#10003;</span>
                   <span><strong className="text-[#FAFAFA]">Pastikan link yang disalin benar</strong> — Link Instagram Reels harus berformat instagram.com/reel/... atau instagram.com/p/... Link yang tidak valid tidak akan bisa diproses oleh Mova.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span>
+                  <span className="text-[#F97316] mt-1 shrink-0">&#10003;</span>
                   <span><strong className="text-[#FAFAFA]">Reels harus bersifat publik</strong> — Mova hanya bisa mengunduh Reels dari akun publik. Reels dari akun privat tidak dapat diakses oleh Mova.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span>
+                  <span className="text-[#F97316] mt-1 shrink-0">&#10003;</span>
                   <span><strong className="text-[#FAFAFA]">Pilih kualitas tertinggi</strong> — Kualitas video Reels bervariasi tergantung dari resolusi aslinya. Selalu pilih opsi kualitas tertinggi untuk hasil terbaik.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span>
+                  <span className="text-[#F97316] mt-1 shrink-0">&#10003;</span>
                   <span><strong className="text-[#FAFAFA]">Gunakan koneksi internet stabil</strong> — Koneksi yang stabil memastikan proses download berjalan lancar tanpa gangguan.</span>
                 </li>
               </ul>
@@ -206,19 +206,19 @@ export default function DownloadInstagramReelsPage() {
               </p>
               <ul className="space-y-2 mt-3">
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Fitur Save di Instagram:</strong> Instagram menyediakan fitur untuk menyimpan Reels, namun video tetap memiliki watermark dan hanya bisa diakses di dalam aplikasi Instagram. Kamu tidak bisa menyimpannya sebagai file video di perangkat.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Screen Recording:</strong> Kamu bisa merekam layar saat memutar Reels, namun kualitasnya biasanya lebih rendah dan video akan merekam elemen UI Instagram. Ini adalah cara yang paling tidak disarankan.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Website downloader lain:</strong> Ada banyak website yang menawarkan layanan download Instagram Reels, namun kebanyakan dipenuhi iklan dan tidak selalu reliable. Beberapa juga tidak bisa menghapus watermark.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Mova:</strong> Solusi terbaik yang gratis, tanpa iklan mengganggu, menghapus watermark, dan mendukung berbagai platform selain Instagram.</span>
                 </li>
               </ul>
@@ -232,19 +232,19 @@ export default function DownloadInstagramReelsPage() {
               </p>
               <ul className="space-y-2 mt-3">
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Hormati hak cipta:</strong> Video Reels adalah karya kreatif dari pembuatnya. Mengunduh untuk keperluan pribadi umumnya dapat ditoleransi, tetapi mendistribusikan ulang tanpa izin bisa melanggar hak cipta.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Berikan atribusi:</strong> Jika kamu menggunakan konten Reels orang lain dalam konteks tertentu, selalu berikan kredit kepada kreator aslinya.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Ketentuan Instagram:</strong> Secara teknis, mengunduh konten dari Instagram tanpa izin bisa melanggar ketentuan layanan Instagram. Gunakan dengan bijak dan bertanggung jawab.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Privasi:</strong> Jangan mengunduh atau mendistribusikan konten dari akun privat tanpa izin. Hormati privasi pengguna lain.</span>
                 </li>
               </ul>
@@ -261,12 +261,12 @@ export default function DownloadInstagramReelsPage() {
               </p>
 
               {/* CTA */}
-              <div className="mt-8 p-6 rounded-xl bg-[#111113] border border-[#2563EB]/30 text-center">
+              <div className="mt-8 p-6 rounded-xl bg-[#111113] border border-[#F97316]/30 text-center">
                 <h3 className="text-base font-bold text-[#FAFAFA] mb-2">Coba Download Instagram Reels Sekarang!</h3>
                 <p className="text-xs text-[#A1A1AA] mb-4">Gratis, cepat, dan tanpa watermark.</p>
                 <a
                   href="/"
-                  className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#2563EB] text-white hover:bg-[#1D4ED8] transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#F97316] text-white hover:bg-[#EA580C] transition-colors"
                 >
                   Coba Mova Sekarang
                   <ArrowRight className="h-4 w-4" />
@@ -279,20 +279,20 @@ export default function DownloadInstagramReelsPage() {
           <div className="mt-16 pt-8 border-t border-[#27272A]">
             <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4">Artikel Terkait</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <a href="/blog/download-tiktok-tanpa-watermark" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
+              <a href="/blog/download-tiktok-tanpa-watermark" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Download TikTok Tanpa Watermark</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
               </a>
-              <a href="/blog/download-youtube-mp3" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
+              <a href="/blog/download-youtube-mp3" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Download YouTube ke MP3</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
               </a>
             </div>
           </div>
 
           {/* Back to blog */}
           <div className="mt-8 text-center">
-            <a href="/blog" className="inline-flex items-center gap-2 text-sm text-[#2563EB] hover:underline">
+            <a href="/blog" className="inline-flex items-center gap-2 text-sm text-[#F97316] hover:underline">
               <ArrowLeft className="h-4 w-4" />
               Kembali ke Blog
             </a>

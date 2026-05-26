@@ -56,9 +56,9 @@ export default function DownloadFacebookHdPage() {
         <article className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-xs text-[#A1A1AA] mb-6">
-            <a href="/" className="hover:text-[#2563EB] transition-colors">Home</a>
+            <a href="/" className="hover:text-[#F97316] transition-colors">Home</a>
             <span>/</span>
-            <a href="/blog" className="hover:text-[#2563EB] transition-colors">Blog</a>
+            <a href="/blog" className="hover:text-[#F97316] transition-colors">Blog</a>
             <span>/</span>
             <span className="text-[#FAFAFA]">Download Video Facebook HD</span>
           </nav>
@@ -98,7 +98,7 @@ export default function DownloadFacebookHdPage() {
                   { step: 4, title: "Pilih Kualitas HD dan Download", desc: "Setelah video ditemukan, pilih opsi kualitas HD (720p) jika tersedia. Klik tombol download dan video HD akan otomatis tersimpan di perangkatmu." },
                 ].map((item) => (
                   <div key={item.step} className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">{item.step}</div>
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">{item.step}</div>
                     <div>
                       <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">{item.title}</h3>
                       <p className="text-xs text-[#A1A1AA] leading-relaxed">{item.desc}</p>
@@ -120,7 +120,7 @@ export default function DownloadFacebookHdPage() {
                   { title: "Video Live Replay", desc: "Rekaman siaran langsung Facebook yang sudah selesai dan disimpan oleh si penyiar." },
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                    <span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span>
+                    <span className="text-[#F97316] mt-1 shrink-0">&#10003;</span>
                     <span><strong className="text-[#FAFAFA]">{item.title}:</strong> {item.desc}</span>
                   </li>
                 ))}
@@ -131,10 +131,10 @@ export default function DownloadFacebookHdPage() {
               <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Tips Mendapatkan Kualitas Video Terbaik</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">Untuk mendapatkan hasil download video Facebook HD terbaik, perhatikan beberapa tips berikut:</p>
               <ul className="space-y-2 mt-3">
-                <li className="flex items-start gap-2 text-sm text-[#A1A1AA]"><span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span><span><strong className="text-[#FAFAFA]">Pastikan video asli berkualitas HD</strong> — Jika video diunggah dalam kualitas rendah, hasil download juga akan rendah. Mova hanya bisa mengunduh dalam kualitas yang tersedia.</span></li>
-                <li className="flex items-start gap-2 text-sm text-[#A1A1AA]"><span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span><span><strong className="text-[#FAFAFA]">Gunakan koneksi internet yang stabil</strong> — Koneksi yang stabil memastikan proses download berjalan lancar tanpa terputus di tengah jalan.</span></li>
-                <li className="flex items-start gap-2 text-sm text-[#A1A1AA]"><span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span><span><strong className="text-[#FAFAFA]">Cek ruang penyimpanan</strong> — Video HD memiliki ukuran file yang lebih besar. Pastikan perangkatmu memiliki cukup ruang penyimpanan sebelum mendownload.</span></li>
-                <li className="flex items-start gap-2 text-sm text-[#A1A1AA]"><span className="text-[#2563EB] mt-1 shrink-0">&#10003;</span><span><strong className="text-[#FAFAFA]">Download dari akun publik</strong> — Video dari akun privat tidak bisa diunduh karena dibatasi oleh pengaturan privasi Facebook.</span></li>
+                <li className="flex items-start gap-2 text-sm text-[#A1A1AA]"><span className="text-[#F97316] mt-1 shrink-0">&#10003;</span><span><strong className="text-[#FAFAFA]">Pastikan video asli berkualitas HD</strong> — Jika video diunggah dalam kualitas rendah, hasil download juga akan rendah. Mova hanya bisa mengunduh dalam kualitas yang tersedia.</span></li>
+                <li className="flex items-start gap-2 text-sm text-[#A1A1AA]"><span className="text-[#F97316] mt-1 shrink-0">&#10003;</span><span><strong className="text-[#FAFAFA]">Gunakan koneksi internet yang stabil</strong> — Koneksi yang stabil memastikan proses download berjalan lancar tanpa terputus di tengah jalan.</span></li>
+                <li className="flex items-start gap-2 text-sm text-[#A1A1AA]"><span className="text-[#F97316] mt-1 shrink-0">&#10003;</span><span><strong className="text-[#FAFAFA]">Cek ruang penyimpanan</strong> — Video HD memiliki ukuran file yang lebih besar. Pastikan perangkatmu memiliki cukup ruang penyimpanan sebelum mendownload.</span></li>
+                <li className="flex items-start gap-2 text-sm text-[#A1A1AA]"><span className="text-[#F97316] mt-1 shrink-0">&#10003;</span><span><strong className="text-[#FAFAFA]">Download dari akun publik</strong> — Video dari akun privat tidak bisa diunduh karena dibatasi oleh pengaturan privasi Facebook.</span></li>
               </ul>
             </section>
 
@@ -142,10 +142,10 @@ export default function DownloadFacebookHdPage() {
               <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Kesimpulan</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">Download video Facebook HD kini menjadi sangat mudah dengan Mova. Kamu tidak perlu install aplikasi tambahan atau membayar biaya langganan. Cukup salin link video Facebook, tempel di Mova, pilih kualitas HD, dan video akan langsung tersimpan di perangkatmu. Semua proses dilakukan secara aman dan privat — tidak ada data pribadi yang disimpan atau dilacak.</p>
               <p className="text-sm text-[#A1A1AA] leading-relaxed mt-3">Jadi tunggu apalagi? Coba download video Facebook HD dengan Mova sekarang juga dan rasakan kemudahannya!</p>
-              <div className="mt-8 p-6 rounded-xl bg-[#111113] border border-[#2563EB]/30 text-center">
+              <div className="mt-8 p-6 rounded-xl bg-[#111113] border border-[#F97316]/30 text-center">
                 <h3 className="text-base font-bold text-[#FAFAFA] mb-2">Coba Download Video Facebook HD Sekarang!</h3>
                 <p className="text-xs text-[#A1A1AA] mb-4">Gratis, cepat, dan berkualitas tinggi.</p>
-                <a href="/facebook-downloader" className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#2563EB] text-white hover:bg-[#1D4ED8] transition-colors">Coba Mova Sekarang <ArrowRight className="h-4 w-4" /></a>
+                <a href="/facebook-downloader" className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#F97316] text-white hover:bg-[#EA580C] transition-colors">Coba Mova Sekarang <ArrowRight className="h-4 w-4" /></a>
               </div>
             </section>
           </div>
@@ -153,17 +153,17 @@ export default function DownloadFacebookHdPage() {
           <div className="mt-16 pt-8 border-t border-[#27272A]">
             <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4">Artikel Terkait</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <a href="/blog/download-tiktok-tanpa-watermark" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
-                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Download TikTok Tanpa Watermark</span><ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
+              <a href="/blog/download-tiktok-tanpa-watermark" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Download TikTok Tanpa Watermark</span><ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
               </a>
-              <a href="/blog/download-instagram-reels" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
-                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Download Instagram Reels</span><ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
+              <a href="/blog/download-instagram-reels" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+                <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Download Instagram Reels</span><ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
               </a>
             </div>
           </div>
 
           <div className="mt-8 text-center">
-            <a href="/blog" className="inline-flex items-center gap-2 text-sm text-[#2563EB] hover:underline"><ArrowLeft className="h-4 w-4" />Kembali ke Blog</a>
+            <a href="/blog" className="inline-flex items-center gap-2 text-sm text-[#F97316] hover:underline"><ArrowLeft className="h-4 w-4" />Kembali ke Blog</a>
           </div>
 
           <div className="mt-8 pt-6 border-t border-[#27272A] text-center">

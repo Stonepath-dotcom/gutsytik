@@ -68,11 +68,11 @@ export default function CaraDownloadVideoPinterest() {
             {/* Breadcrumb */}
             <nav aria-label="Breadcrumb" className="mb-8">
               <ol className="flex items-center gap-1.5 text-sm text-[#A1A1AA]">
-                <li><a href="/" className="hover:text-[#4F46E5] transition-colors">Beranda</a></li>
+                <li><a href="/" className="hover:text-[#F97316] transition-colors">Beranda</a></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li><a href="/blog" className="hover:text-[#4F46E5] transition-colors">Blog</a></li>
+                <li><a href="/blog" className="hover:text-[#F97316] transition-colors">Blog</a></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li className="text-[#4F46E5] font-medium">Download Video Pinterest</li>
+                <li className="text-[#F97316] font-medium">Download Video Pinterest</li>
               </ol>
             </nav>
 
@@ -97,7 +97,7 @@ export default function CaraDownloadVideoPinterest() {
                 Mengapa Download Video Pinterest Itu Susah?
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                Berbeda dengan YouTube atau TikTok yang punya opsi download bawaan, Pinterest sengaja nggak memberikan fitur download video. Alasannya simpel: Pinterest ingin pengguna tetap berkunjung ke platform mereka dan menjaga konten tetap di dalam ekosistem Pinterest. Tapi tenang, ada beberapa cara untuk menyimpan video Pinterest ke galeri HP kamu, dan cara paling mudah adalah menggunakan <a href="/" className="text-[#4F46E5] hover:underline">Mova</a>.
+                Berbeda dengan YouTube atau TikTok yang punya opsi download bawaan, Pinterest sengaja nggak memberikan fitur download video. Alasannya simpel: Pinterest ingin pengguna tetap berkunjung ke platform mereka dan menjaga konten tetap di dalam ekosistem Pinterest. Tapi tenang, ada beberapa cara untuk menyimpan video Pinterest ke galeri HP kamu, dan cara paling mudah adalah menggunakan <a href="/" className="text-[#F97316] hover:underline">Mova</a>.
               </p>
 
               <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
@@ -108,15 +108,15 @@ export default function CaraDownloadVideoPinterest() {
               </p>
               <ul className="space-y-2 mt-3">
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">MP4</strong> — Format standar video di Pinterest, kompatibel dengan semua perangkat</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Resolusi 720p–1080p</strong> — Kualitas HD untuk tampilan terbaik di galeri</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Durasi pendek</strong> — Rata-rata video Pinterest berdurasi 5–60 detik</span>
                 </li>
               </ul>
@@ -125,33 +125,33 @@ export default function CaraDownloadVideoPinterest() {
                 Cara Download Video Pinterest dengan Mova
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                Cara paling gampang dan cepat untuk download video Pinterest adalah menggunakan <a href="/" className="text-[#4F46E5] hover:underline">Mova</a>. Mova adalah tool download video online yang support berbagai platform, termasuk Pinterest. Begini langkah-langkahnya:
+                Cara paling gampang dan cepat untuk download video Pinterest adalah menggunakan <a href="/" className="text-[#F97316] hover:underline">Mova</a>. Mova adalah tool download video online yang support berbagai platform, termasuk Pinterest. Begini langkah-langkahnya:
               </p>
 
               <div className="space-y-4 mt-4">
                 <div className="flex items-start gap-3 p-4 rounded-lg bg-[#111113] border border-[#27272A]">
-                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#4F46E5] text-white text-xs font-bold flex items-center justify-center">1</span>
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#F97316] text-white text-xs font-bold flex items-center justify-center">1</span>
                   <div>
                     <p className="text-sm text-[#FAFAFA] font-medium">Buka aplikasi Pinterest</p>
                     <p className="text-sm text-[#A1A1AA] mt-1">Cari video yang ingin kamu download. Tap ikon bagikan (Share) di video, lalu pilih &quot;Salin tautan&quot; atau &quot;Copy Link&quot;.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-4 rounded-lg bg-[#111113] border border-[#27272A]">
-                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#4F46E5] text-white text-xs font-bold flex items-center justify-center">2</span>
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#F97316] text-white text-xs font-bold flex items-center justify-center">2</span>
                   <div>
                     <p className="text-sm text-[#FAFAFA] font-medium">Buka Mova di browser</p>
-                    <p className="text-sm text-[#A1A1AA] mt-1">Kunjungi <a href="/" className="text-[#4F46E5] hover:underline">getmova.my.id</a> dari browser HP atau laptop kamu. Nggak perlu install apa-apa.</p>
+                    <p className="text-sm text-[#A1A1AA] mt-1">Kunjungi <a href="/" className="text-[#F97316] hover:underline">getmova.my.id</a> dari browser HP atau laptop kamu. Nggak perlu install apa-apa.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-4 rounded-lg bg-[#111113] border border-[#27272A]">
-                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#4F46E5] text-white text-xs font-bold flex items-center justify-center">3</span>
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#F97316] text-white text-xs font-bold flex items-center justify-center">3</span>
                   <div>
                     <p className="text-sm text-[#FAFAFA] font-medium">Tempel link Pinterest</p>
                     <p className="text-sm text-[#A1A1AA] mt-1">Paste link video Pinterest yang sudah kamu copy ke kolom input di halaman utama Mova, lalu klik tombol Download.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-4 rounded-lg bg-[#111113] border border-[#27272A]">
-                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#4F46E5] text-white text-xs font-bold flex items-center justify-center">4</span>
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#F97316] text-white text-xs font-bold flex items-center justify-center">4</span>
                   <div>
                     <p className="text-sm text-[#FAFAFA] font-medium">Pilih kualitas dan download</p>
                     <p className="text-sm text-[#A1A1AA] mt-1">Mova akan memproses video dan menampilkan opsi kualitas. Pilih yang kamu mau, lalu klik download. Video langsung tersimpan di galeri HP!</p>
@@ -160,7 +160,7 @@ export default function CaraDownloadVideoPinterest() {
               </div>
 
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                Seluruh proses hanya butuh beberapa detik. Kamu nggak perlu registrasi, nggak perlu install aplikasi, dan yang pasti — <strong className="text-[#FAFAFA]">100% gratis</strong>. Mova juga mendukung <a href="/tiktok-downloader" className="text-[#4F46E5] hover:underline">download video TikTok</a>, <a href="/instagram-downloader" className="text-[#4F46E5] hover:underline">Instagram</a>, dan banyak platform lainnya.
+                Seluruh proses hanya butuh beberapa detik. Kamu nggak perlu registrasi, nggak perlu install aplikasi, dan yang pasti — <strong className="text-[#FAFAFA]">100% gratis</strong>. Mova juga mendukung <a href="/tiktok-downloader" className="text-[#F97316] hover:underline">download video TikTok</a>, <a href="/instagram-downloader" className="text-[#F97316] hover:underline">Instagram</a>, dan banyak platform lainnya.
               </p>
 
               <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
@@ -190,23 +190,23 @@ export default function CaraDownloadVideoPinterest() {
               </h2>
               <ul className="space-y-2 mt-3">
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Pastikan link video benar</strong> — Copy link langsung dari video, bukan dari pin gambar. Link video biasanya mengandung kata &quot;video&quot; di URL-nya.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Gunakan koneksi WiFi</strong> — Video dengan kualitas HD bisa berukuran cukup besar. Gunakan WiFi agar proses download lebih stabil dan hemat kuota.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Pilih kualitas tertinggi</strong> — Kalau tersedia opsi HD, selalu pilih yang tertinggi agar video terlihat jernih saat diputar di galeri.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Cek ruang penyimpanan</strong> — Sebelum download, pastikan memori HP masih cukup. Video HD bisa berukuran 10–50 MB per file.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Hormati hak cipta</strong> — Video yang kamu download sebaiknya untuk penggunaan pribadi. Kalau mau repost, selalu minta izin dan berikan kredit pada pembuat aslinya.</span>
                 </li>
               </ul>
@@ -215,41 +215,41 @@ export default function CaraDownloadVideoPinterest() {
                 Kenapa Mova Pilihan Terbaik untuk Download Video Pinterest?
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                Dari semua opsi yang ada, <a href="/" className="text-[#4F46E5] hover:underline">Mova</a> tetap rekomendasi terbaik untuk download video Pinterest. Berikut alasannya:
+                Dari semua opsi yang ada, <a href="/" className="text-[#F97316] hover:underline">Mova</a> tetap rekomendasi terbaik untuk download video Pinterest. Berikut alasannya:
               </p>
               <ul className="space-y-2 mt-3">
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Gratis tanpa batas</strong> — Nggak ada limit download per hari. Download sepuas kamu tanpa perlu bayar.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Tanpa registrasi</strong> — Langsung pakai, nggak perlu bikin akun atau login.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Multi-platform</strong> — Selain Pinterest, Mova juga support YouTube, Instagram, TikTok, Facebook, Twitter/X, dan lainnya.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Aman dan bersih</strong> — Nggak ada iklan pop-up mengganggu, nggak ada malware, dan nggak ada redirect ke situs mencurigakan.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span className="text-[#F97316] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Kualitas terjaga</strong> — Video di-download dalam kualitas aslinya tanpa kompresi berlebihan.</span>
                 </li>
               </ul>
 
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                Jadi kalau kamu lagi cari cara download video Pinterest yang praktis dan aman, langsung aja coba <a href="/" className="text-[#4F46E5] hover:underline">Mova di getmova.my.id</a>. Kamu juga bisa baca panduan <a href="/blog/cara-download-video-youtube-hd-1080p" className="text-[#4F46E5] hover:underline">cara download video YouTube HD</a> atau <a href="/blog/download-video-instagram-story-dan-reels" className="text-[#4F46E5] hover:underline">download Instagram Story dan Reels</a> di blog kami. Selamat mencoba!
+                Jadi kalau kamu lagi cari cara download video Pinterest yang praktis dan aman, langsung aja coba <a href="/" className="text-[#F97316] hover:underline">Mova di getmova.my.id</a>. Kamu juga bisa baca panduan <a href="/blog/cara-download-video-youtube-hd-1080p" className="text-[#F97316] hover:underline">cara download video YouTube HD</a> atau <a href="/blog/download-video-instagram-story-dan-reels" className="text-[#F97316] hover:underline">download Instagram Story dan Reels</a> di blog kami. Selamat mencoba!
               </p>
             </article>
 
             {/* CTA */}
-            <div className="mt-12 p-6 rounded-xl bg-gradient-to-br from-[#4F46E5]/20 to-[#7C3AED]/10 border border-[#4F46E5]/30 text-center">
+            <div className="mt-12 p-6 rounded-xl bg-gradient-to-br from-[#F97316]/20 to-[#EA580C]/10 border border-[#F97316]/30 text-center">
               <h3 className="text-lg font-bold text-[#FAFAFA] mb-2">Coba Mova Sekarang — Gratis!</h3>
               <p className="text-sm text-[#A1A1AA] mb-4">Download video tanpa watermark dari berbagai platform populer dengan cepat dan mudah.</p>
-              <a href="/" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold bg-[#4F46E5] text-white hover:bg-[#4338CA] transition-colors">
+              <a href="/" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold bg-[#F97316] text-white hover:bg-[#EA580C] transition-colors">
                 Mulai Download <ArrowRight className="h-4 w-4" />
               </a>
             </div>
@@ -260,20 +260,20 @@ export default function CaraDownloadVideoPinterest() {
                 Artikel Terkait
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <a href="/blog/download-video-tanpa-watermark-terbaik" className="p-3 rounded-lg border border-[#27272A] hover:border-[#4F46E5]/50 transition-colors">
-                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#4F46E5]">10 Situs Download Video Tanpa Watermark Terbaik 2026</p>
+                <a href="/blog/download-video-tanpa-watermark-terbaik" className="p-3 rounded-lg border border-[#27272A] hover:border-[#F97316]/50 transition-colors">
+                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#F97316]">10 Situs Download Video Tanpa Watermark Terbaik 2026</p>
                   <p className="text-xs text-[#A1A1AA] mt-1">Perbandingan situs downloader terbaik tanpa watermark.</p>
                 </a>
-                <a href="/blog/cara-download-video-youtube-hd-1080p" className="p-3 rounded-lg border border-[#27272A] hover:border-[#4F46E5]/50 transition-colors">
-                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#4F46E5]">Cara Download Video YouTube HD 1080p Gratis</p>
+                <a href="/blog/cara-download-video-youtube-hd-1080p" className="p-3 rounded-lg border border-[#27272A] hover:border-[#F97316]/50 transition-colors">
+                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#F97316]">Cara Download Video YouTube HD 1080p Gratis</p>
                   <p className="text-xs text-[#A1A1AA] mt-1">Panduan download YouTube dalam kualitas HD.</p>
                 </a>
-                <a href="/blog/download-video-instagram-story-dan-reels" className="p-3 rounded-lg border border-[#27272A] hover:border-[#4F46E5]/50 transition-colors">
-                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#4F46E5]">Download Video Instagram Story dan Reels Tanpa Aplikasi</p>
+                <a href="/blog/download-video-instagram-story-dan-reels" className="p-3 rounded-lg border border-[#27272A] hover:border-[#F97316]/50 transition-colors">
+                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#F97316]">Download Video Instagram Story dan Reels Tanpa Aplikasi</p>
                   <p className="text-xs text-[#A1A1AA] mt-1">Cara simpan Story dan Reels IG tanpa install app.</p>
                 </a>
-                <a href="/blog/cara-download-video-dari-telegram" className="p-3 rounded-lg border border-[#27272A] hover:border-[#4F46E5]/50 transition-colors">
-                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#4F46E5]">Cara Download Video dari Telegram dengan Cepat</p>
+                <a href="/blog/cara-download-video-dari-telegram" className="p-3 rounded-lg border border-[#27272A] hover:border-[#F97316]/50 transition-colors">
+                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#F97316]">Cara Download Video dari Telegram dengan Cepat</p>
                   <p className="text-xs text-[#A1A1AA] mt-1">Panduan download video Telegram ke galeri HP.</p>
                 </a>
               </div>
