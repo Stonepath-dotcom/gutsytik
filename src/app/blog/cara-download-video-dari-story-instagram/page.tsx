@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     "ig story saver",
     "download instagram story online",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-dari-story-instagram" },
   openGraph: {
     title: "Cara Download Video dari Story Instagram - Tutorial Lengkap 2025",
     description:
@@ -66,6 +67,7 @@ export default function CaraDownloadVideoDariStoryInstagram() {
   return (
     <BlogArticleLayout
       title="Cara Download Video dari Story Instagram - Tutorial Lengkap 2025"
+      slug="cara-download-video-dari-story-instagram"
       description="Panduan lengkap cara download video dari Story Instagram dengan mudah, gratis, dan cepat. Tanpa aplikasi tambahan, langsung dari browser."
       date="26 Mei 2025"
       readingTime="9 menit baca"

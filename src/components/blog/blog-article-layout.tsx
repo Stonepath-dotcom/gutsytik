@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Clock, Calendar, ChevronRight, Download, Zap } from "lucide-react";
+import { ArrowLeft, Clock, Calendar, ChevronRight, Download, Zap, List, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export interface RelatedArticle {
@@ -11,31 +11,58 @@ export interface RelatedArticle {
   description: string;
 }
 
+export interface Heading {
+  id: string;
+  text: string;
+}
+
 interface BlogArticleLayoutProps {
   title: string;
+  slug: string;
   description: string;
   date: string;
   readingTime: string;
   jsonLd: object;
   children: React.ReactNode;
   relatedArticles: RelatedArticle[];
+  headings?: Heading[];
+  lastUpdated?: string;
 }
 
 export function BlogArticleLayout({
   title,
+  slug,
   description,
   date,
   readingTime,
   jsonLd,
   children,
   relatedArticles,
+  headings,
+  lastUpdated,
 }: BlogArticleLayoutProps) {
+  const [tocOpen, setTocOpen] = useState(false);
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://getmova.my.id/blog" },
+      { "@type": "ListItem", position: 3, name: title, item: `https://getmova.my.id/blog/${slug}` },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-background">
       {/* JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
       {/* Hero Section */}
@@ -71,6 +98,12 @@ export function BlogArticleLayout({
               <Clock className="h-4 w-4 text-[#4F46E5]" />
               {readingTime}
             </span>
+            {lastUpdated && lastUpdated !== date && (
+              <span className="flex items-center gap-1.5 text-xs text-muted-foreground/70">
+                <Calendar className="h-3.5 w-3.5 text-[#4F46E5]/60" />
+                Diperbarui: {lastUpdated}
+              </span>
+            )}
           </div>
 
           {/* Description */}
@@ -80,10 +113,95 @@ export function BlogArticleLayout({
         </div>
       </section>
 
-      {/* Article Body */}
+      {/* Article Body with ToC */}
       <article className="px-4 sm:px-6 pb-12">
-        <div className="mx-auto max-w-3xl prose-blog">
-          {children}
+        <div className="mx-auto max-w-4xl">
+          <div className="flex gap-8">
+            {/* Desktop ToC Sidebar */}
+            {headings && headings.length > 0 && (
+              <aside className="hidden lg:block w-56 shrink-0">
+                <nav
+                  className="sticky top-24 rounded-xl p-4 bg-[#0F172A] border border-[#1E293B]"
+                  aria-label="Daftar Isi"
+                >
+                  <h3 className="text-sm font-bold text-[#A5B4FC] mb-3 flex items-center gap-2">
+                    <List className="h-4 w-4" />
+                    Daftar Isi
+                  </h3>
+                  <ol className="space-y-1.5">
+                    {headings.map((h, i) => (
+                      <li key={h.id}>
+                        <a
+                          href={`#${h.id}`}
+                          className="text-xs text-[#94A3B8] hover:text-[#A5B4FC] transition-colors leading-relaxed block py-0.5"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
+                          }}
+                        >
+                          <span className="text-[#4F46E5]/60 mr-1.5">{i + 1}.</span>
+                          {h.text}
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                </nav>
+              </aside>
+            )}
+
+            {/* Article Content */}
+            <div className="flex-1 min-w-0">
+              {/* Mobile ToC (collapsible) */}
+              {headings && headings.length > 0 && (
+                <div className="lg:hidden mb-6">
+                  <button
+                    onClick={() => setTocOpen(!tocOpen)}
+                    className="w-full flex items-center justify-between p-3 rounded-xl bg-[#0F172A] border border-[#1E293B] text-left"
+                    aria-expanded={tocOpen}
+                    aria-controls="mobile-toc"
+                  >
+                    <span className="text-sm font-bold text-[#A5B4FC] flex items-center gap-2">
+                      <List className="h-4 w-4" />
+                      Daftar Isi
+                    </span>
+                    <ChevronDown
+                      className={`h-4 w-4 text-[#94A3B8] transition-transform ${tocOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                  {tocOpen && (
+                    <nav
+                      id="mobile-toc"
+                      className="mt-2 p-3 rounded-xl bg-[#0F172A] border border-[#1E293B]"
+                      aria-label="Daftar Isi"
+                    >
+                      <ol className="space-y-2">
+                        {headings.map((h, i) => (
+                          <li key={h.id}>
+                            <a
+                              href={`#${h.id}`}
+                              className="text-sm text-[#94A3B8] hover:text-[#A5B4FC] transition-colors"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setTocOpen(false);
+                                document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
+                              }}
+                            >
+                              <span className="text-[#4F46E5]/60 mr-1.5">{i + 1}.</span>
+                              {h.text}
+                            </a>
+                          </li>
+                        ))}
+                      </ol>
+                    </nav>
+                  )}
+                </div>
+              )}
+
+              <div className="prose-blog">
+                {children}
+              </div>
+            </div>
+          </div>
         </div>
       </article>
 

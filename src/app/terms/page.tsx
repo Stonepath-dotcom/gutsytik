@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Syarat & Ketentuan - Mova",
   description:
     "Syarat dan ketentuan penggunaan layanan Mova. Baca ketentuan ini sebelum menggunakan layanan download video tanpa watermark kami.",
+  alternates: { canonical: "https://getmova.my.id/terms" },
   keywords: [
     "syarat ketentuan mova",
     "terms of service mova",

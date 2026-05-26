@@ -693,7 +693,7 @@ function HeroSection() {
               ) : (
                 <div className="flex gap-3 mb-3">
                   <div className="w-20 h-14 md:w-24 md:h-16 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden relative">
-                    {result.thumbnail && <img src={result.thumbnail} alt="" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
+                    {result.thumbnail && <img src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={80} height={56} className="w-full h-full object-cover" loading="lazy" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
                     <Play className="h-5 w-5 md:h-6 md:w-6 absolute text-[#4F46E5]" />
                   </div>
                   <div className="flex-1 min-w-0">

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "download audio mp3",
     "video atau audio",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/perbedaan-download-video-dan-audio-mp3" },
   openGraph: {
     title: "Perbedaan Download Video MP4 dan Audio MP3 - Mana yang Lebih Baik?",
     description: "Perbandingan lengkap antara download video MP4 dan audio MP3. Temukan mana yang lebih cocok untuk kebutuhanmu.",

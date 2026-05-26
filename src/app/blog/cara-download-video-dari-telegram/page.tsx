@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Cara Download Video dari Telegram dengan Cepat dan Mudah | Mova Blog",
   description: "Panduan lengkap cara download video dari Telegram dengan cepat dan mudah. Simpan video Telegram ke galeri HP tanpa ribet menggunakan Mova dan metode lainnya.",
   keywords: ["download video telegram", "telegram video downloader", "save telegram video", "cara download video dari telegram", "download video telegram ke galeri"],
+  alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-dari-telegram" },
   openGraph: {
     title: "Cara Download Video dari Telegram dengan Cepat dan Mudah | Mova Blog",
     description: "Panduan lengkap cara download video dari Telegram dengan cepat dan mudah. Simpan video Telegram ke galeri HP tanpa ribet.",

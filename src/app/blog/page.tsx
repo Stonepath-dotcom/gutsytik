@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Blog Mova - Tips & Panduan Download Video Tanpa Watermark",
   description:
     "Temukan panduan lengkap cara download video tanpa watermark dari TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, dan Reddit. Tips aman dan tutorial terbaru 2026.",
+  alternates: { canonical: "https://getmova.my.id/blog" },
   keywords: [
     "blog mova",
     "tips download video",
@@ -349,11 +350,24 @@ export default function BlogPage() {
     })),
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://getmova.my.id/blog" },
+    ],
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
         {/* Header */}

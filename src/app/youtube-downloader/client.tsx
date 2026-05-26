@@ -209,6 +209,11 @@ export function YouTubeDownloaderPage() {
         { href: "/blog/ekstrak-audio-mp3-dari-video", title: "Cara Ekstrak Audio MP3 dari Video YouTube" },
         { href: "/blog/download-video-tanpa-watermark-gratis", title: "Download Video Tanpa Watermark Gratis - Semua Platform" },
       ]}
+      relatedBlogPosts={[
+        { title: "Cara Download YouTube ke MP3 Gratis dan Cepat", slug: "download-youtube-mp3" },
+        { title: "Download Video Tanpa Watermark Gratis - Semua Platform", slug: "download-video-tanpa-watermark-gratis" },
+        { title: "Tips Aman Download Video Online", slug: "tips-aman-download-video-online" },
+      ]}
     />
   );
 }

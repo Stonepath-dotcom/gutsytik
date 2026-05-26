@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     "cara download video tanpa app",
     "download video online",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/download-video-tanpa-aplikasi" },
   openGraph: {
     title: "Cara Download Video Tanpa Aplikasi Tambahan 2026 - Mova",
     description: "Panduan cara download video tanpa aplikasi tambahan di tahun 2026. Cukup gunakan browser dan Mova.",

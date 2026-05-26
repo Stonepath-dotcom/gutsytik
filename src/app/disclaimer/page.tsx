@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Disclaimer - Mova",
   description:
     "Disclaimer dan ketentuan penggunaan layanan Mova. Informasi tentang fair use, hak cipta, DMCA, dan tanggung jawab pengguna.",
+  alternates: { canonical: "https://getmova.my.id/disclaimer" },
   openGraph: {
     title: "Disclaimer - Mova",
     description:
@@ -37,6 +38,19 @@ export default function DisclaimerPage() {
                 url: "https://getmova.my.id/mova-logo.png",
               },
             },
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+              { "@type": "ListItem", position: 2, name: "Disclaimer", item: "https://getmova.my.id/disclaimer" },
+            ],
           }),
         }}
       />

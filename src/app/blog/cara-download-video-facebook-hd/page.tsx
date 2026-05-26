@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "download video fb tanpa aplikasi",
     "facebook downloader online",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-facebook-hd" },
   openGraph: {
     title: "Cara Download Video Facebook HD - Mudah & Cepat 2025",
     description:
@@ -65,6 +66,7 @@ export default function CaraDownloadVideoFacebookHd() {
   return (
     <BlogArticleLayout
       title="Cara Download Video Facebook HD - Mudah & Cepat 2025"
+      slug="cara-download-video-facebook-hd"
       description="Panduan lengkap cara download video Facebook dalam kualitas HD. Mudah, cepat, dan gratis."
       date="21 Mei 2025"
       readingTime="7 menit baca"

@@ -105,10 +105,11 @@ export default function CaraKonversiVideoKeMP3() {
   return (
     <BlogArticleLayout
       title="Cara Konversi Video ke MP3 — Panduan Audio Terbaik 2026"
+      slug="cara-konversi-video-ke-mp3"
       description="Panduan lengkap cara konversi video ke MP3. Pelajari cara mengekstrak audio dari video YouTube, TikTok, dan platform lainnya dengan kualitas terbaik."
       date="28 Januari 2026"
       readingTime="10 menit baca"
-      jsonLd={[jsonLd, breadcrumbLd]}
+      jsonLd={jsonLd}
       relatedArticles={relatedArticles}
     >
       <p>

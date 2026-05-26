@@ -24,6 +24,7 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://getmova.my.id"),
+  alternates: { canonical: "https://getmova.my.id" },
   title: "Mova - Download Video Tanpa Watermark",
   description:
     "Mova membantu kamu download video dari platform populer tanpa watermark, cepat dan gratis! Support TikTok, Instagram, YouTube, Facebook, Twitter/X, dan lainnya.",
@@ -53,12 +54,21 @@ export const metadata: Metadata = {
     url: "https://getmova.my.id",
     siteName: "Mova",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1344,
+        height: 768,
+        alt: "Mova - Download Video Tanpa Watermark",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Mova - Download Video Tanpa Watermark",
     description:
       "Download video dari TikTok, Instagram, YouTube, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
+    images: ["/og-image.png"],
   },
 };
 
@@ -77,6 +87,8 @@ export default function RootLayout({
   return (
     <html lang="id" suppressHydrationWarning className="dark">
       <head>
+        <link rel="alternate" hreflang="id" href="https://getmova.my.id" />
+        <link rel="alternate" hreflang="x-default" href="https://getmova.my.id" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="manifest" href="/manifest.json" />

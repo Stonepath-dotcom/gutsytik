@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "download IGTV",
     "cara download video instagram 2025",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-instagram-reels" },
   openGraph: {
     title: "Cara Download Video Instagram Reels, Story & IGTV - Terbaru 2025",
     description:
@@ -65,6 +66,7 @@ export default function CaraDownloadVideoInstagramReels() {
   return (
     <BlogArticleLayout
       title="Cara Download Video Instagram Reels, Story & IGTV - Terbaru 2025"
+      slug="cara-download-video-instagram-reels"
       description="Panduan lengkap cara download video Instagram Reels, Story, dan IGTV. Mudah, gratis, dan cepat."
       date="24 Mei 2025"
       readingTime="8 menit baca"

@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     "cara download video reddit",
     "reddit saver",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/cara-download-reddit-video-dengan-audio" },
   openGraph: {
     title: "Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2025",
     description:
@@ -66,6 +67,7 @@ export default function CaraDownloadRedditVideoDenganAudio() {
   return (
     <BlogArticleLayout
       title="Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2025"
+      slug="cara-download-reddit-video-dengan-audio"
       description="Panduan lengkap cara download video Reddit dengan audio. Atasi masalah video Reddit tanpa suara dengan mudah."
       date="26 Mei 2025"
       readingTime="9 menit baca"

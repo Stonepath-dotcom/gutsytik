@@ -105,10 +105,11 @@ export default function CaraDownloadVideoDariWhatsApp() {
   return (
     <BlogArticleLayout
       title="Cara Download Video dari WhatsApp — Panduan Lengkap 2026"
+      slug="cara-download-video-dari-whatsapp"
       description="Panduan lengkap cara download video dari WhatsApp. Pelajari cara menyimpan video status, video chat, dan video dari grup WhatsApp dengan mudah dan aman."
       date="15 Januari 2026"
       readingTime="9 menit baca"
-      jsonLd={[jsonLd, breadcrumbLd]}
+      jsonLd={jsonLd}
       relatedArticles={relatedArticles}
     >
       <p>

@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     "kualitas video download",
     "video hd vs sd mana yang bagus",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/perbedaan-download-video-hd-dan-sd" },
   openGraph: {
     title: "Perbedaan Kualitas Video HD vs SD - Mana yang Harus Kamu Download?",
     description:
@@ -66,6 +67,7 @@ export default function PerbedaanDownloadVideoHdDanSd() {
   return (
     <BlogArticleLayout
       title="Perbedaan Kualitas Video HD vs SD - Mana yang Harus Kamu Download?"
+      slug="perbedaan-download-video-hd-dan-sd"
       description="Panduan lengkap perbedaan kualitas video HD dan SD. Pelajari kapan harus pilih HD atau SD saat download video."
       date="26 Mei 2025"
       readingTime="10 menit baca"

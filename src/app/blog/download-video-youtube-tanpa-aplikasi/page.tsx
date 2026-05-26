@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "youtube downloader tanpa software",
     "download youtube online gratis",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/download-video-youtube-tanpa-aplikasi" },
   openGraph: {
     title: "Download Video YouTube Tanpa Aplikasi - Langsung dari Browser 2025",
     description:
@@ -65,6 +66,7 @@ export default function DownloadVideoYouTubeTanpaAplikasi() {
   return (
     <BlogArticleLayout
       title="Download Video YouTube Tanpa Aplikasi - Langsung dari Browser 2025"
+      slug="download-video-youtube-tanpa-aplikasi"
       description="Panduan lengkap cara download video YouTube tanpa install aplikasi apapun. Langsung dari browser, gratis, cepat, dan aman."
       date="26 Mei 2025"
       readingTime="9 menit baca"

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "youtube to mp3",
     "download audio dari video",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/ekstrak-audio-mp3-dari-video" },
   openGraph: {
     title: "Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2025",
     description:
@@ -65,6 +66,7 @@ export default function EkstrakAudioMp3DariVideo() {
   return (
     <BlogArticleLayout
       title="Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2025"
+      slug="ekstrak-audio-mp3-dari-video"
       description="Panduan lengkap cara mengekstrak audio MP3 dari video online. Gratis, cepat, dan berkualitas."
       date="20 Mei 2025"
       readingTime="7 menit baca"

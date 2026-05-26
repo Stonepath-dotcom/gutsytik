@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "youtube to mp4",
     "download video youtube gratis",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-youtube-mp4" },
   openGraph: {
     title: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2025",
     description:
@@ -65,6 +66,7 @@ export default function CaraDownloadVideoYoutubeMp4() {
   return (
     <BlogArticleLayout
       title="Cara Download Video YouTube MP4 HD - Gratis & Cepat 2025"
+      slug="cara-download-video-youtube-mp4"
       description="Tutorial lengkap cara download video YouTube dalam format MP4 HD. Gratis, cepat, dan mudah."
       date="23 Mei 2025"
       readingTime="8 menit baca"

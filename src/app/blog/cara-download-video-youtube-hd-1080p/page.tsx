@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Cara Download Video YouTube HD 1080p Gratis di HP & PC | Mova Blog",
   description: "Panduan lengkap cara download video YouTube HD 1080p gratis di HP dan PC. Langkah mudah, pilihan kualitas, dan tips download YouTube terbaik dengan Mova.",
   keywords: ["download youtube hd", "youtube 1080p downloader", "download video youtube hd gratis", "cara download youtube 1080p", "youtube downloader hd gratis"],
+  alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-youtube-hd-1080p" },
   openGraph: {
     title: "Cara Download Video YouTube HD 1080p Gratis di HP & PC | Mova Blog",
     description: "Panduan lengkap cara download video YouTube HD 1080p gratis di HP dan PC. Langkah mudah, pilihan kualitas, dan tips download YouTube terbaik.",

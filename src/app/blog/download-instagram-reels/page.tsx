@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "simpan instagram reels",
     "instagram video download",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/download-instagram-reels" },
   openGraph: {
     title: "Download Video Instagram Reels Tanpa Watermark - Mova",
     description:
@@ -54,6 +55,44 @@ export default function DownloadInstagramReelsPage() {
               "@type": "WebPage",
               "@id": "https://getmova.my.id/blog/download-instagram-reels",
             },
+          }),
+        }}
+      />
+      {/* JSON-LD HowTo Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: "Cara Download Instagram Reels Tanpa Watermark",
+            description: "Panduan lengkap cara menyimpan video Instagram Reels tanpa watermark menggunakan Mova. Cepat, gratis, dan berkualitas tinggi.",
+            step: [
+              {
+                "@type": "HowToStep",
+                position: 1,
+                name: "Buka Instagram dan Temukan Reels yang Ingin Didownload",
+                text: "Buka aplikasi Instagram, cari video Reels yang ingin kamu download. Kamu bisa menemukan Reels di tab Reels, feed beranda, atau profil pengguna.",
+              },
+              {
+                "@type": "HowToStep",
+                position: 2,
+                name: "Salin Link Reels",
+                text: "Ketuk tombol \"...\" (tiga titik) di bagian bawah video Reels, lalu pilih \"Link\" atau \"Copy Link\". Link Reels akan tersalin ke clipboard kamu. Link Instagram Reels biasanya berformat instagram.com/reel/... atau instagram.com/p/...",
+              },
+              {
+                "@type": "HowToStep",
+                position: 3,
+                name: "Buka Mova dan Tempel Link",
+                text: "Buka Mova di getmova.my.id, tempel link Instagram Reels ke kolom input, dan klik tombol \"Download\". Mova akan memproses video dan menampilkan informasi video beserta pilihan kualitas.",
+              },
+              {
+                "@type": "HowToStep",
+                position: 4,
+                name: "Pilih Kualitas dan Download",
+                text: "Pilih kualitas video yang kamu inginkan dan klik tombol download. Video Reels tanpa watermark akan otomatis tersimpan di perangkat kamu. Prosesnya sangat cepat dan tidak memerlukan login!",
+              },
+            ],
           }),
         }}
       />
@@ -110,7 +149,7 @@ export default function DownloadInstagramReelsPage() {
           <div className="prose-sm space-y-8">
             {/* Introduction */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Mengapa Download Instagram Reels Tanpa Watermark?</h2>
+              <h2 id="section-1" className="text-xl font-bold text-[#FAFAFA] mb-3">Mengapa Download Instagram Reels Tanpa Watermark?</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Instagram Reels telah menjadi salah satu format konten paling populer di platform media sosial. Dengan durasi pendek dan konten yang kreatif, Reels menarik jutaan penonton setiap hari. Banyak pengguna ingin menyimpan video Reels yang menarik untuk berbagai keperluan — mulai dari inspirasi konten, koleksi pribadi, hingga referensi untuk proyek kreatif.
               </p>
@@ -121,7 +160,7 @@ export default function DownloadInstagramReelsPage() {
 
             {/* What are Reels */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Apa Itu Instagram Reels?</h2>
+              <h2 id="section-2" className="text-xl font-bold text-[#FAFAFA] mb-3">Apa Itu Instagram Reels?</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Instagram Reels adalah fitur video pendek di Instagram yang memungkinkan pengguna membuat dan berbagi video berdurasi hingga 90 detik. Reels dilengkapi dengan berbagai fitur kreatif seperti musik, efek AR, timer, dan alat editing yang memudahkan pembuatan konten yang menarik.
               </p>
@@ -132,7 +171,7 @@ export default function DownloadInstagramReelsPage() {
 
             {/* Step by step */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Cara Download Instagram Reels Tanpa Watermark dengan Mova</h2>
+              <h2 id="section-3" className="text-xl font-bold text-[#FAFAFA] mb-3">Cara Download Instagram Reels Tanpa Watermark dengan Mova</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed mb-4">
                 Mova membuat proses download Instagram Reels tanpa watermark menjadi sangat mudah. Ikuti langkah-langkah berikut:
               </p>
@@ -174,7 +213,7 @@ export default function DownloadInstagramReelsPage() {
 
             {/* Tips */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Tips untuk Hasil Download Terbaik</h2>
+              <h2 id="section-4" className="text-xl font-bold text-[#FAFAFA] mb-3">Tips untuk Hasil Download Terbaik</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Untuk mendapatkan hasil download Instagram Reels yang berkualitas, berikut beberapa tips yang bisa kamu ikuti:
               </p>
@@ -200,7 +239,7 @@ export default function DownloadInstagramReelsPage() {
 
             {/* Alternatives */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Metode Alternatif Download Instagram Reels</h2>
+              <h2 id="section-5" className="text-xl font-bold text-[#FAFAFA] mb-3">Metode Alternatif Download Instagram Reels</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Selain Mova, ada beberapa cara lain yang bisa digunakan untuk menyimpan Instagram Reels. Namun, setiap metode memiliki keterbatasannya:
               </p>
@@ -226,7 +265,7 @@ export default function DownloadInstagramReelsPage() {
 
             {/* Legal */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Pertimbangan Hukum dan Etika</h2>
+              <h2 id="section-6" className="text-xl font-bold text-[#FAFAFA] mb-3">Pertimbangan Hukum dan Etika</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Sama seperti mengunduh konten dari platform lain, ada beberapa pertimbangan hukum dan etika yang perlu diperhatikan saat mendownload Instagram Reels:
               </p>
@@ -252,7 +291,7 @@ export default function DownloadInstagramReelsPage() {
 
             {/* Conclusion */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Kesimpulan</h2>
+              <h2 id="section-7" className="text-xl font-bold text-[#FAFAFA] mb-3">Kesimpulan</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Download Instagram Reels tanpa watermark kini bisa dilakukan dengan mudah menggunakan Mova. Dengan hanya beberapa langkah — salin link Reels, tempel di Mova, dan download — kamu sudah bisa menyimpan video Reels berkualitas tinggi tanpa watermark yang mengganggu.
               </p>

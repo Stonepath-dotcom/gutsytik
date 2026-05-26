@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Cara Download Video Pinterest ke Galeri HP dengan Mudah | Mova Blog",
   description: "Panduan lengkap cara download video Pinterest ke galeri HP dengan mudah dan cepat. Simpan video Pinterest tanpa aplikasi tambahan menggunakan Mova.",
   keywords: ["download video pinterest", "pinterest downloader", "save pinterest video", "cara download video pinterest", "download pinterest video ke galeri"],
+  alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-pinterest" },
   openGraph: {
     title: "Cara Download Video Pinterest ke Galeri HP dengan Mudah | Mova Blog",
     description: "Panduan lengkap cara download video Pinterest ke galeri HP dengan mudah dan cepat. Simpan video Pinterest tanpa aplikasi tambahan menggunakan Mova.",
@@ -48,10 +49,44 @@ export default function CaraDownloadVideoPinterest() {
     ],
   };
 
+  const howToJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "Cara Download Video Pinterest ke Galeri HP",
+    description: "Panduan lengkap cara download video Pinterest ke galeri HP dengan mudah dan cepat menggunakan Mova.",
+    step: [
+      {
+        "@type": "HowToStep",
+        position: 1,
+        name: "Buka aplikasi Pinterest",
+        text: "Cari video yang ingin kamu download. Tap ikon bagikan (Share) di video, lalu pilih \"Salin tautan\" atau \"Copy Link\".",
+      },
+      {
+        "@type": "HowToStep",
+        position: 2,
+        name: "Buka Mova di browser",
+        text: "Kunjungi getmova.my.id dari browser HP atau laptop kamu. Nggak perlu install apa-apa.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 3,
+        name: "Tempel link Pinterest",
+        text: "Paste link video Pinterest yang sudah kamu copy ke kolom input di halaman utama Mova, lalu klik tombol Download.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 4,
+        name: "Pilih kualitas dan download",
+        text: "Mova akan memproses video dan menampilkan opsi kualitas. Pilih yang kamu mau, lalu klik download. Video langsung tersimpan di galeri HP!",
+      },
+    ],
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
         <header className="border-b border-[#27272A] bg-[#111113]">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">
@@ -93,14 +128,14 @@ export default function CaraDownloadVideoPinterest() {
 
             {/* Article Content */}
             <article className="max-w-none space-y-8">
-              <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
+              <h2 id="section-1" className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
                 Mengapa Download Video Pinterest Itu Susah?
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Berbeda dengan YouTube atau TikTok yang punya opsi download bawaan, Pinterest sengaja nggak memberikan fitur download video. Alasannya simpel: Pinterest ingin pengguna tetap berkunjung ke platform mereka dan menjaga konten tetap di dalam ekosistem Pinterest. Tapi tenang, ada beberapa cara untuk menyimpan video Pinterest ke galeri HP kamu, dan cara paling mudah adalah menggunakan <a href="/" className="text-[#4F46E5] hover:underline">Mova</a>.
               </p>
 
-              <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
+              <h2 id="section-2" className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
                 Format Video di Pinterest yang Perlu Kamu Tahu
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
@@ -121,7 +156,7 @@ export default function CaraDownloadVideoPinterest() {
                 </li>
               </ul>
 
-              <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
+              <h2 id="section-3" className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
                 Cara Download Video Pinterest dengan Mova
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
@@ -163,7 +198,7 @@ export default function CaraDownloadVideoPinterest() {
                 Seluruh proses hanya butuh beberapa detik. Kamu nggak perlu registrasi, nggak perlu install aplikasi, dan yang pasti — <strong className="text-[#FAFAFA]">100% gratis</strong>. Mova juga mendukung <a href="/tiktok-downloader" className="text-[#4F46E5] hover:underline">download video TikTok</a>, <a href="/instagram-downloader" className="text-[#4F46E5] hover:underline">Instagram</a>, dan banyak platform lainnya.
               </p>
 
-              <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
+              <h2 id="section-4" className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
                 Metode Alternatif Download Video Pinterest
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
@@ -185,7 +220,7 @@ export default function CaraDownloadVideoPinterest() {
                 Beberapa aplikasi di Play Store atau App Store mengklaim bisa download video Pinterest. Tapi mirip dengan ekstensi, aplikasi ini sering dipenuhi iklan, meminta permission yang nggak perlu, dan kadang mengandung malware. Lebih baik gunakan tool online seperti Mova yang lebih aman dan praktis.
               </p>
 
-              <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
+              <h2 id="section-5" className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
                 Tips Agar Hasil Download Video Pinterest Optimal
               </h2>
               <ul className="space-y-2 mt-3">
@@ -211,7 +246,7 @@ export default function CaraDownloadVideoPinterest() {
                 </li>
               </ul>
 
-              <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
+              <h2 id="section-6" className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
                 Kenapa Mova Pilihan Terbaik untuk Download Video Pinterest?
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">

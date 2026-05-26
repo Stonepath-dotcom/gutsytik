@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Perbandingan TikTok Downloader: Mana yang Terbaik 2026? | Mova Blog",
   description: "Perbandingan lengkap TikTok downloader terbaik di 2026. Mana yang paling cepat, aman, dan gratis? Simak review Mova, SnapTik, SSSTikTok, dan lainnya.",
   keywords: ["tiktok downloader terbaik", "perbandingan tiktok downloader", "download tiktok tanpa watermark", "tiktok downloader 2026", "review tiktok downloader"],
+  alternates: { canonical: "https://getmova.my.id/blog/perbandingan-tiktok-downloader" },
   openGraph: {
     title: "Perbandingan TikTok Downloader: Mana yang Terbaik 2026? | Mova Blog",
     description: "Perbandingan lengkap TikTok downloader terbaik di 2026. Mana yang paling cepat, aman, dan gratis?",

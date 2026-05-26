@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Download Video Instagram Story dan Reels Tanpa Aplikasi | Mova Blog",
   description: "Cara download video Instagram Story dan Reels tanpa aplikasi tambahan. Simpan Story dan Reels IG langsung ke galeri HP dengan mudah menggunakan Mova.",
   keywords: ["download instagram story", "instagram reels downloader", "download story ig", "cara download story instagram", "download reels ig tanpa aplikasi"],
+  alternates: { canonical: "https://getmova.my.id/blog/download-video-instagram-story-dan-reels" },
   openGraph: {
     title: "Download Video Instagram Story dan Reels Tanpa Aplikasi | Mova Blog",
     description: "Cara download video Instagram Story dan Reels tanpa aplikasi tambahan. Simpan Story dan Reels IG langsung ke galeri HP dengan mudah menggunakan Mova.",
@@ -48,10 +49,66 @@ export default function DownloadVideoInstagramStoryDanReels() {
     ],
   };
 
+  const howToReelsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "Cara Download Instagram Reels dengan Mova",
+    description: "Download Reels jauh lebih mudah karena setiap Reels punya URL yang bisa di-copy. Berikut langkah-langkahnya menggunakan Mova.",
+    step: [
+      {
+        "@type": "HowToStep",
+        position: 1,
+        name: "Buka Instagram dan cari Reels",
+        text: "Buka tab Reels di Instagram, cari video yang ingin kamu download. Tap ikon tiga titik di pojok kanan bawah, lalu pilih \"Link\" atau \"Salin tautan\".",
+      },
+      {
+        "@type": "HowToStep",
+        position: 2,
+        name: "Buka Mova di browser",
+        text: "Kunjungi getmova.my.id dari browser HP atau laptop kamu.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 3,
+        name: "Paste link Reels dan download",
+        text: "Tempel link Reels ke kolom input Mova, klik Download, pilih kualitas yang kamu mau, dan video langsung tersimpan di galeri!",
+      },
+    ],
+  };
+
+  const howToStoryJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "Cara Download Instagram Story dengan Mova",
+    description: "Download Story sedikit lebih tricky karena Story nggak punya URL yang bisa langsung di-copy. Tapi ada cara mudahnya menggunakan Mova.",
+    step: [
+      {
+        "@type": "HowToStep",
+        position: 1,
+        name: "Copy username Instagram",
+        text: "Buka profil Instagram orang yang Story-nya ingin kamu download. Copy username mereka (tanpa tanda @).",
+      },
+      {
+        "@type": "HowToStep",
+        position: 2,
+        name: "Masukkan username ke Mova",
+        text: "Buka Mova, masukkan username Instagram ke kolom input, lalu klik Download. Mova akan mendeteksi Story yang sedang aktif dari akun tersebut.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 3,
+        name: "Pilih Story dan download",
+        text: "Mova akan menampilkan daftar Story yang sedang aktif. Pilih Story yang ingin kamu simpan, lalu klik download. Selesai!",
+      },
+    ],
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToReelsJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToStoryJsonLd) }} />
       <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
         <header className="border-b border-[#27272A] bg-[#111113]">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">
@@ -93,7 +150,7 @@ export default function DownloadVideoInstagramStoryDanReels() {
 
             {/* Article Content */}
             <article className="max-w-none space-y-8">
-              <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
+              <h2 id="section-1" className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
                 Perbedaan Instagram Story dan Reels
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
@@ -110,7 +167,7 @@ export default function DownloadVideoInstagramStoryDanReels() {
                 </li>
               </ul>
 
-              <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
+              <h2 id="section-2" className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
                 Cara Download Instagram Reels dengan Mova
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
@@ -140,7 +197,7 @@ export default function DownloadVideoInstagramStoryDanReels() {
                 </div>
               </div>
 
-              <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
+              <h2 id="section-3" className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
                 Cara Download Instagram Story dengan Mova
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
@@ -176,7 +233,7 @@ export default function DownloadVideoInstagramStoryDanReels() {
                 </p>
               </div>
 
-              <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
+              <h2 id="section-4" className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
                 Kenapa Nggak Perlu Aplikasi Tambahan?
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
@@ -201,7 +258,7 @@ export default function DownloadVideoInstagramStoryDanReels() {
                 </li>
               </ul>
 
-              <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
+              <h2 id="section-5" className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
                 Hal yang Perlu Diperhatikan Saat Download Story & Reels
               </h2>
               <ul className="space-y-2 mt-3">
@@ -223,7 +280,7 @@ export default function DownloadVideoInstagramStoryDanReels() {
                 </li>
               </ul>
 
-              <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
+              <h2 id="section-6" className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
                 Kenapa Mova Pilihan Terbaik untuk Download Instagram?
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">

@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: "Tentang Mova - Download Video Tanpa Watermark",
   description:
     "Kenali Mova lebih dekat. Mova adalah layanan download video tanpa watermark dari berbagai platform populer. Gratis, cepat, dan menjaga privasi Anda.",
+  alternates: { canonical: "https://getmova.my.id/about" },
   keywords: [
     "tentang mova",
     "about mova",

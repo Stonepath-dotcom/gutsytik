@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "keamanan download video",
     "situs download aman",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/tips-aman-download-video-online" },
   openGraph: {
     title: "Tips Aman Download Video Online - Hindari Virus & Malware 2025",
     description:
@@ -66,6 +67,7 @@ export default function TipsAmanDownloadVideoOnline() {
   return (
     <BlogArticleLayout
       title="Tips Aman Download Video Online - Hindari Virus & Malware 2025"
+      slug="tips-aman-download-video-online"
       description="Panduan lengkap tips aman download video online. Pelajari cara menghindari virus, malware, dan situs berbahaya."
       date="18 Mei 2025"
       readingTime="8 menit baca"

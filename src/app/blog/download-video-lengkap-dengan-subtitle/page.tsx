@@ -105,10 +105,11 @@ export default function DownloadVideoLengkapDenganSubtitle() {
   return (
     <BlogArticleLayout
       title="Cara Download Video Lengkap Dengan Subtitle — Tutorial 2026"
+      slug="download-video-lengkap-dengan-subtitle"
       description="Tutorial lengkap cara download video lengkap dengan subtitle. Pelajari cara menyimpan video dengan subtitle hardcode maupun softcode dari berbagai platform."
       date="10 Februari 2026"
       readingTime="10 menit baca"
-      jsonLd={[jsonLd, breadcrumbLd]}
+      jsonLd={jsonLd}
       relatedArticles={relatedArticles}
     >
       <p>

@@ -105,10 +105,11 @@ export default function PerbandinganYouTubeDownloaderTerbaik() {
   return (
     <BlogArticleLayout
       title="Perbandingan YouTube Downloader Terbaik 2026 — Mana yang Worth It?"
+      slug="perbandingan-youtube-downloader-terbaik"
       description="Perbandingan lengkap YouTube downloader terbaik di 2026. Review mendalam fitur, kelebihan, kekurangan, dan harga setiap tool."
       date="20 Februari 2026"
       readingTime="12 menit baca"
-      jsonLd={[jsonLd, breadcrumbLd]}
+      jsonLd={jsonLd}
       relatedArticles={relatedArticles}
     >
       <p>

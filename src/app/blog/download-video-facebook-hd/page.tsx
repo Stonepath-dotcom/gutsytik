@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     "download facebook hd gratis",
     "simpan video facebook",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/download-video-facebook-hd" },
   openGraph: {
     title: "Cara Download Video Facebook HD Gratis 2026 - Mova",
     description: "Panduan lengkap cara download video Facebook HD gratis di tahun 2026.",

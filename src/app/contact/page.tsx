@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: "Hubungi Kami - Mova",
   description:
     "Hubungi tim Mova untuk pertanyaan, saran, laporan bug, atau masalah lainnya. Kami siap membantu Anda!",
+  alternates: { canonical: "https://getmova.my.id/contact" },
   keywords: [
     "kontak mova",
     "hubungi mova",

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "snaptik",
     "tiktok video download",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-tiktok-tanpa-watermark" },
   openGraph: {
     title: "Cara Download Video TikTok Tanpa Watermark 2025 - Mudah & Gratis",
     description:
@@ -65,6 +66,7 @@ export default function CaraDownloadVideoTiktokTanpaWatermark() {
   return (
     <BlogArticleLayout
       title="Cara Download Video TikTok Tanpa Watermark 2025 - Mudah & Gratis"
+      slug="cara-download-video-tiktok-tanpa-watermark"
       description="Panduan lengkap cara download video TikTok tanpa watermark. Langkah mudah, gratis, dan cepat untuk menyimpan video TikTok bersih tanpa logo."
       date="25 Mei 2025"
       readingTime="7 menit baca"

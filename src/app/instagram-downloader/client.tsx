@@ -210,6 +210,11 @@ export function InstagramDownloaderPage() {
         { href: "/blog/download-video-tanpa-watermark-gratis", title: "Download Video Tanpa Watermark Gratis - Semua Platform" },
         { href: "/blog/tips-aman-download-video-online", title: "Tips Aman Download Video Online - Hindari Virus & Malware" },
       ]}
+      relatedBlogPosts={[
+        { title: "Download Video Instagram Story dan Reels Tanpa Aplikasi", slug: "download-video-instagram-story-dan-reels" },
+        { title: "Download Instagram Reels Tanpa Watermark", slug: "download-instagram-reels" },
+        { title: "Cara Download Video Pinterest ke Galeri HP", slug: "cara-download-video-pinterest" },
+      ]}
     />
   );
 }

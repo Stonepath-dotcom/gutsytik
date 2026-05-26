@@ -204,7 +204,7 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
                 </div>
                 <div className="flex gap-3 p-3 border-b border-border">
                   <div className="w-24 h-14 sm:w-28 sm:h-16 bg-muted rounded overflow-hidden shrink-0">
-                    {result.thumbnail && <img src={result.thumbnail} alt={result.title} className="w-full h-full object-cover" loading="lazy" />}
+                    {result.thumbnail && <img src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={56} className="w-full h-full object-cover" loading="lazy" />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-foreground line-clamp-2 leading-snug">{result.title}</p>

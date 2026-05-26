@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "10 Situs Download Video Tanpa Watermark Terbaik 2026 | Mova Blog",
   description: "Daftar 10 situs download video tanpa watermark terbaik di 2026. Perbandingan fitur, kelebihan, dan kekurangan masing-masing termasuk Mova sebagai pilihan utama.",
   keywords: ["download video tanpa watermark terbaik", "situs download video", "video downloader terbaik", "download video tanpa watermark 2026", "situs downloader gratis"],
+  alternates: { canonical: "https://getmova.my.id/blog/download-video-tanpa-watermark-terbaik" },
   openGraph: {
     title: "10 Situs Download Video Tanpa Watermark Terbaik 2026 | Mova Blog",
     description: "Daftar 10 situs download video tanpa watermark terbaik di 2026. Perbandingan fitur, kelebihan, dan kekurangan masing-masing.",

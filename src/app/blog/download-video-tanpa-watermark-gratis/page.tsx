@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "hapus watermark video",
     "video downloader online",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/download-video-tanpa-watermark-gratis" },
   openGraph: {
     title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
     description:
@@ -65,6 +66,7 @@ export default function DownloadVideoTanpaWatermarkGratis() {
   return (
     <BlogArticleLayout
       title="Download Video Tanpa Watermark Gratis - Semua Platform 2025"
+      slug="download-video-tanpa-watermark-gratis"
       description="Panduan komprehensif cara download video tanpa watermark dari semua platform. Perbandingan tools dan tips terbaik."
       date="22 Mei 2025"
       readingTime="9 menit baca"

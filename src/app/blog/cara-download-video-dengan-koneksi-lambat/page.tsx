@@ -105,10 +105,11 @@ export default function CaraDownloadVideoDenganKoneksiLambat() {
   return (
     <BlogArticleLayout
       title="Cara Download Video Dengan Koneksi Lambat — Tips & Trik 2026"
+      slug="cara-download-video-dengan-koneksi-lambat"
       description="Tips dan trik cara download video dengan koneksi lambat. Pelajari cara mengatasi internet lambat dan tetap bisa download video meski koneksi tidak stabil."
       date="5 Maret 2026"
       readingTime="9 menit baca"
-      jsonLd={[jsonLd, breadcrumbLd]}
+      jsonLd={jsonLd}
       relatedArticles={relatedArticles}
     >
       <p>

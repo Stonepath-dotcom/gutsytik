@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "twitter downloader",
     "download video x tanpa watermark",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/download-video-twitter-x-tanpa-watermark" },
   openGraph: {
     title: "Cara Download Video Twitter/X Tanpa Watermark - Gratis 2025",
     description:
@@ -65,6 +66,7 @@ export default function DownloadVideoTwitterXTanpaWatermark() {
   return (
     <BlogArticleLayout
       title="Cara Download Video Twitter/X Tanpa Watermark - Gratis 2025"
+      slug="download-video-twitter-x-tanpa-watermark"
       description="Panduan lengkap cara download video Twitter/X tanpa watermark. Gratis, cepat, dan mudah."
       date="19 Mei 2025"
       readingTime="6 menit baca"

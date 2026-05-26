@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "download tiktok no watermark",
     "hapus watermark tiktok",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/download-tiktok-tanpa-watermark" },
   openGraph: {
     title: "Cara Download Video TikTok Tanpa Watermark 2026 - Mova",
     description:
@@ -54,6 +55,44 @@ export default function DownloadTiktokPage() {
               "@type": "WebPage",
               "@id": "https://getmova.my.id/blog/download-tiktok-tanpa-watermark",
             },
+          }),
+        }}
+      />
+      {/* JSON-LD HowTo Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: "Cara Download Video TikTok Tanpa Watermark",
+            description: "Panduan lengkap cara download video TikTok tanpa watermark menggunakan Mova. Langkah mudah, cepat, dan gratis.",
+            step: [
+              {
+                "@type": "HowToStep",
+                position: 1,
+                name: "Buka Aplikasi TikTok dan Salin Link Video",
+                text: "Buka aplikasi TikTok, temukan video yang ingin kamu download, lalu ketuk tombol \"Bagikan\" (Share) dan pilih \"Salin Tautan\" (Copy Link). Link video akan tersalin ke clipboard kamu.",
+              },
+              {
+                "@type": "HowToStep",
+                position: 2,
+                name: "Buka Mova dan Tempel Link",
+                text: "Buka website Mova di getmova.my.id, tempel link TikTok yang sudah kamu salin ke kolom input yang tersedia. Kamu juga bisa menggunakan tombol \"Tempel\" untuk langsung menempelkan link dari clipboard.",
+              },
+              {
+                "@type": "HowToStep",
+                position: 3,
+                name: "Klik Download dan Pilih Kualitas",
+                text: "Klik tombol \"Download\" dan Mova akan memproses video. Setelah selesai, kamu akan melihat informasi video dan beberapa pilihan kualitas. Pilih kualitas yang kamu inginkan — kami merekomendasikan kualitas tertinggi untuk hasil terbaik.",
+              },
+              {
+                "@type": "HowToStep",
+                position: 4,
+                name: "Video Siap Disimpan",
+                text: "Klik tombol download pada kualitas yang dipilih, dan video tanpa watermark akan otomatis tersimpan di perangkat kamu. Prosesnya sangat cepat dan tidak memerlukan registrasi!",
+              },
+            ],
           }),
         }}
       />
@@ -110,7 +149,7 @@ export default function DownloadTiktokPage() {
           <div className="prose-sm space-y-8">
             {/* Introduction */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Mengapa Orang Ingin Download TikTok Tanpa Watermark?</h2>
+              <h2 id="section-1" className="text-xl font-bold text-[#FAFAFA] mb-3">Mengapa Orang Ingin Download TikTok Tanpa Watermark?</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 TikTok telah menjadi salah satu platform media sosial paling populer di dunia, dengan jutaan video yang diunggah setiap hari. Banyak pengguna ingin menyimpan video-video menarik dari TikTok untuk berbagai keperluan — mulai dari koleksi pribadi, referensi konten, hingga untuk dibagikan di platform lain. Namun, video yang diunduh langsung dari aplikasi TikTok selalu memiliki watermark berupa logo TikTok dan nama pengguna, yang sering kali mengganggu tampilan video.
               </p>
@@ -121,7 +160,7 @@ export default function DownloadTiktokPage() {
 
             {/* What is watermark */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Apa Itu Watermark dan Mengapa Mengganggu?</h2>
+              <h2 id="section-2" className="text-xl font-bold text-[#FAFAFA] mb-3">Apa Itu Watermark dan Mengapa Mengganggu?</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Watermark adalah tanda berupa logo, teks, atau gambar yang ditempatkan di atas video atau gambar untuk menandai kepemilikan atau asal konten. Pada video TikTok, watermark biasanya berupa logo TikTok yang bergerak dan nama pengguna yang ditampilkan di sudut video.
               </p>
@@ -132,7 +171,7 @@ export default function DownloadTiktokPage() {
 
             {/* Step by step */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Cara Download Video TikTok Tanpa Watermark dengan Mova</h2>
+              <h2 id="section-3" className="text-xl font-bold text-[#FAFAFA] mb-3">Cara Download Video TikTok Tanpa Watermark dengan Mova</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed mb-4">
                 Mova menyediakan cara termudah dan tercepat untuk download video TikTok tanpa watermark. Berikut langkah-langkahnya:
               </p>
@@ -174,7 +213,7 @@ export default function DownloadTiktokPage() {
 
             {/* Comparison */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Perbandingan dengan Metode Lain</h2>
+              <h2 id="section-4" className="text-xl font-bold text-[#FAFAFA] mb-3">Perbandingan dengan Metode Lain</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed mb-4">
                 Ada beberapa tools lain yang juga bisa digunakan untuk download video TikTok tanpa watermark. Berikut perbandingannya:
               </p>
@@ -237,7 +276,7 @@ export default function DownloadTiktokPage() {
 
             {/* Tips for quality */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Tips Memilih Kualitas Video</h2>
+              <h2 id="section-5" className="text-xl font-bold text-[#FAFAFA] mb-3">Tips Memilih Kualitas Video</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Saat mengunduh video TikTok, kualitas video sangat bergantung pada resolusi asli video yang diunggah oleh kreator. Berikut beberapa tips untuk mendapatkan hasil download terbaik:
               </p>
@@ -263,7 +302,7 @@ export default function DownloadTiktokPage() {
 
             {/* Legal considerations */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Pertimbangan Hukum dan Penggunaan Wajar</h2>
+              <h2 id="section-6" className="text-xl font-bold text-[#FAFAFA] mb-3">Pertimbangan Hukum dan Penggunaan Wajar</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Penting untuk memahami aspek hukum terkait download video TikTok tanpa watermark. Berikut beberapa hal yang perlu diperhatikan:
               </p>
@@ -289,7 +328,7 @@ export default function DownloadTiktokPage() {
 
             {/* Conclusion */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Kesimpulan</h2>
+              <h2 id="section-7" className="text-xl font-bold text-[#FAFAFA] mb-3">Kesimpulan</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Download video TikTok tanpa watermark kini menjadi sangat mudah dengan Mova. Hanya dengan beberapa langkah sederhana — salin link, tempel di Mova, pilih kualitas, dan download — kamu sudah bisa mendapatkan video TikTok tanpa watermark yang bersih dan berkualitas tinggi.
               </p>

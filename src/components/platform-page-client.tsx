@@ -75,6 +75,9 @@ export interface PlatformPageProps {
   otherPlatforms: OtherPlatform[];
   blogLinks: { href: string; title: string }[];
 
+  /* Related blog posts for "Panduan Terkait" section */
+  relatedBlogPosts?: { title: string; slug: string }[];
+
   /* Breadcrumb */
   breadcrumbLabel: string;
 }
@@ -88,7 +91,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
     heroBadge, heroTitle, heroTitleHighlight, heroSubtitle, inputPlaceholder,
     features, steps, faqs, seoSections,
     ctaTitle, ctaSubtitle,
-    otherPlatforms, blogLinks, breadcrumbLabel,
+    otherPlatforms, blogLinks, relatedBlogPosts, breadcrumbLabel,
   } = props;
 
   const [url, setUrl] = useState("");
@@ -294,7 +297,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
               <div className="p-4">
                 <div className="flex gap-3 mb-3">
                   <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
-                    {result.thumbnail && <img src={result.thumbnail} alt="" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
+                    {result.thumbnail && <img src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={64} className="w-full h-full object-cover" loading="lazy" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
                     <Play className="h-6 w-6 absolute text-[#4F46E5]" />
                   </div>
                   <div className="flex-1 text-left min-w-0">
@@ -407,6 +410,39 @@ export function PlatformPageClient(props: PlatformPageProps) {
           ))}
         </div>
       </section>
+
+      {/* ───── Panduan Terkait (Related Blog Posts) ───── */}
+      {relatedBlogPosts && relatedBlogPosts.length > 0 && (
+        <section className="py-12 px-3 sm:px-4">
+          <div className="mx-auto max-w-4xl">
+            <div className="text-center mb-8">
+              <h2 className="text-xl sm:text-2xl font-extrabold font-[family-name:var(--font-montserrat)] mb-2">
+                Panduan <span className="gradient-text">Terkait</span>
+              </h2>
+              <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                Baca panduan lengkap tentang cara download video dari berbagai platform.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {relatedBlogPosts.map((post) => (
+                <a
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="group rounded-xl p-5 bg-card border border-border hover:border-[#4F46E5]/30 transition-all duration-200"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-[#4F46E5]/10 flex items-center justify-center mb-3">
+                    <Sparkles className="h-4 w-4 text-[#4F46E5]" />
+                  </div>
+                  <h3 className="font-semibold text-foreground text-sm mb-1 group-hover:text-[#4F46E5] transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <span className="text-xs text-muted-foreground">Baca selengkapnya →</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ───── FAQ Section ───── */}
       <section id="faq" className="py-12 px-3 sm:px-4 bg-muted/30">

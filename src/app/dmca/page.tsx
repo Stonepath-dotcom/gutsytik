@@ -9,6 +9,21 @@ export const metadata: Metadata = {
 export default function DMCAPage() {
   return (
     <div className="min-h-screen flex flex-col">
+      {/* JSON-LD BreadcrumbList */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+              { "@type": "ListItem", position: 2, name: "DMCA", item: "https://getmova.my.id/dmca" },
+            ],
+          }),
+        }}
+      />
+
       <main className="flex-1 px-4 py-10">
         <div className="mx-auto max-w-2xl">
           <h1 className="text-2xl font-bold text-foreground mb-2">DMCA - Pemberitahuan Hak Cipta</h1>

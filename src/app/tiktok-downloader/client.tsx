@@ -210,6 +210,11 @@ export function TikTokDownloaderPage() {
         { href: "/blog/download-video-tanpa-watermark-gratis", title: "Download Video Tanpa Watermark Gratis - Semua Platform" },
         { href: "/blog/tips-aman-download-video-online", title: "Tips Aman Download Video Online - Hindari Virus & Malware" },
       ]}
+      relatedBlogPosts={[
+        { title: "Cara Download Video TikTok Tanpa Watermark 2026", slug: "download-tiktok-tanpa-watermark" },
+        { title: "Download Video Tanpa Watermark Gratis - Semua Platform", slug: "download-video-tanpa-watermark-gratis" },
+        { title: "Tips Aman Download Video Online", slug: "tips-aman-download-video-online" },
+      ]}
     />
   );
 }

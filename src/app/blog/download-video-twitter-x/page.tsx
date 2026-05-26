@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     "download video x",
     "simpan video twitter",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/download-video-twitter-x" },
   openGraph: {
     title: "Cara Download Video Twitter X (Twitter) Gratis 2026 - Mova",
     description: "Panduan lengkap cara download video dari Twitter/X gratis di tahun 2026.",
@@ -37,6 +38,38 @@ export default function DownloadTwitterXPage() {
             datePublished: "2026-05-08",
             dateModified: "2026-05-08",
             mainEntityOfPage: { "@type": "WebPage", "@id": "https://getmova.my.id/blog/download-video-twitter-x" },
+          }),
+        }}
+      />
+      {/* JSON-LD HowTo Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: "Cara Download Video Twitter/X",
+            description: "Panduan lengkap cara mengunduh video dari Twitter/X dengan mudah dan gratis menggunakan Mova.",
+            step: [
+              {
+                "@type": "HowToStep",
+                position: 1,
+                name: "Temukan Tweet dengan Video",
+                text: "Buka Twitter/X dan cari tweet yang berisi video yang ingin kamu download. Video bisa berupa video biasa, GIF animasi, atau video dalam thread.",
+              },
+              {
+                "@type": "HowToStep",
+                position: 2,
+                name: "Salin Link Tweet",
+                text: "Klik ikon \"Bagikan\" (panah keluar dari kotak) di bawah tweet, lalu pilih \"Salin tautan\" atau \"Copy link\". Link tweet akan tersalin ke clipboard.",
+              },
+              {
+                "@type": "HowToStep",
+                position: 3,
+                name: "Tempel di Mova dan Download",
+                text: "Buka getmova.my.id, tempel link tweet di kolom input, klik Download. Mova akan memproses video dan menyediakan link download.",
+              },
+            ],
           }),
         }}
       />

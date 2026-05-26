@@ -111,8 +111,23 @@ const sections = [
 export default function PrivacyPage() {
   const lastUpdated = "26 Mei 2026";
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+      { "@type": "ListItem", position: 2, name: "Kebijakan Privasi", item: "https://getmova.my.id/privacy" },
+    ],
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
+      {/* JSON-LD BreadcrumbList */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       {/* Header */}
       <header className="border-b border-[#27272A] bg-[#111113]">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">

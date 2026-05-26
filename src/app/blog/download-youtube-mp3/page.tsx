@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     "youtube mp3 gratis",
     "konverter youtube mp3",
   ],
+  alternates: { canonical: "https://getmova.my.id/blog/download-youtube-mp3" },
   openGraph: {
     title: "Cara Download YouTube ke MP3 Gratis dan Cepat - Mova",
     description:
@@ -54,6 +55,38 @@ export default function DownloadYoutubeMp3Page() {
               "@type": "WebPage",
               "@id": "https://getmova.my.id/blog/download-youtube-mp3",
             },
+          }),
+        }}
+      />
+      {/* JSON-LD HowTo Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: "Cara Download YouTube ke MP3",
+            description: "Panduan lengkap cara mengonversi video YouTube menjadi file MP3 berkualitas tinggi menggunakan Mova. Gratis, cepat, dan tanpa batasan.",
+            step: [
+              {
+                "@type": "HowToStep",
+                position: 1,
+                name: "Salin Link Video YouTube",
+                text: "Buka YouTube, temukan video yang ingin kamu ekstrak audionya, lalu salin link video dari address bar atau tombol share. Link YouTube bisa dalam format youtube.com/watch?v=... atau youtu.be/...",
+              },
+              {
+                "@type": "HowToStep",
+                position: 2,
+                name: "Buka Mova dan Aktifkan Mode Audio",
+                text: "Buka Mova di getmova.my.id, lalu klik tab \"Audio\" di bagian atas kolom input. Mode audio akan secara otomatis mengatur Mova untuk mengekstrak audio dari video yang kamu masukkan.",
+              },
+              {
+                "@type": "HowToStep",
+                position: 3,
+                name: "Tempel Link dan Download",
+                text: "Tempel link YouTube ke kolom input, lalu klik tombol \"Download\". Mova akan memproses video dan menampilkan opsi kualitas audio. Pilih kualitas yang kamu inginkan dan klik download. File MP3 akan otomatis tersimpan di perangkat kamu.",
+              },
+            ],
           }),
         }}
       />
@@ -110,7 +143,7 @@ export default function DownloadYoutubeMp3Page() {
           <div className="prose-sm space-y-8">
             {/* Introduction */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Mengapa Download YouTube ke MP3?</h2>
+              <h2 id="section-1" className="text-xl font-bold text-[#FAFAFA] mb-3">Mengapa Download YouTube ke MP3?</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 YouTube adalah sumber konten audio terbesar di internet. Dari musik, podcast, audiobook, hingga kuliah online — semuanya tersedia di YouTube. Namun, terkadang kamu hanya membutuhkan audionya tanpa perlu menonton videonya. Di sinilah kebutuhan untuk mengonversi video YouTube ke MP3 muncul.
               </p>
@@ -121,7 +154,7 @@ export default function DownloadYoutubeMp3Page() {
 
             {/* Step by step */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Cara Download YouTube ke MP3 dengan Mova</h2>
+              <h2 id="section-2" className="text-xl font-bold text-[#FAFAFA] mb-3">Cara Download YouTube ke MP3 dengan Mova</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed mb-4">
                 Mova menyediakan fitur mode Audio yang memungkinkan kamu mengekstrak audio dari video YouTube dengan sangat mudah. Berikut langkah-langkahnya:
               </p>
@@ -155,7 +188,7 @@ export default function DownloadYoutubeMp3Page() {
 
             {/* Audio Quality Comparison */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Perbandingan Kualitas Audio: 128kbps vs 320kbps</h2>
+              <h2 id="section-3" className="text-xl font-bold text-[#FAFAFA] mb-3">Perbandingan Kualitas Audio: 128kbps vs 320kbps</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Saat mengunduh audio dari YouTube, kamu mungkin menemukan opsi kualitas yang berbeda. Berikut perbandingan antara bitrate 128kbps dan 320kbps yang umum tersedia:
               </p>
@@ -212,7 +245,7 @@ export default function DownloadYoutubeMp3Page() {
 
             {/* Alternative methods */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Metode Alternatif Download YouTube MP3</h2>
+              <h2 id="section-4" className="text-xl font-bold text-[#FAFAFA] mb-3">Metode Alternatif Download YouTube MP3</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Selain menggunakan Mova, ada beberapa metode lain yang bisa kamu gunakan untuk mengonversi video YouTube ke MP3. Namun, setiap metode memiliki kelebihan dan kekurangannya masing-masing:
               </p>
@@ -238,7 +271,7 @@ export default function DownloadYoutubeMp3Page() {
 
             {/* Legal considerations */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Pertimbangan Hukum</h2>
+              <h2 id="section-5" className="text-xl font-bold text-[#FAFAFA] mb-3">Pertimbangan Hukum</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Mengunduh konten dari YouTube memiliki pertimbangan hukum yang perlu diperhatikan. Berikut beberapa poin penting:
               </p>
@@ -264,7 +297,7 @@ export default function DownloadYoutubeMp3Page() {
 
             {/* Conclusion */}
             <section>
-              <h2 className="text-xl font-bold text-[#FAFAFA] mb-3">Kesimpulan</h2>
+              <h2 id="section-6" className="text-xl font-bold text-[#FAFAFA] mb-3">Kesimpulan</h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
                 Mengonversi video YouTube ke MP3 menjadi sangat mudah dengan fitur Audio Mode dari Mova. Cukup salin link, tempel di Mova, pilih mode Audio, dan download — semudah itu. Dengan dukungan kualitas audio hingga 320kbps, kamu bisa mendapatkan file MP3 berkualitas tinggi tanpa perlu menginstal aplikasi apapun.
               </p>

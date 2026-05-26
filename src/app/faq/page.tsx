@@ -22,6 +22,7 @@ export const metadata: Metadata = {
   title: "FAQ - Pertanyaan yang Sering Diajukan | Mova",
   description:
     "Temukan jawaban dari pertanyaan umum tentang Mova - download video tanpa watermark gratis dari TikTok, Instagram, YouTube, Facebook, dan Twitter/X.",
+  alternates: { canonical: "https://getmova.my.id/faq" },
   keywords: [
     "FAQ mova",
     "pertanyaan umum mova",
