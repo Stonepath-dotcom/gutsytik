@@ -263,6 +263,7 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
             <a href="/dmca" className="hover:text-foreground transition-colors">DMCA</a>
             <a href="/disclaimer" className="hover:text-foreground transition-colors">Disclaimer</a>
             <a href="/contact" className="hover:text-foreground transition-colors">Kontak</a>
+            <a href="mailto:admin@getmova.my.id" className="hover:text-foreground transition-colors">admin@getmova.my.id</a>
           </div>
           <p className="text-center text-xs text-muted-foreground">&copy; {new Date().getFullYear()} Mova. Semua hak dilindungi.</p>
         </div>

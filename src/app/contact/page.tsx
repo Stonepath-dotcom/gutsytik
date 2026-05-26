@@ -41,9 +41,9 @@ const contactMethods = [
   {
     icon: Mail,
     title: "Email",
-    value: "support@getmova.vercel.app",
+    value: "admin@getmova.my.id",
     description: "Untuk pertanyaan umum, saran, dan masukan. Kami merespons dalam 2×24 jam kerja.",
-    href: "mailto:support@getmova.vercel.app",
+    href: "mailto:admin@getmova.my.id",
   },
   {
     icon: MessageCircle,
@@ -96,7 +96,7 @@ const faqs = [
     icon: HelpCircle,
     question: "Bagaimana cara melaporkan pelanggaran hak cipta?",
     answer:
-      "Jika Anda adalah pemilik hak cipta dan percaya bahwa konten Anda diakses melalui Mova secara tidak sah, silakan hubungi kami di support@getmova.vercel.app dengan menyertakan URL konten dan bukti kepemilikan. Kami akan menindaklanjuti laporan Anda sesuai dengan prosedur DMCA.",
+      "Jika Anda adalah pemilik hak cipta dan percaya bahwa konten Anda diakses melalui Mova secara tidak sah, silakan hubungi kami di admin@getmova.my.id dengan menyertakan URL konten dan bukti kepemilikan. Kami akan menindaklanjuti laporan Anda sesuai dengan prosedur DMCA.",
   },
 ];
 
@@ -258,7 +258,7 @@ export default function ContactPage() {
                 <div>
                   <p className="text-sm text-[#FAFAFA] font-medium mb-1">Waktu Respons</p>
                   <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                    Kami berusaha merespons semua pesan dalam waktu 2×24 jam kerja. Untuk pertanyaan mendesak, hubungi kami melalui Telegram untuk respons yang lebih cepat. Untuk laporan hak cipta (DMCA), kirim email ke support@getmova.vercel.app dengan menyertakan URL konten dan bukti kepemilikan.
+                    Kami berusaha merespons semua pesan dalam waktu 2×24 jam kerja. Untuk pertanyaan mendesak, hubungi kami melalui Telegram untuk respons yang lebih cepat. Untuk laporan hak cipta (DMCA), kirim email ke admin@getmova.my.id dengan menyertakan URL konten dan bukti kepemilikan.
                   </p>
                 </div>
               </div>

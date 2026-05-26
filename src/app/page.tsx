@@ -1052,6 +1052,7 @@ function Footer() {
               <li><a href="/about" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
               <li><a href="/contact" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
               <li><a href="/blog" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">Blog</a></li>
+              <li><a href="mailto:admin@getmova.my.id" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">admin@getmova.my.id</a></li>
             </ul>
           </div>
           <div>

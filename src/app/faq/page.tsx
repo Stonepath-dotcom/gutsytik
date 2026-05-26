@@ -152,7 +152,7 @@ const faqCategories = [
       {
         question: "Bagaimana cara melaporkan pelanggaran hak cipta?",
         answer:
-          "Jika Anda adalah pemilik hak cipta dan meyakini bahwa konten Anda diakses melalui Mova secara melanggar hak Anda, Anda dapat mengirimkan DMCA takedown notice ke support@getmova.my.id. Untuk detail lengkap tentang prosedur pelaporan, silakan kunjungi halaman DMCA kami.",
+          "Jika Anda adalah pemilik hak cipta dan meyakini bahwa konten Anda diakses melalui Mova secara melanggar hak Anda, Anda dapat mengirimkan DMCA takedown notice ke admin@getmova.my.id. Untuk detail lengkap tentang prosedur pelaporan, silakan kunjungi halaman DMCA kami.",
       },
     ],
   },

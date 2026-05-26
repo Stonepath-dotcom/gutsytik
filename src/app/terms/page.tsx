@@ -103,7 +103,7 @@ const sections = [
     title: "9. Informasi Kontak",
     content: [
       "Jika Anda memiliki pertanyaan, keluhan, atau keberatan terkait Syarat & Ketentuan ini atau layanan Mova secara umum, silakan hubungi kami melalui:",
-      "Email: support@getmova.vercel.app",
+      "Email: admin@getmova.my.id",
       "TikTok: @abbbuw",
       "Telegram: @sixte3nnn",
       "Kami akan berusaha untuk merespons semua pertanyaan dan keluhan dalam waktu 2×24 jam kerja.",

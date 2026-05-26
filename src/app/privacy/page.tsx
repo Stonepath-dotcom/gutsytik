@@ -82,7 +82,7 @@ const sections = [
     content: [
       "Mova adalah alat bantu yang memfasilitasi pengunduhan konten yang tersedia secara publik. Kami tidak menyimpan, mendistribusikan, atau menjadi tuan rumah atas materi berhak cipta apapun.",
       "Pengguna bertanggung jawab sepenuhnya untuk memastikan bahwa mereka memiliki hak untuk mengunduh dan menggunakan konten apapun yang diakses melalui layanan kami.",
-      "Jika Anda meyakini bahwa konten berhak cipta Anda diakses secara melanggar hak Anda, silakan hubungi kami di support@getmova.my.id dengan menyertakan URL yang bersangkutan dan bukti kepemilikan. Untuk detail lebih lanjut, kunjungi halaman DMCA kami.",
+      "Jika Anda meyakini bahwa konten berhak cipta Anda diakses secara melanggar hak Anda, silakan hubungi kami di admin@getmova.my.id dengan menyertakan URL yang bersangkutan dan bukti kepemilikan. Untuk detail lebih lanjut, kunjungi halaman DMCA kami.",
     ],
   },
   {
@@ -100,7 +100,7 @@ const sections = [
     title: "Hubungi Kami",
     content: [
       "Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, praktik data kami, atau ingin menggunakan hak-hak Anda terkait data pribadi, silakan hubungi kami di:",
-      "Email: support@getmova.my.id",
+      "Email: admin@getmova.my.id",
       "TikTok: @abbbuw",
       "Telegram: @sixte3nnn",
       "Untuk pertanyaan terkait DMCA dan hak cipta, silakan kunjungi halaman DMCA kami di https://getmova.my.id/dmca",

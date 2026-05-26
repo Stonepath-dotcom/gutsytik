@@ -39,7 +39,7 @@ export default function DMCAPage() {
               <p>Silakan kirim pemberitahuan pelanggaran hak cipta ke:</p>
               <div className="mt-3 p-4 bg-card border border-border rounded-lg">
                 <p className="font-medium text-foreground">Email DMCA:</p>
-                <a href="mailto:ardiidonovan@gmail.com" className="text-primary hover:underline">ardiidonovan@gmail.com</a>
+                <a href="mailto:admin@getmova.my.id" className="text-primary hover:underline">admin@getmova.my.id</a>
                 <p className="mt-2 text-muted-foreground">Subjek email: &quot;DMCA Takedown Notice - Mova&quot;</p>
               </div>
             </section>

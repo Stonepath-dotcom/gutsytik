@@ -255,8 +255,8 @@ export default function DisclaimerPage() {
                 </p>
                 <p className="text-sm text-[#A1A1AA]">
                   <span className="text-[#FAFAFA] font-medium">Email:</span>{" "}
-                  <a href="mailto:support@getmova.my.id" className="text-[#2563EB] hover:underline">
-                    support@getmova.my.id
+                  <a href="mailto:admin@getmova.my.id" className="text-[#2563EB] hover:underline">
+                    admin@getmova.my.id
                   </a>
                 </p>
               </div>

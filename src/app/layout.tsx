@@ -112,6 +112,13 @@ export default function RootLayout({
               name: "Mova",
               url: "https://getmova.my.id",
               logo: "https://getmova.my.id/mova-logo.png",
+              email: "admin@getmova.my.id",
+              contactPoint: {
+                "@type": "ContactPoint",
+                email: "admin@getmova.my.id",
+                contactType: "customer support",
+                availableLanguage: ["Indonesian", "English"],
+              },
             }),
           }}
         />
