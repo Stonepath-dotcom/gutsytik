@@ -10,6 +10,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "youtube-downloader",
     "facebook-downloader",
     "twitter-downloader",
+    "pinterest-downloader",
+    "reddit-downloader",
+    "youtube-mp3",
   ];
 
   // Blog articles
@@ -50,6 +53,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "disclaimer",
     "dmca",
     "faq",
+    "blog",
   ];
 
   const platformEntries: MetadataRoute.Sitemap = platforms.map((slug) => ({
