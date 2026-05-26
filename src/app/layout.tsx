@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/providers";
+import { CookieConsent } from "@/components/cookie-consent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -197,6 +198,7 @@ export default function RootLayout({
         <Providers>
           {children}
           <Toaster />
+          <CookieConsent />
         </Providers>
         {/* Google Analytics - Replace G-XXXXXXXXXX with your GA4 Measurement ID */}
         <Script

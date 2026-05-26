@@ -1021,7 +1021,7 @@ function Footer() {
   return (
     <footer className="dark-section border-t border-white/10" role="contentinfo">
       <div className="mx-auto max-w-6xl px-4 md:px-6 py-10 md:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8">
           <div className="col-span-2 md:col-span-1">
             <MovaLogo size={24} showText />
             <p className="text-[11px] md:text-sm text-white/50 max-w-xs mt-3 leading-relaxed">{t("footer.desc")}</p>
@@ -1033,6 +1033,17 @@ function Footer() {
               <li><a href="#how" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{t("nav.caraPakai")}</a></li>
               <li><a href="#platforms" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{t("nav.platform")}</a></li>
               <li><a href="#faq" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{t("nav.faq")}</a></li>
+              <li><a href="/faq" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'FAQ Lengkap' : 'Full FAQ'}</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-[11px] md:text-sm font-semibold text-white mb-3 md:mb-4">{lang === 'id' ? 'Platform' : 'Platforms'}</h4>
+            <ul className="space-y-2 md:space-y-3">
+              <li><a href="/tiktok-downloader" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">TikTok Downloader</a></li>
+              <li><a href="/instagram-downloader" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">Instagram Downloader</a></li>
+              <li><a href="/youtube-downloader" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">YouTube Downloader</a></li>
+              <li><a href="/facebook-downloader" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">Facebook Downloader</a></li>
+              <li><a href="/twitter-downloader" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">Twitter/X Downloader</a></li>
             </ul>
           </div>
           <div>
@@ -1048,7 +1059,8 @@ function Footer() {
             <ul className="space-y-2 md:space-y-3">
               <li><a href="/privacy" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
               <li><a href="/terms" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
-              <li><a href="/disclaimer" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">Disclaimer / DMCA</a></li>
+              <li><a href="/disclaimer" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">Disclaimer</a></li>
+              <li><a href="/dmca" className="text-[13px] md:text-sm text-white/50 hover:text-white transition-colors py-1 inline-block">DMCA</a></li>
             </ul>
           </div>
         </div>

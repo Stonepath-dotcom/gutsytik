@@ -26,14 +26,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "download-video-youtube-tanpa-aplikasi",
     "perbedaan-download-video-hd-dan-sd",
     "cara-download-reddit-video-dengan-audio",
+    "download-instagram-reels",
+    "download-tiktok-tanpa-watermark",
+    "download-video-facebook-hd",
+    "download-video-tanpa-aplikasi",
+    "download-video-twitter-x",
+    "download-youtube-mp3",
+    "perbedaan-download-video-dan-audio-mp3",
+    "cara-download-video-pinterest",
+    "download-video-tanpa-watermark-terbaik",
+    "cara-download-video-youtube-hd-1080p",
+    "download-video-instagram-story-dan-reels",
+    "perbandingan-tiktok-downloader",
+    "cara-download-video-dari-telegram",
   ];
 
-  // Legal pages
+  // Legal & info pages
   const legal = [
     "privacy",
     "terms",
     "about",
     "contact",
+    "disclaimer",
+    "dmca",
+    "faq",
   ];
 
   const platformEntries: MetadataRoute.Sitemap = platforms.map((slug) => ({
@@ -54,7 +70,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${baseUrl}/${slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
-    priority: 0.4,
+    priority: 0.5,
   }));
 
   return [
