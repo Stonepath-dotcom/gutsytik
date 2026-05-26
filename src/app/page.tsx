@@ -109,7 +109,7 @@ const HISTORY_KEY = "mova_history";
 const BOOKMARK_KEY = "mova_bookmarks";
 const LANG_KEY = "mova_lang";
 const MAX_HISTORY = 20;
-const ACCENT = "#F97316";
+const ACCENT = "#4F46E5";
 const INDIRGO_BG = "bg-indigo-50";
 const INDIGO_TEXT = "text-indigo-600";
 
@@ -280,7 +280,7 @@ function Navbar() {
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ${scrolled ? "mobile-solid-bg bg-[#0C0A09]/95 md:backdrop-blur-md border-b border-white/10 md:shadow-lg" : "bg-transparent border-b border-transparent"}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ${scrolled ? "mobile-solid-bg bg-[#0F172A]/95 md:backdrop-blur-md border-b border-white/10 md:shadow-lg" : "bg-transparent border-b border-transparent"}`}>
       <div className="mx-auto max-w-6xl h-14 md:h-16 flex items-center justify-between px-4 md:px-6">
         <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="Mova - Home">
           <MovaLogo size={28} showText={true} />
@@ -301,7 +301,7 @@ function Navbar() {
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
           <a href="#hero">
-            <Button size="sm" className="h-9 px-5 bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C] transition-colors text-sm">
+            <Button size="sm" className="h-9 px-5 bg-[#4F46E5] text-white font-semibold rounded-lg hover:bg-[#4338CA] transition-colors text-sm">
               <Download className="mr-1.5 h-3.5 w-3.5" />{t("nav.download")}
             </Button>
           </a>
@@ -321,13 +321,13 @@ function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div ref={menuRef} className="md:hidden border-t border-white/10 bg-[#0C0A09]/98">
+        <div ref={menuRef} className="md:hidden border-t border-white/10 bg-[#0F172A]/98">
           <div className="px-4 py-3 space-y-0.5">
             {navLinks.map(l => (
               <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-white/70 hover:text-white rounded-lg hover:bg-white/10 transition-colors">{l.label}</a>
             ))}
             <a href="#hero" onClick={() => setOpen(false)} className="block pt-1">
-              <Button className="w-full bg-[#F97316] text-white font-semibold rounded-lg hover:bg-[#EA580C]">
+              <Button className="w-full bg-[#4F46E5] text-white font-semibold rounded-lg hover:bg-[#4338CA]">
                 <Download className="mr-2 h-4 w-4" />{t("nav.download")}
               </Button>
             </a>
@@ -623,10 +623,10 @@ function HeroSection() {
               onChange={e => setUrl(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleAnalyze()}
               placeholder={audioMode ? t("input.audioPlaceholder") : t("input.placeholder")}
-              className="h-12 md:h-14 bg-white border border-gray-200 rounded-xl text-[15px] md:text-lg pl-10 md:pl-11 pr-10 md:pr-12 text-gray-900 placeholder:text-gray-400 md:shadow-lg focus:border-[#F97316] focus:ring-2 focus:ring-[#F97316]/20"
+              className="h-12 md:h-14 bg-white border border-gray-200 rounded-xl text-[15px] md:text-lg pl-10 md:pl-11 pr-10 md:pr-12 text-gray-900 placeholder:text-gray-400 md:shadow-lg focus:border-[#4F46E5] focus:ring-2 focus:ring-[#4F46E5]/20"
             />
           </div>
-          <Button onClick={handleAnalyze} disabled={loading} className="w-full md:w-auto h-12 md:h-14 px-5 md:px-8 bg-[#F97316] text-white font-semibold rounded-xl hover:bg-[#EA580C] active:scale-[0.98] shrink-0 md:shadow-lg md:shadow-[#F97316]/25 text-[15px] md:text-base transition-colors">
+          <Button onClick={handleAnalyze} disabled={loading} className="w-full md:w-auto h-12 md:h-14 px-5 md:px-8 bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] active:scale-[0.98] shrink-0 md:shadow-lg md:shadow-[#4F46E5]/25 text-[15px] md:text-base transition-colors">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 mr-1.5" />}
             <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
           </Button>
@@ -694,7 +694,7 @@ function HeroSection() {
                 <div className="flex gap-3 mb-3">
                   <div className="w-20 h-14 md:w-24 md:h-16 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden relative">
                     {result.thumbnail && <img src={result.thumbnail} alt="" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
-                    <Play className="h-5 w-5 md:h-6 md:w-6 absolute text-[#F97316]" />
+                    <Play className="h-5 w-5 md:h-6 md:w-6 absolute text-[#4F46E5]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-gray-900 text-[13px] md:text-sm line-clamp-2">{result.title}</h3>
@@ -729,7 +729,7 @@ function HeroSection() {
               {result.qualityOptions.length > 0 && (
                 <div className="mb-3">
                   <p className="text-[11px] md:text-xs font-medium text-gray-700 mb-2 flex items-center gap-1.5">
-                    <Film className="h-3 w-3 md:h-3.5 md:w-3.5 text-[#F97316]" />{t("result.selectQuality")}
+                    <Film className="h-3 w-3 md:h-3.5 md:w-3.5 text-[#4F46E5]" />{t("result.selectQuality")}
                   </p>
                   <div className="flex flex-wrap gap-1.5 md:gap-2">
                     {result.qualityOptions.map((q, i) => {
@@ -739,7 +739,7 @@ function HeroSection() {
                           key={i}
                           onClick={() => setSelectedQuality(i)}
                           className={`flex items-center gap-1 text-[11px] md:text-xs px-2.5 md:px-3 py-1.5 rounded-lg border font-medium transition-colors ${
-                            isSelected ? "text-white bg-[#F97316] border-[#F97316]" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-300"
+                            isSelected ? "text-white bg-[#4F46E5] border-[#4F46E5]" : "bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-300"
                           }`}
                         >
                           {q.resolution === "MP3" ? <Music className="h-3 w-3" /> : <Film className="h-3 w-3" />}
@@ -755,7 +755,7 @@ function HeroSection() {
               <Button
                 onClick={handleDownload}
                 disabled={downloading}
-                className="w-full h-10 md:h-11 bg-[#F97316] text-white font-bold rounded-lg hover:bg-[#EA580C] text-[13px] md:text-sm"
+                className="w-full h-10 md:h-11 bg-[#4F46E5] text-white font-bold rounded-lg hover:bg-[#4338CA] text-[13px] md:text-sm"
               >
                 {downloading ? (
                   <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{audioMode ? "Downloading MP3..." : "Downloading..."}</>
@@ -769,7 +769,7 @@ function HeroSection() {
                   href={result.qualityOptions[selectedQuality].originalUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block mt-2 text-center text-[11px] md:text-xs text-gray-400 hover:text-[#F97316] transition-colors underline underline-offset-2"
+                  className="block mt-2 text-center text-[11px] md:text-xs text-gray-400 hover:text-[#4F46E5] transition-colors underline underline-offset-2"
                 >
                   {audioMode ? "Open MP3 directly" : "Open download link directly"} ↗
                 </a>
@@ -805,7 +805,7 @@ function FeaturesSection() {
           {featuresData.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div key={i} className="bg-white border border-gray-100 rounded-xl p-3.5 md:p-6 md:shadow-sm md:hover:shadow-md md:hover:border-[#F97316]/20 md:hover:-translate-y-0.5 transition-colors">
+              <div key={i} className="bg-white border border-gray-100 rounded-xl p-3.5 md:p-6 md:shadow-sm md:hover:shadow-md md:hover:border-[#4F46E5]/20 md:hover:-translate-y-0.5 transition-colors">
                 <div className={`w-9 h-9 md:w-11 md:h-11 rounded-lg flex items-center justify-center shrink-0 mb-2.5 md:mb-3 ${f.color}`}>
                   <Icon className="h-4 w-4 md:h-5 md:w-5" />
                 </div>
@@ -842,7 +842,7 @@ function HowItWorksSection() {
             const Icon = s.icon;
             return (
               <div key={i} className="flex flex-col items-center text-center">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F97316] flex items-center justify-center mb-2.5 md:mb-3">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#4F46E5] flex items-center justify-center mb-2.5 md:mb-3">
                   <span className="text-white font-bold text-sm md:text-base">{s.num}</span>
                 </div>
                 <h3 className="text-[13px] md:text-base font-semibold text-gray-900 mb-1">{s.title[lang] || s.title.id}</h3>
@@ -875,13 +875,13 @@ function PlatformsSection() {
           {PLATFORMS.map((p) => {
             const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
             return (
-              <a key={p.name} href={`/${slug}`} className="flex items-center gap-2.5 md:gap-3 p-2.5 md:p-4 rounded-xl bg-white border border-gray-200 md:hover:border-[#F97316]/40 md:hover:shadow-md md:hover:-translate-y-0.5 transition-colors group">
+              <a key={p.name} href={`/${slug}`} className="flex items-center gap-2.5 md:gap-3 p-2.5 md:p-4 rounded-xl bg-white border border-gray-200 md:hover:border-[#4F46E5]/40 md:hover:shadow-md md:hover:-translate-y-0.5 transition-colors group">
                 <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: p.gradient || p.color }}>
                   <p.Icon className="h-4 w-4 md:h-4.5 md:w-4.5" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[13px] md:text-sm font-semibold text-gray-900 truncate group-hover:text-[#F97316] transition-colors">{p.name}</p>
-                  <p className="text-[10px] md:text-[11px] text-[#F97316] font-medium">Download →</p>
+                  <p className="text-[13px] md:text-sm font-semibold text-gray-900 truncate group-hover:text-[#4F46E5] transition-colors">{p.name}</p>
+                  <p className="text-[10px] md:text-[11px] text-[#4F46E5] font-medium">Download →</p>
                 </div>
               </a>
             );
@@ -931,8 +931,8 @@ function FAQSection() {
         </div>
         <div className="space-y-2.5 md:space-y-3">
           {faqData.map((f, i) => (
-            <details key={i} className="group bg-white border border-gray-200 rounded-xl md:hover:border-[#F97316]/30 transition-colors">
-              <summary className="flex items-center justify-between px-4 md:px-6 py-3.5 md:py-4 cursor-pointer text-[13px] md:text-base font-medium text-gray-900 hover:text-[#F97316] transition-colors list-none">
+            <details key={i} className="group bg-white border border-gray-200 rounded-xl md:hover:border-[#4F46E5]/30 transition-colors">
+              <summary className="flex items-center justify-between px-4 md:px-6 py-3.5 md:py-4 cursor-pointer text-[13px] md:text-base font-medium text-gray-900 hover:text-[#4F46E5] transition-colors list-none">
                 <span className="pr-3">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</span>
                 <ChevronDown className="h-4 w-4 text-gray-400 shrink-0 group-open:rotate-180 transition-transform duration-200" />
               </summary>
@@ -952,7 +952,7 @@ const blogPosts = [
   { slug: "cara-download-video-tiktok-tanpa-watermark", title: "Cara Download Video TikTok Tanpa Watermark 2025", desc: "Panduan lengkap download video TikTok tanpa watermark dengan mudah dan gratis.", color: "#010101" },
   { slug: "cara-download-video-instagram-reels", title: "Cara Download Video Instagram Reels & Story", desc: "Tutorial download video Instagram Reels, Story, dan IGTV terbaru.", color: "#E1306C" },
   { slug: "cara-download-video-youtube-mp4", title: "Cara Download Video YouTube MP4 HD", desc: "Download video YouTube dalam format MP4 HD dengan cepat dan gratis.", color: "#FF0000" },
-  { slug: "download-video-tanpa-watermark-gratis", title: "Download Video Tanpa Watermark - Semua Platform", desc: "Panduan komprehensif download video tanpa watermark dari semua platform populer.", color: "#F97316" },
+  { slug: "download-video-tanpa-watermark-gratis", title: "Download Video Tanpa Watermark - Semua Platform", desc: "Panduan komprehensif download video tanpa watermark dari semua platform populer.", color: "#4F46E5" },
   { slug: "cara-download-video-facebook-hd", title: "Cara Download Video Facebook HD", desc: "Tutorial download video Facebook dalam kualitas HD dengan mudah.", color: "#1877F2" },
   { slug: "ekstrak-audio-mp3-dari-video", title: "Cara Ekstrak Audio MP3 dari Video Online", desc: "Konversi video ke MP3 secara online, cepat dan berkualitas tinggi.", color: "#8B5CF6" },
 ];
@@ -972,20 +972,20 @@ function BlogSection() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
           {blogPosts.map((post) => (
-            <a key={post.slug} href={`/blog/${post.slug}`} className="group flex flex-col p-4 md:p-5 rounded-xl bg-white border border-gray-200 md:hover:border-[#F97316]/40 md:hover:shadow-lg md:hover:-translate-y-1 transition-all duration-200">
+            <a key={post.slug} href={`/blog/${post.slug}`} className="group flex flex-col p-4 md:p-5 rounded-xl bg-white border border-gray-200 md:hover:border-[#4F46E5]/40 md:hover:shadow-lg md:hover:-translate-y-1 transition-all duration-200">
               <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: `${post.color}15` }}>
                 <Film className="h-4 w-4 md:h-5 md:w-5" style={{ color: post.color }} />
               </div>
-              <h3 className="text-[13px] md:text-sm font-semibold text-gray-900 mb-1.5 group-hover:text-[#F97316] transition-colors line-clamp-2 leading-snug">{post.title}</h3>
+              <h3 className="text-[13px] md:text-sm font-semibold text-gray-900 mb-1.5 group-hover:text-[#4F46E5] transition-colors line-clamp-2 leading-snug">{post.title}</h3>
               <p className="text-[11px] md:text-xs text-gray-500 line-clamp-2 leading-relaxed flex-1">{post.desc}</p>
-              <span className="text-[11px] md:text-xs text-[#F97316] font-medium mt-2.5 inline-flex items-center gap-1">
+              <span className="text-[11px] md:text-xs text-[#4F46E5] font-medium mt-2.5 inline-flex items-center gap-1">
                 {lang === "id" ? "Baca Selengkapnya" : "Read More"} →
               </span>
             </a>
           ))}
         </div>
         <div className="text-center mt-6 md:mt-8">
-          <a href="/blog" className="inline-flex items-center gap-2 text-[13px] md:text-sm font-semibold text-[#F97316] hover:text-[#EA580C] transition-colors">
+          <a href="/blog" className="inline-flex items-center gap-2 text-[13px] md:text-sm font-semibold text-[#4F46E5] hover:text-[#4338CA] transition-colors">
             {lang === "id" ? "Lihat Semua Artikel" : "View All Articles"} →
           </a>
         </div>
@@ -1000,13 +1000,13 @@ function CTASection() {
   return (
     <section className="dark-section py-12 md:py-24 px-4 md:px-6 border-t border-white/5">
       <div className="mx-auto max-w-3xl text-center">
-        <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-[#F97316]/20 flex items-center justify-center mx-auto mb-4 md:mb-6">
-          <Shield className="h-6 w-6 md:h-8 md:w-8 text-[#F97316]" />
+        <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-[#4F46E5]/20 flex items-center justify-center mx-auto mb-4 md:mb-6">
+          <Shield className="h-6 w-6 md:h-8 md:w-8 text-[#4F46E5]" />
         </div>
         <h2 className="text-lg sm:text-2xl md:text-4xl font-extrabold mb-2.5 md:mb-4 font-[family-name:var(--font-montserrat)] text-white">{t("cta.title")}</h2>
         <p className="text-[13px] md:text-base text-white/60 mb-5 md:mb-8 max-w-md mx-auto">{t("cta.subtitle")}</p>
         <a href="#hero">
-          <Button className="h-11 md:h-14 px-7 md:px-10 bg-[#F97316] text-white font-bold rounded-lg hover:bg-[#EA580C] text-[13px] md:text-base">
+          <Button className="h-11 md:h-14 px-7 md:px-10 bg-[#4F46E5] text-white font-bold rounded-lg hover:bg-[#4338CA] text-[13px] md:text-base">
             <Download className="mr-2 h-4 w-4 md:h-5 md:w-5" />{t("cta.button")}
           </Button>
         </a>
@@ -1081,14 +1081,14 @@ function Footer() {
 /* ──────── Mobile Bottom Nav ──────── */
 function MobileBottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden mobile-solid-bg bg-[#0C0A09] border-t border-white/10">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden mobile-solid-bg bg-[#0F172A] border-t border-white/10">
       <div className="flex items-center justify-around px-2 py-2">
         {[
           { icon: Download, label: "Download", href: "#hero", highlight: true },
           { icon: Bookmark, label: "Saved", href: "#hero" },
           { icon: Shield, label: "FAQ", href: "#faq" },
         ].map(item => (
-          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-6 rounded-lg transition-colors ${item.highlight ? "text-[#F97316]" : "text-white/50"}`}>
+          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-6 rounded-lg transition-colors ${item.highlight ? "text-[#4F46E5]" : "text-white/50"}`}>
             <item.icon className="h-4 w-4" />
             <span className="text-[9px] font-medium">{item.label}</span>
           </a>
@@ -1154,12 +1154,12 @@ export default function Home() {
                 {PLATFORMS.slice(0, 5).map(p => {
                   const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
                   return (
-                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-1.5 md:gap-2 p-2.5 md:p-4 rounded-xl bg-white border border-gray-200 md:hover:border-[#F97316]/30 md:hover:shadow-sm transition-colors">
+                    <a key={p.name} href={`/${slug}`} className="flex flex-col items-center gap-1.5 md:gap-2 p-2.5 md:p-4 rounded-xl bg-white border border-gray-200 md:hover:border-[#4F46E5]/30 md:hover:shadow-sm transition-colors">
                       <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center" style={{ background: p.gradient || p.color }}>
                         <p.Icon className="h-4 w-4 md:h-5 md:w-5 text-white" />
                       </div>
                       <span className="text-[11px] md:text-xs font-semibold text-gray-900 text-center">{p.name}</span>
-                      <span className="text-[9px] md:text-[10px] text-[#F97316] font-medium">Download →</span>
+                      <span className="text-[9px] md:text-[10px] text-[#4F46E5] font-medium">Download →</span>
                     </a>
                   );
                 })}

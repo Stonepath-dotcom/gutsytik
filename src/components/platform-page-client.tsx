@@ -286,7 +286,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
           {/* Result card */}
           {result && (
             <div ref={resultRef} className="max-w-xl mx-auto mt-4 rounded-xl bg-card border overflow-hidden" style={{ borderColor: `${ACCENT}30` }}>
-              <div className="px-4 py-2 border-b border-border flex items-center gap-2" style={{ background: `linear-gradient(to right, ${ACCENT}15, #EA580C15)` }}>
+              <div className="px-4 py-2 border-b border-border flex items-center gap-2" style={{ background: `linear-gradient(to right, ${ACCENT}15, #7C3AED15)` }}>
                 <CheckCircle className="h-4 w-4 text-green-400" />
                 <span className="text-sm text-green-400 font-medium">Video berhasil ditemukan!</span>
                 <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full ml-auto">{result.platform}</span>

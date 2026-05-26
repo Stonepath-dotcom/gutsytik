@@ -19,7 +19,7 @@ export function GutsytikLogo({ size = 40, className = "", showText = true }: Gut
         <defs>
           <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#FF2D55" />
-            <stop offset="50%" stopColor="#EA580C" />
+            <stop offset="50%" stopColor="#7C3AED" />
             <stop offset="100%" stopColor="#00E5FF" />
           </linearGradient>
           <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -54,7 +54,7 @@ export function GutsytikLogo({ size = 40, className = "", showText = true }: Gut
         <span
           className="font-bold text-xl tracking-tight"
           style={{
-            background: "linear-gradient(135deg, #FF2D55, #EA580C, #00E5FF)",
+            background: "linear-gradient(135deg, #FF2D55, #7C3AED, #00E5FF)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",

@@ -128,7 +128,7 @@ export default function DownloadYoutubeMp3Page() {
 
               <div className="space-y-4">
                 <div className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">1</div>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">1</div>
                   <div>
                     <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">Salin Link Video YouTube</h3>
                     <p className="text-xs text-[#A1A1AA] leading-relaxed">Buka YouTube, temukan video yang ingin kamu ekstrak audionya, lalu salin link video dari address bar atau tombol share. Link YouTube bisa dalam format youtube.com/watch?v=... atauyoutu.be/...</p>
@@ -136,7 +136,7 @@ export default function DownloadYoutubeMp3Page() {
                 </div>
 
                 <div className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">2</div>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">2</div>
                   <div>
                     <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">Buka Mova dan Aktifkan Mode Audio</h3>
                     <p className="text-xs text-[#A1A1AA] leading-relaxed">Buka Mova di getmova.my.id, lalu klik tab &quot;Audio&quot; di bagian atas kolom input. Mode audio akan secara otomatis mengatur Mova untuk mengekstrak audio dari video yang kamu masukkan.</p>
@@ -144,7 +144,7 @@ export default function DownloadYoutubeMp3Page() {
                 </div>
 
                 <div className="flex gap-4 p-4 rounded-lg border border-[#27272A] bg-[#111113]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F97316] text-white text-sm font-bold shrink-0">3</div>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#2563EB] text-white text-sm font-bold shrink-0">3</div>
                   <div>
                     <h3 className="text-sm font-semibold text-[#FAFAFA] mb-1">Tempel Link dan Download</h3>
                     <p className="text-xs text-[#A1A1AA] leading-relaxed">Tempel link YouTube ke kolom input, lalu klik tombol &quot;Download&quot;. Mova akan memproses video dan menampilkan opsi kualitas audio. Pilih kualitas yang kamu inginkan dan klik download. File MP3 akan otomatis tersimpan di perangkat kamu.</p>
@@ -165,40 +165,40 @@ export default function DownloadYoutubeMp3Page() {
                   <h3 className="text-sm font-semibold text-[#FAFAFA] mb-2">128kbps</h3>
                   <ul className="space-y-1.5">
                     <li className="text-xs text-[#A1A1AA] flex items-start gap-1.5">
-                      <span className="text-[#F97316] shrink-0">&#8226;</span>
+                      <span className="text-[#2563EB] shrink-0">&#8226;</span>
                       Ukuran file lebih kecil
                     </li>
                     <li className="text-xs text-[#A1A1AA] flex items-start gap-1.5">
-                      <span className="text-[#F97316] shrink-0">&#8226;</span>
+                      <span className="text-[#2563EB] shrink-0">&#8226;</span>
                       Cocok untuk mendengarkan di speaker kecil atau earphone biasa
                     </li>
                     <li className="text-xs text-[#A1A1AA] flex items-start gap-1.5">
-                      <span className="text-[#F97316] shrink-0">&#8226;</span>
+                      <span className="text-[#2563EB] shrink-0">&#8226;</span>
                       Proses download lebih cepat
                     </li>
                     <li className="text-xs text-[#A1A1AA] flex items-start gap-1.5">
-                      <span className="text-[#F97316] shrink-0">&#8226;</span>
+                      <span className="text-[#2563EB] shrink-0">&#8226;</span>
                       Kualitas cukup untuk kebanyakan keperluan
                     </li>
                   </ul>
                 </div>
-                <div className="p-4 rounded-lg border border-[#F97316]/30 bg-[#111113]">
-                  <h3 className="text-sm font-semibold text-[#F97316] mb-2">320kbps &#9733;</h3>
+                <div className="p-4 rounded-lg border border-[#2563EB]/30 bg-[#111113]">
+                  <h3 className="text-sm font-semibold text-[#2563EB] mb-2">320kbps &#9733;</h3>
                   <ul className="space-y-1.5">
                     <li className="text-xs text-[#A1A1AA] flex items-start gap-1.5">
-                      <span className="text-[#F97316] shrink-0">&#8226;</span>
+                      <span className="text-[#2563EB] shrink-0">&#8226;</span>
                       Kualitas audio terbaik yang tersedia
                     </li>
                     <li className="text-xs text-[#A1A1AA] flex items-start gap-1.5">
-                      <span className="text-[#F97316] shrink-0">&#8226;</span>
+                      <span className="text-[#2563EB] shrink-0">&#8226;</span>
                       Cocok untuk headphone audiophile dan speaker berkualitas
                     </li>
                     <li className="text-xs text-[#A1A1AA] flex items-start gap-1.5">
-                      <span className="text-[#F97316] shrink-0">&#8226;</span>
+                      <span className="text-[#2563EB] shrink-0">&#8226;</span>
                       Detail audio lebih jernih dan tajam
                     </li>
                     <li className="text-xs text-[#A1A1AA] flex items-start gap-1.5">
-                      <span className="text-[#F97316] shrink-0">&#8226;</span>
+                      <span className="text-[#2563EB] shrink-0">&#8226;</span>
                       Ukuran file lebih besar
                     </li>
                   </ul>
@@ -218,19 +218,19 @@ export default function DownloadYoutubeMp3Page() {
               </p>
               <ul className="space-y-2 mt-3">
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">YTMP3 dan sejenisnya:</strong> Website konverter YouTube ke MP3 cukup banyak tersedia, namun banyak di antaranya dipenuhi iklan pop-up yang mengganggu dan kadang berisiko malware.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Aplikasi desktop:</strong> Software seperti 4K Video Downloader bisa mengekstrak audio dari YouTube, namun memerlukan instalasi dan biasanya memiliki batasan pada versi gratis.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">YouTube Premium:</strong> Opsi resmi dari YouTube yang memungkinkan download video untuk ditonton offline, namun file tidak bisa diekstrak sebagai MP3 dan memerlukan berlangganan berbayar.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Mova:</strong> Solusi terbaik yang gratis, tanpa instalasi, tanpa iklan mengganggu, dan mendukung berbagai platform selain YouTube.</span>
                 </li>
               </ul>
@@ -244,19 +244,19 @@ export default function DownloadYoutubeMp3Page() {
               </p>
               <ul className="space-y-2 mt-3">
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Ketentuan YouTube:</strong> YouTube Terms of Service secara teknis melarang pengunduhan konten kecuali melalui fitur offline resmi YouTube Premium. Namun, penegakan ketentuan ini bervariasi.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Konten berlisensi Creative Commons:</strong> Beberapa kreator mengunggah konten dengan lisensi Creative Commons yang memperbolehkan penggunaan ulang. Cek lisensi sebelum mengunduh.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Penggunaan pribadi:</strong> Mengunduh untuk keperluan pribadi seperti mendengarkan musik offline umumnya dianggap penggunaan wajar, meskipun secara teknis bisa melanggar ToS YouTube.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1 shrink-0">&#8226;</span>
+                  <span className="text-[#2563EB] mt-1 shrink-0">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Distribusi ulang:</strong> Mendistribusikan file MP3 yang diunduh kepada orang lain tanpa izin merupakan pelanggaran hak cipta yang serius.</span>
                 </li>
               </ul>
@@ -273,12 +273,12 @@ export default function DownloadYoutubeMp3Page() {
               </p>
 
               {/* CTA */}
-              <div className="mt-8 p-6 rounded-xl bg-[#111113] border border-[#F97316]/30 text-center">
+              <div className="mt-8 p-6 rounded-xl bg-[#111113] border border-[#2563EB]/30 text-center">
                 <h3 className="text-base font-bold text-[#FAFAFA] mb-2">Coba Download YouTube ke MP3 Sekarang!</h3>
                 <p className="text-xs text-[#A1A1AA] mb-4">Gratis, cepat, dan berkualitas tinggi.</p>
                 <a
                   href="/"
-                  className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#F97316] text-white hover:bg-[#EA580C] transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-[#2563EB] text-white hover:bg-[#1D4ED8] transition-colors"
                 >
                   Coba Mova Sekarang
                   <ArrowRight className="h-4 w-4" />
@@ -291,20 +291,20 @@ export default function DownloadYoutubeMp3Page() {
           <div className="mt-16 pt-8 border-t border-[#27272A]">
             <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4">Artikel Terkait</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <a href="/blog/download-tiktok-tanpa-watermark" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/blog/download-tiktok-tanpa-watermark" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Download TikTok Tanpa Watermark</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
-              <a href="/blog/download-instagram-reels" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#F97316]/50 transition-colors group">
+              <a href="/blog/download-instagram-reels" className="flex items-center justify-between p-4 rounded-lg border border-[#27272A] bg-[#111113] hover:border-[#2563EB]/50 transition-colors group">
                 <span className="text-sm text-[#A1A1AA] group-hover:text-[#FAFAFA]">Download Instagram Reels</span>
-                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#F97316] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-[#A1A1AA] group-hover:text-[#2563EB] transition-colors" />
               </a>
             </div>
           </div>
 
           {/* Back to blog */}
           <div className="mt-8 text-center">
-            <a href="/blog" className="inline-flex items-center gap-2 text-sm text-[#F97316] hover:underline">
+            <a href="/blog" className="inline-flex items-center gap-2 text-sm text-[#2563EB] hover:underline">
               <ArrowLeft className="h-4 w-4" />
               Kembali ke Blog
             </a>

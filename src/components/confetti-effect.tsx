@@ -17,10 +17,10 @@ interface ConfettiPiece {
 
 const CONFETTI_COLORS = [
   "#FF2D55",
-  "#EA580C",
+  "#7C3AED",
   "#00E5FF",
   "#FF6B8A",
-  "#FBBF24",
+  "#A78BFA",
   "#FBBF24",
   "#10B981",
   "#F97316",

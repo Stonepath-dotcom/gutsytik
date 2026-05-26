@@ -68,11 +68,11 @@ export default function CaraDownloadVideoYoutubeHd1080p() {
             {/* Breadcrumb */}
             <nav aria-label="Breadcrumb" className="mb-8">
               <ol className="flex items-center gap-1.5 text-sm text-[#A1A1AA]">
-                <li><a href="/" className="hover:text-[#F97316] transition-colors">Beranda</a></li>
+                <li><a href="/" className="hover:text-[#4F46E5] transition-colors">Beranda</a></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li><a href="/blog" className="hover:text-[#F97316] transition-colors">Blog</a></li>
+                <li><a href="/blog" className="hover:text-[#4F46E5] transition-colors">Blog</a></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li className="text-[#F97316] font-medium">Download YouTube HD 1080p</li>
+                <li className="text-[#4F46E5] font-medium">Download YouTube HD 1080p</li>
               </ol>
             </nav>
 
@@ -129,14 +129,14 @@ export default function CaraDownloadVideoYoutubeHd1080p() {
                       <td className="py-2 px-3">Sedang</td>
                       <td className="py-2 px-3">~35 MB</td>
                     </tr>
-                    <tr className="border-b border-[#27272A]/50 bg-[#F97316]/5">
-                      <td className="py-2 px-3 text-[#F97316] font-medium">720p</td>
+                    <tr className="border-b border-[#27272A]/50 bg-[#4F46E5]/5">
+                      <td className="py-2 px-3 text-[#4F46E5] font-medium">720p</td>
                       <td className="py-2 px-3">HD</td>
                       <td className="py-2 px-3">Tinggi</td>
                       <td className="py-2 px-3">~60 MB</td>
                     </tr>
-                    <tr className="border-b border-[#27272A]/50 bg-[#F97316]/10">
-                      <td className="py-2 px-3 text-[#F97316] font-bold">1080p</td>
+                    <tr className="border-b border-[#27272A]/50 bg-[#4F46E5]/10">
+                      <td className="py-2 px-3 text-[#4F46E5] font-bold">1080p</td>
                       <td className="py-2 px-3 font-medium">Full HD</td>
                       <td className="py-2 px-3">Sangat Tinggi</td>
                       <td className="py-2 px-3">~100 MB</td>
@@ -162,32 +162,32 @@ export default function CaraDownloadVideoYoutubeHd1080p() {
                 Cara Download Video YouTube HD 1080p di HP (Android & iPhone)
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                Untuk pengguna HP, cara paling mudah adalah menggunakan <a href="/" className="text-[#F97316] hover:underline">Mova</a>. Berikut langkah-langkahnya:
+                Untuk pengguna HP, cara paling mudah adalah menggunakan <a href="/" className="text-[#4F46E5] hover:underline">Mova</a>. Berikut langkah-langkahnya:
               </p>
               <div className="space-y-4 mt-4">
                 <div className="flex items-start gap-3 p-4 rounded-lg bg-[#111113] border border-[#27272A]">
-                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#F97316] text-white text-xs font-bold flex items-center justify-center">1</span>
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#4F46E5] text-white text-xs font-bold flex items-center justify-center">1</span>
                   <div>
                     <p className="text-sm text-[#FAFAFA] font-medium">Buka aplikasi YouTube</p>
                     <p className="text-sm text-[#A1A1AA] mt-1">Cari video yang ingin kamu download. Tap tombol Share (bagikan) di bawah video, lalu pilih &quot;Salin tautan&quot; atau &quot;Copy Link&quot;.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-4 rounded-lg bg-[#111113] border border-[#27272A]">
-                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#F97316] text-white text-xs font-bold flex items-center justify-center">2</span>
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#4F46E5] text-white text-xs font-bold flex items-center justify-center">2</span>
                   <div>
                     <p className="text-sm text-[#FAFAFA] font-medium">Buka Mova di browser HP</p>
-                    <p className="text-sm text-[#A1A1AA] mt-1">Buka Chrome, Safari, atau browser apapun, lalu kunjungi <a href="/" className="text-[#F97316] hover:underline">getmova.my.id</a>. Mova bisa diakses dari Android maupun iPhone.</p>
+                    <p className="text-sm text-[#A1A1AA] mt-1">Buka Chrome, Safari, atau browser apapun, lalu kunjungi <a href="/" className="text-[#4F46E5] hover:underline">getmova.my.id</a>. Mova bisa diakses dari Android maupun iPhone.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-4 rounded-lg bg-[#111113] border border-[#27272A]">
-                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#F97316] text-white text-xs font-bold flex items-center justify-center">3</span>
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#4F46E5] text-white text-xs font-bold flex items-center justify-center">3</span>
                   <div>
                     <p className="text-sm text-[#FAFAFA] font-medium">Tempel link YouTube</p>
                     <p className="text-sm text-[#A1A1AA] mt-1">Paste link video YouTube ke kolom input di halaman utama Mova, lalu klik tombol Download.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-4 rounded-lg bg-[#111113] border border-[#27272A]">
-                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#F97316] text-white text-xs font-bold flex items-center justify-center">4</span>
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#4F46E5] text-white text-xs font-bold flex items-center justify-center">4</span>
                   <div>
                     <p className="text-sm text-[#FAFAFA] font-medium">Pilih kualitas 1080p dan download</p>
                     <p className="text-sm text-[#A1A1AA] mt-1">Mova akan menampilkan beberapa opsi kualitas. Pilih 1080p (Full HD) untuk kualitas terbaik, lalu klik download. Video akan tersimpan di galeri HP kamu!</p>
@@ -199,7 +199,7 @@ export default function CaraDownloadVideoYoutubeHd1080p() {
                 Cara Download Video YouTube HD 1080p di PC/Laptop
               </h2>
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                Untuk pengguna PC atau laptop, langkahnya sama persis. Kamu cuma perlu browser — nggak perlu install software apapun. Buka <a href="/" className="text-[#F97316] hover:underline">Mova</a> di browser, paste link YouTube, pilih kualitas 1080p, dan download. Video akan tersimpan di folder Downloads komputer kamu. Keuntungan download di PC adalah proses lebih cepat karena koneksi internet biasanya lebih stabil, dan kamu bisa langsung pindahkan video ke flashdisk atau harddisk eksternal.
+                Untuk pengguna PC atau laptop, langkahnya sama persis. Kamu cuma perlu browser — nggak perlu install software apapun. Buka <a href="/" className="text-[#4F46E5] hover:underline">Mova</a> di browser, paste link YouTube, pilih kualitas 1080p, dan download. Video akan tersimpan di folder Downloads komputer kamu. Keuntungan download di PC adalah proses lebih cepat karena koneksi internet biasanya lebih stabil, dan kamu bisa langsung pindahkan video ke flashdisk atau harddisk eksternal.
               </p>
 
               <h2 className="text-xl font-bold text-[#FAFAFA] mt-8 mb-3" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>
@@ -207,24 +207,24 @@ export default function CaraDownloadVideoYoutubeHd1080p() {
               </h2>
               <ul className="space-y-2 mt-3">
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1">&#8226;</span>
+                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Cek ketersediaan resolusi</strong> — Nggak semua video YouTube tersedia dalam 1080p. Video lama atau yang di-upload dalam resolusi rendah hanya bisa didownload dalam resolusi maksimal yang tersedia.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1">&#8226;</span>
+                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Gunakan koneksi stabil</strong> — Video 1080p berukuran cukup besar (sekitar 100 MB per 5 menit). Gunakan WiFi agar proses download nggak terputus di tengah jalan.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1">&#8226;</span>
+                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Perhatikan ruang penyimpanan</strong> — Satu video 1080p berdurasi 10 menit bisa mencapai 200 MB. Pastikan memori perangkat kamu cukup sebelum mendownload.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1">&#8226;</span>
+                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
                   <span><strong className="text-[#FAFAFA]">Download video yang belum dihapus</strong> — Beberapa video YouTube bisa dihapus oleh uploader atau ditarik karena masalah hak cipta. Kalau kamu menemukan video penting, segera download.</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                  <span className="text-[#F97316] mt-1">&#8226;</span>
-                  <span><strong className="text-[#FAFAFA]">Hormati hak cipta</strong> — Download video YouTube untuk penggunaan pribadi. Jangan meng-unggah ulang video milik orang lain tanpa izin. Baca <a href="/disclaimer" className="text-[#F97316] hover:underline">disclaimer</a> kami untuk informasi lebih lanjut.</span>
+                  <span className="text-[#4F46E5] mt-1">&#8226;</span>
+                  <span><strong className="text-[#FAFAFA]">Hormati hak cipta</strong> — Download video YouTube untuk penggunaan pribadi. Jangan meng-unggah ulang video milik orang lain tanpa izin. Baca <a href="/disclaimer" className="text-[#4F46E5] hover:underline">disclaimer</a> kami untuk informasi lebih lanjut.</span>
                 </li>
               </ul>
 
@@ -245,8 +245,8 @@ export default function CaraDownloadVideoYoutubeHd1080p() {
                     <li className="text-xs text-[#A1A1AA]">• Format file terenkripsi</li>
                   </ul>
                 </div>
-                <div className="p-4 rounded-lg bg-[#F97316]/10 border border-[#F97316]/30">
-                  <p className="text-sm font-medium text-[#F97316] mb-2">Mova (Gratis)</p>
+                <div className="p-4 rounded-lg bg-[#4F46E5]/10 border border-[#4F46E5]/30">
+                  <p className="text-sm font-medium text-[#4F46E5] mb-2">Mova (Gratis)</p>
                   <ul className="space-y-1">
                     <li className="text-xs text-[#A1A1AA]">• 100% gratis tanpa biaya</li>
                     <li className="text-xs text-[#A1A1AA]">• File MP4 bisa diputar di mana saja</li>
@@ -258,15 +258,15 @@ export default function CaraDownloadVideoYoutubeHd1080p() {
               </div>
 
               <p className="text-sm text-[#A1A1AA] leading-relaxed">
-                Jelas kalau kamu cuma butuh download video YouTube sesekali, <a href="/" className="text-[#F97316] hover:underline">Mova</a> jauh lebih menguntungkan daripada berlangganan YouTube Premium. Kamu juga bisa menggunakan <a href="/youtube-downloader" className="text-[#F97316] hover:underline">YouTube Downloader</a> Mova untuk pengalaman yang lebih optimal, atau membaca panduan <a href="/blog/download-video-tanpa-watermark-terbaik" className="text-[#F97316] hover:underline">situs download video terbaik</a> dan <a href="/blog/cara-download-video-pinterest" className="text-[#F97316] hover:underline">cara download video Pinterest</a> di blog kami.
+                Jelas kalau kamu cuma butuh download video YouTube sesekali, <a href="/" className="text-[#4F46E5] hover:underline">Mova</a> jauh lebih menguntungkan daripada berlangganan YouTube Premium. Kamu juga bisa menggunakan <a href="/youtube-downloader" className="text-[#4F46E5] hover:underline">YouTube Downloader</a> Mova untuk pengalaman yang lebih optimal, atau membaca panduan <a href="/blog/download-video-tanpa-watermark-terbaik" className="text-[#4F46E5] hover:underline">situs download video terbaik</a> dan <a href="/blog/cara-download-video-pinterest" className="text-[#4F46E5] hover:underline">cara download video Pinterest</a> di blog kami.
               </p>
             </article>
 
             {/* CTA */}
-            <div className="mt-12 p-6 rounded-xl bg-gradient-to-br from-[#F97316]/20 to-[#EA580C]/10 border border-[#F97316]/30 text-center">
+            <div className="mt-12 p-6 rounded-xl bg-gradient-to-br from-[#4F46E5]/20 to-[#7C3AED]/10 border border-[#4F46E5]/30 text-center">
               <h3 className="text-lg font-bold text-[#FAFAFA] mb-2">Coba Mova Sekarang — Gratis!</h3>
               <p className="text-sm text-[#A1A1AA] mb-4">Download video tanpa watermark dari berbagai platform populer dengan cepat dan mudah.</p>
-              <a href="/" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold bg-[#F97316] text-white hover:bg-[#EA580C] transition-colors">
+              <a href="/" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold bg-[#4F46E5] text-white hover:bg-[#4338CA] transition-colors">
                 Mulai Download <ArrowRight className="h-4 w-4" />
               </a>
             </div>
@@ -277,20 +277,20 @@ export default function CaraDownloadVideoYoutubeHd1080p() {
                 Artikel Terkait
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <a href="/blog/download-video-tanpa-watermark-terbaik" className="p-3 rounded-lg border border-[#27272A] hover:border-[#F97316]/50 transition-colors">
-                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#F97316]">10 Situs Download Video Tanpa Watermark Terbaik 2026</p>
+                <a href="/blog/download-video-tanpa-watermark-terbaik" className="p-3 rounded-lg border border-[#27272A] hover:border-[#4F46E5]/50 transition-colors">
+                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#4F46E5]">10 Situs Download Video Tanpa Watermark Terbaik 2026</p>
                   <p className="text-xs text-[#A1A1AA] mt-1">Perbandingan situs downloader terbaik.</p>
                 </a>
-                <a href="/blog/cara-download-video-pinterest" className="p-3 rounded-lg border border-[#27272A] hover:border-[#F97316]/50 transition-colors">
-                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#F97316]">Cara Download Video Pinterest ke Galeri HP</p>
+                <a href="/blog/cara-download-video-pinterest" className="p-3 rounded-lg border border-[#27272A] hover:border-[#4F46E5]/50 transition-colors">
+                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#4F46E5]">Cara Download Video Pinterest ke Galeri HP</p>
                   <p className="text-xs text-[#A1A1AA] mt-1">Panduan download video Pinterest dengan mudah.</p>
                 </a>
-                <a href="/blog/perbandingan-tiktok-downloader" className="p-3 rounded-lg border border-[#27272A] hover:border-[#F97316]/50 transition-colors">
-                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#F97316]">Perbandingan TikTok Downloader Terbaik 2026</p>
+                <a href="/blog/perbandingan-tiktok-downloader" className="p-3 rounded-lg border border-[#27272A] hover:border-[#4F46E5]/50 transition-colors">
+                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#4F46E5]">Perbandingan TikTok Downloader Terbaik 2026</p>
                   <p className="text-xs text-[#A1A1AA] mt-1">Mana TikTok downloader yang paling bagus?</p>
                 </a>
-                <a href="/blog/download-video-instagram-story-dan-reels" className="p-3 rounded-lg border border-[#27272A] hover:border-[#F97316]/50 transition-colors">
-                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#F97316]">Download Video Instagram Story dan Reels</p>
+                <a href="/blog/download-video-instagram-story-dan-reels" className="p-3 rounded-lg border border-[#27272A] hover:border-[#4F46E5]/50 transition-colors">
+                  <p className="text-sm font-medium text-[#FAFAFA] hover:text-[#4F46E5]">Download Video Instagram Story dan Reels</p>
                   <p className="text-xs text-[#A1A1AA] mt-1">Simpan Story dan Reels IG tanpa aplikasi.</p>
                 </a>
               </div>

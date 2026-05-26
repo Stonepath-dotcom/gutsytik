@@ -13,7 +13,7 @@ interface Particle {
   alpha: number;
 }
 
-const BRAND_COLORS = ["#FF2D55", "#EA580C", "#00E5FF", "#FF6B8A", "#FBBF24"];
+const BRAND_COLORS = ["#FF2D55", "#7C3AED", "#00E5FF", "#FF6B8A", "#A78BFA"];
 const PARTICLE_COUNT_DESKTOP = 80;
 const PARTICLE_COUNT_MOBILE = 30;
 const MOUSE_RADIUS = 150;
