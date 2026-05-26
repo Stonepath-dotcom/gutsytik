@@ -82,6 +82,13 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         {/* Google Search Console Verification - Replace PLACEHOLDER with your verification code */}
         <meta name="google-site-verification" content="PLACEHOLDER_REPLACE_WITH_YOUR_CODE" />
+        {/* Google AdSense - Auto Ads */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8487073388720076"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
