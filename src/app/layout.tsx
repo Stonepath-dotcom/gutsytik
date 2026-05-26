@@ -214,7 +214,8 @@ export default function RootLayout({
           <Toaster />
           <CookieConsent />
         </Providers>
-        {/* Google Analytics - Replace G-XXXXXXXXXX with your GA4 Measurement ID */}
+        {/* Google Analytics - Uncomment and add your GA4 Measurement ID when ready */}
+        {/*
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
           strategy="afterInteractive"
@@ -227,6 +228,7 @@ export default function RootLayout({
             gtag('config', 'G-XXXXXXXXXX');
           `}
         </Script>
+        */}
       </body>
     </html>
   );
