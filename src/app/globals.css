@@ -130,10 +130,13 @@
 html:not(.dark) ::-webkit-scrollbar-thumb { background: #D4D4D8; }
 html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
 
-/* ─── Hero gradient background (always dark) ─── */
+/* ─── Hero gradient background ─── */
 .hero-bg {
   background: linear-gradient(180deg, #0F172A 0%, #1E1B4B 60%, #0F172A 100%);
   position: relative;
+}
+html:not(.dark) .hero-bg {
+  background: linear-gradient(180deg, #EEF2FF 0%, #E0E7FF 60%, #EEF2FF 100%);
 }
 .hero-bg::after {
   content: '';
@@ -142,7 +145,7 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
   left: 0;
   right: 0;
   height: 60px;
-  background: linear-gradient(to bottom, transparent, #FFFFFF);
+  background: linear-gradient(to bottom, transparent, var(--background));
   pointer-events: none;
 }
 
@@ -150,6 +153,10 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
 .dark-section {
   background: #0F172A;
   color: #FAFAFA;
+}
+html:not(.dark) .dark-section {
+  background: var(--card);
+  color: var(--card-foreground);
 }
 
 /* ─── Gradient text ─── */

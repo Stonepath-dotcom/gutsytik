@@ -40,6 +40,7 @@ interface SEOPageLayoutProps {
 
 export default function SEOPageLayout({ title, description, platform, audioMode: initialAudioMode, placeholder, children }: SEOPageLayoutProps) {
   const { setTheme, theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const { toast } = useToast();
   const [menuOpen, setMenuOpen] = useState(false);
   const [url, setUrl] = useState("");
@@ -55,6 +56,8 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
   const resultRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const h = () => setShowTopBtn(window.scrollY > 400);
@@ -152,7 +155,7 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
           </nav>
           <div className="flex items-center gap-1">
             <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="p-2 text-muted-foreground hover:text-foreground transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-muted/50" aria-label="Ganti tema">
-              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {mounted ? (theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />) : <Sun className="h-4 w-4" />}
             </button>
             <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-muted/50" aria-label="Menu">
               {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
