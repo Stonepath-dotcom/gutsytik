@@ -114,6 +114,39 @@ const jsonLdFaq = {
   ],
 };
 
+const jsonLdHowTo = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Cara Download Video Facebook HD dengan Mova",
+  description: "Panduan langkah demi langkah untuk download video Facebook dalam kualitas HD gratis menggunakan Mova",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Salin Link Video Facebook",
+      text: "Buka Facebook, temukan video yang ingin didownload, klik kanan pada video lalu pilih Copy Link atau salin URL dari address bar.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Tempel Link di Mova",
+      text: "Buka getmova.my.id di browser, tempel link video Facebook yang sudah disalin ke kolom input yang tersedia.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Klik Download",
+      text: "Klik tombol Download dan tunggu Mova memproses video Facebook. Pilih kualitas HD atau SD yang diinginkan.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Simpan Video ke Perangkat",
+      text: "Setelah proses selesai, video Facebook akan otomatis tersimpan ke galeri HP atau folder download di perangkat kamu dalam format MP4.",
+    },
+  ],
+};
+
 export default function Page() {
   return (
     <>
@@ -124,6 +157,10 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdHowTo) }}
       />
       <script
         type="application/ld+json"

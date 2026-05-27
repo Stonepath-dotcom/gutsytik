@@ -116,6 +116,39 @@ const jsonLdFaq = {
   ],
 };
 
+const jsonLdHowTo = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Cara Download Video YouTube MP4 HD dengan Mova",
+  description: "Panduan langkah demi langkah untuk download video YouTube dalam format MP4 HD gratis menggunakan Mova",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Salin Link Video YouTube",
+      text: "Buka YouTube, temukan video yang ingin didownload, salin URL video dari address bar atau tombol Share.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Tempel Link di Mova",
+      text: "Buka getmova.my.id di browser, tempel link video YouTube yang sudah disalin ke kolom input yang tersedia.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Pilih Format dan Kualitas",
+      text: "Klik tombol Download, lalu pilih format MP4 atau MP3 dan kualitas video yang diinginkan (360p, 480p, 720p, atau 1080p HD).",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Simpan Video ke Perangkat",
+      text: "Setelah proses selesai, video YouTube akan otomatis tersimpan ke galeri HP atau folder download di perangkat kamu.",
+    },
+  ],
+};
+
 export default function Page() {
   return (
     <>
@@ -126,6 +159,10 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdHowTo) }}
       />
       <script
         type="application/ld+json"

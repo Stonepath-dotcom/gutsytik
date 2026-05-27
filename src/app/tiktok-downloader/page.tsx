@@ -118,6 +118,39 @@ const jsonLdFaq = {
   ],
 };
 
+const jsonLdHowTo = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Cara Download Video TikTok Tanpa Watermark dengan Mova",
+  description: "Panduan langkah demi langkah untuk download video TikTok tanpa watermark gratis menggunakan Mova",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Salin Link Video TikTok",
+      text: "Buka aplikasi TikTok, temukan video yang ingin didownload, tap tombol Share lalu pilih Copy Link untuk menyalin URL video.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Tempel Link di Mova",
+      text: "Buka getmova.my.id di browser, tempel link video TikTok yang sudah disalin ke kolom input yang tersedia.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Klik Download",
+      text: "Klik tombol Download dan tunggu Mova memproses video. Mova akan otomatis menghapus watermark TikTok dari video.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Simpan Video ke Perangkat",
+      text: "Pilih kualitas video yang diinginkan (HD atau SD), lalu video TikTok tanpa watermark akan otomatis tersimpan ke galeri HP atau folder download.",
+    },
+  ],
+};
+
 export default function Page() {
   return (
     <>
@@ -128,6 +161,10 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdHowTo) }}
       />
       <script
         type="application/ld+json"

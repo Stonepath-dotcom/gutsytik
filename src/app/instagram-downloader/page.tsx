@@ -116,6 +116,39 @@ const jsonLdFaq = {
   ],
 };
 
+const jsonLdHowTo = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Cara Download Video Instagram Reels dan Story dengan Mova",
+  description: "Panduan langkah demi langkah untuk download video Instagram Reels, Story, dan IGTV gratis menggunakan Mova",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Salin Link Video Instagram",
+      text: "Buka Instagram, temukan Reels, Story, atau video yang ingin didownload, tap tombol Share lalu pilih Copy Link untuk menyalin URL.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Tempel Link di Mova",
+      text: "Buka getmova.my.id di browser, tempel link video Instagram yang sudah disalin ke kolom input yang tersedia.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Klik Download",
+      text: "Klik tombol Download dan tunggu Mova memproses video Instagram. Pilih kualitas dan format video yang diinginkan.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Simpan Video ke Perangkat",
+      text: "Setelah proses selesai, video Instagram akan otomatis tersimpan ke galeri HP atau folder download di perangkat kamu.",
+    },
+  ],
+};
+
 export default function Page() {
   return (
     <>
@@ -126,6 +159,10 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdHowTo) }}
       />
       <script
         type="application/ld+json"

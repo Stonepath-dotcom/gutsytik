@@ -64,6 +64,86 @@ const jsonLdBreadcrumb = {
   ],
 };
 
+const jsonLdFaq = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Bagaimana cara download MP3 dari YouTube?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Salin link video YouTube yang ingin dikonversi, tempel link tersebut di kolom input Mova, klik Download, lalu pilih format MP3. Audio akan otomatis diekstrak dan tersimpan di perangkat kamu.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Apakah konversi YouTube ke MP3 di Mova gratis?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Ya, 100% gratis tanpa batas. Tidak perlu registrasi, tidak ada biaya tersembunyi, dan tidak ada batasan jumlah konversi per hari.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Kualitas MP3 apa yang dihasilkan Mova?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Mova mendukung konversi YouTube ke MP3 dalam berbagai kualitas, mulai dari 128kbps hingga 320kbps. Semakin tinggi kualitas yang dipilih, semakin baik kualitas audio yang dihasilkan.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Apakah Mova bisa download lagu dari YouTube yang berdurasi panjang?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Ya, Mova mendukung konversi audio dari video YouTube berdurasi panjang seperti podcast, mix DJ, dan konser. Pastikan koneksi internet stabil saat mengkonversi file yang panjang.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Apakah konversi YouTube ke MP3 di Mova aman?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Ya, Mova sepenuhnya aman. Kami tidak menyimpan data pribadi pengguna, tidak meminta akses ke akun YouTube, dan tidak mengandung malware atau virus.",
+      },
+    },
+  ],
+};
+
+const jsonLdHowTo = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Cara Konversi YouTube ke MP3 dengan Mova",
+  description: "Panduan langkah demi langkah untuk mengkonversi video YouTube ke format audio MP3 menggunakan Mova",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Salin Link Video YouTube",
+      text: "Buka YouTube, temukan video yang ingin dikonversi ke MP3, salin URL video dari address bar atau tombol Share.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Tempel Link di Mova",
+      text: "Buka getmova.my.id di browser, tempel link YouTube yang sudah disalin ke kolom input yang tersedia.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Pilih Format MP3",
+      text: "Klik tombol Download, lalu pilih format MP3 dan kualitas audio yang diinginkan (128kbps, 192kbps, atau 320kbps).",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Simpan Audio ke Perangkat",
+      text: "Setelah proses konversi selesai, file MP3 akan otomatis tersimpan ke folder download di perangkat kamu. Siap diputar di music player manapun.",
+    },
+  ],
+};
+
 export default function YouTubeMP3Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -74,6 +154,14 @@ export default function YouTubeMP3Layout({ children }: { children: React.ReactNo
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdHowTo) }}
       />
       {children}
     </>
