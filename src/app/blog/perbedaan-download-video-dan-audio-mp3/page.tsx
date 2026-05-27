@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Perbedaan Download Video MP4 dan Audio MP3 - Mana yang Lebih Baik? - Mova",
+  title: "Perbedaan Download Video MP4 dan Audio MP3 - Mana yang Lebih Baik? - getmova",
   description: "Perbandingan lengkap antara download video MP4 dan audio MP3. Temukan mana yang lebih cocok untuk kebutuhanmu.",
   keywords: [
     "download video vs audio mp3",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "Perbedaan Download Video MP4 dan Audio MP3 - Mana yang Lebih Baik?",
     description: "Perbandingan lengkap antara download video MP4 dan audio MP3. Temukan mana yang lebih cocok untuk kebutuhanmu.",
     url: "https://getmova.my.id/blog/perbedaan-download-video-dan-audio-mp3",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -27,8 +27,8 @@ const jsonLd = {
   "@type": "Article",
   headline: "Perbedaan Download Video MP4 dan Audio MP3 - Mana yang Lebih Baik?",
   description: "Perbandingan lengkap antara download video MP4 dan audio MP3 untuk membantu kamu memilih format yang tepat.",
-  author: { "@type": "Organization", name: "Mova" },
-  publisher: { "@type": "Organization", name: "Mova", logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" } },
+  author: { "@type": "Organization", name: "getmova" },
+  publisher: { "@type": "Organization", name: "getmova", logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" } },
   datePublished: "2026-05-03",
   dateModified: "2026-05-03",
   mainEntityOfPage: { "@type": "WebPage", "@id": "https://getmova.my.id/blog/perbedaan-download-video-dan-audio-mp3" },

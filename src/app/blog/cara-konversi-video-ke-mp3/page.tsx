@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     description:
       "Panduan lengkap cara konversi video ke MP3. Pelajari cara mengekstrak audio dari video YouTube, TikTok, dan platform lainnya dengan kualitas terbaik.",
     url: "https://getmova.my.id/blog/cara-konversi-video-ke-mp3",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
   twitter: {
@@ -41,10 +41,10 @@ const jsonLd = {
     "Panduan lengkap cara konversi video ke MP3 di 2026. Pelajari cara mengekstrak audio dari video YouTube, TikTok, Instagram, dan platform lainnya dengan kualitas terbaik.",
   datePublished: "2026-01-28",
   dateModified: "2026-01-28",
-  author: { "@type": "Organization", name: "Mova" },
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -81,7 +81,7 @@ const breadcrumbLd = {
 const relatedArticles = [
   {
     slug: "download-youtube-mp3",
-    title: "Download YouTube MP3 - Panduan Lengkap 2025",
+    title: "Download YouTube MP3 - Panduan Lengkap 2026",
     description: "Cara download audio MP3 dari YouTube dengan kualitas terbaik.",
   },
   {

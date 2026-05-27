@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2025",
+  title: "Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2026",
   description:
     "Pelajari cara mengekstrak audio MP3 dari video online secara gratis. Cocok untuk podcast, musik, dan konten audio. Panduan lengkap dengan tips kualitas.",
   keywords: [
@@ -15,11 +15,11 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/ekstrak-audio-mp3-dari-video" },
   openGraph: {
-    title: "Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2025",
+    title: "Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2026",
     description:
       "Pelajari cara mengekstrak audio MP3 dari video online secara gratis. Cocok untuk podcast, musik, dan konten audio.",
     url: "https://getmova.my.id/blog/ekstrak-audio-mp3-dari-video",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -27,15 +27,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2025",
+  headline: "Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2026",
   description:
     "Pelajari cara mengekstrak audio MP3 dari video online secara gratis. Cocok untuk podcast, musik, dan konten audio.",
-  datePublished: "2025-05-20",
-  dateModified: "2025-05-20",
-  author: { "@type": "Organization", name: "Mova" },
+  datePublished: "2026-05-20",
+  dateModified: "2026-05-20",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -47,7 +47,7 @@ const jsonLd = {
 const relatedArticles = [
   {
     slug: "cara-download-video-youtube-mp4",
-    title: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2025",
+    title: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2026",
     description: "Tutorial download video YouTube dalam format MP4.",
   },
   {
@@ -57,7 +57,7 @@ const relatedArticles = [
   },
   {
     slug: "cara-download-video-tiktok-tanpa-watermark",
-    title: "Cara Download Video TikTok Tanpa Watermark 2025",
+    title: "Cara Download Video TikTok Tanpa Watermark 2026",
     description: "Panduan download TikTok tanpa watermark.",
   },
 ];
@@ -125,10 +125,10 @@ export default function EkstrakAudioMp3DariVideo() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <BlogArticleLayout
-      title="Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2025"
+      title="Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2026"
       slug="ekstrak-audio-mp3-dari-video"
       description="Panduan lengkap cara mengekstrak audio MP3 dari video online. Gratis, cepat, dan berkualitas."
-      date="20 Mei 2025"
+      date="20 Mei 2026"
       readingTime="7 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}

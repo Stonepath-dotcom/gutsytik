@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { FacebookDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video Facebook HD - Gratis & Cepat 2025 | Mova",
+  title: "Download Video Facebook HD - Gratis & Cepat 2026 | getmova",
   description:
     "Download video Facebook HD gratis dan cepat. Simpan video FB dalam kualitas tinggi tanpa watermark. Support video publik, Reels, dan Watch.",
   keywords: [
@@ -15,16 +15,16 @@ export const metadata: Metadata = {
     "simpan video facebook",
   ],
   openGraph: {
-    title: "Download Video Facebook HD - Gratis & Cepat 2025 | Mova",
+    title: "Download Video Facebook HD - Gratis & Cepat 2026 | getmova",
     description:
       "Download video Facebook HD gratis dan cepat. Simpan video FB dalam kualitas tinggi tanpa watermark.",
     url: "https://getmova.my.id/facebook-downloader",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video Facebook HD - Gratis & Cepat 2025 | Mova",
+    title: "Download Video Facebook HD - Gratis & Cepat 2026 | getmova",
     description:
       "Download video Facebook HD gratis dan cepat. Simpan video FB dalam kualitas tinggi tanpa watermark.",
   },
@@ -46,6 +46,15 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
+};
+
+const jsonLdBreadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+    { "@type": "ListItem", position: 2, name: "Facebook Downloader", item: "https://getmova.my.id/facebook-downloader" },
+  ],
 };
 
 const jsonLdFaq = {
@@ -105,6 +114,10 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
       <FacebookDownloaderPage />
     </>

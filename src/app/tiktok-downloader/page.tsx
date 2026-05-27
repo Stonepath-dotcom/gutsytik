@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { TikTokDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video TikTok Tanpa Watermark - Gratis & Cepat 2025 | Mova",
+  title: "Download Video TikTok Tanpa Watermark - Gratis & Cepat 2026 | getmova",
   description:
     "Download video TikTok tanpa watermark gratis dan cepat. Simpan video TikTok dalam kualitas HD tanpa logo. Support semua format video TikTok, termasuk slideshow dan live.",
   keywords: [
@@ -16,16 +16,16 @@ export const metadata: Metadata = {
     "simpan video tiktok",
   ],
   openGraph: {
-    title: "Download Video TikTok Tanpa Watermark - Gratis & Cepat 2025 | Mova",
+    title: "Download Video TikTok Tanpa Watermark - Gratis & Cepat 2026 | getmova",
     description:
       "Download video TikTok tanpa watermark gratis dan cepat. Simpan video TikTok HD tanpa logo dengan Mova.",
     url: "https://getmova.my.id/tiktok-downloader",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video TikTok Tanpa Watermark - Gratis & Cepat 2025 | Mova",
+    title: "Download Video TikTok Tanpa Watermark - Gratis & Cepat 2026 | getmova",
     description:
       "Download video TikTok tanpa watermark gratis dan cepat. Simpan video TikTok HD tanpa logo dengan Mova.",
   },
@@ -47,6 +47,15 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
+};
+
+const jsonLdBreadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+    { "@type": "ListItem", position: 2, name: "TikTok Downloader", item: "https://getmova.my.id/tiktok-downloader" },
+  ],
 };
 
 const jsonLdFaq = {
@@ -106,6 +115,10 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
       <TikTokDownloaderPage />
     </>

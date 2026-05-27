@@ -17,7 +17,7 @@ import { MovaLogo } from "@/components/mova-logo";
 import ContactForm from "./contact-form";
 
 export const metadata: Metadata = {
-  title: "Hubungi Kami - Mova",
+  title: "Hubungi Kami - getmova",
   description:
     "Hubungi tim Mova untuk pertanyaan, saran, laporan bug, atau masalah lainnya. Kami siap membantu Anda!",
   alternates: { canonical: "https://getmova.my.id/contact" },
@@ -29,11 +29,11 @@ export const metadata: Metadata = {
     "laporan bug mova",
   ],
   openGraph: {
-    title: "Hubungi Kami - Mova",
+    title: "Hubungi Kami - getmova",
     description:
       "Hubungi tim Mova untuk pertanyaan, saran, laporan bug, atau masalah lainnya. Kami siap membantu Anda!",
     url: "https://getmova.my.id/contact",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
 };
@@ -125,13 +125,13 @@ export default function ContactPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Hubungi Kami - Mova",
+    name: "Hubungi Kami - getmova",
     description:
       "Hubungi tim Mova untuk pertanyaan, saran, laporan bug, atau masalah lainnya. Kami siap membantu Anda!",
     url: "https://getmova.my.id/contact",
     isPartOf: {
       "@type": "WebSite",
-      name: "Mova",
+      name: "getmova",
       url: "https://getmova.my.id",
     },
     breadcrumb: {

@@ -944,7 +944,7 @@ function FAQSection() {
 
 /* ──────── Blog Section ──────── */
 const blogPosts = [
-  { slug: "cara-download-video-tiktok-tanpa-watermark", title: "Cara Download Video TikTok Tanpa Watermark 2025", desc: "Panduan lengkap download video TikTok tanpa watermark dengan mudah dan gratis.", color: "#010101" },
+  { slug: "cara-download-video-tiktok-tanpa-watermark", title: "Cara Download Video TikTok Tanpa Watermark 2026", desc: "Panduan lengkap download video TikTok tanpa watermark dengan mudah dan gratis.", color: "#010101" },
   { slug: "cara-download-video-instagram-reels", title: "Cara Download Video Instagram Reels & Story", desc: "Tutorial download video Instagram Reels, Story, dan IGTV terbaru.", color: "#E1306C" },
   { slug: "cara-download-video-youtube-mp4", title: "Cara Download Video YouTube MP4 HD", desc: "Download video YouTube dalam format MP4 HD dengan cepat dan gratis.", color: "#FF0000" },
   { slug: "download-video-tanpa-watermark-gratis", title: "Download Video Tanpa Watermark - Semua Platform", desc: "Panduan komprehensif download video tanpa watermark dari semua platform populer.", color: "#10B981" },

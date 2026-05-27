@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     description:
       "Temukan panduan lengkap cara download video tanpa watermark dari TikTok, Instagram, YouTube, Facebook, dan Twitter/X.",
     url: "https://getmova.my.id/blog",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
 };
@@ -337,7 +337,7 @@ export default function BlogPage() {
     url: "https://getmova.my.id/blog",
     publisher: {
       "@type": "Organization",
-      name: "Mova",
+      name: "getmova",
       logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
     },
     blogPost: articles.map((article) => ({
@@ -346,7 +346,7 @@ export default function BlogPage() {
       description: article.description,
       url: `https://getmova.my.id/blog/${article.slug}`,
       datePublished: "2026-05-26",
-      author: { "@type": "Organization", name: "Mova" },
+      author: { "@type": "Organization", name: "getmova" },
     })),
   };
 

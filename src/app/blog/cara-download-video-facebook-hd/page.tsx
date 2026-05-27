@@ -2,24 +2,24 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video Facebook HD - Mudah & Cepat 2025",
+  title: "Cara Download Video Facebook HD - Mudah & Cepat 2026",
   description:
     "Panduan lengkap cara download video Facebook dalam kualitas HD. Tutorial mudah, cepat, dan gratis. Termasuk tips mengatasi video private dan opsi kualitas.",
   keywords: [
     "download video facebook",
     "facebook video downloader",
     "download fb hd",
-    "cara download video facebook 2025",
+    "cara download video facebook 2026",
     "download video fb tanpa aplikasi",
     "facebook downloader online",
   ],
   alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-facebook-hd" },
   openGraph: {
-    title: "Cara Download Video Facebook HD - Mudah & Cepat 2025",
+    title: "Cara Download Video Facebook HD - Mudah & Cepat 2026",
     description:
       "Panduan lengkap cara download video Facebook dalam kualitas HD. Mudah dan gratis.",
     url: "https://getmova.my.id/blog/cara-download-video-facebook-hd",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -27,15 +27,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Cara Download Video Facebook HD - Mudah & Cepat 2025",
+  headline: "Cara Download Video Facebook HD - Mudah & Cepat 2026",
   description:
     "Panduan lengkap cara download video Facebook dalam kualitas HD. Tutorial mudah, cepat, dan gratis.",
-  datePublished: "2025-05-21",
-  dateModified: "2025-05-21",
-  author: { "@type": "Organization", name: "Mova" },
+  datePublished: "2026-05-21",
+  dateModified: "2026-05-21",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -47,7 +47,7 @@ const jsonLd = {
 const relatedArticles = [
   {
     slug: "download-video-tanpa-watermark-gratis",
-    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
     description: "Panduan komprehensif download video tanpa watermark dari semua platform.",
   },
   {
@@ -125,10 +125,10 @@ export default function CaraDownloadVideoFacebookHd() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <BlogArticleLayout
-      title="Cara Download Video Facebook HD - Mudah & Cepat 2025"
+      title="Cara Download Video Facebook HD - Mudah & Cepat 2026"
       slug="cara-download-video-facebook-hd"
       description="Panduan lengkap cara download video Facebook dalam kualitas HD. Mudah, cepat, dan gratis."
-      date="21 Mei 2025"
+      date="21 Mei 2026"
       readingTime="7 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}

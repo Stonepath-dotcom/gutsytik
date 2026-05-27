@@ -3,7 +3,7 @@ import { Home, FileText, Scale, Users, ShieldAlert, Ban, RefreshCw, Gavel, Mail,
 import { MovaLogo } from "@/components/mova-logo";
 
 export const metadata: Metadata = {
-  title: "Syarat & Ketentuan - Mova",
+  title: "Syarat & Ketentuan - getmova",
   description:
     "Syarat dan ketentuan penggunaan layanan Mova. Baca ketentuan ini sebelum menggunakan layanan download video tanpa watermark kami.",
   alternates: { canonical: "https://getmova.my.id/terms" },
@@ -15,11 +15,11 @@ export const metadata: Metadata = {
     "legal mova",
   ],
   openGraph: {
-    title: "Syarat & Ketentuan - Mova",
+    title: "Syarat & Ketentuan - getmova",
     description:
       "Syarat dan ketentuan penggunaan layanan Mova. Baca ketentuan ini sebelum menggunakan layanan download video tanpa watermark kami.",
     url: "https://getmova.my.id/terms",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
 };
@@ -118,13 +118,13 @@ export default function TermsPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Syarat & Ketentuan - Mova",
+    name: "Syarat & Ketentuan - getmova",
     description:
       "Syarat dan ketentuan penggunaan layanan Mova. Baca ketentuan ini sebelum menggunakan layanan download video tanpa watermark kami.",
     url: "https://getmova.my.id/terms",
     isPartOf: {
       "@type": "WebSite",
-      name: "Mova",
+      name: "getmova",
       url: "https://getmova.my.id",
     },
     breadcrumb: {

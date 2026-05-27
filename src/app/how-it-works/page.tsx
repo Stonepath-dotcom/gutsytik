@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     description:
       "Pelajari cara kerja Mova, layanan download video tanpa watermark dari TikTok, YouTube, Instagram, dan platform lainnya. Proses cepat, aman, dan gratis tanpa registrasi.",
     url: "https://getmova.my.id/how-it-works",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
 };

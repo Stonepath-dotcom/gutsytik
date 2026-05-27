@@ -206,7 +206,7 @@ export function TikTokDownloaderPage() {
         { name: "Twitter/X", href: "/twitter-downloader", color: "#14171A" },
       ]}
       blogLinks={[
-        { href: "/blog/cara-download-video-tiktok-tanpa-watermark", title: "Cara Download Video TikTok Tanpa Watermark 2025" },
+        { href: "/blog/cara-download-video-tiktok-tanpa-watermark", title: "Cara Download Video TikTok Tanpa Watermark 2026" },
         { href: "/blog/download-video-tanpa-watermark-gratis", title: "Download Video Tanpa Watermark Gratis - Semua Platform" },
         { href: "/blog/tips-aman-download-video-online", title: "Tips Aman Download Video Online - Hindari Virus & Malware" },
       ]}

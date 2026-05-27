@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+  title: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
   description:
-    "Panduan komprehensif cara download video tanpa watermark dari semua platform sosial media. Perbandingan tools, tips terbaik, dan mengapa Mova pilihan terbaik di 2025.",
+    "Panduan komprehensif cara download video tanpa watermark dari semua platform sosial media. Perbandingan tools, tips terbaik, dan mengapa Mova pilihan terbaik di 2026.",
   keywords: [
     "download video tanpa watermark",
     "video downloader gratis",
@@ -15,11 +15,11 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-video-tanpa-watermark-gratis" },
   openGraph: {
-    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
     description:
       "Panduan komprehensif download video tanpa watermark dari semua platform sosial media.",
     url: "https://getmova.my.id/blog/download-video-tanpa-watermark-gratis",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -27,15 +27,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+  headline: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
   description:
     "Panduan komprehensif cara download video tanpa watermark dari semua platform sosial media.",
-  datePublished: "2025-05-22",
-  dateModified: "2025-05-22",
-  author: { "@type": "Organization", name: "Mova" },
+  datePublished: "2026-05-22",
+  dateModified: "2026-05-22",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -47,7 +47,7 @@ const jsonLd = {
 const relatedArticles = [
   {
     slug: "cara-download-video-tiktok-tanpa-watermark",
-    title: "Cara Download Video TikTok Tanpa Watermark 2025",
+    title: "Cara Download Video TikTok Tanpa Watermark 2026",
     description: "Panduan download TikTok tanpa watermark secara detail.",
   },
   {
@@ -125,10 +125,10 @@ export default function DownloadVideoTanpaWatermarkGratis() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <BlogArticleLayout
-      title="Download Video Tanpa Watermark Gratis - Semua Platform 2025"
+      title="Download Video Tanpa Watermark Gratis - Semua Platform 2026"
       slug="download-video-tanpa-watermark-gratis"
       description="Panduan komprehensif cara download video tanpa watermark dari semua platform. Perbandingan tools dan tips terbaik."
-      date="22 Mei 2025"
+      date="22 Mei 2026"
       readingTime="9 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}

@@ -34,7 +34,7 @@ export const metadata: Metadata = {
       "Kenali Mova lebih dekat. Mova adalah layanan download video tanpa watermark dari berbagai platform populer. Gratis, cepat, dan menjaga privasi Anda.",
 
     url: "https://getmova.my.id/about",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
 };
@@ -113,7 +113,7 @@ export default function AboutPage() {
     url: "https://getmova.my.id/about",
     isPartOf: {
       "@type": "WebSite",
-      name: "Mova",
+      name: "getmova",
       url: "https://getmova.my.id",
     },
     breadcrumb: {

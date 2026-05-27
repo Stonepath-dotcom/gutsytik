@@ -15,7 +15,7 @@ import {
 import { MovaLogo } from "@/components/mova-logo";
 
 export const metadata: Metadata = {
-  title: "DMCA - Pemberitahuan Hak Cipta | Mova",
+  title: "DMCA - Pemberitahuan Hak Cipta | getmova",
   description:
     "Kebijakan DMCA Mova - prosedur pengaduan pelanggaran hak cipta dan informasi kontak untuk pemilik hak cipta.",
   alternates: { canonical: "https://getmova.my.id/dmca" },
@@ -27,11 +27,11 @@ export const metadata: Metadata = {
     "copyright mova",
   ],
   openGraph: {
-    title: "DMCA - Pemberitahuan Hak Cipta | Mova",
+    title: "DMCA - Pemberitahuan Hak Cipta | getmova",
     description:
       "Kebijakan DMCA Mova - prosedur pengaduan pelanggaran hak cipta dan informasi kontak untuk pemilik hak cipta.",
     url: "https://getmova.my.id/dmca",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
 };
@@ -109,13 +109,13 @@ export default function DMCAPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "DMCA - Pemberitahuan Hak Cipta | Mova",
+    name: "DMCA - Pemberitahuan Hak Cipta | getmova",
     description:
       "Kebijakan DMCA Mova - prosedur pengaduan pelanggaran hak cipta dan informasi kontak untuk pemilik hak cipta.",
     url: "https://getmova.my.id/dmca",
     isPartOf: {
       "@type": "WebSite",
-      name: "Mova",
+      name: "getmova",
       url: "https://getmova.my.id",
     },
     breadcrumb: {

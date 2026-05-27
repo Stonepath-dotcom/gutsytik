@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2025",
+  title: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2026",
   description:
-    "Tutorial lengkap cara download video YouTube dalam format MP4 HD. Panduan memilih kualitas video, pertimbangan legal, dan tips download tercepat di 2025.",
+    "Tutorial lengkap cara download video YouTube dalam format MP4 HD. Panduan memilih kualitas video, pertimbangan legal, dan tips download tercepat di 2026.",
   keywords: [
     "download youtube mp4",
     "youtube downloader",
@@ -15,11 +15,11 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-youtube-mp4" },
   openGraph: {
-    title: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2025",
+    title: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2026",
     description:
       "Tutorial lengkap cara download video YouTube dalam format MP4 HD. Gratis dan cepat.",
     url: "https://getmova.my.id/blog/cara-download-video-youtube-mp4",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -27,15 +27,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2025",
+  headline: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2026",
   description:
     "Tutorial lengkap cara download video YouTube dalam format MP4 HD. Panduan memilih kualitas video dan tips download tercepat.",
-  datePublished: "2025-05-23",
-  dateModified: "2025-05-23",
-  author: { "@type": "Organization", name: "Mova" },
+  datePublished: "2026-05-23",
+  dateModified: "2026-05-23",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -52,7 +52,7 @@ const relatedArticles = [
   },
   {
     slug: "cara-download-video-tiktok-tanpa-watermark",
-    title: "Cara Download Video TikTok Tanpa Watermark 2025",
+    title: "Cara Download Video TikTok Tanpa Watermark 2026",
     description: "Panduan download video TikTok tanpa watermark.",
   },
   {
@@ -125,10 +125,10 @@ export default function CaraDownloadVideoYoutubeMp4() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <BlogArticleLayout
-      title="Cara Download Video YouTube MP4 HD - Gratis & Cepat 2025"
+      title="Cara Download Video YouTube MP4 HD - Gratis & Cepat 2026"
       slug="cara-download-video-youtube-mp4"
       description="Tutorial lengkap cara download video YouTube dalam format MP4 HD. Gratis, cepat, dan mudah."
-      date="23 Mei 2025"
+      date="23 Mei 2026"
       readingTime="8 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}

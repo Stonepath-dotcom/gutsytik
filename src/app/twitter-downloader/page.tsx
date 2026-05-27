@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { TwitterDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video Twitter/X Tanpa Watermark - Gratis 2025 | Mova",
+  title: "Download Video Twitter/X Tanpa Watermark - Gratis 2026 | getmova",
   description:
     "Download video Twitter/X tanpa watermark gratis dan cepat. Simpan video dari tweet publik dalam kualitas HD. Support twitter.com dan x.com.",
   keywords: [
@@ -16,16 +16,16 @@ export const metadata: Metadata = {
     "twitter video saver",
   ],
   openGraph: {
-    title: "Download Video Twitter/X Tanpa Watermark - Gratis 2025 | Mova",
+    title: "Download Video Twitter/X Tanpa Watermark - Gratis 2026 | getmova",
     description:
       "Download video Twitter/X tanpa watermark gratis dan cepat. Simpan video dari tweet publik dalam kualitas HD.",
     url: "https://getmova.my.id/twitter-downloader",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video Twitter/X Tanpa Watermark - Gratis 2025 | Mova",
+    title: "Download Video Twitter/X Tanpa Watermark - Gratis 2026 | getmova",
     description:
       "Download video Twitter/X tanpa watermark gratis dan cepat. Simpan video dari tweet publik dalam kualitas HD.",
   },
@@ -47,6 +47,15 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
+};
+
+const jsonLdBreadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+    { "@type": "ListItem", position: 2, name: "Twitter/X Downloader", item: "https://getmova.my.id/twitter-downloader" },
+  ],
 };
 
 const jsonLdFaq = {
@@ -106,6 +115,10 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
       <TwitterDownloaderPage />
     </>

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     description:
       "Perbandingan lengkap YouTube downloader terbaik di 2026. Review mendalam fitur, kelebihan, kekurangan, dan harga setiap tool.",
     url: "https://getmova.my.id/blog/perbandingan-youtube-downloader-terbaik",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
   twitter: {
@@ -41,10 +41,10 @@ const jsonLd = {
     "Perbandingan lengkap YouTube downloader terbaik di 2026. Review mendalam fitur, kelebihan, kekurangan, dan harga setiap tool.",
   datePublished: "2026-02-20",
   dateModified: "2026-02-20",
-  author: { "@type": "Organization", name: "Mova" },
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -91,7 +91,7 @@ const relatedArticles = [
   },
   {
     slug: "tips-aman-download-video-online",
-    title: "Tips Aman Download Video Online - Hindari Virus & Malware 2025",
+    title: "Tips Aman Download Video Online - Hindari Virus & Malware 2026",
     description: "Panduan lengkap tips aman download video online dan menghindari situs berbahaya.",
   },
   {

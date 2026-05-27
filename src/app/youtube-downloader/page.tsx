@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { YouTubeDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video YouTube MP4 HD - Gratis & Cepat 2025 | Mova",
+  title: "Download Video YouTube MP4 HD - Gratis & Cepat 2026 | getmova",
   description:
     "Download video YouTube MP4 HD gratis dan cepat. Konversi YouTube ke MP3 atau MP4 dengan kualitas terbaik. Support video panjang, Shorts, dan playlist.",
   keywords: [
@@ -16,16 +16,16 @@ export const metadata: Metadata = {
     "convert youtube",
   ],
   openGraph: {
-    title: "Download Video YouTube MP4 HD - Gratis & Cepat 2025 | Mova",
+    title: "Download Video YouTube MP4 HD - Gratis & Cepat 2026 | getmova",
     description:
       "Download video YouTube MP4 HD gratis dan cepat. Konversi YouTube ke MP3 atau MP4 dengan kualitas terbaik.",
     url: "https://getmova.my.id/youtube-downloader",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video YouTube MP4 HD - Gratis & Cepat 2025 | Mova",
+    title: "Download Video YouTube MP4 HD - Gratis & Cepat 2026 | getmova",
     description:
       "Download video YouTube MP4 HD gratis dan cepat. Konversi YouTube ke MP3 atau MP4 dengan kualitas terbaik.",
   },
@@ -47,6 +47,15 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
+};
+
+const jsonLdBreadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+    { "@type": "ListItem", position: 2, name: "YouTube Downloader", item: "https://getmova.my.id/youtube-downloader" },
+  ],
 };
 
 const jsonLdFaq = {
@@ -106,6 +115,10 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
       <YouTubeDownloaderPage />
     </>

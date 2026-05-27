@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video Tanpa Aplikasi Tambahan 2026 - Mova",
+  title: "Cara Download Video Tanpa Aplikasi Tambahan 2026 - getmova",
   description: "Panduan cara download video tanpa aplikasi tambahan di tahun 2026. Cukup gunakan browser dan Mova untuk download video dari semua platform.",
   keywords: [
     "download video tanpa aplikasi",
@@ -13,10 +13,10 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-video-tanpa-aplikasi" },
   openGraph: {
-    title: "Cara Download Video Tanpa Aplikasi Tambahan 2026 - Mova",
+    title: "Cara Download Video Tanpa Aplikasi Tambahan 2026 - getmova",
     description: "Panduan cara download video tanpa aplikasi tambahan di tahun 2026. Cukup gunakan browser dan Mova.",
     url: "https://getmova.my.id/blog/download-video-tanpa-aplikasi",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -26,8 +26,8 @@ const articleJsonLd = {
   "@type": "Article",
   headline: "Cara Download Video Tanpa Aplikasi Tambahan 2026",
   description: "Panduan lengkap cara download video tanpa aplikasi tambahan menggunakan browser dan Mova.",
-  author: { "@type": "Organization", name: "Mova" },
-  publisher: { "@type": "Organization", name: "Mova", logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" } },
+  author: { "@type": "Organization", name: "getmova" },
+  publisher: { "@type": "Organization", name: "getmova", logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" } },
   datePublished: "2026-05-05",
   dateModified: "2026-05-05",
   mainEntityOfPage: { "@type": "WebPage", "@id": "https://getmova.my.id/blog/download-video-tanpa-aplikasi" },

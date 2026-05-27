@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { InstagramDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video Instagram Reels & Story - Gratis 2025 | Mova",
+  title: "Download Video Instagram Reels & Story - Gratis 2026 | getmova",
   description:
     "Download video Instagram Reels, Story, dan IGTV gratis tanpa watermark. Simpan video IG dalam kualitas tinggi dengan Mova. Cepat, mudah, dan gratis!",
   keywords: [
@@ -16,16 +16,16 @@ export const metadata: Metadata = {
     "ig downloader",
   ],
   openGraph: {
-    title: "Download Video Instagram Reels & Story - Gratis 2025 | Mova",
+    title: "Download Video Instagram Reels & Story - Gratis 2026 | getmova",
     description:
       "Download video Instagram Reels, Story, dan IGTV gratis tanpa watermark. Simpan video IG dalam kualitas tinggi dengan Mova.",
     url: "https://getmova.my.id/instagram-downloader",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video Instagram Reels & Story - Gratis 2025 | Mova",
+    title: "Download Video Instagram Reels & Story - Gratis 2026 | getmova",
     description:
       "Download video Instagram Reels, Story, dan IGTV gratis tanpa watermark. Simpan video IG dalam kualitas tinggi dengan Mova.",
   },
@@ -47,6 +47,15 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
+};
+
+const jsonLdBreadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+    { "@type": "ListItem", position: 2, name: "Instagram Downloader", item: "https://getmova.my.id/instagram-downloader" },
+  ],
 };
 
 const jsonLdFaq = {
@@ -106,6 +115,10 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
       <InstagramDownloaderPage />
     </>

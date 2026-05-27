@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video dari Story Instagram - Tutorial Lengkap 2025",
+  title: "Cara Download Video dari Story Instagram - Tutorial Lengkap 2026",
   description:
-    "Panduan lengkap cara download video dari Story Instagram di 2025. Langkah mudah, gratis, dan cepat. Simak tutorial download IG Story dengan kualitas terbaik tanpa aplikasi tambahan.",
+    "Panduan lengkap cara download video dari Story Instagram di 2026. Langkah mudah, gratis, dan cepat. Simak tutorial download IG Story dengan kualitas terbaik tanpa aplikasi tambahan.",
   keywords: [
     "download story instagram",
     "cara download ig story",
@@ -16,11 +16,11 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-dari-story-instagram" },
   openGraph: {
-    title: "Cara Download Video dari Story Instagram - Tutorial Lengkap 2025",
+    title: "Cara Download Video dari Story Instagram - Tutorial Lengkap 2026",
     description:
       "Panduan lengkap cara download video dari Story Instagram. Langkah mudah, gratis, dan cepat tanpa aplikasi tambahan.",
     url: "https://getmova.my.id/blog/cara-download-video-dari-story-instagram",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -28,15 +28,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Cara Download Video dari Story Instagram - Tutorial Lengkap 2025",
+  headline: "Cara Download Video dari Story Instagram - Tutorial Lengkap 2026",
   description:
-    "Panduan lengkap cara download video dari Story Instagram di 2025. Langkah mudah, gratis, dan cepat tanpa aplikasi tambahan.",
-  datePublished: "2025-05-26",
-  dateModified: "2025-05-26",
-  author: { "@type": "Organization", name: "Mova" },
+    "Panduan lengkap cara download video dari Story Instagram di 2026. Langkah mudah, gratis, dan cepat tanpa aplikasi tambahan.",
+  datePublished: "2026-05-26",
+  dateModified: "2026-05-26",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -53,7 +53,7 @@ const relatedArticles = [
   },
   {
     slug: "download-video-tanpa-watermark-gratis",
-    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
     description: "Panduan komprehensif download video tanpa watermark dari semua platform.",
   },
   {
@@ -126,10 +126,10 @@ export default function CaraDownloadVideoDariStoryInstagram() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <BlogArticleLayout
-      title="Cara Download Video dari Story Instagram - Tutorial Lengkap 2025"
+      title="Cara Download Video dari Story Instagram - Tutorial Lengkap 2026"
       slug="cara-download-video-dari-story-instagram"
       description="Panduan lengkap cara download video dari Story Instagram dengan mudah, gratis, dan cepat. Tanpa aplikasi tambahan, langsung dari browser."
-      date="26 Mei 2025"
+      date="26 Mei 2026"
       readingTime="9 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}

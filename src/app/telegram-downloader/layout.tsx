@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Download Video Telegram Gratis - Cepat & Mudah | Mova",
+  title: "Download Video Telegram Gratis - Cepat & Mudah | getmova",
   description:
     "Download video Telegram gratis dengan mudah dan cepat. Simpan video dari channel, grup, dan chat Telegram dalam kualitas HD. Tanpa daftar, tanpa batas download. Telegram video downloader terbaik Indonesia.",
   keywords: [
@@ -18,17 +18,17 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/telegram-downloader" },
   openGraph: {
-    title: "Download Video Telegram Gratis - Cepat & Mudah | Mova",
+    title: "Download Video Telegram Gratis - Cepat & Mudah | getmova",
     description:
       "Download video Telegram gratis. Simpan video dari channel dan grup Telegram dalam kualitas HD. Tanpa daftar akun.",
     url: "https://getmova.my.id/telegram-downloader",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
     locale: "id_ID",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video Telegram Gratis - Cepat & Mudah | Mova",
+    title: "Download Video Telegram Gratis - Cepat & Mudah | getmova",
     description:
       "Download video Telegram gratis. Simpan video dari channel dan grup Telegram dalam kualitas HD. Tanpa daftar akun.",
   },

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Tips Aman Download Video Online - Hindari Virus & Malware 2025",
+  title: "Tips Aman Download Video Online - Hindari Virus & Malware 2026",
   description:
-    "Panduan lengkap tips aman download video online di 2025. Pelajari cara menghindari virus, malware, dan situs berbahaya. Kenapa Mova aman 100% untuk digunakan.",
+    "Panduan lengkap tips aman download video online di 2026. Pelajari cara menghindari virus, malware, dan situs berbahaya. Kenapa Mova aman 100% untuk digunakan.",
   keywords: [
     "tips aman download video",
     "download video aman",
@@ -15,12 +15,12 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/tips-aman-download-video-online" },
   openGraph: {
-    title: "Tips Aman Download Video Online - Hindari Virus & Malware 2025",
+    title: "Tips Aman Download Video Online - Hindari Virus & Malware 2026",
     description:
       "Panduan lengkap tips aman download video online. Pelajari cara menghindari virus dan situs berbahaya.",
 
     url: "https://getmova.my.id/blog/tips-aman-download-video-online",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -28,15 +28,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Tips Aman Download Video Online - Hindari Virus & Malware 2025",
+  headline: "Tips Aman Download Video Online - Hindari Virus & Malware 2026",
   description:
-    "Panduan lengkap tips aman download video online di 2025. Pelajari cara menghindari virus, malware, dan situs berbahaya.",
-  datePublished: "2025-05-18",
-  dateModified: "2025-05-18",
-  author: { "@type": "Organization", name: "Mova" },
+    "Panduan lengkap tips aman download video online di 2026. Pelajari cara menghindari virus, malware, dan situs berbahaya.",
+  datePublished: "2026-05-18",
+  dateModified: "2026-05-18",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -48,7 +48,7 @@ const jsonLd = {
 const relatedArticles = [
   {
     slug: "download-video-tanpa-watermark-gratis",
-    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
     description: "Panduan komprehensif download video tanpa watermark dari semua platform.",
   },
   {
@@ -131,10 +131,10 @@ export default function TipsAmanDownloadVideoOnline() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <BlogArticleLayout
-      title="Tips Aman Download Video Online - Hindari Virus & Malware 2025"
+      title="Tips Aman Download Video Online - Hindari Virus & Malware 2026"
       slug="tips-aman-download-video-online"
       description="Panduan lengkap tips aman download video online. Pelajari cara menghindari virus, malware, dan situs berbahaya."
-      date="18 Mei 2025"
+      date="18 Mei 2026"
       readingTime="8 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}

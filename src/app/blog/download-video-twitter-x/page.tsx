@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video Twitter X (Twitter) Gratis 2026 - Mova",
+  title: "Cara Download Video Twitter X (Twitter) Gratis 2026 - getmova",
   description: "Panduan lengkap cara download video dari Twitter/X gratis di tahun 2026. Simpan video tweet favorit kamu dengan Mova.",
   keywords: [
     "download video twitter x",
@@ -13,10 +13,10 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-video-twitter-x" },
   openGraph: {
-    title: "Cara Download Video Twitter X (Twitter) Gratis 2026 - Mova",
+    title: "Cara Download Video Twitter X (Twitter) Gratis 2026 - getmova",
     description: "Panduan lengkap cara download video dari Twitter/X gratis di tahun 2026.",
     url: "https://getmova.my.id/blog/download-video-twitter-x",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -26,8 +26,8 @@ const jsonLd = {
   "@type": "Article",
   headline: "Cara Download Video Twitter X (Twitter) Gratis 2026",
   description: "Panduan lengkap cara download video dari Twitter/X gratis di tahun 2026. Simpan video tweet favorit kamu dengan Mova.",
-  author: { "@type": "Organization", name: "Mova" },
-  publisher: { "@type": "Organization", name: "Mova", logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" } },
+  author: { "@type": "Organization", name: "getmova" },
+  publisher: { "@type": "Organization", name: "getmova", logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" } },
   datePublished: "2026-05-08",
   dateModified: "2026-05-08",
   mainEntityOfPage: { "@type": "WebPage", "@id": "https://getmova.my.id/blog/download-video-twitter-x" },

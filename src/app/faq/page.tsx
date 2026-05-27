@@ -19,7 +19,7 @@ import {
 import { MovaLogo } from "@/components/mova-logo";
 
 export const metadata: Metadata = {
-  title: "FAQ - Pertanyaan yang Sering Diajukan | Mova",
+  title: "FAQ - Pertanyaan yang Sering Diajukan | getmova",
   description:
     "Temukan jawaban dari pertanyaan umum tentang Mova - download video tanpa watermark gratis dari TikTok, Instagram, YouTube, Facebook, dan Twitter/X.",
   alternates: { canonical: "https://getmova.my.id/faq" },
@@ -32,11 +32,11 @@ export const metadata: Metadata = {
     "instagram downloader FAQ",
   ],
   openGraph: {
-    title: "FAQ - Pertanyaan yang Sering Diajukan | Mova",
+    title: "FAQ - Pertanyaan yang Sering Diajukan | getmova",
     description:
       "Temukan jawaban dari pertanyaan umum tentang Mova - download video tanpa watermark gratis.",
     url: "https://getmova.my.id/faq",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
 };

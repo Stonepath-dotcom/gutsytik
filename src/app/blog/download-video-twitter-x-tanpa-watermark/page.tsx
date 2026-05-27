@@ -2,24 +2,24 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video Twitter/X Tanpa Watermark - Gratis 2025",
+  title: "Cara Download Video Twitter/X Tanpa Watermark - Gratis 2026",
   description:
-    "Panduan lengkap cara download video Twitter/X tanpa watermark di 2025. Gratis, cepat, dan mudah. Tips memilih kualitas video dan cara tercepat.",
+    "Panduan lengkap cara download video Twitter/X tanpa watermark di 2026. Gratis, cepat, dan mudah. Tips memilih kualitas video dan cara tercepat.",
   keywords: [
     "download video twitter",
     "twitter video downloader",
     "download x video",
-    "cara download video twitter 2025",
+    "cara download video twitter 2026",
     "twitter downloader",
     "download video x tanpa watermark",
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-video-twitter-x-tanpa-watermark" },
   openGraph: {
-    title: "Cara Download Video Twitter/X Tanpa Watermark - Gratis 2025",
+    title: "Cara Download Video Twitter/X Tanpa Watermark - Gratis 2026",
     description:
       "Panduan lengkap cara download video Twitter/X tanpa watermark. Gratis dan cepat.",
     url: "https://getmova.my.id/blog/download-video-twitter-x-tanpa-watermark",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -27,15 +27,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Cara Download Video Twitter/X Tanpa Watermark - Gratis 2025",
+  headline: "Cara Download Video Twitter/X Tanpa Watermark - Gratis 2026",
   description:
-    "Panduan lengkap cara download video Twitter/X tanpa watermark di 2025. Gratis, cepat, dan mudah.",
-  datePublished: "2025-05-19",
-  dateModified: "2025-05-19",
-  author: { "@type": "Organization", name: "Mova" },
+    "Panduan lengkap cara download video Twitter/X tanpa watermark di 2026. Gratis, cepat, dan mudah.",
+  datePublished: "2026-05-19",
+  dateModified: "2026-05-19",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -47,7 +47,7 @@ const jsonLd = {
 const relatedArticles = [
   {
     slug: "download-video-tanpa-watermark-gratis",
-    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
     description: "Panduan komprehensif download video tanpa watermark dari semua platform.",
   },
   {
@@ -125,10 +125,10 @@ export default function DownloadVideoTwitterXTanpaWatermark() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <BlogArticleLayout
-      title="Cara Download Video Twitter/X Tanpa Watermark - Gratis 2025"
+      title="Cara Download Video Twitter/X Tanpa Watermark - Gratis 2026"
       slug="download-video-twitter-x-tanpa-watermark"
       description="Panduan lengkap cara download video Twitter/X tanpa watermark. Gratis, cepat, dan mudah."
-      date="19 Mei 2025"
+      date="19 Mei 2026"
       readingTime="6 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}

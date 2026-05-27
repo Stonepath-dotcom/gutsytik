@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     description:
       "Tips dan trik cara download video dengan koneksi lambat. Pelajari cara mengatasi internet lambat dan tetap bisa download video meski koneksi tidak stabil.",
     url: "https://getmova.my.id/blog/cara-download-video-dengan-koneksi-lambat",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
   twitter: {
@@ -41,10 +41,10 @@ const jsonLd = {
     "Tips dan trik cara download video dengan koneksi lambat di 2026. Pelajari cara mengatasi internet lambat, optimalkan download, dan tetap bisa download video meski koneksi tidak stabil.",
   datePublished: "2026-03-05",
   dateModified: "2026-03-05",
-  author: { "@type": "Organization", name: "Mova" },
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -81,7 +81,7 @@ const breadcrumbLd = {
 const relatedArticles = [
   {
     slug: "tips-aman-download-video-online",
-    title: "Tips Aman Download Video Online - Hindari Virus & Malware 2025",
+    title: "Tips Aman Download Video Online - Hindari Virus & Malware 2026",
     description: "Panduan lengkap tips aman download video online dan menghindari situs berbahaya.",
   },
   {

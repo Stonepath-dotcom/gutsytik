@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     description:
       "Panduan lengkap cara download video dari WhatsApp. Pelajari cara menyimpan video status, video chat, dan video dari grup WhatsApp dengan mudah.",
     url: "https://getmova.my.id/blog/cara-download-video-dari-whatsapp",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
   twitter: {
@@ -41,10 +41,10 @@ const jsonLd = {
     "Panduan lengkap cara download video dari WhatsApp di 2026. Pelajari cara menyimpan video status, video chat, dan video dari grup WhatsApp dengan mudah dan aman.",
   datePublished: "2026-01-15",
   dateModified: "2026-01-15",
-  author: { "@type": "Organization", name: "Mova" },
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -81,12 +81,12 @@ const breadcrumbLd = {
 const relatedArticles = [
   {
     slug: "tips-aman-download-video-online",
-    title: "Tips Aman Download Video Online - Hindari Virus & Malware 2025",
+    title: "Tips Aman Download Video Online - Hindari Virus & Malware 2026",
     description: "Panduan lengkap tips aman download video online dan menghindari situs berbahaya.",
   },
   {
     slug: "download-video-tanpa-watermark-gratis",
-    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
     description: "Panduan komprehensif download video tanpa watermark dari semua platform.",
   },
   {
@@ -96,7 +96,7 @@ const relatedArticles = [
   },
   {
     slug: "download-instagram-reels",
-    title: "Download Instagram Reels - Panduan Lengkap 2025",
+    title: "Download Instagram Reels - Panduan Lengkap 2026",
     description: "Cara download Instagram Reels dengan mudah dan cepat.",
   },
 ];

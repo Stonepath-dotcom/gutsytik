@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "10 Situs Download Video Tanpa Watermark Terbaik 2026 | Mova Blog",
     description: "Daftar 10 situs download video tanpa watermark terbaik di 2026. Perbandingan fitur, kelebihan, dan kekurangan masing-masing.",
     url: "https://getmova.my.id/blog/download-video-tanpa-watermark-terbaik",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
     publishedTime: "2026-05-26",
     modifiedTime: "2026-05-26",
@@ -26,10 +26,10 @@ const articleJsonLd = {
   url: "https://getmova.my.id/blog/download-video-tanpa-watermark-terbaik",
   datePublished: "2026-05-26",
   dateModified: "2026-05-26",
-  author: { "@type": "Organization", name: "Mova" },
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: "https://getmova.my.id/blog/download-video-tanpa-watermark-terbaik",
@@ -94,7 +94,7 @@ const faqJsonLd = {
 const sites = [
   {
     num: 1,
-    name: "Mova",
+    name: "getmova",
     url: "getmova.my.id",
     platforms: "TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, dll.",
     pros: ["Multi-platform terlengkap", "Gratis tanpa batas", "Tanpa watermark otomatis", "Nggak perlu registrasi", "Aman tanpa malware"],

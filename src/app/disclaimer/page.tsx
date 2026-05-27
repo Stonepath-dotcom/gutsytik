@@ -3,17 +3,23 @@ import { MovaLogo } from "@/components/mova-logo";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Disclaimer - Mova",
+  title: "Disclaimer - getmova",
   description:
-    "Disclaimer dan ketentuan penggunaan layanan Mova. Informasi tentang fair use, hak cipta, DMCA, dan tanggung jawab pengguna.",
+    "Disclaimer dan ketentuan penggunaan layanan getmova. Informasi tentang fair use, hak cipta, DMCA, dan tanggung jawab pengguna.",
+  keywords: ["disclaimer", "fair use", "hak cipta", "dmca", "getmova disclaimer"],
   alternates: { canonical: "https://getmova.my.id/disclaimer" },
   openGraph: {
-    title: "Disclaimer - Mova",
+    title: "Disclaimer - getmova",
     description:
-      "Disclaimer dan ketentuan penggunaan layanan Mova. Fair use, hak cipta, dan DMCA.",
+      "Disclaimer dan ketentuan penggunaan layanan getmova. Fair use, hak cipta, dan DMCA.",
     url: "https://getmova.my.id/disclaimer",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Disclaimer - getmova",
+    description: "Disclaimer dan ketentuan penggunaan layanan getmova.",
   },
 };
 
@@ -27,12 +33,12 @@ export default function DisclaimerPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
-            name: "Disclaimer - Mova",
+            name: "Disclaimer - getmova",
             description: "Disclaimer dan ketentuan penggunaan layanan Mova",
             url: "https://getmova.my.id/disclaimer",
             publisher: {
               "@type": "Organization",
-              name: "Mova",
+              name: "getmova",
               logo: {
                 "@type": "ImageObject",
                 url: "https://getmova.my.id/mova-logo.png",

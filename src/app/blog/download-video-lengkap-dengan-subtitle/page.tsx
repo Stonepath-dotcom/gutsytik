@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     description:
       "Tutorial lengkap cara download video lengkap dengan subtitle. Pelajari cara menyimpan video dengan subtitle hardcode maupun softcode dari berbagai platform.",
     url: "https://getmova.my.id/blog/download-video-lengkap-dengan-subtitle",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
   twitter: {
@@ -41,10 +41,10 @@ const jsonLd = {
     "Tutorial lengkap cara download video lengkap dengan subtitle di 2026. Pelajari cara menyimpan video dengan subtitle hardcode maupun softcode dari berbagai platform.",
   datePublished: "2026-02-10",
   dateModified: "2026-02-10",
-  author: { "@type": "Organization", name: "Mova" },
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -96,7 +96,7 @@ const relatedArticles = [
   },
   {
     slug: "tips-aman-download-video-online",
-    title: "Tips Aman Download Video Online - Hindari Virus & Malware 2025",
+    title: "Tips Aman Download Video Online - Hindari Virus & Malware 2026",
     description: "Panduan lengkap tips aman download video online dan menghindari situs berbahaya.",
   },
 ];
