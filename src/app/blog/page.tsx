@@ -369,9 +369,9 @@ export default function BlogPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <div className="min-h-screen flex flex-col bg-white dark:bg-[#09090B] text-foreground dark:text-[#FAFAFA]">
+      <div className="min-h-screen flex flex-col bg-card text-foreground">
         {/* Header */}
-        <header className="border-b border-border dark:border-[#27272A] bg-card dark:bg-[#111113]">
+        <header className="border-b border-border bg-card">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               <a href="/" className="flex items-center gap-2">
@@ -379,7 +379,7 @@ export default function BlogPage() {
               </a>
               <a
                 href="/"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-border dark:border-[#27272A] bg-card dark:bg-[#111113] text-foreground dark:text-[#FAFAFA] hover:bg-muted/50 dark:hover:bg-[#18181B] transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-border bg-card text-foreground hover:bg-muted/50 transition-colors"
               >
                 <Home className="h-4 w-4" />
                 Beranda
@@ -392,7 +392,7 @@ export default function BlogPage() {
           {/* Breadcrumb */}
           <div className="mx-auto max-w-5xl px-4 pt-6">
             <nav aria-label="Breadcrumb">
-              <ol className="flex items-center gap-1.5 text-sm text-muted-foreground dark:text-[#A1A1AA]">
+              <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
                 <li><a href="/" className="hover:text-[#10B981] transition-colors">Beranda</a></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
                 <li className="text-[#10B981] font-medium">Blog</li>
@@ -412,7 +412,7 @@ export default function BlogPage() {
                 Tips & Panduan{" "}
                 <span className="gradient-text">Download Video</span>
               </h1>
-              <p className="text-base sm:text-lg text-muted-foreground dark:text-[#A1A1AA] max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
                 Temukan tutorial lengkap cara download video tanpa watermark dari
                 berbagai platform sosial media. Ditulis oleh tim Mova untuk kamu.
               </p>
@@ -426,7 +426,7 @@ export default function BlogPage() {
                 <Link
                   key={article.slug}
                   href={`/blog/${article.slug}`}
-                  className="group rounded-2xl overflow-hidden bg-card dark:bg-[#111113] border border-border dark:border-[#27272A] hover:border-[#10B981]/30 transition-all duration-200"
+                  className="group rounded-2xl overflow-hidden bg-card border border-border hover:border-[#10B981]/30 transition-all duration-200"
                 >
                   {/* Thumbnail placeholder */}
                   <div
@@ -438,7 +438,7 @@ export default function BlogPage() {
 
                   {/* Content */}
                   <div className="p-4">
-                    <div className="flex items-center gap-3 text-[11px] text-muted-foreground dark:text-[#A1A1AA] mb-2">
+                    <div className="flex items-center gap-3 text-[11px] text-muted-foreground mb-2">
                       <span className="flex items-center gap-1">
                         <Calendar className="h-3 w-3 text-[#10B981]" />
                         {article.date}
@@ -449,11 +449,11 @@ export default function BlogPage() {
                       </span>
                     </div>
 
-                    <h2 className="font-bold text-foreground dark:text-[#FAFAFA] text-sm sm:text-base mb-2 group-hover:text-[#10B981] transition-colors line-clamp-2 font-[family-name:var(--font-montserrat)]">
+                    <h2 className="font-bold text-foreground text-sm sm:text-base mb-2 group-hover:text-[#10B981] transition-colors line-clamp-2 font-[family-name:var(--font-montserrat)]">
                       {article.title}
                     </h2>
 
-                    <p className="text-xs text-muted-foreground dark:text-[#A1A1AA] line-clamp-2 mb-3">
+                    <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
                       {article.description}
                     </p>
 
@@ -471,10 +471,10 @@ export default function BlogPage() {
           <section className="px-4 sm:px-6 pb-16">
             <div className="mx-auto max-w-3xl">
               <div className="rounded-2xl p-6 sm:p-8 text-center bg-gradient-to-br from-[#10B981]/20 to-[#34D399]/10 border border-[#10B981]/30">
-                <h2 className="text-xl sm:text-2xl font-bold text-foreground dark:text-[#FAFAFA] mb-2 font-[family-name:var(--font-montserrat)]">
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]">
                   Langsung Coba Mova Sekarang
                 </h2>
-                <p className="text-muted-foreground dark:text-[#A1A1AA] mb-5 text-sm sm:text-base max-w-md mx-auto">
+                <p className="text-muted-foreground mb-5 text-sm sm:text-base max-w-md mx-auto">
                   Download video tanpa watermark dari TikTok, Instagram, YouTube, dan
                   platform lainnya. Gratis dan cepat!
                 </p>
@@ -490,9 +490,9 @@ export default function BlogPage() {
         </main>
 
         {/* Footer */}
-        <footer className="border-t border-border dark:border-[#27272A] py-6 px-4">
+        <footer className="border-t border-border py-6 px-4">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs text-muted-foreground dark:text-[#A1A1AA]">&copy; 2026 Mova. Dibuat di Indonesia.</p>
+            <p className="text-xs text-muted-foreground">&copy; 2026 Mova. Dibuat di Indonesia.</p>
           </div>
         </footer>
       </div>
