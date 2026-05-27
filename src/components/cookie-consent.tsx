@@ -63,7 +63,7 @@ export function CookieConsent() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[100] p-3 md:p-4 animate-in slide-in-from-bottom-4 duration-300">
-      <div className="mx-auto max-w-4xl rounded-xl bg-[#111113] border border-[#27272A] shadow-2xl shadow-black/50 p-4 md:p-5">
+      <div className="mx-auto max-w-4xl rounded-xl bg-card border border-border shadow-2xl shadow-black/20 dark:shadow-black/50 p-4 md:p-5">
         <div className="flex flex-col gap-3">
           {/* Header */}
           <div className="flex items-center gap-2.5">
@@ -71,16 +71,16 @@ export function CookieConsent() {
               <Cookie className="h-4 w-4 text-[#4F46E5]" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-semibold text-[#FAFAFA]">
+              <h3 className="text-sm font-semibold text-foreground">
                 Kami Menggunakan Cookie
               </h3>
-              <p className="text-[11px] text-[#A1A1AA] mt-0.5">
+              <p className="text-[11px] text-muted-foreground mt-0.5">
                 Kami menggunakan cookie dan teknologi serupa untuk meningkatkan pengalaman Anda, menganalisis lalu lintas, dan menayangkan iklan yang relevan.
               </p>
             </div>
             <button
               onClick={handleDecline}
-              className="w-6 h-6 rounded flex items-center justify-center text-[#A1A1AA] hover:text-[#FAFAFA] hover:bg-white/10 transition-colors shrink-0 md:hidden"
+              className="w-6 h-6 rounded flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors shrink-0 md:hidden"
               aria-label="Tutup"
             >
               <X className="h-3.5 w-3.5" />
@@ -88,7 +88,7 @@ export function CookieConsent() {
           </div>
 
           {/* Info line */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-[#A1A1AA]/70">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-muted-foreground/70">
             <span className="flex items-center gap-1">
               <Shield className="h-3 w-3" />
               Privasi dilindungi
@@ -106,7 +106,7 @@ export function CookieConsent() {
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
             <button
               onClick={handleDecline}
-              className="flex-1 px-4 py-2 text-xs font-medium rounded-lg border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
+              className="flex-1 px-4 py-2 text-xs font-medium rounded-lg border border-border bg-secondary text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 transition-colors"
             >
               Tolak Semua
             </button>

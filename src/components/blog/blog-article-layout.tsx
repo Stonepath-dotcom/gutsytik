@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Clock, Calendar, ChevronRight, Download, Zap, List, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AdUnit } from "@/components/ad-unit";
 
 export interface RelatedArticle {
   slug: string;
@@ -199,6 +200,11 @@ export function BlogArticleLayout({
 
               <div className="prose-blog">
                 {children}
+              </div>
+
+              {/* In-article Ad */}
+              <div className="mt-8 py-4 border-t border-b border-border">
+                <AdUnit format="auto" className="min-h-[100px]" />
               </div>
             </div>
           </div>

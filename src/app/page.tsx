@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MovaLogo } from "@/components/mova-logo";
 import { useToast } from "@/hooks/use-toast";
+import { AdUnit } from "@/components/ad-unit";
 
 /* ──────── Types ──────── */
 interface QualityOption { label: string; resolution: string; url: string; originalUrl?: string; }
@@ -1117,8 +1118,16 @@ export default function Home() {
         <main className="flex-1 pb-14 md:pb-0">
           <HeroSection />
           <FeaturesSection />
+          {/* Ad Placement - After Features */}
+          <div className="max-w-4xl mx-auto px-4 md:px-6 py-4">
+            <AdUnit format="horizontal" className="min-h-[90px]" />
+          </div>
           <HowItWorksSection />
           <PlatformsSection />
+          {/* Ad Placement - After Platforms */}
+          <div className="max-w-4xl mx-auto px-4 md:px-6 py-4">
+            <AdUnit format="horizontal" className="min-h-[90px]" />
+          </div>
           <FAQSection />
           <BlogSection />
           {/* FAQPage Schema */}
