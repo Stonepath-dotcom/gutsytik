@@ -120,11 +120,23 @@ const faqJsonLd = {
   ]
 };
 
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "Tutorial Download Video Reddit dengan Audio",
+  description: "Cara download video Reddit dengan audio utuh menggunakan Mova.",
+  thumbnailUrl: "https://getmova.my.id/og-image.png",
+  uploadDate: "2026-05-25",
+  contentUrl: "https://getmova.my.id/reddit-downloader",
+  embedUrl: "https://getmova.my.id/reddit-downloader",
+};
+
 export default function CaraDownloadRedditVideoDenganAudio() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd) }} />
       <BlogArticleLayout
       title="Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2026"
       slug="cara-download-reddit-video-dengan-audio"

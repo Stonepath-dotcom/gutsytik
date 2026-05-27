@@ -119,11 +119,23 @@ const faqJsonLd = {
   ]
 };
 
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "Tutorial Download Video Instagram Reels",
+  description: "Cara download video Instagram Reels tanpa aplikasi menggunakan Mova.",
+  thumbnailUrl: "https://getmova.my.id/og-image.png",
+  uploadDate: "2026-05-25",
+  contentUrl: "https://getmova.my.id/instagram-downloader",
+  embedUrl: "https://getmova.my.id/instagram-downloader",
+};
+
 export default function CaraDownloadVideoInstagramReels() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd) }} />
       <BlogArticleLayout
       title="Cara Download Video Instagram Reels, Story & IGTV - Terbaru 2026"
       slug="cara-download-video-instagram-reels"
