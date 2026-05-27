@@ -1,6 +1,6 @@
 {
-  "name": "Mova - Download Video Tanpa Watermark",
-  "short_name": "Mova",
+  "name": "getmova - Download Video Tanpa Watermark",
+  "short_name": "getmova",
   "description": "Download video tanpa watermark dari TikTok, Instagram, YouTube, dan platform populer lainnya",
   "start_url": "/",
   "display": "standalone",
