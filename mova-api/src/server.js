@@ -291,9 +291,11 @@ app.use(cors({
     "http://localhost:3001",
     /\.vercel\.app$/,
     /\.onrender\.com$/,
+    /\.railway\.app$/,
   ],
   methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "X-Admin-Key"],
+  allowedHeaders: ["Content-Type", "X-Admin-Key", "Range"],
+  exposedHeaders: ["Content-Range", "Accept-Ranges", "Content-Length", "Content-Disposition"],
   credentials: false,
   maxAge: 86400,
 }));
@@ -500,13 +502,36 @@ app.get("/download", async (req, res) => {
     const downloadName = `mova_${audioOnly ? "mp3" : "video"}_${videoId || tempId}.${ext}`;
     const contentType = audioOnly ? "audio/mpeg" : "video/mp4";
 
-    res.setHeader("Content-Type", contentType);
-    res.setHeader("Content-Disposition", `attachment; filename="${downloadName}"`);
-    res.setHeader("Content-Length", stat.size.toString());
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Cache-Control", "no-cache");
+    // Handle Range requests for video seeking
+    let fileStream;
+    const rangeHeader = req.headers.range;
 
-    const fileStream = fs.createReadStream(filePath);
+    if (rangeHeader && !audioOnly) {
+      const parts = rangeHeader.replace(/bytes=/, "").split("-");
+      const start = parseInt(parts[0], 10);
+      const end = parts[1] ? parseInt(parts[1], 10) : stat.size - 1;
+      const chunkSize = end - start + 1;
+
+      res.setHeader("Content-Range", `bytes ${start}-${end}/${stat.size}`);
+      res.setHeader("Accept-Ranges", "bytes");
+      res.setHeader("Content-Length", chunkSize.toString());
+      res.setHeader("Content-Type", contentType);
+      res.setHeader("Content-Disposition", `attachment; filename="${downloadName}"`);
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Cache-Control", "public, max-age=3600");
+      res.status(206);
+
+      fileStream = fs.createReadStream(filePath, { start, end });
+    } else {
+      res.setHeader("Content-Type", contentType);
+      res.setHeader("Content-Disposition", `attachment; filename="${downloadName}"`);
+      res.setHeader("Content-Length", stat.size.toString());
+      res.setHeader("Accept-Ranges", "bytes");
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Cache-Control", "no-cache");
+
+      fileStream = fs.createReadStream(filePath);
+    }
     fileStream.pipe(res);
 
     // Clean up file after streaming
@@ -576,6 +601,12 @@ app.get("/stream", async (req, res) => {
       headers["Referer"] = "https://www.facebook.com/";
     }
 
+    // Support Range requests for video seeking
+    const rangeHeader = req.headers.range;
+    if (rangeHeader) {
+      headers["Range"] = rangeHeader;
+    }
+
     const isAudio = quality === "Audio" || quality === "MP3" || quality === "Audio (Low)";
     const ext = isAudio ? "mp3" : "mp4";
     const downloadName = `${filename}_${quality}.${ext}`;
@@ -583,41 +614,50 @@ app.get("/stream", async (req, res) => {
     const response = await fetch(streamUrl, {
       headers,
       redirect: "follow",
-      signal: AbortSignal.timeout(120000),
+      signal: AbortSignal.timeout(180000), // 3 min timeout for large files
     });
 
-    if (!response.ok) {
+    if (!response.ok && response.status !== 206) {
       return res.status(response.status).json({ error: `Upstream returned ${response.status}` });
     }
 
     const contentType = response.headers.get("content-type") || (isAudio ? "audio/mpeg" : "video/mp4");
     const contentLength = response.headers.get("content-length");
+    const contentRange = response.headers.get("content-range");
+    const acceptRanges = response.headers.get("accept-ranges");
 
     res.setHeader("Content-Type", isAudio ? "audio/mpeg" : contentType);
     res.setHeader("Content-Disposition", `attachment; filename="${downloadName}"`);
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.setHeader("Accept-Ranges", acceptRanges || "bytes");
     if (contentLength) {
       res.setHeader("Content-Length", contentLength);
     }
+    if (contentRange) {
+      res.setHeader("Content-Range", contentRange);
+      res.status(206); // Partial Content
+    }
 
-    // Stream the response
+    // Stream the response with backpressure handling
     const reader = response.body.getReader();
+    let bytesStreamed = 0;
     try {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
+        bytesStreamed += value.length;
         if (!res.write(value)) {
           // Handle backpressure
           await new Promise((resolve) => res.once("drain", resolve));
         }
       }
     } catch (e) {
-      console.error(`[stream] Stream error: ${e.message}`);
+      console.error(`[stream] Stream error after ${bytesStreamed} bytes: ${e.message}`);
     }
     res.end();
 
-    console.log(`[stream] OK: ${downloadName}`);
+    console.log(`[stream] OK: ${downloadName} (${(bytesStreamed / 1024 / 1024).toFixed(1)}MB)`);
   } catch (error) {
     console.error(`[stream] Error: ${error.message}`);
     if (!res.headersSent) {
