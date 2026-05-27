@@ -7,7 +7,7 @@ import {
   Menu, X, ChevronDown, Play, Clock, User, Loader2,
   AlertCircle, Film, Music, Sun, Moon,
   Share2, Bookmark, Copy, Eye, EyeOff,
-  Link as LinkIcon,
+  Link as LinkIcon, HelpCircle, ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -801,23 +801,26 @@ const featuresData = [
 function FeaturesSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="features" className="py-10 md:py-16 px-4 md:px-6" aria-labelledby="features-heading">
-      <div className="mx-auto max-w-3xl">
-        <div className="mb-6 md:mb-8">
-          <h2 id="features-heading" className="text-lg md:text-2xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">
+    <section id="features" className="py-16 md:py-24 px-4 md:px-6" aria-labelledby="features-heading">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-10 md:mb-14 text-center">
+          <h2 id="features-heading" className="text-xl md:text-3xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">
             {t("features.title")}
           </h2>
+          <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-lg mx-auto leading-relaxed">
+            {t("features.subtitle")}
+          </p>
         </div>
-        <div className="grid grid-cols-2 gap-3 md:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
           {featuresData.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div key={i} className="border border-border rounded-lg p-3.5 md:p-5">
-                <div className="w-8 h-8 rounded-md flex items-center justify-center mb-2.5 bg-muted">
-                  <Icon className="h-4 w-4 text-[#10B981]" />
+              <div key={i} className="group border border-border rounded-xl p-6 md:p-8 bg-card hover:shadow-lg hover:border-[#10B981]/20 hover:-translate-y-0.5 transition-all duration-300">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-[#10B981]/10">
+                  <Icon className="h-6 w-6 text-[#10B981]" />
                 </div>
-                <h3 className="text-sm md:text-base font-medium text-foreground mb-1">{f.titleId}</h3>
-                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
+                <h3 className="text-base md:text-lg font-semibold text-foreground mb-2">{f.titleId}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
               </div>
             );
           })}
@@ -837,23 +840,40 @@ function HowItWorksSection() {
     { num: 4, title: { id: "Simpan Video", en: "Save Video" }, desc: { id: "Video akan otomatis terunduh tanpa watermark ke perangkatmu.", en: "The video will automatically download without watermark to your device." } },
   ];
   return (
-    <section id="how" className="py-10 md:py-16 px-4 md:px-6 border-t border-border" aria-labelledby="how-heading">
+    <section id="how" className="py-16 md:py-24 px-4 md:px-6 border-t border-border" aria-labelledby="how-heading">
       <div className="mx-auto max-w-3xl">
-        <div className="mb-6 md:mb-8">
-          <h2 id="how-heading" className="text-lg md:text-2xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">{t("how.title")}</h2>
+        <div className="mb-10 md:mb-14 text-center">
+          <h2 id="how-heading" className="text-xl md:text-3xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">{t("how.title")}</h2>
+          <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-md mx-auto leading-relaxed">{t("how.subtitle")}</p>
         </div>
-        {/* Horizontal steps with line */}
-        <div className="relative">
-          {/* Connecting line */}
-          <div className="hidden md:block absolute top-4 left-0 right-0 h-px bg-border" />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        {/* Mobile: vertical timeline */}
+        <div className="relative md:hidden">
+          <div className="absolute left-6 top-0 bottom-0 w-px bg-border" />
+          <div className="space-y-8">
+            {steps.map((s) => (
+              <div key={s.num} className="relative flex gap-5">
+                <div className="w-12 h-12 rounded-full border-2 border-[#10B981] bg-background flex items-center justify-center shrink-0 relative z-10">
+                  <span className="text-[#10B981] font-bold text-sm">{s.num}</span>
+                </div>
+                <div className="pt-2">
+                  <h3 className="text-base font-semibold text-foreground mb-1">{s.title[lang] || s.title.id}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{s.desc[lang] || s.desc.id}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Desktop: horizontal steps with line */}
+        <div className="hidden md:block relative">
+          <div className="absolute top-6 left-0 right-0 h-px bg-border" />
+          <div className="grid grid-cols-4 gap-8">
             {steps.map((s) => (
               <div key={s.num} className="relative flex flex-col items-center text-center">
-                <div className="w-8 h-8 rounded-full border-2 border-[#10B981] bg-background flex items-center justify-center mb-2.5 relative z-10">
-                  <span className="text-[#10B981] font-bold text-xs">{s.num}</span>
+                <div className="w-12 h-12 rounded-full border-2 border-[#10B981] bg-background flex items-center justify-center mb-4 relative z-10">
+                  <span className="text-[#10B981] font-bold text-base">{s.num}</span>
                 </div>
-                <h3 className="text-xs md:text-sm font-medium text-foreground mb-1">{s.title[lang] || s.title.id}</h3>
-                <p className="text-[11px] md:text-xs text-muted-foreground leading-relaxed">{s.desc[lang] || s.desc.id}</p>
+                <h3 className="text-sm font-semibold text-foreground mb-1.5">{s.title[lang] || s.title.id}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{s.desc[lang] || s.desc.id}</p>
               </div>
             ))}
           </div>
@@ -865,20 +885,34 @@ function HowItWorksSection() {
 
 /* ──────── Platforms Section ──────── */
 function PlatformsSection() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   return (
-    <section id="platforms" className="py-10 md:py-16 px-4 md:px-6 border-t border-border">
-      <div className="mx-auto max-w-3xl">
-        <div className="mb-6 md:mb-8">
-          <h2 className="text-lg md:text-2xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">{t("platforms.title")}</h2>
+    <section id="platforms" className="py-16 md:py-24 px-4 md:px-6 border-t border-border">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-10 md:mb-14 text-center">
+          <h2 className="text-xl md:text-3xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">{t("platforms.title")}</h2>
+          <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-lg mx-auto leading-relaxed">{t("platforms.subtitle")}</p>
         </div>
-        <div className="flex flex-wrap gap-3 md:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
           {PLATFORMS.map((p) => {
             const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
             return (
-              <a key={p.name} href={`/${slug}`} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors py-1">
-                <p.Icon className="h-4 w-4" />
-                <span>{p.name}</span>
+              <a key={p.name} href={`/${slug}`} className="group flex items-center gap-3 p-4 md:p-5 rounded-xl border border-border bg-card hover:shadow-md hover:border-[#10B981]/20 hover:-translate-y-0.5 transition-all duration-300">
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ background: p.gradient || `${p.color}15` }}>
+                  {p.gradient ? (
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: p.gradient }}>
+                      <p.Icon className="h-5 w-5 text-white" />
+                    </div>
+                  ) : (
+                    <span className="text-[var(--platform-color)]" style={{ color: p.color }}>
+                      <p.Icon className="h-5 w-5" />
+                    </span>
+                  )}
+                </div>
+                <div>
+                  <span className="text-sm font-medium text-foreground group-hover:text-[#10B981] transition-colors">{p.name}</span>
+                  <span className="block text-xs text-muted-foreground">{lang === "id" ? "Downloader" : "Downloader"}</span>
+                </div>
               </a>
             );
           })}
@@ -919,19 +953,21 @@ const faqContent: Record<string, Record<string, string>> = {
 function FAQSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="faq" className="py-10 md:py-16 px-4 md:px-6 border-t border-border">
+    <section id="faq" className="py-16 md:py-24 px-4 md:px-6 border-t border-border">
       <div className="mx-auto max-w-3xl">
-        <div className="mb-6 md:mb-8">
-          <h2 className="text-lg md:text-2xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">{t("faq.title")}</h2>
+        <div className="mb-10 md:mb-14 text-center">
+          <h2 className="text-xl md:text-3xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">{t("faq.title")}</h2>
+          <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-md mx-auto leading-relaxed">{t("faq.subtitle")}</p>
         </div>
-        <div>
+        <div className="space-y-3">
           {faqData.map((f, i) => (
-            <details key={i} className="group border-b border-border last:border-b-0">
-              <summary className="flex items-center justify-between py-3.5 cursor-pointer text-sm font-medium text-foreground hover:text-[#10B981] transition-colors list-none">
-                <span className="pr-3">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</span>
+            <details key={i} className="group rounded-xl border border-border bg-card overflow-hidden hover:border-[#10B981]/20 transition-colors">
+              <summary className="flex items-center gap-3 p-4 md:p-5 cursor-pointer text-sm md:text-base font-medium text-foreground hover:text-[#10B981] transition-colors list-none">
+                <HelpCircle className="h-5 w-5 text-[#10B981]/60 shrink-0" />
+                <span className="flex-1">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</span>
                 <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0 group-open:rotate-180 transition-transform duration-200" />
               </summary>
-              <div className="pb-3.5 text-sm text-muted-foreground leading-relaxed">
+              <div className="px-4 md:px-5 pb-4 md:pb-5 pl-12 md:pl-13 text-sm text-muted-foreground leading-relaxed">
                 {faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}
               </div>
             </details>
@@ -955,30 +991,36 @@ const blogPosts = [
 function BlogSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="blog" className="py-10 md:py-16 px-4 md:px-6 border-t border-border">
-      <div className="mx-auto max-w-3xl">
-        <div className="mb-6 md:mb-8">
-          <h2 className="text-lg md:text-2xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">
+    <section id="blog" className="py-16 md:py-24 px-4 md:px-6 border-t border-border">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-10 md:mb-14 text-center">
+          <h2 className="text-xl md:text-3xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">
             {lang === "id" ? "Artikel & Tutorial Terbaru" : "Latest Articles & Tutorials"}
           </h2>
+          <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-lg mx-auto leading-relaxed">
+            {lang === "id" ? "Pelajari cara terbaik download video dari berbagai platform" : "Learn the best ways to download videos from various platforms"}
+          </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {blogPosts.map((post) => (
-            <a key={post.slug} href={`/blog/${post.slug}`} className="group flex flex-col p-3.5 md:p-5 rounded-lg border border-border hover:border-[#10B981]/30 transition-colors">
-              <div className="w-7 h-7 rounded-md flex items-center justify-center mb-2.5 bg-muted">
-                <Film className="h-3.5 w-3.5" style={{ color: post.color }} />
+            <a key={post.slug} href={`/blog/${post.slug}`} className="group flex flex-col rounded-xl border border-border bg-card overflow-hidden hover:shadow-lg hover:border-[#10B981]/20 hover:-translate-y-0.5 transition-all duration-300">
+              <div className="h-1.5 w-full" style={{ background: post.color }} />
+              <div className="p-5 md:p-6 flex flex-col flex-1">
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: `${post.color}15` }}>
+                  <Film className="h-5 w-5" style={{ color: post.color }} />
+                </div>
+                <h3 className="text-sm md:text-base font-semibold text-foreground mb-2 group-hover:text-[#10B981] transition-colors line-clamp-2 leading-snug">{post.title}</h3>
+                <p className="text-xs md:text-sm text-muted-foreground line-clamp-2 leading-relaxed flex-1">{post.desc}</p>
+                <span className="text-xs text-[#10B981] font-medium mt-4 inline-flex items-center gap-1">
+                  {lang === "id" ? "Baca Selengkapnya" : "Read More"} <ArrowRight className="h-3 w-3" />
+                </span>
               </div>
-              <h3 className="text-sm font-medium text-foreground mb-1 group-hover:text-[#10B981] transition-colors line-clamp-2 leading-snug">{post.title}</h3>
-              <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed flex-1">{post.desc}</p>
-              <span className="text-xs text-[#10B981] font-medium mt-2 inline-flex items-center gap-1">
-                {lang === "id" ? "Baca Selengkapnya" : "Read More"} &rarr;
-              </span>
             </a>
           ))}
         </div>
-        <div className="mt-5">
-          <a href="/blog" className="text-sm font-medium text-[#10B981] hover:text-[#059669] transition-colors">
-            {lang === "id" ? "Lihat Semua Artikel" : "View All Articles"} &rarr;
+        <div className="mt-8 text-center">
+          <a href="/blog" className="inline-flex items-center gap-1.5 text-sm font-medium text-[#10B981] hover:text-[#059669] transition-colors">
+            {lang === "id" ? "Lihat Semua Artikel" : "View All Articles"} <ArrowRight className="h-3.5 w-3.5" />
           </a>
         </div>
       </div>
@@ -990,15 +1032,21 @@ function BlogSection() {
 function CTASection() {
   const { t } = useLanguage();
   return (
-    <section className="py-10 md:py-16 px-4 md:px-6 border-t border-border">
-      <div className="mx-auto max-w-xl text-center">
-        <h2 className="text-lg md:text-2xl font-bold mb-2 font-[family-name:var(--font-montserrat)] text-foreground">{t("cta.title")}</h2>
-        <p className="text-sm text-muted-foreground mb-5">{t("cta.subtitle")}</p>
-        <a href="#hero">
-          <Button className="h-10 px-6 bg-[#10B981] text-white font-medium rounded-lg hover:bg-[#059669] text-sm">
-            <Download className="mr-1.5 h-4 w-4" />{t("cta.button")}
-          </Button>
-        </a>
+    <section className="py-16 md:py-24 px-4 md:px-6 border-t border-border">
+      <div className="mx-auto max-w-3xl">
+        <div className="relative rounded-2xl overflow-hidden border border-border bg-card p-8 md:p-12 text-center">
+          {/* Subtle background accent */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#10B981]/5 via-transparent to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <h2 className="text-xl md:text-3xl font-bold mb-3 font-[family-name:var(--font-montserrat)] text-foreground">{t("cta.title")}</h2>
+            <p className="text-sm md:text-base text-muted-foreground mb-6 md:mb-8 max-w-md mx-auto leading-relaxed">{t("cta.subtitle")}</p>
+            <a href="#hero">
+              <Button className="h-12 px-8 bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] text-sm md:text-base shadow-lg hover:opacity-90 transition-all duration-200">
+                <Download className="mr-2 h-5 w-5" />{t("cta.button")}
+              </Button>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -1008,18 +1056,18 @@ function CTASection() {
 function Footer() {
   const { t, lang } = useLanguage();
   return (
-    <footer className="border-t border-border py-6 md:py-8 px-4 md:px-6" role="contentinfo">
+    <footer className="border-t border-border py-8 md:py-12 px-4 md:px-6" role="contentinfo">
       <div className="mx-auto max-w-5xl">
         {/* Desktop: single row */}
         <div className="hidden md:flex items-start justify-between gap-8">
           <div className="max-w-xs">
             <MovaLogo size={20} showText />
-            <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{t("footer.desc")}</p>
+            <p className="text-xs text-muted-foreground mt-3 leading-relaxed">{t("footer.desc")}</p>
           </div>
-          <div className="flex gap-8">
+          <div className="flex gap-10">
             <div>
-              <h4 className="text-xs font-semibold text-foreground mb-2">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
-              <ul className="space-y-1.5">
+              <h4 className="text-xs font-semibold text-foreground mb-3">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
+              <ul className="space-y-2">
                 <li><a href="#features" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a></li>
                 <li><a href="#how" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a></li>
                 <li><a href="#platforms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.platform")}</a></li>
@@ -1027,8 +1075,8 @@ function Footer() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-semibold text-foreground mb-2">{lang === 'id' ? 'Platform' : 'Platforms'}</h4>
-              <ul className="space-y-1.5">
+              <h4 className="text-xs font-semibold text-foreground mb-3">{lang === 'id' ? 'Platform' : 'Platforms'}</h4>
+              <ul className="space-y-2">
                 <li><a href="/tiktok-downloader" className="text-xs text-muted-foreground hover:text-foreground transition-colors">TikTok</a></li>
                 <li><a href="/instagram-downloader" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Instagram</a></li>
                 <li><a href="/youtube-downloader" className="text-xs text-muted-foreground hover:text-foreground transition-colors">YouTube</a></li>
@@ -1037,8 +1085,8 @@ function Footer() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-semibold text-foreground mb-2">Legal</h4>
-              <ul className="space-y-1.5">
+              <h4 className="text-xs font-semibold text-foreground mb-3">Legal</h4>
+              <ul className="space-y-2">
                 <li><a href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Privasi' : 'Privacy'}</a></li>
                 <li><a href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Ketentuan' : 'Terms'}</a></li>
                 <li><a href="/disclaimer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Disclaimer</a></li>
@@ -1048,10 +1096,10 @@ function Footer() {
           </div>
         </div>
         {/* Mobile: stacked */}
-        <div className="md:hidden space-y-4">
+        <div className="md:hidden space-y-5">
           <MovaLogo size={20} showText />
           <p className="text-xs text-muted-foreground leading-relaxed">{t("footer.desc")}</p>
-          <div className="flex flex-wrap gap-x-6 gap-y-1.5">
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
             <a href="#features" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a>
             <a href="#how" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a>
             <a href="#platforms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.platform")}</a>
@@ -1062,10 +1110,10 @@ function Footer() {
           </div>
         </div>
         {/* Bottom */}
-        <div className="mt-6 pt-4 border-t border-border">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-1.5">
+        <div className="mt-8 pt-5 border-t border-border">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
             <p className="text-[10px] text-muted-foreground/50">&copy; 2026 Mova. All rights reserved.</p>
-            <p className="text-[10px] text-muted-foreground/40 text-center sm:text-right">
+            <p className="text-[10px] text-muted-foreground/40 text-center sm:text-right max-w-sm">
               {lang === 'id' ? 'Mova tidak menyimpan konten berhak cipta. Pengguna bertanggung jawab atas penggunaan konten yang diunduh.' : 'Mova does not store copyrighted content. Users are responsible for downloaded content usage.'}
             </p>
           </div>
