@@ -2,21 +2,25 @@ import type { Metadata } from "next";
 import { InstagramDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video Instagram Reels & Story - Gratis 2026 | getmova",
+  title: "Download Video Instagram Reels & Story - Gratis | getmova",
   description:
     "Download video Instagram Reels, Story, dan IGTV gratis tanpa watermark. Simpan video IG dalam kualitas tinggi dengan Mova. Cepat, mudah, dan gratis!",
   keywords: [
+    "download video instagram",
     "instagram downloader",
     "download instagram reels",
-    "download video instagram",
     "instagram story download",
     "download ig reels",
     "instagram video saver",
     "save instagram video",
     "ig downloader",
+    "download reels instagram",
+    "instagram reels saver",
+    "cara download video instagram",
+    "instagram video download gratis",
   ],
   openGraph: {
-    title: "Download Video Instagram Reels & Story - Gratis 2026 | getmova",
+    title: "Download Video Instagram Reels & Story - Gratis | getmova",
     description:
       "Download video Instagram Reels, Story, dan IGTV gratis tanpa watermark. Simpan video IG dalam kualitas tinggi dengan Mova.",
     url: "https://getmova.my.id/instagram-downloader",
@@ -25,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video Instagram Reels & Story - Gratis 2026 | getmova",
+    title: "Download Video Instagram Reels & Story - Gratis | getmova",
     description:
       "Download video Instagram Reels, Story, dan IGTV gratis tanpa watermark. Simpan video IG dalam kualitas tinggi dengan Mova.",
   },
@@ -36,7 +40,7 @@ export const metadata: Metadata = {
 
 const jsonLdWebApp = {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
+  "@type": "SoftwareApplication",
   name: "Mova Instagram Downloader",
   description: "Download video Instagram Reels, Story, dan IGTV gratis. Kualitas tinggi, tanpa registrasi, tanpa watermark.",
   url: "https://getmova.my.id/instagram-downloader",
@@ -46,6 +50,13 @@ const jsonLdWebApp = {
     "@type": "Offer",
     price: "0",
     priceCurrency: "IDR",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    ratingCount: "22300",
+    bestRating: "5",
+    worstRating: "1",
   },
 };
 

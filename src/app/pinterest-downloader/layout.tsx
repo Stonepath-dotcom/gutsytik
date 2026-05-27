@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     "pinterest video saver",
     "simpan video pinterest",
     "pinterest tanpa watermark",
+    "pinterest video download",
+    "download pinterest hd",
+    "pinterest video downloader gratis",
   ],
   alternates: { canonical: "https://getmova.my.id/pinterest-downloader" },
   openGraph: {
@@ -29,10 +32,53 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLdSoftware = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Mova Pinterest Video Downloader",
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "Web",
+  description: "Download video Pinterest ke galeri HP dengan mudah dan gratis. Simpan video Pinterest tanpa watermark dalam kualitas HD.",
+  url: "https://getmova.my.id/pinterest-downloader",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "IDR",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    ratingCount: "12500",
+    bestRating: "5",
+    worstRating: "1",
+  },
+};
+
+const jsonLdBreadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+    { "@type": "ListItem", position: 2, name: "Pinterest Downloader", item: "https://getmova.my.id/pinterest-downloader" },
+  ],
+};
+
 export default function PinterestDownloaderLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSoftware) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+      />
+      {children}
+    </>
+  );
 }

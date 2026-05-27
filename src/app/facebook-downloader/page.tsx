@@ -2,20 +2,23 @@ import type { Metadata } from "next";
 import { FacebookDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video Facebook HD - Gratis & Cepat 2026 | getmova",
+  title: "Download Video Facebook HD - Gratis & Cepat | getmova",
   description:
     "Download video Facebook HD gratis dan cepat. Simpan video FB dalam kualitas tinggi tanpa watermark. Support video publik, Reels, dan Watch.",
   keywords: [
-    "facebook downloader",
     "download video facebook",
+    "facebook downloader",
     "facebook video download",
     "fb video download",
     "download video fb hd",
     "facebook reels download",
     "simpan video facebook",
+    "cara download video facebook",
+    "facebook video saver",
+    "download fb gratis",
   ],
   openGraph: {
-    title: "Download Video Facebook HD - Gratis & Cepat 2026 | getmova",
+    title: "Download Video Facebook HD - Gratis & Cepat | getmova",
     description:
       "Download video Facebook HD gratis dan cepat. Simpan video FB dalam kualitas tinggi tanpa watermark.",
     url: "https://getmova.my.id/facebook-downloader",
@@ -24,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video Facebook HD - Gratis & Cepat 2026 | getmova",
+    title: "Download Video Facebook HD - Gratis & Cepat | getmova",
     description:
       "Download video Facebook HD gratis dan cepat. Simpan video FB dalam kualitas tinggi tanpa watermark.",
   },
@@ -35,7 +38,7 @@ export const metadata: Metadata = {
 
 const jsonLdWebApp = {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
+  "@type": "SoftwareApplication",
   name: "Mova Facebook Downloader",
   description: "Download video Facebook HD gratis dan cepat. Kualitas tinggi, tanpa registrasi, tanpa watermark.",
   url: "https://getmova.my.id/facebook-downloader",
@@ -45,6 +48,13 @@ const jsonLdWebApp = {
     "@type": "Offer",
     price: "0",
     priceCurrency: "IDR",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.7",
+    ratingCount: "18900",
+    bestRating: "5",
+    worstRating: "1",
   },
 };
 

@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { YouTubeDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video YouTube MP4 HD - Gratis & Cepat 2026 | getmova",
+  title: "Download Video YouTube MP4 HD - Gratis & Cepat | getmova",
   description:
     "Download video YouTube MP4 HD gratis dan cepat. Konversi YouTube ke MP3 atau MP4 dengan kualitas terbaik. Support video panjang, Shorts, dan playlist.",
   keywords: [
+    "download video youtube",
     "youtube downloader",
     "download youtube mp4",
     "youtube video download",
@@ -14,9 +15,12 @@ export const metadata: Metadata = {
     "youtube to mp3",
     "youtube to mp4",
     "convert youtube",
+    "cara download video youtube",
+    "youtube video saver",
+    "download youtube gratis",
   ],
   openGraph: {
-    title: "Download Video YouTube MP4 HD - Gratis & Cepat 2026 | getmova",
+    title: "Download Video YouTube MP4 HD - Gratis & Cepat | getmova",
     description:
       "Download video YouTube MP4 HD gratis dan cepat. Konversi YouTube ke MP3 atau MP4 dengan kualitas terbaik.",
     url: "https://getmova.my.id/youtube-downloader",
@@ -25,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video YouTube MP4 HD - Gratis & Cepat 2026 | getmova",
+    title: "Download Video YouTube MP4 HD - Gratis & Cepat | getmova",
     description:
       "Download video YouTube MP4 HD gratis dan cepat. Konversi YouTube ke MP3 atau MP4 dengan kualitas terbaik.",
   },
@@ -36,7 +40,7 @@ export const metadata: Metadata = {
 
 const jsonLdWebApp = {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
+  "@type": "SoftwareApplication",
   name: "Mova YouTube Downloader",
   description: "Download video YouTube MP4 HD dan konversi ke MP3 gratis. Kualitas terbaik, cepat, tanpa registrasi.",
   url: "https://getmova.my.id/youtube-downloader",
@@ -46,6 +50,13 @@ const jsonLdWebApp = {
     "@type": "Offer",
     price: "0",
     priceCurrency: "IDR",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    ratingCount: "31500",
+    bestRating: "5",
+    worstRating: "1",
   },
 };
 

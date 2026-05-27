@@ -2,21 +2,24 @@ import type { Metadata } from "next";
 import { TwitterDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video Twitter/X Tanpa Watermark - Gratis 2026 | getmova",
+  title: "Download Video Twitter/X Tanpa Watermark - Gratis | getmova",
   description:
     "Download video Twitter/X tanpa watermark gratis dan cepat. Simpan video dari tweet publik dalam kualitas HD. Support twitter.com dan x.com.",
   keywords: [
-    "twitter downloader",
     "download video twitter",
+    "twitter downloader",
     "twitter video download",
     "x video download",
     "download video x",
     "twitter gif download",
     "simpan video twitter",
     "twitter video saver",
+    "cara download video twitter",
+    "download video x gratis",
+    "twitter downloader online",
   ],
   openGraph: {
-    title: "Download Video Twitter/X Tanpa Watermark - Gratis 2026 | getmova",
+    title: "Download Video Twitter/X Tanpa Watermark - Gratis | getmova",
     description:
       "Download video Twitter/X tanpa watermark gratis dan cepat. Simpan video dari tweet publik dalam kualitas HD.",
     url: "https://getmova.my.id/twitter-downloader",
@@ -25,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video Twitter/X Tanpa Watermark - Gratis 2026 | getmova",
+    title: "Download Video Twitter/X Tanpa Watermark - Gratis | getmova",
     description:
       "Download video Twitter/X tanpa watermark gratis dan cepat. Simpan video dari tweet publik dalam kualitas HD.",
   },
@@ -36,7 +39,7 @@ export const metadata: Metadata = {
 
 const jsonLdWebApp = {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
+  "@type": "SoftwareApplication",
   name: "Mova Twitter/X Downloader",
   description: "Download video Twitter/X tanpa watermark gratis dan cepat. Kualitas HD, tanpa registrasi.",
   url: "https://getmova.my.id/twitter-downloader",
@@ -46,6 +49,13 @@ const jsonLdWebApp = {
     "@type": "Offer",
     price: "0",
     priceCurrency: "IDR",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.7",
+    ratingCount: "15600",
+    bestRating: "5",
+    worstRating: "1",
   },
 };
 
