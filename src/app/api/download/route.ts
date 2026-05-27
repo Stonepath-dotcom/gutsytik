@@ -23,6 +23,14 @@ interface DownloadResult {
   filename: string;
 }
 
+/* ──────── Backend API Configuration ──────── */
+// The external backend API running on Render/Railway with yt-dlp + ffmpeg
+const MOVA_API_URL = process.env.MOVA_API_URL || "";
+const YT_DLP_API = process.env.YTDLP_API_URL || MOVA_API_URL || "http://127.0.0.1:8888";
+
+// Check if external backend is available
+const hasExternalBackend = MOVA_API_URL.length > 0;
+
 /* ──────── Platform Detection ──────── */
 type Platform = "youtube" | "tiktok" | "instagram" | "twitter" | "facebook" | "pinterest" | "reddit" | "unknown";
 
@@ -43,25 +51,105 @@ function detectPlatform(urlStr: string): Platform {
 function extractYouTubeVideoId(url: string): string | null {
   try {
     const u = new URL(url.startsWith("www.") ? "https://" + url : url);
-    // youtube.com/watch?v=...
     const v = u.searchParams.get("v");
     if (v) return v;
-    // youtu.be/...
     if (u.hostname.includes("youtu.be")) return u.pathname.slice(1).split("/")[0] || null;
-    // youtube.com/embed/...
     if (u.pathname.startsWith("/embed/")) return u.pathname.split("/")[2] || null;
-    // youtube.com/shorts/...
     if (u.pathname.startsWith("/shorts/")) return u.pathname.split("/")[2] || null;
   } catch {}
   return null;
 }
 
-/* ──────── YouTube Handler (uses yt-edge API) ──────── */
+/* ──────── YouTube Handler (uses external backend API) ──────── */
 async function handleYouTube(url: string, audioMode: boolean): Promise<DownloadResult> {
   const videoId = extractYouTubeVideoId(url);
   if (!videoId) throw new Error("Link YouTube tidak valid. Pastikan link mengandung ID video.");
 
-  // Build the internal URL for yt-edge API
+  // Strategy 1: Use external backend API (Render/Railway with yt-dlp)
+  if (hasExternalBackend) {
+    try {
+      return await handleYouTubeViaBackend(url, audioMode, videoId);
+    } catch (backendError) {
+      console.error(`[download] External backend failed for YouTube, falling back: ${backendError instanceof Error ? backendError.message : "unknown"}`);
+      // Fall through to fallback
+    }
+  }
+
+  // Strategy 2: Fallback to yt-edge (InnerTube API) if external backend unavailable
+  try {
+    return await handleYouTubeViaEdge(url, audioMode, videoId);
+  } catch (edgeError) {
+    console.error(`[download] yt-edge also failed: ${edgeError instanceof Error ? edgeError.message : "unknown"}`);
+  }
+
+  // Strategy 3: Try old yt-dlp proxy
+  try {
+    return await handleYtdlpProxy(url, audioMode, "YouTube");
+  } catch (ytdlpError) {
+    console.error(`[download] yt-dlp proxy also failed: ${ytdlpError instanceof Error ? ytdlpError.message : "unknown"}`);
+  }
+
+  throw new Error("Gagal mengambil info video YouTube. Semua metode gagal. Coba lagi nanti.");
+}
+
+/* ──────── YouTube via External Backend API ──────── */
+async function handleYouTubeViaBackend(url: string, audioMode: boolean, videoId: string): Promise<DownloadResult> {
+  const apiUrl = `${MOVA_API_URL}/info?url=${encodeURIComponent(url)}&audio=${audioMode ? "1" : "0"}`;
+  console.log(`[download] YouTube via backend: ${apiUrl.substring(0, 120)}...`);
+
+  const res = await fetch(apiUrl, {
+    signal: AbortSignal.timeout(60000), // Longer timeout for external backend
+    headers: { "Accept": "application/json" },
+  });
+
+  const data = await res.json();
+  if (!res.ok || data.error) {
+    throw new Error(data.error || "External backend returned an error.");
+  }
+
+  // Map quality options - use backend's /stream endpoint for proxying
+  const qualityOptions: QualityOption[] = (data.qualityOptions || []).map((q: Record<string, unknown>) => {
+    const isAudio = q.resolution === "MP3" || (q.label as string || "").includes("Audio");
+
+    // For audio: use /convert endpoint on backend (converts to proper MP3)
+    // For video: use /stream endpoint on backend (streams with proper headers)
+    let proxyUrl: string;
+    if (isAudio) {
+      proxyUrl = `${MOVA_API_URL}/convert?url=${encodeURIComponent(q.url as string)}&format=mp3&bitrate=192k&filename=mova_youtube_${videoId}_${q.label}`;
+    } else if ((q.needsMuxing as boolean) && q.audioUrl) {
+      // Video needs muxing - use /download endpoint which does yt-dlp merge
+      proxyUrl = `${MOVA_API_URL}/download?url=${encodeURIComponent(url)}&quality=${encodeURIComponent(q.label as string)}&audio=0`;
+    } else {
+      proxyUrl = `${MOVA_API_URL}/stream?url=${encodeURIComponent(q.url as string)}&quality=${encodeURIComponent(q.label as string)}&filename=mova_youtube_${videoId}`;
+    }
+
+    return {
+      label: q.label as string,
+      resolution: q.resolution as string,
+      url: proxyUrl,
+      originalUrl: q.url as string,
+    };
+  });
+
+  if (qualityOptions.length === 0) {
+    throw new Error("No formats found from backend API.");
+  }
+
+  return {
+    title: data.title || "Video YouTube",
+    thumbnail: data.thumbnail || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+    duration: data.duration || "--:--",
+    author: data.author || "@unknown",
+    platform: "YouTube",
+    downloadUrl: qualityOptions[0].url,
+    originalDownloadUrl: qualityOptions[0].originalUrl,
+    qualityOptions,
+    filename: data.filename || `mova_youtube_${videoId}`,
+  };
+}
+
+/* ──────── YouTube via Edge (InnerTube API) - Fallback ──────── */
+async function handleYouTubeViaEdge(url: string, audioMode: boolean, videoId: string): Promise<DownloadResult> {
   const baseUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
     : process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
@@ -75,10 +163,9 @@ async function handleYouTube(url: string, audioMode: boolean): Promise<DownloadR
 
   const data = await res.json();
   if (!res.ok || data.error) {
-    throw new Error(data.error || "Gagal mengambil info video YouTube. Coba lagi nanti.");
+    throw new Error(data.error || "yt-edge API error.");
   }
 
-  // yt-edge returns qualityOptions already in our format
   const qualityOptions: QualityOption[] = (data.qualityOptions || []).map((q: QualityOption) => ({
     label: q.label,
     resolution: q.resolution,
@@ -86,10 +173,18 @@ async function handleYouTube(url: string, audioMode: boolean): Promise<DownloadR
     originalUrl: q.originalUrl || q.url,
   }));
 
-  // For YouTube URLs, proxy through our /api/proxy for better compatibility
-  const proxiedQualityOptions = qualityOptions.map(q => {
+  // Proxy through Vercel's /api/proxy for better compatibility
+  const proxiedQualityOptions = qualityOptions.map((q) => {
     const isAudio = q.resolution === "MP3" || q.label.includes("Audio");
-    const proxyUrl = `/api/proxy?url=${encodeURIComponent(q.url)}&quality=${encodeURIComponent(q.label)}&filename=mova_youtube_${videoId}&sourceUrl=${encodeURIComponent(url)}`;
+    let proxyUrl: string;
+
+    if (hasExternalBackend && isAudio) {
+      // Use external backend for audio conversion
+      proxyUrl = `${MOVA_API_URL}/convert?url=${encodeURIComponent(q.originalUrl || q.url)}&format=mp3&bitrate=192k&filename=mova_youtube_${videoId}_${q.label}`;
+    } else {
+      proxyUrl = `/api/proxy?url=${encodeURIComponent(q.url)}&quality=${encodeURIComponent(q.label)}&filename=mova_youtube_${videoId}&sourceUrl=${encodeURIComponent(url)}`;
+    }
+
     return {
       ...q,
       originalUrl: q.url,
@@ -135,7 +230,6 @@ async function handleTikTok(url: string, audioMode: boolean): Promise<DownloadRe
       originalUrl: info.music,
     });
   } else {
-    // HD version first if available
     if (info.hdplay) {
       qualityOptions.push({
         label: "HD 1080p",
@@ -181,7 +275,6 @@ async function handleTikTok(url: string, audioMode: boolean): Promise<DownloadRe
 
 /* ──────── Instagram Handler ──────── */
 async function handleInstagram(url: string, audioMode: boolean): Promise<DownloadResult> {
-  // Use a public API approach for Instagram
   const apiUrl = `https://api.saveig.app/api/v1/media?url=${encodeURIComponent(url)}`;
 
   try {
@@ -232,15 +325,13 @@ async function handleInstagram(url: string, audioMode: boolean): Promise<Downloa
     // Primary API failed, try alternative
   }
 
-  // Fallback: try using ytdlp proxy
+  // Fallback: try using backend API
   return await handleYtdlpProxy(url, audioMode, "Instagram");
 }
 
 /* ──────── Twitter/X Handler ──────── */
 async function handleTwitter(url: string, audioMode: boolean): Promise<DownloadResult> {
-  // Use fxtwitter API for Twitter/X
   try {
-    // Convert URL to fxtwitter API format
     const fxtwitterUrl = url
       .replace("twitter.com", "api.fxtwitter.com")
       .replace("x.com", "api.fxtwitter.com");
@@ -265,7 +356,6 @@ async function handleTwitter(url: string, audioMode: boolean): Promise<DownloadR
             originalUrl: video.url,
           });
         } else {
-          // Sort variants by bitrate (highest first)
           const variants = (video.variants || [])
             .filter((v: { content_type: string; url: string }) => v.content_type?.includes("video") && v.url)
             .sort((a: { bitrate: number }, b: { bitrate: number }) => (b.bitrate || 0) - (a.bitrate || 0));
@@ -309,13 +399,12 @@ async function handleTwitter(url: string, audioMode: boolean): Promise<DownloadR
     // fxtwitter failed
   }
 
-  // Fallback to ytdlp proxy
+  // Fallback to backend API
   return await handleYtdlpProxy(url, audioMode, "Twitter/X");
 }
 
 /* ──────── Facebook Handler ──────── */
 async function handleFacebook(url: string, audioMode: boolean): Promise<DownloadResult> {
-  // Try ytdlp proxy first for Facebook (most reliable)
   return await handleYtdlpProxy(url, audioMode, "Facebook");
 }
 
@@ -326,9 +415,7 @@ async function handlePinterest(url: string, audioMode: boolean): Promise<Downloa
 
 /* ──────── Reddit Handler ──────── */
 async function handleReddit(url: string, audioMode: boolean): Promise<DownloadResult> {
-  // Reddit can sometimes be handled directly
   try {
-    // Try getting JSON from Reddit
     const jsonUrl = url.replace(/\/$/, "") + ".json";
     const res = await fetch(jsonUrl, {
       signal: AbortSignal.timeout(15000),
@@ -343,7 +430,6 @@ async function handleReddit(url: string, audioMode: boolean): Promise<DownloadRe
       const post = data?.[0]?.data?.children?.[0]?.data;
       if (post) {
         const videoUrl = post.secure_media?.reddit_video?.fallback_url;
-        const audioUrl = post.secure_media?.reddit_video?.hls_url;
 
         if (videoUrl) {
           const qualityOptions: QualityOption[] = [];
@@ -363,7 +449,6 @@ async function handleReddit(url: string, audioMode: boolean): Promise<DownloadRe
               originalUrl: videoUrl,
             });
 
-            // Try SD version
             const sdUrl = videoUrl.replace(/DASH_[^.]+/, "DASH_480");
             qualityOptions.push({
               label: "SD 480p",
@@ -372,7 +457,6 @@ async function handleReddit(url: string, audioMode: boolean): Promise<DownloadRe
               originalUrl: sdUrl,
             });
 
-            // Audio option
             qualityOptions.push({
               label: "Audio",
               resolution: "MP3",
@@ -401,31 +485,45 @@ async function handleReddit(url: string, audioMode: boolean): Promise<DownloadRe
     // Reddit JSON API failed
   }
 
-  // Fallback to ytdlp proxy
   return await handleYtdlpProxy(url, audioMode, "Reddit");
 }
 
-/* ──────── Ytdlp Proxy Fallback ──────── */
+/* ──────── Backend API Proxy (uses external Render/Railway service) ──────── */
 async function handleYtdlpProxy(url: string, audioMode: boolean, platformName: string): Promise<DownloadResult> {
-  const YT_DLP_API = process.env.YTDLP_API_URL || "http://127.0.0.1:8888";
-  const apiUrl = `${YT_DLP_API}/info?url=${encodeURIComponent(url)}&audio=${audioMode ? "1" : "0"}`;
+  // Use external backend if available, otherwise fall back to local
+  const apiBase = hasExternalBackend ? MOVA_API_URL : YT_DLP_API;
+  const apiUrl = `${apiBase}/info?url=${encodeURIComponent(url)}&audio=${audioMode ? "1" : "0"}`;
 
   try {
     const res = await fetch(apiUrl, {
-      signal: AbortSignal.timeout(35000),
+      signal: AbortSignal.timeout(hasExternalBackend ? 60000 : 35000),
       headers: { "Accept": "application/json" },
     });
 
     if (res.ok) {
       const data = await res.json();
       if (data.qualityOptions && data.qualityOptions.length > 0) {
-        // Proxy all quality option URLs
-        const qualityOptions: QualityOption[] = data.qualityOptions.map((q: QualityOption) => ({
-          label: q.label,
-          resolution: q.resolution,
-          url: `/api/proxy?url=${encodeURIComponent(q.url)}&quality=${encodeURIComponent(q.label)}&filename=mova_${platformName.toLowerCase().replace(/[^a-z]/g, "")}&sourceUrl=${encodeURIComponent(url)}`,
-          originalUrl: q.url,
-        }));
+        const qualityOptions: QualityOption[] = data.qualityOptions.map((q: Record<string, unknown>) => {
+          // If external backend available, use its /stream endpoint
+          // Otherwise, use Vercel's /api/proxy
+          let downloadUrl: string;
+          const isAudio = q.resolution === "MP3" || (q.label as string || "").includes("Audio");
+
+          if (hasExternalBackend && isAudio) {
+            downloadUrl = `${MOVA_API_URL}/convert?url=${encodeURIComponent(q.url as string)}&format=mp3&bitrate=192k&filename=mova_${platformName.toLowerCase().replace(/[^a-z]/g, "")}`;
+          } else if (hasExternalBackend) {
+            downloadUrl = `${MOVA_API_URL}/stream?url=${encodeURIComponent(q.url as string)}&quality=${encodeURIComponent(q.label as string)}&filename=mova_${platformName.toLowerCase().replace(/[^a-z]/g, "")}`;
+          } else {
+            downloadUrl = `/api/proxy?url=${encodeURIComponent(q.url as string)}&quality=${encodeURIComponent(q.label as string)}&filename=mova_${platformName.toLowerCase().replace(/[^a-z]/g, "")}&sourceUrl=${encodeURIComponent(url)}`;
+          }
+
+          return {
+            label: q.label as string,
+            resolution: q.resolution as string,
+            url: downloadUrl,
+            originalUrl: q.url as string,
+          };
+        });
 
         return {
           title: data.title || `Video ${platformName}`,
@@ -441,27 +539,31 @@ async function handleYtdlpProxy(url: string, audioMode: boolean, platformName: s
       }
 
       if (data.downloadUrl || data.url) {
-        const downloadUrl = data.downloadUrl || data.url;
+        const rawUrl = data.downloadUrl || data.url;
+        const downloadUrl = hasExternalBackend
+          ? `${MOVA_API_URL}/stream?url=${encodeURIComponent(rawUrl)}&quality=video&filename=mova_${platformName.toLowerCase().replace(/[^a-z]/g, "")}`
+          : `/api/proxy?url=${encodeURIComponent(rawUrl)}&quality=video&filename=mova_${platformName.toLowerCase().replace(/[^a-z]/g, "")}&sourceUrl=${encodeURIComponent(url)}`;
+
         return {
           title: data.title || `Video ${platformName}`,
           thumbnail: data.thumbnail || "",
           duration: data.duration || "--:--",
           author: data.author || "@unknown",
           platform: platformName,
-          downloadUrl: `/api/proxy?url=${encodeURIComponent(downloadUrl)}&quality=video&filename=mova_${platformName.toLowerCase().replace(/[^a-z]/g, "")}&sourceUrl=${encodeURIComponent(url)}`,
-          originalDownloadUrl: downloadUrl,
+          downloadUrl,
+          originalDownloadUrl: rawUrl,
           qualityOptions: [{
             label: "Video",
             resolution: "Auto",
-            url: `/api/proxy?url=${encodeURIComponent(downloadUrl)}&quality=video&filename=mova_${platformName.toLowerCase().replace(/[^a-z]/g, "")}&sourceUrl=${encodeURIComponent(url)}`,
-            originalUrl: downloadUrl,
+            url: downloadUrl,
+            originalUrl: rawUrl,
           }],
           filename: data.filename || `mova_${platformName.toLowerCase().replace(/[^a-z]/g, "")}_${Date.now()}`,
         };
       }
     }
   } catch (e) {
-    console.error(`[download] yt-dlp proxy failed for ${platformName}:`, e instanceof Error ? e.message : "unknown");
+    console.error(`[download] Backend API failed for ${platformName}:`, e instanceof Error ? e.message : "unknown");
   }
 
   throw new Error(`Gagal mengambil info video ${platformName}. Server sedang sibuk, coba lagi dalam beberapa detik.`);
@@ -489,7 +591,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate URL format
     const trimmedUrl = url.trim();
     try {
       const parsed = new URL(trimmedUrl.startsWith("www.") ? "https://" + trimmedUrl : trimmedUrl);
@@ -506,7 +607,7 @@ export async function POST(request: NextRequest) {
     const isAudio = audioMode === true;
     const platform = detectPlatform(trimmedUrl);
 
-    console.log(`[download] Platform: ${platform}, Audio: ${isAudio}, URL: ${trimmedUrl.substring(0, 80)}...`);
+    console.log(`[download] Platform: ${platform}, Audio: ${isAudio}, URL: ${trimmedUrl.substring(0, 80)}..., Backend: ${hasExternalBackend ? MOVA_API_URL : "none"}`);
 
     let result: DownloadResult;
 
@@ -533,7 +634,6 @@ export async function POST(request: NextRequest) {
         result = await handleReddit(trimmedUrl, isAudio);
         break;
       default:
-        // Try ytdlp as a catch-all
         result = await handleYtdlpProxy(trimmedUrl, isAudio, "Unknown");
         break;
     }
@@ -546,11 +646,12 @@ export async function POST(request: NextRequest) {
   }
 }
 
-/* ──────── GET Handler (for health check) ──────── */
+/* ──────── GET Handler ──────── */
 export async function GET() {
   return NextResponse.json({
     message: "Mova Download API",
-    version: "1.0",
+    version: "2.0",
     supported: ["youtube", "tiktok", "instagram", "twitter", "facebook", "pinterest", "reddit"],
+    backend: hasExternalBackend ? MOVA_API_URL : "not configured",
   });
 }
