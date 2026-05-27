@@ -47,6 +47,9 @@ export const metadata: Metadata = {
   verification: {
     google: "google-site-verification=PLACEHOLDER_REPLACE_WITH_YOUR_CODE",
   },
+  other: {
+    "google-adsense-account": "ca-pub-8487073388720076",
+  },
   openGraph: {
     title: "Mova - Download Video Tanpa Watermark",
     description:
@@ -92,8 +95,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="manifest" href="/manifest.json" />
-        {/* TODO: Replace PLACEHOLDER with your actual Google Search Console verification code from https://search.google.com/search-console */}
-        <meta name="google-site-verification" content="PLACEHOLDER_REPLACE_WITH_YOUR_CODE" />
         {/* AdSense loads via CookieConsent after user accepts */}
         {/* JSON-LD Structured Data */}
         <script
@@ -223,21 +224,6 @@ export default function RootLayout({
           <Toaster />
           <CookieConsent />
         </Providers>
-        {/* Google Analytics - Uncomment and add your GA4 Measurement ID when ready */}
-        {/*
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-XXXXXXXXXX');
-          `}
-        </Script>
-        */}
       </body>
     </html>
   );

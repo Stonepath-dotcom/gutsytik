@@ -225,9 +225,9 @@ export default function FAQPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
+      <div className="min-h-screen flex flex-col bg-white dark:bg-[#09090B] text-foreground dark:text-[#FAFAFA]">
         {/* Header */}
-        <header className="border-b border-[#27272A] bg-[#111113]">
+        <header className="border-b border-border dark:border-[#27272A] bg-card dark:bg-[#111113]">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               <a href="/" className="flex items-center gap-2">
@@ -235,7 +235,7 @@ export default function FAQPage() {
               </a>
               <a
                 href="/"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-[#27272A] bg-[#111113] text-[#FAFAFA] hover:bg-[#18181B] transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-border dark:border-[#27272A] bg-card dark:bg-[#111113] text-foreground dark:text-[#FAFAFA] hover:bg-muted/50 dark:hover:bg-[#18181B] transition-colors"
               >
                 <Home className="h-4 w-4" />
                 Beranda
@@ -249,7 +249,7 @@ export default function FAQPage() {
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
             {/* Breadcrumb */}
             <nav aria-label="Breadcrumb" className="mb-8">
-              <ol className="flex items-center gap-1.5 text-sm text-[#A1A1AA]">
+              <ol className="flex items-center gap-1.5 text-sm text-muted-foreground dark:text-[#A1A1AA]">
                 <li>
                   <a href="/" className="hover:text-[#4F46E5] transition-colors">
                     Beranda
@@ -264,18 +264,18 @@ export default function FAQPage() {
 
             {/* Title section */}
             <div className="text-center mb-16">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA] mb-6">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-border dark:border-[#27272A] text-muted-foreground dark:text-[#A1A1AA] mb-6">
                 <HelpCircle className="h-3 w-3 text-[#4F46E5]" />
                 FAQ
               </span>
               <h1
-                className="text-4xl sm:text-5xl font-light tracking-tight text-[#FAFAFA] mb-4 mt-4"
+                className="text-4xl sm:text-5xl font-light tracking-tight text-foreground dark:text-[#FAFAFA] mb-4 mt-4"
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
                 Pertanyaan yang{" "}
                 <span className="font-bold text-[#4F46E5]">Sering Diajukan</span>
               </h1>
-              <p className="text-[#A1A1AA] text-sm max-w-2xl mx-auto leading-relaxed">
+              <p className="text-muted-foreground dark:text-[#A1A1AA] text-sm max-w-2xl mx-auto leading-relaxed">
                 Temukan jawaban dari pertanyaan umum tentang Mova. Jika pertanyaan Anda tidak tercantum di sini, silakan hubungi kami melalui halaman kontak.
               </p>
             </div>
@@ -285,11 +285,11 @@ export default function FAQPage() {
               {faqCategories.map((category, catIndex) => (
                 <section key={catIndex}>
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A]">
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card dark:bg-[#111113] border border-border dark:border-[#27272A]">
                       <category.icon className="h-5 w-5 text-[#4F46E5]" />
                     </div>
                     <h2
-                      className="text-xl font-bold text-[#FAFAFA]"
+                      className="text-xl font-bold text-foreground dark:text-[#FAFAFA]"
                       style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                     >
                       {category.title}
@@ -300,17 +300,17 @@ export default function FAQPage() {
                     {category.items.map((item, itemIndex) => (
                       <details
                         key={itemIndex}
-                        className="group rounded-xl bg-[#111113] border border-[#27272A] overflow-hidden"
+                        className="group rounded-xl bg-card dark:bg-[#111113] border border-border dark:border-[#27272A] overflow-hidden"
                       >
-                        <summary className="flex items-center gap-3 p-4 cursor-pointer list-none hover:bg-[#18181B] transition-colors">
+                        <summary className="flex items-center gap-3 p-4 cursor-pointer list-none hover:bg-muted/50 dark:hover:bg-[#18181B] transition-colors">
                           <HelpCircle className="h-4 w-4 text-[#4F46E5] shrink-0" />
-                          <span className="text-sm font-semibold text-[#FAFAFA] flex-1">
+                          <span className="text-sm font-semibold text-foreground dark:text-[#FAFAFA] flex-1">
                             {item.question}
                           </span>
-                          <ChevronRight className="h-4 w-4 text-[#A1A1AA] transition-transform group-open:rotate-90 shrink-0" />
+                          <ChevronRight className="h-4 w-4 text-muted-foreground dark:text-[#A1A1AA] transition-transform group-open:rotate-90 shrink-0" />
                         </summary>
                         <div className="px-4 pb-4 pt-0 ml-7">
-                          <p className="text-sm text-[#A1A1AA] leading-relaxed">
+                          <p className="text-sm text-muted-foreground dark:text-[#A1A1AA] leading-relaxed">
                             {item.answer}
                           </p>
                         </div>
@@ -322,15 +322,15 @@ export default function FAQPage() {
             </div>
 
             {/* Still have questions */}
-            <div className="mt-16 p-6 sm:p-8 rounded-xl bg-gradient-to-br from-[#111113] to-[#0F0F11] border border-[#27272A] text-center">
+            <div className="mt-16 p-6 sm:p-8 rounded-xl bg-gradient-to-br from-card to-background dark:from-[#111113] dark:to-[#0F0F11] border border-border dark:border-[#27272A] text-center">
               <AlertCircle className="h-8 w-8 text-[#4F46E5] mx-auto mb-4" />
               <h3
-                className="text-lg font-bold text-[#FAFAFA] mb-2"
+                className="text-lg font-bold text-foreground dark:text-[#FAFAFA] mb-2"
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
                 Masih Punya Pertanyaan?
               </h3>
-              <p className="text-sm text-[#A1A1AA] max-w-md mx-auto mb-6 leading-relaxed">
+              <p className="text-sm text-muted-foreground dark:text-[#A1A1AA] max-w-md mx-auto mb-6 leading-relaxed">
                 Jika Anda tidak menemukan jawaban yang dicari, jangan ragu untuk menghubungi kami. Tim kami siap membantu Anda.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3">
@@ -342,7 +342,7 @@ export default function FAQPage() {
                 </a>
                 <a
                   href="/"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-foreground dark:hover:text-[#FAFAFA] hover:border-muted-foreground/30 dark:hover:border-[#3F3F46] transition-colors"
                 >
                   Mulai Download
                 </a>
@@ -350,9 +350,9 @@ export default function FAQPage() {
             </div>
 
             {/* Related pages */}
-            <div className="mt-12 p-6 rounded-xl bg-[#111113] border border-[#27272A]">
+            <div className="mt-12 p-6 rounded-xl bg-card dark:bg-[#111113] border border-border dark:border-[#27272A]">
               <h3
-                className="text-sm font-bold text-[#FAFAFA] mb-4"
+                className="text-sm font-bold text-foreground dark:text-[#FAFAFA] mb-4"
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
                 Halaman Terkait
@@ -360,35 +360,35 @@ export default function FAQPage() {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="/about"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <Globe className="h-4 w-4" />
                   Tentang Kami
                 </a>
                 <a
                   href="/privacy"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <Shield className="h-4 w-4" />
                   Kebijakan Privasi
                 </a>
                 <a
                   href="/terms"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <Lock className="h-4 w-4" />
                   Syarat & Ketentuan
                 </a>
                 <a
                   href="/disclaimer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <FileText className="h-4 w-4" />
                   Disclaimer
                 </a>
                 <a
                   href="/dmca"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
                 >
                   <CreditCard className="h-4 w-4" />
                   DMCA
@@ -397,8 +397,8 @@ export default function FAQPage() {
             </div>
 
             {/* Footer notice */}
-            <div className="mt-12 pt-8 border-t border-[#27272A] text-center">
-              <p className="text-xs text-[#A1A1AA]">
+            <div className="mt-12 pt-8 border-t border-border dark:border-[#27272A] text-center">
+              <p className="text-xs text-muted-foreground dark:text-[#A1A1AA]">
                 &copy; 2026 Mova. Dibuat dengan ❤️ di Indonesia. Semua hak dilindungi.
               </p>
             </div>
