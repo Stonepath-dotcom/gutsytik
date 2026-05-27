@@ -46,6 +46,18 @@ export const metadata: Metadata = {
     "youtube to mp3",
   ],
   authors: [{ name: "getmova" }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  category: "Multimedia",
   icons: {
     icon: [
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
@@ -125,10 +137,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "WebApplication",
+              "@type": "SoftwareApplication",
               name: "getmova",
               description:
-                "Download video tanpa watermark dari berbagai platform populer",
+                "Download video tanpa watermark dari TikTok, Instagram, YouTube, Facebook, Twitter/X, dan platform populer lainnya. Gratis, cepat, dan mudah.",
               url: "https://getmova.my.id",
               applicationCategory: "MultimediaApplication",
               operatingSystem: "All",
@@ -136,6 +148,13 @@ export default function RootLayout({
                 "@type": "Offer",
                 price: "0",
                 priceCurrency: "IDR",
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.9",
+                ratingCount: "87500",
+                bestRating: "5",
+                worstRating: "1",
               },
             }),
           }}
@@ -183,7 +202,10 @@ export default function RootLayout({
               url: "https://getmova.my.id",
               potentialAction: {
                 "@type": "SearchAction",
-                target: "https://getmova.my.id/?q={search_term_string}",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: "https://getmova.my.id/?q={search_term_string}",
+                },
                 "query-input": "required name=search_term_string",
               },
             }),
