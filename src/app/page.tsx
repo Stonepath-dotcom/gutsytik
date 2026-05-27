@@ -956,22 +956,33 @@ function FAQSection() {
     <section id="faq" className="py-16 md:py-24 px-4 md:px-6 border-t border-border">
       <div className="mx-auto max-w-3xl">
         <div className="mb-10 md:mb-14 text-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#10B981]/10 mb-4">
+            <HelpCircle className="h-6 w-6 text-[#10B981]" />
+          </div>
           <h2 className="text-xl md:text-3xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">{t("faq.title")}</h2>
           <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-md mx-auto leading-relaxed">{t("faq.subtitle")}</p>
         </div>
-        <div className="space-y-3">
+        <div className="space-y-2.5 md:space-y-3">
           {faqData.map((f, i) => (
-            <details key={i} className="group rounded-xl border border-border bg-card overflow-hidden hover:border-[#10B981]/20 transition-colors">
+            <details key={i} className="group rounded-xl border border-border bg-card overflow-hidden hover:border-[#10B981]/30 transition-all duration-200">
               <summary className="flex items-center gap-3 p-4 md:p-5 cursor-pointer text-sm md:text-base font-medium text-foreground hover:text-[#10B981] transition-colors list-none">
-                <HelpCircle className="h-5 w-5 text-[#10B981]/60 shrink-0" />
-                <span className="flex-1">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</span>
-                <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0 group-open:rotate-180 transition-transform duration-200" />
+                <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#10B981]/10 text-[#10B981] text-xs font-bold shrink-0">{i + 1}</span>
+                <span className="flex-1 leading-snug">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</span>
+                <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0 group-open:rotate-180 transition-transform duration-300" />
               </summary>
-              <div className="px-4 md:px-5 pb-4 md:pb-5 pl-12 md:pl-13 text-sm text-muted-foreground leading-relaxed">
+              <div className="px-4 md:px-5 pb-4 md:pb-5 text-sm text-muted-foreground leading-relaxed border-t border-border/50 mt-0 pt-3 ml-10 md:ml-11">
                 {faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}
               </div>
             </details>
           ))}
+        </div>
+        <div className="mt-8 md:mt-10 text-center">
+          <p className="text-xs md:text-sm text-muted-foreground">
+            {lang === "id" ? "Masih punya pertanyaan?" : "Still have questions?"}{" "}
+            <a href="/contact" className="text-[#10B981] font-medium hover:underline underline-offset-2">
+              {lang === "id" ? "Hubungi kami" : "Contact us"}
+            </a>
+          </p>
         </div>
       </div>
     </section>
@@ -1035,13 +1046,16 @@ function CTASection() {
     <section className="py-16 md:py-24 px-4 md:px-6 border-t border-border">
       <div className="mx-auto max-w-3xl">
         <div className="relative rounded-2xl overflow-hidden border border-border bg-card p-8 md:p-12 text-center">
-          {/* Subtle background accent */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#10B981]/5 via-transparent to-transparent pointer-events-none" />
+          {/* Background accent */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#10B981]/8 via-transparent to-[#10B981]/3 pointer-events-none" />
           <div className="relative z-10">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#10B981]/10 mb-4">
+              <Download className="h-6 w-6 text-[#10B981]" />
+            </div>
             <h2 className="text-xl md:text-3xl font-bold mb-3 font-[family-name:var(--font-montserrat)] text-foreground">{t("cta.title")}</h2>
             <p className="text-sm md:text-base text-muted-foreground mb-6 md:mb-8 max-w-md mx-auto leading-relaxed">{t("cta.subtitle")}</p>
             <a href="#hero">
-              <Button className="h-12 px-8 bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] text-sm md:text-base shadow-lg hover:opacity-90 transition-all duration-200">
+              <Button className="h-12 px-8 bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] text-sm md:text-base shadow-lg hover:shadow-[#10B981]/25 hover:opacity-90 transition-all duration-200">
                 <Download className="mr-2 h-5 w-5" />{t("cta.button")}
               </Button>
             </a>
@@ -1056,64 +1070,103 @@ function CTASection() {
 function Footer() {
   const { t, lang } = useLanguage();
   return (
-    <footer className="border-t border-border py-8 md:py-12 px-4 md:px-6" role="contentinfo">
+    <footer className="border-t border-border pt-10 md:pt-14 pb-6 md:pb-8 px-4 md:px-6" role="contentinfo">
       <div className="mx-auto max-w-5xl">
-        {/* Desktop: single row */}
-        <div className="hidden md:flex items-start justify-between gap-8">
-          <div className="max-w-xs">
+        {/* Desktop: brand + 4 columns */}
+        <div className="hidden md:grid md:grid-cols-5 gap-8 lg:gap-12">
+          {/* Brand column */}
+          <div className="col-span-2">
             <MovaLogo size={20} showText />
-            <p className="text-xs text-muted-foreground mt-3 leading-relaxed">{t("footer.desc")}</p>
+            <p className="text-xs text-muted-foreground mt-3 leading-relaxed max-w-[260px]">{t("footer.desc")}</p>
+            <div className="flex items-center gap-3 mt-5">
+              <a href="/tiktok-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="TikTok"><TikTokIcon className="h-3.5 w-3.5" /></a>
+              <a href="/youtube-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="YouTube"><YouTubeIcon className="h-3.5 w-3.5" /></a>
+              <a href="/instagram-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="Instagram"><InstagramIcon className="h-3.5 w-3.5" /></a>
+              <a href="/facebook-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="Facebook"><FacebookIcon className="h-3.5 w-3.5" /></a>
+              <a href="/twitter-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="Twitter/X"><TwitterXIcon className="h-3.5 w-3.5" /></a>
+            </div>
           </div>
-          <div className="flex gap-10">
-            <div>
-              <h4 className="text-xs font-semibold text-foreground mb-3">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
-              <ul className="space-y-2">
-                <li><a href="#features" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a></li>
-                <li><a href="#how" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a></li>
-                <li><a href="#platforms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.platform")}</a></li>
-                <li><a href="#faq" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.faq")}</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-semibold text-foreground mb-3">{lang === 'id' ? 'Platform' : 'Platforms'}</h4>
-              <ul className="space-y-2">
-                <li><a href="/tiktok-downloader" className="text-xs text-muted-foreground hover:text-foreground transition-colors">TikTok</a></li>
-                <li><a href="/instagram-downloader" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Instagram</a></li>
-                <li><a href="/youtube-downloader" className="text-xs text-muted-foreground hover:text-foreground transition-colors">YouTube</a></li>
-                <li><a href="/facebook-downloader" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Facebook</a></li>
-                <li><a href="/twitter-downloader" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Twitter/X</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-semibold text-foreground mb-3">Legal</h4>
-              <ul className="space-y-2">
-                <li><a href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Privasi' : 'Privacy'}</a></li>
-                <li><a href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Ketentuan' : 'Terms'}</a></li>
-                <li><a href="/disclaimer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Disclaimer</a></li>
-                <li><a href="/dmca" className="text-xs text-muted-foreground hover:text-foreground transition-colors">DMCA</a></li>
-              </ul>
-            </div>
+          {/* Navigation */}
+          <div>
+            <h4 className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wider">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
+            <ul className="space-y-2.5">
+              <li><a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a></li>
+              <li><a href="#how" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a></li>
+              <li><a href="#platforms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.platform")}</a></li>
+              <li><a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.faq")}</a></li>
+            </ul>
+          </div>
+          {/* Platforms */}
+          <div>
+            <h4 className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wider">{lang === 'id' ? 'Platform' : 'Platforms'}</h4>
+            <ul className="space-y-2.5">
+              <li><a href="/tiktok-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">TikTok</a></li>
+              <li><a href="/instagram-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Instagram</a></li>
+              <li><a href="/youtube-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">YouTube</a></li>
+              <li><a href="/facebook-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Facebook</a></li>
+              <li><a href="/twitter-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Twitter/X</a></li>
+              <li><a href="/pinterest-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pinterest</a></li>
+            </ul>
+          </div>
+          {/* Legal */}
+          <div>
+            <h4 className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wider">Legal</h4>
+            <ul className="space-y-2.5">
+              <li><a href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Privasi' : 'Privacy'}</a></li>
+              <li><a href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Ketentuan' : 'Terms'}</a></li>
+              <li><a href="/disclaimer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Disclaimer</a></li>
+              <li><a href="/dmca" className="text-sm text-muted-foreground hover:text-foreground transition-colors">DMCA</a></li>
+            </ul>
           </div>
         </div>
-        {/* Mobile: stacked */}
-        <div className="md:hidden space-y-5">
-          <MovaLogo size={20} showText />
-          <p className="text-xs text-muted-foreground leading-relaxed">{t("footer.desc")}</p>
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
-            <a href="#features" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a>
-            <a href="#how" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a>
-            <a href="#platforms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.platform")}</a>
-            <a href="#faq" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("nav.faq")}</a>
-            <a href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Privasi' : 'Privacy'}</a>
-            <a href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Ketentuan' : 'Terms'}</a>
-            <a href="/disclaimer" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Disclaimer</a>
+        {/* Mobile: stacked with sections */}
+        <div className="md:hidden space-y-6">
+          <div>
+            <MovaLogo size={20} showText />
+            <p className="text-xs text-muted-foreground mt-2.5 leading-relaxed">{t("footer.desc")}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+            <div>
+              <h4 className="text-xs font-semibold text-foreground mb-2.5 uppercase tracking-wider">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
+              <ul className="space-y-2">
+                <li><a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a></li>
+                <li><a href="#how" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a></li>
+                <li><a href="#platforms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.platform")}</a></li>
+                <li><a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.faq")}</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-xs font-semibold text-foreground mb-2.5 uppercase tracking-wider">{lang === 'id' ? 'Platform' : 'Platforms'}</h4>
+              <ul className="space-y-2">
+                <li><a href="/tiktok-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">TikTok</a></li>
+                <li><a href="/instagram-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Instagram</a></li>
+                <li><a href="/youtube-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">YouTube</a></li>
+                <li><a href="/facebook-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Facebook</a></li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-xs font-semibold text-foreground mb-2.5 uppercase tracking-wider">Legal</h4>
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
+              <a href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Privasi' : 'Privacy'}</a>
+              <a href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Ketentuan' : 'Terms'}</a>
+              <a href="/disclaimer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Disclaimer</a>
+              <a href="/dmca" className="text-sm text-muted-foreground hover:text-foreground transition-colors">DMCA</a>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5 pt-1">
+            <a href="/tiktok-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="TikTok"><TikTokIcon className="h-3.5 w-3.5" /></a>
+            <a href="/youtube-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="YouTube"><YouTubeIcon className="h-3.5 w-3.5" /></a>
+            <a href="/instagram-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="Instagram"><InstagramIcon className="h-3.5 w-3.5" /></a>
+            <a href="/facebook-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="Facebook"><FacebookIcon className="h-3.5 w-3.5" /></a>
+            <a href="/twitter-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="Twitter/X"><TwitterXIcon className="h-3.5 w-3.5" /></a>
           </div>
         </div>
         {/* Bottom */}
         <div className="mt-8 pt-5 border-t border-border">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p className="text-[10px] text-muted-foreground/50">&copy; 2026 Mova. All rights reserved.</p>
-            <p className="text-[10px] text-muted-foreground/40 text-center sm:text-right max-w-sm">
+            <p className="text-xs text-muted-foreground/50">&copy; 2026 getmova. All rights reserved.</p>
+            <p className="text-xs text-muted-foreground/40 text-center sm:text-right max-w-sm leading-relaxed">
               {lang === 'id' ? 'Mova tidak menyimpan konten berhak cipta. Pengguna bertanggung jawab atas penggunaan konten yang diunduh.' : 'Mova does not store copyrighted content. Users are responsible for downloaded content usage.'}
             </p>
           </div>
