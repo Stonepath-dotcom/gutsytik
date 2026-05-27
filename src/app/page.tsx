@@ -290,7 +290,7 @@ function Navbar() {
       }`}
     >
       <div className="mx-auto max-w-5xl h-12 md:h-14 flex items-center justify-between px-4 md:px-6">
-        <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="Mova - Home">
+        <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="getmova - Home">
           <MovaLogo size={24} showText={true} />
         </a>
 
