@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { MovaLogo } from "@/components/mova-logo";
 import { useToast } from "@/hooks/use-toast";
 import { AdUnit } from "@/components/ad-unit";
+import Image from "next/image";
 
 /* ──────── Types ──────── */
 interface QualityOption { label: string; resolution: string; url: string; originalUrl?: string; }
@@ -701,7 +702,7 @@ function HeroSection() {
               ) : (
                 <div className="flex gap-3 mb-3">
                   <div className="w-16 h-12 md:w-20 md:h-14 rounded-md bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
-                    {result.thumbnail && <img src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={80} height={56} className="w-full h-full object-cover" loading="lazy" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
+                    {result.thumbnail && <Image src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={80} height={56} className="w-full h-full object-cover" unoptimized onError={() => {}} />}
                     <Play className="h-4 w-4 absolute text-[#10B981]" />
                   </div>
                   <div className="flex-1 min-w-0">

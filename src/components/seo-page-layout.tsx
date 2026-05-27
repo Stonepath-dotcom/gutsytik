@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 function MovaLogo({ className }: { className?: string }) {
   return (
@@ -144,9 +145,9 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md" role="banner">
         <div className="mx-auto max-w-3xl h-12 md:h-16 flex items-center justify-between px-4">
-          <a href="/" className="flex items-center gap-2" aria-label="Mova Beranda">
+          <a href="/" className="flex items-center gap-2" aria-label="getmova Beranda">
             <MovaLogo className="h-7 w-7" />
-            <span className="font-bold text-lg text-foreground tracking-tight">Mova</span>
+            <span className="font-bold text-lg text-foreground tracking-tight">getmova</span>
           </a>
           <nav className="hidden md:flex items-center gap-4" aria-label="Navigasi utama">
             {navItems.map(item => (
@@ -207,7 +208,7 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
                 </div>
                 <div className="flex gap-3 p-3 border-b border-border">
                   <div className="w-24 h-14 sm:w-28 sm:h-16 md:w-36 md:h-20 bg-muted rounded overflow-hidden shrink-0">
-                    {result.thumbnail && <img src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={56} className="w-full h-full object-cover" loading="lazy" />}
+                    {result.thumbnail && <Image src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={56} className="w-full h-full object-cover" unoptimized />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm md:text-base font-medium text-foreground line-clamp-2 leading-snug">{result.title}</p>
@@ -246,6 +247,10 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
                 { name: "TikTok", href: "/tiktok-downloader", desc: "Tanpa watermark" },
                 { name: "YouTube", href: "/youtube-downloader", desc: "Video & MP3" },
                 { name: "Instagram", href: "/instagram-downloader", desc: "Reels & Video" },
+                { name: "Facebook", href: "/facebook-downloader", desc: "Video HD" },
+                { name: "Twitter/X", href: "/twitter-downloader", desc: "Video & GIF" },
+                { name: "Pinterest", href: "/pinterest-downloader", desc: "Video & Gambar" },
+                { name: "Reddit", href: "/reddit-downloader", desc: "Video HD" },
                 { name: "YouTube MP3", href: "/youtube-mp3", desc: "Konversi audio" },
               ].filter(l => l.href !== `/${platform.toLowerCase().replace(' ', '-')}-downloader` && !(l.href === '/youtube-mp3' && platform === 'YouTube MP3')).map(link => (
                 <a key={link.href} href={link.href} className="p-3 md:p-5 bg-card border border-border rounded-lg hover:border-primary/30 hover:shadow-sm transition-all">
@@ -268,7 +273,7 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
             <a href="/contact" className="hover:text-foreground transition-colors">Kontak</a>
             <a href="mailto:admin@getmova.my.id" className="hover:text-foreground transition-colors">admin@getmova.my.id</a>
           </div>
-          <p className="text-center text-xs md:text-sm text-muted-foreground">&copy; {new Date().getFullYear()} Mova. Semua hak dilindungi.</p>
+          <p className="text-center text-xs md:text-sm text-muted-foreground">&copy; {new Date().getFullYear()} getmova. Semua hak dilindungi.</p>
         </div>
       </footer>
 

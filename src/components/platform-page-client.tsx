@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/accordion";
 import { MovaLogo } from "@/components/mova-logo";
 import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 /* ──────── Types ──────── */
 interface QualityOption { label: string; resolution: string; url: string; originalUrl?: string; }
@@ -192,7 +193,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
         <div className="mx-auto max-w-5xl md:max-w-6xl h-12 md:h-16 flex items-center justify-between px-3 sm:px-4">
           <a href="/" className="flex items-center gap-1.5 shrink-0">
             <MovaLogo size={22} showText={false} />
-            <span className="font-bold text-sm text-foreground" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>Mova</span>
+            <span className="font-bold text-sm text-foreground" style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}>getmova</span>
           </a>
           <nav className="hidden md:flex items-center gap-1">
             <a href="#download" className="px-2.5 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted/50">Download</a>
@@ -297,7 +298,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
               <div className="p-4">
                 <div className="flex gap-3 mb-3">
                   <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
-                    {result.thumbnail && <img src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={64} className="w-full h-full object-cover" loading="lazy" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
+                    {result.thumbnail && <Image src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={64} className="w-full h-full object-cover" unoptimized onError={() => {}} />}
                     <Play className="h-6 w-6 absolute text-[#10B981]" />
                   </div>
                   <div className="flex-1 text-left min-w-0">
@@ -552,7 +553,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
         <div className="mx-auto max-w-4xl flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <MovaLogo size={18} showText={false} />
-            <span className="text-xs md:text-sm text-muted-foreground">© {new Date().getFullYear()} Mova. Download video tanpa watermark.</span>
+            <span className="text-xs md:text-sm text-muted-foreground">© {new Date().getFullYear()} getmova. Download video tanpa watermark.</span>
           </div>
           <div className="flex items-center gap-4 text-xs md:text-sm text-muted-foreground">
             <a href="/privacy" className="hover:text-foreground transition-colors">Kebijakan Privasi</a>
