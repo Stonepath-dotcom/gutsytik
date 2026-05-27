@@ -63,7 +63,7 @@ const articles = [
       "Daftar 10 situs download video tanpa watermark terbaik tahun 2026. Perbandingan fitur, kecepatan, dan kemudahan setiap situs downloader.",
     date: "26 Mei 2026",
     readingTime: "9 menit",
-    gradient: "from-[#4F46E5]/20 via-[#7C3AED]/15 to-[#4F46E5]/10",
+    gradient: "from-[#10B981]/20 via-[#34D399]/15 to-[#10B981]/10",
     icon: "🏆",
   },
   {
@@ -113,7 +113,7 @@ const articles = [
       "Panduan lengkap cara download video YouTube tanpa install aplikasi. Langsung dari browser, gratis, cepat, dan aman.",
     date: "25 Mei 2026",
     readingTime: "9 menit",
-    gradient: "from-[#FF0000]/20 via-[#282828]/30 to-[#4F46E5]/10",
+    gradient: "from-[#FF0000]/20 via-[#282828]/30 to-[#10B981]/10",
     icon: "🌐",
   },
   {
@@ -163,7 +163,7 @@ const articles = [
       "Panduan komprehensif download video tanpa watermark dari semua platform. Perbandingan tools dan mengapa Mova adalah pilihan terbaik.",
     date: "21 Mei 2026",
     readingTime: "9 menit",
-    gradient: "from-[#4F46E5]/20 via-[#7C3AED]/15 to-[#4F46E5]/10",
+    gradient: "from-[#10B981]/20 via-[#34D399]/15 to-[#10B981]/10",
     icon: "✨",
   },
   {
@@ -183,7 +183,7 @@ const articles = [
       "Pelajari cara mengekstrak audio MP3 dari video online. Cocok untuk podcast, musik, dan konten audio lainnya. Gratis dan cepat!",
     date: "19 Mei 2026",
     readingTime: "7 menit",
-    gradient: "from-[#7C3AED]/20 via-[#EC4899]/15 to-[#7C3AED]/10",
+    gradient: "from-[#34D399]/20 via-[#EC4899]/15 to-[#34D399]/10",
     icon: "🎧",
   },
   {
@@ -243,7 +243,7 @@ const articles = [
       "Cara download video tanpa install aplikasi apapun. Langsung dari browser, support semua platform, gratis dan cepat.",
     date: "13 Mei 2026",
     readingTime: "6 menit",
-    gradient: "from-[#4F46E5]/20 via-[#7C3AED]/15 to-[#4F46E5]/10",
+    gradient: "from-[#10B981]/20 via-[#34D399]/15 to-[#10B981]/10",
     icon: "🌐",
   },
   {
@@ -263,7 +263,7 @@ const articles = [
       "Konversi video YouTube ke MP3 secara gratis. Download lagu, podcast, dan audio dari YouTube dalam kualitas terbaik.",
     date: "11 Mei 2026",
     readingTime: "5 menit",
-    gradient: "from-[#FF0000]/15 via-[#282828]/20 to-[#7C3AED]/10",
+    gradient: "from-[#FF0000]/15 via-[#282828]/20 to-[#34D399]/10",
     icon: "🎧",
   },
   {
@@ -303,7 +303,7 @@ const articles = [
       "Tutorial konversi video ke MP3 dengan kualitas terbaik. Panduan bitrate, format audio, dan tools terbaik untuk extract audio dari video.",
     date: "7 Mei 2026",
     readingTime: "8 menit",
-    gradient: "from-[#7C3AED]/20 via-[#EC4899]/15 to-[#4F46E5]/10",
+    gradient: "from-[#34D399]/20 via-[#EC4899]/15 to-[#10B981]/10",
     icon: "🎵",
   },
   {
@@ -313,7 +313,7 @@ const articles = [
       "Review dan perbandingan YouTube downloader terbaik tahun 2026. Perbandingan fitur, kecepatan, keamanan, dan kemudahan setiap tool.",
     date: "6 Mei 2026",
     readingTime: "10 menit",
-    gradient: "from-[#FF0000]/20 via-[#4F46E5]/15 to-[#0C0C0E]",
+    gradient: "from-[#FF0000]/20 via-[#10B981]/15 to-[#0C0C0E]",
     icon: "⭐",
   },
   {
@@ -323,7 +323,7 @@ const articles = [
       "Tips download video saat koneksi internet lambat. Optimasi download, pilih resolusi tepat, dan trik hemat kuota data.",
     date: "5 Mei 2026",
     readingTime: "9 menit",
-    gradient: "from-[#4F46E5]/15 via-[#10B981]/10 to-[#0C0C0E]",
+    gradient: "from-[#10B981]/15 via-[#10B981]/10 to-[#0C0C0E]",
     icon: "📶",
   },
 ];
@@ -393,9 +393,9 @@ export default function BlogPage() {
           <div className="mx-auto max-w-5xl px-4 pt-6">
             <nav aria-label="Breadcrumb">
               <ol className="flex items-center gap-1.5 text-sm text-muted-foreground dark:text-[#A1A1AA]">
-                <li><a href="/" className="hover:text-[#4F46E5] transition-colors">Beranda</a></li>
+                <li><a href="/" className="hover:text-[#10B981] transition-colors">Beranda</a></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li className="text-[#4F46E5] font-medium">Blog</li>
+                <li className="text-[#10B981] font-medium">Blog</li>
               </ol>
             </nav>
           </div>
@@ -403,8 +403,8 @@ export default function BlogPage() {
           {/* Hero */}
           <section className="relative pt-8 pb-12 px-4 sm:px-6 overflow-hidden">
             <div className="relative mx-auto max-w-4xl text-center">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#4F46E5]/10 border border-[#4F46E5]/20 mb-4">
-                <span className="text-xs font-semibold text-[#4F46E5]">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/20 mb-4">
+                <span className="text-xs font-semibold text-[#10B981]">
                   Blog & Panduan
                 </span>
               </div>
@@ -426,7 +426,7 @@ export default function BlogPage() {
                 <Link
                   key={article.slug}
                   href={`/blog/${article.slug}`}
-                  className="group rounded-2xl overflow-hidden bg-card dark:bg-[#111113] border border-border dark:border-[#27272A] hover:border-[#4F46E5]/30 transition-all duration-200"
+                  className="group rounded-2xl overflow-hidden bg-card dark:bg-[#111113] border border-border dark:border-[#27272A] hover:border-[#10B981]/30 transition-all duration-200"
                 >
                   {/* Thumbnail placeholder */}
                   <div
@@ -440,16 +440,16 @@ export default function BlogPage() {
                   <div className="p-4">
                     <div className="flex items-center gap-3 text-[11px] text-muted-foreground dark:text-[#A1A1AA] mb-2">
                       <span className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3 text-[#4F46E5]" />
+                        <Calendar className="h-3 w-3 text-[#10B981]" />
                         {article.date}
                       </span>
                       <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3 text-[#4F46E5]" />
+                        <Clock className="h-3 w-3 text-[#10B981]" />
                         {article.readingTime}
                       </span>
                     </div>
 
-                    <h2 className="font-bold text-foreground dark:text-[#FAFAFA] text-sm sm:text-base mb-2 group-hover:text-[#4F46E5] transition-colors line-clamp-2 font-[family-name:var(--font-montserrat)]">
+                    <h2 className="font-bold text-foreground dark:text-[#FAFAFA] text-sm sm:text-base mb-2 group-hover:text-[#10B981] transition-colors line-clamp-2 font-[family-name:var(--font-montserrat)]">
                       {article.title}
                     </h2>
 
@@ -457,7 +457,7 @@ export default function BlogPage() {
                       {article.description}
                     </p>
 
-                    <span className="inline-flex items-center gap-1 text-xs font-medium text-[#4F46E5] group-hover:gap-2 transition-all">
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-[#10B981] group-hover:gap-2 transition-all">
                       Baca Selengkapnya
                       <ArrowRight className="h-3 w-3" />
                     </span>
@@ -470,7 +470,7 @@ export default function BlogPage() {
           {/* CTA */}
           <section className="px-4 sm:px-6 pb-16">
             <div className="mx-auto max-w-3xl">
-              <div className="rounded-2xl p-6 sm:p-8 text-center bg-gradient-to-br from-[#4F46E5]/20 to-[#7C3AED]/10 border border-[#4F46E5]/30">
+              <div className="rounded-2xl p-6 sm:p-8 text-center bg-gradient-to-br from-[#10B981]/20 to-[#34D399]/10 border border-[#10B981]/30">
                 <h2 className="text-xl sm:text-2xl font-bold text-foreground dark:text-[#FAFAFA] mb-2 font-[family-name:var(--font-montserrat)]">
                   Langsung Coba Mova Sekarang
                 </h2>
@@ -480,7 +480,7 @@ export default function BlogPage() {
                 </p>
                 <Link
                   href="/"
-                  className="inline-flex items-center gap-2 bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] px-8 h-12 text-base transition-colors"
+                  className="inline-flex items-center gap-2 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] px-8 h-12 text-base transition-colors"
                 >
                   Mulai Download Gratis
                 </Link>

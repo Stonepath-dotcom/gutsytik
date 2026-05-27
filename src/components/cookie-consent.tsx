@@ -111,8 +111,8 @@ export function CookieConsent() {
         <div className="flex flex-col gap-3">
           {/* Header */}
           <div className="flex items-start gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#4F46E5]/10 flex items-center justify-center shrink-0 mt-0.5">
-              <Cookie className="h-4 w-4 text-[#4F46E5]" />
+            <div className="w-8 h-8 rounded-lg bg-[#10B981]/10 flex items-center justify-center shrink-0 mt-0.5">
+              <Cookie className="h-4 w-4 text-[#10B981]" />
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="text-sm font-semibold text-foreground">
@@ -167,7 +167,7 @@ export function CookieConsent() {
               </div>
               <div>
                 <strong className="text-foreground">Cookie Periklanan (Google AdSense):</strong> Digunakan oleh Google dan mitranya untuk menampilkan iklan yang relevan. Cookie ini dapat melacak kunjungan Anda di berbagai website untuk penargetan iklan. Anda dapat mengelola preferensi iklan di{" "}
-                <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-[#4F46E5] hover:underline inline-flex items-center gap-0.5">
+                <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-[#10B981] hover:underline inline-flex items-center gap-0.5">
                   Pengaturan Iklan Google <ExternalLink className="h-2.5 w-2.5" />
                 </a>.
               </div>
@@ -183,17 +183,17 @@ export function CookieConsent() {
             <span>Kami tidak menjual data pribadi Anda</span>
             <button
               onClick={() => setShowDetails(!showDetails)}
-              className="text-[#4F46E5] hover:underline"
+              className="text-[#10B981] hover:underline"
             >
               {showDetails ? "Sembunyikan detail" : "Lihat detail cookie"}
             </button>
-            <a href="/cookie-policy" className="text-[#4F46E5] hover:underline">
+            <a href="/cookie-policy" className="text-[#10B981] hover:underline">
               Kebijakan Cookie
             </a>
-            <a href="/privacy" className="text-[#4F46E5] hover:underline">
+            <a href="/privacy" className="text-[#10B981] hover:underline">
               Kebijakan Privasi
             </a>
-            <a href="/terms" className="text-[#4F46E5] hover:underline">
+            <a href="/terms" className="text-[#10B981] hover:underline">
               Syarat &amp; Ketentuan
             </a>
           </div>
@@ -208,7 +208,7 @@ export function CookieConsent() {
             </button>
             <button
               onClick={handleAccept}
-              className="flex-1 px-4 py-2 text-xs font-semibold rounded-lg bg-[#4F46E5] text-white hover:bg-[#4338CA] active:scale-[0.98] transition-all"
+              className="flex-1 px-4 py-2 text-xs font-semibold rounded-lg bg-[#10B981] text-white hover:bg-[#059669] active:scale-[0.98] transition-all"
             >
               Terima Semua Cookie
             </button>

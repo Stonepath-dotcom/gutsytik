@@ -20,8 +20,8 @@ export function MovaLogo({ size = 40, className = "", showText = true }: MovaLog
         <defs>
           <linearGradient id="mova-bg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#3B82F6" />
-            <stop offset="50%" stopColor="#4F46E5" />
-            <stop offset="100%" stopColor="#4338CA" />
+            <stop offset="50%" stopColor="#10B981" />
+            <stop offset="100%" stopColor="#059669" />
           </linearGradient>
           <linearGradient id="mova-icon" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#FFFFFF" />

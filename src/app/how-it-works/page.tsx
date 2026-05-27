@@ -252,21 +252,21 @@ export default function HowItWorksPage() {
             <nav aria-label="Breadcrumb" className="mb-8">
               <ol className="flex items-center gap-1.5 text-sm text-muted-foreground dark:text-[#A1A1AA]">
                 <li>
-                  <a href="/" className="hover:text-[#4F46E5] transition-colors">
+                  <a href="/" className="hover:text-[#10B981] transition-colors">
                     Beranda
                   </a>
                 </li>
                 <li>
                   <ChevronRight className="h-3.5 w-3.5" />
                 </li>
-                <li className="text-[#4F46E5] font-medium">Cara Kerja</li>
+                <li className="text-[#10B981] font-medium">Cara Kerja</li>
               </ol>
             </nav>
 
             {/* Title section */}
             <div className="text-center mb-16">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-border dark:border-[#27272A] text-muted-foreground dark:text-[#A1A1AA] mb-6">
-                <Zap className="h-3 w-3 text-[#4F46E5]" />
+                <Zap className="h-3 w-3 text-[#10B981]" />
                 Cara Kerja
               </span>
               <h1
@@ -274,7 +274,7 @@ export default function HowItWorksPage() {
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
                 Bagaimana{" "}
-                <span className="font-bold text-[#4F46E5]">Mova</span> Bekerja?
+                <span className="font-bold text-[#10B981]">Mova</span> Bekerja?
               </h1>
               <p className="text-muted-foreground dark:text-[#A1A1AA] text-sm max-w-2xl mx-auto leading-relaxed">
                 Mova adalah layanan download video berbasis web yang memungkinkan Anda mengunduh video tanpa watermark dari berbagai platform media sosial. Tanpa instalasi, tanpa registrasi — cukup salin link, tempel, dan unduh.
@@ -286,7 +286,7 @@ export default function HowItWorksPage() {
 
             {/* Intro highlight */}
             <div className="mb-16 p-6 sm:p-8 rounded-xl bg-gradient-to-br from-card to-background dark:from-[#111113] dark:to-[#0F0F11] border border-border dark:border-[#27272A] relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#4F46E5]/5 rounded-full blur-3xl" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/5 rounded-full blur-3xl" />
               <div className="relative">
                 <div className="flex items-center gap-3 mb-4">
                   <MovaLogo size={40} showText={false} />
@@ -316,7 +316,7 @@ export default function HowItWorksPage() {
                   className="text-2xl font-bold text-foreground dark:text-[#FAFAFA] mb-3"
                   style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                 >
-                  Langkah-Langkah <span className="text-[#4F46E5]">Mengunduh Video</span>
+                  Langkah-Langkah <span className="text-[#10B981]">Mengunduh Video</span>
                 </h2>
                 <p className="text-sm text-muted-foreground dark:text-[#A1A1AA] max-w-lg mx-auto">
                   Hanya 4 langkah sederhana untuk mengunduh video tanpa watermark dari platform media sosial favorit Anda.
@@ -326,20 +326,20 @@ export default function HowItWorksPage() {
                 {steps.map((step) => (
                   <div
                     key={step.number}
-                    className="p-6 rounded-xl bg-card dark:bg-[#111113] border border-border dark:border-[#27272A] hover:border-[#4F46E5]/20 transition-colors group"
+                    className="p-6 rounded-xl bg-card dark:bg-[#111113] border border-border dark:border-[#27272A] hover:border-[#10B981]/20 transition-colors group"
                   >
                     <div className="flex gap-4">
                       <div className="flex flex-col items-center shrink-0">
                         <div
                           className="w-12 h-12 rounded-xl flex items-center justify-center text-white text-lg font-bold shrink-0"
-                          style={{ backgroundColor: "#4F46E5" }}
+                          style={{ backgroundColor: "#10B981" }}
                         >
                           {step.number}
                         </div>
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-3">
-                          <step.icon className="h-5 w-5 text-[#4F46E5]" />
+                          <step.icon className="h-5 w-5 text-[#10B981]" />
                           <h3
                             className="text-base font-bold text-foreground dark:text-[#FAFAFA]"
                             style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
@@ -364,7 +364,7 @@ export default function HowItWorksPage() {
                   className="text-2xl font-bold text-foreground dark:text-[#FAFAFA] mb-3"
                   style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                 >
-                  Teknologi di Balik <span className="text-[#4F46E5]">Mova</span>
+                  Teknologi di Balik <span className="text-[#10B981]">Mova</span>
                 </h2>
                 <p className="text-sm text-muted-foreground dark:text-[#A1A1AA] max-w-lg mx-auto">
                   Pahami bagaimana Mova bekerja secara teknis — dari pengambilan informasi video hingga proses unduhan yang aman.
@@ -374,10 +374,10 @@ export default function HowItWorksPage() {
                 {technologies.map((tech, index) => (
                   <div
                     key={index}
-                    className="p-6 rounded-xl bg-card dark:bg-[#111113] border border-border dark:border-[#27272A] hover:border-[#4F46E5]/20 transition-colors group"
+                    className="p-6 rounded-xl bg-card dark:bg-[#111113] border border-border dark:border-[#27272A] hover:border-[#10B981]/20 transition-colors group"
                   >
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-background dark:bg-[#09090B] border border-border dark:border-[#27272A] mb-4 group-hover:border-[#4F46E5]/30 transition-colors">
-                      <tech.icon className="h-5 w-5 text-[#4F46E5]" />
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-background dark:bg-[#09090B] border border-border dark:border-[#27272A] mb-4 group-hover:border-[#10B981]/30 transition-colors">
+                      <tech.icon className="h-5 w-5 text-[#10B981]" />
                     </div>
                     <h3
                       className="text-base font-bold text-foreground dark:text-[#FAFAFA] mb-2"
@@ -400,7 +400,7 @@ export default function HowItWorksPage() {
                   className="text-2xl font-bold text-foreground dark:text-[#FAFAFA] mb-3"
                   style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                 >
-                  Keamanan & <span className="text-[#4F46E5]">Privasi</span>
+                  Keamanan & <span className="text-[#10B981]">Privasi</span>
                 </h2>
                 <p className="text-sm text-muted-foreground dark:text-[#A1A1AA] max-w-lg mx-auto">
                   Kami menjaga privasi Anda dengan serius. Berikut penjelasan tentang bagaimana Mova melindungi data dan aktivitas Anda.
@@ -411,7 +411,7 @@ export default function HowItWorksPage() {
                   <div key={index} className="flex gap-4">
                     <div className="flex flex-col items-center shrink-0">
                       <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card dark:bg-[#111113] border border-border dark:border-[#27272A]">
-                        <point.icon className="h-5 w-5 text-[#4F46E5]" />
+                        <point.icon className="h-5 w-5 text-[#10B981]" />
                       </div>
                       {index < securityPoints.length - 1 && (
                         <div className="w-px h-full bg-border dark:bg-[#27272A] mt-2" />
@@ -437,7 +437,7 @@ export default function HowItWorksPage() {
             <div className="mb-16">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card dark:bg-[#111113] border border-border dark:border-[#27272A] shrink-0">
-                  <Download className="h-5 w-5 text-[#4F46E5]" />
+                  <Download className="h-5 w-5 text-[#10B981]" />
                 </div>
                 <h2
                   className="text-xl font-bold text-foreground dark:text-[#FAFAFA]"
@@ -454,7 +454,7 @@ export default function HowItWorksPage() {
                   <a
                     key={platform.name}
                     href={platform.href}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-card dark:bg-[#111113] border border-border dark:border-[#27272A] hover:border-[#4F46E5]/30 transition-colors group"
+                    className="flex items-center gap-3 p-3 rounded-xl bg-card dark:bg-[#111113] border border-border dark:border-[#27272A] hover:border-[#10B981]/30 transition-colors group"
                   >
                     <div
                       className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0"
@@ -477,7 +477,7 @@ export default function HowItWorksPage() {
                   className="text-2xl font-bold text-foreground dark:text-[#FAFAFA] mb-3"
                   style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                 >
-                  Format & <span className="text-[#4F46E5]">Kualitas</span>
+                  Format & <span className="text-[#10B981]">Kualitas</span>
                 </h2>
                 <p className="text-sm text-muted-foreground dark:text-[#A1A1AA] max-w-lg mx-auto">
                   Mova menyediakan berbagai opsi format dan kualitas untuk memenuhi kebutuhan Anda, mulai dari video HD hingga audio MP3.
@@ -491,7 +491,7 @@ export default function HowItWorksPage() {
                   >
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-background dark:bg-[#09090B] border border-border dark:border-[#27272A]">
-                        <format.icon className="h-5 w-5 text-[#4F46E5]" />
+                        <format.icon className="h-5 w-5 text-[#10B981]" />
                       </div>
                       <h3
                         className="text-base font-bold text-foreground dark:text-[#FAFAFA]"
@@ -502,7 +502,7 @@ export default function HowItWorksPage() {
                     </div>
                     <div className="space-y-4">
                       {format.items.map((item, index) => (
-                        <div key={index} className="pl-4 border-l-2 border-[#4F46E5]/30">
+                        <div key={index} className="pl-4 border-l-2 border-[#10B981]/30">
                           <p className="text-sm font-semibold text-foreground dark:text-[#FAFAFA] mb-1">
                             {item.label}
                           </p>
@@ -524,7 +524,7 @@ export default function HowItWorksPage() {
                   className="text-2xl font-bold text-foreground dark:text-[#FAFAFA] mb-3"
                   style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                 >
-                  Pertanyaan <span className="text-[#4F46E5]">Umum</span>
+                  Pertanyaan <span className="text-[#10B981]">Umum</span>
                 </h2>
                 <p className="text-sm text-muted-foreground dark:text-[#A1A1AA] max-w-lg mx-auto">
                   Jawaban atas pertanyaan yang sering diajukan tentang cara kerja Mova.
@@ -563,7 +563,7 @@ export default function HowItWorksPage() {
                   <a
                     key={page.href}
                     href={page.href}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#10B981] hover:border-[#10B981]/30 transition-colors"
                   >
                     <page.icon className="h-4 w-4" />
                     {page.label}

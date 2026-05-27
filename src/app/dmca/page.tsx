@@ -169,21 +169,21 @@ export default function DMCAPage() {
             <nav aria-label="Breadcrumb" className="mb-8">
               <ol className="flex items-center gap-1.5 text-sm text-muted-foreground dark:text-[#A1A1AA]">
                 <li>
-                  <a href="/" className="hover:text-[#4F46E5] transition-colors">
+                  <a href="/" className="hover:text-[#10B981] transition-colors">
                     Beranda
                   </a>
                 </li>
                 <li>
                   <ChevronRight className="h-3.5 w-3.5" />
                 </li>
-                <li className="text-[#4F46E5] font-medium">DMCA</li>
+                <li className="text-[#10B981] font-medium">DMCA</li>
               </ol>
             </nav>
 
             {/* Title section */}
             <div className="text-center mb-16">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-border dark:border-[#27272A] text-muted-foreground dark:text-[#A1A1AA] mb-6">
-                <ShieldAlert className="h-3 w-3 text-[#4F46E5]" />
+                <ShieldAlert className="h-3 w-3 text-[#10B981]" />
                 Legal
               </span>
               <h1
@@ -191,7 +191,7 @@ export default function DMCAPage() {
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
                 DMCA - Pemberitahuan{" "}
-                <span className="font-bold text-[#4F46E5]">Hak Cipta</span>
+                <span className="font-bold text-[#10B981]">Hak Cipta</span>
               </h1>
               <p className="text-muted-foreground dark:text-[#A1A1AA] text-sm max-w-xl mx-auto leading-relaxed">
                 Mova menghormati hak kekayaan intelektual dan berkomitmen menangani laporan pelanggaran hak cipta secara serius. Halaman ini menjelaskan prosedur DMCA kami.
@@ -202,7 +202,7 @@ export default function DMCAPage() {
             </div>
 
             {/* Important notice */}
-            <div className="mb-12 p-6 rounded-xl bg-card dark:bg-[#111113] border-l-4 border-[#4F46E5]">
+            <div className="mb-12 p-6 rounded-xl bg-card dark:bg-[#111113] border-l-4 border-[#10B981]">
               <p className="text-sm text-foreground dark:text-[#FAFAFA] font-medium">
                 Mova bukan penyedia hosting konten. Kami tidak menyimpan, mendistribusikan, atau meng-host materi berhak cipta apapun. Semua konten berasal langsung dari platform sumber. Jika Anda menemukan pelanggaran hak cipta, silakan ikuti prosedur di bawah ini atau hubungi platform sumber secara langsung.
               </p>
@@ -214,7 +214,7 @@ export default function DMCAPage() {
                 <section key={index} className="scroll-mt-20">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card dark:bg-[#111113] border border-border dark:border-[#27272A] shrink-0">
-                      <section.icon className="h-5 w-5 text-[#4F46E5]" />
+                      <section.icon className="h-5 w-5 text-[#10B981]" />
                     </div>
                     <h2
                       className="text-lg font-bold text-foreground dark:text-[#FAFAFA]"
@@ -233,7 +233,7 @@ export default function DMCAPage() {
                       <ul className="space-y-2 mt-3">
                         {section.list.map((item, i) => (
                           <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground dark:text-[#A1A1AA]">
-                            <span className="text-[#4F46E5] mt-1 shrink-0">&#8226;</span>
+                            <span className="text-[#10B981] mt-1 shrink-0">&#8226;</span>
                             {item}
                           </li>
                         ))}
@@ -242,10 +242,10 @@ export default function DMCAPage() {
                     {section.contact && (
                       <div className="mt-3 p-5 rounded-xl bg-card dark:bg-[#111113] border border-border dark:border-[#27272A]">
                         <div className="flex items-center gap-2 mb-3">
-                          <Mail className="h-4 w-4 text-[#4F46E5]" />
+                          <Mail className="h-4 w-4 text-[#10B981]" />
                           <p className="font-semibold text-foreground dark:text-[#FAFAFA] text-sm">Email DMCA:</p>
                         </div>
-                        <a href="mailto:admin@getmova.my.id" className="text-[#4F46E5] hover:underline text-sm font-medium">
+                        <a href="mailto:admin@getmova.my.id" className="text-[#10B981] hover:underline text-sm font-medium">
                           admin@getmova.my.id
                         </a>
                         <p className="mt-3 text-sm text-muted-foreground dark:text-[#A1A1AA]">
@@ -272,28 +272,28 @@ export default function DMCAPage() {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="/privacy"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#10B981] hover:border-[#10B981]/30 transition-colors"
                 >
                   <Shield className="h-4 w-4" />
                   Kebijakan Privasi
                 </a>
                 <a
                   href="/terms"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#10B981] hover:border-[#10B981]/30 transition-colors"
                 >
                   <ShieldAlert className="h-4 w-4" />
                   Syarat & Ketentuan
                 </a>
                 <a
                   href="/disclaimer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#10B981] hover:border-[#10B981]/30 transition-colors"
                 >
                   <FileText className="h-4 w-4" />
                   Disclaimer
                 </a>
                 <a
                   href="/contact"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border dark:border-[#27272A] bg-white dark:bg-[#09090B] text-muted-foreground dark:text-[#A1A1AA] hover:text-[#10B981] hover:border-[#10B981]/30 transition-colors"
                 >
                   <Mail className="h-4 w-4" />
                   Hubungi Kami

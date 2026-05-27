@@ -89,7 +89,7 @@ export function TypingHeroText({ audioMode, t }: TypingHeroTextProps) {
         <span
           className="inline-block w-[3px] h-[0.85em] ml-1 align-middle"
           style={{
-            backgroundColor: phase === 1 ? "#FF2D55" : "#7C3AED",
+            backgroundColor: phase === 1 ? "#FF2D55" : "#34D399",
             opacity: isTyping ? 1 : showCursor ? 1 : 0,
             transition: "opacity 0.1s",
           }}

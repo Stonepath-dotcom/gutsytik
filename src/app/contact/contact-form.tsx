@@ -54,7 +54,7 @@ export default function ContactForm() {
     <div className="rounded-xl bg-card border border-border p-6 sm:p-8">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-muted border border-border">
-          <MessageCircle className="h-5 w-5 text-[#4F46E5]" />
+          <MessageCircle className="h-5 w-5 text-[#10B981]" />
         </div>
         <h2 className="text-xl font-bold text-foreground font-[family-name:var(--font-montserrat)]">
           Kirim Pesan
@@ -68,7 +68,7 @@ export default function ContactForm() {
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1.5">
-              Nama <span className="text-[#4F46E5]">*</span>
+              Nama <span className="text-[#10B981]">*</span>
             </label>
             <Input
               id="name"
@@ -76,12 +76,12 @@ export default function ContactForm() {
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="Nama lengkap Anda"
               required
-              className="h-10 bg-background border-border text-foreground placeholder:text-muted-foreground rounded-lg text-sm focus:border-[#4F46E5]/50 focus:ring-[#4F46E5]/20"
+              className="h-10 bg-background border-border text-foreground placeholder:text-muted-foreground rounded-lg text-sm focus:border-[#10B981]/50 focus:ring-[#10B981]/20"
             />
           </div>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1.5">
-              Email <span className="text-[#4F46E5]">*</span>
+              Email <span className="text-[#10B981]">*</span>
             </label>
             <Input
               id="email"
@@ -90,7 +90,7 @@ export default function ContactForm() {
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               placeholder="contoh@email.com"
               required
-              className="h-10 bg-background border-border text-foreground placeholder:text-muted-foreground rounded-lg text-sm focus:border-[#4F46E5]/50 focus:ring-[#4F46E5]/20"
+              className="h-10 bg-background border-border text-foreground placeholder:text-muted-foreground rounded-lg text-sm focus:border-[#10B981]/50 focus:ring-[#10B981]/20"
             />
           </div>
         </div>
@@ -104,13 +104,13 @@ export default function ContactForm() {
             value={form.subject}
             onChange={(e) => setForm({ ...form, subject: e.target.value })}
             placeholder="Perihal pesan Anda"
-            className="h-10 bg-background border-border text-foreground placeholder:text-muted-foreground rounded-lg text-sm focus:border-[#4F46E5]/50 focus:ring-[#4F46E5]/20"
+            className="h-10 bg-background border-border text-foreground placeholder:text-muted-foreground rounded-lg text-sm focus:border-[#10B981]/50 focus:ring-[#10B981]/20"
           />
         </div>
 
         <div>
           <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1.5">
-            Pesan <span className="text-[#4F46E5]">*</span>
+            Pesan <span className="text-[#10B981]">*</span>
           </label>
           <Textarea
             id="message"
@@ -119,14 +119,14 @@ export default function ContactForm() {
             placeholder="Tulis pesan Anda di sini..."
             required
             rows={5}
-            className="bg-background border-border text-foreground placeholder:text-muted-foreground rounded-lg text-sm focus:border-[#4F46E5]/50 focus:ring-[#4F46E5]/20 resize-none"
+            className="bg-background border-border text-foreground placeholder:text-muted-foreground rounded-lg text-sm focus:border-[#10B981]/50 focus:ring-[#10B981]/20 resize-none"
           />
         </div>
 
         <Button
           type="submit"
           disabled={submitting || !form.name || !form.email || !form.message}
-          className="w-full sm:w-auto h-11 px-8 bg-[#4F46E5] text-white font-semibold rounded-lg hover:bg-[#4338CA] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full sm:w-auto h-11 px-8 bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {submitting ? (
             <>
