@@ -87,8 +87,8 @@ export default function RootLayout({
   return (
     <html lang="id" suppressHydrationWarning className="dark">
       <head>
-        <link rel="alternate" hreflang="id" href="https://getmova.my.id" />
-        <link rel="alternate" hreflang="x-default" href="https://getmova.my.id" />
+        <link rel="alternate" hrefLang="id" href="https://getmova.my.id" />
+        <link rel="alternate" hrefLang="x-default" href="https://getmova.my.id" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="manifest" href="/manifest.json" />

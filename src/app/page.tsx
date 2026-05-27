@@ -94,7 +94,7 @@ interface PlatformDef {
 const PLATFORMS: PlatformDef[] = [
   { name: "TikTok", color: "#010101", Icon: TikTokIcon },
   { name: "YouTube", color: "#FF0000", Icon: YouTubeIcon },
-  { name: "Instagram", gradient: "linear-gradient(135deg, #833AB4, #FD1D1D, #F77737)", Icon: InstagramIcon },
+  { name: "Instagram", color: "#E1306C", gradient: "linear-gradient(135deg, #833AB4, #FD1D1D, #F77737)", Icon: InstagramIcon },
   { name: "Facebook", color: "#1877F2", Icon: FacebookIcon },
   { name: "Twitter/X", color: "#14171A", Icon: TwitterXIcon },
   { name: "Pinterest", color: "#E60023", Icon: PinterestIcon },
@@ -269,12 +269,12 @@ function Navbar() {
 
   useEffect(() => {
     if (!open) return;
-    const handler = (e: MouseEvent) => {
+    const handler = (e: Event) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setOpen(false);
     };
     document.addEventListener("mousedown", handler);
-    document.addEventListener("touchstart", handler);
-    return () => { document.removeEventListener("mousedown", handler); document.removeEventListener("touchstart", handler); };
+    document.addEventListener("touchstart", handler as EventListener);
+    return () => { document.removeEventListener("mousedown", handler); document.removeEventListener("touchstart", handler as EventListener); };
   }, [open]);
 
   useEffect(() => {
@@ -367,8 +367,8 @@ function HeroSection() {
   const { toast, dismiss } = useToast();
 
   const showToast = useCallback((title: string, desc: string, variant: "default" | "destructive" = "default") => {
-    const id = toast({ title, description: desc, variant });
-    setTimeout(() => dismiss(id), 3000);
+    const result = toast({ title, description: desc, variant });
+    setTimeout(() => dismiss(result.id), 3000);
   }, [toast, dismiss]);
 
   useEffect(() => {
