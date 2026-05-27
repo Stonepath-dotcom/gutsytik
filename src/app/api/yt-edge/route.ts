@@ -43,6 +43,13 @@ const CLIENTS: Array<{
   },
 ];
 
+export async function GET() {
+  return NextResponse.json(
+    { message: "Mova YouTube Edge API. Send a POST request with { videoId, audioOnly }.", docs: "https://getmova.my.id" },
+    { status: 200 }
+  );
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

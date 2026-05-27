@@ -1,5 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET() {
+  return NextResponse.json(
+    { message: "Mova Contact API. Send a POST request with { name, email, subject, message }.", docs: "https://getmova.my.id/contact" },
+    { status: 200 }
+  );
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

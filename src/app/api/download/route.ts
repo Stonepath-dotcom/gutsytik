@@ -1023,6 +1023,13 @@ function extractFacebookVideo(html: string) {
 }
 
 /* ──────────────── Main Handler ──────────────── */
+export async function GET() {
+  return NextResponse.json(
+    { message: "Mova Download API. Send a POST request with { url, audioMode } to download videos.", docs: "https://getmova.my.id" },
+    { status: 200 }
+  );
+}
+
 export async function POST(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for") || "unknown";
   const { success } = rateLimit(ip, 10);

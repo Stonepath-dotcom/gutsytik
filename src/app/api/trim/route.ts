@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
 
+export async function GET() {
+  return NextResponse.json(
+    { message: "Mova Trim API. Send a POST request with { url, startTime, endTime }.", docs: "https://getmova.my.id" },
+    { status: 200 }
+  );
+}
+
 export async function POST(request: NextRequest) {
   // Rate limiting: 10 requests per minute for trim endpoint
   const ip = request.headers.get("x-forwarded-for") || "unknown";

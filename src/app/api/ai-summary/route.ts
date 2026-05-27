@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import ZAI from "z-ai-web-dev-sdk";
 import { rateLimit } from "@/lib/rate-limit";
 
+export async function GET() {
+  return NextResponse.json(
+    { message: "Mova AI Summary API. Send a POST request with { url, title, platform }.", docs: "https://getmova.my.id" },
+    { status: 200 }
+  );
+}
+
 export async function POST(request: NextRequest) {
   // Rate limiting: 10 requests per minute for AI summary
   const ip = request.headers.get("x-forwarded-for") || "unknown";
