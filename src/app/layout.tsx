@@ -44,9 +44,6 @@ export const metadata: Metadata = {
     icon: "/mova-logo.png",
   },
   manifest: "/manifest.json",
-  verification: {
-    google: "google-site-verification=PLACEHOLDER_REPLACE_WITH_YOUR_CODE",
-  },
   other: {
     "google-adsense-account": "ca-pub-8487073388720076",
   },

@@ -419,7 +419,7 @@ export default function AboutPage() {
             {/* Footer notice */}
             <div className="mt-12 pt-8 border-t border-border dark:border-[#27272A] text-center">
               <p className="text-xs text-muted-foreground dark:text-[#A1A1AA]">
-                &copy; 2026 Mova. Dibuat dengan ❤️ di Indonesia. Semua hak dilindungi.
+                &copy; 2026 Mova. Dibuat di Indonesia. Semua hak dilindungi.
               </p>
             </div>
           </div>

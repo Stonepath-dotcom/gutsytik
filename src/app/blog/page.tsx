@@ -492,7 +492,7 @@ export default function BlogPage() {
         {/* Footer */}
         <footer className="border-t border-border dark:border-[#27272A] py-6 px-4">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs text-muted-foreground dark:text-[#A1A1AA]">&copy; 2026 Mova. Dibuat dengan ❤️ di Indonesia.</p>
+            <p className="text-xs text-muted-foreground dark:text-[#A1A1AA]">&copy; 2026 Mova. Dibuat di Indonesia.</p>
           </div>
         </footer>
       </div>
