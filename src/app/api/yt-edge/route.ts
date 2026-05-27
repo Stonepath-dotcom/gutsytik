@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 // with different (better) IP reputation for YouTube API access
 export const runtime = "edge";
 
+// YouTube InnerTube API keys (public keys used by YouTube clients)
 const API_KEYS = [
   "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
   "AIzaSyDZNkyC-AtROwMBpLfevIvqYk-Gfi8ZOeo",
@@ -11,6 +12,7 @@ const API_KEYS = [
   "AIzaSyB-63vPrdThhKuerbB2N_l7Kwwcxj6yUAc",
 ];
 
+// Updated client configurations - newer versions work better
 const CLIENTS: Array<{
   clientName: string;
   clientVersion: string;
@@ -18,9 +20,14 @@ const CLIENTS: Array<{
   thirdParty?: { embedUrl: string };
 }> = [
   {
+    clientName: "IOS",
+    clientVersion: "20.10.4",
+    extra: { deviceModel: "iPhone16,2" },
+  },
+  {
     clientName: "ANDROID_VR",
-    clientVersion: "1.60.2",
-    extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14" },
+    clientVersion: "1.62.2",
+    extra: { androidSdkVersion: 35, osName: "Android", osVersion: "15" },
   },
   {
     clientName: "TVHTML5_SIMPLY_EMBEDDED_PLAYER",
@@ -28,20 +35,34 @@ const CLIENTS: Array<{
     thirdParty: { embedUrl: "https://www.google.com" },
   },
   {
-    clientName: "IOS",
-    clientVersion: "19.45.4",
-    extra: { deviceModel: "iPhone16,2" },
-  },
-  {
     clientName: "WEB_EMBEDDED_PLAYER",
-    clientVersion: "1.20241217.01.00",
+    clientVersion: "1.20260513.01.00",
     thirdParty: { embedUrl: "https://www.google.com" },
   },
   {
+    clientName: "ANDROID",
+    clientVersion: "20.10.4",
+    extra: { androidSdkVersion: 35, osName: "Android", osVersion: "15" },
+  },
+  {
+    clientName: "MWEB",
+    clientVersion: "2.20260513.05.00",
+  },
+  {
     clientName: "WEB_CREATOR",
-    clientVersion: "1.20241217.01.00",
+    clientVersion: "1.20260513.01.00",
   },
 ];
+
+// Randomize client order to distribute load
+function shuffledClients() {
+  const arr = [...CLIENTS];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
 export async function GET() {
   return NextResponse.json(
@@ -59,9 +80,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "videoId required" }, { status: 400 });
     }
 
+    const clients = shuffledClients();
+
     // Try each client and API key combination
     for (const key of API_KEYS) {
-      for (const client of CLIENTS) {
+      for (const client of clients) {
         try {
           const context: Record<string, unknown> = {
             client: {
@@ -82,7 +105,7 @@ export async function POST(request: NextRequest) {
                 "Content-Type": "application/json",
                 "Origin": "https://www.youtube.com",
                 "Referer": "https://www.youtube.com/",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
               },
               body: JSON.stringify({ videoId, context }),
             }

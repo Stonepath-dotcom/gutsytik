@@ -65,30 +65,47 @@ async function handleYouTube(url: string, audioMode: boolean): Promise<DownloadR
   const videoId = extractYouTubeVideoId(url);
   if (!videoId) throw new Error("Link YouTube tidak valid. Pastikan link mengandung ID video.");
 
+  const errors: string[] = [];
+
   // Strategy 1: Use external backend API (Render/Railway with yt-dlp)
   if (hasExternalBackend) {
     try {
       return await handleYouTubeViaBackend(url, audioMode, videoId);
     } catch (backendError) {
-      console.error(`[download] External backend failed for YouTube, falling back: ${backendError instanceof Error ? backendError.message : "unknown"}`);
-      // Fall through to fallback
+      const msg = backendError instanceof Error ? backendError.message : "unknown";
+      console.error(`[download] External backend failed for YouTube: ${msg}`);
+      errors.push(`Backend: ${msg}`);
     }
   }
 
-  // Strategy 2: Fallback to yt-edge (InnerTube API) if external backend unavailable
+  // Strategy 2: Fallback to yt-edge (InnerTube API)
   try {
     return await handleYouTubeViaEdge(url, audioMode, videoId);
   } catch (edgeError) {
-    console.error(`[download] yt-edge also failed: ${edgeError instanceof Error ? edgeError.message : "unknown"}`);
+    const msg = edgeError instanceof Error ? edgeError.message : "unknown";
+    console.error(`[download] yt-edge failed: ${msg}`);
+    errors.push(`InnerTube: ${msg}`);
   }
 
-  // Strategy 3: Try old yt-dlp proxy
+  // Strategy 3: Cobalt API (open-source video downloader)
+  try {
+    return await handleYouTubeViaCobalt(url, audioMode, videoId);
+  } catch (cobaltError) {
+    const msg = cobaltError instanceof Error ? cobaltError.message : "unknown";
+    console.error(`[download] Cobalt also failed: ${msg}`);
+    errors.push(`Cobalt: ${msg}`);
+  }
+
+  // Strategy 4: Try old yt-dlp proxy
   try {
     return await handleYtdlpProxy(url, audioMode, "YouTube");
   } catch (ytdlpError) {
-    console.error(`[download] yt-dlp proxy also failed: ${ytdlpError instanceof Error ? ytdlpError.message : "unknown"}`);
+    const msg = ytdlpError instanceof Error ? ytdlpError.message : "unknown";
+    console.error(`[download] yt-dlp proxy also failed: ${msg}`);
+    errors.push(`yt-dlp: ${msg}`);
   }
 
+  console.error(`[download] All YouTube strategies failed for ${url}: ${errors.join(" | ")}`);
   throw new Error("Gagal mengambil info video YouTube. Semua metode gagal. Coba lagi nanti.");
 }
 
@@ -203,6 +220,110 @@ async function handleYouTubeViaEdge(url: string, audioMode: boolean, videoId: st
     qualityOptions: proxiedQualityOptions,
     filename: data.filename || `mova_youtube_${videoId}`,
   };
+}
+
+/* ──────── YouTube via Cobalt API - Fallback ──────── */
+async function handleYouTubeViaCobalt(url: string, audioMode: boolean, videoId: string): Promise<DownloadResult> {
+  const cobaltUrls = [
+    "https://api.cobalt.tools",
+    "https://cobalt-api.kwiatekmiki.com",
+  ];
+
+  for (const cobaltApi of cobaltUrls) {
+    try {
+      const res = await fetch(`${cobaltApi}/api/json`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          url,
+          vCodec: "h264",
+          vQuality: "720",
+          aFormat: "mp3",
+          isAudioOnly: audioMode,
+          filenamePattern: "basic",
+        }),
+        signal: AbortSignal.timeout(15000),
+      });
+
+      if (!res.ok) continue;
+
+      const data = await res.json() as Record<string, unknown>;
+
+      // Cobalt returns status: "stream" or "redirect" for success
+      if (data.status === "stream" || data.status === "redirect") {
+        const streamUrl = (data.url as string) || "";
+        if (!streamUrl) continue;
+
+        const qualityOptions: QualityOption[] = [];
+
+        if (audioMode) {
+          qualityOptions.push({
+            label: "Audio",
+            resolution: "MP3",
+            url: `/api/proxy?url=${encodeURIComponent(streamUrl)}&quality=Audio&filename=mova_youtube_${videoId}_audio&sourceUrl=${encodeURIComponent(url)}`,
+            originalUrl: streamUrl,
+          });
+        } else {
+          qualityOptions.push({
+            label: "720p",
+            resolution: "720p",
+            url: `/api/proxy?url=${encodeURIComponent(streamUrl)}&quality=720p&filename=mova_youtube_${videoId}&sourceUrl=${encodeURIComponent(url)}`,
+            originalUrl: streamUrl,
+          });
+        }
+
+        return {
+          title: "Video YouTube",
+          thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+          duration: "--:--",
+          author: "@unknown",
+          platform: "YouTube",
+          downloadUrl: qualityOptions[0].url,
+          originalDownloadUrl: qualityOptions[0].originalUrl,
+          qualityOptions,
+          filename: `mova_youtube_${videoId}`,
+        };
+      }
+
+      // Cobalt returns status: "picker" for multiple options
+      if (data.status === "picker" && Array.isArray(data.picker)) {
+        const picker = data.picker as Array<Record<string, string>>;
+        const qualityOptions: QualityOption[] = [];
+
+        for (const item of picker.slice(0, 5)) {
+          if (item.url) {
+            qualityOptions.push({
+              label: audioMode ? "Audio" : "Video",
+              resolution: audioMode ? "MP3" : "720p",
+              url: `/api/proxy?url=${encodeURIComponent(item.url)}&quality=${audioMode ? "Audio" : "720p"}&filename=mova_youtube_${videoId}&sourceUrl=${encodeURIComponent(url)}`,
+              originalUrl: item.url,
+            });
+          }
+        }
+
+        if (qualityOptions.length > 0) {
+          return {
+            title: "Video YouTube",
+            thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+            duration: "--:--",
+            author: "@unknown",
+            platform: "YouTube",
+            downloadUrl: qualityOptions[0].url,
+            originalDownloadUrl: qualityOptions[0].originalUrl,
+            qualityOptions,
+            filename: `mova_youtube_${videoId}`,
+          };
+        }
+      }
+    } catch {
+      continue;
+    }
+  }
+
+  throw new Error("Cobalt API unavailable or blocked.");
 }
 
 /* ──────── TikTok Handler ──────── */
