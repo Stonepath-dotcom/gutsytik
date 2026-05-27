@@ -69,9 +69,9 @@ export function BlogArticleLayout({
       {/* Hero Section */}
       <section className="relative pt-20 pb-12 px-4 sm:px-6 overflow-hidden">
         {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#EEF2FF] via-[#E0E7FF] to-background dark:from-[#0A0E27] dark:via-[#111340]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#ECFDF5] via-[#D1FAE5] to-background dark:from-[#064E3B] dark:via-[#022C22]" />
         <div className="absolute inset-0 opacity-20" style={{
-          backgroundImage: "radial-gradient(circle at 20% 50%, rgba(79,70,229,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(124,58,237,0.1) 0%, transparent 50%)"
+          backgroundImage: "radial-gradient(circle at 20% 50%, rgba(16,185,129,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(5,150,105,0.1) 0%, transparent 50%)"
         }} />
 
         <div className="relative mx-auto max-w-3xl">
@@ -215,8 +215,8 @@ export function BlogArticleLayout({
       <section className="px-4 sm:px-6 pb-12">
         <div className="mx-auto max-w-3xl">
           <div className="rounded-2xl p-6 sm:p-8 text-center" style={{
-            background: "linear-gradient(135deg, rgba(79,70,229,0.1) 0%, rgba(124,58,237,0.08) 100%)",
-            border: "1px solid rgba(79,70,229,0.2)"
+            background: "linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(5,150,105,0.08) 100%)",
+            border: "1px solid rgba(16,185,129,0.2)"
           }}>
             <Zap className="h-8 w-8 text-[#10B981] mx-auto mb-3" />
             <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]">

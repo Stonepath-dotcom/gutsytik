@@ -103,7 +103,7 @@ const articles = [
       "Panduan lengkap perbedaan kualitas video HD dan SD. Pelajari kapan harus pilih HD atau SD saat download video.",
     date: "25 Mei 2026",
     readingTime: "10 menit",
-    gradient: "from-[#6366F1]/20 via-[#8B5CF6]/15 to-[#0C0C0E]",
+    gradient: "from-[#10B981]/20 via-[#34D399]/15 to-[#0C0C0E]",
     icon: "📺",
   },
   {
@@ -273,7 +273,7 @@ const articles = [
       "Panduan lengkap perbedaan download video vs audio MP3. Kapan harus pilih video dan kapan lebih baik download audio saja.",
     date: "10 Mei 2026",
     readingTime: "7 menit",
-    gradient: "from-[#6366F1]/15 via-[#EC4899]/10 to-[#0C0C0E]",
+    gradient: "from-[#10B981]/15 via-[#EC4899]/10 to-[#0C0C0E]",
     icon: "📊",
   },
   {

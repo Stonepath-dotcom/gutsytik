@@ -378,7 +378,7 @@ export default function CookiePolicyPage() {
                             <tbody>
                               {essentialCookies.map((cookie, cIndex) => (
                                 <tr key={cIndex} className="border-b border-border dark:border-[#27272A] last:border-b-0">
-                                  <td className="px-4 py-3 font-mono text-xs text-[#10B981] dark:text-[#6366F1] whitespace-nowrap">{cookie.name}</td>
+                                  <td className="px-4 py-3 font-mono text-xs text-[#10B981] dark:text-[#10B981] whitespace-nowrap">{cookie.name}</td>
                                   <td className="px-4 py-3 text-muted-foreground dark:text-[#A1A1AA]">{cookie.purpose}</td>
                                   <td className="px-4 py-3 text-muted-foreground dark:text-[#A1A1AA] whitespace-nowrap">{cookie.duration}</td>
                                 </tr>
@@ -389,7 +389,7 @@ export default function CookiePolicyPage() {
                         <div className="mt-3 space-y-2">
                           {essentialCookies.map((cookie, cIndex) => (
                             <p key={cIndex} className="text-xs text-muted-foreground dark:text-[#A1A1AA] leading-relaxed">
-                              <span className="font-mono text-[#10B981] dark:text-[#6366F1]">{cookie.name}</span> — {cookie.description}
+                              <span className="font-mono text-[#10B981] dark:text-[#10B981]">{cookie.name}</span> — {cookie.description}
                             </p>
                           ))}
                         </div>
@@ -416,7 +416,7 @@ export default function CookiePolicyPage() {
                             <tbody>
                               {analyticsCookies.map((cookie, cIndex) => (
                                 <tr key={cIndex} className="border-b border-border dark:border-[#27272A] last:border-b-0">
-                                  <td className="px-4 py-3 font-mono text-xs text-[#10B981] dark:text-[#6366F1] whitespace-nowrap">{cookie.name}</td>
+                                  <td className="px-4 py-3 font-mono text-xs text-[#10B981] dark:text-[#10B981] whitespace-nowrap">{cookie.name}</td>
                                   <td className="px-4 py-3 text-muted-foreground dark:text-[#A1A1AA]">{cookie.purpose}</td>
                                   <td className="px-4 py-3 text-muted-foreground dark:text-[#A1A1AA] whitespace-nowrap">{cookie.duration}</td>
                                 </tr>
@@ -427,7 +427,7 @@ export default function CookiePolicyPage() {
                         <div className="mt-3 space-y-2">
                           {analyticsCookies.map((cookie, cIndex) => (
                             <p key={cIndex} className="text-xs text-muted-foreground dark:text-[#A1A1AA] leading-relaxed">
-                              <span className="font-mono text-[#10B981] dark:text-[#6366F1]">{cookie.name}</span> — {cookie.description}
+                              <span className="font-mono text-[#10B981] dark:text-[#10B981]">{cookie.name}</span> — {cookie.description}
                             </p>
                           ))}
                         </div>
@@ -454,7 +454,7 @@ export default function CookiePolicyPage() {
                             <tbody>
                               {advertisingCookies.map((cookie, cIndex) => (
                                 <tr key={cIndex} className="border-b border-border dark:border-[#27272A] last:border-b-0">
-                                  <td className="px-4 py-3 font-mono text-xs text-[#10B981] dark:text-[#6366F1] whitespace-nowrap">{cookie.name}</td>
+                                  <td className="px-4 py-3 font-mono text-xs text-[#10B981] dark:text-[#10B981] whitespace-nowrap">{cookie.name}</td>
                                   <td className="px-4 py-3 text-muted-foreground dark:text-[#A1A1AA]">{cookie.purpose}</td>
                                   <td className="px-4 py-3 text-muted-foreground dark:text-[#A1A1AA] whitespace-nowrap">{cookie.duration}</td>
                                 </tr>
@@ -465,7 +465,7 @@ export default function CookiePolicyPage() {
                         <div className="mt-3 space-y-2">
                           {advertisingCookies.map((cookie, cIndex) => (
                             <p key={cIndex} className="text-xs text-muted-foreground dark:text-[#A1A1AA] leading-relaxed">
-                              <span className="font-mono text-[#10B981] dark:text-[#6366F1]">{cookie.name}</span> — {cookie.description}
+                              <span className="font-mono text-[#10B981] dark:text-[#10B981]">{cookie.name}</span> — {cookie.description}
                             </p>
                           ))}
                         </div>

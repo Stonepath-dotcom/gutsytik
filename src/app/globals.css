@@ -130,41 +130,27 @@
 html:not(.dark) ::-webkit-scrollbar-thumb { background: #D4D4D8; }
 html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
 
-/* ─── Hero gradient background ─── */
+/* ─── Hero section ─── */
 .hero-bg {
-  background: #09090B;
+  background: var(--background);
   position: relative;
 }
 html:not(.dark) .hero-bg {
-  background: #FAFAFA;
-}
-.hero-bg::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 80px;
-  background: linear-gradient(to bottom, transparent, var(--background));
-  pointer-events: none;
+  background: var(--background);
 }
 
 /* ─── Dark section (CTA, Footer) ─── */
 .dark-section {
-  background: #0A0A0B;
-  color: #FAFAFA;
+  background: var(--background);
+  color: var(--foreground);
 }
 html:not(.dark) .dark-section {
-  background: var(--card);
-  color: var(--card-foreground);
+  background: var(--background);
+  color: var(--foreground);
 }
 
-/* ─── Gradient text ─── */
+/* ─── Accent text ─── */
 .gradient-text {
-  background: linear-gradient(135deg, #10B981, #34D399);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
   color: #10B981;
 }
 
