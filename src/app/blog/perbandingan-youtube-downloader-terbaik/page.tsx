@@ -598,7 +598,7 @@ export default function PerbandinganYouTubeDownloaderTerbaik() {
       </p>
 
       <p>
-        Selamat memilih dan happy downloading! 🚀
+        Selamat memilih dan happy downloading! 
       </p>
     </BlogArticleLayout>
     </>

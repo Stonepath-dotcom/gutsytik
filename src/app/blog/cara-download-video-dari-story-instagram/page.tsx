@@ -214,7 +214,7 @@ export default function CaraDownloadVideoDariStoryInstagram() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Tips:</strong> Mova bisa mendownload Story Instagram dalam
+          <strong>Tips:</strong> Mova bisa mendownload Story Instagram dalam
           kualitas aslinya, termasuk Story video dengan audio. Jadi kamu nggak
           perlu khawatir kualitasnya turun atau audionya hilang.
         </p>
@@ -349,7 +349,7 @@ export default function CaraDownloadVideoDariStoryInstagram() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Penting:</strong> Jangan pernah memasukkan password Instagram
+          <strong>Penting:</strong> Jangan pernah memasukkan password Instagram
           kamu di situs downloader pihak ketiga. Situs yang aman seperti Mova hanya
           membutuhkan username atau link — nggak pernah minta password.
         </p>

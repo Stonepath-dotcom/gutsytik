@@ -145,7 +145,7 @@ export default function DownloadTwitterXPage() {
 
         <div className="info-box">
           <p>
-            💡 <strong>Tips:</strong> Mova mendukung kedua domain twitter.com dan x.com. Cukup salin link dari manapun dan tempel di Mova!
+            <strong>Tips:</strong> Mova mendukung kedua domain twitter.com dan x.com. Cukup salin link dari manapun dan tempel di Mova!
           </p>
         </div>
 

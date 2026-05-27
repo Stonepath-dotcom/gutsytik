@@ -282,7 +282,7 @@ export default function DownloadTiktokPage() {
 
         <div className="warning-box">
           <p>
-            ⚠️ <strong>Penting:</strong> Selalu hormati hak cipta kreator dan gunakan konten yang diunduh secara bertanggung jawab. Mendistribusikan ulang video tanpa izin bisa melanggar hak cipta.
+            <strong>Penting:</strong> Selalu hormati hak cipta kreator dan gunakan konten yang diunduh secara bertanggung jawab. Mendistribusikan ulang video tanpa izin bisa melanggar hak cipta.
           </p>
         </div>
 

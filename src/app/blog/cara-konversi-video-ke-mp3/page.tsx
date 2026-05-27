@@ -253,7 +253,7 @@ export default function CaraKonversiVideoKeMP3() {
 
       <div className="warning-box">
         <p>
-          💡 <strong>Penting:</strong> Kualitas MP3 nggak bisa lebih baik dari
+          <strong>Penting:</strong> Kualitas MP3 nggak bisa lebih baik dari
           audio asli di video. Kalau video aslinya cuma 128 kbps, mengkonversi ke
           320 kbps nggak akan meningkatkan kualitas — cuma membuat file lebih besar
           tanpa perbaikan audio. Selalu pilih bitrate yang sesuai dengan sumber.
@@ -521,7 +521,7 @@ export default function CaraKonversiVideoKeMP3() {
       <p>
         Kalau ada pertanyaan atau butuh bantuan, jangan ragu hubungi kami di{" "}
         <a href="mailto:admin@getmova.my.id">admin@getmova.my.id</a>. Selamat
-        mendengarkan! 🎵
+        mendengarkan! 
       </p>
     </BlogArticleLayout>
     </>

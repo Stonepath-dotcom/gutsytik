@@ -194,7 +194,7 @@ export default function DownloadFacebookHdPage() {
 
         <div className="info-box">
           <p>
-            💡 <strong>Tips:</strong> Mova juga mendukung download video dari Facebook Reels, Stories, dan Live Replay. Semua format video publik bisa diunduh!
+            <strong>Tips:</strong> Mova juga mendukung download video dari Facebook Reels, Stories, dan Live Replay. Semua format video publik bisa diunduh!
           </p>
         </div>
 

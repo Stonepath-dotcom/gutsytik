@@ -60,6 +60,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "dmca",
     "faq",
     "blog",
+    "cookie-policy",
+    "how-it-works",
   ];
 
   const platformEntries: MetadataRoute.Sitemap = platforms.map((slug) => ({

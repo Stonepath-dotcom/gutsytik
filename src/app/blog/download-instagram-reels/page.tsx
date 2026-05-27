@@ -235,7 +235,7 @@ export default function DownloadInstagramReelsPage() {
 
         <div className="warning-box">
           <p>
-            ⚠️ <strong>Penting:</strong> Selalu gunakan konten yang diunduh secara bertanggung jawab dan hargai karya kreator konten.
+            <strong>Penting:</strong> Selalu gunakan konten yang diunduh secara bertanggung jawab dan hargai karya kreator konten.
           </p>
         </div>
 

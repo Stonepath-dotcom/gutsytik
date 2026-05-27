@@ -277,7 +277,7 @@ export default function EkstrakAudioMp3DariVideo() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Tips:</strong> Untuk musik, pilih minimal 256kbps atau 320kbps
+          <strong>Tips:</strong> Untuk musik, pilih minimal 256kbps atau 320kbps
           supaya kualitas suara terjaga. Untuk podcast atau ceramah yang cuma ada
           suara manusia, 128kbps sudah lebih dari cukup dan hemat storage.
         </p>
@@ -382,7 +382,7 @@ export default function EkstrakAudioMp3DariVideo() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Perhatian:</strong> Mengunduh musik berlisensi dari YouTube
+          <strong>Perhatian:</strong> Mengunduh musik berlisensi dari YouTube
           untuk penggunaan komersial tanpa izin melanggar hak cipta. Gunakan fitur
           ekstrak audio secara bertanggung jawab dan hormati kreator konten.
         </p>

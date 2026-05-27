@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Shield, Cookie, X, ExternalLink } from "lucide-react";
 
 const COOKIE_CONSENT_KEY = "mova_cookie_consent";
+const GA4_MEASUREMENT_ID = "G-6WV2TT4J0R";
 
 export function CookieConsent() {
   const [show, setShow] = useState(false);
@@ -18,7 +19,49 @@ export function CookieConsent() {
     document.head.appendChild(script);
   };
 
+  const loadGA4 = () => {
+    if (document.querySelector('script[src*="gtag"]') || document.querySelector('script[src*="google-analytics"]')) return;
+    // Load gtag script
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
+    document.head.appendChild(script);
+    // Initialize gtag
+    const initScript = document.createElement('script');
+    initScript.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('consent', 'update', {
+        'analytics_storage': 'granted',
+        'ad_storage': 'granted'
+      });
+      gtag('config', '${GA4_MEASUREMENT_ID}', {
+        page_path: window.location.pathname,
+      });
+    `;
+    document.head.appendChild(initScript);
+  };
+
+  const loadAllScripts = () => {
+    loadAdSense();
+    loadGA4();
+  };
+
   useEffect(() => {
+    // Set default consent mode to denied before user choice
+    try {
+      if (typeof window !== 'undefined' && !window.dataLayer) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(...args: unknown[]) { (window as any).dataLayer.push(args); }
+        gtag('consent', 'default', {
+          'analytics_storage': 'denied',
+          'ad_storage': 'denied',
+          'wait_for_update': 500
+        });
+      }
+    } catch {}
+
     try {
       const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
       if (!consent) {
@@ -28,7 +71,7 @@ export function CookieConsent() {
       } else {
         const parsed = JSON.parse(consent);
         if (parsed.accepted && parsed.advertising) {
-          loadAdSense();
+          loadAllScripts();
         }
       }
     } catch {}
@@ -43,8 +86,8 @@ export function CookieConsent() {
         advertising: true,
       }));
     } catch {}
-    // Load AdSense after consent
-    loadAdSense();
+    // Load AdSense & GA4 after consent
+    loadAllScripts();
     setShow(false);
   };
 
@@ -76,7 +119,7 @@ export function CookieConsent() {
                 Kami Menggunakan Cookie
               </h3>
               <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">
-                Website ini menggunakan cookie untuk meningkatkan pengalaman Anda, menganalisis lalu lintas, dan menayangkan iklan melalui <strong className="text-foreground">Google AdSense</strong>. Cookie periklanan Google memungkinkan penayangan iklan yang dipersonalisasi berdasarkan kunjungan Anda di situs ini dan situs lain.
+                Website ini menggunakan cookie untuk meningkatkan pengalaman Anda, menganalisis lalu lintas melalui <strong className="text-foreground">Google Analytics</strong>, dan menayangkan iklan melalui <strong className="text-foreground">Google AdSense</strong>. Cookie periklanan Google memungkinkan penayangan iklan yang dipersonalisasi berdasarkan kunjungan Anda di situs ini dan situs lain.
               </p>
             </div>
             <button
@@ -120,7 +163,7 @@ export function CookieConsent() {
                 <strong className="text-foreground">Cookie Esensial:</strong> Diperlukan untuk operasi dasar website (preferensi tema, cookie consent). Tidak dapat dinonaktifkan.
               </div>
               <div>
-                <strong className="text-foreground">Cookie Analitik (Google Analytics):</strong> Mengumpulkan data anonim tentang penggunaan website untuk membantu kami meningkatkan layanan. Data dilaporkan secara agregat.
+                <strong className="text-foreground">Cookie Analitik (Google Analytics):</strong> Mengumpulkan data anonim tentang penggunaan website untuk membantu kami meningkatkan layanan. Data dilaporkan secara agregat. Cookie yang digunakan termasuk _ga, _ga_* untuk mengidentifikasi sesi dan pengguna secara anonim.
               </div>
               <div>
                 <strong className="text-foreground">Cookie Periklanan (Google AdSense):</strong> Digunakan oleh Google dan mitranya untuk menampilkan iklan yang relevan. Cookie ini dapat melacak kunjungan Anda di berbagai website untuk penargetan iklan. Anda dapat mengelola preferensi iklan di{" "}
@@ -144,11 +187,14 @@ export function CookieConsent() {
             >
               {showDetails ? "Sembunyikan detail" : "Lihat detail cookie"}
             </button>
+            <a href="/cookie-policy" className="text-[#4F46E5] hover:underline">
+              Kebijakan Cookie
+            </a>
             <a href="/privacy" className="text-[#4F46E5] hover:underline">
               Kebijakan Privasi
             </a>
             <a href="/terms" className="text-[#4F46E5] hover:underline">
-              Syarat & Ketentuan
+              Syarat &amp; Ketentuan
             </a>
           </div>
 

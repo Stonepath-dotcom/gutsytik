@@ -236,7 +236,7 @@ export default function CaraDownloadVideoInstagramReels() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Catatan:</strong> Story yang diset ke &quot;Close Friends&quot;
+          <strong>Catatan:</strong> Story yang diset ke &quot;Close Friends&quot;
           atau akun private nggak bisa didownload oleh Mova. Ini untuk menghormati
           privasi pengguna Instagram.
         </p>

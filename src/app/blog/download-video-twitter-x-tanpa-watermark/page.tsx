@@ -261,7 +261,7 @@ export default function DownloadVideoTwitterXTanpaWatermark() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Fakta menarik:</strong> Twitter/X membatasi resolusi video
+          <strong>Fakta menarik:</strong> Twitter/X membatasi resolusi video
           upload maksimal di 1920x1200 untuk akun biasa. Jadi jangan heran kalau
           kualitas video di X kadang nggak sejernih YouTube. Tapi untuk konten
           pendek, kualitasnya sudah cukup baik.

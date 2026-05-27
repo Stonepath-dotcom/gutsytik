@@ -284,7 +284,7 @@ export default function CaraDownloadVideoDariWhatsApp() {
 
       <div className="warning-box">
         <p>
-          💡 <strong>Tips:</strong> Pastikan pengaturan &quot;Save to Camera Roll&quot;
+          <strong>Tips:</strong> Pastikan pengaturan &quot;Save to Camera Roll&quot;
           di WhatsApp sudah aktif. Buka Settings {"→"} Chats {"→"} Save to Camera
           Roll (iPhone) atau Settings {"→"} Chats {"→"} Media visibility (Android)
           untuk mengaturnya.
@@ -349,7 +349,7 @@ export default function CaraDownloadVideoDariWhatsApp() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Perhatian:</strong> Saat menggunakan aplikasi Status Saver,
+          <strong>Perhatian:</strong> Saat menggunakan aplikasi Status Saver,
           pastikan kamu download dari Play Store resmi dan perhatikan permission
           yang diminta. Hindari aplikasi yang minta akses ke kontak atau lokasi.
           Baca tips aman di artikel{" "}
@@ -521,7 +521,7 @@ export default function CaraDownloadVideoDariWhatsApp() {
       </p>
 
       <p>
-        Selamat mencoba dan happy downloading! 🎬
+        Selamat mencoba dan happy downloading!
       </p>
     </BlogArticleLayout>
     </>

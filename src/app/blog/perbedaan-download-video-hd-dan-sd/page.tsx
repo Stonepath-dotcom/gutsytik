@@ -216,7 +216,7 @@ export default function PerbedaanDownloadVideoHdDanSd() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Info:</strong> Secara teknis, istilah &quot;HD&quot; merujuk
+          <strong>Info:</strong> Secara teknis, istilah &quot;HD&quot; merujuk
           pada resolusi 720p ke atas. Tapi di kebanyakan platform download,
           &quot;HD&quot; biasanya berarti 1080p (Full HD). Selalu cek resolusi
           spesifiknya kalau mau memastikan.
@@ -361,7 +361,7 @@ export default function PerbedaanDownloadVideoHdDanSd() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Tips Hemat:</strong> Kalau kamu cuma butuh audionya saja,
+          <strong>Tips Hemat:</strong> Kalau kamu cuma butuh audionya saja,
           pertimbangkan download format MP3 alih-alih video. Baca panduan
           lengkapnya di{" "}
           <a href="/blog/ekstrak-audio-mp3-dari-video">cara ekstrak audio MP3
@@ -373,7 +373,7 @@ export default function PerbedaanDownloadVideoHdDanSd() {
 
       <div className="info-box">
         <p>
-          📊 <strong>Ringkasan Perbandingan Resolusi:</strong>
+          <strong>Ringkasan Perbandingan Resolusi:</strong>
         </p>
         <ul>
           <li><strong>240p</strong> — Kualitas sangat rendah, ukuran file paling kecil. Cocok untuk koneksi sangat lambat.</li>
@@ -459,7 +459,7 @@ export default function PerbedaanDownloadVideoHdDanSd() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Catatan:</strong> Saat download video, selalu perhatikan
+          <strong>Catatan:</strong> Saat download video, selalu perhatikan
           kualitas asli dari sumber videonya. Download video 1080p yang aslinya
           cuma 360p cuma akan membuang storage tanpa meningkatkan kualitas.
           Mova menampilkan kualitas yang tersedia sesuai dengan video aslinya,

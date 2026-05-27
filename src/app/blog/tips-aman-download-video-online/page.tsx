@@ -419,7 +419,7 @@ export default function TipsAmanDownloadVideoOnline() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Kalau infeksi serius:</strong> Kalau perangkat kamu benar-benar
+          <strong>Kalau infeksi serius:</strong> Kalau perangkat kamu benar-benar
           terkunci oleh ransomware atau malware yang persisten, cara paling ampuh
           adalah factory reset. Backup data penting dulu (yang bukan file executable),
           lalu reset perangkat ke pengaturan pabrik.

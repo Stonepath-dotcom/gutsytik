@@ -1060,6 +1060,7 @@ function Footer() {
             <h4 className="text-[11px] md:text-sm font-semibold dark:text-white text-foreground mb-3 md:mb-4">{lang === 'id' ? 'Perusahaan' : 'Company'}</h4>
             <ul className="space-y-2 md:space-y-3">
               <li><a href="/about" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
+              <li><a href="/how-it-works" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Cara Kerja' : 'How It Works'}</a></li>
               <li><a href="/contact" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
               <li><a href="/blog" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Blog</a></li>
               <li><a href="mailto:admin@getmova.my.id" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">admin@getmova.my.id</a></li>
@@ -1069,6 +1070,7 @@ function Footer() {
             <h4 className="text-[11px] md:text-sm font-semibold dark:text-white text-foreground mb-3 md:mb-4">Legal</h4>
             <ul className="space-y-2 md:space-y-3">
               <li><a href="/privacy" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
+              <li><a href="/cookie-policy" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Kebijakan Cookie' : 'Cookie Policy'}</a></li>
               <li><a href="/terms" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
               <li><a href="/disclaimer" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Disclaimer</a></li>
               <li><a href="/dmca" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">DMCA</a></li>

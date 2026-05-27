@@ -261,7 +261,7 @@ export default function CaraDownloadVideoFacebookHd() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Tips:</strong> Tidak semua video di Facebook tersedia dalam
+          <strong>Tips:</strong> Tidak semua video di Facebook tersedia dalam
           kualitas HD. Kualitas tergantung pada resolusi asli saat video di-upload.
           Kalau pembuatnya upload dalam kualitas rendah, Mova nggak bisa meningkatkan
           kualitasnya (itu mustahil secara teknis).

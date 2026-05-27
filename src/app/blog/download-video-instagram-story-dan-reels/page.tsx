@@ -172,7 +172,7 @@ export default function DownloadVideoInstagramStoryDanReels() {
         <div className="step-card"><p><span className="step-number">3</span><strong>Pilih Story dan download</strong> — Mova akan menampilkan daftar Story yang sedang aktif. Pilih Story yang ingin kamu simpan, lalu klik download. Selesai!</p></div>
 
         <div className="info-box">
-          <p>💡 <strong>Tips Penting:</strong> Story Instagram hanya bertahan 24 jam. Kalau kamu mau download Story seseorang, lakukan sebelum Story-nya hilang. Setelah 24 jam, Story nggak bisa diakses lagi kecuali disimpan sebagai Highlight.</p>
+          <p><strong>Tips Penting:</strong> Story Instagram hanya bertahan 24 jam. Kalau kamu mau download Story seseorang, lakukan sebelum Story-nya hilang. Setelah 24 jam, Story nggak bisa diakses lagi kecuali disimpan sebagai Highlight.</p>
         </div>
 
         <h2 id="kenapa-nggak-perlu-aplikasi-tambahan">Kenapa Nggak Perlu Aplikasi Tambahan?</h2>

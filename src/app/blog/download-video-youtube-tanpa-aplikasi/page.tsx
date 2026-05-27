@@ -289,7 +289,7 @@ export default function DownloadVideoYouTubeTanpaAplikasi() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Tips:</strong> Kalau kamu cuma butuh audionya saja (misalnya
+          <strong>Tips:</strong> Kalau kamu cuma butuh audionya saja (misalnya
           musik atau podcast), pilih format MP3. Ukuran file jauh lebih kecil
           dibanding MP4. Baca panduan lengkapnya di artikel{" "}
           <a href="/blog/ekstrak-audio-mp3-dari-video">cara ekstrak audio MP3
@@ -331,7 +331,7 @@ export default function DownloadVideoYouTubeTanpaAplikasi() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Peringatan:</strong> Hindari situs download YouTube yang
+          <strong>Peringatan:</strong> Hindari situs download YouTube yang
           meminta kamu install &quot;codec&quot;, &quot;media player&quot;, atau
           software apapun. Itu biasanya adalah malware yang menyamar. Situs
           yang aman seperti Mova nggak akan pernah minta kamu install apapun.

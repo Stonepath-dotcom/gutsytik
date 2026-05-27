@@ -266,7 +266,7 @@ export default function CaraDownloadVideoYoutubeMp4() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Tips:</strong> Untuk kebanyakan orang, 1080p adalah sweet spot
+          <strong>Tips:</strong> Untuk kebanyakan orang, 1080p adalah sweet spot
           antara kualitas dan ukuran file. Kalau kamu download video buat ditonton
           di HP, 720p sudah lebih dari cukup dan hemat kuota.
         </p>
@@ -354,7 +354,7 @@ export default function CaraDownloadVideoYoutubeMp4() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Disclaimer:</strong> Mova adalah tool yang menyediakan
+          <strong>Disclaimer:</strong> Mova adalah tool yang menyediakan
           kemampuan teknis untuk download video. Pengguna bertanggung jawab penuh
           atas bagaimana video tersebut digunakan. Selalu hormati hak cipta dan
           gunakan konten secara bertanggung jawab.

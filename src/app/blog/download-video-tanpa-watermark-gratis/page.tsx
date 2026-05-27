@@ -241,38 +241,38 @@ export default function DownloadVideoTanpaWatermarkGratis() {
         <tbody>
           <tr>
             <td>Gratis</td>
-            <td>✅ Tanpa batas</td>
-            <td>❌ Ada yang berbayar/limit</td>
+            <td>Ya, Tanpa batas</td>
+            <td>Tidak, ada yang berbayar/limit</td>
           </tr>
           <tr>
             <td>Iklan</td>
-            <td>✅ Minimal</td>
-            <td>❌ Pop-up agresif</td>
+            <td>Ya, Minimal</td>
+            <td>Tidak, Pop-up agresif</td>
           </tr>
           <tr>
             <td>Registrasi</td>
-            <td>✅ Nggak perlu</td>
-            <td>❌ Ada yang wajib daftar</td>
+            <td>Ya, Nggak perlu</td>
+            <td>Tidak, Ada yang wajib daftar</td>
           </tr>
           <tr>
             <td>Multi-platform</td>
-            <td>✅ 7+ platform</td>
-            <td>⚠️ Terbatas</td>
+            <td>Ya, 7+ platform</td>
+            <td>Terbatas</td>
           </tr>
           <tr>
             <td>Kualitas video</td>
-            <td>✅ Terbaik</td>
-            <td>⚠️ Banyak yang dikompres</td>
+            <td>Ya, Terbaik</td>
+            <td>Banyak yang dikompres</td>
           </tr>
           <tr>
             <td>Keamanan</td>
-            <td>✅ Aman (no malware)</td>
-            <td>❌ Berisiko</td>
+            <td>Ya, Aman (no malware)</td>
+            <td>Tidak, Berisiko</td>
           </tr>
           <tr>
             <td>Ekstrak MP3</td>
-            <td>✅ Ada</td>
-            <td>⚠️ Jarang tersedia</td>
+            <td>Ya, Ada</td>
+            <td>Jarang tersedia</td>
           </tr>
         </tbody>
       </table>

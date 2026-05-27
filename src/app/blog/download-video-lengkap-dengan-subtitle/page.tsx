@@ -380,7 +380,7 @@ export default function DownloadVideoLengkapDenganSubtitle() {
 
       <div className="warning-box">
         <p>
-          💡 <strong>Tips:</strong> Selalu backup file video asli sebelum melakukan
+          <strong>Tips:</strong> Selalu backup file video asli sebelum melakukan
           hard merge. Proses hard merge nggak bisa di-undo — subtitle yang sudah
           di-burn in nggak bisa dihilangkan lagi tanpa re-encode dari file asli.
         </p>
@@ -489,7 +489,7 @@ export default function DownloadVideoLengkapDenganSubtitle() {
       </p>
 
       <p>
-        Selamat menonton dengan subtitle yang sempurna! 🎬📝
+        Selamat menonton dengan subtitle yang sempurna!
       </p>
     </BlogArticleLayout>
     </>

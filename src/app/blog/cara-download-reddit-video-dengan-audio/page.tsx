@@ -185,7 +185,7 @@ export default function CaraDownloadRedditVideoDenganAudio() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Penjelasan Teknis:</strong> Reddit menggunakan protokol HLS
+          <strong>Penjelasan Teknis:</strong> Reddit menggunakan protokol HLS
           (HTTP Live Streaming) untuk videonya. Dalam HLS, video dipecah menjadi
           segmen-segmen kecil, dan audio juga dipecah secara terpisah. Browser
           Reddit menggabungkan kedua stream ini secara real-time, tapi downloader
@@ -323,7 +323,7 @@ export default function CaraDownloadRedditVideoDenganAudio() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Peringatan:</strong> Banyak situs Reddit downloader yang
+          <strong>Peringatan:</strong> Banyak situs Reddit downloader yang
           hanya mengambil stream video tanpa audio, lalu mengklaim videonya
           sudah lengkap. Selalu cek apakah videonya punya suara setelah
           download. Kalau nggak ada suara, coba gunakan Mova yang menggabungkan
@@ -431,7 +431,7 @@ export default function CaraDownloadRedditVideoDenganAudio() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Tips:</strong> Kalau kamu cuma butuh audionya saja (misalnya
+          <strong>Tips:</strong> Kalau kamu cuma butuh audionya saja (misalnya
           Reddit thread yang berisi podcast atau diskusi audio), kamu bisa
           download dalam format MP3. Lihat panduan lengkapnya di{" "}
           <a href="/blog/ekstrak-audio-mp3-dari-video">cara ekstrak audio MP3

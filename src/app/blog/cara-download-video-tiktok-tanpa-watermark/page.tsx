@@ -178,7 +178,7 @@ export default function CaraDownloadVideoTiktokTanpaWatermark() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Tips:</strong> Selalu hormati hak cipta kreator. Kalau kamu mau
+          <strong>Tips:</strong> Selalu hormati hak cipta kreator. Kalau kamu mau
           repost video milik orang lain, minta izin terlebih dahulu dan selalu tag
           kreator aslinya. Ini bukan cuma soal etika, tapi juga menghargai kerja keras
           mereka.
@@ -326,7 +326,7 @@ export default function CaraDownloadVideoTiktokTanpaWatermark() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Penting:</strong> Selalu gunakan video yang kamu download secara
+          <strong>Penting:</strong> Selalu gunakan video yang kamu download secara
           bertanggung jawab. Hormati hak cipta kreator dan jangan gunakan video orang
           lain untuk keuntungan komersial tanpa izin.
         </p>

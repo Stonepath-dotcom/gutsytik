@@ -261,7 +261,7 @@ export default function CaraDownloadVideoDenganKoneksiLambat() {
 
       <div className="warning-box">
         <p>
-          💡 <strong>Tips hemat kuota:</strong> Kalau kamu cuma butuh audionya,
+          <strong>Tips hemat kuota:</strong> Kalau kamu cuma butuh audionya,
           download dalam format MP3 aja. File MP3 jauh lebih kecil (sekitar 1-2 MB
           per menit) dan proses download jauh lebih cepat. Baca panduan lengkapnya
           di <a href="/blog/cara-konversi-video-ke-mp3">Cara Konversi Video ke MP3</a>.
@@ -581,7 +581,7 @@ export default function CaraDownloadVideoDenganKoneksiLambat() {
       <p>
         Kalau ada pertanyaan atau tips lain yang mau ditambahkan, hubungi kami
         di <a href="mailto:admin@getmova.my.id">admin@getmova.my.id</a>.
-        Semoga bermanfaat dan selamat download! 💪
+        Semoga bermanfaat dan selamat download!
       </p>
     </BlogArticleLayout>
     </>

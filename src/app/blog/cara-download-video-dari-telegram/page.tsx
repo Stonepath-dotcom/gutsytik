@@ -140,7 +140,7 @@ export default function CaraDownloadVideoDariTelegram() {
         <div className="step-card"><p><span className="step-number">3</span><strong>Video tersimpan di galeri</strong> — Video akan otomatis tersimpan di galeri HP kamu. Selesai!</p></div>
 
         <div className="info-box">
-          <p>💡 <strong>Catatan:</strong> Metode ini hanya berfungsi kalau video belum di-download otomatis oleh Telegram. Kalau videonya sudah terdownload, kamu tinggal tap video lalu klik ikon menu (tiga titik) dan pilih &quot;Save to Gallery&quot;.</p>
+          <p><strong>Catatan:</strong> Metode ini hanya berfungsi kalau video belum di-download otomatis oleh Telegram. Kalau videonya sudah terdownload, kamu tinggal tap video lalu klik ikon menu (tiga titik) dan pilih &quot;Save to Gallery&quot;.</p>
         </div>
 
         <h2 id="metode-2-download-video-telegram-dengan-mova">Metode 2: Download Video Telegram dengan Mova</h2>
