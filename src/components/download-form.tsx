@@ -4,6 +4,7 @@ import React, { useState, useCallback, useRef } from "react";
 import { Download, Copy, Loader2, CheckCircle, AlertCircle, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 interface QualityOption {
   label: string;
@@ -216,13 +217,13 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
             <div className="flex gap-3 mb-3">
               <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
                 {result.thumbnail ? (
-                  <img
+                  <Image
                     src={result.thumbnail}
-                    alt=""
+                    alt={`Thumbnail: ${result.title}`}
+                    width={96}
+                    height={64}
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = "none";
-                    }}
+                    unoptimized
                   />
                 ) : null}
                 <Play className="h-6 w-6 absolute text-[#10B981]" />
