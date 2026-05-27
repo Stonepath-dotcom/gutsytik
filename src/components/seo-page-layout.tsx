@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { SitewideFooter } from "@/components/sitewide-footer";
 import Image from "next/image";
 
 function MovaLogo({ className }: { className?: string }) {
@@ -208,7 +209,7 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
                 </div>
                 <div className="flex gap-3 p-3 border-b border-border">
                   <div className="w-24 h-14 sm:w-28 sm:h-16 md:w-36 md:h-20 bg-muted rounded overflow-hidden shrink-0">
-                    {result.thumbnail && <Image src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={56} className="w-full h-full object-cover" unoptimized />}
+                    {result.thumbnail && <Image src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={56} className="w-full h-full object-cover" unoptimized loading="lazy" />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm md:text-base font-medium text-foreground line-clamp-2 leading-snug">{result.title}</p>
@@ -251,6 +252,7 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
                 { name: "Twitter/X", href: "/twitter-downloader", desc: "Video & GIF" },
                 { name: "Pinterest", href: "/pinterest-downloader", desc: "Video & Gambar" },
                 { name: "Reddit", href: "/reddit-downloader", desc: "Video HD" },
+                { name: "Telegram", href: "/telegram-downloader", desc: "Video cepat" },
                 { name: "YouTube MP3", href: "/youtube-mp3", desc: "Konversi audio" },
               ].filter(l => l.href !== `/${platform.toLowerCase().replace(' ', '-')}-downloader` && !(l.href === '/youtube-mp3' && platform === 'YouTube MP3')).map(link => (
                 <a key={link.href} href={link.href} className="p-3 md:p-5 bg-card border border-border rounded-lg hover:border-primary/30 hover:shadow-sm transition-all">
@@ -259,23 +261,20 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
                 </a>
               ))}
             </div>
+            {/* Blog links */}
+            <div className="mt-6 pt-6 border-t border-border">
+              <h4 className="text-sm font-bold text-foreground mb-2">Panduan & Artikel Terkait</h4>
+              <div className="space-y-2">
+                <a href="/blog" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#10B981] transition-colors">Blog & Panduan</a>
+                <a href="/faq" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#10B981] transition-colors">FAQ</a>
+                <a href="/how-it-works" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#10B981] transition-colors">Cara Kerja Mova</a>
+              </div>
+            </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-border py-5 md:py-10 px-4 mt-auto bg-muted/30" role="contentinfo">
-        <div className="mx-auto max-w-3xl md:max-w-4xl">
-          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs md:text-sm text-muted-foreground mb-3">
-            <a href="/privacy" className="hover:text-foreground transition-colors">Kebijakan Privasi</a>
-            <a href="/terms" className="hover:text-foreground transition-colors">Ketentuan Layanan</a>
-            <a href="/dmca" className="hover:text-foreground transition-colors">DMCA</a>
-            <a href="/disclaimer" className="hover:text-foreground transition-colors">Disclaimer</a>
-            <a href="/contact" className="hover:text-foreground transition-colors">Kontak</a>
-            <a href="mailto:admin@getmova.my.id" className="hover:text-foreground transition-colors">admin@getmova.my.id</a>
-          </div>
-          <p className="text-center text-xs md:text-sm text-muted-foreground">&copy; {new Date().getFullYear()} getmova. Semua hak dilindungi.</p>
-        </div>
-      </footer>
+      <SitewideFooter />
 
       <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className={`fixed bottom-4 right-4 z-40 w-11 h-11 md:w-12 md:h-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center transition-all duration-300 ${showTopBtn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`} aria-label="Kembali ke atas"><ArrowUp className="h-4 w-4" /></button>
     </div>

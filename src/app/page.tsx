@@ -1107,16 +1107,23 @@ function Footer() {
               <li><a href="/facebook-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Facebook</a></li>
               <li><a href="/twitter-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Twitter/X</a></li>
               <li><a href="/pinterest-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pinterest</a></li>
+              <li><a href="/reddit-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Reddit</a></li>
+              <li><a href="/telegram-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Telegram</a></li>
+              <li><a href="/youtube-mp3" className="text-sm text-muted-foreground hover:text-foreground transition-colors">YouTube MP3</a></li>
             </ul>
           </div>
           {/* Legal */}
           <div>
-            <h4 className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wider">Legal</h4>
+            <h4 className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wider">{lang === 'id' ? 'Panduan & Legal' : 'Resources & Legal'}</h4>
             <ul className="space-y-2.5">
+              <li><a href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
+              <li><a href="/faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</a></li>
+              <li><a href="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Cara Kerja' : 'How It Works'}</a></li>
+              <li><a href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Tentang Kami' : 'About'}</a></li>
               <li><a href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Privasi' : 'Privacy'}</a></li>
               <li><a href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Ketentuan' : 'Terms'}</a></li>
-              <li><a href="/disclaimer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Disclaimer</a></li>
               <li><a href="/dmca" className="text-sm text-muted-foreground hover:text-foreground transition-colors">DMCA</a></li>
+              <li><a href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
             </ul>
           </div>
         </div>
@@ -1143,16 +1150,19 @@ function Footer() {
                 <li><a href="/instagram-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Instagram</a></li>
                 <li><a href="/youtube-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">YouTube</a></li>
                 <li><a href="/facebook-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Facebook</a></li>
+                <li><a href="/youtube-mp3" className="text-sm text-muted-foreground hover:text-foreground transition-colors">YouTube MP3</a></li>
               </ul>
             </div>
           </div>
           <div>
-            <h4 className="text-xs font-semibold text-foreground mb-2.5 uppercase tracking-wider">Legal</h4>
+            <h4 className="text-xs font-semibold text-foreground mb-2.5 uppercase tracking-wider">{lang === 'id' ? 'Panduan & Legal' : 'Resources & Legal'}</h4>
             <div className="flex flex-wrap gap-x-5 gap-y-2">
+              <a href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a>
+              <a href="/faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</a>
               <a href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Privasi' : 'Privacy'}</a>
               <a href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Ketentuan' : 'Terms'}</a>
-              <a href="/disclaimer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Disclaimer</a>
               <a href="/dmca" className="text-sm text-muted-foreground hover:text-foreground transition-colors">DMCA</a>
+              <a href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Kontak' : 'Contact'}</a>
             </div>
           </div>
           <div className="flex items-center gap-2.5 pt-1">

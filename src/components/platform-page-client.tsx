@@ -6,6 +6,7 @@ import {
   Loader2, AlertCircle, Play, Copy, ChevronRight, ArrowRight,
   Monitor, Music, Video, Eye, Clock, Globe, Sparkles, Link2,
 } from "lucide-react";
+import { SitewideFooter } from "@/components/sitewide-footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -298,7 +299,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
               <div className="p-4">
                 <div className="flex gap-3 mb-3">
                   <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
-                    {result.thumbnail && <Image src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={64} className="w-full h-full object-cover" unoptimized onError={() => {}} />}
+                    {result.thumbnail && <Image src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={64} className="w-full h-full object-cover" unoptimized onError={() => {}} loading="lazy" />}
                     <Play className="h-6 w-6 absolute text-[#10B981]" />
                   </div>
                   <div className="flex-1 text-left min-w-0">
@@ -549,19 +550,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
       </section>
 
       {/* ───── Footer ───── */}
-      <footer className="mt-auto py-6 md:py-10 px-3 sm:px-4 border-t border-border/50">
-        <div className="mx-auto max-w-4xl flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <MovaLogo size={18} showText={false} />
-            <span className="text-xs md:text-sm text-muted-foreground">© {new Date().getFullYear()} getmova. Download video tanpa watermark.</span>
-          </div>
-          <div className="flex items-center gap-4 text-xs md:text-sm text-muted-foreground">
-            <a href="/privacy" className="hover:text-foreground transition-colors">Kebijakan Privasi</a>
-            <a href="/blog" className="hover:text-foreground transition-colors">Blog</a>
-            <a href="/" className="hover:text-foreground transition-colors">Home</a>
-          </div>
-        </div>
-      </footer>
+      <SitewideFooter />
     </main>
   );
 }

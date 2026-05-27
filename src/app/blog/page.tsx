@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock, Home, ChevronRight } from "lucide-react";
 import { MovaLogo } from "@/components/mova-logo";
+import { SitewideFooter } from "@/components/sitewide-footer";
 
 export const metadata: Metadata = {
   title: "Blog Mova - Tips & Panduan Download Video Tanpa Watermark",
@@ -490,11 +491,7 @@ export default function BlogPage() {
         </main>
 
         {/* Footer */}
-        <footer className="border-t border-border py-6 px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs text-muted-foreground">&copy; 2026 Mova. Dibuat di Indonesia.</p>
-          </div>
-        </footer>
+        <SitewideFooter />
       </div>
     </>
   );

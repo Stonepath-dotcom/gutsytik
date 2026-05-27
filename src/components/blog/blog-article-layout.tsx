@@ -2,9 +2,10 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Clock, Calendar, ChevronRight, Download, Zap, List, ChevronDown } from "lucide-react";
+import { Clock, Calendar, ChevronRight, Download, Zap, List, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AdUnit } from "@/components/ad-unit";
+import { SitewideFooter } from "@/components/sitewide-footer";
 
 export interface RelatedArticle {
   slug: string;
@@ -235,6 +236,50 @@ export function BlogArticleLayout({
         </div>
       </section>
 
+      {/* Platform Download Links — Internal Linking */}
+      <section className="px-4 sm:px-6 pb-12">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-xl font-bold text-foreground mb-4 font-[family-name:var(--font-montserrat)]">
+            Download Video dari <span className="gradient-text">Platform Lain</span>
+          </h2>
+          <p className="text-sm text-muted-foreground mb-5">
+            Mova juga mendukung download video dari berbagai platform populer lainnya. Coba sekarang!
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {[
+              { name: "TikTok", href: "/tiktok-downloader", color: "#010101", desc: "Tanpa watermark" },
+              { name: "YouTube", href: "/youtube-downloader", color: "#FF0000", desc: "Video HD" },
+              { name: "Instagram", href: "/instagram-downloader", color: "#E1306C", desc: "Reels & Story" },
+              { name: "Facebook", href: "/facebook-downloader", color: "#1877F2", desc: "Video HD" },
+              { name: "Twitter/X", href: "/twitter-downloader", color: "#14171A", desc: "Video & GIF" },
+              { name: "YouTube MP3", href: "/youtube-mp3", color: "#10B981", desc: "Konversi audio" },
+              { name: "Pinterest", href: "/pinterest-downloader", color: "#E60023", desc: "Video & Gambar" },
+              { name: "Reddit", href: "/reddit-downloader", color: "#FF4500", desc: "Video + Audio" },
+              { name: "Telegram", href: "/telegram-downloader", color: "#26A5E4", desc: "Video cepat" },
+            ].map((p) => (
+              <Link
+                key={p.href}
+                href={p.href}
+                className="group flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all"
+              >
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-white text-xs font-bold"
+                  style={{ background: p.color }}
+                >
+                  {p.name[0]}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981] transition-colors truncate">
+                    {p.name}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground">{p.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Related Articles */}
       {relatedArticles.length > 0 && (
         <section className="px-4 sm:px-6 pb-16">
@@ -262,18 +307,8 @@ export function BlogArticleLayout({
         </section>
       )}
 
-      {/* Back to home */}
-      <div className="px-4 sm:px-6 pb-12">
-        <div className="mx-auto max-w-3xl">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-[#10B981] transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Kembali ke Halaman Utama
-          </Link>
-        </div>
-      </div>
+      {/* Footer */}
+      <SitewideFooter />
     </main>
   );
 }
