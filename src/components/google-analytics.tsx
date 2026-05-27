@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 const GA_MEASUREMENT_ID = "G-C72K54R633";
 
-export function GoogleAnalytics() {
+function GATracker() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -24,4 +24,12 @@ export function GoogleAnalytics() {
   }, [pathname, searchParams]);
 
   return null;
+}
+
+export function GoogleAnalytics() {
+  return (
+    <Suspense fallback={null}>
+      <GATracker />
+    </Suspense>
+  );
 }
