@@ -1,0 +1,22 @@
+{
+  "install": {
+    "include": [
+      "^package\\.json$",
+      "^\\.env$"
+    ]
+  },
+  "restart": {
+    "exclude": [
+      "^public/",
+      "^\\.git/",
+      "^node_modules/",
+      "^cookies/"
+    ],
+    "include": [
+      "^src/.*\\.js$",
+      "^start\\.sh$",
+      "^watch\\.json$"
+    ]
+  },
+  "threshold": 1000
+}
