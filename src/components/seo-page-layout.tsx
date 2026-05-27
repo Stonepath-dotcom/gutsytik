@@ -143,14 +143,14 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
   return (
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md" role="banner">
-        <div className="mx-auto max-w-3xl h-12 flex items-center justify-between px-4">
+        <div className="mx-auto max-w-3xl h-12 md:h-16 flex items-center justify-between px-4">
           <a href="/" className="flex items-center gap-2" aria-label="Mova Beranda">
             <MovaLogo className="h-7 w-7" />
             <span className="font-bold text-lg text-foreground tracking-tight">Mova</span>
           </a>
           <nav className="hidden md:flex items-center gap-4" aria-label="Navigasi utama">
             {navItems.map(item => (
-              <a key={item.href} href={item.href} className={`text-sm transition-colors ${item.href === `/${platform.toLowerCase().replace(' ','-')}-downloader` || (item.href === '/youtube-mp3' && platform === 'YouTube MP3') ? 'text-foreground font-medium' : 'text-muted-foreground hover:text-foreground'}`}>{item.label}</a>
+              <a key={item.href} href={item.href} className={`text-sm md:text-base transition-colors ${item.href === `/${platform.toLowerCase().replace(' ','-')}-downloader` || (item.href === '/youtube-mp3' && platform === 'YouTube MP3') ? 'text-foreground font-medium' : 'text-muted-foreground hover:text-foreground'}`}>{item.label}</a>
             ))}
           </nav>
           <div className="flex items-center gap-1">
@@ -173,61 +173,61 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
 
       <main className="flex-1" role="main">
         {/* Hero with Download Tool */}
-        <section className="relative px-4 pt-10 pb-8 overflow-hidden">
+        <section className="relative px-4 pt-10 md:pt-20 pb-8 md:pb-16 overflow-hidden">
           <div className="absolute inset-0 -z-10 hero-dots" />
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-primary/5 dark:bg-primary/8 rounded-full blur-3xl -z-10" />
-          <div className="mx-auto max-w-md text-center relative">
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-2 tracking-tight leading-tight">{title}</h1>
-            <p className="text-sm text-muted-foreground mb-5 leading-relaxed max-w-sm mx-auto">{description}</p>
+          <div className="mx-auto max-w-md md:max-w-2xl text-center relative">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-foreground mb-2 tracking-tight leading-tight">{title}</h1>
+            <p className="text-sm md:text-lg text-muted-foreground mb-5 leading-relaxed max-w-sm mx-auto">{description}</p>
 
-            <div className="bg-card border border-border rounded-lg p-3 sm:p-4 shadow-sm">
+            <div className="bg-card border border-border rounded-lg p-3 sm:p-4 md:p-6 shadow-sm">
               <div className="flex bg-muted rounded-md p-1 mb-3" role="tablist" aria-label="Pilih mode download">
-                <button onClick={() => setMode("video")} role="tab" aria-selected={mode === "video"} className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-sm font-medium rounded-md transition-all min-h-[40px] ${mode === "video" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}>
+                <button onClick={() => setMode("video")} role="tab" aria-selected={mode === "video"} className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-sm md:text-base font-medium rounded-md transition-all min-h-[40px] ${mode === "video" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}>
                   <Play className="h-3.5 w-3.5" /> Video
                 </button>
-                <button onClick={() => setMode("audio")} role="tab" aria-selected={mode === "audio"} className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-sm font-medium rounded-md transition-all min-h-[40px] ${mode === "audio" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}>
+                <button onClick={() => setMode("audio")} role="tab" aria-selected={mode === "audio"} className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-sm md:text-base font-medium rounded-md transition-all min-h-[40px] ${mode === "audio" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}>
                   <Headphones className="h-3.5 w-3.5" /> Audio MP3
                 </button>
               </div>
-              <Input ref={inputRef} value={url} onChange={e => { setUrl(e.target.value); if (error) setError(""); }} onKeyDown={e => e.key === "Enter" && handleAnalyze()} placeholder={placeholder || `Tempel link ${platform} di sini...`} className="h-12 text-sm mb-3" aria-label="URL video" inputMode="url" />
+              <Input ref={inputRef} value={url} onChange={e => { setUrl(e.target.value); if (error) setError(""); }} onKeyDown={e => e.key === "Enter" && handleAnalyze()} placeholder={placeholder || `Tempel link ${platform} di sini...`} className="h-12 text-sm md:text-base mb-3" aria-label="URL video" inputMode="url" />
               <div className="flex gap-2">
-                <Button variant="outline" onClick={handlePaste} className="h-12 px-4 shrink-0 text-sm min-w-[48px]" aria-label="Tempel dari clipboard"><LinkIcon className="h-4 w-4 sm:mr-1.5" /><span className="hidden sm:inline">Tempel</span></Button>
-                <Button onClick={handleAnalyze} disabled={loading} className="flex-1 h-12 text-sm font-medium">{loading ? <Loader2 className="h-4 w-4 animate-spin mr-1.5" /> : <Download className="h-4 w-4 mr-1.5" />}{mode === "audio" ? "Download MP3" : "Download"}</Button>
+                <Button variant="outline" onClick={handlePaste} className="h-12 px-4 shrink-0 text-sm md:text-base min-w-[48px]" aria-label="Tempel dari clipboard"><LinkIcon className="h-4 w-4 sm:mr-1.5" /><span className="hidden sm:inline">Tempel</span></Button>
+                <Button onClick={handleAnalyze} disabled={loading} className="flex-1 h-12 text-sm md:text-base font-medium">{loading ? <Loader2 className="h-4 w-4 animate-spin mr-1.5" /> : <Download className="h-4 w-4 mr-1.5" />}{mode === "audio" ? "Download MP3" : "Download"}</Button>
               </div>
             </div>
 
-            {loading && (<div><div className="mt-4 text-sm text-muted-foreground flex items-center justify-center gap-1.5 mb-3"><Loader2 className="h-3.5 w-3.5 animate-spin" /> {loadingMsg}</div><div className="mt-5 text-left bg-card border border-border rounded-lg overflow-hidden"><div className="flex gap-3 p-3 border-b border-border"><div className="w-24 h-14 bg-muted rounded animate-pulse shrink-0" /><div className="flex-1 space-y-2 py-1"><div className="h-3.5 bg-muted rounded animate-pulse w-full" /><div className="h-3 bg-muted rounded animate-pulse w-3/4" /></div></div></div></div>)}
-            {error && (<div className="mt-4 text-sm text-red-500 dark:text-red-400 flex items-start gap-1.5 text-left bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-lg p-3"><AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />{error}</div>)}
+            {loading && (<div><div className="mt-4 text-sm md:text-base text-muted-foreground flex items-center justify-center gap-1.5 mb-3"><Loader2 className="h-3.5 w-3.5 animate-spin" /> {loadingMsg}</div><div className="mt-5 text-left bg-card border border-border rounded-lg overflow-hidden"><div className="flex gap-3 p-3 border-b border-border"><div className="w-24 h-14 bg-muted rounded animate-pulse shrink-0" /><div className="flex-1 space-y-2 py-1"><div className="h-3.5 bg-muted rounded animate-pulse w-full" /><div className="h-3 bg-muted rounded animate-pulse w-3/4" /></div></div></div></div>)}
+            {error && (<div className="mt-4 text-sm md:text-base text-red-500 dark:text-red-400 flex items-start gap-1.5 text-left bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-lg p-3"><AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />{error}</div>)}
 
             {result && (
               <div ref={resultRef} className="mt-5 text-left bg-card border border-border rounded-lg overflow-hidden shadow-sm transition-all duration-500 ease-out" style={{ opacity: resultVisible ? 1 : 0, transform: resultVisible ? "translateY(0) scale(1)" : "translateY(12px) scale(0.98)" }}>
                 <div className="flex items-center gap-1.5 px-3 py-2 bg-green-50 dark:bg-green-500/10 border-b border-green-200 dark:border-green-500/20">
                   <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
-                  <span className="text-xs font-medium text-green-700 dark:text-green-400">Video ditemukan!</span>
+                  <span className="text-xs md:text-sm font-medium text-green-700 dark:text-green-400">Video ditemukan!</span>
                 </div>
                 <div className="flex gap-3 p-3 border-b border-border">
-                  <div className="w-24 h-14 sm:w-28 sm:h-16 bg-muted rounded overflow-hidden shrink-0">
+                  <div className="w-24 h-14 sm:w-28 sm:h-16 md:w-36 md:h-20 bg-muted rounded overflow-hidden shrink-0">
                     {result.thumbnail && <img src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={56} className="w-full h-full object-cover" loading="lazy" />}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-foreground line-clamp-2 leading-snug">{result.title}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{result.author}{result.duration !== "--:--" ? ` · ${result.duration}` : ""}</p>
+                    <p className="text-sm md:text-base font-medium text-foreground line-clamp-2 leading-snug">{result.title}</p>
+                    <p className="text-xs md:text-sm text-muted-foreground mt-1">{result.author}{result.duration !== "--:--" ? ` · ${result.duration}` : ""}</p>
                   </div>
                 </div>
                 {result.qualityOptions.length > 1 && (
                   <div className="px-3 pt-3 pb-1">
-                    <p className="text-xs text-muted-foreground mb-2 font-medium">Pilih Kualitas</p>
+                    <p className="text-xs md:text-sm text-muted-foreground mb-2 font-medium">Pilih Kualitas</p>
                     <div className="flex flex-wrap gap-1.5">
                       {result.qualityOptions.map((q, i) => {
                         const isAudio = q.resolution === "MP3" || q.label.includes("Audio");
-                        return (<button key={i} onClick={() => setSelQuality(i)} className={`inline-flex items-center gap-1 px-2.5 py-1.5 text-xs border rounded-md transition-all min-h-[36px] ${i === selQuality ? "bg-primary text-white border-primary shadow-sm" : "bg-background text-foreground border-border hover:border-primary/50 hover:bg-primary/5"}`}>{isAudio ? <Headphones className="h-3 w-3" /> : <Play className="h-3 w-3" />}{q.label}</button>);
+                        return (<button key={i} onClick={() => setSelQuality(i)} className={`inline-flex items-center gap-1 px-2.5 py-1.5 text-xs md:text-sm border rounded-md transition-all min-h-[36px] ${i === selQuality ? "bg-primary text-white border-primary shadow-sm" : "bg-background text-foreground border-border hover:border-primary/50 hover:bg-primary/5"}`}>{isAudio ? <Headphones className="h-3 w-3" /> : <Play className="h-3 w-3" />}{q.label}</button>);
                       })}
                     </div>
                   </div>
                 )}
                 <div className="p-3 flex gap-2">
-                  <Button onClick={handleDownload} disabled={downloading} className="flex-1 h-12 text-sm font-medium">{downloading ? <Loader2 className="h-4 w-4 animate-spin mr-1.5" /> : <Download className="h-4 w-4 mr-1.5" />}Download {result.qualityOptions[selQuality]?.label || ""}</Button>
-                  <Button variant="outline" onClick={() => { setResult(null); setError(""); setUrl(""); }} className="h-12 px-3 text-sm shrink-0" aria-label="Download baru"><ChevronDown className="h-4 w-4" /></Button>
+                  <Button onClick={handleDownload} disabled={downloading} className="flex-1 h-12 text-sm md:text-base font-medium">{downloading ? <Loader2 className="h-4 w-4 animate-spin mr-1.5" /> : <Download className="h-4 w-4 mr-1.5" />}Download {result.qualityOptions[selQuality]?.label || ""}</Button>
+                  <Button variant="outline" onClick={() => { setResult(null); setError(""); setUrl(""); }} className="h-12 px-3 text-sm md:text-base shrink-0" aria-label="Download baru"><ChevronDown className="h-4 w-4" /></Button>
                 </div>
               </div>
             )}
@@ -238,19 +238,19 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
         {children}
 
         {/* Internal Links */}
-        <section className="px-4 py-8 border-t border-border bg-muted/30">
-          <div className="mx-auto max-w-md">
-            <h3 className="text-base font-bold text-foreground mb-3">Download Video dari Platform Lain</h3>
-            <div className="grid grid-cols-2 gap-2">
+        <section className="px-4 py-8 md:py-16 border-t border-border bg-muted/30">
+          <div className="mx-auto max-w-md md:max-w-lg">
+            <h3 className="text-base md:text-lg font-bold text-foreground mb-3">Download Video dari Platform Lain</h3>
+            <div className="grid grid-cols-2 gap-2 md:gap-4">
               {[
                 { name: "TikTok", href: "/tiktok-downloader", desc: "Tanpa watermark" },
                 { name: "YouTube", href: "/youtube-downloader", desc: "Video & MP3" },
                 { name: "Instagram", href: "/instagram-downloader", desc: "Reels & Video" },
                 { name: "YouTube MP3", href: "/youtube-mp3", desc: "Konversi audio" },
               ].filter(l => l.href !== `/${platform.toLowerCase().replace(' ', '-')}-downloader` && !(l.href === '/youtube-mp3' && platform === 'YouTube MP3')).map(link => (
-                <a key={link.href} href={link.href} className="p-3 bg-card border border-border rounded-lg hover:border-primary/30 hover:shadow-sm transition-all">
-                  <p className="text-sm font-medium text-foreground">{link.name}</p>
-                  <p className="text-[11px] text-muted-foreground">{link.desc}</p>
+                <a key={link.href} href={link.href} className="p-3 md:p-5 bg-card border border-border rounded-lg hover:border-primary/30 hover:shadow-sm transition-all">
+                  <p className="text-sm md:text-base font-medium text-foreground">{link.name}</p>
+                  <p className="text-[11px] md:text-xs text-muted-foreground">{link.desc}</p>
                 </a>
               ))}
             </div>
@@ -258,9 +258,9 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
         </section>
       </main>
 
-      <footer className="border-t border-border py-5 px-4 mt-auto bg-muted/30" role="contentinfo">
-        <div className="mx-auto max-w-3xl">
-          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-muted-foreground mb-3">
+      <footer className="border-t border-border py-5 md:py-10 px-4 mt-auto bg-muted/30" role="contentinfo">
+        <div className="mx-auto max-w-3xl md:max-w-4xl">
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs md:text-sm text-muted-foreground mb-3">
             <a href="/privacy" className="hover:text-foreground transition-colors">Kebijakan Privasi</a>
             <a href="/terms" className="hover:text-foreground transition-colors">Ketentuan Layanan</a>
             <a href="/dmca" className="hover:text-foreground transition-colors">DMCA</a>
@@ -268,11 +268,11 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
             <a href="/contact" className="hover:text-foreground transition-colors">Kontak</a>
             <a href="mailto:admin@getmova.my.id" className="hover:text-foreground transition-colors">admin@getmova.my.id</a>
           </div>
-          <p className="text-center text-xs text-muted-foreground">&copy; {new Date().getFullYear()} Mova. Semua hak dilindungi.</p>
+          <p className="text-center text-xs md:text-sm text-muted-foreground">&copy; {new Date().getFullYear()} Mova. Semua hak dilindungi.</p>
         </div>
       </footer>
 
-      <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className={`fixed bottom-4 right-4 z-40 w-11 h-11 rounded-full bg-primary text-white shadow-lg flex items-center justify-center transition-all duration-300 ${showTopBtn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`} aria-label="Kembali ke atas"><ArrowUp className="h-4 w-4" /></button>
+      <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className={`fixed bottom-4 right-4 z-40 w-11 h-11 md:w-12 md:h-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center transition-all duration-300 ${showTopBtn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`} aria-label="Kembali ke atas"><ArrowUp className="h-4 w-4" /></button>
     </div>
   );
 }

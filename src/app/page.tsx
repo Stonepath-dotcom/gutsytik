@@ -299,7 +299,7 @@ function Navbar() {
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map(l => (
-            <a key={l.href} href={l.href} className="px-3 py-2 text-sm font-medium dark:text-white/70 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors rounded-lg">{l.label}</a>
+            <a key={l.href} href={l.href} className="px-3 py-2 text-sm md:text-base font-medium dark:text-white/70 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors rounded-lg">{l.label}</a>
           ))}
         </nav>
 
@@ -601,7 +601,7 @@ function HeroSection() {
         {/* Badge */}
         <div className="mb-5 md:mb-6 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full dark:bg-white/10 dark:border-white/10 bg-primary/10 border border-primary/20">
           <Zap className="h-3.5 w-3.5 text-yellow-400" />
-          <span className="text-[11px] md:text-sm font-medium dark:text-white/90 text-foreground">{t("hero.badge")}</span>
+          <span className="text-[11px] md:text-base font-medium dark:text-white/90 text-foreground">{t("hero.badge")}</span>
         </div>
 
         {/* Title */}
@@ -609,16 +609,16 @@ function HeroSection() {
           {audioMode ? t("hero.audioTitle") : t("hero.title")}{" "}
           <span className="gradient-text">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
         </h1>
-        <p className="text-[13px] sm:text-base md:text-lg dark:text-white/60 text-muted-foreground mb-7 md:mb-9 max-w-xl md:max-w-2xl mx-auto leading-relaxed">
+        <p className="text-[13px] sm:text-base md:text-xl dark:text-white/60 text-muted-foreground mb-7 md:mb-9 max-w-xl md:max-w-2xl mx-auto leading-relaxed">
           {audioMode ? t("hero.audioSubtitle") : t("hero.subtitle")}
         </p>
 
         {/* Video/Audio tabs */}
         <div className="flex items-center justify-center mb-6 md:mb-7">
-          <button onClick={() => { setAudioMode(false); setResult(null); setError(""); }} className={`px-4 md:px-5 py-2 text-[13px] md:text-sm font-medium rounded-l-lg border transition-colors ${!audioMode ? "bg-primary text-white border-primary" : "dark:bg-white/10 dark:text-white/70 dark:border-white/20 dark:hover:bg-white/15 bg-muted text-muted-foreground border-border hover:bg-muted/80"}`}>
+          <button onClick={() => { setAudioMode(false); setResult(null); setError(""); }} className={`px-4 md:px-5 py-2 text-[13px] md:text-base font-medium rounded-l-lg border transition-colors ${!audioMode ? "bg-primary text-white border-primary" : "dark:bg-white/10 dark:text-white/70 dark:border-white/20 dark:hover:bg-white/15 bg-muted text-muted-foreground border-border hover:bg-muted/80"}`}>
             <Film className="h-3.5 w-3.5 md:h-4 md:w-4 inline mr-1" />{t("tab.video")}
           </button>
-          <button onClick={() => { setAudioMode(true); setResult(null); setError(""); }} className={`px-4 md:px-5 py-2 text-[13px] md:text-sm font-medium rounded-r-lg border transition-colors ${audioMode ? "bg-primary text-white border-primary" : "dark:bg-white/10 dark:text-white/70 dark:border-white/20 dark:hover:bg-white/15 bg-muted text-muted-foreground border-border hover:bg-muted/80"}`}>
+          <button onClick={() => { setAudioMode(true); setResult(null); setError(""); }} className={`px-4 md:px-5 py-2 text-[13px] md:text-base font-medium rounded-r-lg border transition-colors ${audioMode ? "bg-primary text-white border-primary" : "dark:bg-white/10 dark:text-white/70 dark:border-white/20 dark:hover:bg-white/15 bg-muted text-muted-foreground border-border hover:bg-muted/80"}`}>
             <Music className="h-3.5 w-3.5 md:h-4 md:w-4 inline mr-1" />{t("tab.audio")}
           </button>
         </div>
@@ -633,17 +633,17 @@ function HeroSection() {
               onChange={e => setUrl(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleAnalyze()}
               placeholder={audioMode ? t("input.audioPlaceholder") : t("input.placeholder")}
-              className="h-12 md:h-14 bg-card border border-input rounded-xl text-[15px] md:text-lg pl-10 md:pl-11 pr-10 md:pr-12 text-card-foreground placeholder:text-muted-foreground md:shadow-lg focus:border-[#4F46E5] focus:ring-2 focus:ring-[#4F46E5]/20"
+              className="h-12 md:h-14 bg-card border border-input rounded-xl text-[15px] md:text-xl pl-10 md:pl-11 pr-10 md:pr-12 text-card-foreground placeholder:text-muted-foreground md:shadow-lg focus:border-[#4F46E5] focus:ring-2 focus:ring-[#4F46E5]/20"
             />
           </div>
-          <Button onClick={handleAnalyze} disabled={loading} className="w-full md:w-auto h-12 md:h-14 px-5 md:px-8 bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] active:scale-[0.98] shrink-0 md:shadow-lg md:shadow-[#4F46E5]/25 text-[15px] md:text-base transition-colors">
+          <Button onClick={handleAnalyze} disabled={loading} className="w-full md:w-auto h-12 md:h-14 px-5 md:px-8 bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] active:scale-[0.98] shrink-0 md:shadow-lg md:shadow-[#4F46E5]/25 text-[15px] md:text-lg transition-colors">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 mr-1.5" />}
             <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
           </Button>
         </div>
 
         {/* Trust line */}
-        <div className="flex items-center justify-center gap-3 md:gap-5 text-[12px] md:text-sm dark:text-white/50 text-muted-foreground mt-5 md:mt-6">
+        <div className="flex items-center justify-center gap-3 md:gap-5 text-[12px] md:text-base dark:text-white/50 text-muted-foreground mt-5 md:mt-6">
           <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5" />SSL Secure</span>
           <span className="dark:text-white/20 text-border">|</span>
           <span>No Signup</span>
@@ -656,7 +656,7 @@ function HeroSection() {
           {PLATFORMS.map(p => {
             const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
             return (
-              <a key={p.name} href={`/${slug}`} className="inline-flex items-center gap-1 text-[11px] md:text-[13px] dark:text-white/40 dark:hover:text-white/80 dark:hover:bg-white/5 text-muted-foreground/60 hover:text-foreground hover:bg-muted/50 transition-colors font-medium px-2 py-1 rounded-md">
+              <a key={p.name} href={`/${slug}`} className="inline-flex items-center gap-1 text-[11px] md:text-sm dark:text-white/40 dark:hover:text-white/80 dark:hover:bg-white/5 text-muted-foreground/60 hover:text-foreground hover:bg-muted/50 transition-colors font-medium px-2 py-1 rounded-md">
                 <p.Icon className="h-3 w-3" />{p.name}
               </a>
             );
@@ -667,7 +667,7 @@ function HeroSection() {
         {loading && !error && (
           <div className="max-w-lg mx-auto mt-5 md:mt-6 p-3 rounded-lg dark:bg-white/10 dark:border-white/10 bg-muted border border-input flex items-center gap-2">
             <Loader2 className="h-4 w-4 dark:text-white text-foreground animate-spin shrink-0" />
-            <p className="dark:text-white text-foreground text-[13px] md:text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
+            <p className="dark:text-white text-foreground text-[13px] md:text-base text-left font-medium">{loadingMsg || "Processing..."}</p>
           </div>
         )}
 
@@ -675,7 +675,7 @@ function HeroSection() {
         {error && (
           <div className="max-w-lg mx-auto mt-5 md:mt-6 p-3 rounded-lg bg-red-500/20 border border-red-500/30 flex items-start gap-2">
             <AlertCircle className="h-4 w-4 text-red-400 dark:text-red-300 mt-0.5 shrink-0" />
-            <p className="text-red-400 dark:text-red-300 text-[13px] md:text-sm text-left">{error}</p>
+            <p className="text-red-400 dark:text-red-300 text-[13px] md:text-base text-left">{error}</p>
           </div>
         )}
 
@@ -684,14 +684,14 @@ function HeroSection() {
           <div ref={resultRef} className="max-w-lg mx-auto mt-5 md:mt-6 rounded-xl bg-card border border-border overflow-hidden text-card-foreground md:shadow-xl text-left">
             <div className="px-3.5 md:px-4 py-2.5 border-b border-border flex items-center gap-2 bg-muted">
               <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
-              <span className="text-[13px] md:text-sm text-green-600 font-medium">{audioMode ? t("result.audioFound") : t("result.found")}</span>
+              <span className="text-[13px] md:text-base text-green-600 font-medium">{audioMode ? t("result.audioFound") : t("result.found")}</span>
               <div className="ml-auto flex items-center gap-1.5">
                 {(() => { const pd = getPlatformDef(result.platform); return (
                   <div className="w-5 h-5 rounded flex items-center justify-center" style={{ background: pd.gradient || pd.color }}>
                     <pd.Icon className="h-3 w-3 text-white" />
                   </div>
                 ); })()}
-                <span className="text-[11px] md:text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">{result.platform}</span>
+                <span className="text-[11px] md:text-sm text-muted-foreground bg-muted px-2 py-0.5 rounded-full">{result.platform}</span>
               </div>
             </div>
 
@@ -707,8 +707,8 @@ function HeroSection() {
                     <Play className="h-5 w-5 md:h-6 md:w-6 absolute text-[#4F46E5]" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-card-foreground text-[13px] md:text-sm line-clamp-2">{result.title}</h3>
-                    <div className="flex items-center gap-3 mt-1 text-[11px] md:text-xs text-muted-foreground">
+                    <h3 className="font-semibold text-card-foreground text-[13px] md:text-base line-clamp-2">{result.title}</h3>
+                    <div className="flex items-center gap-3 mt-1 text-[11px] md:text-sm text-muted-foreground">
                       {result.duration !== "--:--" && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{result.duration}</span>}
                       <span className="flex items-center gap-1"><User className="h-3 w-3" />{result.author}</span>
                     </div>
@@ -738,7 +738,7 @@ function HeroSection() {
 
               {result.qualityOptions.length > 0 && (
                 <div className="mb-3">
-                  <p className="text-[11px] md:text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1.5">
+                  <p className="text-[11px] md:text-sm font-medium text-muted-foreground mb-2 flex items-center gap-1.5">
                     <Film className="h-3 w-3 md:h-3.5 md:w-3.5 text-[#4F46E5]" />{t("result.selectQuality")}
                   </p>
                   <div className="flex flex-wrap gap-1.5 md:gap-2">
@@ -748,7 +748,7 @@ function HeroSection() {
                         <button
                           key={i}
                           onClick={() => setSelectedQuality(i)}
-                          className={`flex items-center gap-1 text-[11px] md:text-xs px-2.5 md:px-3 py-1.5 rounded-lg border font-medium transition-colors ${
+                          className={`flex items-center gap-1 text-[11px] md:text-sm px-2.5 md:px-3 py-1.5 rounded-lg border font-medium transition-colors ${
                             isSelected ? "text-white bg-[#4F46E5] border-[#4F46E5]" : "bg-muted text-muted-foreground border-border hover:border-primary/30"
                           }`}
                         >
@@ -765,7 +765,7 @@ function HeroSection() {
               <Button
                 onClick={handleDownload}
                 disabled={downloading}
-                className="w-full h-10 md:h-11 bg-[#4F46E5] text-white font-bold rounded-lg hover:bg-[#4338CA] text-[13px] md:text-sm"
+                className="w-full h-10 md:h-11 bg-[#4F46E5] text-white font-bold rounded-lg hover:bg-[#4338CA] text-[13px] md:text-base"
               >
                 {downloading ? (
                   <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{audioMode ? "Downloading MP3..." : "Downloading..."}</>
@@ -779,7 +779,7 @@ function HeroSection() {
                   href={result.qualityOptions[selectedQuality].originalUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block mt-2 text-center text-[11px] md:text-xs text-muted-foreground hover:text-[#4F46E5] transition-colors underline underline-offset-2"
+                  className="block mt-2 text-center text-[11px] md:text-sm text-muted-foreground hover:text-[#4F46E5] transition-colors underline underline-offset-2"
                 >
                   {audioMode ? "Open MP3 directly" : "Open download link directly"} ↗
                 </a>
@@ -803,24 +803,24 @@ const featuresData = [
 function FeaturesSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="features" className="pt-6 pb-10 md:py-20 px-4 md:px-6 bg-card" aria-labelledby="features-heading">
+    <section id="features" className="pt-6 pb-10 md:py-24 px-4 md:px-6 bg-card" aria-labelledby="features-heading">
       <div className="mx-auto max-w-6xl">
         <div className="text-center mb-8 md:mb-12">
-          <h2 id="features-heading" className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-foreground">
+          <h2 id="features-heading" className="text-xl sm:text-2xl md:text-5xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-foreground">
             {t("features.title")}
           </h2>
-          <p className="text-[13px] md:text-base text-muted-foreground max-w-md md:max-w-xl mx-auto">{t("features.subtitle")}</p>
+          <p className="text-[13px] md:text-lg text-muted-foreground max-w-md md:max-w-xl mx-auto">{t("features.subtitle")}</p>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-6">
           {featuresData.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div key={i} className="bg-card border border-border rounded-xl p-3.5 md:p-6 md:shadow-sm md:hover:shadow-md md:hover:border-[#4F46E5]/20 md:hover:-translate-y-0.5 transition-colors">
-                <div className={`w-9 h-9 md:w-11 md:h-11 rounded-lg flex items-center justify-center shrink-0 mb-2.5 md:mb-3 ${f.color}`}>
-                  <Icon className="h-4 w-4 md:h-5 md:w-5" />
+              <div key={i} className="bg-card border border-border rounded-xl p-3.5 md:p-8 md:shadow-sm md:hover:shadow-md md:hover:border-[#4F46E5]/20 md:hover:-translate-y-0.5 transition-colors">
+                <div className={`w-9 h-9 md:w-14 md:h-14 rounded-lg flex items-center justify-center shrink-0 mb-2.5 md:mb-3 ${f.color}`}>
+                  <Icon className="h-4 w-4 md:h-6 md:w-6" />
                 </div>
-                <h3 className="text-[13px] md:text-base font-semibold text-foreground mb-1">{f.titleId}</h3>
-                <p className="text-[11px] md:text-sm text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
+                <h3 className="text-[13px] md:text-lg font-semibold text-foreground mb-1">{f.titleId}</h3>
+                <p className="text-[11px] md:text-base text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
               </div>
             );
           })}
@@ -840,11 +840,11 @@ function HowItWorksSection() {
     { num: 4, icon: CheckCircle, title: { id: "Simpan Video", en: "Save Video" }, desc: { id: "Video akan otomatis terunduh tanpa watermark ke perangkatmu.", en: "The video will automatically download without watermark to your device." } },
   ];
   return (
-    <section id="how" className="py-10 md:py-20 px-4 md:px-6 bg-muted" aria-labelledby="how-heading">
+    <section id="how" className="py-10 md:py-24 px-4 md:px-6 bg-muted" aria-labelledby="how-heading">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-8 md:mb-12">
-          <h2 id="how-heading" className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-foreground">{t("how.title")}</h2>
-          <p className="text-[13px] md:text-base text-muted-foreground max-w-md md:max-w-lg mx-auto">{t("how.subtitle")}</p>
+          <h2 id="how-heading" className="text-xl sm:text-2xl md:text-5xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-foreground">{t("how.title")}</h2>
+          <p className="text-[13px] md:text-lg text-muted-foreground max-w-md md:max-w-lg mx-auto">{t("how.subtitle")}</p>
         </div>
         {/* Mobile: 2x2 grid, Desktop: 4 cols with arrows */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -852,11 +852,11 @@ function HowItWorksSection() {
             const Icon = s.icon;
             return (
               <div key={i} className="flex flex-col items-center text-center">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#4F46E5] flex items-center justify-center mb-2.5 md:mb-3">
-                  <span className="text-white font-bold text-sm md:text-base">{s.num}</span>
+                <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#4F46E5] flex items-center justify-center mb-2.5 md:mb-3">
+                  <span className="text-white font-bold text-sm md:text-lg">{s.num}</span>
                 </div>
-                <h3 className="text-[13px] md:text-base font-semibold text-foreground mb-1">{s.title[lang] || s.title.id}</h3>
-                <p className="text-[11px] md:text-sm text-muted-foreground leading-relaxed">{s.desc[lang] || s.desc.id}</p>
+                <h3 className="text-[13px] md:text-lg font-semibold text-foreground mb-1">{s.title[lang] || s.title.id}</h3>
+                <p className="text-[11px] md:text-base text-muted-foreground leading-relaxed">{s.desc[lang] || s.desc.id}</p>
                 {i < 3 && (
                   <div className="hidden md:block mt-3">
                     <span className="text-muted-foreground/40 text-lg">&#8594;</span>
@@ -875,23 +875,23 @@ function HowItWorksSection() {
 function PlatformsSection() {
   const { t } = useLanguage();
   return (
-    <section id="platforms" className="py-10 md:py-20 px-4 md:px-6 bg-card border-t border-border">
+    <section id="platforms" className="py-10 md:py-24 px-4 md:px-6 bg-card border-t border-border">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-foreground">{t("platforms.title")}</h2>
-          <p className="text-[13px] md:text-base text-muted-foreground max-w-md md:max-w-lg mx-auto">{t("platforms.subtitle")}</p>
+          <h2 className="text-xl sm:text-2xl md:text-5xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-foreground">{t("platforms.title")}</h2>
+          <p className="text-[13px] md:text-lg text-muted-foreground max-w-md md:max-w-lg mx-auto">{t("platforms.subtitle")}</p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-5">
           {PLATFORMS.map((p) => {
             const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
             return (
               <a key={p.name} href={`/${slug}`} className="flex items-center gap-2.5 md:gap-3 p-2.5 md:p-4 rounded-xl bg-card border border-border md:hover:border-[#4F46E5]/40 md:hover:shadow-md md:hover:-translate-y-0.5 transition-colors group">
-                <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: p.gradient || p.color }}>
-                  <p.Icon className="h-4 w-4 md:h-4.5 md:w-4.5" />
+                <div className="w-9 h-9 md:w-12 md:h-12 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: p.gradient || p.color }}>
+                  <p.Icon className="h-4 w-4 md:h-5 md:w-5" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[13px] md:text-sm font-semibold text-foreground truncate group-hover:text-[#4F46E5] transition-colors">{p.name}</p>
-                  <p className="text-[10px] md:text-[11px] text-[#4F46E5] font-medium">Download →</p>
+                  <p className="text-[13px] md:text-base font-semibold text-foreground truncate group-hover:text-[#4F46E5] transition-colors">{p.name}</p>
+                  <p className="text-[10px] md:text-sm text-[#4F46E5] font-medium">Download →</p>
                 </div>
               </a>
             );
@@ -933,20 +933,20 @@ const faqContent: Record<string, Record<string, string>> = {
 function FAQSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="faq" className="py-10 md:py-20 px-4 md:px-6 bg-muted">
+    <section id="faq" className="py-10 md:py-24 px-4 md:px-6 bg-muted">
       <div className="mx-auto max-w-3xl">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-foreground">{t("faq.title")}</h2>
-          <p className="text-[13px] md:text-base text-muted-foreground">{t("faq.subtitle")}</p>
+          <h2 className="text-xl sm:text-2xl md:text-5xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-foreground">{t("faq.title")}</h2>
+          <p className="text-[13px] md:text-lg text-muted-foreground">{t("faq.subtitle")}</p>
         </div>
         <div className="space-y-2.5 md:space-y-3">
           {faqData.map((f, i) => (
             <details key={i} className="group bg-card border border-border rounded-xl md:hover:border-[#4F46E5]/30 transition-colors">
-              <summary className="flex items-center justify-between px-4 md:px-6 py-3.5 md:py-4 cursor-pointer text-[13px] md:text-base font-medium text-foreground hover:text-[#4F46E5] transition-colors list-none">
+              <summary className="flex items-center justify-between px-4 md:px-8 py-3.5 md:py-5 cursor-pointer text-[13px] md:text-lg font-medium text-foreground hover:text-[#4F46E5] transition-colors list-none">
                 <span className="pr-3">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</span>
                 <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0 group-open:rotate-180 transition-transform duration-200" />
               </summary>
-              <div className="px-4 md:px-6 pb-3.5 md:pb-4 text-[12px] md:text-sm text-muted-foreground leading-relaxed border-t border-border pt-3">
+              <div className="px-4 md:px-8 pb-3.5 md:pb-5 text-[12px] md:text-base text-muted-foreground leading-relaxed border-t border-border pt-3">
                 {faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}
               </div>
             </details>
@@ -970,32 +970,32 @@ const blogPosts = [
 function BlogSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="blog" className="py-10 md:py-20 px-4 md:px-6 bg-card border-t border-border">
+    <section id="blog" className="py-10 md:py-24 px-4 md:px-6 bg-card border-t border-border">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-xl sm:text-2xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-foreground">
+          <h2 className="text-xl sm:text-2xl md:text-5xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] text-foreground">
             {lang === "id" ? "Artikel & Tutorial Terbaru" : "Latest Articles & Tutorials"}
           </h2>
-          <p className="text-[13px] md:text-base text-muted-foreground max-w-md md:max-w-lg mx-auto">
+          <p className="text-[13px] md:text-lg text-muted-foreground max-w-md md:max-w-lg mx-auto">
             {lang === "id" ? "Pelajari cara download video dari berbagai platform dengan panduan lengkap kami." : "Learn how to download videos from various platforms with our complete guides."}
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
           {blogPosts.map((post) => (
-            <a key={post.slug} href={`/blog/${post.slug}`} className="group flex flex-col p-4 md:p-5 rounded-xl bg-card border border-border md:hover:border-[#4F46E5]/40 md:hover:shadow-lg md:hover:-translate-y-1 transition-all duration-200">
+            <a key={post.slug} href={`/blog/${post.slug}`} className="group flex flex-col p-4 md:p-7 rounded-xl bg-card border border-border md:hover:border-[#4F46E5]/40 md:hover:shadow-lg md:hover:-translate-y-1 transition-all duration-200">
               <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: `${post.color}15` }}>
                 <Film className="h-4 w-4 md:h-5 md:w-5" style={{ color: post.color }} />
               </div>
-              <h3 className="text-[13px] md:text-sm font-semibold text-foreground mb-1.5 group-hover:text-[#4F46E5] transition-colors line-clamp-2 leading-snug">{post.title}</h3>
-              <p className="text-[11px] md:text-xs text-muted-foreground line-clamp-2 leading-relaxed flex-1">{post.desc}</p>
-              <span className="text-[11px] md:text-xs text-[#4F46E5] font-medium mt-2.5 inline-flex items-center gap-1">
+              <h3 className="text-[13px] md:text-base font-semibold text-foreground mb-1.5 group-hover:text-[#4F46E5] transition-colors line-clamp-2 leading-snug">{post.title}</h3>
+              <p className="text-[11px] md:text-sm text-muted-foreground line-clamp-2 leading-relaxed flex-1">{post.desc}</p>
+              <span className="text-[11px] md:text-sm text-[#4F46E5] font-medium mt-2.5 inline-flex items-center gap-1">
                 {lang === "id" ? "Baca Selengkapnya" : "Read More"} →
               </span>
             </a>
           ))}
         </div>
         <div className="text-center mt-6 md:mt-8">
-          <a href="/blog" className="inline-flex items-center gap-2 text-[13px] md:text-sm font-semibold text-[#4F46E5] hover:text-[#4338CA] transition-colors">
+          <a href="/blog" className="inline-flex items-center gap-2 text-[13px] md:text-base font-semibold text-[#4F46E5] hover:text-[#4338CA] transition-colors">
             {lang === "id" ? "Lihat Semua Artikel" : "View All Articles"} →
           </a>
         </div>
@@ -1010,13 +1010,13 @@ function CTASection() {
   return (
     <section className="dark-section py-12 md:py-24 px-4 md:px-6 border-t dark:border-white/5 border-border">
       <div className="mx-auto max-w-3xl text-center">
-        <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-[#4F46E5]/20 flex items-center justify-center mx-auto mb-4 md:mb-6">
+        <div className="w-12 h-12 md:w-20 md:h-20 rounded-full bg-[#4F46E5]/20 flex items-center justify-center mx-auto mb-4 md:mb-6">
           <Shield className="h-6 w-6 md:h-8 md:w-8 text-[#4F46E5]" />
         </div>
-        <h2 className="text-lg sm:text-2xl md:text-4xl font-extrabold mb-2.5 md:mb-4 font-[family-name:var(--font-montserrat)] dark:text-white text-foreground">{t("cta.title")}</h2>
-        <p className="text-[13px] md:text-base dark:text-white/60 text-muted-foreground mb-5 md:mb-8 max-w-md mx-auto">{t("cta.subtitle")}</p>
+        <h2 className="text-lg sm:text-2xl md:text-5xl font-extrabold mb-2.5 md:mb-4 font-[family-name:var(--font-montserrat)] dark:text-white text-foreground">{t("cta.title")}</h2>
+        <p className="text-[13px] md:text-lg dark:text-white/60 text-muted-foreground mb-5 md:mb-8 max-w-md mx-auto">{t("cta.subtitle")}</p>
         <a href="#hero">
-          <Button className="h-11 md:h-14 px-7 md:px-10 bg-[#4F46E5] text-white font-bold rounded-lg hover:bg-[#4338CA] text-[13px] md:text-base">
+          <Button className="h-11 md:h-16 px-7 md:px-12 bg-[#4F46E5] text-white font-bold rounded-lg hover:bg-[#4338CA] text-[13px] md:text-lg">
             <Download className="mr-2 h-4 w-4 md:h-5 md:w-5" />{t("cta.button")}
           </Button>
         </a>
@@ -1034,46 +1034,46 @@ function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8">
           <div className="col-span-2 md:col-span-1">
             <MovaLogo size={24} showText />
-            <p className="text-[11px] md:text-sm dark:text-white/50 text-muted-foreground max-w-xs mt-3 leading-relaxed">{t("footer.desc")}</p>
+            <p className="text-[11px] md:text-base dark:text-white/50 text-muted-foreground max-w-xs mt-3 leading-relaxed">{t("footer.desc")}</p>
           </div>
           <div>
-            <h4 className="text-[11px] md:text-sm font-semibold dark:text-white text-foreground mb-3 md:mb-4">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
+            <h4 className="text-[11px] md:text-base font-semibold dark:text-white text-foreground mb-3 md:mb-4">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
             <ul className="space-y-2 md:space-y-3">
-              <li><a href="#features" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{t("nav.fitur")}</a></li>
-              <li><a href="#how" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{t("nav.caraPakai")}</a></li>
-              <li><a href="#platforms" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{t("nav.platform")}</a></li>
-              <li><a href="#faq" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{t("nav.faq")}</a></li>
-              <li><a href="/faq" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'FAQ Lengkap' : 'Full FAQ'}</a></li>
+              <li><a href="#features" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{t("nav.fitur")}</a></li>
+              <li><a href="#how" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{t("nav.caraPakai")}</a></li>
+              <li><a href="#platforms" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{t("nav.platform")}</a></li>
+              <li><a href="#faq" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{t("nav.faq")}</a></li>
+              <li><a href="/faq" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'FAQ Lengkap' : 'Full FAQ'}</a></li>
             </ul>
           </div>
           <div>
-            <h4 className="text-[11px] md:text-sm font-semibold dark:text-white text-foreground mb-3 md:mb-4">{lang === 'id' ? 'Platform' : 'Platforms'}</h4>
+            <h4 className="text-[11px] md:text-base font-semibold dark:text-white text-foreground mb-3 md:mb-4">{lang === 'id' ? 'Platform' : 'Platforms'}</h4>
             <ul className="space-y-2 md:space-y-3">
-              <li><a href="/tiktok-downloader" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">TikTok Downloader</a></li>
-              <li><a href="/instagram-downloader" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Instagram Downloader</a></li>
-              <li><a href="/youtube-downloader" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">YouTube Downloader</a></li>
-              <li><a href="/facebook-downloader" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Facebook Downloader</a></li>
-              <li><a href="/twitter-downloader" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Twitter/X Downloader</a></li>
+              <li><a href="/tiktok-downloader" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">TikTok Downloader</a></li>
+              <li><a href="/instagram-downloader" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Instagram Downloader</a></li>
+              <li><a href="/youtube-downloader" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">YouTube Downloader</a></li>
+              <li><a href="/facebook-downloader" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Facebook Downloader</a></li>
+              <li><a href="/twitter-downloader" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Twitter/X Downloader</a></li>
             </ul>
           </div>
           <div>
-            <h4 className="text-[11px] md:text-sm font-semibold dark:text-white text-foreground mb-3 md:mb-4">{lang === 'id' ? 'Perusahaan' : 'Company'}</h4>
+            <h4 className="text-[11px] md:text-base font-semibold dark:text-white text-foreground mb-3 md:mb-4">{lang === 'id' ? 'Perusahaan' : 'Company'}</h4>
             <ul className="space-y-2 md:space-y-3">
-              <li><a href="/about" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
-              <li><a href="/how-it-works" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Cara Kerja' : 'How It Works'}</a></li>
-              <li><a href="/contact" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
-              <li><a href="/blog" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Blog</a></li>
-              <li><a href="mailto:admin@getmova.my.id" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">admin@getmova.my.id</a></li>
+              <li><a href="/about" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
+              <li><a href="/how-it-works" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Cara Kerja' : 'How It Works'}</a></li>
+              <li><a href="/contact" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
+              <li><a href="/blog" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Blog</a></li>
+              <li><a href="mailto:admin@getmova.my.id" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">admin@getmova.my.id</a></li>
             </ul>
           </div>
           <div>
-            <h4 className="text-[11px] md:text-sm font-semibold dark:text-white text-foreground mb-3 md:mb-4">Legal</h4>
+            <h4 className="text-[11px] md:text-base font-semibold dark:text-white text-foreground mb-3 md:mb-4">Legal</h4>
             <ul className="space-y-2 md:space-y-3">
-              <li><a href="/privacy" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
-              <li><a href="/cookie-policy" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Kebijakan Cookie' : 'Cookie Policy'}</a></li>
-              <li><a href="/terms" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
-              <li><a href="/disclaimer" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Disclaimer</a></li>
-              <li><a href="/dmca" className="text-[13px] md:text-sm dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">DMCA</a></li>
+              <li><a href="/privacy" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
+              <li><a href="/cookie-policy" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Kebijakan Cookie' : 'Cookie Policy'}</a></li>
+              <li><a href="/terms" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
+              <li><a href="/disclaimer" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Disclaimer</a></li>
+              <li><a href="/dmca" className="text-[13px] md:text-base dark:text-white/50 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">DMCA</a></li>
             </ul>
           </div>
         </div>

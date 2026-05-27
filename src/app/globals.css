@@ -200,6 +200,9 @@ img, video, svg, iframe { max-width: 100%; height: auto; }
 @media screen and (min-width: 1280px) {
   html { font-size: 18px; }
 }
+@media screen and (min-width: 1536px) {
+  html { font-size: 19px; }
+}
 
 /* ─── details/summary default marker removal ─── */
 details summary::-webkit-details-marker { display: none; }
@@ -231,6 +234,9 @@ details summary { list-style: none; }
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--border);
 }
+@media screen and (min-width: 768px) {
+  .prose-blog h2 { font-size: 2rem; margin-top: 3rem; margin-bottom: 1.25rem; }
+}
 
 .prose-blog h3 {
   font-family: var(--font-montserrat), 'Montserrat', sans-serif;
@@ -241,12 +247,18 @@ details summary { list-style: none; }
   margin-bottom: 0.75rem;
   line-height: 1.4;
 }
+@media screen and (min-width: 768px) {
+  .prose-blog h3 { font-size: 1.5rem; }
+}
 
 .prose-blog p {
   font-size: 1rem;
   line-height: 1.8;
   color: var(--muted-foreground);
   margin-bottom: 1.25rem;
+}
+@media screen and (min-width: 768px) {
+  .prose-blog p { font-size: 1.125rem; line-height: 1.9; }
 }
 
 .prose-blog ul, .prose-blog ol {
@@ -267,6 +279,9 @@ details summary { list-style: none; }
   line-height: 1.8;
   color: var(--muted-foreground);
   margin-bottom: 0.5rem;
+}
+@media screen and (min-width: 768px) {
+  .prose-blog li { font-size: 1.125rem; line-height: 1.9; }
 }
 
 .prose-blog li::marker {
@@ -336,6 +351,9 @@ details summary { list-style: none; }
   padding: 1.25rem;
   margin: 1rem 0;
 }
+@media screen and (min-width: 768px) {
+  .prose-blog .step-card { padding: 1.75rem; margin: 1.5rem 0; }
+}
 
 .prose-blog .step-number {
   display: inline-flex;
@@ -351,12 +369,19 @@ details summary { list-style: none; }
   margin-right: 0.75rem;
   flex-shrink: 0;
 }
+@media screen and (min-width: 768px) {
+  .prose-blog .step-number { width: 36px; height: 36px; font-size: 1rem; margin-right: 1rem; }
+}
 
 .prose-blog table {
   width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
   font-size: 0.9rem;
+}
+@media screen and (min-width: 768px) {
+  .prose-blog table { font-size: 1rem; }
+  .prose-blog th, .prose-blog td { padding: 1rem 1.25rem; }
 }
 
 .prose-blog th, .prose-blog td {
