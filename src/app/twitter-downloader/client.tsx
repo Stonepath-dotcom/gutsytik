@@ -195,6 +195,10 @@ export function TwitterDownloaderPage() {
         { name: "Instagram", href: "/instagram-downloader", color: "#E4405F", gradient: "linear-gradient(135deg, #833AB4, #FD1D1D, #F77737)" },
         { name: "YouTube", href: "/youtube-downloader", color: "#FF0000" },
         { name: "Facebook", href: "/facebook-downloader", color: "#1877F2" },
+        { name: "Pinterest", href: "/pinterest-downloader", color: "#E60023" },
+        { name: "Reddit", href: "/reddit-downloader", color: "#FF4500" },
+        { name: "Telegram", href: "/telegram-downloader", color: "#26A5E4" },
+        { name: "YouTube MP3", href: "/youtube-mp3", color: "#FF0000", gradient: "linear-gradient(135deg, #FF0000, #FF6600)" },
       ]}
       blogLinks={[
         { href: "/blog/download-video-twitter-x-tanpa-watermark", title: "Cara Download Video Twitter/X Tanpa Watermark" },

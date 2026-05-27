@@ -415,6 +415,13 @@ export default function TelegramDownloaderPage() {
               </a>
               ,{" "}
               <a
+                href="/instagram-downloader"
+                className="text-primary hover:underline"
+              >
+                download video Instagram Reels
+              </a>
+              ,{" "}
+              <a
                 href="/youtube-downloader"
                 className="text-primary hover:underline"
               >
@@ -422,17 +429,24 @@ export default function TelegramDownloaderPage() {
               </a>
               ,{" "}
               <a
-                href="/instagram-downloader"
+                href="/facebook-downloader"
                 className="text-primary hover:underline"
               >
-                download video Instagram
+                download video Facebook
               </a>
               ,{" "}
               <a
-                href="/youtube-mp3"
+                href="/twitter-downloader"
                 className="text-primary hover:underline"
               >
-                konversi YouTube ke MP3
+                download video Twitter/X
+              </a>
+              ,{" "}
+              <a
+                href="/pinterest-downloader"
+                className="text-primary hover:underline"
+              >
+                download video Pinterest
               </a>
               ,{" "}
               <a
@@ -440,6 +454,13 @@ export default function TelegramDownloaderPage() {
                 className="text-primary hover:underline"
               >
                 download video Reddit
+              </a>
+              ,{" "}
+              <a
+                href="/youtube-mp3"
+                className="text-primary hover:underline"
+              >
+                konversi YouTube ke MP3
               </a>
               , dan masih banyak lagi. Jadikan Mova sebagai satu-satunya alat
               download video yang kamu butuhkan — gratis, cepat, aman, dan
