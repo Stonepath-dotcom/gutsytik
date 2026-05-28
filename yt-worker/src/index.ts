@@ -1,6 +1,6 @@
 // YouTube InnerTube API Proxy + Download Proxy - Cloudflare Worker
-// Runs on Cloudflare's edge network with residential-like IPs
-// Also serves as download proxy to stream videos through CF (no 4MB limit)
+// Runs on Cloudflare's edge network - same IP for info + download = no IP mismatch!
+// No 4MB limit like Vercel, streams directly through Cloudflare edge
 
 const API_KEYS = [
   "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
@@ -63,10 +63,11 @@ function generateCpn(): string {
   return result;
 }
 
-const CORS_HEADERS = {
+const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Headers": "Content-Type, Range",
+  "Access-Control-Expose-Headers": "Content-Disposition, Content-Length, Content-Range, Accept-Ranges",
   "Access-Control-Max-Age": "86400",
 };
 
@@ -83,13 +84,15 @@ export default {
 
     // Health check
     if (request.method === "GET" && url.pathname === "/health") {
-      return Response.json({ status: "ok", timestamp: Date.now() }, {
-        headers: { "Access-Control-Allow-Origin": "*" },
-      });
+      return Response.json(
+        { status: "ok", service: "mova-yt-proxy", version: "2.0", timestamp: Date.now() },
+        { headers: { "Access-Control-Allow-Origin": "*" } }
+      );
     }
 
     // ===== DOWNLOAD PROXY =====
     // Stream video/audio through Cloudflare Worker (no 4MB limit like Vercel)
+    // Same Cloudflare IP that got the URLs = no IP mismatch = no begal!
     // Usage: GET /download?url=<googlevideo_url>&filename=<name>&quality=<label>
     if (request.method === "GET" && url.pathname === "/download") {
       const videoUrl = url.searchParams.get("url");
@@ -97,65 +100,102 @@ export default {
       const quality = url.searchParams.get("quality") || "video";
 
       if (!videoUrl) {
-        return Response.json({ error: "url parameter required" }, { status: 400, headers: { "Access-Control-Allow-Origin": "*" } });
+        return Response.json(
+          { error: "url parameter required" },
+          { status: 400, headers: { "Access-Control-Allow-Origin": "*" } }
+        );
       }
 
       try {
         // Validate URL
-        const parsed = new URL(videoUrl);
-        if (!["http:", "https:"].includes(parsed.protocol)) {
-          return Response.json({ error: "Invalid URL" }, { status: 400, headers: { "Access-Control-Allow-Origin": "*" } });
+        let parsed: URL;
+        try {
+          parsed = new URL(videoUrl);
+          if (!["http:", "https:"].includes(parsed.protocol)) throw new Error("Invalid protocol");
+        } catch {
+          return Response.json(
+            { error: "Invalid URL" },
+            { status: 400, headers: { "Access-Control-Allow-Origin": "*" } }
+          );
         }
 
         // Set proper headers for fetching from googlevideo
-        const headers: Record<string, string> = {
+        const fetchHeaders: Record<string, string> = {
           "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
           "Accept": "*/*",
           "Accept-Encoding": "identity",
         };
 
         if (parsed.hostname.includes("googlevideo") || parsed.hostname.includes("youtube")) {
-          headers["Referer"] = "https://www.youtube.com/";
-          headers["Origin"] = "https://www.youtube.com";
+          fetchHeaders["Referer"] = "https://www.youtube.com/";
+          fetchHeaders["Origin"] = "https://www.youtube.com";
+        } else if (parsed.hostname.includes("tiktokcdn") || parsed.hostname.includes("tiktok") || parsed.hostname.includes("tikwm")) {
+          fetchHeaders["Referer"] = "https://www.tiktok.com/";
+        } else if (parsed.hostname.includes("reddit") || parsed.hostname.includes("redd.it")) {
+          fetchHeaders["Referer"] = "https://www.reddit.com/";
+        } else if (parsed.hostname.includes("instagram") || parsed.hostname.includes("cdninstagram") || parsed.hostname.includes("fbcdn")) {
+          fetchHeaders["Referer"] = "https://www.instagram.com/";
+        } else if (parsed.hostname.includes("facebook")) {
+          fetchHeaders["Referer"] = "https://www.facebook.com/";
+        }
+
+        // Support Range requests for video seeking
+        const rangeHeader = request.headers.get("range");
+        if (rangeHeader) {
+          fetchHeaders["Range"] = rangeHeader;
         }
 
         const response = await fetch(videoUrl, {
-          headers,
+          headers: fetchHeaders,
           redirect: "follow",
-          signal: AbortSignal.timeout(120000),
+          signal: AbortSignal.timeout(180000), // 3 min timeout for large files
         });
 
-        if (!response.ok) {
-          return Response.json({ error: `Failed to fetch: ${response.status}` }, { status: response.status, headers: { "Access-Control-Allow-Origin": "*" } });
+        if (!response.ok && response.status !== 206) {
+          return Response.json(
+            { error: `Upstream returned ${response.status}` },
+            { status: response.status, headers: { "Access-Control-Allow-Origin": "*" } }
+          );
         }
 
         const contentType = response.headers.get("content-type") || "";
+        const contentLength = response.headers.get("content-length");
+        const contentRange = response.headers.get("content-range");
         const isAudio = quality === "Audio" || quality === "MP3" || quality === "Audio (Low)" || contentType.includes("audio");
         const extension = isAudio ? "mp3" : "mp4";
         const downloadFilename = `${filename}_${quality.replace(/[^a-zA-Z0-9]/g, "_")}.${extension}`;
 
+        // Build response headers
+        const responseHeaders: Record<string, string> = {
+          "Content-Type": isAudio ? "audio/mpeg" : (contentType || "video/mp4"),
+          "Content-Disposition": `attachment; filename="${downloadFilename}"`,
+          "Cache-Control": "public, max-age=3600",
+          "Accept-Ranges": "bytes",
+          ...CORS_HEADERS,
+        };
+
+        if (contentLength) responseHeaders["Content-Length"] = contentLength;
+        if (contentRange) responseHeaders["Content-Range"] = contentRange;
+
         // Stream the response with download headers
         return new Response(response.body, {
-          status: 200,
-          headers: {
-            "Content-Type": isAudio ? "audio/mpeg" : (contentType || "video/mp4"),
-            "Content-Disposition": `attachment; filename="${downloadFilename}"`,
-            "Cache-Control": "no-cache",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Expose-Headers": "Content-Disposition, Content-Length",
-            ...(response.headers.get("content-length") ? {
-              "Content-Length": response.headers.get("content-length")!,
-            } : {}),
-          },
+          status: contentRange ? 206 : 200,
+          headers: responseHeaders,
         });
       } catch (error) {
-        return Response.json({ error: (error as Error).message }, { status: 500, headers: { "Access-Control-Allow-Origin": "*" } });
+        return Response.json(
+          { error: (error as Error).message },
+          { status: 500, headers: { "Access-Control-Allow-Origin": "*" } }
+        );
       }
     }
 
     // ===== VIDEO INFO API =====
-    if (request.method === "GET" && url.pathname !== "/health") {
-      return Response.json({ error: "Use POST with { videoId, audioOnly }" }, { status: 400 });
+    if (request.method === "GET" && url.pathname !== "/health" && url.pathname !== "/download") {
+      return Response.json(
+        { error: "Use POST with { videoId, audioOnly } for video info, or GET /download?url=... for downloading" },
+        { status: 400 }
+      );
     }
 
     if (request.method !== "POST") {

@@ -853,7 +853,7 @@ export async function POST(request: NextRequest) {
 
     // Route download URLs through appropriate proxy
     // For YouTube with Backend (Fly.io/Render): URLs already point to backend /stream
-    // For YouTube with googlevideo: route through Vercel proxy (streaming mode for large files)
+    // For YouTube with googlevideo: route through CF Worker /download (same IP = no begal!)
     // For other platforms: route through Vercel proxy
     const encodedSourceUrl = encodeURIComponent(trimmedUrl);
     const isYouTubeGooglevideo = platform === "YouTube" && result.qualityOptions.some(q => q.url.includes("googlevideo.com") || q.originalUrl?.includes("googlevideo.com"));
@@ -869,9 +869,17 @@ export async function POST(request: NextRequest) {
         originalUrl: q.originalUrl || q.url,
       }));
       downloadUrl = result.downloadUrl;
+    } else if (isYouTubeGooglevideo) {
+      // Route through CF Worker /download — same Cloudflare IP that got the URLs = no IP mismatch!
+      const cfProxyBase = `${CF_WORKER_URL}/download`;
+      proxiedQualityOptions = result.qualityOptions.map((q) => ({
+        ...q,
+        originalUrl: q.originalUrl || q.url,
+        url: `${cfProxyBase}?url=${encodeURIComponent(q.url)}&filename=${encodeURIComponent(result.filename)}&quality=${encodeURIComponent(q.label)}`,
+      }));
+      downloadUrl = `${cfProxyBase}?url=${encodeURIComponent(result.downloadUrl)}&filename=${encodeURIComponent(result.filename)}&quality=best`;
     } else {
-      // Route everything through Vercel proxy (including googlevideo)
-      // The proxy handles streaming for large files and redirects when needed
+      // Route through Vercel proxy (for TikTok, Instagram, etc.)
       proxiedQualityOptions = result.qualityOptions.map((q) => ({
         ...q,
         originalUrl: q.originalUrl || q.url,
