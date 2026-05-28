@@ -162,12 +162,11 @@ async function downloadTikTok(url: string) {
 /* ──────────────── YouTube Strategy A: InnerTube API ─── */
 async function youTubeInnerTube(videoId: string, audioOnly: boolean) {
   const clients: { clientName: string; clientVersion: string; extra?: Record<string, unknown>; thirdParty?: string }[] = [
-    { clientName: "ANDROID", clientVersion: "19.29.37", extra: { androidSdkVersion: 30, osName: "Android", osVersion: "11", hl: "en", gl: "US" } },
-    { clientName: "TVHTML5_SIMPLY_EMBEDDED_PLAYER", clientVersion: "2.0", thirdParty: "https://www.google.com" },
-    { clientName: "ANDROID_VR", clientVersion: "1.60.2", extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" } },
-    { clientName: "IOS", clientVersion: "19.45.4", extra: { deviceModel: "iPhone16,2", hl: "en", gl: "US" } },
-    { clientName: "WEB_EMBEDDED_PLAYER", clientVersion: "1.20241217.01.00", thirdParty: "https://www.google.com" },
-    { clientName: "WEB_CREATOR", clientVersion: "1.20241217.01.00", extra: { hl: "en", gl: "US" } },
+    { clientName: "ANDROID", clientVersion: "20.10.38", extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" } },
+    { clientName: "ANDROID_VR", clientVersion: "1.64.3", extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" } },
+    { clientName: "IOS", clientVersion: "20.10.4", extra: { deviceModel: "iPhone16,2", hl: "en", gl: "US" } },
+    { clientName: "ANDROID", clientVersion: "20.29.37", extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" } },
+    { clientName: "ANDROID_VR", clientVersion: "1.62.2", extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" } },
   ];
 
   const apiKeys = [
@@ -286,6 +285,8 @@ async function youTubePiped(videoId: string, audioOnly: boolean) {
     "https://pipedapi.kavin.rocks",
     "https://pipedapi.adminforge.de",
     "https://api.piped.projectsegfau.lt",
+    "https://pipedapi.in.projectsegfau.lt",
+    "https://pipedapi.moomoo.me",
   ];
 
   for (const instance of pipedInstances) {
@@ -357,7 +358,89 @@ function convertPipedUrl(url: string): string {
   return url;
 }
 
-/* ──────────────── YouTube Strategy C: Page Scraping ─── */
+/* ──────────────── YouTube Strategy C: Invidious API ─── */
+async function youTubeInvidious(videoId: string, audioOnly: boolean) {
+  const invidiousInstances = [
+    "https://invidious.fdn.fr",
+    "https://inv.nadeko.net",
+    "https://vid.puffyan.us",
+    "https://invidious.nerdvpn.de",
+    "https://inv.tux.pizza",
+    "https://invidious.privacyredirect.com",
+  ];
+
+  for (const instance of invidiousInstances) {
+    try {
+      const res = await fetch(`${instance}/api/v1/videos/${videoId}`, {
+        headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36", "Accept": "application/json" },
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!res.ok) continue;
+      const data = await res.json();
+      if (!data.title) continue;
+
+      const title = data.title || "Video YouTube";
+      const author = data.author || "@unknown";
+      const durationNum = data.lengthSeconds || 0;
+      const duration = `${String(Math.floor(durationNum / 60)).padStart(2, "0")}:${String(durationNum % 60).padStart(2, "0")}`;
+      const thumbnail = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+
+      const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+      const formatStreams = (data.formatStreams || []) as Array<Record<string, unknown>>;
+      const adaptiveFormats = (data.adaptiveFormats || []) as Array<Record<string, unknown>>;
+
+      // Combined format streams (video+audio)
+      for (const stream of formatStreams) {
+        const url = (stream.url as string) || "";
+        const quality = (stream.qualityLabel as string) || (stream.quality as string) || "";
+        if (url && quality) {
+          qualityOptions.push({ label: quality, resolution: quality, url });
+        }
+      }
+
+      // Adaptive audio streams for audio-only mode
+      if (audioOnly) {
+        const audioFormats = adaptiveFormats
+          .filter((f) => typeof f.type === "string" && f.type.includes("audio") && f.url)
+          .sort((a, b) => ((b.bitrate as number) || 0) - ((a.bitrate as number) || 0));
+        if (audioFormats.length > 0) {
+          qualityOptions.push({ label: "Audio", resolution: "MP3", url: audioFormats[0].url as string });
+          if (audioFormats.length > 1) {
+            qualityOptions.push({ label: "Audio (Low)", resolution: "MP3", url: audioFormats[audioFormats.length - 1].url as string });
+          }
+        }
+      } else {
+        // Adaptive video streams
+        const videoFormats = adaptiveFormats
+          .filter((f) => typeof f.type === "string" && f.type.includes("video") && f.url)
+          .sort((a, b) => ((b.bitrate as number) || 0) - ((a.bitrate as number) || 0));
+        const seen = new Set(qualityOptions.map(q => q.label));
+        for (const f of videoFormats) {
+          const quality = (f.qualityLabel as string) || (f.quality as string) || "";
+          if (quality && !seen.has(quality) && qualityOptions.length < 6) {
+            qualityOptions.push({ label: quality, resolution: quality, url: f.url as string });
+            seen.add(quality);
+          }
+        }
+        // Add audio option
+        const audioFormats = adaptiveFormats
+          .filter((f) => typeof f.type === "string" && f.type.includes("audio") && f.url)
+          .sort((a, b) => ((b.bitrate as number) || 0) - ((a.bitrate as number) || 0));
+        if (audioFormats.length > 0) {
+          qualityOptions.push({ label: "Audio", resolution: "MP3", url: audioFormats[0].url as string });
+        }
+      }
+
+      if (qualityOptions.length === 0) continue;
+
+      console.log(`Invidious API success with instance: ${instance}`);
+      return { title, thumbnail, duration, author, platform: "YouTube", downloadUrl: qualityOptions[0].url, qualityOptions, filename: `mova_youtube_${videoId}` };
+    } catch { continue; }
+  }
+  return null;
+}
+
+/* ──────────────── YouTube Strategy D: Page Scraping ─── */
 async function youTubePageScrape(videoId: string, audioOnly: boolean) {
   try {
     const res = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
@@ -418,15 +501,19 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
   const innerTubeResult = await youTubeInnerTube(videoId, audioOnly);
   if (innerTubeResult) return innerTubeResult;
 
-  console.log(`YouTube: InnerTube failed, trying Edge Runtime proxy...`);
-  const edgeResult = await youTubeEdgeProxy(videoId, audioOnly);
-  if (edgeResult) return edgeResult;
-
-  console.log(`YouTube: Edge proxy failed, trying Piped API...`);
+  console.log(`YouTube: InnerTube failed, trying Piped API...`);
   const pipedResult = await youTubePiped(videoId, audioOnly);
   if (pipedResult) return pipedResult;
 
-  console.log(`YouTube: Piped failed, trying page scraping...`);
+  console.log(`YouTube: Piped failed, trying Invidious API...`);
+  const invidiousResult = await youTubeInvidious(videoId, audioOnly);
+  if (invidiousResult) return invidiousResult;
+
+  console.log(`YouTube: Invidious failed, trying Edge Runtime proxy...`);
+  const edgeResult = await youTubeEdgeProxy(videoId, audioOnly);
+  if (edgeResult) return edgeResult;
+
+  console.log(`YouTube: Edge proxy failed, trying page scraping...`);
   const scrapeResult = await youTubePageScrape(videoId, audioOnly);
   if (scrapeResult) return scrapeResult;
 

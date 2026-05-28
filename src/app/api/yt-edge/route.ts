@@ -18,28 +18,29 @@ const CLIENTS: Array<{
   thirdParty?: { embedUrl: string };
 }> = [
   {
-    clientName: "ANDROID_VR",
-    clientVersion: "1.60.2",
+    clientName: "ANDROID",
+    clientVersion: "20.10.38",
     extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14" },
   },
   {
-    clientName: "TVHTML5_SIMPLY_EMBEDDED_PLAYER",
-    clientVersion: "2.0",
-    thirdParty: { embedUrl: "https://www.google.com" },
+    clientName: "ANDROID_VR",
+    clientVersion: "1.64.3",
+    extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14" },
   },
   {
     clientName: "IOS",
-    clientVersion: "19.45.4",
+    clientVersion: "20.10.4",
     extra: { deviceModel: "iPhone16,2" },
   },
   {
-    clientName: "WEB_EMBEDDED_PLAYER",
-    clientVersion: "1.20241217.01.00",
-    thirdParty: { embedUrl: "https://www.google.com" },
+    clientName: "ANDROID",
+    clientVersion: "20.29.37",
+    extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14" },
   },
   {
-    clientName: "WEB_CREATOR",
-    clientVersion: "1.20241217.01.00",
+    clientName: "ANDROID_VR",
+    clientVersion: "1.62.2",
+    extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14" },
   },
 ];
 
