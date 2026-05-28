@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video TikTok Tanpa Watermark 2026 - Mova",
+  title: "Cara Download Video TikTok Tanpa Watermark 2026 - getmova",
   description:
     "Panduan lengkap cara download video TikTok tanpa watermark di tahun 2026. Langkah mudah menggunakan Mova, perbandingan dengan SnapTik dan SSSTikTok, tips kualitas video, dan pertimbangan hukum.",
   keywords: [
@@ -14,11 +14,11 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-tiktok-tanpa-watermark" },
   openGraph: {
-    title: "Cara Download Video TikTok Tanpa Watermark 2026 - Mova",
+    title: "Cara Download Video TikTok Tanpa Watermark 2026 - getmova",
     description:
       "Panduan lengkap cara download video TikTok tanpa watermark di tahun 2026.",
     url: "https://getmova.my.id/blog/download-tiktok-tanpa-watermark",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -31,11 +31,11 @@ const jsonLd = {
     "Panduan lengkap cara download video TikTok tanpa watermark di tahun 2026. Langkah mudah menggunakan Mova, perbandingan dengan tools lain, dan tips kualitas video.",
   author: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
   },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: {
       "@type": "ImageObject",
       url: "https://getmova.my.id/mova-logo.png",
@@ -282,7 +282,7 @@ export default function DownloadTiktokPage() {
 
         <div className="warning-box">
           <p>
-            ⚠️ <strong>Penting:</strong> Selalu hormati hak cipta kreator dan gunakan konten yang diunduh secara bertanggung jawab. Mendistribusikan ulang video tanpa izin bisa melanggar hak cipta.
+            <strong>Penting:</strong> Selalu hormati hak cipta kreator dan gunakan konten yang diunduh secara bertanggung jawab. Mendistribusikan ulang video tanpa izin bisa melanggar hak cipta.
           </p>
         </div>
 

@@ -4,6 +4,7 @@ import React, { useState, useCallback, useRef } from "react";
 import { Download, Copy, Loader2, CheckCircle, AlertCircle, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 interface QualityOption {
   label: string;
@@ -164,7 +165,7 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
         <Button
           onClick={handleAnalyze}
           disabled={loading}
-          className="h-11 px-5 bg-[#2563EB] text-white font-semibold rounded-xl hover:bg-[#1D4ED8] shrink-0"
+          className="h-11 px-5 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] shrink-0"
         >
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -177,9 +178,9 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
 
       {/* Loading */}
       {loading && !error && (
-        <div className="mt-3 p-3 rounded-lg bg-[#2563EB]/10 border border-[#2563EB]/20 flex items-center gap-2">
-          <Loader2 className="h-4 w-4 text-[#2563EB] animate-spin shrink-0" />
-          <p className="text-[#2563EB] text-sm font-medium">
+        <div className="mt-3 p-3 rounded-lg bg-[#10B981]/10 border border-[#10B981]/20 flex items-center gap-2">
+          <Loader2 className="h-4 w-4 text-[#10B981] animate-spin shrink-0" />
+          <p className="text-[#10B981] text-sm font-medium">
             {mode === "audio" ? "Mengekstrak audio..." : "Mencari video..."}
           </p>
         </div>
@@ -198,12 +199,12 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
         <div
           ref={resultRef}
           className="mt-4 rounded-xl bg-card border overflow-hidden"
-          style={{ borderColor: "#2563EB30" }}
+          style={{ borderColor: "#10B98130" }}
         >
           {/* Header */}
           <div
             className="px-4 py-2 border-b border-border flex items-center gap-2"
-            style={{ background: "linear-gradient(to right, #2563EB15, #7C3AED15)" }}
+            style={{ background: "linear-gradient(to right, #10B98115, #34D39915)" }}
           >
             <CheckCircle className="h-4 w-4 text-green-400" />
             <span className="text-sm text-green-400 font-medium">
@@ -216,16 +217,16 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
             <div className="flex gap-3 mb-3">
               <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
                 {result.thumbnail ? (
-                  <img
+                  <Image
                     src={result.thumbnail}
-                    alt=""
+                    alt={`Thumbnail: ${result.title}`}
+                    width={96}
+                    height={64}
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = "none";
-                    }}
+                    unoptimized
                   />
                 ) : null}
-                <Play className="h-6 w-6 absolute text-[#2563EB]" />
+                <Play className="h-6 w-6 absolute text-[#10B981]" />
               </div>
               <div className="flex-1 text-left min-w-0">
                 <h3 className="font-semibold text-foreground text-sm line-clamp-2">{result.title}</h3>
@@ -248,7 +249,7 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
                       onClick={() => setSelectedQuality(i)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                         selectedQuality === i
-                          ? "bg-[#2563EB] text-white"
+                          ? "bg-[#10B981] text-white"
                           : "bg-muted text-muted-foreground hover:text-foreground"
                       }`}
                     >
@@ -263,7 +264,7 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
             <Button
               onClick={handleDownload}
               disabled={downloading}
-              className="w-full bg-[#2563EB] text-white font-semibold rounded-xl hover:bg-[#1D4ED8] h-10"
+              className="w-full bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] h-10"
             >
               {downloading ? (
                 <Loader2 className="h-4 w-4 animate-spin mr-2" />

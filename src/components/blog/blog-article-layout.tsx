@@ -2,8 +2,10 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Clock, Calendar, ChevronRight, Download, Zap, List, ChevronDown } from "lucide-react";
+import { Clock, Calendar, ChevronRight, Download, Zap, List, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AdUnit } from "@/components/ad-unit";
+import { SitewideFooter } from "@/components/sitewide-footer";
 
 export interface RelatedArticle {
   slug: string;
@@ -68,17 +70,17 @@ export function BlogArticleLayout({
       {/* Hero Section */}
       <section className="relative pt-20 pb-12 px-4 sm:px-6 overflow-hidden">
         {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#EEF2FF] via-[#E0E7FF] to-background dark:from-[#0A0E27] dark:via-[#111340]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#ECFDF5] via-[#D1FAE5] to-background dark:from-[#064E3B] dark:via-[#022C22]" />
         <div className="absolute inset-0 opacity-20" style={{
-          backgroundImage: "radial-gradient(circle at 20% 50%, rgba(79,70,229,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(124,58,237,0.1) 0%, transparent 50%)"
+          backgroundImage: "radial-gradient(circle at 20% 50%, rgba(16,185,129,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(5,150,105,0.1) 0%, transparent 50%)"
         }} />
 
         <div className="relative mx-auto max-w-3xl">
           {/* Breadcrumb */}
           <nav className="mb-6 flex items-center gap-1.5 text-sm text-muted-foreground" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-[#4F46E5] transition-colors">Home</Link>
+            <Link href="/" className="hover:text-[#10B981] transition-colors">Home</Link>
             <ChevronRight className="h-3.5 w-3.5" />
-            <Link href="/blog" className="hover:text-[#4F46E5] transition-colors">Blog</Link>
+            <Link href="/blog" className="hover:text-[#10B981] transition-colors">Blog</Link>
             <ChevronRight className="h-3.5 w-3.5" />
             <span className="text-foreground truncate max-w-[200px] sm:max-w-none">{title}</span>
           </nav>
@@ -91,16 +93,16 @@ export function BlogArticleLayout({
           {/* Meta */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-4">
             <span className="flex items-center gap-1.5">
-              <Calendar className="h-4 w-4 text-[#4F46E5]" />
+              <Calendar className="h-4 w-4 text-[#10B981]" />
               {date}
             </span>
             <span className="flex items-center gap-1.5">
-              <Clock className="h-4 w-4 text-[#4F46E5]" />
+              <Clock className="h-4 w-4 text-[#10B981]" />
               {readingTime}
             </span>
             {lastUpdated && lastUpdated !== date && (
               <span className="flex items-center gap-1.5 text-xs text-muted-foreground/70">
-                <Calendar className="h-3.5 w-3.5 text-[#4F46E5]/60" />
+                <Calendar className="h-3.5 w-3.5 text-[#10B981]/60" />
                 Diperbarui: {lastUpdated}
               </span>
             )}
@@ -124,7 +126,7 @@ export function BlogArticleLayout({
                   className="sticky top-24 rounded-xl p-4 bg-card border border-border"
                   aria-label="Daftar Isi"
                 >
-                  <h3 className="text-sm font-bold text-[#4F46E5] mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-[#10B981] mb-3 flex items-center gap-2">
                     <List className="h-4 w-4" />
                     Daftar Isi
                   </h3>
@@ -133,13 +135,13 @@ export function BlogArticleLayout({
                       <li key={h.id}>
                         <a
                           href={`#${h.id}`}
-                          className="text-xs text-muted-foreground hover:text-[#4F46E5] transition-colors leading-relaxed block py-0.5"
+                          className="text-xs text-muted-foreground hover:text-[#10B981] transition-colors leading-relaxed block py-0.5"
                           onClick={(e) => {
                             e.preventDefault();
                             document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
                           }}
                         >
-                          <span className="text-[#4F46E5]/40 mr-1.5">{i + 1}.</span>
+                          <span className="text-[#10B981]/40 mr-1.5">{i + 1}.</span>
                           {h.text}
                         </a>
                       </li>
@@ -160,7 +162,7 @@ export function BlogArticleLayout({
                     aria-expanded={tocOpen}
                     aria-controls="mobile-toc"
                   >
-                    <span className="text-sm font-bold text-[#4F46E5] flex items-center gap-2">
+                    <span className="text-sm font-bold text-[#10B981] flex items-center gap-2">
                       <List className="h-4 w-4" />
                       Daftar Isi
                     </span>
@@ -179,14 +181,14 @@ export function BlogArticleLayout({
                           <li key={h.id}>
                             <a
                               href={`#${h.id}`}
-                              className="text-sm text-muted-foreground hover:text-[#4F46E5] transition-colors"
+                              className="text-sm text-muted-foreground hover:text-[#10B981] transition-colors"
                               onClick={(e) => {
                                 e.preventDefault();
                                 setTocOpen(false);
                                 document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
                               }}
                             >
-                              <span className="text-[#4F46E5]/40 mr-1.5">{i + 1}.</span>
+                              <span className="text-[#10B981]/40 mr-1.5">{i + 1}.</span>
                               {h.text}
                             </a>
                           </li>
@@ -200,6 +202,11 @@ export function BlogArticleLayout({
               <div className="prose-blog">
                 {children}
               </div>
+
+              {/* In-article Ad */}
+              <div className="mt-8 py-4 border-t border-b border-border">
+                <AdUnit format="auto" className="min-h-[100px]" />
+              </div>
             </div>
           </div>
         </div>
@@ -209,10 +216,10 @@ export function BlogArticleLayout({
       <section className="px-4 sm:px-6 pb-12">
         <div className="mx-auto max-w-3xl">
           <div className="rounded-2xl p-6 sm:p-8 text-center" style={{
-            background: "linear-gradient(135deg, rgba(79,70,229,0.1) 0%, rgba(124,58,237,0.08) 100%)",
-            border: "1px solid rgba(79,70,229,0.2)"
+            background: "linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(5,150,105,0.08) 100%)",
+            border: "1px solid rgba(16,185,129,0.2)"
           }}>
-            <Zap className="h-8 w-8 text-[#4F46E5] mx-auto mb-3" />
+            <Zap className="h-8 w-8 text-[#10B981] mx-auto mb-3" />
             <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]">
               Siap Download Video Tanpa Watermark?
             </h2>
@@ -220,11 +227,55 @@ export function BlogArticleLayout({
               Coba Mova sekarang dan rasakan kemudahan download video tanpa watermark dari berbagai platform!
             </p>
             <Link href="/">
-              <Button className="bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] px-8 h-12 text-base">
+              <Button className="bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] px-8 h-12 text-base">
                 <Download className="mr-2 h-5 w-5" />
                 Mulai Download Gratis
               </Button>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Platform Download Links — Internal Linking */}
+      <section className="px-4 sm:px-6 pb-12">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-xl font-bold text-foreground mb-4 font-[family-name:var(--font-montserrat)]">
+            Download Video dari <span className="gradient-text">Platform Lain</span>
+          </h2>
+          <p className="text-sm text-muted-foreground mb-5">
+            Mova juga mendukung download video dari berbagai platform populer lainnya. Coba sekarang!
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {[
+              { name: "TikTok", href: "/tiktok-downloader", color: "#010101", desc: "Tanpa watermark" },
+              { name: "YouTube", href: "/youtube-downloader", color: "#FF0000", desc: "Video HD" },
+              { name: "Instagram", href: "/instagram-downloader", color: "#E1306C", desc: "Reels & Story" },
+              { name: "Facebook", href: "/facebook-downloader", color: "#1877F2", desc: "Video HD" },
+              { name: "Twitter/X", href: "/twitter-downloader", color: "#14171A", desc: "Video & GIF" },
+              { name: "YouTube MP3", href: "/youtube-mp3", color: "#10B981", desc: "Konversi audio" },
+              { name: "Pinterest", href: "/pinterest-downloader", color: "#E60023", desc: "Video & Gambar" },
+              { name: "Reddit", href: "/reddit-downloader", color: "#FF4500", desc: "Video + Audio" },
+              { name: "Telegram", href: "/telegram-downloader", color: "#26A5E4", desc: "Video cepat" },
+            ].map((p) => (
+              <Link
+                key={p.href}
+                href={p.href}
+                className="group flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all"
+              >
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-white text-xs font-bold"
+                  style={{ background: p.color }}
+                >
+                  {p.name[0]}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981] transition-colors truncate">
+                    {p.name}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground">{p.desc}</p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -241,9 +292,9 @@ export function BlogArticleLayout({
                 <Link
                   key={article.slug}
                   href={`/blog/${article.slug}`}
-                  className="group rounded-xl p-5 bg-card border border-border hover:border-[#4F46E5]/30 transition-all duration-200"
+                  className="group rounded-xl p-5 bg-card border border-border hover:border-[#10B981]/30 transition-all duration-200"
                 >
-                  <h3 className="font-semibold text-foreground text-sm mb-1.5 group-hover:text-[#4F46E5] transition-colors line-clamp-2">
+                  <h3 className="font-semibold text-foreground text-sm mb-1.5 group-hover:text-[#10B981] transition-colors line-clamp-2">
                     {article.title}
                   </h3>
                   <p className="text-xs text-muted-foreground line-clamp-2">
@@ -256,18 +307,8 @@ export function BlogArticleLayout({
         </section>
       )}
 
-      {/* Back to home */}
-      <div className="px-4 sm:px-6 pb-12">
-        <div className="mx-auto max-w-3xl">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-[#4F46E5] transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Kembali ke Halaman Utama
-          </Link>
-        </div>
-      </div>
+      {/* Footer */}
+      <SitewideFooter />
     </main>
   );
 }

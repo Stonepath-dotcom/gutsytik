@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: mova-downloader-api
+    runtime: docker
+    plan: starter # free tier, upgrade to starter for always-on
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 8888
+      - key: ADMIN_KEY
+        generateValue: true # Auto-generate a secret key
+      - key: RATE_LIMIT
+        value: "30"
+      - key: YTDLP_TIMEOUT
+        value: "120000"
+      - key: DOWNLOAD_TIMEOUT
+        value: "300000"
+      - key: MAX_FILE_SIZE
+        value: "1073741824" # 1GB
+    healthCheckPath: /health
+    # Render auto-updates on push to main branch

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+  title: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
   description:
-    "Panduan komprehensif cara download video tanpa watermark dari semua platform sosial media. Perbandingan tools, tips terbaik, dan mengapa Mova pilihan terbaik di 2025.",
+    "Panduan komprehensif cara download video tanpa watermark dari semua platform sosial media. Perbandingan tools, tips terbaik, dan mengapa Mova pilihan terbaik di 2026.",
   keywords: [
     "download video tanpa watermark",
     "video downloader gratis",
@@ -15,11 +15,11 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-video-tanpa-watermark-gratis" },
   openGraph: {
-    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
     description:
       "Panduan komprehensif download video tanpa watermark dari semua platform sosial media.",
     url: "https://getmova.my.id/blog/download-video-tanpa-watermark-gratis",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -27,15 +27,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+  headline: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
   description:
     "Panduan komprehensif cara download video tanpa watermark dari semua platform sosial media.",
-  datePublished: "2025-05-22",
-  dateModified: "2025-05-22",
-  author: { "@type": "Organization", name: "Mova" },
+  datePublished: "2026-05-22",
+  dateModified: "2026-05-22",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -47,7 +47,7 @@ const jsonLd = {
 const relatedArticles = [
   {
     slug: "cara-download-video-tiktok-tanpa-watermark",
-    title: "Cara Download Video TikTok Tanpa Watermark 2025",
+    title: "Cara Download Video TikTok Tanpa Watermark 2026",
     description: "Panduan download TikTok tanpa watermark secara detail.",
   },
   {
@@ -125,10 +125,10 @@ export default function DownloadVideoTanpaWatermarkGratis() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <BlogArticleLayout
-      title="Download Video Tanpa Watermark Gratis - Semua Platform 2025"
+      title="Download Video Tanpa Watermark Gratis - Semua Platform 2026"
       slug="download-video-tanpa-watermark-gratis"
       description="Panduan komprehensif cara download video tanpa watermark dari semua platform. Perbandingan tools dan tips terbaik."
-      date="22 Mei 2025"
+      date="22 Mei 2026"
       readingTime="9 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}
@@ -241,38 +241,38 @@ export default function DownloadVideoTanpaWatermarkGratis() {
         <tbody>
           <tr>
             <td>Gratis</td>
-            <td>✅ Tanpa batas</td>
-            <td>❌ Ada yang berbayar/limit</td>
+            <td>Ya, Tanpa batas</td>
+            <td>Tidak, ada yang berbayar/limit</td>
           </tr>
           <tr>
             <td>Iklan</td>
-            <td>✅ Minimal</td>
-            <td>❌ Pop-up agresif</td>
+            <td>Ya, Minimal</td>
+            <td>Tidak, Pop-up agresif</td>
           </tr>
           <tr>
             <td>Registrasi</td>
-            <td>✅ Nggak perlu</td>
-            <td>❌ Ada yang wajib daftar</td>
+            <td>Ya, Nggak perlu</td>
+            <td>Tidak, Ada yang wajib daftar</td>
           </tr>
           <tr>
             <td>Multi-platform</td>
-            <td>✅ 7+ platform</td>
-            <td>⚠️ Terbatas</td>
+            <td>Ya, 7+ platform</td>
+            <td>Terbatas</td>
           </tr>
           <tr>
             <td>Kualitas video</td>
-            <td>✅ Terbaik</td>
-            <td>⚠️ Banyak yang dikompres</td>
+            <td>Ya, Terbaik</td>
+            <td>Banyak yang dikompres</td>
           </tr>
           <tr>
             <td>Keamanan</td>
-            <td>✅ Aman (no malware)</td>
-            <td>❌ Berisiko</td>
+            <td>Ya, Aman (no malware)</td>
+            <td>Tidak, Berisiko</td>
           </tr>
           <tr>
             <td>Ekstrak MP3</td>
-            <td>✅ Ada</td>
-            <td>⚠️ Jarang tersedia</td>
+            <td>Ya, Ada</td>
+            <td>Jarang tersedia</td>
           </tr>
         </tbody>
       </table>

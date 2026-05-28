@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video Facebook HD Gratis 2026 - Mova",
+  title: "Cara Download Video Facebook HD Gratis 2026 - getmova",
   description: "Panduan lengkap cara download video Facebook HD gratis di tahun 2026. Simpan video Facebook berkualitas tinggi dengan Mova.",
   keywords: [
     "download video facebook hd",
@@ -13,10 +13,10 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-video-facebook-hd" },
   openGraph: {
-    title: "Cara Download Video Facebook HD Gratis 2026 - Mova",
+    title: "Cara Download Video Facebook HD Gratis 2026 - getmova",
     description: "Panduan lengkap cara download video Facebook HD gratis di tahun 2026.",
     url: "https://getmova.my.id/blog/download-video-facebook-hd",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -26,8 +26,8 @@ const jsonLd = {
   "@type": "Article",
   headline: "Cara Download Video Facebook HD Gratis 2026",
   description: "Panduan lengkap cara download video Facebook HD gratis di tahun 2026. Simpan video Facebook berkualitas tinggi dengan Mova.",
-  author: { "@type": "Organization", name: "Mova" },
-  publisher: { "@type": "Organization", name: "Mova", logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" } },
+  author: { "@type": "Organization", name: "getmova" },
+  publisher: { "@type": "Organization", name: "getmova", logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" } },
   datePublished: "2026-05-10",
   dateModified: "2026-05-10",
   mainEntityOfPage: { "@type": "WebPage", "@id": "https://getmova.my.id/blog/download-video-facebook-hd" },
@@ -89,6 +89,17 @@ const faqJsonLd = {
   ]
 };
 
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "Tutorial Download Video Facebook HD",
+  description: "Cara download video Facebook HD gratis dan cepat menggunakan Mova.",
+  thumbnailUrl: "https://getmova.my.id/og-image.png",
+  uploadDate: "2026-05-25",
+  contentUrl: "https://getmova.my.id/facebook-downloader",
+  embedUrl: "https://getmova.my.id/facebook-downloader",
+};
+
 const relatedArticles = [
   {
     slug: "download-tiktok-tanpa-watermark",
@@ -116,6 +127,7 @@ export default function DownloadFacebookHdPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd) }} />
       <BlogArticleLayout
         title="Cara Download Video Facebook HD Gratis 2026"
         slug="download-video-facebook-hd"
@@ -194,7 +206,7 @@ export default function DownloadFacebookHdPage() {
 
         <div className="info-box">
           <p>
-            💡 <strong>Tips:</strong> Mova juga mendukung download video dari Facebook Reels, Stories, dan Live Replay. Semua format video publik bisa diunduh!
+            <strong>Tips:</strong> Mova juga mendukung download video dari Facebook Reels, Stories, dan Live Replay. Semua format video publik bisa diunduh!
           </p>
         </div>
 

@@ -2,24 +2,24 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video Instagram Reels, Story & IGTV - Terbaru 2025",
+  title: "Cara Download Video Instagram Reels, Story & IGTV - Terbaru 2026",
   description:
-    "Pelajari cara download video Instagram Reels, Story, dan IGTV dengan mudah di 2025. Panduan lengkap termasuk tips kualitas video, privasi, dan cara tercepat.",
+    "Pelajari cara download video Instagram Reels, Story, dan IGTV dengan mudah di 2026. Panduan lengkap termasuk tips kualitas video, privasi, dan cara tercepat.",
   keywords: [
     "download instagram reels",
     "download video instagram",
     "instagram downloader",
     "download instagram story",
     "download IGTV",
-    "cara download video instagram 2025",
+    "cara download video instagram 2026",
   ],
   alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-instagram-reels" },
   openGraph: {
-    title: "Cara Download Video Instagram Reels, Story & IGTV - Terbaru 2025",
+    title: "Cara Download Video Instagram Reels, Story & IGTV - Terbaru 2026",
     description:
       "Pelajari cara download video Instagram Reels, Story, dan IGTV dengan mudah. Panduan lengkap termasuk tips kualitas dan privasi.",
     url: "https://getmova.my.id/blog/cara-download-video-instagram-reels",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -27,15 +27,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Cara Download Video Instagram Reels, Story & IGTV - Terbaru 2025",
+  headline: "Cara Download Video Instagram Reels, Story & IGTV - Terbaru 2026",
   description:
-    "Pelajari cara download video Instagram Reels, Story, dan IGTV dengan mudah di 2025.",
-  datePublished: "2025-05-24",
-  dateModified: "2025-05-24",
-  author: { "@type": "Organization", name: "Mova" },
+    "Pelajari cara download video Instagram Reels, Story, dan IGTV dengan mudah di 2026.",
+  datePublished: "2026-05-24",
+  dateModified: "2026-05-24",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -47,7 +47,7 @@ const jsonLd = {
 const relatedArticles = [
   {
     slug: "cara-download-video-tiktok-tanpa-watermark",
-    title: "Cara Download Video TikTok Tanpa Watermark 2025",
+    title: "Cara Download Video TikTok Tanpa Watermark 2026",
     description: "Panduan lengkap cara download video TikTok tanpa watermark.",
   },
   {
@@ -119,16 +119,28 @@ const faqJsonLd = {
   ]
 };
 
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "Tutorial Download Video Instagram Reels",
+  description: "Cara download video Instagram Reels tanpa aplikasi menggunakan Mova.",
+  thumbnailUrl: "https://getmova.my.id/og-image.png",
+  uploadDate: "2026-05-25",
+  contentUrl: "https://getmova.my.id/instagram-downloader",
+  embedUrl: "https://getmova.my.id/instagram-downloader",
+};
+
 export default function CaraDownloadVideoInstagramReels() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd) }} />
       <BlogArticleLayout
-      title="Cara Download Video Instagram Reels, Story & IGTV - Terbaru 2025"
+      title="Cara Download Video Instagram Reels, Story & IGTV - Terbaru 2026"
       slug="cara-download-video-instagram-reels"
       description="Panduan lengkap cara download video Instagram Reels, Story, dan IGTV. Mudah, gratis, dan cepat."
-      date="24 Mei 2025"
+      date="24 Mei 2026"
       readingTime="8 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}
@@ -236,7 +248,7 @@ export default function CaraDownloadVideoInstagramReels() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Catatan:</strong> Story yang diset ke &quot;Close Friends&quot;
+          <strong>Catatan:</strong> Story yang diset ke &quot;Close Friends&quot;
           atau akun private nggak bisa didownload oleh Mova. Ini untuk menghormati
           privasi pengguna Instagram.
         </p>

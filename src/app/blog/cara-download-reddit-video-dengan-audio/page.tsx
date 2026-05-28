@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2025",
+  title: "Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2026",
   description:
-    "Panduan lengkap cara download video Reddit dengan audio di 2025. Atasi masalah video Reddit tanpa suara. Langkah mudah, gratis, dan cepat menggunakan Mova.",
+    "Panduan lengkap cara download video Reddit dengan audio di 2026. Atasi masalah video Reddit tanpa suara. Langkah mudah, gratis, dan cepat menggunakan Mova.",
   keywords: [
     "download reddit video",
     "reddit video downloader",
@@ -16,11 +16,11 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/cara-download-reddit-video-dengan-audio" },
   openGraph: {
-    title: "Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2025",
+    title: "Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2026",
     description:
       "Panduan lengkap cara download video Reddit dengan audio. Atasi masalah video Reddit tanpa suara dengan Mova.",
     url: "https://getmova.my.id/blog/cara-download-reddit-video-dengan-audio",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -28,15 +28,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2025",
+  headline: "Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2026",
   description:
-    "Panduan lengkap cara download video Reddit dengan audio di 2025. Atasi masalah video Reddit tanpa suara.",
-  datePublished: "2025-05-26",
-  dateModified: "2025-05-26",
-  author: { "@type": "Organization", name: "Mova" },
+    "Panduan lengkap cara download video Reddit dengan audio di 2026. Atasi masalah video Reddit tanpa suara.",
+  datePublished: "2026-05-26",
+  dateModified: "2026-05-26",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -48,7 +48,7 @@ const jsonLd = {
 const relatedArticles = [
   {
     slug: "download-video-tanpa-watermark-gratis",
-    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
     description: "Panduan komprehensif download video tanpa watermark dari semua platform.",
   },
   {
@@ -58,7 +58,7 @@ const relatedArticles = [
   },
   {
     slug: "download-video-twitter-x-tanpa-watermark",
-    title: "Cara Download Video Twitter/X Tanpa Watermark - Gratis 2025",
+    title: "Cara Download Video Twitter/X Tanpa Watermark - Gratis 2026",
     description: "Panduan download video Twitter/X tanpa watermark.",
   },
 ];
@@ -120,16 +120,28 @@ const faqJsonLd = {
   ]
 };
 
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "Tutorial Download Video Reddit dengan Audio",
+  description: "Cara download video Reddit dengan audio utuh menggunakan Mova.",
+  thumbnailUrl: "https://getmova.my.id/og-image.png",
+  uploadDate: "2026-05-25",
+  contentUrl: "https://getmova.my.id/reddit-downloader",
+  embedUrl: "https://getmova.my.id/reddit-downloader",
+};
+
 export default function CaraDownloadRedditVideoDenganAudio() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd) }} />
       <BlogArticleLayout
-      title="Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2025"
+      title="Cara Download Video Reddit Dengan Audio - Mudah & Cepat 2026"
       slug="cara-download-reddit-video-dengan-audio"
       description="Panduan lengkap cara download video Reddit dengan audio. Atasi masalah video Reddit tanpa suara dengan mudah."
-      date="26 Mei 2025"
+      date="26 Mei 2026"
       readingTime="9 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}
@@ -185,7 +197,7 @@ export default function CaraDownloadRedditVideoDenganAudio() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Penjelasan Teknis:</strong> Reddit menggunakan protokol HLS
+          <strong>Penjelasan Teknis:</strong> Reddit menggunakan protokol HLS
           (HTTP Live Streaming) untuk videonya. Dalam HLS, video dipecah menjadi
           segmen-segmen kecil, dan audio juga dipecah secara terpisah. Browser
           Reddit menggabungkan kedua stream ini secara real-time, tapi downloader
@@ -323,7 +335,7 @@ export default function CaraDownloadRedditVideoDenganAudio() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Peringatan:</strong> Banyak situs Reddit downloader yang
+          <strong>Peringatan:</strong> Banyak situs Reddit downloader yang
           hanya mengambil stream video tanpa audio, lalu mengklaim videonya
           sudah lengkap. Selalu cek apakah videonya punya suara setelah
           download. Kalau nggak ada suara, coba gunakan Mova yang menggabungkan
@@ -431,7 +443,7 @@ export default function CaraDownloadRedditVideoDenganAudio() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Tips:</strong> Kalau kamu cuma butuh audionya saja (misalnya
+          <strong>Tips:</strong> Kalau kamu cuma butuh audionya saja (misalnya
           Reddit thread yang berisi podcast atau diskusi audio), kamu bisa
           download dalam format MP3. Lihat panduan lengkapnya di{" "}
           <a href="/blog/ekstrak-audio-mp3-dari-video">cara ekstrak audio MP3

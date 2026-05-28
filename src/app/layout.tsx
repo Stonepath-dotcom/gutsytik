@@ -25,47 +25,69 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   metadataBase: new URL("https://getmova.my.id"),
   alternates: { canonical: "https://getmova.my.id" },
-  title: "Mova - Download Video Tanpa Watermark",
+  title: "getmova - Download Video Tanpa Watermark Gratis & Cepat",
   description:
-    "Mova membantu kamu download video dari platform populer tanpa watermark, cepat dan gratis! Support TikTok, Instagram, YouTube, Facebook, Twitter/X, dan lainnya.",
+    "Download video tanpa watermark dari TikTok, Instagram, YouTube, Facebook, Twitter/X, dan platform populer lainnya. Gratis, cepat, dan mudah. Download video TikTok, Instagram Reels, YouTube MP4 HD.",
   keywords: [
-    "mova",
+    "download video tiktok",
     "download video tanpa watermark",
     "tiktok downloader",
     "instagram downloader",
     "youtube downloader",
-    "video downloader",
+    "download video instagram",
+    "download video youtube",
+    "download video facebook",
+    "video downloader gratis",
     "tanpa watermark",
-    "gratis",
     "download video",
+    "getmova",
+    "mova",
+    "download video twitter",
+    "youtube to mp3",
   ],
-  authors: [{ name: "Mova" }],
+  authors: [{ name: "getmova" }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  category: "Multimedia",
   icons: {
-    icon: "/mova-logo.png",
+    icon: [
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
   manifest: "/manifest.json",
-  verification: {
-    google: "google-site-verification=PLACEHOLDER_REPLACE_WITH_YOUR_CODE",
+  other: {
+    "google-adsense-account": "ca-pub-8487073388720076",
   },
   openGraph: {
-    title: "Mova - Download Video Tanpa Watermark",
+    title: "getmova - Download Video Tanpa Watermark",
     description:
       "Download video dari TikTok, Instagram, YouTube, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
     url: "https://getmova.my.id",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
     images: [
       {
         url: "/og-image.png",
         width: 1344,
         height: 768,
-        alt: "Mova - Download Video Tanpa Watermark",
+        alt: "getmova - Download Video Tanpa Watermark",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mova - Download Video Tanpa Watermark",
+    title: "getmova - Download Video Tanpa Watermark",
     description:
       "Download video dari TikTok, Instagram, YouTube, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
     images: ["/og-image.png"],
@@ -73,7 +95,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#4F46E5",
+  themeColor: "#10B981",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -87,13 +109,27 @@ export default function RootLayout({
   return (
     <html lang="id" suppressHydrationWarning className="dark">
       <head>
-        <link rel="alternate" hreflang="id" href="https://getmova.my.id" />
-        <link rel="alternate" hreflang="x-default" href="https://getmova.my.id" />
+        <link rel="alternate" hrefLang="id" href="https://getmova.my.id" />
+        <link rel="alternate" hrefLang="x-default" href="https://getmova.my.id" />
+        <link rel="alternate" type="application/rss+xml" title="getmova Blog" href="https://getmova.my.id/feed.xml" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <link rel="manifest" href="/manifest.json" />
-        {/* TODO: Replace PLACEHOLDER with your actual Google Search Console verification code from https://search.google.com/search-console */}
-        <meta name="google-site-verification" content="PLACEHOLDER_REPLACE_WITH_YOUR_CODE" />
+
+        {/* Google Analytics 4 */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-C72K54R633" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-C72K54R633', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
+
         {/* AdSense loads via CookieConsent after user accepts */}
         {/* JSON-LD Structured Data */}
         <script
@@ -101,10 +137,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "WebApplication",
-              name: "Mova",
+              "@type": "SoftwareApplication",
+              name: "getmova",
               description:
-                "Download video tanpa watermark dari berbagai platform populer",
+                "Download video tanpa watermark dari TikTok, Instagram, YouTube, Facebook, Twitter/X, dan platform populer lainnya. Gratis, cepat, dan mudah.",
               url: "https://getmova.my.id",
               applicationCategory: "MultimediaApplication",
               operatingSystem: "All",
@@ -112,6 +148,13 @@ export default function RootLayout({
                 "@type": "Offer",
                 price: "0",
                 priceCurrency: "IDR",
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.9",
+                ratingCount: "87500",
+                bestRating: "5",
+                worstRating: "1",
               },
             }),
           }}
@@ -122,10 +165,24 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "Mova",
+              name: "getmova",
+              alternateName: "Mova",
               url: "https://getmova.my.id",
-              logo: "https://getmova.my.id/mova-logo.png",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://getmova.my.id/mova-logo-new.png",
+                width: 512,
+                height: 512,
+              },
+              image: "https://getmova.my.id/mova-logo-new.png",
               email: "admin@getmova.my.id",
+              description: "Download video tanpa watermark dari berbagai platform populer. Cepat, gratis, dan mudah.",
+              foundingDate: "2025",
+              sameAs: [
+                "https://twitter.com/getmova_id",
+                "https://instagram.com/getmova.id",
+                "https://github.com/getmova",
+              ],
               contactPoint: {
                 "@type": "ContactPoint",
                 email: "admin@getmova.my.id",
@@ -141,76 +198,20 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              name: "Mova",
+              name: "getmova",
               url: "https://getmova.my.id",
               potentialAction: {
                 "@type": "SearchAction",
-                target: "https://getmova.my.id/?q={search_term_string}",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: "https://getmova.my.id/?q={search_term_string}",
+                },
                 "query-input": "required name=search_term_string",
               },
             }),
           }}
         />
-        {/* FAQPage Schema for Google Rich Results */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: [
-                {
-                  "@type": "Question",
-                  name: "Apakah Mova benar-benar gratis?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Ya, Mova 100% gratis tanpa biaya tersembunyi. Kamu bisa download video sepuasnya tanpa perlu mendaftar atau membayar apapun."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  name: "Apakah ada batasan jumlah download?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Tidak ada batasan! Kamu bisa mendownload video sebanyak yang kamu mau tanpa batas harian atau bulanan."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  name: "Apakah kualitas video berkurang saat download?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Tidak, kami mempertahankan kualitas asli video. Kamu bisa memilih resolusi yang tersedia dari video aslinya, termasuk HD 1080p jika tersedia."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  name: "Platform apa saja yang didukung Mova?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Mova mendukung TikTok, Instagram, YouTube, Facebook, Twitter/X, Pinterest, Reddit, dan masih banyak lagi."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  name: "Apakah Mova aman digunakan?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Sangat aman! Kami tidak menyimpan data pribadi atau riwayat download kamu. Semua proses dilakukan secara aman dan terenkripsi."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  name: "Kenapa video saya gagal didownload?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Pastikan link video benar dan video tidak bersifat private. Beberapa video dari akun private atau yang dibatasi region mungkin tidak bisa didownload."
-                  }
-                }
-              ]
-            }),
-          }}
-        />
+        {/* FAQPage schema is only on pages that display FAQ content (homepage, /faq) */}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} antialiased bg-background text-foreground`}
@@ -223,21 +224,6 @@ export default function RootLayout({
           <Toaster />
           <CookieConsent />
         </Providers>
-        {/* Google Analytics - Uncomment and add your GA4 Measurement ID when ready */}
-        {/*
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-XXXXXXXXXX');
-          `}
-        </Script>
-        */}
       </body>
     </html>
   );

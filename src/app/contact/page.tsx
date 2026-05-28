@@ -17,7 +17,7 @@ import { MovaLogo } from "@/components/mova-logo";
 import ContactForm from "./contact-form";
 
 export const metadata: Metadata = {
-  title: "Hubungi Kami - Mova",
+  title: "Hubungi Kami - getmova",
   description:
     "Hubungi tim Mova untuk pertanyaan, saran, laporan bug, atau masalah lainnya. Kami siap membantu Anda!",
   alternates: { canonical: "https://getmova.my.id/contact" },
@@ -29,11 +29,11 @@ export const metadata: Metadata = {
     "laporan bug mova",
   ],
   openGraph: {
-    title: "Hubungi Kami - Mova",
+    title: "Hubungi Kami - getmova",
     description:
       "Hubungi tim Mova untuk pertanyaan, saran, laporan bug, atau masalah lainnya. Kami siap membantu Anda!",
     url: "https://getmova.my.id/contact",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
 };
@@ -125,13 +125,13 @@ export default function ContactPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Hubungi Kami - Mova",
+    name: "Hubungi Kami - getmova",
     description:
       "Hubungi tim Mova untuk pertanyaan, saran, laporan bug, atau masalah lainnya. Kami siap membantu Anda!",
     url: "https://getmova.my.id/contact",
     isPartOf: {
       "@type": "WebSite",
-      name: "Mova",
+      name: "getmova",
       url: "https://getmova.my.id",
     },
     breadcrumb: {
@@ -159,9 +159,9 @@ export default function ContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
+      <div className="min-h-screen flex flex-col bg-card text-foreground">
         {/* Header */}
-        <header className="border-b border-[#27272A] bg-[#111113]">
+        <header className="border-b border-border bg-card">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               <a href="/" className="flex items-center gap-2">
@@ -169,7 +169,7 @@ export default function ContactPage() {
               </a>
               <a
                 href="/"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-[#27272A] bg-[#111113] text-[#FAFAFA] hover:bg-[#18181B] transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-border bg-card text-foreground hover:bg-muted/50 transition-colors"
               >
                 <Home className="h-4 w-4" />
                 Beranda
@@ -183,33 +183,33 @@ export default function ContactPage() {
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
             {/* Breadcrumb */}
             <nav aria-label="Breadcrumb" className="mb-8">
-              <ol className="flex items-center gap-1.5 text-sm text-[#A1A1AA]">
+              <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
                 <li>
-                  <a href="/" className="hover:text-[#4F46E5] transition-colors">
+                  <a href="/" className="hover:text-[#10B981] transition-colors">
                     Beranda
                   </a>
                 </li>
                 <li>
                   <ChevronRight className="h-3.5 w-3.5" />
                 </li>
-                <li className="text-[#4F46E5] font-medium">Hubungi Kami</li>
+                <li className="text-[#10B981] font-medium">Hubungi Kami</li>
               </ol>
             </nav>
 
             {/* Title section */}
             <div className="text-center mb-16">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-[#27272A] text-[#A1A1AA] mb-6">
-                <Mail className="h-3 w-3 text-[#4F46E5]" />
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-border text-muted-foreground mb-6">
+                <Mail className="h-3 w-3 text-[#10B981]" />
                 Kontak
               </span>
               <h1
-                className="text-4xl sm:text-5xl font-light tracking-tight text-[#FAFAFA] mb-4 mt-4"
+                className="text-4xl sm:text-5xl font-light tracking-tight text-foreground mb-4 mt-4"
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
                 Hubungi{" "}
-                <span className="font-bold text-[#4F46E5]">Kami</span>
+                <span className="font-bold text-[#10B981]">Kami</span>
               </h1>
-              <p className="text-[#A1A1AA] text-sm max-w-xl mx-auto leading-relaxed">
+              <p className="text-muted-foreground text-sm max-w-xl mx-auto leading-relaxed">
                 Kami selalu senang mendengar dari Anda. Baik pertanyaan, saran, masukan, atau laporan masalah — tim kami siap membantu.
               </p>
             </div>
@@ -217,11 +217,11 @@ export default function ContactPage() {
             {/* Contact methods */}
             <div className="mb-16">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A] shrink-0">
-                  <Globe className="h-5 w-5 text-[#4F46E5]" />
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card border border-border shrink-0">
+                  <Globe className="h-5 w-5 text-[#10B981]" />
                 </div>
                 <h2
-                  className="text-xl font-bold text-[#FAFAFA]"
+                  className="text-xl font-bold text-foreground"
                   style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                 >
                   Cara Menghubungi Kami
@@ -234,31 +234,31 @@ export default function ContactPage() {
                     href={method.href}
                     target={method.href.startsWith("http") ? "_blank" : undefined}
                     rel={method.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="p-5 rounded-xl bg-[#111113] border border-[#27272A] hover:border-[#4F46E5]/30 transition-colors group block"
+                    className="p-5 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-colors group block"
                   >
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#09090B] border border-[#27272A] mb-3 group-hover:border-[#4F46E5]/30 transition-colors">
-                      <method.icon className="h-5 w-5 text-[#4F46E5]" />
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-background border border-border mb-3 group-hover:border-[#10B981]/30 transition-colors">
+                      <method.icon className="h-5 w-5 text-[#10B981]" />
                     </div>
                     <h3
-                      className="text-base font-bold text-[#FAFAFA] mb-1"
+                      className="text-base font-bold text-foreground mb-1"
                       style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                     >
                       {method.title}
                     </h3>
-                    <p className="text-sm text-[#4F46E5] font-medium mb-2">{method.value}</p>
-                    <p className="text-xs text-[#A1A1AA] leading-relaxed">{method.description}</p>
+                    <p className="text-sm text-[#10B981] font-medium mb-2">{method.value}</p>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{method.description}</p>
                   </a>
                 ))}
               </div>
             </div>
 
             {/* Response time notice */}
-            <div className="mb-12 p-5 rounded-xl bg-[#111113] border-l-4 border-[#4F46E5]">
+            <div className="mb-12 p-5 rounded-xl bg-card border-l-4 border-[#10B981]">
               <div className="flex items-start gap-3">
-                <Clock className="h-5 w-5 text-[#4F46E5] mt-0.5 shrink-0" />
+                <Clock className="h-5 w-5 text-[#10B981] mt-0.5 shrink-0" />
                 <div>
-                  <p className="text-sm text-[#FAFAFA] font-medium mb-1">Waktu Respons</p>
-                  <p className="text-sm text-[#A1A1AA] leading-relaxed">
+                  <p className="text-sm text-foreground font-medium mb-1">Waktu Respons</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     Kami berusaha merespons semua pesan dalam waktu 2×24 jam kerja. Untuk pertanyaan mendesak, hubungi kami melalui Telegram untuk respons yang lebih cepat. Untuk laporan hak cipta (DMCA), kirim email ke admin@getmova.my.id dengan menyertakan URL konten dan bukti kepemilikan.
                   </p>
                 </div>
@@ -273,11 +273,11 @@ export default function ContactPage() {
             {/* Report types */}
             <div className="mb-16">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#111113] border border-[#27272A] shrink-0">
-                  <AlertTriangle className="h-5 w-5 text-[#4F46E5]" />
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card border border-border shrink-0">
+                  <AlertTriangle className="h-5 w-5 text-[#10B981]" />
                 </div>
                 <h2
-                  className="text-xl font-bold text-[#FAFAFA]"
+                  className="text-xl font-bold text-foreground"
                   style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                 >
                   Jenis Laporan
@@ -287,18 +287,18 @@ export default function ContactPage() {
                 {reportTypes.map((type, index) => (
                   <div
                     key={index}
-                    className="p-5 rounded-xl bg-[#111113] border border-[#27272A]"
+                    className="p-5 rounded-xl bg-card border border-border"
                   >
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#09090B] border border-[#27272A] mb-3">
-                      <type.icon className="h-5 w-5 text-[#4F46E5]" />
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-background border border-border mb-3">
+                      <type.icon className="h-5 w-5 text-[#10B981]" />
                     </div>
                     <h3
-                      className="text-base font-bold text-[#FAFAFA] mb-2"
+                      className="text-base font-bold text-foreground mb-2"
                       style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                     >
                       {type.title}
                     </h3>
-                    <p className="text-sm text-[#A1A1AA] leading-relaxed">{type.description}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{type.description}</p>
                   </div>
                 ))}
               </div>
@@ -308,12 +308,12 @@ export default function ContactPage() {
             <div className="mb-16">
               <div className="text-center mb-10">
                 <h2
-                  className="text-2xl font-bold text-[#FAFAFA] mb-3"
+                  className="text-2xl font-bold text-foreground mb-3"
                   style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                 >
-                  Pertanyaan <span className="text-[#4F46E5]">Umum</span>
+                  Pertanyaan <span className="text-[#10B981]">Umum</span>
                 </h2>
-                <p className="text-sm text-[#A1A1AA] max-w-lg mx-auto">
+                <p className="text-sm text-muted-foreground max-w-lg mx-auto">
                   Temukan jawaban untuk pertanyaan yang sering diajukan tentang Mova.
                 </p>
               </div>
@@ -321,20 +321,20 @@ export default function ContactPage() {
                 {faqs.map((faq, index) => (
                   <div
                     key={index}
-                    className="p-5 rounded-xl bg-[#111113] border border-[#27272A]"
+                    className="p-5 rounded-xl bg-card border border-border"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-[#09090B] border border-[#27272A] shrink-0 mt-0.5">
-                        <faq.icon className="h-4 w-4 text-[#4F46E5]" />
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-background border border-border shrink-0 mt-0.5">
+                        <faq.icon className="h-4 w-4 text-[#10B981]" />
                       </div>
                       <div>
                         <h3
-                          className="text-sm font-bold text-[#FAFAFA] mb-2"
+                          className="text-sm font-bold text-foreground mb-2"
                           style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                         >
                           {faq.question}
                         </h3>
-                        <p className="text-sm text-[#A1A1AA] leading-relaxed">{faq.answer}</p>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{faq.answer}</p>
                       </div>
                     </div>
                   </div>
@@ -343,9 +343,9 @@ export default function ContactPage() {
             </div>
 
             {/* Related pages */}
-            <div className="p-6 rounded-xl bg-[#111113] border border-[#27272A]">
+            <div className="p-6 rounded-xl bg-card border border-border">
               <h3
-                className="text-sm font-bold text-[#FAFAFA] mb-4"
+                className="text-sm font-bold text-foreground mb-4"
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
                 Halaman Terkait
@@ -353,21 +353,21 @@ export default function ContactPage() {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="/privacy"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border bg-card text-muted-foreground hover:text-[#10B981] hover:border-[#10B981]/30 transition-colors"
                 >
                   <Shield className="h-4 w-4" />
                   Kebijakan Privasi
                 </a>
                 <a
                   href="/terms"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border bg-card text-muted-foreground hover:text-[#10B981] hover:border-[#10B981]/30 transition-colors"
                 >
                   <Phone className="h-4 w-4" />
                   Syarat & Ketentuan
                 </a>
                 <a
                   href="/about"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-[#27272A] bg-[#09090B] text-[#A1A1AA] hover:text-[#4F46E5] hover:border-[#4F46E5]/30 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border bg-card text-muted-foreground hover:text-[#10B981] hover:border-[#10B981]/30 transition-colors"
                 >
                   <Globe className="h-4 w-4" />
                   Tentang Kami
@@ -376,8 +376,8 @@ export default function ContactPage() {
             </div>
 
             {/* Footer notice */}
-            <div className="mt-12 pt-8 border-t border-[#27272A] text-center">
-              <p className="text-xs text-[#A1A1AA]">
+            <div className="mt-12 pt-8 border-t border-border text-center">
+              <p className="text-xs text-muted-foreground">
                 &copy; 2026 Mova. Semua hak dilindungi. Kami siap membantu Anda kapan saja.
               </p>
             </div>

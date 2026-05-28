@@ -203,6 +203,10 @@ export function YouTubeDownloaderPage() {
         { name: "Instagram", href: "/instagram-downloader", color: "#E4405F", gradient: "linear-gradient(135deg, #833AB4, #FD1D1D, #F77737)" },
         { name: "Facebook", href: "/facebook-downloader", color: "#1877F2" },
         { name: "Twitter/X", href: "/twitter-downloader", color: "#14171A" },
+        { name: "Pinterest", href: "/pinterest-downloader", color: "#E60023" },
+        { name: "Reddit", href: "/reddit-downloader", color: "#FF4500" },
+        { name: "Telegram", href: "/telegram-downloader", color: "#26A5E4" },
+        { name: "YouTube MP3", href: "/youtube-mp3", color: "#FF0000", gradient: "linear-gradient(135deg, #FF0000, #FF6600)" },
       ]}
       blogLinks={[
         { href: "/blog/cara-download-video-youtube-mp4", title: "Cara Download Video YouTube MP4 HD Gratis" },

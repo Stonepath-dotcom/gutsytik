@@ -4,7 +4,7 @@ import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 export const metadata: Metadata = {
   title: "Perbedaan Kualitas Video HD vs SD - Mana yang Harus Kamu Download?",
   description:
-    "Panduan lengkap perbedaan kualitas video HD dan SD di 2025. Pelajari resolusi, ukuran file, dan kapan harus pilih HD atau SD. Tips memilih kualitas video yang tepat saat download.",
+    "Panduan lengkap perbedaan kualitas video HD dan SD di 2026. Pelajari resolusi, ukuran file, dan kapan harus pilih HD atau SD. Tips memilih kualitas video yang tepat saat download.",
   keywords: [
     "perbedaan hd dan sd",
     "kualitas video hd sd",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     description:
       "Panduan lengkap perbedaan kualitas video HD dan SD. Pelajari kapan harus pilih HD atau SD saat download video.",
     url: "https://getmova.my.id/blog/perbedaan-download-video-hd-dan-sd",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -30,13 +30,13 @@ const jsonLd = {
   "@type": "Article",
   headline: "Perbedaan Kualitas Video HD vs SD - Mana yang Harus Kamu Download?",
   description:
-    "Panduan lengkap perbedaan kualitas video HD dan SD di 2025. Pelajari resolusi, ukuran file, dan kapan harus pilih HD atau SD.",
-  datePublished: "2025-05-26",
-  dateModified: "2025-05-26",
-  author: { "@type": "Organization", name: "Mova" },
+    "Panduan lengkap perbedaan kualitas video HD dan SD di 2026. Pelajari resolusi, ukuran file, dan kapan harus pilih HD atau SD.",
+  datePublished: "2026-05-26",
+  dateModified: "2026-05-26",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -48,12 +48,12 @@ const jsonLd = {
 const relatedArticles = [
   {
     slug: "cara-download-video-youtube-mp4",
-    title: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2025",
+    title: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2026",
     description: "Tutorial download video YouTube dalam format MP4 HD dengan kualitas terbaik.",
   },
   {
     slug: "download-video-tanpa-watermark-gratis",
-    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
     description: "Panduan komprehensif download video tanpa watermark dari semua platform.",
   },
   {
@@ -129,7 +129,7 @@ export default function PerbedaanDownloadVideoHdDanSd() {
       title="Perbedaan Kualitas Video HD vs SD - Mana yang Harus Kamu Download?"
       slug="perbedaan-download-video-hd-dan-sd"
       description="Panduan lengkap perbedaan kualitas video HD dan SD. Pelajari kapan harus pilih HD atau SD saat download video."
-      date="26 Mei 2025"
+      date="26 Mei 2026"
       readingTime="10 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}
@@ -216,7 +216,7 @@ export default function PerbedaanDownloadVideoHdDanSd() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Info:</strong> Secara teknis, istilah &quot;HD&quot; merujuk
+          <strong>Info:</strong> Secara teknis, istilah &quot;HD&quot; merujuk
           pada resolusi 720p ke atas. Tapi di kebanyakan platform download,
           &quot;HD&quot; biasanya berarti 1080p (Full HD). Selalu cek resolusi
           spesifiknya kalau mau memastikan.
@@ -361,7 +361,7 @@ export default function PerbedaanDownloadVideoHdDanSd() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Tips Hemat:</strong> Kalau kamu cuma butuh audionya saja,
+          <strong>Tips Hemat:</strong> Kalau kamu cuma butuh audionya saja,
           pertimbangkan download format MP3 alih-alih video. Baca panduan
           lengkapnya di{" "}
           <a href="/blog/ekstrak-audio-mp3-dari-video">cara ekstrak audio MP3
@@ -373,7 +373,7 @@ export default function PerbedaanDownloadVideoHdDanSd() {
 
       <div className="info-box">
         <p>
-          📊 <strong>Ringkasan Perbandingan Resolusi:</strong>
+          <strong>Ringkasan Perbandingan Resolusi:</strong>
         </p>
         <ul>
           <li><strong>240p</strong> — Kualitas sangat rendah, ukuran file paling kecil. Cocok untuk koneksi sangat lambat.</li>
@@ -459,7 +459,7 @@ export default function PerbedaanDownloadVideoHdDanSd() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Catatan:</strong> Saat download video, selalu perhatikan
+          <strong>Catatan:</strong> Saat download video, selalu perhatikan
           kualitas asli dari sumber videonya. Download video 1080p yang aslinya
           cuma 360p cuma akan membuang storage tanpa meningkatkan kualitas.
           Mova menampilkan kualitas yang tersedia sesuai dengan video aslinya,

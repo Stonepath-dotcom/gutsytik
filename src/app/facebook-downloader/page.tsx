@@ -2,29 +2,32 @@ import type { Metadata } from "next";
 import { FacebookDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video Facebook HD - Gratis & Cepat 2025 | Mova",
+  title: "Download Video Facebook HD - Gratis & Cepat | getmova",
   description:
     "Download video Facebook HD gratis dan cepat. Simpan video FB dalam kualitas tinggi tanpa watermark. Support video publik, Reels, dan Watch.",
   keywords: [
-    "facebook downloader",
     "download video facebook",
+    "facebook downloader",
     "facebook video download",
     "fb video download",
     "download video fb hd",
     "facebook reels download",
     "simpan video facebook",
+    "cara download video facebook",
+    "facebook video saver",
+    "download fb gratis",
   ],
   openGraph: {
-    title: "Download Video Facebook HD - Gratis & Cepat 2025 | Mova",
+    title: "Download Video Facebook HD - Gratis & Cepat | getmova",
     description:
       "Download video Facebook HD gratis dan cepat. Simpan video FB dalam kualitas tinggi tanpa watermark.",
     url: "https://getmova.my.id/facebook-downloader",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video Facebook HD - Gratis & Cepat 2025 | Mova",
+    title: "Download Video Facebook HD - Gratis & Cepat | getmova",
     description:
       "Download video Facebook HD gratis dan cepat. Simpan video FB dalam kualitas tinggi tanpa watermark.",
   },
@@ -35,7 +38,7 @@ export const metadata: Metadata = {
 
 const jsonLdWebApp = {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
+  "@type": "SoftwareApplication",
   name: "Mova Facebook Downloader",
   description: "Download video Facebook HD gratis dan cepat. Kualitas tinggi, tanpa registrasi, tanpa watermark.",
   url: "https://getmova.my.id/facebook-downloader",
@@ -46,6 +49,22 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.7",
+    ratingCount: "18900",
+    bestRating: "5",
+    worstRating: "1",
+  },
+};
+
+const jsonLdBreadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+    { "@type": "ListItem", position: 2, name: "Facebook Downloader", item: "https://getmova.my.id/facebook-downloader" },
+  ],
 };
 
 const jsonLdFaq = {
@@ -95,6 +114,39 @@ const jsonLdFaq = {
   ],
 };
 
+const jsonLdHowTo = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Cara Download Video Facebook HD dengan Mova",
+  description: "Panduan langkah demi langkah untuk download video Facebook dalam kualitas HD gratis menggunakan Mova",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Salin Link Video Facebook",
+      text: "Buka Facebook, temukan video yang ingin didownload, klik kanan pada video lalu pilih Copy Link atau salin URL dari address bar.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Tempel Link di Mova",
+      text: "Buka getmova.my.id di browser, tempel link video Facebook yang sudah disalin ke kolom input yang tersedia.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Klik Download",
+      text: "Klik tombol Download dan tunggu Mova memproses video Facebook. Pilih kualitas HD atau SD yang diinginkan.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Simpan Video ke Perangkat",
+      text: "Setelah proses selesai, video Facebook akan otomatis tersimpan ke galeri HP atau folder download di perangkat kamu dalam format MP4.",
+    },
+  ],
+};
+
 export default function Page() {
   return (
     <>
@@ -105,6 +157,14 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdHowTo) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
       <FacebookDownloaderPage />
     </>

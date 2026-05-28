@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Cara Download Video YouTube HD 1080p Gratis di HP & PC | Mova Blog",
     description: "Panduan lengkap cara download video YouTube HD 1080p gratis di HP dan PC. Langkah mudah, pilihan kualitas, dan tips download YouTube terbaik.",
     url: "https://getmova.my.id/blog/cara-download-video-youtube-hd-1080p",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
     publishedTime: "2026-05-26",
     modifiedTime: "2026-05-26",
@@ -26,10 +26,10 @@ const jsonLd = {
   url: "https://getmova.my.id/blog/cara-download-video-youtube-hd-1080p",
   datePublished: "2026-05-26",
   dateModified: "2026-05-26",
-  author: { "@type": "Organization", name: "Mova" },
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: "https://getmova.my.id/blog/cara-download-video-youtube-hd-1080p",
@@ -91,6 +91,17 @@ const faqJsonLd = {
   ]
 };
 
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "Tutorial Download Video YouTube HD 1080p",
+  description: "Panduan cara download video YouTube HD 1080p gratis di HP dan PC menggunakan Mova.",
+  thumbnailUrl: "https://getmova.my.id/og-image.png",
+  uploadDate: "2026-05-25",
+  contentUrl: "https://getmova.my.id/youtube-downloader",
+  embedUrl: "https://getmova.my.id/youtube-downloader",
+};
+
 const relatedArticles = [
   {
     slug: "download-video-tanpa-watermark-terbaik",
@@ -128,6 +139,7 @@ export default function CaraDownloadVideoYoutubeHd1080p() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd) }} />
       <BlogArticleLayout
         title="Cara Download Video YouTube HD 1080p Gratis di HP & PC"
         slug="cara-download-video-youtube-hd-1080p"

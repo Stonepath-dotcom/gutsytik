@@ -305,9 +305,39 @@ export default function YouTubeMP3Page() {
               Mova kompatibel dengan semua perangkat dan sistem operasi, mulai
               dari smartphone Android dan iPhone, tablet, hingga komputer desktop
               dengan browser apapun. Selain YouTube MP3 converter, Mova juga
-              mendukung download video YouTube dalam format MP4 dengan resolusi
-              hingga 4K, download video TikTok tanpa watermark, download
-              Instagram Reels, dan masih banyak lagi. Jadikan Mova sebagai
+              mendukung{" "}
+              <a href="/youtube-downloader" className="text-primary hover:underline">
+                download video YouTube dalam format MP4
+              </a>
+              ,{" "}
+              <a href="/tiktok-downloader" className="text-primary hover:underline">
+                download video TikTok tanpa watermark
+              </a>
+              ,{" "}
+              <a href="/instagram-downloader" className="text-primary hover:underline">
+                download Instagram Reels
+              </a>
+              ,{" "}
+              <a href="/facebook-downloader" className="text-primary hover:underline">
+                download video Facebook
+              </a>
+              ,{" "}
+              <a href="/twitter-downloader" className="text-primary hover:underline">
+                download video Twitter/X
+              </a>
+              ,{" "}
+              <a href="/pinterest-downloader" className="text-primary hover:underline">
+                download video Pinterest
+              </a>
+              ,{" "}
+              <a href="/reddit-downloader" className="text-primary hover:underline">
+                download video Reddit
+              </a>
+              , dan{" "}
+              <a href="/telegram-downloader" className="text-primary hover:underline">
+                download video Telegram
+              </a>
+              . Jadikan Mova sebagai
               satu-satunya alat download audio dan video yang kamu butuhkan —
               gratis, cepat, aman, dan selalu berkualitas terbaik. Coba sekarang
               dan rasakan kemudahan konversi YouTube ke MP3 dengan Mova!

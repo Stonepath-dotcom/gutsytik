@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Mova - Download Video Tanpa Watermark";
+export const alt = "getmova - Download Video Tanpa Watermark";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -30,7 +30,7 @@ export default async function Image() {
             width: 600,
             height: 600,
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(249,115,22,0.15), transparent 70%)",
+            background: "radial-gradient(circle, rgba(16,185,129,0.15), transparent 70%)",
             filter: "blur(80px)",
           }}
         />
@@ -60,7 +60,7 @@ export default async function Image() {
                 width: 64,
                 height: 64,
                 borderRadius: 16,
-                background: "#2563EB",
+                background: "#10B981",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -90,7 +90,7 @@ export default async function Image() {
                 letterSpacing: -2,
               }}
             >
-              Mova
+              getmova
             </span>
           </div>
 
@@ -143,7 +143,7 @@ export default async function Image() {
             left: 0,
             right: 0,
             height: 4,
-            background: "#2563EB",
+            background: "#10B981",
           }}
         />
       </div>

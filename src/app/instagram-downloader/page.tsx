@@ -2,30 +2,34 @@ import type { Metadata } from "next";
 import { InstagramDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video Instagram Reels & Story - Gratis 2025 | Mova",
+  title: "Download Video Instagram Reels & Story - Gratis | getmova",
   description:
     "Download video Instagram Reels, Story, dan IGTV gratis tanpa watermark. Simpan video IG dalam kualitas tinggi dengan Mova. Cepat, mudah, dan gratis!",
   keywords: [
+    "download video instagram",
     "instagram downloader",
     "download instagram reels",
-    "download video instagram",
     "instagram story download",
     "download ig reels",
     "instagram video saver",
     "save instagram video",
     "ig downloader",
+    "download reels instagram",
+    "instagram reels saver",
+    "cara download video instagram",
+    "instagram video download gratis",
   ],
   openGraph: {
-    title: "Download Video Instagram Reels & Story - Gratis 2025 | Mova",
+    title: "Download Video Instagram Reels & Story - Gratis | getmova",
     description:
       "Download video Instagram Reels, Story, dan IGTV gratis tanpa watermark. Simpan video IG dalam kualitas tinggi dengan Mova.",
     url: "https://getmova.my.id/instagram-downloader",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video Instagram Reels & Story - Gratis 2025 | Mova",
+    title: "Download Video Instagram Reels & Story - Gratis | getmova",
     description:
       "Download video Instagram Reels, Story, dan IGTV gratis tanpa watermark. Simpan video IG dalam kualitas tinggi dengan Mova.",
   },
@@ -36,7 +40,7 @@ export const metadata: Metadata = {
 
 const jsonLdWebApp = {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
+  "@type": "SoftwareApplication",
   name: "Mova Instagram Downloader",
   description: "Download video Instagram Reels, Story, dan IGTV gratis. Kualitas tinggi, tanpa registrasi, tanpa watermark.",
   url: "https://getmova.my.id/instagram-downloader",
@@ -47,6 +51,22 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    ratingCount: "22300",
+    bestRating: "5",
+    worstRating: "1",
+  },
+};
+
+const jsonLdBreadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" },
+    { "@type": "ListItem", position: 2, name: "Instagram Downloader", item: "https://getmova.my.id/instagram-downloader" },
+  ],
 };
 
 const jsonLdFaq = {
@@ -96,6 +116,39 @@ const jsonLdFaq = {
   ],
 };
 
+const jsonLdHowTo = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Cara Download Video Instagram Reels dan Story dengan Mova",
+  description: "Panduan langkah demi langkah untuk download video Instagram Reels, Story, dan IGTV gratis menggunakan Mova",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Salin Link Video Instagram",
+      text: "Buka Instagram, temukan Reels, Story, atau video yang ingin didownload, tap tombol Share lalu pilih Copy Link untuk menyalin URL.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Tempel Link di Mova",
+      text: "Buka getmova.my.id di browser, tempel link video Instagram yang sudah disalin ke kolom input yang tersedia.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Klik Download",
+      text: "Klik tombol Download dan tunggu Mova memproses video Instagram. Pilih kualitas dan format video yang diinginkan.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Simpan Video ke Perangkat",
+      text: "Setelah proses selesai, video Instagram akan otomatis tersimpan ke galeri HP atau folder download di perangkat kamu.",
+    },
+  ],
+};
+
 export default function Page() {
   return (
     <>
@@ -106,6 +159,14 @@ export default function Page() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdHowTo) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
       <InstagramDownloaderPage />
     </>

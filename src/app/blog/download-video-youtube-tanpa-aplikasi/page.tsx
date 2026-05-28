@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Download Video YouTube Tanpa Aplikasi - Langsung dari Browser 2025",
+  title: "Download Video YouTube Tanpa Aplikasi - Langsung dari Browser 2026",
   description:
-    "Panduan lengkap cara download video YouTube tanpa install aplikasi apapun di 2025. Langsung dari browser, gratis, cepat, dan aman. Tanpa software tambahan!",
+    "Panduan lengkap cara download video YouTube tanpa install aplikasi apapun di 2026. Langsung dari browser, gratis, cepat, dan aman. Tanpa software tambahan!",
   keywords: [
     "download youtube tanpa aplikasi",
     "youtube downloader online",
@@ -15,11 +15,11 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-video-youtube-tanpa-aplikasi" },
   openGraph: {
-    title: "Download Video YouTube Tanpa Aplikasi - Langsung dari Browser 2025",
+    title: "Download Video YouTube Tanpa Aplikasi - Langsung dari Browser 2026",
     description:
       "Panduan lengkap cara download video YouTube tanpa install aplikasi. Langsung dari browser, gratis, cepat, dan aman.",
     url: "https://getmova.my.id/blog/download-video-youtube-tanpa-aplikasi",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -27,15 +27,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Download Video YouTube Tanpa Aplikasi - Langsung dari Browser 2025",
+  headline: "Download Video YouTube Tanpa Aplikasi - Langsung dari Browser 2026",
   description:
-    "Panduan lengkap cara download video YouTube tanpa install aplikasi apapun di 2025. Langsung dari browser, gratis, cepat, dan aman.",
-  datePublished: "2025-05-26",
-  dateModified: "2025-05-26",
-  author: { "@type": "Organization", name: "Mova" },
+    "Panduan lengkap cara download video YouTube tanpa install aplikasi apapun di 2026. Langsung dari browser, gratis, cepat, dan aman.",
+  datePublished: "2026-05-26",
+  dateModified: "2026-05-26",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -47,12 +47,12 @@ const jsonLd = {
 const relatedArticles = [
   {
     slug: "cara-download-video-youtube-mp4",
-    title: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2025",
+    title: "Cara Download Video YouTube MP4 HD - Gratis & Cepat 2026",
     description: "Tutorial download video YouTube dalam format MP4 HD dengan kualitas terbaik.",
   },
   {
     slug: "ekstrak-audio-mp3-dari-video",
-    title: "Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2025",
+    title: "Cara Ekstrak Audio MP3 dari Video Online - Gratis & Cepat 2026",
     description: "Pelajari cara mengekstrak audio MP3 dari video YouTube.",
   },
   {
@@ -125,10 +125,10 @@ export default function DownloadVideoYouTubeTanpaAplikasi() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <BlogArticleLayout
-      title="Download Video YouTube Tanpa Aplikasi - Langsung dari Browser 2025"
+      title="Download Video YouTube Tanpa Aplikasi - Langsung dari Browser 2026"
       slug="download-video-youtube-tanpa-aplikasi"
       description="Panduan lengkap cara download video YouTube tanpa install aplikasi apapun. Langsung dari browser, gratis, cepat, dan aman."
-      date="26 Mei 2025"
+      date="26 Mei 2026"
       readingTime="9 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}
@@ -289,7 +289,7 @@ export default function DownloadVideoYouTubeTanpaAplikasi() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Tips:</strong> Kalau kamu cuma butuh audionya saja (misalnya
+          <strong>Tips:</strong> Kalau kamu cuma butuh audionya saja (misalnya
           musik atau podcast), pilih format MP3. Ukuran file jauh lebih kecil
           dibanding MP4. Baca panduan lengkapnya di artikel{" "}
           <a href="/blog/ekstrak-audio-mp3-dari-video">cara ekstrak audio MP3
@@ -331,7 +331,7 @@ export default function DownloadVideoYouTubeTanpaAplikasi() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Peringatan:</strong> Hindari situs download YouTube yang
+          <strong>Peringatan:</strong> Hindari situs download YouTube yang
           meminta kamu install &quot;codec&quot;, &quot;media player&quot;, atau
           software apapun. Itu biasanya adalah malware yang menyamar. Situs
           yang aman seperti Mova nggak akan pernah minta kamu install apapun.

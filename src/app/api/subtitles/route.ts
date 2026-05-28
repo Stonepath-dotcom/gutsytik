@@ -7,6 +7,14 @@ import { rateLimit } from "@/lib/rate-limit";
  */
 
 /* ──────────────── YouTube Video ID Extraction ──────────────── */
+
+export async function GET() {
+  return NextResponse.json(
+    { message: "Mova Subtitles API. Send a POST request with { url, lang?, format? }.", docs: "https://getmova.my.id" },
+    { status: 200 }
+  );
+}
+
 function extractYouTubeVideoId(url: string): string | null {
   try {
     const parsed = new URL(url);

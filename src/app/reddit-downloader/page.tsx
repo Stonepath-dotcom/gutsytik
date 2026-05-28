@@ -402,10 +402,45 @@ export default function RedditDownloaderPage() {
               </a>
               ,{" "}
               <a
+                href="/instagram-downloader"
+                className="text-primary hover:underline"
+              >
+                download video Instagram Reels
+              </a>
+              ,{" "}
+              <a
                 href="/youtube-downloader"
                 className="text-primary hover:underline"
               >
                 download video YouTube
+              </a>
+              ,{" "}
+              <a
+                href="/facebook-downloader"
+                className="text-primary hover:underline"
+              >
+                download video Facebook
+              </a>
+              ,{" "}
+              <a
+                href="/twitter-downloader"
+                className="text-primary hover:underline"
+              >
+                download video Twitter/X
+              </a>
+              ,{" "}
+              <a
+                href="/pinterest-downloader"
+                className="text-primary hover:underline"
+              >
+                download video Pinterest
+              </a>
+              ,{" "}
+              <a
+                href="/telegram-downloader"
+                className="text-primary hover:underline"
+              >
+                download video Telegram
               </a>
               ,{" "}
               <a

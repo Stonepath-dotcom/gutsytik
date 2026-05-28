@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Perbandingan TikTok Downloader: Mana yang Terbaik 2026? | Mova Blog",
     description: "Perbandingan lengkap TikTok downloader terbaik di 2026. Mana yang paling cepat, aman, dan gratis?",
     url: "https://getmova.my.id/blog/perbandingan-tiktok-downloader",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
     publishedTime: "2026-05-26",
     modifiedTime: "2026-05-26",
@@ -26,10 +26,10 @@ const jsonLd = {
   url: "https://getmova.my.id/blog/perbandingan-tiktok-downloader",
   datePublished: "2026-05-26",
   dateModified: "2026-05-26",
-  author: { "@type": "Organization", name: "Mova" },
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: "https://getmova.my.id/blog/perbandingan-tiktok-downloader",
@@ -199,10 +199,10 @@ export default function PerbandinganTiktokDownloader() {
           </thead>
           <tbody>
             <tr><td>Skor</td><td><strong>9.5/10</strong></td><td>7.0/10</td><td>6.5/10</td><td>5.5/10</td><td>5.0/10</td></tr>
-            <tr><td>Multi-platform</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td></tr>
-            <tr><td>Tanpa Watermark</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
-            <tr><td>Bebas Iklan</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td></tr>
-            <tr><td>Gratis</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+            <tr><td>Multi-platform</td><td>Ya</td><td>Tidak</td><td>Tidak</td><td>Tidak</td><td>Tidak</td></tr>
+            <tr><td>Tanpa Watermark</td><td>Ya</td><td>Ya</td><td>Ya</td><td>Ya</td><td>Ya</td></tr>
+            <tr><td>Bebas Iklan</td><td>Ya</td><td>Tidak</td><td>Tidak</td><td>Tidak</td><td>Tidak</td></tr>
+            <tr><td>Gratis</td><td>Ya</td><td>Ya</td><td>Ya</td><td>Ya</td><td>Ya</td></tr>
             <tr><td>Stabilitas</td><td>Sangat Baik</td><td>Cukup</td><td>Cukup</td><td>Kurang</td><td>Kurang</td></tr>
           </tbody>
         </table>

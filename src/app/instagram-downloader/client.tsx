@@ -204,6 +204,10 @@ export function InstagramDownloaderPage() {
         { name: "YouTube", href: "/youtube-downloader", color: "#FF0000" },
         { name: "Facebook", href: "/facebook-downloader", color: "#1877F2" },
         { name: "Twitter/X", href: "/twitter-downloader", color: "#14171A" },
+        { name: "Pinterest", href: "/pinterest-downloader", color: "#E60023" },
+        { name: "Reddit", href: "/reddit-downloader", color: "#FF4500" },
+        { name: "Telegram", href: "/telegram-downloader", color: "#26A5E4" },
+        { name: "YouTube MP3", href: "/youtube-mp3", color: "#FF0000", gradient: "linear-gradient(135deg, #FF0000, #FF6600)" },
       ]}
       blogLinks={[
         { href: "/blog/cara-download-video-instagram-reels", title: "Cara Download Video Instagram Reels, Story & IGTV" },

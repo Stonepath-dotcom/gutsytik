@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download YouTube ke MP3 Gratis dan Cepat - Mova",
+  title: "Cara Download YouTube ke MP3 Gratis dan Cepat - getmova",
   description:
     "Tutorial lengkap cara download video YouTube ke MP3 gratis dan cepat di tahun 2026. Perbandingan kualitas audio 128kbps vs 320kbps, langkah-langkah menggunakan Mova, dan pertimbangan hukum.",
   keywords: [
@@ -14,11 +14,11 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-youtube-mp3" },
   openGraph: {
-    title: "Cara Download YouTube ke MP3 Gratis dan Cepat - Mova",
+    title: "Cara Download YouTube ke MP3 Gratis dan Cepat - getmova",
     description:
       "Tutorial lengkap cara download video YouTube ke MP3 gratis dan cepat di tahun 2026.",
     url: "https://getmova.my.id/blog/download-youtube-mp3",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -31,11 +31,11 @@ const jsonLd = {
     "Tutorial lengkap cara download video YouTube ke MP3 gratis dan cepat. Perbandingan kualitas audio, langkah-langkah menggunakan Mova, dan pertimbangan hukum.",
   author: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
   },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: {
       "@type": "ImageObject",
       url: "https://getmova.my.id/mova-logo.png",

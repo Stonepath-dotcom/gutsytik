@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Download Video Instagram Story dan Reels Tanpa Aplikasi | Mova Blog",
     description: "Cara download video Instagram Story dan Reels tanpa aplikasi tambahan. Simpan Story dan Reels IG langsung ke galeri HP dengan mudah menggunakan Mova.",
     url: "https://getmova.my.id/blog/download-video-instagram-story-dan-reels",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
     publishedTime: "2026-05-26",
     modifiedTime: "2026-05-26",
@@ -26,10 +26,10 @@ const articleJsonLd = {
   url: "https://getmova.my.id/blog/download-video-instagram-story-dan-reels",
   datePublished: "2026-05-26",
   dateModified: "2026-05-26",
-  author: { "@type": "Organization", name: "Mova" },
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: "https://getmova.my.id/blog/download-video-instagram-story-dan-reels",
@@ -172,7 +172,7 @@ export default function DownloadVideoInstagramStoryDanReels() {
         <div className="step-card"><p><span className="step-number">3</span><strong>Pilih Story dan download</strong> — Mova akan menampilkan daftar Story yang sedang aktif. Pilih Story yang ingin kamu simpan, lalu klik download. Selesai!</p></div>
 
         <div className="info-box">
-          <p>💡 <strong>Tips Penting:</strong> Story Instagram hanya bertahan 24 jam. Kalau kamu mau download Story seseorang, lakukan sebelum Story-nya hilang. Setelah 24 jam, Story nggak bisa diakses lagi kecuali disimpan sebagai Highlight.</p>
+          <p><strong>Tips Penting:</strong> Story Instagram hanya bertahan 24 jam. Kalau kamu mau download Story seseorang, lakukan sebelum Story-nya hilang. Setelah 24 jam, Story nggak bisa diakses lagi kecuali disimpan sebagai Highlight.</p>
         </div>
 
         <h2 id="kenapa-nggak-perlu-aplikasi-tambahan">Kenapa Nggak Perlu Aplikasi Tambahan?</h2>

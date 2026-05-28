@@ -1,0 +1,24 @@
+{
+  "name": "mova-api",
+  "version": "2.0.0",
+  "description": "Mova Video Downloader API - yt-dlp + ffmpeg backend for Glitch/Render/Railway",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "bash start.sh",
+    "start:node": "node src/server.js",
+    "start:dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "glitch": {
+    "projectType": "web_app",
+    "domain": "mova-api"
+  }
+}

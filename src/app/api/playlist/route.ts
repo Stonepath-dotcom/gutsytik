@@ -5,6 +5,13 @@ import { rateLimit } from "@/lib/rate-limit";
  * Playlist endpoint using Invidious API instead of yt-dlp.
  * Extracts YouTube playlist ID and fetches playlist info from Invidious.
  */
+export async function GET() {
+  return NextResponse.json(
+    { message: "Mova Playlist API. Send a POST request with { url } to fetch playlist info.", docs: "https://getmova.my.id" },
+    { status: 200 }
+  );
+}
+
 export async function POST(request: NextRequest) {
   // Rate limiting: 30 requests per minute for playlist
   const ip = request.headers.get("x-forwarded-for") || "unknown";

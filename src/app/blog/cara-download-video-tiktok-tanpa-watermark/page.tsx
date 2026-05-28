@@ -2,24 +2,24 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video TikTok Tanpa Watermark 2025 - Mudah & Gratis",
+  title: "Cara Download Video TikTok Tanpa Watermark 2026 - Mudah & Gratis",
   description:
-    "Panduan lengkap cara download video TikTok tanpa watermark di 2025. Langkah mudah, gratis, dan cepat. Simak tips dan trik terbaik untuk menyimpan video TikTok bersih tanpa logo.",
+    "Panduan lengkap cara download video TikTok tanpa watermark di 2026. Langkah mudah, gratis, dan cepat. Simak tips dan trik terbaik untuk menyimpan video TikTok bersih tanpa logo.",
   keywords: [
     "download video tiktok tanpa watermark",
     "tiktok downloader",
-    "cara download tiktok tanpa watermark 2025",
+    "cara download tiktok tanpa watermark 2026",
     "download tiktok no watermark",
     "snaptik",
     "tiktok video download",
   ],
   alternates: { canonical: "https://getmova.my.id/blog/cara-download-video-tiktok-tanpa-watermark" },
   openGraph: {
-    title: "Cara Download Video TikTok Tanpa Watermark 2025 - Mudah & Gratis",
+    title: "Cara Download Video TikTok Tanpa Watermark 2026 - Mudah & Gratis",
     description:
       "Panduan lengkap cara download video TikTok tanpa watermark. Langkah mudah, gratis, dan cepat.",
     url: "https://getmova.my.id/blog/cara-download-video-tiktok-tanpa-watermark",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
   },
 };
@@ -27,15 +27,15 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Cara Download Video TikTok Tanpa Watermark 2025 - Mudah & Gratis",
+  headline: "Cara Download Video TikTok Tanpa Watermark 2026 - Mudah & Gratis",
   description:
-    "Panduan lengkap cara download video TikTok tanpa watermark di 2025. Langkah mudah, gratis, dan cepat.",
-  datePublished: "2025-05-25",
-  dateModified: "2025-05-25",
-  author: { "@type": "Organization", name: "Mova" },
+    "Panduan lengkap cara download video TikTok tanpa watermark di 2026. Langkah mudah, gratis, dan cepat.",
+  datePublished: "2026-05-25",
+  dateModified: "2026-05-25",
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: {
@@ -47,7 +47,7 @@ const jsonLd = {
 const relatedArticles = [
   {
     slug: "download-video-tanpa-watermark-gratis",
-    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2025",
+    title: "Download Video Tanpa Watermark Gratis - Semua Platform 2026",
     description: "Panduan komprehensif download video tanpa watermark dari semua platform.",
   },
   {
@@ -119,16 +119,28 @@ const faqJsonLd = {
   ]
 };
 
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "Tutorial Download Video TikTok Tanpa Watermark",
+  description: "Panduan lengkap cara download video TikTok tanpa watermark menggunakan Mova. Mudah, gratis, dan cepat.",
+  thumbnailUrl: "https://getmova.my.id/og-image.png",
+  uploadDate: "2026-05-25",
+  contentUrl: "https://getmova.my.id/tiktok-downloader",
+  embedUrl: "https://getmova.my.id/tiktok-downloader",
+};
+
 export default function CaraDownloadVideoTiktokTanpaWatermark() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd) }} />
       <BlogArticleLayout
-      title="Cara Download Video TikTok Tanpa Watermark 2025 - Mudah & Gratis"
+      title="Cara Download Video TikTok Tanpa Watermark 2026 - Mudah & Gratis"
       slug="cara-download-video-tiktok-tanpa-watermark"
       description="Panduan lengkap cara download video TikTok tanpa watermark. Langkah mudah, gratis, dan cepat untuk menyimpan video TikTok bersih tanpa logo."
-      date="25 Mei 2025"
+      date="25 Mei 2026"
       readingTime="7 menit baca"
       jsonLd={jsonLd}
       relatedArticles={relatedArticles}
@@ -178,7 +190,7 @@ export default function CaraDownloadVideoTiktokTanpaWatermark() {
 
       <div className="info-box">
         <p>
-          💡 <strong>Tips:</strong> Selalu hormati hak cipta kreator. Kalau kamu mau
+          <strong>Tips:</strong> Selalu hormati hak cipta kreator. Kalau kamu mau
           repost video milik orang lain, minta izin terlebih dahulu dan selalu tag
           kreator aslinya. Ini bukan cuma soal etika, tapi juga menghargai kerja keras
           mereka.
@@ -326,7 +338,7 @@ export default function CaraDownloadVideoTiktokTanpaWatermark() {
 
       <div className="warning-box">
         <p>
-          ⚠️ <strong>Penting:</strong> Selalu gunakan video yang kamu download secara
+          <strong>Penting:</strong> Selalu gunakan video yang kamu download secara
           bertanggung jawab. Hormati hak cipta kreator dan jangan gunakan video orang
           lain untuk keuntungan komersial tanpa izin.
         </p>

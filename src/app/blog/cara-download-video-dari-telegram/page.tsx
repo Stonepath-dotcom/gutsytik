@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Cara Download Video dari Telegram dengan Cepat dan Mudah | Mova Blog",
     description: "Panduan lengkap cara download video dari Telegram dengan cepat dan mudah. Simpan video Telegram ke galeri HP tanpa ribet.",
     url: "https://getmova.my.id/blog/cara-download-video-dari-telegram",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "article",
     publishedTime: "2026-05-26",
     modifiedTime: "2026-05-26",
@@ -26,10 +26,10 @@ const articleJsonLd = {
   url: "https://getmova.my.id/blog/cara-download-video-dari-telegram",
   datePublished: "2026-05-26",
   dateModified: "2026-05-26",
-  author: { "@type": "Organization", name: "Mova" },
+  author: { "@type": "Organization", name: "getmova" },
   publisher: {
     "@type": "Organization",
-    name: "Mova",
+    name: "getmova",
     logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
   },
   mainEntityOfPage: "https://getmova.my.id/blog/cara-download-video-dari-telegram",
@@ -140,7 +140,7 @@ export default function CaraDownloadVideoDariTelegram() {
         <div className="step-card"><p><span className="step-number">3</span><strong>Video tersimpan di galeri</strong> — Video akan otomatis tersimpan di galeri HP kamu. Selesai!</p></div>
 
         <div className="info-box">
-          <p>💡 <strong>Catatan:</strong> Metode ini hanya berfungsi kalau video belum di-download otomatis oleh Telegram. Kalau videonya sudah terdownload, kamu tinggal tap video lalu klik ikon menu (tiga titik) dan pilih &quot;Save to Gallery&quot;.</p>
+          <p><strong>Catatan:</strong> Metode ini hanya berfungsi kalau video belum di-download otomatis oleh Telegram. Kalau videonya sudah terdownload, kamu tinggal tap video lalu klik ikon menu (tiga titik) dan pilih &quot;Save to Gallery&quot;.</p>
         </div>
 
         <h2 id="metode-2-download-video-telegram-dengan-mova">Metode 2: Download Video Telegram dengan Mova</h2>

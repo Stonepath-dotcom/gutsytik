@@ -404,10 +404,45 @@ export default function PinterestDownloaderPage() {
               </a>
               ,{" "}
               <a
+                href="/instagram-downloader"
+                className="text-primary hover:underline"
+              >
+                download video Instagram Reels
+              </a>
+              ,{" "}
+              <a
                 href="/youtube-downloader"
                 className="text-primary hover:underline"
               >
                 download video YouTube
+              </a>
+              ,{" "}
+              <a
+                href="/facebook-downloader"
+                className="text-primary hover:underline"
+              >
+                download video Facebook
+              </a>
+              ,{" "}
+              <a
+                href="/twitter-downloader"
+                className="text-primary hover:underline"
+              >
+                download video Twitter/X
+              </a>
+              ,{" "}
+              <a
+                href="/reddit-downloader"
+                className="text-primary hover:underline"
+              >
+                download video Reddit
+              </a>
+              ,{" "}
+              <a
+                href="/telegram-downloader"
+                className="text-primary hover:underline"
+              >
+                download video Telegram
               </a>
               ,{" "}
               <a

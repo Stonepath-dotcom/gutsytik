@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock, Home, ChevronRight } from "lucide-react";
 import { MovaLogo } from "@/components/mova-logo";
+import { SitewideFooter } from "@/components/sitewide-footer";
 
 export const metadata: Metadata = {
   title: "Blog Mova - Tips & Panduan Download Video Tanpa Watermark",
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
     description:
       "Temukan panduan lengkap cara download video tanpa watermark dari TikTok, Instagram, YouTube, Facebook, dan Twitter/X.",
     url: "https://getmova.my.id/blog",
-    siteName: "Mova",
+    siteName: "getmova",
     type: "website",
   },
 };
@@ -63,7 +64,7 @@ const articles = [
       "Daftar 10 situs download video tanpa watermark terbaik tahun 2026. Perbandingan fitur, kecepatan, dan kemudahan setiap situs downloader.",
     date: "26 Mei 2026",
     readingTime: "9 menit",
-    gradient: "from-[#4F46E5]/20 via-[#7C3AED]/15 to-[#4F46E5]/10",
+    gradient: "from-[#10B981]/20 via-[#34D399]/15 to-[#10B981]/10",
     icon: "🏆",
   },
   {
@@ -103,7 +104,7 @@ const articles = [
       "Panduan lengkap perbedaan kualitas video HD dan SD. Pelajari kapan harus pilih HD atau SD saat download video.",
     date: "25 Mei 2026",
     readingTime: "10 menit",
-    gradient: "from-[#6366F1]/20 via-[#8B5CF6]/15 to-[#0C0C0E]",
+    gradient: "from-[#10B981]/20 via-[#34D399]/15 to-[#0C0C0E]",
     icon: "📺",
   },
   {
@@ -113,7 +114,7 @@ const articles = [
       "Panduan lengkap cara download video YouTube tanpa install aplikasi. Langsung dari browser, gratis, cepat, dan aman.",
     date: "25 Mei 2026",
     readingTime: "9 menit",
-    gradient: "from-[#FF0000]/20 via-[#282828]/30 to-[#4F46E5]/10",
+    gradient: "from-[#FF0000]/20 via-[#282828]/30 to-[#10B981]/10",
     icon: "🌐",
   },
   {
@@ -163,7 +164,7 @@ const articles = [
       "Panduan komprehensif download video tanpa watermark dari semua platform. Perbandingan tools dan mengapa Mova adalah pilihan terbaik.",
     date: "21 Mei 2026",
     readingTime: "9 menit",
-    gradient: "from-[#4F46E5]/20 via-[#7C3AED]/15 to-[#4F46E5]/10",
+    gradient: "from-[#10B981]/20 via-[#34D399]/15 to-[#10B981]/10",
     icon: "✨",
   },
   {
@@ -183,7 +184,7 @@ const articles = [
       "Pelajari cara mengekstrak audio MP3 dari video online. Cocok untuk podcast, musik, dan konten audio lainnya. Gratis dan cepat!",
     date: "19 Mei 2026",
     readingTime: "7 menit",
-    gradient: "from-[#7C3AED]/20 via-[#EC4899]/15 to-[#7C3AED]/10",
+    gradient: "from-[#34D399]/20 via-[#EC4899]/15 to-[#34D399]/10",
     icon: "🎧",
   },
   {
@@ -243,7 +244,7 @@ const articles = [
       "Cara download video tanpa install aplikasi apapun. Langsung dari browser, support semua platform, gratis dan cepat.",
     date: "13 Mei 2026",
     readingTime: "6 menit",
-    gradient: "from-[#4F46E5]/20 via-[#7C3AED]/15 to-[#4F46E5]/10",
+    gradient: "from-[#10B981]/20 via-[#34D399]/15 to-[#10B981]/10",
     icon: "🌐",
   },
   {
@@ -263,7 +264,7 @@ const articles = [
       "Konversi video YouTube ke MP3 secara gratis. Download lagu, podcast, dan audio dari YouTube dalam kualitas terbaik.",
     date: "11 Mei 2026",
     readingTime: "5 menit",
-    gradient: "from-[#FF0000]/15 via-[#282828]/20 to-[#7C3AED]/10",
+    gradient: "from-[#FF0000]/15 via-[#282828]/20 to-[#34D399]/10",
     icon: "🎧",
   },
   {
@@ -273,7 +274,7 @@ const articles = [
       "Panduan lengkap perbedaan download video vs audio MP3. Kapan harus pilih video dan kapan lebih baik download audio saja.",
     date: "10 Mei 2026",
     readingTime: "7 menit",
-    gradient: "from-[#6366F1]/15 via-[#EC4899]/10 to-[#0C0C0E]",
+    gradient: "from-[#10B981]/15 via-[#EC4899]/10 to-[#0C0C0E]",
     icon: "📊",
   },
   {
@@ -303,7 +304,7 @@ const articles = [
       "Tutorial konversi video ke MP3 dengan kualitas terbaik. Panduan bitrate, format audio, dan tools terbaik untuk extract audio dari video.",
     date: "7 Mei 2026",
     readingTime: "8 menit",
-    gradient: "from-[#7C3AED]/20 via-[#EC4899]/15 to-[#4F46E5]/10",
+    gradient: "from-[#34D399]/20 via-[#EC4899]/15 to-[#10B981]/10",
     icon: "🎵",
   },
   {
@@ -313,7 +314,7 @@ const articles = [
       "Review dan perbandingan YouTube downloader terbaik tahun 2026. Perbandingan fitur, kecepatan, keamanan, dan kemudahan setiap tool.",
     date: "6 Mei 2026",
     readingTime: "10 menit",
-    gradient: "from-[#FF0000]/20 via-[#4F46E5]/15 to-[#0C0C0E]",
+    gradient: "from-[#FF0000]/20 via-[#10B981]/15 to-[#0C0C0E]",
     icon: "⭐",
   },
   {
@@ -323,7 +324,7 @@ const articles = [
       "Tips download video saat koneksi internet lambat. Optimasi download, pilih resolusi tepat, dan trik hemat kuota data.",
     date: "5 Mei 2026",
     readingTime: "9 menit",
-    gradient: "from-[#4F46E5]/15 via-[#10B981]/10 to-[#0C0C0E]",
+    gradient: "from-[#10B981]/15 via-[#10B981]/10 to-[#0C0C0E]",
     icon: "📶",
   },
 ];
@@ -337,7 +338,7 @@ export default function BlogPage() {
     url: "https://getmova.my.id/blog",
     publisher: {
       "@type": "Organization",
-      name: "Mova",
+      name: "getmova",
       logo: { "@type": "ImageObject", url: "https://getmova.my.id/mova-logo.png" },
     },
     blogPost: articles.map((article) => ({
@@ -346,7 +347,7 @@ export default function BlogPage() {
       description: article.description,
       url: `https://getmova.my.id/blog/${article.slug}`,
       datePublished: "2026-05-26",
-      author: { "@type": "Organization", name: "Mova" },
+      author: { "@type": "Organization", name: "getmova" },
     })),
   };
 
@@ -369,9 +370,9 @@ export default function BlogPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <div className="min-h-screen flex flex-col bg-[#09090B] text-[#FAFAFA]">
+      <div className="min-h-screen flex flex-col bg-card text-foreground">
         {/* Header */}
-        <header className="border-b border-[#27272A] bg-[#111113]">
+        <header className="border-b border-border bg-card">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               <a href="/" className="flex items-center gap-2">
@@ -379,7 +380,7 @@ export default function BlogPage() {
               </a>
               <a
                 href="/"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-[#27272A] bg-[#111113] text-[#FAFAFA] hover:bg-[#18181B] transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border border-border bg-card text-foreground hover:bg-muted/50 transition-colors"
               >
                 <Home className="h-4 w-4" />
                 Beranda
@@ -392,10 +393,10 @@ export default function BlogPage() {
           {/* Breadcrumb */}
           <div className="mx-auto max-w-5xl px-4 pt-6">
             <nav aria-label="Breadcrumb">
-              <ol className="flex items-center gap-1.5 text-sm text-[#A1A1AA]">
-                <li><a href="/" className="hover:text-[#4F46E5] transition-colors">Beranda</a></li>
+              <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                <li><a href="/" className="hover:text-[#10B981] transition-colors">Beranda</a></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li className="text-[#4F46E5] font-medium">Blog</li>
+                <li className="text-[#10B981] font-medium">Blog</li>
               </ol>
             </nav>
           </div>
@@ -403,8 +404,8 @@ export default function BlogPage() {
           {/* Hero */}
           <section className="relative pt-8 pb-12 px-4 sm:px-6 overflow-hidden">
             <div className="relative mx-auto max-w-4xl text-center">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#4F46E5]/10 border border-[#4F46E5]/20 mb-4">
-                <span className="text-xs font-semibold text-[#4F46E5]">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/20 mb-4">
+                <span className="text-xs font-semibold text-[#10B981]">
                   Blog & Panduan
                 </span>
               </div>
@@ -412,7 +413,7 @@ export default function BlogPage() {
                 Tips & Panduan{" "}
                 <span className="gradient-text">Download Video</span>
               </h1>
-              <p className="text-base sm:text-lg text-[#A1A1AA] max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
                 Temukan tutorial lengkap cara download video tanpa watermark dari
                 berbagai platform sosial media. Ditulis oleh tim Mova untuk kamu.
               </p>
@@ -426,38 +427,38 @@ export default function BlogPage() {
                 <Link
                   key={article.slug}
                   href={`/blog/${article.slug}`}
-                  className="group rounded-2xl overflow-hidden bg-[#111113] border border-[#27272A] hover:border-[#4F46E5]/30 transition-all duration-200"
+                  className="group rounded-2xl overflow-hidden bg-card border border-border hover:border-[#10B981]/30 transition-all duration-200"
                 >
                   {/* Thumbnail placeholder */}
                   <div
                     className={`h-32 sm:h-36 bg-gradient-to-br ${article.gradient} flex items-center justify-center relative`}
                   >
                     <span className="text-4xl opacity-80">{article.icon}</span>
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#111113]/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card/80 dark:from-[#111113]/80 to-transparent" />
                   </div>
 
                   {/* Content */}
                   <div className="p-4">
-                    <div className="flex items-center gap-3 text-[11px] text-[#A1A1AA] mb-2">
+                    <div className="flex items-center gap-3 text-[11px] text-muted-foreground mb-2">
                       <span className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3 text-[#4F46E5]" />
+                        <Calendar className="h-3 w-3 text-[#10B981]" />
                         {article.date}
                       </span>
                       <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3 text-[#4F46E5]" />
+                        <Clock className="h-3 w-3 text-[#10B981]" />
                         {article.readingTime}
                       </span>
                     </div>
 
-                    <h2 className="font-bold text-[#FAFAFA] text-sm sm:text-base mb-2 group-hover:text-[#4F46E5] transition-colors line-clamp-2 font-[family-name:var(--font-montserrat)]">
+                    <h2 className="font-bold text-foreground text-sm sm:text-base mb-2 group-hover:text-[#10B981] transition-colors line-clamp-2 font-[family-name:var(--font-montserrat)]">
                       {article.title}
                     </h2>
 
-                    <p className="text-xs text-[#A1A1AA] line-clamp-2 mb-3">
+                    <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
                       {article.description}
                     </p>
 
-                    <span className="inline-flex items-center gap-1 text-xs font-medium text-[#4F46E5] group-hover:gap-2 transition-all">
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-[#10B981] group-hover:gap-2 transition-all">
                       Baca Selengkapnya
                       <ArrowRight className="h-3 w-3" />
                     </span>
@@ -470,17 +471,17 @@ export default function BlogPage() {
           {/* CTA */}
           <section className="px-4 sm:px-6 pb-16">
             <div className="mx-auto max-w-3xl">
-              <div className="rounded-2xl p-6 sm:p-8 text-center bg-gradient-to-br from-[#4F46E5]/20 to-[#7C3AED]/10 border border-[#4F46E5]/30">
-                <h2 className="text-xl sm:text-2xl font-bold text-[#FAFAFA] mb-2 font-[family-name:var(--font-montserrat)]">
+              <div className="rounded-2xl p-6 sm:p-8 text-center bg-gradient-to-br from-[#10B981]/20 to-[#34D399]/10 border border-[#10B981]/30">
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]">
                   Langsung Coba Mova Sekarang
                 </h2>
-                <p className="text-[#A1A1AA] mb-5 text-sm sm:text-base max-w-md mx-auto">
+                <p className="text-muted-foreground mb-5 text-sm sm:text-base max-w-md mx-auto">
                   Download video tanpa watermark dari TikTok, Instagram, YouTube, dan
                   platform lainnya. Gratis dan cepat!
                 </p>
                 <Link
                   href="/"
-                  className="inline-flex items-center gap-2 bg-[#4F46E5] text-white font-semibold rounded-xl hover:bg-[#4338CA] px-8 h-12 text-base transition-colors"
+                  className="inline-flex items-center gap-2 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] px-8 h-12 text-base transition-colors"
                 >
                   Mulai Download Gratis
                 </Link>
@@ -490,11 +491,7 @@ export default function BlogPage() {
         </main>
 
         {/* Footer */}
-        <footer className="border-t border-[#27272A] py-6 px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs text-[#A1A1AA]">&copy; 2026 Mova. Dibuat dengan ❤️ di Indonesia.</p>
-          </div>
-        </footer>
+        <SitewideFooter />
       </div>
     </>
   );
