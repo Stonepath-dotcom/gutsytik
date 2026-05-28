@@ -95,20 +95,30 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
     const isAudio = q.resolution === "MP3" || q.label === "Audio";
     const downloadUrl = q.url;
     const fallbackUrl = q.originalUrl || q.url;
+    const isCFWorkerDownload = downloadUrl.includes("workers.dev/download");
 
     setDownloading(true);
 
     try {
+      // Strategy 0: CF Worker /download — just open in new tab
+      // CF Worker already sets Content-Disposition: attachment + streams directly
+      // No need to fetch+blob (which is slow/fails for large videos)
+      if (isCFWorkerDownload) {
+        window.open(downloadUrl, "_blank", "noopener,noreferrer");
+        setDownloading(false);
+        return;
+      }
+
       // Strategy 1: fetch + blob + createObjectURL (cleanest UX, no new tab)
-      // Use for audio always, and for video if under ~200MB (to avoid memory issues)
-      if (isAudio || !downloadUrl.includes("/stream?")) {
+      // Only for small files (audio, or video proxied through Vercel /api/proxy)
+      if (isAudio || downloadUrl.startsWith("/api/proxy")) {
         try {
           const res = await fetch(downloadUrl);
           if (res.ok) {
             const contentLength = parseInt(res.headers.get("content-length") || "0");
             const sizeMB = contentLength / (1024 * 1024);
-            // Only use blob for audio or small video files (< 150MB)
-            if (isAudio || sizeMB < 150 || contentLength === 0) {
+            // Only use blob for audio or small video files (< 50MB)
+            if (isAudio || sizeMB < 50 || contentLength === 0) {
               const blob = await res.blob();
               if (blob.size > 1000) {
                 const blobUrl = URL.createObjectURL(blob);
