@@ -293,6 +293,7 @@ app.use(cors({
     /\.onrender\.com$/,
     /\.railway\.app$/,
     /\.koyeb\.app$/,
+    /\.fly\.dev$/,
   ],
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "X-Admin-Key", "Range"],

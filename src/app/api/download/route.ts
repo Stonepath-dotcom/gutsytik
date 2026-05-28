@@ -66,20 +66,20 @@ function extractTwitterInfo(url: string): { username: string; tweetId: string } 
 }
 
 /* ──────────────── YouTube Downloader ─── */
-// Strategy 1: Koyeb backend (yt-dlp + ffmpeg) — best quality, can bypass blocks
-// Strategy 2: Cloudflare Worker (InnerTube API) — fallback if Koyeb down
-const KOYEB_API_URL = process.env.KOYEB_API_URL || "";
+// Strategy 1: Backend (yt-dlp + ffmpeg on Fly.io/Render/etc) — best quality, can bypass blocks
+// Strategy 2: Cloudflare Worker (InnerTube API) — fallback if backend down
+const BACKEND_API_URL = process.env.BACKEND_API_URL || process.env.KOYEB_API_URL || "";
 const CF_WORKER_URL = process.env.CF_WORKER_URL || "https://mova-yt-proxy.ardiidonovan.workers.dev";
 
 async function downloadYouTube(url: string, audioOnly: boolean) {
   const videoId = extractYouTubeVideoId(url);
   if (!videoId) return null;
 
-  // ── Strategy 1: Koyeb (yt-dlp backend) ──
-  if (KOYEB_API_URL) {
+  // ── Strategy 1: Backend (yt-dlp on Fly.io/Render) ──
+  if (BACKEND_API_URL) {
     try {
-      console.log(`[YouTube] Trying Koyeb (yt-dlp) for: ${videoId}`);
-      const apiUrl = `${KOYEB_API_URL}/info?url=${encodeURIComponent(url)}&audio=${audioOnly ? "1" : "0"}`;
+      console.log(`[YouTube] Trying Backend (yt-dlp) for: ${videoId}`);
+      const apiUrl = `${BACKEND_API_URL}/info?url=${encodeURIComponent(url)}&audio=${audioOnly ? "1" : "0"}`;
       const res = await fetch(apiUrl, {
         method: "GET",
         headers: { "Accept": "application/json" },
@@ -89,7 +89,7 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
       if (res.ok) {
         const data = await res.json() as Record<string, unknown>;
         if (data.success && data.qualityOptions && (data.qualityOptions as unknown[]).length > 0) {
-          console.log(`[YouTube] Koyeb success! ${(data.qualityOptions as unknown[]).length} qualities`);
+          console.log(`[YouTube] Backend success! ${(data.qualityOptions as unknown[]).length} qualities`);
           // Convert yt-dlp format to our format
           const qualityOptions = (data.qualityOptions as Array<Record<string, unknown>>).map((q) => {
             const label = (q.label as string) || (q.resolution as string) || "Auto";
@@ -97,11 +97,11 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
             const rawUrl = (q.url as string) || "";
             const needsConversion = q.needsConversion === true || q.needsMuxing === true;
 
-            // Route download through Koyeb /stream endpoint for URLs that need conversion
-            // or through Koyeb /stream for googlevideo URLs to avoid CORS issues
+            // Route download through backend /stream endpoint for URLs that need conversion
+            // or for googlevideo URLs to avoid CORS issues
             let finalUrl = rawUrl;
             if (rawUrl.includes("googlevideo.com") || needsConversion) {
-              finalUrl = `${KOYEB_API_URL}/stream?url=${encodeURIComponent(rawUrl)}&filename=${encodeURIComponent(data.filename || `mova_youtube_${videoId}`)}&quality=${encodeURIComponent(label)}`;
+              finalUrl = `${BACKEND_API_URL}/stream?url=${encodeURIComponent(rawUrl)}&filename=${encodeURIComponent(data.filename || `mova_youtube_${videoId}`)}&quality=${encodeURIComponent(label)}`;
             }
 
             return {
@@ -125,9 +125,9 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
           };
         }
       }
-      console.log(`[YouTube] Koyeb returned ${res.status}`);
+      console.log(`[YouTube] Backend returned ${res.status}`);
     } catch (error) {
-      console.log(`[YouTube] Koyeb failed: ${error instanceof Error ? error.message : "unknown"}`);
+      console.log(`[YouTube] Backend failed: ${error instanceof Error ? error.message : "unknown"}`);
     }
   }
 
@@ -857,7 +857,7 @@ export async function POST(request: NextRequest) {
     // For other platforms: use Vercel proxy
     const encodedSourceUrl = encodeURIComponent(trimmedUrl);
     const isYouTubeGooglevideo = platform === "YouTube" && result.qualityOptions.some(q => q.url.includes("googlevideo.com") || q.originalUrl?.includes("googlevideo.com"));
-    const isYouTubeKoyeb = platform === "YouTube" && KOYEB_API_URL && result.qualityOptions.some(q => q.url.includes(KOYEB_API_URL));
+    const isYouTubeKoyeb = platform === "YouTube" && BACKEND_API_URL && result.qualityOptions.some(q => q.url.includes(BACKEND_API_URL));
 
     let proxiedQualityOptions;
     let downloadUrl;

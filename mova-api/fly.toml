@@ -1,0 +1,42 @@
+# Fly.io configuration for Mova API
+# Deploy with: fly launch (first time) then fly deploy
+
+app = "mova-api"
+primary_region = "sin"  # Singapore - closest to Indonesia
+
+[build]
+  dockerfile = "Dockerfile"
+
+[http_service]
+  internal_port = 8888
+  force_https = true
+  auto_stop_machines = "stop"    # Stop when idle (saves free hours)
+  auto_start_machines = true     # Start on incoming request
+  min_machines_running = 0       # Scale to zero when idle
+
+[http_service.concurrency]
+  type = "requests"
+  hard_limit = 50
+  soft_limit = 30
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 256
+
+[env]
+  PORT = "8888"
+  NODE_ENV = "production"
+  RATE_LIMIT = "30"
+  YTDLP_TIMEOUT = "120000"
+  DOWNLOAD_TIMEOUT = "300000"
+
+[checks]
+  [checks.health]
+    grace_period = "30s"
+    interval = "30s"
+    method = "get"
+    path = "/health"
+    port = 8888
+    timeout = "10s"
+    type = "http"
