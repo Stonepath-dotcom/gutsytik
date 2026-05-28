@@ -9,7 +9,7 @@ interface MovaLogoProps {
 export function MovaLogo({ size = 40, className = "", showText = true }: MovaLogoProps) {
   return (
     <div className={`flex items-center gap-1.5 ${className}`}>
-      {/* Clean minimalist logo: play + download arrow */}
+      {/* Red play button logo - matching VideoMax style */}
       <svg
         width={size}
         height={size}
@@ -18,12 +18,8 @@ export function MovaLogo({ size = 40, className = "", showText = true }: MovaLog
         xmlns="http://www.w3.org/2000/svg"
         className="shrink-0"
       >
-        {/* Rounded square background */}
         <rect width="32" height="32" rx="8" fill="#E52222" />
-        {/* Play triangle */}
-        <path d="M12 8.5V23.5L23 16Z" fill="white" opacity="0.95" />
-        {/* Download arrow */}
-        <path d="M20 20V24M20 24L17.5 21.5M20 24L22.5 21.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7" />
+        <path d="M13 9L23 16L13 23V9Z" fill="white" />
       </svg>
       {showText && (
         <span
