@@ -25,27 +25,25 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   metadataBase: new URL("https://getmova.my.id"),
   alternates: { canonical: "https://getmova.my.id" },
-  title: "getmova - Download Video Tanpa Watermark Gratis & Cepat",
+  title: "GetMova - Download Video Tanpa Watermark",
   description:
-    "Download video tanpa watermark dari TikTok, Instagram, YouTube, Facebook, Twitter/X, dan platform populer lainnya. Gratis, cepat, dan mudah. Download video TikTok, Instagram Reels, YouTube MP4 HD.",
+    "Download video tanpa watermark dari TikTok, Instagram, Facebook, Twitter/X, Pinterest, Reddit dan platform populer lainnya. Gratis, cepat, dan mudah.",
   keywords: [
     "download video tiktok",
     "download video tanpa watermark",
     "tiktok downloader",
     "instagram downloader",
-    "youtube downloader",
     "download video instagram",
-    "download video youtube",
     "download video facebook",
     "video downloader gratis",
     "tanpa watermark",
     "download video",
     "getmova",
-    "mova",
     "download video twitter",
-    "youtube to mp3",
+    "pinterest downloader",
+    "reddit downloader",
   ],
-  authors: [{ name: "getmova" }],
+  authors: [{ name: "GetMova" }],
   robots: {
     index: true,
     follow: true,
@@ -70,32 +68,32 @@ export const metadata: Metadata = {
     "google-adsense-account": "ca-pub-8487073388720076",
   },
   openGraph: {
-    title: "getmova - Download Video Tanpa Watermark",
+    title: "GetMova - Download Video Tanpa Watermark",
     description:
-      "Download video dari TikTok, Instagram, YouTube, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
+      "Download video dari TikTok, Instagram, Facebook, Twitter/X, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
     url: "https://getmova.my.id",
-    siteName: "getmova",
+    siteName: "GetMova",
     type: "website",
     images: [
       {
         url: "/og-image.png",
         width: 1344,
         height: 768,
-        alt: "getmova - Download Video Tanpa Watermark",
+        alt: "GetMova - Download Video Tanpa Watermark",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "getmova - Download Video Tanpa Watermark",
+    title: "GetMova - Download Video Tanpa Watermark",
     description:
-      "Download video dari TikTok, Instagram, YouTube, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
+      "Download video dari TikTok, Instagram, Facebook, Twitter/X, dan platform populer lainnya tanpa watermark. Cepat, gratis, dan mudah!",
     images: ["/og-image.png"],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#10B981",
+  themeColor: "#E52222",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -107,13 +105,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" suppressHydrationWarning className="dark">
+    <html lang="id" suppressHydrationWarning>
       <head>
         <link rel="alternate" hrefLang="id" href="https://getmova.my.id" />
         <link rel="alternate" hrefLang="x-default" href="https://getmova.my.id" />
-        <link rel="alternate" type="application/rss+xml" title="getmova Blog" href="https://getmova.my.id/feed.xml" />
+        <link rel="alternate" type="application/rss+xml" title="GetMova Blog" href="https://getmova.my.id/feed.xml" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
         {/* Google Analytics 4 */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-C72K54R633" />
@@ -130,7 +128,6 @@ export default function RootLayout({
           }}
         />
 
-        {/* AdSense loads via CookieConsent after user accepts */}
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
@@ -138,9 +135,9 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
-              name: "getmova",
+              name: "GetMova",
               description:
-                "Download video tanpa watermark dari TikTok, Instagram, YouTube, Facebook, Twitter/X, dan platform populer lainnya. Gratis, cepat, dan mudah.",
+                "Download video tanpa watermark dari TikTok, Instagram, Facebook, Twitter/X, Pinterest, Reddit dan platform populer lainnya. Gratis, cepat, dan mudah.",
               url: "https://getmova.my.id",
               applicationCategory: "MultimediaApplication",
               operatingSystem: "All",
@@ -165,8 +162,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "getmova",
-              alternateName: "Mova",
+              name: "GetMova",
               url: "https://getmova.my.id",
               logo: {
                 "@type": "ImageObject",
@@ -198,7 +194,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              name: "getmova",
+              name: "GetMova",
               url: "https://getmova.my.id",
               potentialAction: {
                 "@type": "SearchAction",
@@ -211,7 +207,6 @@ export default function RootLayout({
             }),
           }}
         />
-        {/* FAQPage schema is only on pages that display FAQ content (homepage, /faq) */}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} antialiased bg-background text-foreground`}

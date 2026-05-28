@@ -19,7 +19,7 @@ export function MovaLogo({ size = 40, className = "", showText = true }: MovaLog
         className="shrink-0"
       >
         {/* Rounded square background */}
-        <rect width="32" height="32" rx="8" fill="#10B981" />
+        <rect width="32" height="32" rx="8" fill="#E52222" />
         {/* Play triangle */}
         <path d="M12 8.5V23.5L23 16Z" fill="white" opacity="0.95" />
         {/* Download arrow */}
@@ -30,7 +30,7 @@ export function MovaLogo({ size = 40, className = "", showText = true }: MovaLog
           className="font-[family-name:var(--font-montserrat)] font-bold tracking-tight text-foreground"
           style={{ letterSpacing: "-0.03em", fontSize: size * 0.5 }}
         >
-          get<span className="text-emerald-500">mova</span>
+          Get<span className="text-[#E52222]">Mova</span>
         </span>
       )}
     </div>
