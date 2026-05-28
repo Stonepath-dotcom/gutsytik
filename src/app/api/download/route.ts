@@ -1767,6 +1767,9 @@ export async function POST(request: NextRequest) {
     // Check if this is a redirect fallback result (external download service link)
     const isRedirect = (result as Record<string, unknown>).isRedirect === true;
     const redirectUrls = (result as Record<string, unknown>).redirectUrls as string[] | undefined;
+    // Check if result came from CF Worker (has googlevideo URLs)
+    const cfWorkerUrl = process.env.CF_WORKER_URL || "https://mova-yt-proxy.ardiidonovan.workers.dev";
+    const isCfWorkerResult = platform === "YouTube" && result.qualityOptions.some(q => q.url.includes("googlevideo.com"));
 
     if (isRedirect) {
       // For redirect results, don't proxy URLs - these are external web pages, not video streams
@@ -1785,7 +1788,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Convert download URLs to proxy URLs to avoid CORS issues
+    // For YouTube videos from CF Worker: route downloads through CF Worker proxy
+    // (Vercel proxy has 4MB limit, CF Worker has no limit)
+    if (isCfWorkerResult) {
+      const cfProxyBase = `${cfWorkerUrl}/download`;
+      const proxiedQualityOptions = result.qualityOptions.map((q) => ({
+        ...q,
+        originalUrl: q.url,
+        url: `${cfProxyBase}?url=${encodeURIComponent(q.url)}&filename=${encodeURIComponent(result.filename)}&quality=${encodeURIComponent(q.label)}`,
+      }));
+
+      return NextResponse.json(
+        {
+          ...result,
+          originalDownloadUrl: result.downloadUrl,
+          downloadUrl: `${cfProxyBase}?url=${encodeURIComponent(result.downloadUrl)}&filename=${encodeURIComponent(result.filename)}&quality=best`,
+          qualityOptions: proxiedQualityOptions,
+        },
+        { status: 200 }
+      );
+    }
+
+    // For other platforms: use Vercel proxy
     const encodedSourceUrl = encodeURIComponent(trimmedUrl);
     const proxiedQualityOptions = result.qualityOptions.map((q) => ({
       ...q,
