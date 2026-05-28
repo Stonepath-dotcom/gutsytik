@@ -159,9 +159,113 @@ async function downloadTikTok(url: string) {
   return null;
 }
 
-/* ──────────────── YouTube Strategy 0: yt-dlp Backend (Replit) ─── */
+/* ──────────────── YouTube Strategy 1: Cloudflare Worker (BEST IP reputation) ─── */
+async function youTubeCfWorker(videoId: string, audioOnly: boolean) {
+  const cfWorkerUrl = process.env.CF_WORKER_URL;
+  if (!cfWorkerUrl) return null;
+  try {
+    const res = await fetch(`${cfWorkerUrl}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ videoId, audioOnly }),
+      signal: AbortSignal.timeout(20000),
+    });
+    if (!res.ok) return null;
+    const data = await res.json() as Record<string, unknown>;
+    if (!data.success || !data.qualityOptions || (data.qualityOptions as unknown[]).length === 0) return null;
+    console.log(`[CF Worker] Success for: ${videoId}`);
+    return data as {
+      title: string; thumbnail: string; duration: string; author: string;
+      platform: string; downloadUrl: string;
+      qualityOptions: { label: string; resolution: string; url: string }[];
+      filename: string;
+    };
+  } catch (error) {
+    console.log(`[CF Worker] Failed: ${error instanceof Error ? error.message : "unknown"}`);
+    return null;
+  }
+}
+
+/* ──────────────── YouTube Strategy 2: Deno Deploy (edge network) ─── */
+async function youTubeDenoProxy(videoId: string, audioOnly: boolean) {
+  const denoProxyUrl = process.env.DENO_PROXY_URL;
+  if (!denoProxyUrl) return null;
+  try {
+    const res = await fetch(`${denoProxyUrl}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ videoId, audioOnly }),
+      signal: AbortSignal.timeout(20000),
+    });
+    if (!res.ok) return null;
+    const data = await res.json() as Record<string, unknown>;
+    if (!data.success || !data.qualityOptions || (data.qualityOptions as unknown[]).length === 0) return null;
+    console.log(`[Deno Proxy] Success for: ${videoId}`);
+    return data as {
+      title: string; thumbnail: string; duration: string; author: string;
+      platform: string; downloadUrl: string;
+      qualityOptions: { label: string; resolution: string; url: string }[];
+      filename: string;
+    };
+  } catch (error) {
+    console.log(`[Deno Proxy] Failed: ${error instanceof Error ? error.message : "unknown"}`);
+    return null;
+  }
+}
+
+/* ──────────────── YouTube Strategy 3: Self-hosted Cobalt API ─── */
+async function youTubeCobaltSelf(url: string, audioOnly: boolean) {
+  const cobaltUrl = process.env.COBALT_API_URL;
+  if (!cobaltUrl) return null;
+  try {
+    const res = await fetch(cobaltUrl, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "User-Agent": "Mova/1.0",
+      },
+      body: JSON.stringify({
+        url,
+        videoQuality: "1080",
+        audioFormat: "mp3",
+        downloadMode: audioOnly ? "audio" : "auto",
+      }),
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) return null;
+    const data = await res.json() as Record<string, unknown>;
+    if ((data.status === "redirect" || data.status === "tunnel" || data.status === "stream") && data.url) {
+      const videoId = extractYouTubeVideoId(url);
+      const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+      if (audioOnly) {
+        qualityOptions.push({ label: "Audio", resolution: "MP3", url: data.url as string });
+      } else {
+        qualityOptions.push({ label: "Best", resolution: "Auto", url: data.url as string });
+      }
+      console.log(`[Cobalt Self] Success for: ${videoId}`);
+      return {
+        title: `YouTube Video`,
+        thumbnail: videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : "",
+        duration: "--:--",
+        author: "@unknown",
+        platform: "YouTube",
+        downloadUrl: data.url as string,
+        qualityOptions,
+        filename: `mova_youtube_${videoId || Date.now()}`,
+      };
+    }
+    return null;
+  } catch (error) {
+    console.log(`[Cobalt Self] Failed: ${error instanceof Error ? error.message : "unknown"}`);
+    return null;
+  }
+}
+
+/* ──────────────── YouTube Strategy 4: yt-dlp Backend (Replit/Render/Railway) ─── */
 async function youTubeYtDlp(url: string, audioOnly: boolean) {
-  const ytDlpApiUrl = process.env.YTDLP_API_URL || "http://127.0.0.1:8888";
+  const ytDlpApiUrl = process.env.YTDLP_API_URL;
+  if (!ytDlpApiUrl) return null;
   try {
     const apiUrl = `${ytDlpApiUrl}/info?url=${encodeURIComponent(url)}&audio=${audioOnly ? "1" : "0"}`;
     console.log(`[yt-dlp] Calling: ${apiUrl.substring(0, 100)}...`);
@@ -826,22 +930,49 @@ async function youTubeInnerTubeWithVisitor(videoId: string, audioOnly: boolean) 
   return null;
 }
 
-/* ──────────────── YouTube Combined (Enhanced) ─── */
+/* ──────────────── YouTube Combined (v3 - External backends first) ─── */
 async function downloadYouTube(url: string, audioOnly: boolean) {
   const videoId = extractYouTubeVideoId(url);
   if (!videoId) return null;
 
-  // Phase 1: Run the most reliable strategies IN PARALLEL for speed
-  // InnerTube (with many clients), Edge proxy, and yt-dlp all at once
-  console.log(`YouTube: Phase 1 - Running InnerTube, Edge proxy, and yt-dlp in parallel (audioOnly=${audioOnly})...`);
+  // ===== PHASE 1: External backends (BEST IP reputation) =====
+  // Cloudflare Worker & Deno Deploy run on edge networks with residential-like IPs
+  // These are the MOST RELIABLE strategies because YouTube can't detect them as bots
+  console.log(`YouTube: Phase 1 - External backends (CF Worker, Deno, yt-dlp, Cobalt self-hosted)...`);
 
-  const [innerTubeResult, edgeResult, ytDlpResult] = await Promise.all([
-    youTubeInnerTube(videoId, audioOnly),
-    youTubeEdgeProxy(videoId, audioOnly),
+  const [cfResult, denoResult, ytDlpResult, cobaltSelfResult] = await Promise.all([
+    youTubeCfWorker(videoId, audioOnly),
+    youTubeDenoProxy(videoId, audioOnly),
     youTubeYtDlp(url, audioOnly),
+    youTubeCobaltSelf(url, audioOnly),
   ]);
 
-  // Prioritize: InnerTube first (fast & direct), then Edge, then yt-dlp
+  if (cfResult) {
+    console.log(`YouTube: Cloudflare Worker succeeded!`);
+    return cfResult;
+  }
+  if (denoResult) {
+    console.log(`YouTube: Deno Proxy succeeded!`);
+    return denoResult;
+  }
+  if (ytDlpResult) {
+    console.log(`YouTube: yt-dlp backend succeeded!`);
+    return ytDlpResult;
+  }
+  if (cobaltSelfResult) {
+    console.log(`YouTube: Cobalt self-hosted succeeded!`);
+    return cobaltSelfResult;
+  }
+
+  // ===== PHASE 2: InnerTube API + Edge proxy (from Vercel, might work) =====
+  console.log(`YouTube: Phase 1 failed. Phase 2 - InnerTube + Edge proxy + visitorData...`);
+
+  const [innerTubeResult, edgeResult, visitorResult] = await Promise.all([
+    youTubeInnerTube(videoId, audioOnly),
+    youTubeEdgeProxy(videoId, audioOnly),
+    youTubeInnerTubeWithVisitor(videoId, audioOnly),
+  ]);
+
   if (innerTubeResult) {
     console.log(`YouTube: InnerTube succeeded!`);
     return innerTubeResult;
@@ -850,25 +981,20 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
     console.log(`YouTube: Edge proxy succeeded!`);
     return edgeResult;
   }
-  if (ytDlpResult) {
-    console.log(`YouTube: yt-dlp succeeded!`);
-    return ytDlpResult;
+  if (visitorResult) {
+    console.log(`YouTube: InnerTube+visitor succeeded!`);
+    return visitorResult;
   }
 
-  // Phase 2: Try InnerTube with visitorData, Piped, Invidious, and Cobalt in parallel
-  console.log(`YouTube: Phase 1 all failed. Phase 2 - Trying InnerTube+visitor, Piped, Invidious, and Cobalt in parallel...`);
+  // ===== PHASE 3: Third-party APIs (Piped, Invidious, Cobalt public) =====
+  console.log(`YouTube: Phase 2 failed. Phase 3 - Piped, Invidious, Cobalt public...`);
 
-  const [visitorResult, pipedResult, invidiousResult, cobaltResult] = await Promise.all([
-    youTubeInnerTubeWithVisitor(videoId, audioOnly),
+  const [pipedResult, invidiousResult, cobaltResult] = await Promise.all([
     youTubePiped(videoId, audioOnly),
     youTubeInvidious(videoId, audioOnly),
     youTubeCobalt(url, audioOnly),
   ]);
 
-  if (visitorResult) {
-    console.log(`YouTube: InnerTube+visitor succeeded!`);
-    return visitorResult;
-  }
   if (pipedResult) {
     console.log(`YouTube: Piped succeeded!`);
     return pipedResult;
@@ -878,12 +1004,12 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
     return invidiousResult;
   }
   if (cobaltResult) {
-    console.log(`YouTube: Cobalt succeeded!`);
+    console.log(`YouTube: Cobalt public succeeded!`);
     return cobaltResult;
   }
 
-  // Phase 3: Try page scraping and third-party services
-  console.log(`YouTube: Phase 2 all failed. Phase 3 - Trying page scraping and third-party services...`);
+  // ===== PHASE 4: Last resort (page scrape + third-party services) =====
+  console.log(`YouTube: Phase 3 failed. Phase 4 - Page scraping + third-party services...`);
 
   const [scrapeResult, thirdPartyResult] = await Promise.all([
     youTubePageScrape(videoId, audioOnly),
@@ -899,7 +1025,8 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
     return thirdPartyResult;
   }
 
-  console.log(`YouTube: All strategies failed for video: ${videoId}`);
+  console.log(`YouTube: ALL strategies failed for video: ${videoId}`);
+  console.log(`HINT: Deploy Cloudflare Worker (yt-worker) or Deno Deploy (youtube-proxy) for reliable YouTube downloads`);
   return null;
 }
 

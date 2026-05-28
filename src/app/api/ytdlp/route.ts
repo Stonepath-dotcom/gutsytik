@@ -3,7 +3,7 @@ import { rateLimit } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
-const YT_DLP_API = process.env.YTDLP_API_URL || "http://127.0.0.1:8888";
+const YT_DLP_API = process.env.YTDLP_API_URL || "";
 
 /**
  * Proxy route to the local yt-dlp API server.
@@ -26,6 +26,10 @@ export async function GET(request: NextRequest) {
 
     if (!targetUrl) {
       return NextResponse.json({ error: "URL required" }, { status: 400 });
+    }
+
+    if (!YT_DLP_API) {
+      return NextResponse.json({ error: "yt-dlp backend not configured" }, { status: 503 });
     }
 
     const apiUrl = `${YT_DLP_API}/info?url=${encodeURIComponent(targetUrl)}&audio=${audio || "0"}`;
