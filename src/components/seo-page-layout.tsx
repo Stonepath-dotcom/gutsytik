@@ -29,6 +29,7 @@ interface DownloadResult {
   title: string; thumbnail: string; duration: string;
   author: string; platform: string; downloadUrl: string;
   qualityOptions: QualityOption[]; filename: string;
+  isRedirect?: boolean; redirectUrls?: string[];
 }
 
 interface SEOPageLayoutProps {
@@ -117,6 +118,13 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
     if (!result || downloading) return;
     const q = result.qualityOptions[selQuality];
     if (!q) return;
+
+    // If this is a redirect fallback, open external download service in new tab
+    if (result.isRedirect) {
+      window.open(q.url || result.downloadUrl, "_blank", "noopener,noreferrer");
+      return;
+    }
+
     const isAudio = q.resolution === "MP3" || q.label.includes("Audio");
     const ext = isAudio ? ".mp3" : ".mp4";
     const name = (result.filename || `mova_${Date.now()}`) + `_${q.label.replace(/[^a-zA-Z0-9]/g, "_")}${ext}`;
@@ -227,8 +235,18 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
                     </div>
                   </div>
                 )}
+                {/* Redirect notice */}
+                {result.isRedirect && (
+                  <div className="px-3 pt-3 pb-1">
+                    <div className="p-2.5 rounded-lg bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 flex items-start gap-2">
+                      <AlertCircle className="h-4 w-4 text-amber-500 dark:text-amber-400 mt-0.5 shrink-0" />
+                      <p className="text-amber-600 dark:text-amber-400 text-xs md:text-sm">Download langsung sedang tidak tersedia. Klik tombol di bawah untuk mengunduh melalui layanan pihak ketiga.</p>
+                    </div>
+                  </div>
+                )}
+
                 <div className="p-3 flex gap-2">
-                  <Button onClick={handleDownload} disabled={downloading} className="flex-1 h-12 text-sm md:text-base font-medium">{downloading ? <Loader2 className="h-4 w-4 animate-spin mr-1.5" /> : <Download className="h-4 w-4 mr-1.5" />}Download {result.qualityOptions[selQuality]?.label || ""}</Button>
+                  <Button onClick={handleDownload} disabled={downloading} className="flex-1 h-12 text-sm md:text-base font-medium">{downloading ? <Loader2 className="h-4 w-4 animate-spin mr-1.5" /> : <Download className="h-4 w-4 mr-1.5" />}{result.isRedirect ? "Download via Layanan Lain" : `Download ${result.qualityOptions[selQuality]?.label || ""}`}</Button>
                   <Button variant="outline" onClick={() => { setResult(null); setError(""); setUrl(""); }} className="h-12 px-3 text-sm md:text-base shrink-0" aria-label="Download baru"><ChevronDown className="h-4 w-4" /></Button>
                 </div>
               </div>

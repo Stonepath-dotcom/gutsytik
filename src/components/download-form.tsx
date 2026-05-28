@@ -23,6 +23,8 @@ interface DownloadResult {
   originalDownloadUrl?: string;
   qualityOptions: QualityOption[];
   filename: string;
+  isRedirect?: boolean;
+  redirectUrls?: string[];
 }
 
 interface DownloadFormProps {
@@ -81,6 +83,12 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
     if (!result || downloading) return;
     const q = result.qualityOptions[selectedQuality];
     if (!q) return;
+
+    // If this is a redirect fallback, open external download service in new tab
+    if (result.isRedirect) {
+      window.open(q.url || result.downloadUrl, "_blank", "noopener,noreferrer");
+      return;
+    }
 
     const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
     const downloadName = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
@@ -260,6 +268,14 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
               </div>
             )}
 
+            {/* Redirect notice */}
+            {result.isRedirect && (
+              <div className="mb-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-start gap-2">
+                <AlertCircle className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" />
+                <p className="text-amber-400 text-xs">Download langsung sedang tidak tersedia. Klik tombol di bawah untuk mengunduh melalui layanan pihak ketiga.</p>
+              </div>
+            )}
+
             {/* Download button */}
             <Button
               onClick={handleDownload}
@@ -271,7 +287,7 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
               ) : (
                 <Download className="h-4 w-4 mr-2" />
               )}
-              {downloading ? "Mengunduh..." : `Download ${result.qualityOptions[selectedQuality]?.label || ""}`}
+              {downloading ? "Mengunduh..." : result.isRedirect ? "Download via Layanan Lain" : `Download ${result.qualityOptions[selectedQuality]?.label || ""}`}
             </Button>
           </div>
         </div>

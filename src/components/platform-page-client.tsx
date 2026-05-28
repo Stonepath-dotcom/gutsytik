@@ -22,6 +22,7 @@ interface DownloadResult {
   title: string; thumbnail: string; duration: string;
   author: string; platform: string; downloadUrl: string; originalDownloadUrl?: string;
   qualityOptions: QualityOption[]; filename: string;
+  isRedirect?: boolean; redirectUrls?: string[];
 }
 
 interface FeatureItem {
@@ -156,6 +157,12 @@ export function PlatformPageClient(props: PlatformPageProps) {
     if (!result || downloading) return;
     const q = result.qualityOptions[selectedQuality];
     if (!q) { showToast("Gagal mengunduh video.", "", "destructive"); return; }
+
+    // If this is a redirect fallback, open external download service in new tab
+    if (result.isRedirect) {
+      window.open(q.url || result.downloadUrl, "_blank", "noopener,noreferrer");
+      return;
+    }
 
     const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
     const downloadName = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
@@ -333,13 +340,21 @@ export function PlatformPageClient(props: PlatformPageProps) {
                   </div>
                 )}
 
+                {/* Redirect notice */}
+                {result.isRedirect && (
+                  <div className="mb-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-start gap-2">
+                    <AlertCircle className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" />
+                    <p className="text-amber-400 text-xs md:text-sm">Download langsung sedang tidak tersedia. Klik tombol di bawah untuk mengunduh melalui layanan pihak ketiga.</p>
+                  </div>
+                )}
+
                 <Button
                   onClick={handleDownload}
                   disabled={downloading}
                   className="w-full bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] h-11 text-sm md:text-base"
                 >
                   {downloading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Download className="h-4 w-4 mr-2" />}
-                  {downloading ? "Mengunduh..." : "Download Sekarang"}
+                  {downloading ? "Mengunduh..." : result.isRedirect ? "Download via Layanan Lain" : "Download Sekarang"}
                 </Button>
               </div>
             </div>

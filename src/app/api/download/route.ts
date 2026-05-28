@@ -676,8 +676,10 @@ async function youTubeEdgeProxy(videoId: string, audioOnly: boolean) {
   }
 }
 
-/* ──────────────── YouTube Strategy F: Cobalt API ─── */
+/* ──────────────── YouTube Strategy F: Cobalt API (Expanded) ─── */
 async function youTubeCobalt(url: string, audioOnly: boolean) {
+  // Community-hosted Cobalt instances - these run on their OWN infrastructure,
+  // not on Vercel, so they can bypass YouTube's bot detection
   const cobaltInstances = [
     "https://api.cobalt.tools",
     "https://cobalt-api.kwiatekmiki.com",
@@ -709,7 +711,6 @@ async function youTubeCobalt(url: string, audioOnly: boolean) {
         const downloadUrl = data.url as string;
         if (!downloadUrl) continue;
 
-        // Try to get video info from Invidious for metadata
         const videoId = extractYouTubeVideoId(url);
         const title = `YouTube Video${videoId ? ` ${videoId}` : ""}`;
         const thumbnail = videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : "";
@@ -930,15 +931,58 @@ async function youTubeInnerTubeWithVisitor(videoId: string, audioOnly: boolean) 
   return null;
 }
 
-/* ──────────────── YouTube Combined (v3 - External backends first) ─── */
+/* ──────────────── YouTube Strategy I: Fetch video metadata via oEmbed ─── */
+async function youTubeMetadata(videoId: string): Promise<{ title: string; author: string; thumbnail: string } | null> {
+  try {
+    const res = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`, {
+      headers: { "User-Agent": "Mova/1.0" },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return {
+      title: data.title || "YouTube Video",
+      author: data.author_name || "@unknown",
+      thumbnail: data.thumbnail_url || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/* ──────────────── YouTube Combined (v4 - Public APIs first, no deployment needed) ─── */
 async function downloadYouTube(url: string, audioOnly: boolean) {
   const videoId = extractYouTubeVideoId(url);
   if (!videoId) return null;
 
-  // ===== PHASE 1: External backends (BEST IP reputation) =====
-  // Cloudflare Worker & Deno Deploy run on edge networks with residential-like IPs
-  // These are the MOST RELIABLE strategies because YouTube can't detect them as bots
-  console.log(`YouTube: Phase 1 - External backends (CF Worker, Deno, yt-dlp, Cobalt self-hosted)...`);
+  // Fetch video metadata in the background (used for all strategies that don't return title)
+  const metadataPromise = youTubeMetadata(videoId);
+
+  // ===== PHASE 1: Public hosted APIs (run on THEIR infrastructure, not Vercel) =====
+  // These are the MOST RELIABLE strategies because YouTube sees their IPs, not Vercel's
+  console.log(`YouTube: Phase 1 - Public APIs (Cobalt, Piped, Invidious)...`);
+
+  const [cobaltResult, pipedResult, invidiousResult] = await Promise.all([
+    youTubeCobalt(url, audioOnly),
+    youTubePiped(videoId, audioOnly),
+    youTubeInvidious(videoId, audioOnly),
+  ]);
+
+  if (cobaltResult) {
+    console.log(`YouTube: Cobalt public API succeeded!`);
+    return cobaltResult;
+  }
+  if (pipedResult) {
+    console.log(`YouTube: Piped succeeded!`);
+    return pipedResult;
+  }
+  if (invidiousResult) {
+    console.log(`YouTube: Invidious succeeded!`);
+    return invidiousResult;
+  }
+
+  // ===== PHASE 2: External backends (if env vars are set) =====
+  console.log(`YouTube: Phase 1 failed. Phase 2 - External backends (CF Worker, Deno, yt-dlp, Cobalt self)...`);
 
   const [cfResult, denoResult, ytDlpResult, cobaltSelfResult] = await Promise.all([
     youTubeCfWorker(videoId, audioOnly),
@@ -964,13 +1008,23 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
     return cobaltSelfResult;
   }
 
-  // ===== PHASE 2: InnerTube API + Edge proxy (from Vercel, might work) =====
-  console.log(`YouTube: Phase 1 failed. Phase 2 - InnerTube + Edge proxy + visitorData...`);
+  // ===== PHASE 3: Third-party download services =====
+  console.log(`YouTube: Phase 2 failed. Phase 3 - Third-party services...`);
 
-  const [innerTubeResult, edgeResult, visitorResult] = await Promise.all([
+  const thirdPartyResult = await youTubeThirdParty(url, videoId, audioOnly);
+  if (thirdPartyResult) {
+    console.log(`YouTube: Third-party service succeeded!`);
+    return thirdPartyResult;
+  }
+
+  // ===== PHASE 4: InnerTube API (from Vercel, likely blocked) =====
+  console.log(`YouTube: Phase 3 failed. Phase 4 - InnerTube + Edge proxy (may fail from server IP)...`);
+
+  const [innerTubeResult, edgeResult, visitorResult, scrapeResult] = await Promise.all([
     youTubeInnerTube(videoId, audioOnly),
     youTubeEdgeProxy(videoId, audioOnly),
     youTubeInnerTubeWithVisitor(videoId, audioOnly),
+    youTubePageScrape(videoId, audioOnly),
   ]);
 
   if (innerTubeResult) {
@@ -985,49 +1039,48 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
     console.log(`YouTube: InnerTube+visitor succeeded!`);
     return visitorResult;
   }
-
-  // ===== PHASE 3: Third-party APIs (Piped, Invidious, Cobalt public) =====
-  console.log(`YouTube: Phase 2 failed. Phase 3 - Piped, Invidious, Cobalt public...`);
-
-  const [pipedResult, invidiousResult, cobaltResult] = await Promise.all([
-    youTubePiped(videoId, audioOnly),
-    youTubeInvidious(videoId, audioOnly),
-    youTubeCobalt(url, audioOnly),
-  ]);
-
-  if (pipedResult) {
-    console.log(`YouTube: Piped succeeded!`);
-    return pipedResult;
-  }
-  if (invidiousResult) {
-    console.log(`YouTube: Invidious succeeded!`);
-    return invidiousResult;
-  }
-  if (cobaltResult) {
-    console.log(`YouTube: Cobalt public succeeded!`);
-    return cobaltResult;
-  }
-
-  // ===== PHASE 4: Last resort (page scrape + third-party services) =====
-  console.log(`YouTube: Phase 3 failed. Phase 4 - Page scraping + third-party services...`);
-
-  const [scrapeResult, thirdPartyResult] = await Promise.all([
-    youTubePageScrape(videoId, audioOnly),
-    youTubeThirdParty(url, videoId, audioOnly),
-  ]);
-
   if (scrapeResult) {
     console.log(`YouTube: Page scraping succeeded!`);
     return scrapeResult;
   }
-  if (thirdPartyResult) {
-    console.log(`YouTube: Third-party service succeeded!`);
-    return thirdPartyResult;
-  }
 
-  console.log(`YouTube: ALL strategies failed for video: ${videoId}`);
-  console.log(`HINT: Deploy Cloudflare Worker (yt-worker) or Deno Deploy (youtube-proxy) for reliable YouTube downloads`);
-  return null;
+  // ===== PHASE 5: Redirect Fallback =====
+  // All API-based methods failed - generate a redirect to external download service
+  // This gives the user a working download link even when all APIs are blocked
+  console.log(`YouTube: All API strategies failed. Generating redirect fallback...`);
+
+  const metadata = await metadataPromise;
+  const title = metadata?.title || "YouTube Video";
+  const author = metadata?.author || "@unknown";
+  const thumbnail = metadata?.thumbnail || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+
+  // Generate external download links as fallback
+  const redirectUrls = [
+    `https://ssyoutube.com/watch?v=${videoId}`,
+    `https://10downloader.com/download?v=https://www.youtube.com/watch?v=${videoId}`,
+    `https://y2mate.com/youtube/${videoId}`,
+  ];
+
+  // Return a special result with redirect info - the frontend will handle this
+  return {
+    title,
+    thumbnail,
+    duration: "--:--",
+    author,
+    platform: "YouTube",
+    downloadUrl: redirectUrls[0],
+    qualityOptions: [
+      { label: audioOnly ? "Audio" : "Video", resolution: audioOnly ? "MP3" : "Auto", url: redirectUrls[0] },
+    ],
+    filename: `mova_youtube_${videoId}`,
+    isRedirect: true,
+    redirectUrls,
+  } as Record<string, unknown> & {
+    title: string; thumbnail: string; duration: string; author: string;
+    platform: string; downloadUrl: string;
+    qualityOptions: { label: string; resolution: string; url: string }[];
+    filename: string;
+  };
 }
 
 /* ──────────────── Instagram Downloader ─── */
@@ -1705,6 +1758,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         error: platformErrors[platform] || "Gagal mengunduh video. Video mungkin dibatasi atau privat. Pastikan link video publik dan coba lagi.",
       }, { status: 500 });
+    }
+
+    // Check if this is a redirect fallback result (external download service link)
+    const isRedirect = (result as Record<string, unknown>).isRedirect === true;
+    const redirectUrls = (result as Record<string, unknown>).redirectUrls as string[] | undefined;
+
+    if (isRedirect) {
+      // For redirect results, don't proxy URLs - these are external web pages, not video streams
+      return NextResponse.json(
+        {
+          ...result,
+          isRedirect: true,
+          redirectUrls: redirectUrls || [result.downloadUrl],
+          originalDownloadUrl: result.downloadUrl,
+          qualityOptions: result.qualityOptions.map((q) => ({
+            ...q,
+            originalUrl: q.url,
+          })),
+        },
+        { status: 200 }
+      );
     }
 
     // Convert download URLs to proxy URLs to avoid CORS issues
