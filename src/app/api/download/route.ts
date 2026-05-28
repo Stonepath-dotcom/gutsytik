@@ -870,14 +870,15 @@ export async function POST(request: NextRequest) {
       }));
       downloadUrl = result.downloadUrl;
     } else if (isYouTubeGooglevideo) {
-      // Route through CF Worker /download — same Cloudflare IP that got the URLs = no IP mismatch!
-      const cfProxyBase = `${CF_WORKER_URL}/download`;
+      // Route through /api/yt-download → redirects to CF Worker /download
+      // Using redirect avoids popup blocker and cross-origin issues
+      const ytDownloadBase = "/api/yt-download";
       proxiedQualityOptions = result.qualityOptions.map((q) => ({
         ...q,
         originalUrl: q.originalUrl || q.url,
-        url: `${cfProxyBase}?url=${encodeURIComponent(q.url)}&filename=${encodeURIComponent(result.filename)}&quality=${encodeURIComponent(q.label)}`,
+        url: `${ytDownloadBase}?url=${encodeURIComponent(q.url)}&filename=${encodeURIComponent(result.filename)}&quality=${encodeURIComponent(q.label)}`,
       }));
-      downloadUrl = `${cfProxyBase}?url=${encodeURIComponent(result.downloadUrl)}&filename=${encodeURIComponent(result.filename)}&quality=best`;
+      downloadUrl = `${ytDownloadBase}?url=${encodeURIComponent(result.downloadUrl)}&filename=${encodeURIComponent(result.filename)}&quality=best`;
     } else {
       // Route through Vercel proxy (for TikTok, Instagram, etc.)
       proxiedQualityOptions = result.qualityOptions.map((q) => ({

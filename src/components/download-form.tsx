@@ -90,25 +90,31 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
       return;
     }
 
+    const downloadUrl = q.url;
+
+    // YouTube downloads: URL is /api/yt-download?url=... which redirects to CF Worker
+    // CF Worker streams the file with Content-Disposition: attachment
+    // Just navigate directly — no popup blocker issues since it's same domain redirect
+    if (downloadUrl.startsWith("/api/yt-download")) {
+      setDownloading(true);
+      try {
+        window.location.href = downloadUrl;
+      } catch {
+        // Fallback: open in new tab
+        window.open(downloadUrl, "_blank", "noopener,noreferrer");
+      }
+      setTimeout(() => setDownloading(false), 3000);
+      return;
+    }
+
     const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
     const downloadName = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
     const isAudio = q.resolution === "MP3" || q.label === "Audio";
-    const downloadUrl = q.url;
     const fallbackUrl = q.originalUrl || q.url;
-    const isCFWorkerDownload = downloadUrl.includes("workers.dev/download");
 
     setDownloading(true);
 
     try {
-      // Strategy 0: CF Worker /download — just open in new tab
-      // CF Worker already sets Content-Disposition: attachment + streams directly
-      // No need to fetch+blob (which is slow/fails for large videos)
-      if (isCFWorkerDownload) {
-        window.open(downloadUrl, "_blank", "noopener,noreferrer");
-        setDownloading(false);
-        return;
-      }
-
       // Strategy 1: fetch + blob + createObjectURL (cleanest UX, no new tab)
       // Only for small files (audio, or video proxied through Vercel /api/proxy)
       if (isAudio || downloadUrl.startsWith("/api/proxy")) {
@@ -139,7 +145,6 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
       }
 
       // Strategy 2: <a> tag with download attribute
-      // For cross-origin URLs with Content-Disposition: attachment, browser will download
       try {
         const a = document.createElement("a");
         a.href = downloadUrl;
