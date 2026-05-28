@@ -10,8 +10,12 @@ const API_KEYS = [
 
 const CLIENTS = [
   {
+    clientName: "MWEB",
+    clientVersion: "2.20250526.07.00",
+  },
+  {
     clientName: "ANDROID_VR",
-    clientVersion: "1.60.2",
+    clientVersion: "1.64.3",
     androidSdkVersion: 34,
     osName: "Android",
     osVersion: "14",
@@ -22,10 +26,10 @@ const CLIENTS = [
   },
   {
     clientName: "ANDROID",
-    clientVersion: "19.29.37",
-    androidSdkVersion: 30,
+    clientVersion: "20.10.38",
+    androidSdkVersion: 34,
     osName: "Android",
-    osVersion: "11",
+    osVersion: "14",
   },
   {
     clientName: "IOS",
@@ -34,7 +38,15 @@ const CLIENTS = [
   },
   {
     clientName: "WEB_EMBEDDED_PLAYER",
-    clientVersion: "1.20241217.01.00",
+    clientVersion: "2.20250526.00.00",
+  },
+  {
+    clientName: "WEB_CREATOR",
+    clientVersion: "1.20250526.00.00",
+  },
+  {
+    clientName: "WEB_REMIX",
+    clientVersion: "1.20250526.00.00",
   },
 ];
 
@@ -80,6 +92,11 @@ Deno.serve(async (req: Request) => {
             context.thirdParty = { embedUrl: "https://www.google.com" };
           }
 
+          // Generate content playback nonce (cpn)
+          const cpnChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
+          let cpn = "";
+          for (let i = 0; i < 16; i++) cpn += cpnChars[Math.floor(Math.random() * cpnChars.length)];
+
           const response = await fetch(
             `https://www.youtube.com/youtubei/v1/player?prettyPrint=false&key=${key}`,
             {
@@ -90,7 +107,7 @@ Deno.serve(async (req: Request) => {
                 "Referer": "https://www.youtube.com/",
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
               },
-              body: JSON.stringify({ videoId, context }),
+              body: JSON.stringify({ videoId, context, contentCheckOk: true, racyCheckOk: true, cpn }),
               signal: AbortSignal.timeout(8000),
             }
           );

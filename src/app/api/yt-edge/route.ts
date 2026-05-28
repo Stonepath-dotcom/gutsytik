@@ -18,6 +18,10 @@ const CLIENTS: Array<{
   thirdParty?: { embedUrl: string };
 }> = [
   {
+    clientName: "MWEB",
+    clientVersion: "2.20250526.07.00",
+  },
+  {
     clientName: "TVHTML5_SIMPLY_EMBEDDED_PLAYER",
     clientVersion: "2.0",
     extra: { clientScreen: "EMBED" },
@@ -25,18 +29,18 @@ const CLIENTS: Array<{
   },
   {
     clientName: "WEB_EMBEDDED_PLAYER",
-    clientVersion: "2.20250101.00.00",
+    clientVersion: "2.20250526.00.00",
     extra: { clientScreen: "EMBED" },
     thirdParty: { embedUrl: "https://www.google.com" },
   },
   {
-    clientName: "ANDROID",
-    clientVersion: "20.10.38",
+    clientName: "ANDROID_VR",
+    clientVersion: "1.64.3",
     extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14" },
   },
   {
-    clientName: "ANDROID_VR",
-    clientVersion: "1.64.3",
+    clientName: "ANDROID",
+    clientVersion: "20.10.38",
     extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14" },
   },
   {
@@ -45,18 +49,26 @@ const CLIENTS: Array<{
     extra: { deviceModel: "iPhone16,2" },
   },
   {
-    clientName: "ANDROID",
-    clientVersion: "20.29.37",
-    extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14" },
-  },
-  {
     clientName: "ANDROID_VR",
     clientVersion: "1.62.2",
     extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14" },
   },
   {
+    clientName: "ANDROID",
+    clientVersion: "20.29.37",
+    extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14" },
+  },
+  {
     clientName: "WEB_CREATOR",
-    clientVersion: "1.20250101.00.00",
+    clientVersion: "1.20250526.00.00",
+  },
+  {
+    clientName: "WEB_REMIX",
+    clientVersion: "1.20250526.00.00",
+  },
+  {
+    clientName: "WEB",
+    clientVersion: "2.20250526.00.00",
   },
 ];
 
@@ -84,6 +96,11 @@ export async function POST(request: NextRequest) {
           };
           if (client.thirdParty) context.thirdParty = client.thirdParty;
 
+          // Generate content playback nonce (cpn)
+          const cpnChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
+          let cpn = "";
+          for (let i = 0; i < 16; i++) cpn += cpnChars[Math.floor(Math.random() * cpnChars.length)];
+
           const response = await fetch(
             `https://www.youtube.com/youtubei/v1/player?prettyPrint=false&key=${key}`,
             {
@@ -94,7 +111,7 @@ export async function POST(request: NextRequest) {
                 "Referer": "https://www.youtube.com/",
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
               },
-              body: JSON.stringify({ videoId, context, contentCheckOk: true, racyCheckOk: true }),
+              body: JSON.stringify({ videoId, context, contentCheckOk: true, racyCheckOk: true, cpn }),
             }
           );
 
