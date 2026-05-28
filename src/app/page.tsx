@@ -7,14 +7,12 @@ import {
   Menu, X, ChevronDown, Play, Clock, User, Loader2,
   AlertCircle, Film, Music, Sun, Moon,
   Share2, Bookmark, Copy, Eye, EyeOff,
-  Link as LinkIcon, HelpCircle, ArrowRight,
+  Link as LinkIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MovaLogo } from "@/components/mova-logo";
 import { useToast } from "@/hooks/use-toast";
-import { AdUnit } from "@/components/ad-unit";
-import Image from "next/image";
 
 /* ──────── Types ──────── */
 interface QualityOption { label: string; resolution: string; url: string; originalUrl?: string; }
@@ -95,7 +93,7 @@ interface PlatformDef {
 const PLATFORMS: PlatformDef[] = [
   { name: "TikTok", color: "#010101", Icon: TikTokIcon },
   { name: "YouTube", color: "#FF0000", Icon: YouTubeIcon },
-  { name: "Instagram", color: "#E1306C", gradient: "linear-gradient(135deg, #833AB4, #FD1D1D, #F77737)", Icon: InstagramIcon },
+  { name: "Instagram", gradient: "linear-gradient(135deg, #833AB4, #FD1D1D, #F77737)", Icon: InstagramIcon },
   { name: "Facebook", color: "#1877F2", Icon: FacebookIcon },
   { name: "Twitter/X", color: "#14171A", Icon: TwitterXIcon },
   { name: "Pinterest", color: "#E60023", Icon: PinterestIcon },
@@ -111,9 +109,7 @@ const HISTORY_KEY = "mova_history";
 const BOOKMARK_KEY = "mova_bookmarks";
 const LANG_KEY = "mova_lang";
 const MAX_HISTORY = 20;
-const ACCENT = "#10B981";
-const ACCENT_BG = "bg-emerald-50";
-const ACCENT_TEXT = "text-emerald-600";
+const ACCENT = "#6366F1";
 
 /* ──────── Translations (ID/EN) ──────── */
 const translations: Record<string, Record<string, string>> = {
@@ -249,10 +245,11 @@ function detectPlatform(urlStr: string): string {
   return "Unknown";
 }
 
-/* ──────── Navbar ──────── */
+/* ══════════════════════════════════════════════════
+   NAVBAR — Glassmorphism
+   ══════════════════════════════════════════════════ */
 function Navbar() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { setTheme, theme } = useTheme();
   const { lang, setLang, t } = useLanguage();
@@ -270,76 +267,60 @@ function Navbar() {
 
   useEffect(() => {
     if (!open) return;
-    const handler = (e: Event) => {
+    const handler = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setOpen(false);
     };
     document.addEventListener("mousedown", handler);
-    document.addEventListener("touchstart", handler as EventListener);
-    return () => { document.removeEventListener("mousedown", handler); document.removeEventListener("touchstart", handler as EventListener); };
+    document.addEventListener("touchstart", handler);
+    return () => { document.removeEventListener("mousedown", handler); document.removeEventListener("touchstart", handler); };
   }, [open]);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 bg-background transition-colors duration-200 ${
-        scrolled ? "border-b border-border" : "border-b border-transparent"
-      }`}
-    >
-      <div className="mx-auto max-w-5xl h-12 md:h-14 flex items-center justify-between px-4 md:px-6">
-        <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="getmova - Home">
-          <MovaLogo size={24} showText={true} />
+    <header className="fixed top-0 left-0 right-0 z-50 glass-nav gradient-border">
+      <div className="mx-auto max-w-6xl h-14 md:h-16 flex items-center justify-between px-4 md:px-6">
+        <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="Mova - Home">
+          <MovaLogo size={28} showText={true} />
         </a>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-0">
-          {navLinks.map((l, i) => (
-            <React.Fragment key={l.href}>
-              {i > 0 && <span className="text-muted-foreground/30 mx-1 text-[10px]">&#8226;</span>}
-              <a href={l.href} className="px-2.5 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">{l.label}</a>
-            </React.Fragment>
+        <nav className="hidden md:flex items-center gap-1">
+          {navLinks.map(l => (
+            <a key={l.href} href={l.href} className="px-3 py-2 text-sm font-medium dark:text-white/60 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-white/5">{l.label}</a>
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-1.5">
-          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs font-bold" aria-label="Toggle language">
+        <div className="hidden md:flex items-center gap-2">
+          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-9 w-9 flex items-center justify-center rounded-lg dark:text-white/60 dark:hover:text-white dark:hover:bg-white/10 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs font-bold" aria-label="Toggle language">
             {lang === "id" ? "EN" : "ID"}
           </button>
-          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors" aria-label="Toggle theme">
+          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-9 w-9 flex items-center justify-center rounded-lg dark:text-white/60 dark:hover:text-white dark:hover:bg-white/10 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors" aria-label="Toggle theme">
             {mounted ? (theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />) : <Sun className="h-4 w-4" />}
           </button>
           <a href="#hero">
-            <Button variant="outline" size="sm" className="h-8 px-4 border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white font-medium rounded-md transition-colors text-sm">
-              <Download className="mr-1 h-3.5 w-3.5" />{t("nav.download")}
+            <Button size="sm" className="h-9 px-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity text-sm btn-shimmer">
+              <Download className="mr-1.5 h-3.5 w-3.5" />{t("nav.download")}
             </Button>
           </a>
         </div>
 
-        {/* Mobile buttons */}
-        <div className="flex md:hidden items-center gap-0.5">
-          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground text-[10px] font-bold">{lang === "id" ? "EN" : "ID"}</button>
-          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground">
+        <div className="flex md:hidden items-center gap-1">
+          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="h-8 w-8 flex items-center justify-center rounded-lg dark:text-white/60 text-muted-foreground text-[10px] font-bold">{lang === "id" ? "EN" : "ID"}</button>
+          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-8 w-8 flex items-center justify-center rounded-lg dark:text-white/60 text-muted-foreground">
             {mounted ? (theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />) : <Sun className="h-4 w-4" />}
           </button>
-          <button onClick={() => setOpen(!open)} className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground" aria-label="Menu">
-            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          <button onClick={() => setOpen(!open)} className="h-8 w-8 flex items-center justify-center rounded-lg dark:text-white/60 text-muted-foreground" aria-label="Menu">
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
       {open && (
-        <div ref={menuRef} className="md:hidden border-t border-border bg-background">
-          <div className="px-4 py-2 space-y-0.5">
+        <div ref={menuRef} className="md:hidden glass border-t dark:border-white/5 border-border/50">
+          <div className="px-4 py-3 space-y-0.5">
             {navLinks.map(l => (
-              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="block px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors">{l.label}</a>
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium dark:text-white/60 dark:hover:text-white dark:hover:bg-white/10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-colors">{l.label}</a>
             ))}
             <a href="#hero" onClick={() => setOpen(false)} className="block pt-1">
-              <Button variant="outline" className="w-full border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white font-medium rounded-md">
+              <Button className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold rounded-lg btn-shimmer">
                 <Download className="mr-2 h-4 w-4" />{t("nav.download")}
               </Button>
             </a>
@@ -350,7 +331,9 @@ function Navbar() {
   );
 }
 
-/* ──────── Hero / Download Section ──────── */
+/* ══════════════════════════════════════════════════
+   HERO — Full Viewport with Aurora + Glassmorphism
+   ══════════════════════════════════════════════════ */
 function HeroSection() {
   const { t } = useLanguage();
   const [url, setUrl] = useState("");
@@ -369,8 +352,8 @@ function HeroSection() {
   const { toast, dismiss } = useToast();
 
   const showToast = useCallback((title: string, desc: string, variant: "default" | "destructive" = "default") => {
-    const result = toast({ title, description: desc, variant });
-    setTimeout(() => dismiss(result.id), 3000);
+    const id = toast({ title, description: desc, variant });
+    setTimeout(() => dismiss(id), 3000);
   }, [toast, dismiss]);
 
   useEffect(() => {
@@ -432,128 +415,73 @@ function HeroSection() {
   const handleDownload = useCallback(async () => {
     if (!result || downloading) return;
     const q = result.qualityOptions[selectedQuality];
-    if (!q) {
-      showToast(t("error.downloadFail"), "", "destructive");
-      return;
-    }
+    if (!q) { showToast(t("error.downloadFail"), "", "destructive"); return; }
 
     const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
     const downloadName = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
-    const isAudio = q.resolution === "MP3" || q.label === "Audio" || q.label === "Audio (Low)";
+    const isAudio = q.resolution === "MP3" || q.label === "Audio";
     const downloadUrl = q.url;
     const fallbackUrl = q.originalUrl || q.url;
 
     setDownloading(true);
 
-    const saveHistory = () => {
-      saveToHistory({
-        id: Date.now().toString(), title: result.title, platform: result.platform,
-        author: result.author, thumbnail: result.thumbnail, duration: result.duration,
-        url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now(),
-      });
-    };
-
     try {
-      // === YOUTUBE DOWNLOADS (via /api/yt-download → CF Worker redirect) ===
-      if (downloadUrl.startsWith("/api/yt-download")) {
+      if (isAudio) {
         try {
           const res = await fetch(downloadUrl);
           if (res.ok) {
-            const contentLength = parseInt(res.headers.get("content-length") || "0");
-            const sizeMB = contentLength / (1024 * 1024);
-
-            // For audio or files under 80MB: use blob download (most reliable on mobile)
-            if (isAudio || sizeMB < 80 || contentLength === 0) {
-              const blob = await res.blob();
-              if (blob.size > 1000) {
-                const blobUrl = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = blobUrl;
-                a.download = downloadName;
-                a.style.display = "none";
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                setTimeout(() => URL.revokeObjectURL(blobUrl), 30000);
-                saveHistory();
-                showToast(t("toast.downloadStart"), isAudio ? "MP3" : "");
-                setDownloading(false);
-                return;
-              }
+            const blob = await res.blob();
+            if (blob.size > 1000) {
+              const blobUrl = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = blobUrl; a.download = downloadName; a.style.display = "none";
+              document.body.appendChild(a); a.click(); document.body.removeChild(a);
+              setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+              saveToHistory({ id: Date.now().toString(), title: result.title, platform: result.platform, author: result.author, thumbnail: result.thumbnail, duration: result.duration, url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now() });
+              showToast(t("toast.downloadStart"), "MP3");
+              setDownloading(false);
+              return;
             }
-            // For large video files (>80MB): use window.location.href
-            window.location.href = downloadUrl;
-            saveHistory();
-            showToast(t("toast.downloadStart"), "");
-            setDownloading(false);
-            return;
-          } else {
-            let errorMsg = "Gagal mengunduh video. Coba lagi nanti.";
-            try { const errData = await res.json(); if (errData.error) errorMsg = errData.error; } catch {}
-            showToast("Download gagal", errorMsg, "destructive");
-            setDownloading(false);
-            return;
           }
-        } catch {
-          try { window.location.href = downloadUrl; saveHistory(); } catch {}
-          setDownloading(false);
-          return;
-        }
-      }
+        } catch (e) { console.log("Proxy fetch+blob failed", e); }
 
-      // === NON-YOUTUBE: Audio/Proxy fetch+blob ===
-      if (isAudio || downloadUrl.startsWith("/api/proxy")) {
-        try {
-          const res = await fetch(downloadUrl);
-          if (res.ok) {
-            const contentLength = parseInt(res.headers.get("content-length") || "0");
-            const sizeMB = contentLength / (1024 * 1024);
-            if (isAudio || sizeMB < 50 || contentLength === 0) {
+        if (fallbackUrl !== downloadUrl) {
+          try {
+            const res = await fetch(fallbackUrl);
+            if (res.ok) {
               const blob = await res.blob();
               if (blob.size > 1000) {
                 const blobUrl = URL.createObjectURL(blob);
                 const a = document.createElement("a");
-                a.href = blobUrl;
-                a.download = downloadName;
-                a.style.display = "none";
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+                a.href = blobUrl; a.download = downloadName; a.style.display = "none";
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
                 setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
-                saveHistory();
-                showToast(t("toast.downloadStart"), isAudio ? "MP3" : "");
+                saveToHistory({ id: Date.now().toString(), title: result.title, platform: result.platform, author: result.author, thumbnail: result.thumbnail, duration: result.duration, url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now() });
+                showToast(t("toast.downloadStart"), "MP3");
                 setDownloading(false);
                 return;
               }
             }
-          }
-        } catch (e) {
-          console.log("Proxy fetch+blob failed", e);
+          } catch (e) { console.log("Original URL fetch+blob also failed", e); }
         }
       }
 
-      // === Fallback: <a> tag ===
       try {
         const a = document.createElement("a");
-        a.href = downloadUrl;
-        a.download = downloadName;
-        a.style.display = "none";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        saveHistory();
+        a.href = downloadUrl; a.download = downloadName; a.target = "_blank"; a.rel = "noopener noreferrer"; a.style.display = "none";
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        saveToHistory({ id: Date.now().toString(), title: result.title, platform: result.platform, author: result.author, thumbnail: result.thumbnail, duration: result.duration, url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now() });
         showToast(t("toast.downloadStart"), "");
-      } catch (e) {
-        console.log("<a> tag approach failed", e);
-        try { window.open(fallbackUrl, "_blank"); saveHistory(); } catch {
-          showToast(t("error.downloadFail"), "", "destructive");
-        }
-      }
+        setDownloading(false);
+        return;
+      } catch (e) { console.log("<a> tag approach failed", e); }
+
+      window.open(downloadUrl, "_blank");
+      saveToHistory({ id: Date.now().toString(), title: result.title, platform: result.platform, author: result.author, thumbnail: result.thumbnail, duration: result.duration, url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now() });
+      showToast(t("toast.downloadStart"), "");
     } catch (e) {
       console.error("Download failed:", e);
-      try { window.open(fallbackUrl, "_blank"); } catch {
-        showToast(t("error.downloadFail"), "", "destructive");
-      }
+      try { window.open(fallbackUrl, "_blank"); } catch { showToast(t("error.downloadFail"), "", "destructive"); }
     } finally {
       setDownloading(false);
     }
@@ -575,11 +503,7 @@ function HeroSection() {
       setIsBookmarkedState(false);
       showToast(t("toast.bookmarkRemoved"), "");
     } else {
-      saveBookmark({
-        id: Date.now().toString(), title: result.title, platform: result.platform,
-        author: result.author, thumbnail: result.thumbnail, duration: result.duration,
-        url: url.trim(), timestamp: Date.now(),
-      });
+      saveBookmark({ id: Date.now().toString(), title: result.title, platform: result.platform, author: result.author, thumbnail: result.thumbnail, duration: result.duration, url: url.trim(), timestamp: Date.now() });
       setIsBookmarkedState(true);
       showToast(t("toast.bookmarkAdded"), "");
     }
@@ -596,75 +520,83 @@ function HeroSection() {
       const res = await fetch(result.thumbnail);
       const blob = await res.blob();
       const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = `mova_thumb_${Date.now()}.jpg`;
+      a.href = URL.createObjectURL(blob); a.download = `mova_thumb_${Date.now()}.jpg`;
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       URL.revokeObjectURL(a.href);
     } catch {}
   }, [result]);
 
-  const detectedPlatform = result ? detectPlatform(url) : url.trim() ? detectPlatform(url) : null;
-  const platformDef = detectedPlatform ? getPlatformDef(detectedPlatform) : null;
-
   return (
-    <section id="hero" className="pt-20 md:pt-28 pb-8 md:pb-16 px-4 md:px-6">
-      <div className="mx-auto max-w-2xl text-center">
-        {/* Title */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 font-[family-name:var(--font-montserrat)] leading-[1.1] tracking-tight text-foreground">
-          {audioMode ? t("hero.audioTitle") : t("hero.title")}{" "}
-          <span className="text-[#10B981]">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
-        </h1>
-        <p className="text-sm md:text-base text-muted-foreground mb-2 max-w-lg mx-auto leading-relaxed">
-          {audioMode ? t("hero.audioSubtitle") : t("hero.subtitle")}
-        </p>
-        <p className="text-[11px] md:text-xs text-muted-foreground/60 mb-6 md:mb-8">{t("hero.badge")}</p>
+    <section id="hero" className="hero-aurora min-h-screen flex items-center pt-20 md:pt-0 pb-8 md:pb-0 px-4 md:px-6">
+      <div className="relative z-10 mx-auto max-w-4xl text-center w-full py-8 md:py-0">
+        {/* Floating decorative orbs */}
+        <div className="absolute -top-20 -left-32 w-64 h-64 rounded-full bg-indigo-500/10 blur-3xl glow-pulse pointer-events-none hidden md:block" />
+        <div className="absolute -bottom-10 -right-20 w-48 h-48 rounded-full bg-purple-500/10 blur-3xl glow-pulse pointer-events-none hidden md:block" style={{ animationDelay: "1.5s" }} />
 
-        {/* Video/Audio pill toggle */}
-        <div className="flex items-center justify-center mb-5 md:mb-6">
-          <div className="inline-flex items-center rounded-full border border-border p-0.5">
-            <button onClick={() => { setAudioMode(false); setResult(null); setError(""); }} className={`px-4 py-1.5 text-[13px] md:text-sm font-medium rounded-full transition-colors ${!audioMode ? "bg-[#10B981] text-white" : "text-muted-foreground hover:text-foreground"}`}>
-              <Film className="h-3.5 w-3.5 inline mr-1" />{t("tab.video")}
-            </button>
-            <button onClick={() => { setAudioMode(true); setResult(null); setError(""); }} className={`px-4 py-1.5 text-[13px] md:text-sm font-medium rounded-full transition-colors ${audioMode ? "bg-[#10B981] text-white" : "text-muted-foreground hover:text-foreground"}`}>
-              <Music className="h-3.5 w-3.5 inline mr-1" />{t("tab.audio")}
-            </button>
-          </div>
+        {/* Badge */}
+        <div className="mb-5 md:mb-8 inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass">
+          <Zap className="h-3.5 w-3.5 text-yellow-400" />
+          <span className="text-[11px] md:text-sm font-medium dark:text-white/80 text-foreground">{t("hero.badge")}</span>
         </div>
 
-        {/* Input */}
-        <div className="max-w-xl mx-auto space-y-2.5 md:space-y-0 md:flex md:items-center md:gap-2">
-          <div className="flex-1 relative">
-            <LinkIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              ref={inputRef}
-              value={url}
-              onChange={e => setUrl(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && handleAnalyze()}
-              placeholder={audioMode ? t("input.audioPlaceholder") : t("input.placeholder")}
-              className="h-11 md:h-12 bg-card border border-border rounded-lg text-sm md:text-base pl-10 pr-10 text-card-foreground placeholder:text-muted-foreground focus:border-[#10B981] focus:ring-0"
-            />
+        {/* Title */}
+        <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 md:mb-6 font-[family-name:var(--font-montserrat)] leading-[1.1] tracking-tight dark:text-white text-foreground">
+          {audioMode ? t("hero.audioTitle") : t("hero.title")}{" "}
+          <span className="gradient-text">{audioMode ? t("hero.audioTitleHighlight") : t("hero.titleHighlight")}</span>
+        </h1>
+        <p className="text-sm sm:text-base md:text-lg dark:text-white/50 text-muted-foreground mb-7 md:mb-10 max-w-xl md:max-w-2xl mx-auto leading-relaxed">
+          {audioMode ? t("hero.audioSubtitle") : t("hero.subtitle")}
+        </p>
+
+        {/* Video/Audio tabs */}
+        <div className="flex items-center justify-center mb-6 md:mb-8">
+          <button onClick={() => { setAudioMode(false); setResult(null); setError(""); }} className={`px-5 md:px-6 py-2.5 text-[13px] md:text-sm font-medium rounded-l-xl border transition-all ${!audioMode ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white border-transparent" : "glass dark:text-white/60 dark:hover:text-white dark:hover:bg-white/5 text-muted-foreground border-border hover:bg-muted/80"}`}>
+            <Film className="h-3.5 w-3.5 md:h-4 md:w-4 inline mr-1.5" />{t("tab.video")}
+          </button>
+          <button onClick={() => { setAudioMode(true); setResult(null); setError(""); }} className={`px-5 md:px-6 py-2.5 text-[13px] md:text-sm font-medium rounded-r-xl border transition-all ${audioMode ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white border-transparent" : "glass dark:text-white/60 dark:hover:text-white dark:hover:bg-white/5 text-muted-foreground border-border hover:bg-muted/80"}`}>
+            <Music className="h-3.5 w-3.5 md:h-4 md:w-4 inline mr-1.5" />{t("tab.audio")}
+          </button>
+        </div>
+
+        {/* Glassmorphism Input Card */}
+        <div className="relative max-w-2xl mx-auto">
+          <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 rounded-2xl blur-xl opacity-60 pointer-events-none" />
+          <div className="relative glass-card p-3 md:p-4 glow-indigo">
+            <div className="space-y-2.5 md:space-y-0 md:flex md:items-center md:gap-2.5">
+              <div className="flex-1 relative">
+                <LinkIcon className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 h-4 w-4 dark:text-white/40 text-muted-foreground" />
+                <Input
+                  ref={inputRef}
+                  value={url}
+                  onChange={e => setUrl(e.target.value)}
+                  onKeyDown={e => e.key === "Enter" && handleAnalyze()}
+                  placeholder={audioMode ? t("input.audioPlaceholder") : t("input.placeholder")}
+                  className="h-12 md:h-14 dark:bg-white/5 bg-white border dark:border-white/10 border-border rounded-xl text-[15px] md:text-lg pl-10 md:pl-11 pr-10 md:pr-12 dark:text-white text-card-foreground dark:placeholder:text-white/30 placeholder:text-muted-foreground focus:border-indigo-500/50 focus:ring-2 focus:ring-indigo-500/20"
+                />
+              </div>
+              <Button onClick={handleAnalyze} disabled={loading} className="w-full md:w-auto h-12 md:h-14 px-6 md:px-8 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold rounded-xl hover:opacity-90 active:scale-[0.98] shrink-0 text-[15px] md:text-base transition-opacity btn-shimmer">
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 mr-1.5" />}
+                <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
+              </Button>
+            </div>
           </div>
-          <Button onClick={handleAnalyze} disabled={loading} className="w-full md:w-auto h-11 md:h-12 px-6 bg-[#10B981] text-white font-medium rounded-lg hover:bg-[#059669] shrink-0 text-sm transition-colors">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 mr-1.5" />}
-            <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
-          </Button>
         </div>
 
         {/* Trust line */}
-        <div className="flex items-center justify-center gap-2 md:gap-3 text-[11px] md:text-xs text-muted-foreground/60 mt-4 md:mt-5">
-          <span className="flex items-center gap-1"><Shield className="h-3 w-3" />SSL Secure</span>
-          <span className="text-muted-foreground/30">&#8226;</span>
+        <div className="flex items-center justify-center gap-3 md:gap-5 text-[12px] md:text-sm dark:text-white/40 text-muted-foreground mt-5 md:mt-6">
+          <span className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5" />SSL Secure</span>
+          <span className="dark:text-white/15 text-border">|</span>
           <span>No Signup</span>
-          <span className="text-muted-foreground/30">&#8226;</span>
+          <span className="dark:text-white/15 text-border">|</span>
           <span>100% Free</span>
         </div>
 
-        {/* Platform hints - subtle */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-3 mt-4">
+        {/* Platform hints */}
+        <div className="flex flex-wrap justify-center gap-1.5 md:gap-3 mt-4 md:mt-5">
           {PLATFORMS.map(p => {
             const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
             return (
-              <a key={p.name} href={`/${slug}`} className="inline-flex items-center gap-1 text-[11px] text-muted-foreground/50 hover:text-muted-foreground transition-colors">
+              <a key={p.name} href={`/${slug}`} className="inline-flex items-center gap-1 text-[11px] md:text-[13px] dark:text-white/30 dark:hover:text-white/70 dark:hover:bg-white/5 text-muted-foreground/60 hover:text-foreground hover:bg-muted/50 transition-colors font-medium px-2 py-1 rounded-md">
                 <p.Icon className="h-3 w-3" />{p.name}
               </a>
             );
@@ -673,50 +605,50 @@ function HeroSection() {
 
         {/* Loading */}
         {loading && !error && (
-          <div className="max-w-lg mx-auto mt-5 p-3 rounded-lg border border-border flex items-center gap-2">
-            <Loader2 className="h-4 w-4 text-foreground animate-spin shrink-0" />
-            <p className="text-foreground text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
+          <div className="max-w-lg mx-auto mt-5 md:mt-6 p-3 rounded-xl glass flex items-center gap-2">
+            <Loader2 className="h-4 w-4 dark:text-white text-foreground animate-spin shrink-0" />
+            <p className="dark:text-white text-foreground text-[13px] md:text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
           </div>
         )}
 
         {/* Error */}
         {error && (
-          <div className="max-w-lg mx-auto mt-5 p-3 rounded-lg bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 flex items-start gap-2">
-            <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 shrink-0" />
-            <p className="text-red-600 dark:text-red-400 text-sm text-left">{error}</p>
+          <div className="max-w-lg mx-auto mt-5 md:mt-6 p-3 rounded-xl bg-red-500/10 border border-red-500/20 flex items-start gap-2">
+            <AlertCircle className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+            <p className="text-red-400 text-[13px] md:text-sm text-left">{error}</p>
           </div>
         )}
 
         {/* Result card */}
         {result && (
-          <div ref={resultRef} className="max-w-lg mx-auto mt-5 rounded-lg border border-border overflow-hidden text-card-foreground text-left">
-            <div className="px-3.5 py-2 border-b border-border flex items-center gap-2 bg-muted/50">
-              <CheckCircle className="h-4 w-4 text-[#10B981] shrink-0" />
-              <span className="text-sm text-[#10B981] font-medium">{audioMode ? t("result.audioFound") : t("result.found")}</span>
+          <div ref={resultRef} className="max-w-lg mx-auto mt-5 md:mt-6 rounded-xl glass-card overflow-hidden text-left">
+            <div className="px-3.5 md:px-4 py-2.5 border-b dark:border-white/5 border-border/50 flex items-center gap-2 dark:bg-white/3 bg-muted/50">
+              <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
+              <span className="text-[13px] md:text-sm text-green-500 font-medium">{audioMode ? t("result.audioFound") : t("result.found")}</span>
               <div className="ml-auto flex items-center gap-1.5">
                 {(() => { const pd = getPlatformDef(result.platform); return (
-                  <div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: pd.gradient || pd.color }}>
-                    <pd.Icon className="h-2.5 w-2.5 text-white" />
+                  <div className="w-5 h-5 rounded flex items-center justify-center" style={{ background: pd.gradient || pd.color }}>
+                    <pd.Icon className="h-3 w-3 text-white" />
                   </div>
                 ); })()}
-                <span className="text-xs text-muted-foreground">{result.platform}</span>
+                <span className="text-[11px] md:text-xs dark:text-white/50 text-muted-foreground dark:bg-white/5 bg-muted px-2 py-0.5 rounded-full">{result.platform}</span>
               </div>
             </div>
 
-            <div className="p-3.5">
+            <div className="p-3.5 md:p-4">
               {showPreview && !previewError ? (
-                <div className="w-full rounded-md overflow-hidden bg-muted mb-3">
+                <div className="w-full rounded-lg overflow-hidden dark:bg-white/5 bg-muted mb-3">
                   <video src={result.qualityOptions[0]?.originalUrl || result.qualityOptions[0]?.url} controls muted className="w-full object-contain" style={{ maxHeight: "200px" }} onError={() => setPreviewError(true)} />
                 </div>
               ) : (
                 <div className="flex gap-3 mb-3">
-                  <div className="w-16 h-12 md:w-20 md:h-14 rounded-md bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
-                    {result.thumbnail && <Image src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={80} height={56} className="w-full h-full object-cover" unoptimized onError={() => {}} />}
-                    <Play className="h-4 w-4 absolute text-[#10B981]" />
+                  <div className="w-20 h-14 md:w-24 md:h-16 rounded-lg dark:bg-white/5 bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
+                    {result.thumbnail && <img src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={80} height={56} className="w-full h-full object-cover" loading="lazy" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
+                    <Play className="h-5 w-5 md:h-6 md:w-6 absolute text-indigo-400" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-card-foreground text-sm line-clamp-2">{result.title}</h3>
-                    <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                    <h3 className="font-semibold dark:text-white text-card-foreground text-[13px] md:text-sm line-clamp-2">{result.title}</h3>
+                    <div className="flex items-center gap-3 mt-1 text-[11px] md:text-xs dark:text-white/40 text-muted-foreground">
                       {result.duration !== "--:--" && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{result.duration}</span>}
                       <span className="flex items-center gap-1"><User className="h-3 w-3" />{result.author}</span>
                     </div>
@@ -725,41 +657,35 @@ function HeroSection() {
               )}
 
               <div className="flex flex-wrap gap-0.5 mb-3">
-                <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-[11px] text-muted-foreground hover:text-foreground h-7">
+                <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-[11px] md:text-xs dark:text-white/50 dark:hover:text-white dark:hover:bg-white/5 text-muted-foreground hover:text-foreground h-7">
                   {showPreview ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}{t("result.preview")}
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleShare} className="text-[11px] text-muted-foreground hover:text-foreground h-7">
+                <Button variant="ghost" size="sm" onClick={handleShare} className="text-[11px] md:text-xs dark:text-white/50 dark:hover:text-white dark:hover:bg-white/5 text-muted-foreground hover:text-foreground h-7">
                   <Share2 className="h-3 w-3 mr-1" />{t("result.share")}
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleToggleBookmark} className="text-[11px] h-7" style={{ color: isBookmarkedState ? ACCENT : "#71717A" }}>
+                <Button variant="ghost" size="sm" onClick={handleToggleBookmark} className="text-[11px] md:text-xs h-7" style={{ color: isBookmarkedState ? ACCENT : undefined }}>
                   <Bookmark className={`h-3 w-3 mr-1 ${isBookmarkedState ? "fill-current" : ""}`} />{isBookmarkedState ? t("result.bookmarked") : t("result.bookmark")}
                 </Button>
                 {result.thumbnail && (
-                  <Button variant="ghost" size="sm" onClick={handleDownloadThumbnail} className="text-[11px] text-muted-foreground hover:text-foreground h-7">
+                  <Button variant="ghost" size="sm" onClick={handleDownloadThumbnail} className="text-[11px] md:text-xs dark:text-white/50 dark:hover:text-white dark:hover:bg-white/5 text-muted-foreground hover:text-foreground h-7">
                     <Copy className="h-3 w-3 mr-1" />{t("result.downloadThumb")}
                   </Button>
                 )}
-                <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-[11px] text-muted-foreground hover:text-foreground h-7">
+                <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-[11px] md:text-xs dark:text-white/50 dark:hover:text-white dark:hover:bg-white/5 text-muted-foreground hover:text-foreground h-7">
                   <Copy className="h-3 w-3 mr-1" />{t("result.copyCaption")}
                 </Button>
               </div>
 
               {result.qualityOptions.length > 0 && (
                 <div className="mb-3">
-                  <p className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1.5">
-                    <Film className="h-3 w-3 text-[#10B981]" />{t("result.selectQuality")}
+                  <p className="text-[11px] md:text-xs font-medium dark:text-white/50 text-muted-foreground mb-2 flex items-center gap-1.5">
+                    <Film className="h-3 w-3 text-indigo-400" />{t("result.selectQuality")}
                   </p>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-1.5 md:gap-2">
                     {result.qualityOptions.map((q, i) => {
                       const isSelected = selectedQuality === i;
                       return (
-                        <button
-                          key={i}
-                          onClick={() => setSelectedQuality(i)}
-                          className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-md border font-medium transition-colors ${
-                            isSelected ? "text-white bg-[#10B981] border-[#10B981]" : "bg-muted text-muted-foreground border-border hover:border-[#10B981]/40"
-                          }`}
-                        >
+                        <button key={i} onClick={() => setSelectedQuality(i)} className={`flex items-center gap-1 text-[11px] md:text-xs px-2.5 md:px-3 py-1.5 rounded-lg border font-medium transition-all ${isSelected ? "text-white bg-gradient-to-r from-indigo-500 to-purple-500 border-transparent" : "dark:bg-white/5 dark:text-white/50 dark:border-white/10 dark:hover:border-indigo-500/30 bg-muted text-muted-foreground border-border hover:border-primary/30"}`}>
                           {q.resolution === "MP3" ? <Music className="h-3 w-3" /> : <Film className="h-3 w-3" />}
                           <span>{q.label}</span>
                           <span className="opacity-70">{q.resolution}</span>
@@ -770,11 +696,7 @@ function HeroSection() {
                 </div>
               )}
 
-              <Button
-                onClick={handleDownload}
-                disabled={downloading}
-                className="w-full h-10 bg-[#10B981] text-white font-medium rounded-md hover:bg-[#059669] text-sm"
-              >
+              <Button onClick={handleDownload} disabled={downloading} className="w-full h-10 md:h-11 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-bold rounded-lg hover:opacity-90 text-[13px] md:text-sm btn-shimmer">
                 {downloading ? (
                   <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{audioMode ? "Downloading MP3..." : "Downloading..."}</>
                 ) : (
@@ -783,12 +705,7 @@ function HeroSection() {
               </Button>
 
               {result.qualityOptions[selectedQuality]?.originalUrl && (
-                <a
-                  href={result.qualityOptions[selectedQuality].originalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block mt-2 text-center text-xs text-muted-foreground hover:text-[#10B981] transition-colors underline underline-offset-2"
-                >
+                <a href={result.qualityOptions[selectedQuality].originalUrl} target="_blank" rel="noopener noreferrer" className="block mt-2 text-center text-[11px] md:text-xs dark:text-white/40 text-muted-foreground hover:text-indigo-400 transition-colors underline underline-offset-2">
                   {audioMode ? "Open MP3 directly" : "Open download link directly"} ↗
                 </a>
               )}
@@ -800,37 +717,43 @@ function HeroSection() {
   );
 }
 
-/* ──────── Features Section ──────── */
+/* ══════════════════════════════════════════════════
+   FEATURES — Bento Grid with Glass Cards
+   ══════════════════════════════════════════════════ */
 const featuresData = [
-  { icon: Zap, titleId: "Super Cepat", desc: { id: "Proses download instan tanpa perlu menunggu lama. Server cepat untuk pengalaman terbaik.", en: "Instant download process without long waits. Fast servers for the best experience." } },
-  { icon: Shield, titleId: "Aman & Privat", desc: { id: "Tidak ada data pribadi yang disimpan. Semua proses dilakukan secara aman dan terenkripsi.", en: "No personal data stored. All processes are done securely and encrypted." } },
-  { icon: Smartphone, titleId: "Mobile Friendly", desc: { id: "Optimal untuk HP. Download video langsung dari browser HP tanpa install app.", en: "Optimized for mobile. Download videos directly from your phone browser without installing an app." } },
-  { icon: CheckCircle, titleId: "Tanpa Watermark", desc: { id: "Download video dari TikTok, Instagram, YouTube tanpa watermark. Kualitas asli dipertahankan.", en: "Download videos from TikTok, Instagram, YouTube without watermark. Original quality preserved." } },
+  { icon: Download, color: "from-indigo-500/20 to-purple-500/20", titleId: "Tanpa Watermark", desc: { id: "Download video dari TikTok, Instagram, YouTube tanpa watermark. Kualitas asli dipertahankan.", en: "Download videos from TikTok, Instagram, YouTube without watermark. Original quality preserved." }, span: "md:col-span-2 md:row-span-2" },
+  { icon: Zap, color: "from-purple-500/20 to-pink-500/20", titleId: "Super Cepat", desc: { id: "Proses download instan tanpa perlu menunggu lama. Server cepat untuk pengalaman terbaik.", en: "Instant download process without long waits. Fast servers for the best experience." } },
+  { icon: Shield, color: "from-indigo-500/20 to-blue-500/20", titleId: "Aman & Privat", desc: { id: "Tidak ada data pribadi yang disimpan. Semua proses dilakukan secara aman dan terenkripsi.", en: "No personal data stored. All processes are done securely and encrypted." } },
+  { icon: Smartphone, color: "from-purple-500/20 to-fuchsia-500/20", titleId: "Mobile Friendly", desc: { id: "Optimal untuk HP. Download video langsung dari browser HP tanpa install app.", en: "Optimized for mobile. Download videos directly from your phone browser without installing an app." } },
 ];
 
 function FeaturesSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="features" className="py-16 md:py-24 px-4 md:px-6" aria-labelledby="features-heading">
-      <div className="mx-auto max-w-5xl">
-        <div className="mb-10 md:mb-14 text-center">
-          <h2 id="features-heading" className="text-xl md:text-3xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">
-            {t("features.title")}
-          </h2>
-          <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-lg mx-auto leading-relaxed">
-            {t("features.subtitle")}
-          </p>
+    <section id="features" className="py-12 md:py-24 px-4 md:px-6 section-surface" aria-labelledby="features-heading">
+      <div className="mx-auto max-w-6xl">
+        <div className="text-center mb-10 md:mb-14">
+          <h2 id="features-heading" className="text-xl sm:text-3xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] dark:text-white text-foreground">{t("features.title")}</h2>
+          <p className="text-[13px] md:text-base dark:text-white/40 text-muted-foreground max-w-md md:max-w-xl mx-auto">{t("features.subtitle")}</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           {featuresData.map((f, i) => {
             const Icon = f.icon;
+            const isLarge = i === 0;
             return (
-              <div key={i} className="group border border-border rounded-xl p-6 md:p-8 bg-card hover:shadow-lg hover:border-[#10B981]/20 hover:-translate-y-0.5 transition-all duration-300">
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-[#10B981]/10">
-                  <Icon className="h-6 w-6 text-[#10B981]" />
+              <div key={i} className={`glass-card glass-card-hover p-4 md:p-6 ${isLarge ? "col-span-2 row-span-1 lg:col-span-2 lg:row-span-2 flex flex-col" : ""}`}>
+                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shrink-0 mb-3 ${isLarge ? "md:mb-5 md:w-14 md:h-14" : ""} bg-gradient-to-br ${f.color} border border-white/5`}>
+                  <Icon className={`text-indigo-400 ${isLarge ? "h-6 w-6 md:h-7 md:w-7" : "h-5 w-5"}`} />
                 </div>
-                <h3 className="text-base md:text-lg font-semibold text-foreground mb-2">{f.titleId}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc[lang] || f.desc.id}</p>
+                <h3 className={`font-bold dark:text-white text-foreground mb-1.5 ${isLarge ? "text-lg md:text-xl" : "text-[13px] md:text-base"}`}>{f.titleId}</h3>
+                <p className={`dark:text-white/40 text-muted-foreground leading-relaxed ${isLarge ? "text-sm md:text-base" : "text-[11px] md:text-sm"}`}>{f.desc[lang] || f.desc.id}</p>
+                {isLarge && (
+                  <div className="mt-auto pt-4 md:pt-6 hidden md:block">
+                    <div className="h-24 md:h-32 rounded-xl bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 border border-white/5 flex items-center justify-center">
+                      <Download className="h-10 w-10 md:h-12 md:w-12 text-indigo-400/40" />
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}
@@ -840,7 +763,9 @@ function FeaturesSection() {
   );
 }
 
-/* ──────── How It Works ──────── */
+/* ══════════════════════════════════════════════════
+   HOW IT WORKS — Connected Steps
+   ══════════════════════════════════════════════════ */
 function HowItWorksSection() {
   const { t, lang } = useLanguage();
   const steps = [
@@ -850,78 +775,70 @@ function HowItWorksSection() {
     { num: 4, title: { id: "Simpan Video", en: "Save Video" }, desc: { id: "Video akan otomatis terunduh tanpa watermark ke perangkatmu.", en: "The video will automatically download without watermark to your device." } },
   ];
   return (
-    <section id="how" className="py-16 md:py-24 px-4 md:px-6 border-t border-border" aria-labelledby="how-heading">
-      <div className="mx-auto max-w-3xl">
-        <div className="mb-10 md:mb-14 text-center">
-          <h2 id="how-heading" className="text-xl md:text-3xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">{t("how.title")}</h2>
-          <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-md mx-auto leading-relaxed">{t("how.subtitle")}</p>
+    <section id="how" className="py-12 md:py-24 px-4 md:px-6 section-alt" aria-labelledby="how-heading">
+      <div className="mx-auto max-w-5xl">
+        <div className="text-center mb-10 md:mb-14">
+          <h2 id="how-heading" className="text-xl sm:text-3xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] dark:text-white text-foreground">{t("how.title")}</h2>
+          <p className="text-[13px] md:text-base dark:text-white/40 text-muted-foreground max-w-md md:max-w-lg mx-auto">{t("how.subtitle")}</p>
         </div>
-        {/* Mobile: vertical timeline */}
-        <div className="relative md:hidden">
-          <div className="absolute left-6 top-0 bottom-0 w-px bg-border" />
-          <div className="space-y-8">
-            {steps.map((s) => (
-              <div key={s.num} className="relative flex gap-5">
-                <div className="w-12 h-12 rounded-full border-2 border-[#10B981] bg-background flex items-center justify-center shrink-0 relative z-10">
-                  <span className="text-[#10B981] font-bold text-sm">{s.num}</span>
-                </div>
-                <div className="pt-2">
-                  <h3 className="text-base font-semibold text-foreground mb-1">{s.title[lang] || s.title.id}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{s.desc[lang] || s.desc.id}</p>
-                </div>
+
+        {/* Desktop: horizontal with connectors */}
+        <div className="hidden md:grid md:grid-cols-4 gap-6 relative">
+          <div className="absolute top-10 left-[12.5%] right-[12.5%] h-[2px] bg-gradient-to-r from-indigo-500/30 via-purple-500/30 to-pink-500/30" />
+          {steps.map((s, i) => (
+            <div key={i} className="flex flex-col items-center text-center relative z-10">
+              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center mb-4 shadow-lg shadow-indigo-500/20">
+                <span className="text-white font-bold text-lg">{s.num}</span>
               </div>
-            ))}
-          </div>
+              <h3 className="text-[13px] md:text-base font-semibold dark:text-white text-foreground mb-1.5">{s.title[lang] || s.title.id}</h3>
+              <p className="text-[11px] md:text-sm dark:text-white/40 text-muted-foreground leading-relaxed">{s.desc[lang] || s.desc.id}</p>
+            </div>
+          ))}
         </div>
-        {/* Desktop: horizontal steps with line */}
-        <div className="hidden md:block relative">
-          <div className="absolute top-6 left-0 right-0 h-px bg-border" />
-          <div className="grid grid-cols-4 gap-8">
-            {steps.map((s) => (
-              <div key={s.num} className="relative flex flex-col items-center text-center">
-                <div className="w-12 h-12 rounded-full border-2 border-[#10B981] bg-background flex items-center justify-center mb-4 relative z-10">
-                  <span className="text-[#10B981] font-bold text-base">{s.num}</span>
-                </div>
-                <h3 className="text-sm font-semibold text-foreground mb-1.5">{s.title[lang] || s.title.id}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{s.desc[lang] || s.desc.id}</p>
+
+        {/* Mobile: vertical with connectors */}
+        <div className="md:hidden space-y-0 relative">
+          <div className="absolute left-[19px] top-7 bottom-7 w-[2px] bg-gradient-to-b from-indigo-500/30 via-purple-500/30 to-pink-500/30" />
+          {steps.map((s, i) => (
+            <div key={i} className="flex gap-4 relative z-10 pb-6 last:pb-0">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center shrink-0 shadow-lg shadow-indigo-500/20">
+                <span className="text-white font-bold text-sm">{s.num}</span>
               </div>
-            ))}
-          </div>
+              <div className="pt-1">
+                <h3 className="text-[13px] font-semibold dark:text-white text-foreground mb-0.5">{s.title[lang] || s.title.id}</h3>
+                <p className="text-[11px] dark:text-white/40 text-muted-foreground leading-relaxed">{s.desc[lang] || s.desc.id}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-/* ──────── Platforms Section ──────── */
+/* ══════════════════════════════════════════════════
+   PLATFORMS — Rich Cards with Brand Gradients
+   ══════════════════════════════════════════════════ */
 function PlatformsSection() {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   return (
-    <section id="platforms" className="py-16 md:py-24 px-4 md:px-6 border-t border-border">
+    <section id="platforms" className="py-12 md:py-24 px-4 md:px-6 section-surface" aria-labelledby="platforms-heading">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-10 md:mb-14 text-center">
-          <h2 className="text-xl md:text-3xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">{t("platforms.title")}</h2>
-          <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-lg mx-auto leading-relaxed">{t("platforms.subtitle")}</p>
+        <div className="text-center mb-10 md:mb-14">
+          <h2 id="platforms-heading" className="text-xl sm:text-3xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] dark:text-white text-foreground">{t("platforms.title")}</h2>
+          <p className="text-[13px] md:text-base dark:text-white/40 text-muted-foreground max-w-md md:max-w-lg mx-auto">{t("platforms.subtitle")}</p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
           {PLATFORMS.map((p) => {
             const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
             return (
-              <a key={p.name} href={`/${slug}`} className="group flex items-center gap-3 p-4 md:p-5 rounded-xl border border-border bg-card hover:shadow-md hover:border-[#10B981]/20 hover:-translate-y-0.5 transition-all duration-300">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ background: p.gradient || `${p.color}15` }}>
-                  {p.gradient ? (
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: p.gradient }}>
-                      <p.Icon className="h-5 w-5 text-white" />
-                    </div>
-                  ) : (
-                    <span className="text-[var(--platform-color)]" style={{ color: p.color }}>
-                      <p.Icon className="h-5 w-5" />
-                    </span>
-                  )}
+              <a key={p.name} href={`/${slug}`} className="group glass-card glass-card-hover p-4 md:p-5 flex flex-col items-center text-center gap-3">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center text-white shrink-0 transition-transform duration-300 group-hover:scale-110" style={{ background: p.gradient || p.color }}>
+                  <p.Icon className="h-5 w-5 md:h-6 md:w-6" />
                 </div>
                 <div>
-                  <span className="text-sm font-medium text-foreground group-hover:text-[#10B981] transition-colors">{p.name}</span>
-                  <span className="block text-xs text-muted-foreground">{lang === "id" ? "Downloader" : "Downloader"}</span>
+                  <p className="text-[13px] md:text-sm font-semibold dark:text-white text-foreground group-hover:text-indigo-400 transition-colors">{p.name}</p>
+                  <p className="text-[10px] md:text-[11px] text-indigo-400 font-medium mt-0.5">Download →</p>
                 </div>
               </a>
             );
@@ -932,7 +849,9 @@ function PlatformsSection() {
   );
 }
 
-/* ──────── FAQ Section ──────── */
+/* ══════════════════════════════════════════════════
+   FAQ — Glass Accordion
+   ══════════════════════════════════════════════════ */
 const faqData = [
   { qId: "faq1", aId: "ans1" },
   { qId: "faq2", aId: "ans2" },
@@ -963,85 +882,72 @@ const faqContent: Record<string, Record<string, string>> = {
 function FAQSection() {
   const { t, lang } = useLanguage();
   return (
-    <section id="faq" className="py-16 md:py-24 px-4 md:px-6 border-t border-border">
+    <section id="faq" className="py-12 md:py-24 px-4 md:px-6 section-alt" aria-labelledby="faq-heading">
       <div className="mx-auto max-w-3xl">
-        <div className="mb-10 md:mb-14 text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#10B981]/10 mb-4">
-            <HelpCircle className="h-6 w-6 text-[#10B981]" />
-          </div>
-          <h2 className="text-xl md:text-3xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">{t("faq.title")}</h2>
-          <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-md mx-auto leading-relaxed">{t("faq.subtitle")}</p>
+        <div className="text-center mb-10 md:mb-14">
+          <h2 id="faq-heading" className="text-xl sm:text-3xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] dark:text-white text-foreground">{t("faq.title")}</h2>
+          <p className="text-[13px] md:text-base dark:text-white/40 text-muted-foreground">{t("faq.subtitle")}</p>
         </div>
-        <div className="space-y-2.5 md:space-y-3">
+        <div className="space-y-3 md:space-y-4">
           {faqData.map((f, i) => (
-            <details key={i} className="group rounded-xl border border-border bg-card overflow-hidden hover:border-[#10B981]/30 transition-all duration-200">
-              <summary className="flex items-center gap-3 p-4 md:p-5 cursor-pointer text-sm md:text-base font-medium text-foreground hover:text-[#10B981] transition-colors list-none">
-                <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#10B981]/10 text-[#10B981] text-xs font-bold shrink-0">{i + 1}</span>
-                <span className="flex-1 leading-snug">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</span>
-                <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0 group-open:rotate-180 transition-transform duration-300" />
+            <details key={i} className="group glass-card transition-all duration-300 open:border-indigo-500/20 open:shadow-lg open:shadow-indigo-500/5">
+              <summary className="flex items-center justify-between px-5 md:px-6 py-4 md:py-5 cursor-pointer text-[13px] md:text-base font-medium dark:text-white/80 dark:hover:text-white text-foreground hover:text-indigo-400 transition-colors list-none">
+                <span className="pr-4">{faqContent[lang]?.[f.qId] || faqContent.id[f.qId]}</span>
+                <ChevronDown className="h-4 w-4 dark:text-white/30 text-muted-foreground shrink-0 group-open:rotate-180 transition-transform duration-300" />
               </summary>
-              <div className="px-4 md:px-5 pb-4 md:pb-5 text-sm text-muted-foreground leading-relaxed border-t border-border/50 mt-0 pt-3 ml-10 md:ml-11">
+              <div className="px-5 md:px-6 pb-4 md:pb-5 text-[12px] md:text-sm dark:text-white/40 text-muted-foreground leading-relaxed border-t dark:border-white/5 border-border/50 pt-3">
                 {faqContent[lang]?.[f.aId] || faqContent.id[f.aId]}
               </div>
             </details>
           ))}
-        </div>
-        <div className="mt-8 md:mt-10 text-center">
-          <p className="text-xs md:text-sm text-muted-foreground">
-            {lang === "id" ? "Masih punya pertanyaan?" : "Still have questions?"}{" "}
-            <a href="/contact" className="text-[#10B981] font-medium hover:underline underline-offset-2">
-              {lang === "id" ? "Hubungi kami" : "Contact us"}
-            </a>
-          </p>
         </div>
       </div>
     </section>
   );
 }
 
-/* ──────── Blog Section ──────── */
+/* ══════════════════════════════════════════════════
+   BLOG SECTION
+   ══════════════════════════════════════════════════ */
 const blogPosts = [
-  { slug: "cara-download-video-tiktok-tanpa-watermark", title: "Cara Download Video TikTok Tanpa Watermark 2026", desc: "Panduan lengkap download video TikTok tanpa watermark dengan mudah dan gratis.", color: "#010101" },
+  { slug: "cara-download-video-tiktok-tanpa-watermark", title: "Cara Download Video TikTok Tanpa Watermark 2025", desc: "Panduan lengkap download video TikTok tanpa watermark dengan mudah dan gratis.", color: "#010101" },
   { slug: "cara-download-video-instagram-reels", title: "Cara Download Video Instagram Reels & Story", desc: "Tutorial download video Instagram Reels, Story, dan IGTV terbaru.", color: "#E1306C" },
   { slug: "cara-download-video-youtube-mp4", title: "Cara Download Video YouTube MP4 HD", desc: "Download video YouTube dalam format MP4 HD dengan cepat dan gratis.", color: "#FF0000" },
-  { slug: "download-video-tanpa-watermark-gratis", title: "Download Video Tanpa Watermark - Semua Platform", desc: "Panduan komprehensif download video tanpa watermark dari semua platform populer.", color: "#10B981" },
+  { slug: "download-video-tanpa-watermark-gratis", title: "Download Video Tanpa Watermark - Semua Platform", desc: "Panduan komprehensif download video tanpa watermark dari semua platform populer.", color: "#6366F1" },
   { slug: "cara-download-video-facebook-hd", title: "Cara Download Video Facebook HD", desc: "Tutorial download video Facebook dalam kualitas HD dengan mudah.", color: "#1877F2" },
   { slug: "ekstrak-audio-mp3-dari-video", title: "Cara Ekstrak Audio MP3 dari Video Online", desc: "Konversi video ke MP3 secara online, cepat dan berkualitas tinggi.", color: "#8B5CF6" },
 ];
 
 function BlogSection() {
-  const { t, lang } = useLanguage();
+  const { lang } = useLanguage();
   return (
-    <section id="blog" className="py-16 md:py-24 px-4 md:px-6 border-t border-border">
+    <section id="blog" className="py-12 md:py-24 px-4 md:px-6 section-surface">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-10 md:mb-14 text-center">
-          <h2 className="text-xl md:text-3xl font-bold font-[family-name:var(--font-montserrat)] text-foreground">
+        <div className="text-center mb-10 md:mb-14">
+          <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold mb-2 md:mb-3 font-[family-name:var(--font-montserrat)] dark:text-white text-foreground">
             {lang === "id" ? "Artikel & Tutorial Terbaru" : "Latest Articles & Tutorials"}
           </h2>
-          <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-lg mx-auto leading-relaxed">
-            {lang === "id" ? "Pelajari cara terbaik download video dari berbagai platform" : "Learn the best ways to download videos from various platforms"}
+          <p className="text-[13px] md:text-base dark:text-white/40 text-muted-foreground max-w-md md:max-w-lg mx-auto">
+            {lang === "id" ? "Pelajari cara download video dari berbagai platform dengan panduan lengkap kami." : "Learn how to download videos from various platforms with our complete guides."}
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {blogPosts.map((post) => (
-            <a key={post.slug} href={`/blog/${post.slug}`} className="group flex flex-col rounded-xl border border-border bg-card overflow-hidden hover:shadow-lg hover:border-[#10B981]/20 hover:-translate-y-0.5 transition-all duration-300">
-              <div className="h-1.5 w-full" style={{ background: post.color }} />
-              <div className="p-5 md:p-6 flex flex-col flex-1">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: `${post.color}15` }}>
-                  <Film className="h-5 w-5" style={{ color: post.color }} />
-                </div>
-                <h3 className="text-sm md:text-base font-semibold text-foreground mb-2 group-hover:text-[#10B981] transition-colors line-clamp-2 leading-snug">{post.title}</h3>
-                <p className="text-xs md:text-sm text-muted-foreground line-clamp-2 leading-relaxed flex-1">{post.desc}</p>
-                <span className="text-xs text-[#10B981] font-medium mt-4 inline-flex items-center gap-1">
-                  {lang === "id" ? "Baca Selengkapnya" : "Read More"} <ArrowRight className="h-3 w-3" />
-                </span>
+            <a key={post.slug} href={`/blog/${post.slug}`} className="group glass-card glass-card-hover p-4 md:p-5 flex flex-col">
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl flex items-center justify-center mb-3 icon-gradient">
+                <Film className="h-5 w-5 text-indigo-400" />
               </div>
+              <h3 className="text-[13px] md:text-sm font-semibold dark:text-white text-foreground mb-1.5 group-hover:text-indigo-400 transition-colors line-clamp-2 leading-snug">{post.title}</h3>
+              <p className="text-[11px] md:text-xs dark:text-white/40 text-muted-foreground line-clamp-2 leading-relaxed flex-1">{post.desc}</p>
+              <span className="text-[11px] md:text-xs text-indigo-400 font-medium mt-3 inline-flex items-center gap-1">
+                {lang === "id" ? "Baca Selengkapnya" : "Read More"} →
+              </span>
             </a>
           ))}
         </div>
-        <div className="mt-8 text-center">
-          <a href="/blog" className="inline-flex items-center gap-1.5 text-sm font-medium text-[#10B981] hover:text-[#059669] transition-colors">
-            {lang === "id" ? "Lihat Semua Artikel" : "View All Articles"} <ArrowRight className="h-3.5 w-3.5" />
+        <div className="text-center mt-8 md:mt-10">
+          <a href="/blog" className="inline-flex items-center gap-2 text-[13px] md:text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors">
+            {lang === "id" ? "Lihat Semua Artikel" : "View All Articles"} →
           </a>
         </div>
       </div>
@@ -1049,144 +955,85 @@ function BlogSection() {
   );
 }
 
-/* ──────── CTA Section ──────── */
+/* ══════════════════════════════════════════════════
+   CTA — Mesh Gradient
+   ══════════════════════════════════════════════════ */
 function CTASection() {
   const { t } = useLanguage();
   return (
-    <section className="py-16 md:py-24 px-4 md:px-6 border-t border-border">
-      <div className="mx-auto max-w-3xl">
-        <div className="relative rounded-2xl overflow-hidden border border-border bg-card p-8 md:p-12 text-center">
-          {/* Background accent */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#10B981]/8 via-transparent to-[#10B981]/3 pointer-events-none" />
-          <div className="relative z-10">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#10B981]/10 mb-4">
-              <Download className="h-6 w-6 text-[#10B981]" />
-            </div>
-            <h2 className="text-xl md:text-3xl font-bold mb-3 font-[family-name:var(--font-montserrat)] text-foreground">{t("cta.title")}</h2>
-            <p className="text-sm md:text-base text-muted-foreground mb-6 md:mb-8 max-w-md mx-auto leading-relaxed">{t("cta.subtitle")}</p>
-            <a href="#hero">
-              <Button className="h-12 px-8 bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] text-sm md:text-base shadow-lg hover:shadow-[#10B981]/25 hover:opacity-90 transition-all duration-200">
-                <Download className="mr-2 h-5 w-5" />{t("cta.button")}
-              </Button>
-            </a>
-          </div>
+    <section className="cta-mesh py-16 md:py-28 px-4 md:px-6">
+      <div className="relative z-10 mx-auto max-w-3xl text-center">
+        <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center mx-auto mb-5 md:mb-8 border border-indigo-500/10">
+          <Shield className="h-7 w-7 md:h-8 md:w-8 text-indigo-400" />
         </div>
+        <h2 className="text-lg sm:text-3xl md:text-4xl font-extrabold mb-3 md:mb-5 font-[family-name:var(--font-montserrat)] dark:text-white text-foreground">{t("cta.title")}</h2>
+        <p className="text-[13px] md:text-base dark:text-white/50 text-muted-foreground mb-6 md:mb-10 max-w-md mx-auto">{t("cta.subtitle")}</p>
+        <a href="#hero">
+          <Button className="h-12 md:h-14 px-8 md:px-12 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-bold rounded-xl hover:opacity-90 text-[13px] md:text-base btn-shimmer shadow-lg shadow-indigo-500/25">
+            <Download className="mr-2 h-4 w-4 md:h-5 md:w-5" />{t("cta.button")}
+          </Button>
+        </a>
       </div>
     </section>
   );
 }
 
-/* ──────── Footer ──────── */
+/* ══════════════════════════════════════════════════
+   FOOTER — Gradient Border
+   ══════════════════════════════════════════════════ */
 function Footer() {
   const { t, lang } = useLanguage();
   return (
-    <footer className="border-t border-border pt-10 md:pt-14 pb-6 md:pb-8 px-4 md:px-6" role="contentinfo">
-      <div className="mx-auto max-w-5xl">
-        {/* Desktop: brand + 4 columns */}
-        <div className="hidden md:grid md:grid-cols-5 gap-8 lg:gap-12">
-          {/* Brand column */}
-          <div className="col-span-2">
-            <MovaLogo size={20} showText />
-            <p className="text-xs text-muted-foreground mt-3 leading-relaxed max-w-[260px]">{t("footer.desc")}</p>
-            <div className="flex items-center gap-3 mt-5">
-              <a href="/tiktok-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="TikTok"><TikTokIcon className="h-3.5 w-3.5" /></a>
-              <a href="/youtube-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="YouTube"><YouTubeIcon className="h-3.5 w-3.5" /></a>
-              <a href="/instagram-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="Instagram"><InstagramIcon className="h-3.5 w-3.5" /></a>
-              <a href="/facebook-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="Facebook"><FacebookIcon className="h-3.5 w-3.5" /></a>
-              <a href="/twitter-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="Twitter/X"><TwitterXIcon className="h-3.5 w-3.5" /></a>
-            </div>
+    <footer className="dark-section" role="contentinfo">
+      <div className="mx-auto max-w-6xl px-4 md:px-6 py-10 md:py-16">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8">
+          <div className="col-span-2 md:col-span-1">
+            <MovaLogo size={24} showText />
+            <p className="text-[11px] md:text-sm dark:text-white/40 text-muted-foreground max-w-xs mt-3 leading-relaxed">{t("footer.desc")}</p>
           </div>
-          {/* Navigation */}
           <div>
-            <h4 className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wider">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
-            <ul className="space-y-2.5">
-              <li><a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a></li>
-              <li><a href="#how" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a></li>
-              <li><a href="#platforms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.platform")}</a></li>
-              <li><a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.faq")}</a></li>
+            <h4 className="text-[11px] md:text-sm font-semibold dark:text-white/80 text-foreground mb-3 md:mb-4">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
+            <ul className="space-y-2 md:space-y-3">
+              <li><a href="#features" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{t("nav.fitur")}</a></li>
+              <li><a href="#how" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{t("nav.caraPakai")}</a></li>
+              <li><a href="#platforms" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{t("nav.platform")}</a></li>
+              <li><a href="#faq" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{t("nav.faq")}</a></li>
+              <li><a href="/faq" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'FAQ Lengkap' : 'Full FAQ'}</a></li>
             </ul>
           </div>
-          {/* Platforms */}
           <div>
-            <h4 className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wider">{lang === 'id' ? 'Platform' : 'Platforms'}</h4>
-            <ul className="space-y-2.5">
-              <li><a href="/tiktok-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">TikTok</a></li>
-              <li><a href="/instagram-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Instagram</a></li>
-              <li><a href="/youtube-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">YouTube</a></li>
-              <li><a href="/facebook-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Facebook</a></li>
-              <li><a href="/twitter-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Twitter/X</a></li>
-              <li><a href="/pinterest-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pinterest</a></li>
-              <li><a href="/reddit-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Reddit</a></li>
-              <li><a href="/telegram-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Telegram</a></li>
-              <li><a href="/youtube-mp3" className="text-sm text-muted-foreground hover:text-foreground transition-colors">YouTube MP3</a></li>
+            <h4 className="text-[11px] md:text-sm font-semibold dark:text-white/80 text-foreground mb-3 md:mb-4">{lang === 'id' ? 'Platform' : 'Platforms'}</h4>
+            <ul className="space-y-2 md:space-y-3">
+              <li><a href="/tiktok-downloader" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">TikTok Downloader</a></li>
+              <li><a href="/instagram-downloader" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Instagram Downloader</a></li>
+              <li><a href="/youtube-downloader" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">YouTube Downloader</a></li>
+              <li><a href="/facebook-downloader" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Facebook Downloader</a></li>
+              <li><a href="/twitter-downloader" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Twitter/X Downloader</a></li>
             </ul>
           </div>
-          {/* Legal */}
           <div>
-            <h4 className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wider">{lang === 'id' ? 'Panduan & Legal' : 'Resources & Legal'}</h4>
-            <ul className="space-y-2.5">
-              <li><a href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
-              <li><a href="/faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</a></li>
-              <li><a href="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Cara Kerja' : 'How It Works'}</a></li>
-              <li><a href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Tentang Kami' : 'About'}</a></li>
-              <li><a href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Privasi' : 'Privacy'}</a></li>
-              <li><a href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Ketentuan' : 'Terms'}</a></li>
-              <li><a href="/dmca" className="text-sm text-muted-foreground hover:text-foreground transition-colors">DMCA</a></li>
-              <li><a href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
+            <h4 className="text-[11px] md:text-sm font-semibold dark:text-white/80 text-foreground mb-3 md:mb-4">{lang === 'id' ? 'Perusahaan' : 'Company'}</h4>
+            <ul className="space-y-2 md:space-y-3">
+              <li><a href="/about" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Tentang Kami' : 'About Us'}</a></li>
+              <li><a href="/contact" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Kontak' : 'Contact'}</a></li>
+              <li><a href="/blog" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Blog</a></li>
+              <li><a href="mailto:admin@getmova.my.id" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">admin@getmova.my.id</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-[11px] md:text-sm font-semibold dark:text-white/80 text-foreground mb-3 md:mb-4">Legal</h4>
+            <ul className="space-y-2 md:space-y-3">
+              <li><a href="/privacy" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Kebijakan Privasi' : 'Privacy Policy'}</a></li>
+              <li><a href="/terms" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">{lang === 'id' ? 'Syarat & Ketentuan' : 'Terms of Service'}</a></li>
+              <li><a href="/disclaimer" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">Disclaimer</a></li>
+              <li><a href="/dmca" className="text-[13px] md:text-sm dark:text-white/40 dark:hover:text-white text-muted-foreground hover:text-foreground transition-colors py-1 inline-block">DMCA</a></li>
             </ul>
           </div>
         </div>
-        {/* Mobile: stacked with sections */}
-        <div className="md:hidden space-y-6">
-          <div>
-            <MovaLogo size={20} showText />
-            <p className="text-xs text-muted-foreground mt-2.5 leading-relaxed">{t("footer.desc")}</p>
-          </div>
-          <div className="grid grid-cols-2 gap-x-6 gap-y-5">
-            <div>
-              <h4 className="text-xs font-semibold text-foreground mb-2.5 uppercase tracking-wider">{lang === 'id' ? 'Navigasi' : 'Navigation'}</h4>
-              <ul className="space-y-2">
-                <li><a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.fitur")}</a></li>
-                <li><a href="#how" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.caraPakai")}</a></li>
-                <li><a href="#platforms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.platform")}</a></li>
-                <li><a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.faq")}</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-semibold text-foreground mb-2.5 uppercase tracking-wider">{lang === 'id' ? 'Platform' : 'Platforms'}</h4>
-              <ul className="space-y-2">
-                <li><a href="/tiktok-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">TikTok</a></li>
-                <li><a href="/instagram-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Instagram</a></li>
-                <li><a href="/youtube-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">YouTube</a></li>
-                <li><a href="/facebook-downloader" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Facebook</a></li>
-                <li><a href="/youtube-mp3" className="text-sm text-muted-foreground hover:text-foreground transition-colors">YouTube MP3</a></li>
-              </ul>
-            </div>
-          </div>
-          <div>
-            <h4 className="text-xs font-semibold text-foreground mb-2.5 uppercase tracking-wider">{lang === 'id' ? 'Panduan & Legal' : 'Resources & Legal'}</h4>
-            <div className="flex flex-wrap gap-x-5 gap-y-2">
-              <a href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a>
-              <a href="/faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</a>
-              <a href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Privasi' : 'Privacy'}</a>
-              <a href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Ketentuan' : 'Terms'}</a>
-              <a href="/dmca" className="text-sm text-muted-foreground hover:text-foreground transition-colors">DMCA</a>
-              <a href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{lang === 'id' ? 'Kontak' : 'Contact'}</a>
-            </div>
-          </div>
-          <div className="flex items-center gap-2.5 pt-1">
-            <a href="/tiktok-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="TikTok"><TikTokIcon className="h-3.5 w-3.5" /></a>
-            <a href="/youtube-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="YouTube"><YouTubeIcon className="h-3.5 w-3.5" /></a>
-            <a href="/instagram-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="Instagram"><InstagramIcon className="h-3.5 w-3.5" /></a>
-            <a href="/facebook-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="Facebook"><FacebookIcon className="h-3.5 w-3.5" /></a>
-            <a href="/twitter-downloader" className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors" aria-label="Twitter/X"><TwitterXIcon className="h-3.5 w-3.5" /></a>
-          </div>
-        </div>
-        {/* Bottom */}
-        <div className="mt-8 pt-5 border-t border-border">
+        <div className="mt-10 md:mt-16 pt-5 md:pt-6 border-t dark:border-white/5 border-border">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p className="text-xs text-muted-foreground/50">&copy; 2026 getmova. All rights reserved.</p>
-            <p className="text-xs text-muted-foreground/40 text-center sm:text-right max-w-sm leading-relaxed">
+            <p className="text-[10px] md:text-xs dark:text-white/25 text-muted-foreground/60">&copy; 2026 Mova. All rights reserved.</p>
+            <p className="text-[9px] md:text-[11px] dark:text-white/15 text-muted-foreground/40 text-center sm:text-right">
               {lang === 'id' ? 'Mova tidak menyimpan konten berhak cipta. Pengguna bertanggung jawab atas penggunaan konten yang diunduh.' : 'Mova does not store copyrighted content. Users are responsible for downloaded content usage.'}
             </p>
           </div>
@@ -1196,17 +1043,20 @@ function Footer() {
   );
 }
 
-/* ──────── Mobile Bottom Nav ──────── */
+/* ══════════════════════════════════════════════════
+   MOBILE BOTTOM NAV — Glassmorphism
+   ══════════════════════════════════════════════════ */
 function MobileBottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background border-t border-border">
-      <div className="flex items-center justify-around px-2 py-1.5">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden glass gradient-border" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <div className="flex items-center justify-around px-2 py-2">
         {[
           { icon: Download, label: "Download", href: "#hero", highlight: true },
           { icon: Bookmark, label: "Saved", href: "#hero" },
           { icon: Shield, label: "FAQ", href: "#faq" },
         ].map(item => (
-          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-6 rounded-md transition-colors ${item.highlight ? "text-[#10B981]" : "text-muted-foreground"}`}>
+          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-6 rounded-lg transition-colors relative ${item.highlight ? "text-indigo-400" : "dark:text-white/40 text-muted-foreground"}`}>
+            {item.highlight && <div className="absolute -top-1 left-1/2 -translate-x-1/2 glow-dot" />}
             <item.icon className="h-4 w-4" />
             <span className="text-[9px] font-medium">{item.label}</span>
           </a>
@@ -1217,7 +1067,9 @@ function MobileBottomNav() {
   );
 }
 
-/* ──────── Main Page ──────── */
+/* ══════════════════════════════════════════════════
+   MAIN PAGE
+   ══════════════════════════════════════════════════ */
 export default function Home() {
   return (
     <LanguageProvider>
@@ -1226,16 +1078,8 @@ export default function Home() {
         <main className="flex-1 pb-14 md:pb-0">
           <HeroSection />
           <FeaturesSection />
-          {/* Ad Placement - After Features */}
-          <div className="max-w-3xl mx-auto px-4 md:px-6 py-4">
-            <AdUnit format="horizontal" className="min-h-[90px]" />
-          </div>
           <HowItWorksSection />
           <PlatformsSection />
-          {/* Ad Placement - After Platforms */}
-          <div className="max-w-3xl mx-auto px-4 md:px-6 py-4">
-            <AdUnit format="horizontal" className="min-h-[90px]" />
-          </div>
           <FAQSection />
           <BlogSection />
           {/* FAQPage Schema */}
@@ -1270,6 +1114,28 @@ export default function Home() {
               { "@type": "ListItem", position: 1, name: "Home", item: "https://getmova.my.id" }
             ]
           })}} />
+
+          {/* Platform Download Pages */}
+          <section className="py-12 md:py-20 px-4 md:px-6 section-alt">
+            <div className="mx-auto max-w-5xl">
+              <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-center mb-1.5 md:mb-2 tracking-tight dark:text-white text-foreground">Download Video per Platform</h2>
+              <p className="text-[13px] md:text-sm dark:text-white/40 text-muted-foreground text-center mb-6 md:mb-8">Pilih platform untuk panduan download lengkap</p>
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 md:gap-4">
+                {PLATFORMS.slice(0, 5).map(p => {
+                  const slug = p.name.toLowerCase().replace('/', '').replace(' ', '-') + '-downloader';
+                  return (
+                    <a key={p.name} href={`/${slug}`} className="group glass-card glass-card-hover flex flex-col items-center gap-1.5 md:gap-2 p-3 md:p-5">
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: p.gradient || p.color }}>
+                        <p.Icon className="h-5 w-5 text-white" />
+                      </div>
+                      <span className="text-[11px] md:text-xs font-semibold dark:text-white text-foreground text-center">{p.name}</span>
+                      <span className="text-[9px] md:text-[10px] text-indigo-400 font-medium">Download →</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
 
           <CTASection />
         </main>
