@@ -439,47 +439,76 @@ function HeroSection() {
 
     const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
     const downloadName = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
-    const isAudio = q.resolution === "MP3" || q.label === "Audio";
+    const isAudio = q.resolution === "MP3" || q.label === "Audio" || q.label === "Audio (Low)";
     const downloadUrl = q.url;
     const fallbackUrl = q.originalUrl || q.url;
 
     setDownloading(true);
 
+    const saveHistory = () => {
+      saveToHistory({
+        id: Date.now().toString(), title: result.title, platform: result.platform,
+        author: result.author, thumbnail: result.thumbnail, duration: result.duration,
+        url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now(),
+      });
+    };
+
     try {
-      if (isAudio) {
+      // === YOUTUBE DOWNLOADS (via /api/yt-download → CF Worker redirect) ===
+      if (downloadUrl.startsWith("/api/yt-download")) {
         try {
           const res = await fetch(downloadUrl);
           if (res.ok) {
-            const blob = await res.blob();
-            if (blob.size > 1000) {
-              const blobUrl = URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.href = blobUrl;
-              a.download = downloadName;
-              a.style.display = "none";
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-              setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+            const contentLength = parseInt(res.headers.get("content-length") || "0");
+            const sizeMB = contentLength / (1024 * 1024);
 
-              saveToHistory({
-                id: Date.now().toString(), title: result.title, platform: result.platform,
-                author: result.author, thumbnail: result.thumbnail, duration: result.duration,
-                url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now(),
-              });
-              showToast(t("toast.downloadStart"), isAudio ? "MP3" : "");
-              setDownloading(false);
-              return;
+            // For audio or files under 80MB: use blob download (most reliable on mobile)
+            if (isAudio || sizeMB < 80 || contentLength === 0) {
+              const blob = await res.blob();
+              if (blob.size > 1000) {
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = blobUrl;
+                a.download = downloadName;
+                a.style.display = "none";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 30000);
+                saveHistory();
+                showToast(t("toast.downloadStart"), isAudio ? "MP3" : "");
+                setDownloading(false);
+                return;
+              }
             }
+            // For large video files (>80MB): use window.location.href
+            window.location.href = downloadUrl;
+            saveHistory();
+            showToast(t("toast.downloadStart"), "");
+            setDownloading(false);
+            return;
+          } else {
+            let errorMsg = "Gagal mengunduh video. Coba lagi nanti.";
+            try { const errData = await res.json(); if (errData.error) errorMsg = errData.error; } catch {}
+            showToast("Download gagal", errorMsg, "destructive");
+            setDownloading(false);
+            return;
           }
-        } catch (e) {
-          console.log("Proxy fetch+blob failed", e);
+        } catch {
+          try { window.location.href = downloadUrl; saveHistory(); } catch {}
+          setDownloading(false);
+          return;
         }
+      }
 
-        if (fallbackUrl !== downloadUrl) {
-          try {
-            const res = await fetch(fallbackUrl);
-            if (res.ok) {
+      // === NON-YOUTUBE: Audio/Proxy fetch+blob ===
+      if (isAudio || downloadUrl.startsWith("/api/proxy")) {
+        try {
+          const res = await fetch(downloadUrl);
+          if (res.ok) {
+            const contentLength = parseInt(res.headers.get("content-length") || "0");
+            const sizeMB = contentLength / (1024 * 1024);
+            if (isAudio || sizeMB < 50 || contentLength === 0) {
               const blob = await res.blob();
               if (blob.size > 1000) {
                 const blobUrl = URL.createObjectURL(blob);
@@ -491,58 +520,38 @@ function HeroSection() {
                 a.click();
                 document.body.removeChild(a);
                 setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
-
-                saveToHistory({
-                  id: Date.now().toString(), title: result.title, platform: result.platform,
-                  author: result.author, thumbnail: result.thumbnail, duration: result.duration,
-                  url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now(),
-                });
-                showToast(t("toast.downloadStart"), "MP3");
+                saveHistory();
+                showToast(t("toast.downloadStart"), isAudio ? "MP3" : "");
                 setDownloading(false);
                 return;
               }
             }
-          } catch (e) {
-            console.log("Original URL fetch+blob also failed", e);
           }
+        } catch (e) {
+          console.log("Proxy fetch+blob failed", e);
         }
       }
 
+      // === Fallback: <a> tag ===
       try {
         const a = document.createElement("a");
         a.href = downloadUrl;
         a.download = downloadName;
-        a.target = "_blank";
-        a.rel = "noopener noreferrer";
         a.style.display = "none";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-
-        saveToHistory({
-          id: Date.now().toString(), title: result.title, platform: result.platform,
-          author: result.author, thumbnail: result.thumbnail, duration: result.duration,
-          url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now(),
-        });
+        saveHistory();
         showToast(t("toast.downloadStart"), "");
-        setDownloading(false);
-        return;
       } catch (e) {
         console.log("<a> tag approach failed", e);
+        try { window.open(fallbackUrl, "_blank"); saveHistory(); } catch {
+          showToast(t("error.downloadFail"), "", "destructive");
+        }
       }
-
-      window.open(downloadUrl, "_blank");
-      saveToHistory({
-        id: Date.now().toString(), title: result.title, platform: result.platform,
-        author: result.author, thumbnail: result.thumbnail, duration: result.duration,
-        url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now(),
-      });
-      showToast(t("toast.downloadStart"), "");
     } catch (e) {
       console.error("Download failed:", e);
-      try {
-        window.open(fallbackUrl, "_blank");
-      } catch {
+      try { window.open(fallbackUrl, "_blank"); } catch {
         showToast(t("error.downloadFail"), "", "destructive");
       }
     } finally {

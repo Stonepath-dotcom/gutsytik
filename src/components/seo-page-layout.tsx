@@ -128,13 +128,88 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
     const isAudio = q.resolution === "MP3" || q.label.includes("Audio");
     const ext = isAudio ? ".mp3" : ".mp4";
     const name = (result.filename || `mova_${Date.now()}`) + `_${q.label.replace(/[^a-zA-Z0-9]/g, "_")}${ext}`;
+    const downloadUrl = q.url;
     setDownloading(true);
+
+    // === YOUTUBE DOWNLOADS (via /api/yt-download → CF Worker redirect) ===
+    if (downloadUrl.startsWith("/api/yt-download")) {
+      try {
+        const res = await fetch(downloadUrl);
+        if (res.ok) {
+          const contentLength = parseInt(res.headers.get("content-length") || "0");
+          const sizeMB = contentLength / (1024 * 1024);
+
+          // For audio or files under 80MB: use blob download (most reliable on mobile)
+          if (isAudio || sizeMB < 80 || contentLength === 0) {
+            const blob = await res.blob();
+            if (blob.size > 1000) {
+              const blobUrl = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = blobUrl;
+              a.download = name;
+              a.style.display = "none";
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              setTimeout(() => URL.revokeObjectURL(blobUrl), 30000);
+              toast({ title: "Download dimulai!", description: `${isAudio ? "Audio" : "Video"} ${q.label} sedang disimpan.` });
+              setDownloading(false);
+              return;
+            }
+          }
+          // For large video files (>80MB): use window.location.href
+          window.location.href = downloadUrl;
+          toast({ title: "Download dimulai!", description: "File besar sedang diunduh." });
+          setDownloading(false);
+          return;
+        } else {
+          let errorMsg = "Gagal mengunduh video. Coba lagi nanti.";
+          try { const errData = await res.json(); if (errData.error) errorMsg = errData.error; } catch {}
+          toast({ title: "Download gagal", description: errorMsg, variant: "destructive" });
+          setDownloading(false);
+          return;
+        }
+      } catch {
+        // Fallback: navigate directly
+        try { window.location.href = downloadUrl; } catch {}
+        setDownloading(false);
+        return;
+      }
+    }
+
+    // === NON-YOUTUBE DOWNLOADS ===
+    // Strategy 1: fetch + blob for audio/proxy URLs
+    if (isAudio || downloadUrl.startsWith("/api/proxy")) {
+      try {
+        const res = await fetch(downloadUrl);
+        if (res.ok) {
+          const contentLength = parseInt(res.headers.get("content-length") || "0");
+          const sizeMB = contentLength / (1024 * 1024);
+          if (isAudio || sizeMB < 50 || contentLength === 0) {
+            const blob = await res.blob();
+            if (blob.size > 1000) {
+              const blobUrl = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = blobUrl; a.download = name;
+              a.style.display = "none";
+              document.body.appendChild(a); a.click(); document.body.removeChild(a);
+              setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+              toast({ title: "Download dimulai!", description: `${isAudio ? "Audio" : "Video"} ${q.label} sedang diunduh.` });
+              setDownloading(false);
+              return;
+            }
+          }
+        }
+      } catch {}
+    }
+
+    // Strategy 2: <a> tag with download attribute
     try {
       const a = document.createElement("a");
-      a.href = q.url; a.download = name; a.target = "_blank"; a.rel = "noopener noreferrer";
+      a.href = downloadUrl; a.download = name;
       a.style.display = "none"; document.body.appendChild(a); a.click(); document.body.removeChild(a);
       toast({ title: "Download dimulai!", description: `${isAudio ? "Audio" : "Video"} ${q.label} sedang diunduh.` });
-    } catch { window.open(q.originalUrl || q.url, "_blank"); }
+    } catch { window.open(q.originalUrl || downloadUrl, "_blank"); }
     finally { setDownloading(false); }
   }, [result, selQuality, downloading, toast]);
 

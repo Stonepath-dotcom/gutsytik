@@ -111,8 +111,8 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
             const contentLength = parseInt(res.headers.get("content-length") || "0");
             const sizeMB = contentLength / (1024 * 1024);
 
-            // For audio or files under 100MB: use blob download (most reliable)
-            if (isAudio || sizeMB < 100 || contentLength === 0) {
+            // For audio or files under 80MB: use blob download (most reliable on mobile)
+            if (isAudio || sizeMB < 80 || contentLength === 0) {
               const blob = await res.blob();
               if (blob.size > 1000) {
                 const blobUrl = URL.createObjectURL(blob);
@@ -128,26 +128,31 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
                 return;
               }
             }
-            // For large video files (>100MB): open in new tab
-            // CF Worker sets Content-Disposition: attachment, most browsers will download
+            // For large video files (>80MB): use window.location.href
+            // CF Worker sets Content-Disposition: attachment, browser will download
+            window.location.href = downloadUrl;
+            setDownloading(false);
+            return;
+          } else {
+            // Show error from response
+            let errorMsg = "Gagal mengunduh video. Coba lagi nanti.";
+            try { const errData = await res.json(); if (errData.error) errorMsg = errData.error; } catch {}
+            console.log("YouTube download error:", errorMsg);
           }
         } catch (fetchErr) {
-          console.log("YouTube fetch+blob failed:", fetchErr);
+          console.log("YouTube fetch+blob failed, trying window.location.href:", fetchErr);
+          // Fallback: navigate directly - CF Worker has Content-Disposition: attachment
+          try {
+            window.location.href = downloadUrl;
+          } catch {}
+          setDownloading(false);
+          return;
         }
 
-        // Fallback: open in new tab (CF Worker has Content-Disposition: attachment)
+        // Final fallback if fetch returned non-ok but no redirect happened
         try {
-          const a = document.createElement("a");
-          a.href = downloadUrl;
-          a.target = "_blank";
-          a.rel = "noopener noreferrer";
-          a.style.display = "none";
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        } catch {
-          window.open(downloadUrl, "_blank");
-        }
+          window.location.href = downloadUrl;
+        } catch {}
         setDownloading(false);
         return;
       }

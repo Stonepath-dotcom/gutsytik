@@ -168,14 +168,99 @@ export function PlatformPageClient(props: PlatformPageProps) {
     const downloadName = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
     const downloadUrl = q.url;
     const fallbackUrl = q.originalUrl || q.url;
+    const isAudio = q.resolution === "MP3" || q.label === "Audio" || q.label === "Audio (Low)";
 
     setDownloading(true);
+
+    // === YOUTUBE DOWNLOADS (via /api/yt-download → CF Worker redirect) ===
+    if (downloadUrl.startsWith("/api/yt-download")) {
+      try {
+        showToast("Memulai download...", "Mohon tunggu sebentar.");
+        const res = await fetch(downloadUrl);
+        if (res.ok) {
+          const contentLength = parseInt(res.headers.get("content-length") || "0");
+          const sizeMB = contentLength / (1024 * 1024);
+
+          // For audio or files under 80MB: use blob download (most reliable on mobile)
+          if (isAudio || sizeMB < 80 || contentLength === 0) {
+            const blob = await res.blob();
+            if (blob.size > 1000) {
+              const blobUrl = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = blobUrl;
+              a.download = downloadName;
+              a.style.display = "none";
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              setTimeout(() => URL.revokeObjectURL(blobUrl), 30000);
+              showToast("Download dimulai!", "File sedang disimpan ke perangkat.");
+              setDownloading(false);
+              return;
+            }
+          }
+          // For large video files (>80MB): use window.location.href
+          // CF Worker sets Content-Disposition: attachment, browser will download
+          window.location.href = downloadUrl;
+          showToast("Download dimulai!", "File besar sedang diunduh.");
+          setDownloading(false);
+          return;
+        } else {
+          // Try to read error from response
+          let errorMsg = "Gagal mengunduh video. Coba lagi nanti.";
+          try { const errData = await res.json(); if (errData.error) errorMsg = errData.error; } catch {}
+          showToast("Download gagal", errorMsg, "destructive");
+          setDownloading(false);
+          return;
+        }
+      } catch (fetchErr) {
+        console.log("YouTube fetch+blob failed, trying window.location.href:", fetchErr);
+        // Fallback: navigate directly - CF Worker has Content-Disposition: attachment
+        try {
+          window.location.href = downloadUrl;
+          showToast("Download dimulai!", "");
+        } catch {
+          showToast("Gagal mengunduh video. Coba lagi.", "", "destructive");
+        }
+        setDownloading(false);
+        return;
+      }
+    }
+
+    // === NON-YOUTUBE DOWNLOADS ===
+    // Strategy 1: fetch + blob for audio/proxy URLs
+    if (isAudio || downloadUrl.startsWith("/api/proxy")) {
+      try {
+        const res = await fetch(downloadUrl);
+        if (res.ok) {
+          const contentLength = parseInt(res.headers.get("content-length") || "0");
+          const sizeMB = contentLength / (1024 * 1024);
+          if (isAudio || sizeMB < 50 || contentLength === 0) {
+            const blob = await res.blob();
+            if (blob.size > 1000) {
+              const blobUrl = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = blobUrl;
+              a.download = downloadName;
+              a.style.display = "none";
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+              showToast("Download dimulai!", "");
+              setDownloading(false);
+              return;
+            }
+          }
+        }
+      } catch {}
+    }
+
+    // Strategy 2: <a> tag with download attribute
     try {
       const a = document.createElement("a");
       a.href = downloadUrl;
       a.download = downloadName;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
       a.style.display = "none";
       document.body.appendChild(a);
       a.click();
