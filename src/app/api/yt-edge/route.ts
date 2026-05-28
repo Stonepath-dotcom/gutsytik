@@ -18,6 +18,18 @@ const CLIENTS: Array<{
   thirdParty?: { embedUrl: string };
 }> = [
   {
+    clientName: "TVHTML5_SIMPLY_EMBEDDED_PLAYER",
+    clientVersion: "2.0",
+    extra: { clientScreen: "EMBED" },
+    thirdParty: { embedUrl: "https://www.google.com" },
+  },
+  {
+    clientName: "WEB_EMBEDDED_PLAYER",
+    clientVersion: "2.20250101.00.00",
+    extra: { clientScreen: "EMBED" },
+    thirdParty: { embedUrl: "https://www.google.com" },
+  },
+  {
     clientName: "ANDROID",
     clientVersion: "20.10.38",
     extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14" },
@@ -41,6 +53,10 @@ const CLIENTS: Array<{
     clientName: "ANDROID_VR",
     clientVersion: "1.62.2",
     extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14" },
+  },
+  {
+    clientName: "WEB_CREATOR",
+    clientVersion: "1.20250101.00.00",
   },
 ];
 
@@ -78,7 +94,7 @@ export async function POST(request: NextRequest) {
                 "Referer": "https://www.youtube.com/",
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
               },
-              body: JSON.stringify({ videoId, context }),
+              body: JSON.stringify({ videoId, context, contentCheckOk: true, racyCheckOk: true }),
             }
           );
 
