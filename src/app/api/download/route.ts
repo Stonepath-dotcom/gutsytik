@@ -65,15 +65,75 @@ function extractTwitterInfo(url: string): { username: string; tweetId: string } 
   return null;
 }
 
-/* ──────────────── YouTube via Cloudflare Worker ─── */
+/* ──────────────── YouTube Downloader ─── */
+// Strategy 1: Koyeb backend (yt-dlp + ffmpeg) — best quality, can bypass blocks
+// Strategy 2: Cloudflare Worker (InnerTube API) — fallback if Koyeb down
+const KOYEB_API_URL = process.env.KOYEB_API_URL || "";
 const CF_WORKER_URL = process.env.CF_WORKER_URL || "https://mova-yt-proxy.ardiidonovan.workers.dev";
 
 async function downloadYouTube(url: string, audioOnly: boolean) {
   const videoId = extractYouTubeVideoId(url);
   if (!videoId) return null;
 
+  // ── Strategy 1: Koyeb (yt-dlp backend) ──
+  if (KOYEB_API_URL) {
+    try {
+      console.log(`[YouTube] Trying Koyeb (yt-dlp) for: ${videoId}`);
+      const apiUrl = `${KOYEB_API_URL}/info?url=${encodeURIComponent(url)}&audio=${audioOnly ? "1" : "0"}`;
+      const res = await fetch(apiUrl, {
+        method: "GET",
+        headers: { "Accept": "application/json" },
+        signal: AbortSignal.timeout(35000),
+      });
+
+      if (res.ok) {
+        const data = await res.json() as Record<string, unknown>;
+        if (data.success && data.qualityOptions && (data.qualityOptions as unknown[]).length > 0) {
+          console.log(`[YouTube] Koyeb success! ${(data.qualityOptions as unknown[]).length} qualities`);
+          // Convert yt-dlp format to our format
+          const qualityOptions = (data.qualityOptions as Array<Record<string, unknown>>).map((q) => {
+            const label = (q.label as string) || (q.resolution as string) || "Auto";
+            const resolution = (q.resolution as string) || label;
+            const rawUrl = (q.url as string) || "";
+            const needsConversion = q.needsConversion === true || q.needsMuxing === true;
+
+            // Route download through Koyeb /stream endpoint for URLs that need conversion
+            // or through Koyeb /stream for googlevideo URLs to avoid CORS issues
+            let finalUrl = rawUrl;
+            if (rawUrl.includes("googlevideo.com") || needsConversion) {
+              finalUrl = `${KOYEB_API_URL}/stream?url=${encodeURIComponent(rawUrl)}&filename=${encodeURIComponent(data.filename || `mova_youtube_${videoId}`)}&quality=${encodeURIComponent(label)}`;
+            }
+
+            return {
+              label,
+              resolution,
+              url: finalUrl,
+              originalUrl: rawUrl,
+              needsConversion,
+            };
+          });
+
+          return {
+            title: (data.title as string) || "Video YouTube",
+            thumbnail: (data.thumbnail as string) || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+            duration: (data.duration as string) || "--:--",
+            author: (data.author as string) || "@unknown",
+            platform: "YouTube",
+            downloadUrl: qualityOptions[0]?.url || "",
+            qualityOptions,
+            filename: (data.filename as string) || `mova_youtube_${videoId}`,
+          };
+        }
+      }
+      console.log(`[YouTube] Koyeb returned ${res.status}`);
+    } catch (error) {
+      console.log(`[YouTube] Koyeb failed: ${error instanceof Error ? error.message : "unknown"}`);
+    }
+  }
+
+  // ── Strategy 2: Cloudflare Worker (InnerTube API) ──
   try {
-    console.log(`[YouTube] Calling CF Worker for: ${videoId}`);
+    console.log(`[YouTube] Trying CF Worker for: ${videoId}`);
     const res = await fetch(CF_WORKER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -792,20 +852,29 @@ export async function POST(request: NextRequest) {
     }
 
     // Route download URLs through proxy
-    // For YouTube googlevideo URLs: use CF Worker proxy (no size limit, proper referer)
+    // For YouTube with Koyeb: URLs already point to Koyeb /stream (no further proxy needed)
+    // For YouTube with CF Worker: use CF Worker /download endpoint
     // For other platforms: use Vercel proxy
     const encodedSourceUrl = encodeURIComponent(trimmedUrl);
-    const isYouTubeGooglevideo = platform === "YouTube" && result.qualityOptions.some(q => q.url.includes("googlevideo.com"));
+    const isYouTubeGooglevideo = platform === "YouTube" && result.qualityOptions.some(q => q.url.includes("googlevideo.com") || q.originalUrl?.includes("googlevideo.com"));
+    const isYouTubeKoyeb = platform === "YouTube" && KOYEB_API_URL && result.qualityOptions.some(q => q.url.includes(KOYEB_API_URL));
 
     let proxiedQualityOptions;
     let downloadUrl;
 
-    if (isYouTubeGooglevideo) {
+    if (isYouTubeKoyeb) {
+      // Koyeb /stream URLs already set — just add originalUrl for fallback
+      proxiedQualityOptions = result.qualityOptions.map((q) => ({
+        ...q,
+        originalUrl: q.originalUrl || q.url,
+      }));
+      downloadUrl = result.downloadUrl;
+    } else if (isYouTubeGooglevideo) {
       // Route through CF Worker /download endpoint (no 4MB limit)
       const cfProxyBase = `${CF_WORKER_URL}/download`;
       proxiedQualityOptions = result.qualityOptions.map((q) => ({
         ...q,
-        originalUrl: q.url,
+        originalUrl: q.originalUrl || q.url,
         url: `${cfProxyBase}?url=${encodeURIComponent(q.url)}&filename=${encodeURIComponent(result.filename)}&quality=${encodeURIComponent(q.label)}`,
       }));
       downloadUrl = `${cfProxyBase}?url=${encodeURIComponent(result.downloadUrl)}&filename=${encodeURIComponent(result.filename)}&quality=best`;

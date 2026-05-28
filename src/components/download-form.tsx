@@ -99,28 +99,37 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
     setDownloading(true);
 
     try {
-      if (isAudio) {
+      // Strategy 1: fetch + blob + createObjectURL (cleanest UX, no new tab)
+      // Use for audio always, and for video if under ~200MB (to avoid memory issues)
+      if (isAudio || !downloadUrl.includes("/stream?")) {
         try {
           const res = await fetch(downloadUrl);
           if (res.ok) {
-            const blob = await res.blob();
-            if (blob.size > 1000) {
-              const blobUrl = URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.href = blobUrl;
-              a.download = downloadName;
-              a.style.display = "none";
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-              setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
-              setDownloading(false);
-              return;
+            const contentLength = parseInt(res.headers.get("content-length") || "0");
+            const sizeMB = contentLength / (1024 * 1024);
+            // Only use blob for audio or small video files (< 150MB)
+            if (isAudio || sizeMB < 150 || contentLength === 0) {
+              const blob = await res.blob();
+              if (blob.size > 1000) {
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = blobUrl;
+                a.download = downloadName;
+                a.style.display = "none";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+                setDownloading(false);
+                return;
+              }
             }
           }
         } catch {}
       }
 
+      // Strategy 2: <a> tag with download attribute
+      // For cross-origin URLs with Content-Disposition: attachment, browser will download
       try {
         const a = document.createElement("a");
         a.href = downloadUrl;
@@ -135,6 +144,7 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
         return;
       } catch {}
 
+      // Strategy 3: window.open fallback
       window.open(downloadUrl, "_blank");
     } catch {
       try { window.open(fallbackUrl, "_blank"); } catch {}

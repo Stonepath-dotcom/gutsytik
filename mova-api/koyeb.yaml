@@ -1,0 +1,37 @@
+# Koyeb deployment configuration for Mova API
+# Deploy with: koyeb service create mova-api --git github.com/<your-repo>/mova-api --git-branch main
+
+services:
+  - name: mova-api
+    instance_type: nano  # Free tier (1 vCPU, 512MB RAM)
+    regions:
+      - fra  # Frankfurt (EU) - choose closest to your users
+    ports:
+      - port: 8888
+        protocol: http
+    health_checks:
+      - protocol: http
+        port: 8888
+        path: /health
+        interval: 30s
+        timeout: 10s
+        startup_delay: 30s
+    routes:
+      - path: /
+        port: 8888
+    env_vars:
+      - key: PORT
+        value: "8888"
+      - key: NODE_ENV
+        value: "production"
+      - key: RATE_LIMIT
+        value: "30"
+      - key: YTDLP_TIMEOUT
+        value: "120000"
+      - key: DOWNLOAD_TIMEOUT
+        value: "300000"
+      - key: ADMIN_KEY
+        value: "mova-admin-secret-change-me"
+    scalings:
+      - min: 1
+        max: 1

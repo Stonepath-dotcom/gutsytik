@@ -292,6 +292,7 @@ app.use(cors({
     /\.vercel\.app$/,
     /\.onrender\.com$/,
     /\.railway\.app$/,
+    /\.koyeb\.app$/,
   ],
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "X-Admin-Key", "Range"],
