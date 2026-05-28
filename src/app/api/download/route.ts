@@ -161,7 +161,7 @@ async function downloadTikTok(url: string) {
 
 /* ──────────────── YouTube Strategy 1: Cloudflare Worker (BEST IP reputation) ─── */
 async function youTubeCfWorker(videoId: string, audioOnly: boolean) {
-  const cfWorkerUrl = process.env.CF_WORKER_URL;
+  const cfWorkerUrl = process.env.CF_WORKER_URL || "https://mova-yt-proxy.ardiidonovan.workers.dev";
   if (!cfWorkerUrl) return null;
   try {
     const res = await fetch(`${cfWorkerUrl}`, {
@@ -950,17 +950,26 @@ async function youTubeMetadata(videoId: string): Promise<{ title: string; author
   }
 }
 
-/* ──────────────── YouTube Combined (v4 - Public APIs first, no deployment needed) ─── */
+/* ──────────────── YouTube Combined (v5 - CF Worker first!) ─── */
 async function downloadYouTube(url: string, audioOnly: boolean) {
   const videoId = extractYouTubeVideoId(url);
   if (!videoId) return null;
 
-  // Fetch video metadata in the background (used for all strategies that don't return title)
+  // Fetch video metadata in the background (used for redirect fallback)
   const metadataPromise = youTubeMetadata(videoId);
 
-  // ===== PHASE 1: Public hosted APIs (run on THEIR infrastructure, not Vercel) =====
-  // These are the MOST RELIABLE strategies because YouTube sees their IPs, not Vercel's
-  console.log(`YouTube: Phase 1 - Public APIs (Cobalt, Piped, Invidious)...`);
+  // ===== PHASE 1: Cloudflare Worker (BEST - residential IP, most reliable) =====
+  // CF Worker runs on Cloudflare's edge with residential-like IPs
+  console.log(`YouTube: Phase 1 - Cloudflare Worker (best IP reputation)...`);
+
+  const cfResult = await youTubeCfWorker(videoId, audioOnly);
+  if (cfResult) {
+    console.log(`YouTube: Cloudflare Worker succeeded!`);
+    return cfResult;
+  }
+
+  // ===== PHASE 2: Public hosted APIs (run on THEIR infrastructure, not Vercel) =====
+  console.log(`YouTube: Phase 1 failed. Phase 2 - Public APIs (Cobalt, Piped, Invidious)...`);
 
   const [cobaltResult, pipedResult, invidiousResult] = await Promise.all([
     youTubeCobalt(url, audioOnly),
@@ -981,20 +990,15 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
     return invidiousResult;
   }
 
-  // ===== PHASE 2: External backends (if env vars are set) =====
-  console.log(`YouTube: Phase 1 failed. Phase 2 - External backends (CF Worker, Deno, yt-dlp, Cobalt self)...`);
+  // ===== PHASE 3: Other external backends (if env vars are set) =====
+  console.log(`YouTube: Phase 2 failed. Phase 3 - Other backends (Deno, yt-dlp, Cobalt self)...`);
 
-  const [cfResult, denoResult, ytDlpResult, cobaltSelfResult] = await Promise.all([
-    youTubeCfWorker(videoId, audioOnly),
+  const [denoResult, ytDlpResult, cobaltSelfResult] = await Promise.all([
     youTubeDenoProxy(videoId, audioOnly),
     youTubeYtDlp(url, audioOnly),
     youTubeCobaltSelf(url, audioOnly),
   ]);
 
-  if (cfResult) {
-    console.log(`YouTube: Cloudflare Worker succeeded!`);
-    return cfResult;
-  }
   if (denoResult) {
     console.log(`YouTube: Deno Proxy succeeded!`);
     return denoResult;
