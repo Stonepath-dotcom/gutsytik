@@ -90,40 +90,76 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
       return;
     }
 
-    const downloadUrl = q.url;
-
-    // YouTube downloads: URL is /api/yt-download?url=... which redirects to CF Worker
-    // CF Worker streams the file with Content-Disposition: attachment
-    // Just navigate directly — no popup blocker issues since it's same domain redirect
-    if (downloadUrl.startsWith("/api/yt-download")) {
-      setDownloading(true);
-      try {
-        window.location.href = downloadUrl;
-      } catch {
-        // Fallback: open in new tab
-        window.open(downloadUrl, "_blank", "noopener,noreferrer");
-      }
-      setTimeout(() => setDownloading(false), 3000);
-      return;
-    }
-
     const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
     const downloadName = (result.filename || `mova_${Date.now()}`) + `_${q.label}${ext}`;
     const isAudio = q.resolution === "MP3" || q.label === "Audio";
+    const downloadUrl = q.url;
     const fallbackUrl = q.originalUrl || q.url;
 
     setDownloading(true);
 
     try {
+      // === YOUTUBE DOWNLOADS (via /api/yt-download → CF Worker redirect) ===
+      // Use fetch + blob approach — most reliable on mobile, avoids:
+      // - Browser playing video inline instead of downloading
+      // - Popup blockers blocking window.open
+      // - <a download> being ignored for cross-origin redirects
+      if (downloadUrl.startsWith("/api/yt-download")) {
+        try {
+          const res = await fetch(downloadUrl);
+          if (res.ok) {
+            const contentLength = parseInt(res.headers.get("content-length") || "0");
+            const sizeMB = contentLength / (1024 * 1024);
+
+            // For audio or files under 100MB: use blob download (most reliable)
+            if (isAudio || sizeMB < 100 || contentLength === 0) {
+              const blob = await res.blob();
+              if (blob.size > 1000) {
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = blobUrl;
+                a.download = downloadName;
+                a.style.display = "none";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 30000);
+                setDownloading(false);
+                return;
+              }
+            }
+            // For large video files (>100MB): open in new tab
+            // CF Worker sets Content-Disposition: attachment, most browsers will download
+          }
+        } catch (fetchErr) {
+          console.log("YouTube fetch+blob failed:", fetchErr);
+        }
+
+        // Fallback: open in new tab (CF Worker has Content-Disposition: attachment)
+        try {
+          const a = document.createElement("a");
+          a.href = downloadUrl;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.style.display = "none";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } catch {
+          window.open(downloadUrl, "_blank");
+        }
+        setDownloading(false);
+        return;
+      }
+
+      // === NON-YOUTUBE DOWNLOADS ===
       // Strategy 1: fetch + blob + createObjectURL (cleanest UX, no new tab)
-      // Only for small files (audio, or video proxied through Vercel /api/proxy)
       if (isAudio || downloadUrl.startsWith("/api/proxy")) {
         try {
           const res = await fetch(downloadUrl);
           if (res.ok) {
             const contentLength = parseInt(res.headers.get("content-length") || "0");
             const sizeMB = contentLength / (1024 * 1024);
-            // Only use blob for audio or small video files (< 50MB)
             if (isAudio || sizeMB < 50 || contentLength === 0) {
               const blob = await res.blob();
               if (blob.size > 1000) {
