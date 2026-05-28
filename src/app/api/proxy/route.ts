@@ -8,9 +8,9 @@ export const maxDuration = 60;
  * Handles CORS issues and provides proper download headers.
  *
  * Strategy:
+ * - For googlevideo URLs: Always try streaming (no size limit check), fallback to redirect
  * - For audio files (MP3/M4A): Always stream through proxy
- * - For video files < 4MB: Stream through proxy
- * - For video files >= 4MB: Redirect to source URL
+ * - For video files from other CDNs: Stream if < 4.5MB, redirect if larger
  * - Validates that audio files are actually audio before serving
  */
 export async function GET(request: NextRequest) {
@@ -81,10 +81,67 @@ export async function GET(request: NextRequest) {
 
     // Determine if this is an audio download
     const isAudioRequest = quality === "Audio" || quality === "MP3" || quality === "Audio (Low)";
+    const isGooglevideo = targetHost.includes("googlevideo") || targetHost.includes("youtube");
 
-    // For YouTube/Googlevideo audio: try streaming through proxy first
-    // Direct redirect often doesn't work due to throttling and IP restrictions
-    if (isAudioRequest && (targetHost.includes("googlevideo") || targetHost.includes("youtube"))) {
+    // ===== GOOGLEVIDEO: Try streaming, fallback to redirect =====
+    // googlevideo URLs are signed and may need proper referer headers
+    // Vercel has a ~4.5MB response limit on hobby plan, but streaming often works for larger files
+    if (isGooglevideo) {
+      try {
+        const upstreamHeaders: Record<string, string> = { ...headers };
+
+        // Support Range requests for video seeking
+        const rangeHeader = request.headers.get("range");
+        if (rangeHeader) {
+          upstreamHeaders["Range"] = rangeHeader;
+        }
+
+        const upstreamRes = await fetch(videoUrl, {
+          headers: upstreamHeaders,
+          redirect: "follow",
+          signal: AbortSignal.timeout(120000),
+        });
+
+        if (!upstreamRes.ok && upstreamRes.status !== 206) {
+          console.log(`[proxy] googlevideo returned ${upstreamRes.status}, redirecting`);
+          return NextResponse.redirect(videoUrl);
+        }
+
+        const contentType = upstreamRes.headers.get("content-type") || "";
+        const contentLength = upstreamRes.headers.get("content-length");
+        const contentRange = upstreamRes.headers.get("content-range");
+        const isAudioContent = contentType.includes("audio") || isAudioRequest;
+        const extension = isAudioContent ? "mp3" : "mp4";
+        const downloadName = `${filename}_${quality.replace(/[^a-zA-Z0-9]/g, "_")}.${extension}`;
+
+        const responseHeaders: Record<string, string> = {
+          "Content-Type": isAudioContent ? "audio/mpeg" : (contentType || "video/mp4"),
+          "Content-Disposition": `attachment; filename="${downloadName}"`,
+          "Cache-Control": "public, max-age=3600",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Expose-Headers": "Content-Disposition, Content-Length, Content-Range, Accept-Ranges",
+          "Accept-Ranges": "bytes",
+        };
+
+        if (contentLength) responseHeaders["Content-Length"] = contentLength;
+        if (contentRange) {
+          responseHeaders["Content-Range"] = contentRange;
+        }
+
+        // Stream the response - Vercel may enforce 4.5MB limit on hobby plan
+        // If it fails, the frontend will catch the error and fall back to redirect
+        return new NextResponse(upstreamRes.body, {
+          status: contentRange ? 206 : 200,
+          headers: responseHeaders,
+        });
+      } catch (error) {
+        console.log(`[proxy] googlevideo stream failed: ${error instanceof Error ? error.message : "unknown"}, redirecting`);
+        return NextResponse.redirect(videoUrl);
+      }
+    }
+
+    // ===== NON-GOOGLEVIDEO AUDIO: Always stream through proxy =====
+    if (isAudioRequest) {
       try {
         const audioRes = await fetch(videoUrl, {
           headers,
@@ -100,7 +157,6 @@ export async function GET(request: NextRequest) {
           const isAudioContent = contentType.includes("audio") || contentType.includes("video") || contentType.includes("octet-stream");
 
           if (isAudioContent && (contentLength === 0 || contentLength > 10000)) {
-            // Stream the audio through our proxy with proper download headers
             const extension = "mp3";
             const downloadFilename = `${filename}_${quality}.${extension}`;
 
@@ -126,19 +182,17 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(videoUrl);
     }
 
-    // For video files, check size first with HEAD request
-    if (!isAudioRequest) {
-      try {
-        const headRes = await fetch(videoUrl, { method: "HEAD", headers, redirect: "follow", signal: AbortSignal.timeout(5000) });
-        const contentLength = parseInt(headRes.headers.get("content-length") || "0");
+    // ===== NON-GOOGLEVIDEO VIDEO: Check size first =====
+    try {
+      const headRes = await fetch(videoUrl, { method: "HEAD", headers, redirect: "follow", signal: AbortSignal.timeout(5000) });
+      const contentLength = parseInt(headRes.headers.get("content-length") || "0");
 
-        // Vercel has ~4.5MB response limit on hobby plan
-        if (contentLength > 4 * 1024 * 1024) {
-          return NextResponse.redirect(videoUrl);
-        }
-      } catch {
-        // HEAD request failed, continue with GET
+      // Vercel has ~4.5MB response limit on hobby plan
+      if (contentLength > 4 * 1024 * 1024) {
+        return NextResponse.redirect(videoUrl);
       }
+    } catch {
+      // HEAD request failed, continue with GET
     }
 
     // Fetch the file
@@ -181,12 +235,10 @@ export async function GET(request: NextRequest) {
     return new NextResponse(response.body, {
       status: 200,
       headers: {
-        // Use audio/mpeg for all audio files (m4a/mp3) for maximum compatibility
         "Content-Type": isAudio ? "audio/mpeg" : (sourceContentType || "video/mp4"),
         "Content-Disposition": `attachment; filename="${downloadFilename}"`,
         "Cache-Control": "no-cache",
         "Access-Control-Allow-Origin": "*",
-        // Add content-length if available for progress display
         ...(response.headers.get("content-length") ? {
           "Content-Length": response.headers.get("content-length")!,
         } : {}),

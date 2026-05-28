@@ -851,38 +851,30 @@ export async function POST(request: NextRequest) {
       }, { status: 500 });
     }
 
-    // Route download URLs through proxy
-    // For YouTube with Koyeb: URLs already point to Koyeb /stream (no further proxy needed)
-    // For YouTube with CF Worker: use CF Worker /download endpoint
-    // For other platforms: use Vercel proxy
+    // Route download URLs through appropriate proxy
+    // For YouTube with Backend (Fly.io/Render): URLs already point to backend /stream
+    // For YouTube with googlevideo: route through Vercel proxy (streaming mode for large files)
+    // For other platforms: route through Vercel proxy
     const encodedSourceUrl = encodeURIComponent(trimmedUrl);
     const isYouTubeGooglevideo = platform === "YouTube" && result.qualityOptions.some(q => q.url.includes("googlevideo.com") || q.originalUrl?.includes("googlevideo.com"));
-    const isYouTubeKoyeb = platform === "YouTube" && BACKEND_API_URL && result.qualityOptions.some(q => q.url.includes(BACKEND_API_URL));
+    const isYouTubeBackend = platform === "YouTube" && BACKEND_API_URL && result.qualityOptions.some(q => q.url.includes(BACKEND_API_URL));
 
     let proxiedQualityOptions;
     let downloadUrl;
 
-    if (isYouTubeKoyeb) {
-      // Koyeb /stream URLs already set — just add originalUrl for fallback
+    if (isYouTubeBackend) {
+      // Backend /stream URLs already set — just add originalUrl for fallback
       proxiedQualityOptions = result.qualityOptions.map((q) => ({
         ...q,
         originalUrl: q.originalUrl || q.url,
       }));
       downloadUrl = result.downloadUrl;
-    } else if (isYouTubeGooglevideo) {
-      // Route through CF Worker /download endpoint (no 4MB limit)
-      const cfProxyBase = `${CF_WORKER_URL}/download`;
+    } else {
+      // Route everything through Vercel proxy (including googlevideo)
+      // The proxy handles streaming for large files and redirects when needed
       proxiedQualityOptions = result.qualityOptions.map((q) => ({
         ...q,
         originalUrl: q.originalUrl || q.url,
-        url: `${cfProxyBase}?url=${encodeURIComponent(q.url)}&filename=${encodeURIComponent(result.filename)}&quality=${encodeURIComponent(q.label)}`,
-      }));
-      downloadUrl = `${cfProxyBase}?url=${encodeURIComponent(result.downloadUrl)}&filename=${encodeURIComponent(result.filename)}&quality=best`;
-    } else {
-      // Route through Vercel proxy
-      proxiedQualityOptions = result.qualityOptions.map((q) => ({
-        ...q,
-        originalUrl: q.url,
         url: `/api/proxy?url=${encodeURIComponent(q.url)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=${encodeURIComponent(q.label)}`,
       }));
       downloadUrl = `/api/proxy?url=${encodeURIComponent(result.downloadUrl)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=best`;
