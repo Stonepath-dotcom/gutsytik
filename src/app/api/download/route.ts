@@ -54,7 +54,6 @@ function extractTwitterInfo(url: string): { username: string; tweetId: string } 
   try {
     const parsed = new URL(url);
     const pathParts = parsed.pathname.split("/").filter(Boolean);
-    // URL format: /username/status/tweetId or /username/status/tweetId/video/1
     const statusIdx = pathParts.findIndex(p => p === "status");
     if (statusIdx >= 1 && statusIdx + 1 < pathParts.length) {
       return {
@@ -66,9 +65,48 @@ function extractTwitterInfo(url: string): { username: string; tweetId: string } 
   return null;
 }
 
+/* ──────────────── YouTube via Cloudflare Worker ─── */
+const CF_WORKER_URL = process.env.CF_WORKER_URL || "https://mova-yt-proxy.ardiidonovan.workers.dev";
+
+async function downloadYouTube(url: string, audioOnly: boolean) {
+  const videoId = extractYouTubeVideoId(url);
+  if (!videoId) return null;
+
+  try {
+    console.log(`[YouTube] Calling CF Worker for: ${videoId}`);
+    const res = await fetch(CF_WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ videoId, audioOnly }),
+      signal: AbortSignal.timeout(25000),
+    });
+
+    if (!res.ok) {
+      console.log(`[YouTube] CF Worker returned ${res.status}`);
+      return null;
+    }
+
+    const data = await res.json() as Record<string, unknown>;
+    if (!data.success || !data.qualityOptions || (data.qualityOptions as unknown[]).length === 0) {
+      console.log(`[YouTube] CF Worker no quality options`);
+      return null;
+    }
+
+    console.log(`[YouTube] CF Worker success! ${(data.qualityOptions as unknown[]).length} qualities`);
+    return data as {
+      title: string; thumbnail: string; duration: string; author: string;
+      platform: string; downloadUrl: string;
+      qualityOptions: { label: string; resolution: string; url: string }[];
+      filename: string;
+    };
+  } catch (error) {
+    console.log(`[YouTube] CF Worker failed: ${error instanceof Error ? error.message : "unknown"}`);
+    return null;
+  }
+}
+
 /* ──────────────── TikTok via tikwm.com ─── */
 async function downloadTikTok(url: string) {
-  // First, resolve short URLs (vm.tiktok.com / vt.tiktok.com)
   let resolvedUrl = url;
   const hostname = (() => {
     try { return new URL(url).hostname.toLowerCase(); } catch { return ""; }
@@ -80,7 +118,7 @@ async function downloadTikTok(url: string) {
     console.log(`TikTok: Resolved to: ${resolvedUrl}`);
   }
 
-  // Strategy 1: tikwm API with POST (body in form data)
+  // Strategy 1: tikwm API with POST
   try {
     const res = await fetch("https://www.tikwm.com/api/", {
       method: "POST",
@@ -159,937 +197,8 @@ async function downloadTikTok(url: string) {
   return null;
 }
 
-/* ──────────────── YouTube Strategy 1: Cloudflare Worker (BEST IP reputation) ─── */
-async function youTubeCfWorker(videoId: string, audioOnly: boolean) {
-  const cfWorkerUrl = process.env.CF_WORKER_URL || "https://mova-yt-proxy.ardiidonovan.workers.dev";
-  if (!cfWorkerUrl) return null;
-  try {
-    const res = await fetch(`${cfWorkerUrl}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ videoId, audioOnly }),
-      signal: AbortSignal.timeout(20000),
-    });
-    if (!res.ok) return null;
-    const data = await res.json() as Record<string, unknown>;
-    if (!data.success || !data.qualityOptions || (data.qualityOptions as unknown[]).length === 0) return null;
-    console.log(`[CF Worker] Success for: ${videoId}`);
-    return data as {
-      title: string; thumbnail: string; duration: string; author: string;
-      platform: string; downloadUrl: string;
-      qualityOptions: { label: string; resolution: string; url: string }[];
-      filename: string;
-    };
-  } catch (error) {
-    console.log(`[CF Worker] Failed: ${error instanceof Error ? error.message : "unknown"}`);
-    return null;
-  }
-}
-
-/* ──────────────── YouTube Strategy 2: Deno Deploy (edge network) ─── */
-async function youTubeDenoProxy(videoId: string, audioOnly: boolean) {
-  const denoProxyUrl = process.env.DENO_PROXY_URL;
-  if (!denoProxyUrl) return null;
-  try {
-    const res = await fetch(`${denoProxyUrl}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ videoId, audioOnly }),
-      signal: AbortSignal.timeout(20000),
-    });
-    if (!res.ok) return null;
-    const data = await res.json() as Record<string, unknown>;
-    if (!data.success || !data.qualityOptions || (data.qualityOptions as unknown[]).length === 0) return null;
-    console.log(`[Deno Proxy] Success for: ${videoId}`);
-    return data as {
-      title: string; thumbnail: string; duration: string; author: string;
-      platform: string; downloadUrl: string;
-      qualityOptions: { label: string; resolution: string; url: string }[];
-      filename: string;
-    };
-  } catch (error) {
-    console.log(`[Deno Proxy] Failed: ${error instanceof Error ? error.message : "unknown"}`);
-    return null;
-  }
-}
-
-/* ──────────────── YouTube Strategy 3: Self-hosted Cobalt API ─── */
-async function youTubeCobaltSelf(url: string, audioOnly: boolean) {
-  const cobaltUrl = process.env.COBALT_API_URL;
-  if (!cobaltUrl) return null;
-  try {
-    const res = await fetch(cobaltUrl, {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "User-Agent": "Mova/1.0",
-      },
-      body: JSON.stringify({
-        url,
-        videoQuality: "1080",
-        audioFormat: "mp3",
-        downloadMode: audioOnly ? "audio" : "auto",
-      }),
-      signal: AbortSignal.timeout(15000),
-    });
-    if (!res.ok) return null;
-    const data = await res.json() as Record<string, unknown>;
-    if ((data.status === "redirect" || data.status === "tunnel" || data.status === "stream") && data.url) {
-      const videoId = extractYouTubeVideoId(url);
-      const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-      if (audioOnly) {
-        qualityOptions.push({ label: "Audio", resolution: "MP3", url: data.url as string });
-      } else {
-        qualityOptions.push({ label: "Best", resolution: "Auto", url: data.url as string });
-      }
-      console.log(`[Cobalt Self] Success for: ${videoId}`);
-      return {
-        title: `YouTube Video`,
-        thumbnail: videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : "",
-        duration: "--:--",
-        author: "@unknown",
-        platform: "YouTube",
-        downloadUrl: data.url as string,
-        qualityOptions,
-        filename: `mova_youtube_${videoId || Date.now()}`,
-      };
-    }
-    return null;
-  } catch (error) {
-    console.log(`[Cobalt Self] Failed: ${error instanceof Error ? error.message : "unknown"}`);
-    return null;
-  }
-}
-
-/* ──────────────── YouTube Strategy 4: yt-dlp Backend (Replit/Render/Railway) ─── */
-async function youTubeYtDlp(url: string, audioOnly: boolean) {
-  const ytDlpApiUrl = process.env.YTDLP_API_URL;
-  if (!ytDlpApiUrl) return null;
-  try {
-    const apiUrl = `${ytDlpApiUrl}/info?url=${encodeURIComponent(url)}&audio=${audioOnly ? "1" : "0"}`;
-    console.log(`[yt-dlp] Calling: ${apiUrl.substring(0, 100)}...`);
-    const res = await fetch(apiUrl, {
-      headers: { "Accept": "application/json" },
-      signal: AbortSignal.timeout(30000),
-    });
-    if (!res.ok) {
-      console.log(`[yt-dlp] API returned ${res.status}`);
-      return null;
-    }
-    const data = await res.json();
-    if (data.qualityOptions && data.qualityOptions.length > 0) {
-      console.log(`[yt-dlp] Success for: ${url.substring(0, 60)}...`);
-      return data as {
-        title: string; thumbnail: string; duration: string; author: string;
-        platform: string; downloadUrl: string;
-        qualityOptions: { label: string; resolution: string; url: string }[];
-        filename: string;
-      };
-    }
-    console.log(`[yt-dlp] No quality options returned`);
-    return null;
-  } catch (error) {
-    console.log(`[yt-dlp] Failed: ${error instanceof Error ? error.message : "unknown"}`);
-    return null;
-  }
-}
-
-/* ──────────────── YouTube Strategy A: InnerTube API (Enhanced) ─── */
-async function youTubeInnerTube(videoId: string, audioOnly: boolean) {
-  // Updated client configs with latest versions for better success rate
-  // Order: most reliable from server IPs first
-  const clients: { clientName: string; clientVersion: string; extra?: Record<string, unknown>; thirdParty?: { embedUrl: string }; apiKey?: string }[] = [
-    // MWEB (Mobile Web) - often bypasses restrictions that block desktop clients
-    { clientName: "MWEB", clientVersion: "2.20250526.07.00", extra: { hl: "en", gl: "US" } },
-    // TVHTML5_SIMPLY_EMBEDDED_PLAYER - works well from server IPs (embedded context bypasses some restrictions)
-    { clientName: "TVHTML5_SIMPLY_EMBEDDED_PLAYER", clientVersion: "2.0", extra: { clientScreen: "EMBED", hl: "en", gl: "US" }, thirdParty: { embedUrl: "https://www.google.com" } },
-    // WEB_EMBEDDED_PLAYER - another embedded context client
-    { clientName: "WEB_EMBEDDED_PLAYER", clientVersion: "2.20250526.00.00", extra: { clientScreen: "EMBED", hl: "en", gl: "US" }, thirdParty: { embedUrl: "https://www.google.com" } },
-    // ANDROID_VR - known to bypass many restrictions
-    { clientName: "ANDROID_VR", clientVersion: "1.64.3", extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" } },
-    { clientName: "ANDROID_VR", clientVersion: "1.62.2", extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" } },
-    // ANDROID clients - tend to get direct URLs without throttling
-    { clientName: "ANDROID", clientVersion: "20.10.38", extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" } },
-    { clientName: "ANDROID", clientVersion: "20.29.37", extra: { androidSdkVersion: 34, osName: "Android", osVersion: "14", hl: "en", gl: "US" } },
-    // IOS client
-    { clientName: "IOS", clientVersion: "20.10.4", extra: { deviceModel: "iPhone16,2", hl: "en", gl: "US" } },
-    // WEB_CREATOR - sometimes works from server IPs
-    { clientName: "WEB_CREATOR", clientVersion: "1.20250526.00.00", extra: { hl: "en", gl: "US" } },
-    // WEB_REMIX (YouTube Music) - can access some restricted content
-    { clientName: "WEB_REMIX", clientVersion: "1.20250526.00.00", extra: { hl: "en", gl: "US" } },
-    // MEDIA_CONNECT frontend - newer client type
-    { clientName: "WEB", clientVersion: "2.20250526.00.00", extra: { hl: "en", gl: "US" } },
-  ];
-
-  const apiKeys = [
-    "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
-    "AIzaSyDZNkyC-AtROwMBpLfevIvqYk-Gfi8ZOeo",
-    "AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w",
-    "AIzaSyB-63vPrdThhKuerbB2N_l7Kwwcxj6yUAc",
-  ];
-
-  // Generate a random content playback nonce (cpn) - YouTube uses this for tracking
-  function generateCpn(): string {
-    const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
-    let result = "";
-    for (let i = 0; i < 16; i++) result += chars[Math.floor(Math.random() * chars.length)];
-    return result;
-  }
-
-  for (const key of apiKeys) {
-    for (const client of clients) {
-      try {
-        const context: Record<string, unknown> = {
-          client: { clientName: client.clientName, clientVersion: client.clientVersion, hl: "en", gl: "US", ...client.extra },
-        };
-        if (client.thirdParty) context.thirdParty = client.thirdParty;
-
-        const requestBody: Record<string, unknown> = {
-          videoId,
-          context,
-          contentCheckOk: true,
-          racyCheckOk: true,
-          cpn: generateCpn(),
-        };
-
-        const response = await fetch(
-          `https://www.youtube.com/youtubei/v1/player?prettyPrint=false&key=${key}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Origin": "https://www.youtube.com",
-              "Referer": "https://www.youtube.com/",
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-            },
-            body: JSON.stringify(requestBody),
-            signal: AbortSignal.timeout(8000),
-          }
-        );
-
-        if (!response.ok) continue;
-        const data = await response.json();
-        const result = parseYouTubeInnerTubeResponse(data, videoId, audioOnly);
-        if (result) {
-          console.log(`InnerTube success with client: ${client.clientName}`);
-          return result;
-        }
-      } catch { continue; }
-    }
-  }
-
-  return null;
-}
-
-function parseYouTubeInnerTubeResponse(data: Record<string, unknown>, videoId: string, audioOnly: boolean) {
-  const videoDetails = (data.videoDetails || {}) as Record<string, unknown>;
-  const streamingData = (data.streamingData || {}) as Record<string, unknown>;
-  const playability = (data.playabilityStatus || {}) as Record<string, unknown>;
-
-  if (playability.status !== "OK") {
-    console.log(`InnerTube playability: ${playability.status}, reason: ${playability.reason || "unknown"}`);
-    // Don't return null immediately - sometimes YouTube still provides streamingData
-    // even with UNPLAYABLE status (e.g., age-restricted videos with embedded client)
-    // Only skip if there's truly no streaming data
-    const hasFormats = (streamingData.formats && (streamingData.formats as unknown[]).length > 0) ||
-                       (streamingData.adaptiveFormats && (streamingData.adaptiveFormats as unknown[]).length > 0);
-    if (!hasFormats) return null;
-  }
-
-  const title = (videoDetails.title as string) || "Video YouTube";
-  const author = (videoDetails.author as string) || "@unknown";
-  const lengthSeconds = parseInt((videoDetails.lengthSeconds as string) || "0") || 0;
-  const duration = `${String(Math.floor(lengthSeconds / 60)).padStart(2, "0")}:${String(lengthSeconds % 60).padStart(2, "0")}`;
-  const thumbnail = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-
-  const formats = (streamingData.formats || []) as Record<string, unknown>[];
-  const adaptiveFormats = (streamingData.adaptiveFormats || []) as Record<string, unknown>[];
-
-  const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-  const audioFormats = adaptiveFormats
-    .filter((f) => typeof f.mimeType === "string" && f.mimeType.includes("audio") && f.url)
-    .sort((a, b) => ((b.bitrate as number) || 0) - ((a.bitrate as number) || 0));
-
-  if (audioOnly) {
-    if (audioFormats.length > 0) {
-      qualityOptions.push({ label: "Audio", resolution: "MP3", url: audioFormats[0].url as string });
-      if (audioFormats.length > 1) {
-        qualityOptions.push({ label: "Audio (Low)", resolution: "MP3", url: audioFormats[audioFormats.length - 1].url as string });
-      }
-    }
-  } else {
-    for (const f of formats) {
-      if (f.url) {
-        const quality = (f.qualityLabel as string) || (f.quality as string) || "360p";
-        qualityOptions.push({ label: quality, resolution: quality, url: f.url as string });
-      }
-    }
-    const videoFormats = adaptiveFormats
-      .filter((f) => typeof f.mimeType === "string" && f.mimeType.includes("video") && f.url)
-      .sort((a, b) => ((b.width as number) || 0) - ((a.width as number) || 0));
-    const existingLabels = new Set(qualityOptions.map(q => q.label));
-    for (const f of videoFormats) {
-      const quality = (f.qualityLabel as string) || (f.quality as string) || "";
-      if (quality && !existingLabels.has(quality) && qualityOptions.length < 6) {
-        qualityOptions.push({ label: quality, resolution: quality, url: f.url as string });
-        existingLabels.add(quality);
-      }
-    }
-    if (audioFormats.length > 0) {
-      qualityOptions.push({ label: "Audio", resolution: "MP3", url: audioFormats[0].url as string });
-    }
-  }
-
-  if (qualityOptions.length === 0) return null;
-
-  return {
-    title, thumbnail, duration, author,
-    platform: "YouTube",
-    downloadUrl: qualityOptions[0].url,
-    qualityOptions,
-    filename: `mova_youtube_${videoId}`,
-  };
-}
-
-/* ──────────────── YouTube Strategy B: Piped API ─── */
-async function youTubePiped(videoId: string, audioOnly: boolean) {
-  const pipedInstances = [
-    "https://pipedapi.kavin.rocks",
-    "https://pipedapi.adminforge.de",
-    "https://pipedapi.r4fo.com",
-    "https://api.piped.private.coffee",
-    "https://pipedapi.in.projectsegfau.lt",
-    "https://pipedapi.moomoo.me",
-    "https://api.piped.projectsegfau.lt",
-    "https://api.piped.yt",
-    "https://pipedapi.darkness.services",
-    "https://pipedapi.drgns.space",
-  ];
-
-  for (const instance of pipedInstances) {
-    try {
-      const res = await fetch(`${instance}/streams/${videoId}`, {
-        headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36", "Accept": "application/json" },
-        signal: AbortSignal.timeout(8000),
-      });
-      if (!res.ok) continue;
-      const data = await res.json();
-      if (data.error || !data.audioStreams) continue;
-
-      const title = data.title || "Video YouTube";
-      const author = data.uploader || "@unknown";
-      const durationNum = data.duration || 0;
-      const duration = `${String(Math.floor(durationNum / 60)).padStart(2, "0")}:${String(durationNum % 60).padStart(2, "0")}`;
-      const thumbnail = data.thumbnailUrl || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-
-      const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-      const audioStreams = (data.audioStreams as Array<Record<string, unknown>>)
-        .filter((s) => s.url)
-        .sort((a, b) => ((b.bitrate as number) || 0) - ((a.bitrate as number) || 0));
-
-      if (audioOnly) {
-        if (audioStreams.length > 0) {
-          qualityOptions.push({ label: "Audio", resolution: "MP3", url: convertPipedUrl(audioStreams[0].url as string) });
-          if (audioStreams.length > 1) {
-            qualityOptions.push({ label: "Audio (Low)", resolution: "MP3", url: convertPipedUrl(audioStreams[audioStreams.length - 1].url as string) });
-          }
-        }
-      } else {
-        const videoStreams = (data.videoStreams as Array<Record<string, unknown>>)
-          .filter((s) => s.url)
-          .sort((a, b) => ((b.width as number) || 0) - ((a.width as number) || 0));
-        const seen = new Set<string>();
-        for (const v of videoStreams) {
-          const q = (v.quality as string) || "";
-          if (q && !seen.has(q) && qualityOptions.length < 6) {
-            qualityOptions.push({ label: q, resolution: q, url: convertPipedUrl(v.url as string) });
-            seen.add(q);
-          }
-        }
-        if (audioStreams.length > 0) {
-          qualityOptions.push({ label: "Audio", resolution: "MP3", url: convertPipedUrl(audioStreams[0].url as string) });
-        }
-      }
-
-      if (qualityOptions.length === 0) continue;
-
-      console.log(`Piped API success with instance: ${instance}`);
-      return { title, thumbnail, duration, author, platform: "YouTube", downloadUrl: qualityOptions[0].url, qualityOptions, filename: `mova_youtube_${videoId}` };
-    } catch { continue; }
-  }
-  return null;
-}
-
-function convertPipedUrl(url: string): string {
-  try {
-    const parsed = new URL(url);
-    if (parsed.pathname.startsWith("/videoplayback")) {
-      const host = parsed.searchParams.get("host");
-      if (host) {
-        parsed.hostname = host;
-        parsed.pathname = "/videoplayback" + parsed.pathname.replace("/videoplayback", "");
-        return parsed.toString();
-      }
-    }
-  } catch {}
-  return url;
-}
-
-/* ──────────────── YouTube Strategy C: Invidious API ─── */
-async function youTubeInvidious(videoId: string, audioOnly: boolean) {
-  const invidiousInstances = [
-    "https://inv.nadeko.net",
-    "https://invidious.fdn.fr",
-    "https://inv.tux.pizza",
-    "https://invidious.privacyredirect.com",
-    "https://iv.ggtyler.dev",
-    "https://invidious.protokolla.fi",
-    "https://vid.puffyan.us",
-    "https://invidious.nerdvpn.de",
-    "https://inv.citw.lgbt",
-    "https://invidious.perennialte.ch",
-    "https://yt.artemislena.eu",
-  ];
-
-  for (const instance of invidiousInstances) {
-    try {
-      const res = await fetch(`${instance}/api/v1/videos/${videoId}`, {
-        headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36", "Accept": "application/json" },
-        signal: AbortSignal.timeout(8000),
-      });
-      if (!res.ok) continue;
-      const data = await res.json();
-      if (!data.title) continue;
-
-      const title = data.title || "Video YouTube";
-      const author = data.author || "@unknown";
-      const durationNum = data.lengthSeconds || 0;
-      const duration = `${String(Math.floor(durationNum / 60)).padStart(2, "0")}:${String(durationNum % 60).padStart(2, "0")}`;
-      const thumbnail = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-
-      const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-      const formatStreams = (data.formatStreams || []) as Array<Record<string, unknown>>;
-      const adaptiveFormats = (data.adaptiveFormats || []) as Array<Record<string, unknown>>;
-
-      // Combined format streams (video+audio)
-      for (const stream of formatStreams) {
-        const url = (stream.url as string) || "";
-        const quality = (stream.qualityLabel as string) || (stream.quality as string) || "";
-        if (url && quality) {
-          qualityOptions.push({ label: quality, resolution: quality, url });
-        }
-      }
-
-      // Adaptive audio streams for audio-only mode
-      if (audioOnly) {
-        const audioFormats = adaptiveFormats
-          .filter((f) => typeof f.type === "string" && f.type.includes("audio") && f.url)
-          .sort((a, b) => ((b.bitrate as number) || 0) - ((a.bitrate as number) || 0));
-        if (audioFormats.length > 0) {
-          qualityOptions.push({ label: "Audio", resolution: "MP3", url: audioFormats[0].url as string });
-          if (audioFormats.length > 1) {
-            qualityOptions.push({ label: "Audio (Low)", resolution: "MP3", url: audioFormats[audioFormats.length - 1].url as string });
-          }
-        }
-      } else {
-        // Adaptive video streams
-        const videoFormats = adaptiveFormats
-          .filter((f) => typeof f.type === "string" && f.type.includes("video") && f.url)
-          .sort((a, b) => ((b.bitrate as number) || 0) - ((a.bitrate as number) || 0));
-        const seen = new Set(qualityOptions.map(q => q.label));
-        for (const f of videoFormats) {
-          const quality = (f.qualityLabel as string) || (f.quality as string) || "";
-          if (quality && !seen.has(quality) && qualityOptions.length < 6) {
-            qualityOptions.push({ label: quality, resolution: quality, url: f.url as string });
-            seen.add(quality);
-          }
-        }
-        // Add audio option
-        const audioFormats = adaptiveFormats
-          .filter((f) => typeof f.type === "string" && f.type.includes("audio") && f.url)
-          .sort((a, b) => ((b.bitrate as number) || 0) - ((a.bitrate as number) || 0));
-        if (audioFormats.length > 0) {
-          qualityOptions.push({ label: "Audio", resolution: "MP3", url: audioFormats[0].url as string });
-        }
-      }
-
-      if (qualityOptions.length === 0) continue;
-
-      console.log(`Invidious API success with instance: ${instance}`);
-      return { title, thumbnail, duration, author, platform: "YouTube", downloadUrl: qualityOptions[0].url, qualityOptions, filename: `mova_youtube_${videoId}` };
-    } catch { continue; }
-  }
-  return null;
-}
-
-/* ──────────────── YouTube Strategy D: Page Scraping ─── */
-async function youTubePageScrape(videoId: string, audioOnly: boolean) {
-  try {
-    const res = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Accept": "text/html,application/xhtml+xml",
-      },
-      signal: AbortSignal.timeout(10000),
-    });
-    if (!res.ok) return null;
-    const html = await res.text();
-    const match = html.match(/ytInitialPlayerResponse\s*=\s*(\{.+?\});/);
-    if (!match) return null;
-    const data = JSON.parse(match[1]);
-    return parseYouTubeInnerTubeResponse(data, videoId, audioOnly);
-  } catch (error) {
-    console.log(`Page scraping failed: ${error instanceof Error ? error.message : "unknown"}`);
-    return null;
-  }
-}
-
-/* ──────────────── YouTube Strategy E: Edge Runtime Proxy ─── */
-async function youTubeEdgeProxy(videoId: string, audioOnly: boolean) {
-  try {
-    // Use the Vercel deployment URL or fallback to the known domain
-    const baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : process.env.NEXT_PUBLIC_SITE_URL || "https://getmova.my.id";
-
-    const res = await fetch(`${baseUrl}/api/yt-edge`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ videoId, audioOnly }),
-      signal: AbortSignal.timeout(25000),
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    if (!data.success) return null;
-    console.log(`Edge proxy success for video: ${videoId}`);
-    return data as {
-      title: string; thumbnail: string; duration: string; author: string;
-      platform: string; downloadUrl: string;
-      qualityOptions: { label: string; resolution: string; url: string }[];
-      filename: string;
-    };
-  } catch (error) {
-    console.log(`Edge proxy failed: ${error instanceof Error ? error.message : "unknown"}`);
-    return null;
-  }
-}
-
-/* ──────────────── YouTube Strategy F: Cobalt API (Expanded) ─── */
-async function youTubeCobalt(url: string, audioOnly: boolean) {
-  // Community-hosted Cobalt instances - these run on their OWN infrastructure,
-  // not on Vercel, so they can bypass YouTube's bot detection
-  const cobaltInstances = [
-    "https://api.cobalt.tools",
-    "https://cobalt-api.kwiatekmiki.com",
-    "https://cobalt.api.timelessnesses.me",
-  ];
-
-  for (const instance of cobaltInstances) {
-    try {
-      const res = await fetch(instance, {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "User-Agent": "Mova/1.0",
-        },
-        body: JSON.stringify({
-          url,
-          videoQuality: "720",
-          audioFormat: "mp3",
-          downloadMode: audioOnly ? "audio" : "auto",
-        }),
-        signal: AbortSignal.timeout(15000),
-      });
-
-      if (!res.ok) continue;
-      const data = await res.json();
-
-      if (data.status === "redirect" || data.status === "tunnel" || data.status === "stream") {
-        const downloadUrl = data.url as string;
-        if (!downloadUrl) continue;
-
-        const videoId = extractYouTubeVideoId(url);
-        const title = `YouTube Video${videoId ? ` ${videoId}` : ""}`;
-        const thumbnail = videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : "";
-
-        const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-        if (audioOnly) {
-          qualityOptions.push({ label: "Audio", resolution: "MP3", url: downloadUrl });
-        } else {
-          qualityOptions.push({ label: "720p", resolution: "720p", url: downloadUrl });
-        }
-
-        console.log(`Cobalt API success with instance: ${instance}`);
-        return {
-          title,
-          thumbnail,
-          duration: "--:--",
-          author: "@unknown",
-          platform: "YouTube",
-          downloadUrl,
-          qualityOptions,
-          filename: `mova_youtube_${videoId || Date.now()}`,
-        };
-      }
-
-      // Picker response (multiple quality options)
-      if (data.status === "picker" && data.picker) {
-        const videoId = extractYouTubeVideoId(url);
-        const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-        for (const item of data.picker) {
-          if (item.url) {
-            qualityOptions.push({
-              label: item.quality || "Video",
-              resolution: item.quality || "Auto",
-              url: item.url,
-            });
-          }
-        }
-        if (qualityOptions.length > 0) {
-          console.log(`Cobalt API picker success with instance: ${instance}`);
-          return {
-            title: `YouTube Video${videoId ? ` ${videoId}` : ""}`,
-            thumbnail: videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : "",
-            duration: "--:--",
-            author: "@unknown",
-            platform: "YouTube",
-            downloadUrl: qualityOptions[0].url,
-            qualityOptions,
-            filename: `mova_youtube_${videoId || Date.now()}`,
-          };
-        }
-      }
-    } catch (error) {
-      console.log(`Cobalt ${instance} failed: ${error instanceof Error ? error.message : "unknown"}`);
-    }
-  }
-  return null;
-}
-
-/* ──────────────── YouTube Strategy G: Third-Party Download Services ─── */
-async function youTubeThirdParty(url: string, videoId: string, audioOnly: boolean) {
-  // Strategy G1: Try ssyoutube (savefrom) style API
-  try {
-    const res = await fetch(`https://api.cobalt.tools`, {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "User-Agent": "Mova/1.0",
-      },
-      body: JSON.stringify({
-        url,
-        videoQuality: "1080",
-        audioFormat: "mp3",
-        downloadMode: audioOnly ? "audio" : "auto",
-        filenameStyle: "basic",
-      }),
-      signal: AbortSignal.timeout(15000),
-    });
-    if (res.ok) {
-      const data = await res.json() as Record<string, unknown>;
-      if ((data.status === "redirect" || data.status === "tunnel" || data.status === "stream") && data.url) {
-        const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-        if (audioOnly) {
-          qualityOptions.push({ label: "Audio", resolution: "MP3", url: data.url as string });
-        } else {
-          qualityOptions.push({ label: "Best", resolution: "Auto", url: data.url as string });
-        }
-        console.log(`Third-party cobalt success for: ${videoId}`);
-        return {
-          title: `YouTube Video`,
-          thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
-          duration: "--:--",
-          author: "@unknown",
-          platform: "YouTube",
-          downloadUrl: data.url as string,
-          qualityOptions,
-          filename: `mova_youtube_${videoId}`,
-        };
-      }
-    }
-  } catch (e) {
-    console.log(`Third-party cobalt failed: ${e instanceof Error ? e.message : "unknown"}`);
-  }
-
-  // Strategy G2: Try 9xbuddy API
-  try {
-    const res = await fetch(`https://9xbuddy.app/api/process?url=${encodeURIComponent(url)}`, {
-      headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36", "Accept": "application/json" },
-      signal: AbortSignal.timeout(10000),
-    });
-    if (res.ok) {
-      const data = await res.json() as Record<string, unknown>;
-      if (data.urls && Array.isArray(data.urls)) {
-        const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-        for (const item of data.urls as Array<Record<string, unknown>>) {
-          if (item.url) {
-            const quality = (item.quality as string) || (item.label as string) || "Video";
-            qualityOptions.push({ label: quality, resolution: quality, url: item.url as string });
-          }
-        }
-        if (qualityOptions.length > 0) {
-          console.log(`Third-party 9xbuddy success for: ${videoId}`);
-          return {
-            title: `YouTube Video`,
-            thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
-            duration: "--:--",
-            author: "@unknown",
-            platform: "YouTube",
-            downloadUrl: qualityOptions[0].url,
-            qualityOptions,
-            filename: `mova_youtube_${videoId}`,
-          };
-        }
-      }
-    }
-  } catch (e) {
-    console.log(`Third-party 9xbuddy failed: ${e instanceof Error ? e.message : "unknown"}`);
-  }
-
-  return null;
-}
-
-/* ──────────────── YouTube Strategy H: Innertube with visitorData ─── */
-async function youTubeInnerTubeWithVisitor(videoId: string, audioOnly: boolean) {
-  // This strategy first gets a visitorData from YouTube's /visitor_id endpoint
-  // then uses it in the player request - this can bypass some bot detection
-  try {
-    // Step 1: Get visitorData
-    const visitorRes = await fetch("https://www.youtube.com/visitor_id", {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-        "Accept": "application/json",
-        "Referer": "https://www.youtube.com/",
-        "Origin": "https://www.youtube.com",
-      },
-      signal: AbortSignal.timeout(5000),
-    });
-    
-    if (!visitorRes.ok) return null;
-    const visitorData = await visitorRes.json() as Record<string, unknown>;
-    const visitorId = (visitorData.responseContext as Record<string, unknown>)?.visitorData as string;
-    if (!visitorId) return null;
-
-    // Step 2: Use visitorData in player request with WEB client
-    const apiKeys = [
-      "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
-      "AIzaSyDZNkyC-AtROwMBpLfevIvqYk-Gfi8ZOeo",
-      "AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w",
-      "AIzaSyB-63vPrdThhKuerbB2N_l7Kwwcxj6yUAc",
-    ];
-
-    const clients = [
-      { clientName: "MWEB", clientVersion: "2.20250526.07.00" },
-      { clientName: "WEB", clientVersion: "2.20250526.00.00" },
-      { clientName: "TVHTML5_SIMPLY_EMBEDDED_PLAYER", clientVersion: "2.0" },
-      { clientName: "WEB_EMBEDDED_PLAYER", clientVersion: "2.20250526.00.00" },
-    ];
-
-    for (const key of apiKeys) {
-      for (const client of clients) {
-        try {
-          const context: Record<string, unknown> = {
-            client: { clientName: client.clientName, clientVersion: client.clientVersion, hl: "en", gl: "US", visitorData: visitorId },
-          };
-          if (client.clientName.includes("EMBEDDED")) {
-            context.thirdParty = { embedUrl: "https://www.google.com" };
-            (context.client as Record<string, unknown>).clientScreen = "EMBED";
-          }
-
-          const response = await fetch(
-            `https://www.youtube.com/youtubei/v1/player?prettyPrint=false&key=${key}`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              "Origin": "https://www.youtube.com",
-              "Referer": "https://www.youtube.com/",
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-              },
-              body: JSON.stringify({ videoId, context, contentCheckOk: true, racyCheckOk: true }),
-              signal: AbortSignal.timeout(8000),
-            }
-          );
-
-          if (!response.ok) continue;
-          const data = await response.json();
-          const result = parseYouTubeInnerTubeResponse(data, videoId, audioOnly);
-          if (result) {
-            console.log(`InnerTube+visitor success with client: ${client.clientName}`);
-            return result;
-          }
-        } catch { continue; }
-      }
-    }
-  } catch (e) {
-    console.log(`InnerTube+visitor failed: ${e instanceof Error ? e.message : "unknown"}`);
-  }
-  return null;
-}
-
-/* ──────────────── YouTube Strategy I: Fetch video metadata via oEmbed ─── */
-async function youTubeMetadata(videoId: string): Promise<{ title: string; author: string; thumbnail: string } | null> {
-  try {
-    const res = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`, {
-      headers: { "User-Agent": "Mova/1.0" },
-      signal: AbortSignal.timeout(5000),
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    return {
-      title: data.title || "YouTube Video",
-      author: data.author_name || "@unknown",
-      thumbnail: data.thumbnail_url || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
-    };
-  } catch {
-    return null;
-  }
-}
-
-/* ──────────────── YouTube Combined (v5 - CF Worker first!) ─── */
-async function downloadYouTube(url: string, audioOnly: boolean) {
-  const videoId = extractYouTubeVideoId(url);
-  if (!videoId) return null;
-
-  // Fetch video metadata in the background (used for redirect fallback)
-  const metadataPromise = youTubeMetadata(videoId);
-
-  // ===== PHASE 1: Cloudflare Worker (BEST - residential IP, most reliable) =====
-  // CF Worker runs on Cloudflare's edge with residential-like IPs
-  console.log(`YouTube: Phase 1 - Cloudflare Worker (best IP reputation)...`);
-
-  const cfResult = await youTubeCfWorker(videoId, audioOnly);
-  if (cfResult) {
-    console.log(`YouTube: Cloudflare Worker succeeded!`);
-    return cfResult;
-  }
-
-  // ===== PHASE 2: Public hosted APIs (run on THEIR infrastructure, not Vercel) =====
-  console.log(`YouTube: Phase 1 failed. Phase 2 - Public APIs (Cobalt, Piped, Invidious)...`);
-
-  const [cobaltResult, pipedResult, invidiousResult] = await Promise.all([
-    youTubeCobalt(url, audioOnly),
-    youTubePiped(videoId, audioOnly),
-    youTubeInvidious(videoId, audioOnly),
-  ]);
-
-  if (cobaltResult) {
-    console.log(`YouTube: Cobalt public API succeeded!`);
-    return cobaltResult;
-  }
-  if (pipedResult) {
-    console.log(`YouTube: Piped succeeded!`);
-    return pipedResult;
-  }
-  if (invidiousResult) {
-    console.log(`YouTube: Invidious succeeded!`);
-    return invidiousResult;
-  }
-
-  // ===== PHASE 3: Other external backends (if env vars are set) =====
-  console.log(`YouTube: Phase 2 failed. Phase 3 - Other backends (Deno, yt-dlp, Cobalt self)...`);
-
-  const [denoResult, ytDlpResult, cobaltSelfResult] = await Promise.all([
-    youTubeDenoProxy(videoId, audioOnly),
-    youTubeYtDlp(url, audioOnly),
-    youTubeCobaltSelf(url, audioOnly),
-  ]);
-
-  if (denoResult) {
-    console.log(`YouTube: Deno Proxy succeeded!`);
-    return denoResult;
-  }
-  if (ytDlpResult) {
-    console.log(`YouTube: yt-dlp backend succeeded!`);
-    return ytDlpResult;
-  }
-  if (cobaltSelfResult) {
-    console.log(`YouTube: Cobalt self-hosted succeeded!`);
-    return cobaltSelfResult;
-  }
-
-  // ===== PHASE 3: Third-party download services =====
-  console.log(`YouTube: Phase 2 failed. Phase 3 - Third-party services...`);
-
-  const thirdPartyResult = await youTubeThirdParty(url, videoId, audioOnly);
-  if (thirdPartyResult) {
-    console.log(`YouTube: Third-party service succeeded!`);
-    return thirdPartyResult;
-  }
-
-  // ===== PHASE 4: InnerTube API (from Vercel, likely blocked) =====
-  console.log(`YouTube: Phase 3 failed. Phase 4 - InnerTube + Edge proxy (may fail from server IP)...`);
-
-  const [innerTubeResult, edgeResult, visitorResult, scrapeResult] = await Promise.all([
-    youTubeInnerTube(videoId, audioOnly),
-    youTubeEdgeProxy(videoId, audioOnly),
-    youTubeInnerTubeWithVisitor(videoId, audioOnly),
-    youTubePageScrape(videoId, audioOnly),
-  ]);
-
-  if (innerTubeResult) {
-    console.log(`YouTube: InnerTube succeeded!`);
-    return innerTubeResult;
-  }
-  if (edgeResult) {
-    console.log(`YouTube: Edge proxy succeeded!`);
-    return edgeResult;
-  }
-  if (visitorResult) {
-    console.log(`YouTube: InnerTube+visitor succeeded!`);
-    return visitorResult;
-  }
-  if (scrapeResult) {
-    console.log(`YouTube: Page scraping succeeded!`);
-    return scrapeResult;
-  }
-
-  // ===== PHASE 5: Redirect Fallback =====
-  // All API-based methods failed - generate a redirect to external download service
-  // This gives the user a working download link even when all APIs are blocked
-  console.log(`YouTube: All API strategies failed. Generating redirect fallback...`);
-
-  const metadata = await metadataPromise;
-  const title = metadata?.title || "YouTube Video";
-  const author = metadata?.author || "@unknown";
-  const thumbnail = metadata?.thumbnail || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-
-  // Generate external download links as fallback
-  const redirectUrls = [
-    `https://ssyoutube.com/watch?v=${videoId}`,
-    `https://10downloader.com/download?v=https://www.youtube.com/watch?v=${videoId}`,
-    `https://y2mate.com/youtube/${videoId}`,
-  ];
-
-  // Return a special result with redirect info - the frontend will handle this
-  return {
-    title,
-    thumbnail,
-    duration: "--:--",
-    author,
-    platform: "YouTube",
-    downloadUrl: redirectUrls[0],
-    qualityOptions: [
-      { label: audioOnly ? "Audio" : "Video", resolution: audioOnly ? "MP3" : "Auto", url: redirectUrls[0] },
-    ],
-    filename: `mova_youtube_${videoId}`,
-    isRedirect: true,
-    redirectUrls,
-  } as Record<string, unknown> & {
-    title: string; thumbnail: string; duration: string; author: string;
-    platform: string; downloadUrl: string;
-    qualityOptions: { label: string; resolution: string; url: string }[];
-    filename: string;
-  };
-}
-
 /* ──────────────── Instagram Downloader ─── */
 async function downloadInstagram(url: string) {
-  // Extract shortcode from Instagram URL
   let shortcode = "";
   let contentType: "p" | "reel" | "reels" | "tv" = "p";
   try {
@@ -1102,8 +211,7 @@ async function downloadInstagram(url: string) {
     }
   } catch {}
 
-  // Strategy 1: Try Instagram page scraping with Googlebot UA (gets server-rendered content)
-  console.log("Instagram: Trying page scrape with bot UA...");
+  // Strategy 1: Googlebot UA
   try {
     const res = await fetch(url, {
       headers: {
@@ -1114,7 +222,6 @@ async function downloadInstagram(url: string) {
       signal: AbortSignal.timeout(10000),
       redirect: "follow",
     });
-
     if (res.ok) {
       const html = await res.text();
       const result = extractInstagramVideo(html, shortcode);
@@ -1124,8 +231,7 @@ async function downloadInstagram(url: string) {
     console.log(`Instagram bot scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
-  // Strategy 2: Try with mobile user agent
-  console.log("Instagram: Trying mobile UA scrape...");
+  // Strategy 2: Mobile UA
   try {
     const res = await fetch(url, {
       headers: {
@@ -1136,7 +242,6 @@ async function downloadInstagram(url: string) {
       signal: AbortSignal.timeout(10000),
       redirect: "follow",
     });
-
     if (res.ok) {
       const html = await res.text();
       const result = extractInstagramVideo(html, shortcode);
@@ -1146,14 +251,11 @@ async function downloadInstagram(url: string) {
     console.log(`Instagram mobile scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
-  // Strategy 3: Try Instagram embed endpoint
+  // Strategy 3: Embed endpoint
   if (shortcode) {
-    console.log(`Instagram: Trying embed endpoint for shortcode: ${shortcode}`);
     try {
-      // For reels, embed uses /p/ path
       const embedPath = contentType === "reel" || contentType === "reels" ? `/p/${shortcode}/embed/` : `/${contentType}/${shortcode}/embed/`;
       const embedUrl = `https://www.instagram.com${embedPath}`;
-
       const res = await fetch(embedUrl, {
         headers: {
           "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
@@ -1162,7 +264,6 @@ async function downloadInstagram(url: string) {
         signal: AbortSignal.timeout(10000),
         redirect: "follow",
       });
-
       if (res.ok) {
         const html = await res.text();
         const result = extractInstagramVideo(html, shortcode);
@@ -1173,21 +274,17 @@ async function downloadInstagram(url: string) {
     }
   }
 
-  // Strategy 4: Try desktop user agent
-  console.log("Instagram: Trying desktop UA scrape...");
+  // Strategy 4: Desktop UA
   try {
     const res = await fetch(url, {
       headers: {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml",
         "Accept-Language": "en-US,en;q=0.9",
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
       },
       signal: AbortSignal.timeout(10000),
       redirect: "follow",
     });
-
     if (res.ok) {
       const html = await res.text();
       const result = extractInstagramVideo(html, shortcode);
@@ -1206,7 +303,6 @@ function extractInstagramVideo(html: string, shortcode: string) {
   let title: string = "Instagram Video";
   let author: string = "@unknown";
 
-  // Try multiple patterns to find video URL
   const videoPatterns = [
     /"video_url":"([^"]+)"/,
     /content="([^"]+)"\s+property="og:video(:secure_url)?"/,
@@ -1224,15 +320,12 @@ function extractInstagramVideo(html: string, shortcode: string) {
     }
   }
 
-  // Get thumbnail
   const thumbMatch = html.match(/content="([^"]+)"\s+property="og:image"/);
   if (thumbMatch) thumbnail = thumbMatch[1].replace(/&amp;/g, "&");
 
-  // Get title
   const titleMatch = html.match(/content="([^"]+)"\s+property="og:title"/);
   if (titleMatch) title = titleMatch[1];
 
-  // Get author
   const authorMatch = html.match(/content="([^"]+)"\s+name="twitter:creator"/) ||
                       html.match(/"username":"([^"]+)"/);
   if (authorMatch) author = authorMatch[1];
@@ -1309,7 +402,6 @@ async function downloadTwitter(url: string) {
 
   // Strategy 1: fxtwitter API (JSON endpoint)
   if (username && tweetId) {
-    console.log(`Twitter: Trying fxtwitter API for @${username}/${tweetId}`);
     try {
       const res = await fetch(`https://api.fxtwitter.com/${username}/status/${tweetId}`, {
         headers: {
@@ -1327,19 +419,13 @@ async function downloadTwitter(url: string) {
           const videos = media.videos || [];
           const allMedia = media.all || [];
 
-          // Get the best video URL
           let videoUrl: string | null = null;
-          let videoFormat: string = "mp4";
 
           if (videos.length > 0) {
-            // Get highest quality video
             const bestVideo = videos[0];
             videoUrl = bestVideo.url || null;
-            videoFormat = bestVideo.format || "mp4";
 
-            // Some fxtwitter responses have variants with different qualities
             if (bestVideo.variants && Array.isArray(bestVideo.variants)) {
-              // Sort by bitrate (highest first) and pick MP4
               const mp4Variants = bestVideo.variants
                 .filter((v: { content_type?: string; bitrate?: number; url?: string }) => v.content_type === "video/mp4" && v.url)
                 .sort((a: { bitrate?: number }, b: { bitrate?: number }) => (b.bitrate || 0) - (a.bitrate || 0));
@@ -1354,7 +440,6 @@ async function downloadTwitter(url: string) {
             const qualityOptions: { label: string; resolution: string; url: string }[] = [];
             qualityOptions.push({ label: "Best", resolution: "Auto", url: videoUrl });
 
-            // If there are multiple videos (e.g., GIF alternatives)
             if (videos.length > 1) {
               for (let i = 1; i < Math.min(videos.length, 4); i++) {
                 if (videos[i]?.url) {
@@ -1381,14 +466,11 @@ async function downloadTwitter(url: string) {
     }
   }
 
-  // Strategy 2: fxtwitter HTML with bot User-Agent (gets server-rendered og:video tags)
+  // Strategy 2: fxtwitter HTML with Discordbot UA
   try {
     const fxTwitterUrl = url.replace("twitter.com", "fxtwitter.com").replace("x.com", "fxtwitter.com");
-    console.log(`Twitter: Trying fxtwitter HTML: ${fxTwitterUrl}`);
-
     const res = await fetch(fxTwitterUrl, {
       headers: {
-        // Bot user agents get server-rendered pages with og:video meta tags
         "User-Agent": "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)",
         "Accept": "text/html",
       },
@@ -1397,8 +479,6 @@ async function downloadTwitter(url: string) {
 
     if (res.ok) {
       const html = await res.text();
-
-      // Try multiple patterns for og:video
       const videoPatterns = [
         /content="([^"]+)"\s+property="og:video:secure_url"/,
         /content="([^"]+)"\s+property="og:video"/,
@@ -1416,7 +496,6 @@ async function downloadTwitter(url: string) {
       }
 
       if (videoUrl) {
-        // Get title and author
         const titleMatch = html.match(/content="([^"]+)"\s+property="og:description"/) ||
                           html.match(/content="([^"]+)"\s+property="og:title"/);
         const thumbMatch = html.match(/content="([^"]+)"\s+property="og:image"/);
@@ -1440,11 +519,9 @@ async function downloadTwitter(url: string) {
     console.log(`fxtwitter HTML failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
-  // Strategy 3: vxtwitter HTML with bot User-Agent
+  // Strategy 3: vxtwitter HTML
   try {
     const vxUrl = url.replace("twitter.com", "vxtwitter.com").replace("x.com", "vxtwitter.com");
-    console.log(`Twitter: Trying vxtwitter HTML: ${vxUrl}`);
-
     const res = await fetch(vxUrl, {
       headers: {
         "User-Agent": "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)",
@@ -1489,55 +566,6 @@ async function downloadTwitter(url: string) {
     }
   } catch (e) {
     console.log(`vxtwitter failed: ${e instanceof Error ? e.message : "unknown"}`);
-  }
-
-  // Strategy 4: Try with TelegramBot user agent (gets different response from fxtwitter)
-  try {
-    const fxTwitterUrl = url.replace("twitter.com", "fxtwitter.com").replace("x.com", "fxtwitter.com");
-    const res = await fetch(fxTwitterUrl, {
-      headers: {
-        "User-Agent": "TelegramBot (like TwitterBot)",
-        "Accept": "text/html",
-      },
-      signal: AbortSignal.timeout(10000),
-    });
-
-    if (res.ok) {
-      const html = await res.text();
-      const videoPatterns = [
-        /content="([^"]+)"\s+property="og:video:secure_url"/,
-        /content="([^"]+)"\s+property="og:video"/,
-        /property="og:video:secure_url"\s+content="([^"]+)"/,
-        /property="og:video"\s+content="([^"]+)"/,
-      ];
-
-      let videoUrl: string | null = null;
-      for (const pattern of videoPatterns) {
-        const match = html.match(pattern);
-        if (match?.[1]) {
-          videoUrl = match[1];
-          break;
-        }
-      }
-
-      if (videoUrl) {
-        const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-        qualityOptions.push({ label: "Best", resolution: "Auto", url: videoUrl });
-
-        return {
-          title: "Twitter/X Video",
-          thumbnail: "",
-          duration: "--:--",
-          author: username ? `@${username}` : "@unknown",
-          platform: "Twitter/X",
-          downloadUrl: videoUrl,
-          qualityOptions,
-          filename: `mova_twitter_${tweetId || Date.now()}`,
-        };
-      }
-    }
-  } catch (e) {
-    console.log(`fxtwitter TelegramBot UA failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
   return null;
@@ -1593,7 +621,7 @@ async function downloadPinterest(url: string) {
 
 /* ──────────────── Facebook Downloader ─── */
 async function downloadFacebook(url: string) {
-  // Strategy 1: Page scraping with bot UA
+  // Strategy 1: Googlebot UA
   try {
     const res = await fetch(url, {
       headers: {
@@ -1613,7 +641,7 @@ async function downloadFacebook(url: string) {
     console.log(`Facebook bot scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
-  // Strategy 2: Page scraping with regular UA
+  // Strategy 2: Regular UA
   try {
     const res = await fetch(url, {
       headers: {
@@ -1646,7 +674,6 @@ function extractFacebookVideo(html: string) {
     videoUrl = hdMatch?.[1]?.replace(/\\u002F/g, "/") || sdMatch?.[1]?.replace(/\\u002F/g, "/");
   }
 
-  // Also try looking for video in the page data
   if (!videoUrl) {
     const dataMatch = html.match(/"playable_url_quality_hd":"([^"]+)"/);
     if (dataMatch) videoUrl = dataMatch[1].replace(/\\u002F/g, "/");
@@ -1755,8 +782,8 @@ export async function POST(request: NextRequest) {
         "Facebook": "Gagal mengunduh video Facebook. Facebook membatasi akses dari server. Pastikan video bersifat publik dan coba lagi.",
         "Twitter/X": "Gagal mengunduh video Twitter/X. Pastikan tweet berisi video dan bersifat publik.",
         "YouTube": audioMode
-          ? "Gagal mengekstrak audio YouTube. YouTube membatasi download dari server. Coba video lain."
-          : "Gagal mengunduh video YouTube. YouTube membatasi download dari server. Coba video lain.",
+          ? "Gagal mengekstrak audio YouTube. Coba video lain atau coba lagi nanti."
+          : "Gagal mengunduh video YouTube. Coba video lain atau coba lagi nanti.",
       };
 
       return NextResponse.json({
@@ -1764,64 +791,39 @@ export async function POST(request: NextRequest) {
       }, { status: 500 });
     }
 
-    // Check if this is a redirect fallback result (external download service link)
-    const isRedirect = (result as Record<string, unknown>).isRedirect === true;
-    const redirectUrls = (result as Record<string, unknown>).redirectUrls as string[] | undefined;
-    // Check if result came from CF Worker (has googlevideo URLs)
-    const cfWorkerUrl = process.env.CF_WORKER_URL || "https://mova-yt-proxy.ardiidonovan.workers.dev";
-    const isCfWorkerResult = platform === "YouTube" && result.qualityOptions.some(q => q.url.includes("googlevideo.com"));
+    // Route download URLs through proxy
+    // For YouTube googlevideo URLs: use CF Worker proxy (no size limit, proper referer)
+    // For other platforms: use Vercel proxy
+    const encodedSourceUrl = encodeURIComponent(trimmedUrl);
+    const isYouTubeGooglevideo = platform === "YouTube" && result.qualityOptions.some(q => q.url.includes("googlevideo.com"));
 
-    if (isRedirect) {
-      // For redirect results, don't proxy URLs - these are external web pages, not video streams
-      return NextResponse.json(
-        {
-          ...result,
-          isRedirect: true,
-          redirectUrls: redirectUrls || [result.downloadUrl],
-          originalDownloadUrl: result.downloadUrl,
-          qualityOptions: result.qualityOptions.map((q) => ({
-            ...q,
-            originalUrl: q.url,
-          })),
-        },
-        { status: 200 }
-      );
-    }
+    let proxiedQualityOptions;
+    let downloadUrl;
 
-    // For YouTube videos from CF Worker: route downloads through CF Worker proxy
-    // (Vercel proxy has 4MB limit, CF Worker has no limit)
-    if (isCfWorkerResult) {
-      const cfProxyBase = `${cfWorkerUrl}/download`;
-      const proxiedQualityOptions = result.qualityOptions.map((q) => ({
+    if (isYouTubeGooglevideo) {
+      // Route through CF Worker /download endpoint (no 4MB limit)
+      const cfProxyBase = `${CF_WORKER_URL}/download`;
+      proxiedQualityOptions = result.qualityOptions.map((q) => ({
         ...q,
         originalUrl: q.url,
         url: `${cfProxyBase}?url=${encodeURIComponent(q.url)}&filename=${encodeURIComponent(result.filename)}&quality=${encodeURIComponent(q.label)}`,
       }));
-
-      return NextResponse.json(
-        {
-          ...result,
-          originalDownloadUrl: result.downloadUrl,
-          downloadUrl: `${cfProxyBase}?url=${encodeURIComponent(result.downloadUrl)}&filename=${encodeURIComponent(result.filename)}&quality=best`,
-          qualityOptions: proxiedQualityOptions,
-        },
-        { status: 200 }
-      );
+      downloadUrl = `${cfProxyBase}?url=${encodeURIComponent(result.downloadUrl)}&filename=${encodeURIComponent(result.filename)}&quality=best`;
+    } else {
+      // Route through Vercel proxy
+      proxiedQualityOptions = result.qualityOptions.map((q) => ({
+        ...q,
+        originalUrl: q.url,
+        url: `/api/proxy?url=${encodeURIComponent(q.url)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=${encodeURIComponent(q.label)}`,
+      }));
+      downloadUrl = `/api/proxy?url=${encodeURIComponent(result.downloadUrl)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=best`;
     }
-
-    // For other platforms: use Vercel proxy
-    const encodedSourceUrl = encodeURIComponent(trimmedUrl);
-    const proxiedQualityOptions = result.qualityOptions.map((q) => ({
-      ...q,
-      originalUrl: q.url,
-      url: `/api/proxy?url=${encodeURIComponent(q.url)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=${encodeURIComponent(q.label)}`,
-    }));
 
     return NextResponse.json(
       {
         ...result,
         originalDownloadUrl: result.downloadUrl,
-        downloadUrl: `/api/proxy?url=${encodeURIComponent(result.downloadUrl)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=best`,
+        downloadUrl,
         qualityOptions: proxiedQualityOptions,
       },
       { status: 200 }
