@@ -302,7 +302,7 @@ function detectPlatform(urlStr: string): string {
 }
 
 /* ══════════════════════════════════════════════════
-   NAVBAR — Clean white, logo left, center links, controls right
+   NAVBAR — Solid white bg, logo left, center links, controls right
    ══════════════════════════════════════════════════ */
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -332,7 +332,7 @@ function Navbar() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#1A1A1A]/95 backdrop-blur-md border-b border-gray-100 dark:border-white/10" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-[#1A1A1A] border-b border-gray-100 dark:border-white/10" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
       <div className="mx-auto max-w-6xl h-16 flex items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="GetMova - Home">
@@ -393,7 +393,7 @@ function Navbar() {
 }
 
 /* ══════════════════════════════════════════════════
-   HERO — Dark gradient, SaveFrom-style combined input+button
+   HERO — White bg, grayscale people image, centered text
    ══════════════════════════════════════════════════ */
 function HeroSection() {
   const { t } = useLanguage();
@@ -561,22 +561,22 @@ function HeroSection() {
 
   return (
     <section id="hero" className="hero-bg relative pt-24 md:pt-32 pb-12 md:pb-20 px-4 md:px-6" style={{ minHeight: "70vh" }}>
-      {/* Background image */}
+      {/* Background image — grayscale people */}
       <div className="absolute inset-0 z-0">
-        <Image src="/hero-bg.png" alt="" fill className="object-cover object-center" priority />
+        <Image src="/hero-people.png" alt="" fill className="object-cover object-center grayscale" priority />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-6xl flex flex-col items-start md:items-start text-left md:text-left">
-        {/* Single large heading */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight max-w-xl">
-          Online Video <span className="text-[#E52222]">Downloader</span>
+      <div className="relative z-10 mx-auto max-w-4xl flex flex-col items-center text-center">
+        {/* Centered heading */}
+        <h1 className="text-[28px] sm:text-[36px] md:text-[48px] font-extrabold text-[#333333] dark:text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight">
+          {t("hero.small")} <span className="text-[#E52222]">{t("hero.big")}</span>
         </h1>
-        <p className="text-white/70 text-sm md:text-base max-w-lg leading-relaxed mb-6 md:mb-8">
+        <p className="text-[#666666] dark:text-gray-400 text-sm max-w-lg leading-relaxed mb-6 md:mb-8">
           {t("hero.subtitle")}
         </p>
 
-        {/* COMBINED Input + Button — SaveFrom style */}
-        <div className="w-full max-w-xl rounded-xl overflow-hidden shadow-2xl flex">
+        {/* COMBINED Input + Button */}
+        <div className="w-full max-w-xl rounded-lg overflow-hidden shadow-xl flex border border-gray-200 dark:border-white/10">
           <div className="flex-1 relative">
             <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
             <input
@@ -586,7 +586,7 @@ function HeroSection() {
               onChange={e => setUrl(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleAnalyze()}
               placeholder={t("input.placeholder")}
-              className="h-14 w-full bg-white text-gray-900 text-sm md:text-base pl-11 pr-4 border-0 outline-none placeholder:text-gray-400"
+              className="h-14 w-full bg-white dark:bg-[#2D2D2D] text-gray-900 dark:text-white text-sm md:text-base pl-11 pr-4 border-0 outline-none placeholder:text-gray-400"
             />
           </div>
           <button
@@ -599,31 +599,38 @@ function HeroSection() {
           </button>
         </div>
 
-        {/* Support text */}
-        <p className="text-white/40 text-xs mt-3">
-          Support: TikTok, Instagram, Facebook, Twitter/X, Pinterest, Reddit
-        </p>
+        {/* Platform support bar — dark gray with white icons */}
+        <div className="w-full max-w-xl mt-4 bg-[#333333] dark:bg-[#444444] rounded-lg px-4 py-2.5 flex items-center justify-center gap-3 md:gap-4">
+          <span className="text-white text-xs font-medium shrink-0">{t("platforms.label")}</span>
+          <div className="flex items-center gap-3 md:gap-4">
+            {PLATFORMS.map(p => (
+              <span key={p.name} className="text-white/90 hover:text-white transition-colors">
+                <p.Icon className="h-4 w-4 md:h-5 md:w-5" />
+              </span>
+            ))}
+          </div>
+        </div>
 
         {/* Loading */}
         {loading && !error && (
-          <div className="max-w-lg mt-5 p-3 rounded-lg bg-white/10 backdrop-blur flex items-center gap-2">
-            <Loader2 className="h-4 w-4 text-white animate-spin shrink-0" />
-            <p className="text-white text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
+          <div className="max-w-lg mt-5 p-3 rounded-lg bg-white/80 dark:bg-[#2D2D2D]/80 backdrop-blur flex items-center gap-2">
+            <Loader2 className="h-4 w-4 text-[#E52222] animate-spin shrink-0" />
+            <p className="text-[#333] dark:text-white text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
           </div>
         )}
 
         {/* Error */}
         {error && (
-          <div className="max-w-lg mt-5 p-3 rounded-lg bg-red-500/20 backdrop-blur border border-red-400/30 flex items-start gap-2">
-            <AlertCircle className="h-4 w-4 text-red-300 mt-0.5 shrink-0" />
-            <p className="text-red-200 text-sm text-left">{error}</p>
+          <div className="max-w-lg mt-5 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 flex items-start gap-2">
+            <AlertCircle className="h-4 w-4 text-[#E52222] mt-0.5 shrink-0" />
+            <p className="text-[#E52222] dark:text-red-300 text-sm text-left">{error}</p>
           </div>
         )}
 
         {/* Result card */}
         {result && (
-          <div ref={resultRef} className="max-w-lg mt-5 rounded-xl bg-white overflow-hidden text-left shadow-xl border border-gray-100">
-            <div className="px-4 py-2.5 border-b border-gray-100 flex items-center gap-2 bg-gray-50">
+          <div ref={resultRef} className="max-w-lg mt-5 rounded-xl bg-white dark:bg-[#2D2D2D] overflow-hidden text-left shadow-xl border border-gray-100 dark:border-white/10">
+            <div className="px-4 py-2.5 border-b border-gray-100 dark:border-white/10 flex items-center gap-2 bg-gray-50 dark:bg-[#333]">
               <CheckCircle className="h-4 w-4 text-[#E52222] shrink-0" />
               <span className="text-sm text-[#E52222] font-medium">{t("result.found")}</span>
               <div className="ml-auto flex items-center gap-1.5">
@@ -632,24 +639,24 @@ function HeroSection() {
                     <pd.Icon className="h-2.5 w-2.5 text-white" />
                   </div>
                 ); })()}
-                <span className="text-xs text-gray-500">{result.platform}</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">{result.platform}</span>
               </div>
             </div>
 
             <div className="p-4">
               {showPreview && !previewError ? (
-                <div className="w-full rounded-md overflow-hidden bg-gray-100 mb-3">
+                <div className="w-full rounded-md overflow-hidden bg-gray-100 dark:bg-[#444] mb-3">
                   <video src={result.qualityOptions[0]?.originalUrl || result.qualityOptions[0]?.url} controls muted className="w-full object-contain" style={{ maxHeight: "200px" }} onError={() => setPreviewError(true)} />
                 </div>
               ) : (
                 <div className="flex gap-3 mb-3">
-                  <div className="w-20 h-14 rounded-md bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden relative">
+                  <div className="w-20 h-14 rounded-md bg-gray-100 dark:bg-[#444] flex items-center justify-center shrink-0 overflow-hidden relative">
                     {result.thumbnail && <Image src={result.thumbnail} alt={result.title} width={80} height={56} className="w-full h-full object-cover" unoptimized />}
                     <Play className="h-4 w-4 absolute text-[#E52222]" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-gray-900 text-sm line-clamp-2">{result.title}</h3>
-                    <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                    <h3 className="font-medium text-gray-900 dark:text-white text-sm line-clamp-2">{result.title}</h3>
+                    <div className="flex items-center gap-3 mt-1 text-xs text-gray-500 dark:text-gray-400">
                       {result.duration !== "--:--" && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{result.duration}</span>}
                       <span className="flex items-center gap-1"><User className="h-3 w-3" />{result.author}</span>
                     </div>
@@ -658,23 +665,23 @@ function HeroSection() {
               )}
 
               <div className="flex flex-wrap gap-0.5 mb-3">
-                <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-xs text-gray-500 hover:text-gray-900 h-7">
+                <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7">
                   {showPreview ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}{t("result.preview")}
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs text-gray-500 hover:text-gray-900 h-7">
+                <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7">
                   <Share2 className="h-3 w-3 mr-1" />{t("result.share")}
                 </Button>
                 <Button variant="ghost" size="sm" onClick={handleToggleBookmark} className="text-xs h-7" style={{ color: isBookmarkedState ? RED : "#999" }}>
                   <Bookmark className={`h-3 w-3 mr-1 ${isBookmarkedState ? "fill-current" : ""}`} />{isBookmarkedState ? t("result.bookmarked") : t("result.bookmark")}
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-xs text-gray-500 hover:text-gray-900 h-7">
+                <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7">
                   <Copy className="h-3 w-3 mr-1" />{t("result.copyCaption")}
                 </Button>
               </div>
 
               {result.qualityOptions.length > 0 && (
                 <div className="mb-3">
-                  <p className="text-xs font-medium text-gray-500 mb-2 flex items-center gap-1.5">
+                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1.5">
                     <Film className="h-3 w-3 text-[#E52222]" />{t("result.selectQuality")}
                   </p>
                   <div className="flex flex-wrap gap-1.5">
@@ -683,7 +690,7 @@ function HeroSection() {
                       return (
                         <button key={i} onClick={() => setSelectedQuality(i)}
                           className={`flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors ${
-                            isSelected ? "text-white bg-[#E52222] border-[#E52222]" : "bg-white text-gray-600 border-gray-200 hover:border-[#E52222]/30"
+                            isSelected ? "text-white bg-[#E52222] border-[#E52222]" : "bg-white dark:bg-[#333] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-[#E52222]/30"
                           }`}
                         >
                           <span>{q.label}</span>
@@ -708,57 +715,32 @@ function HeroSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   PLATFORMS BAR — White bg, pill buttons with brand colors
-   ══════════════════════════════════════════════════ */
-function PlatformsBar() {
-  const { t } = useLanguage();
-  return (
-    <section className="bg-white dark:bg-[#1A1A1A] py-6 md:py-8 px-4 border-b border-gray-100 dark:border-white/5">
-      <div className="mx-auto max-w-4xl">
-        <p className="text-gray-400 dark:text-gray-500 text-xs text-center mb-4 uppercase tracking-wider font-medium">{t("platforms.label")}</p>
-        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
-          {PLATFORMS.map(p => (
-            <a key={p.name} href={`/${p.name.toLowerCase().replace('/', '').replace(' ', '-')}-downloader`}
-              className="flex items-center gap-2 rounded-full border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 px-4 py-2 transition-colors group">
-              <span style={{ color: p.color }}>
-                <p.Icon className="h-4 w-4 md:h-5 md:w-5" />
-              </span>
-              <span className="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-[#E52222] dark:group-hover:text-[#E52222] transition-colors">{p.name}</span>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ══════════════════════════════════════════════════
-   FREE VIDEO DOWNLOADER — Light gray bg, two columns
+   FREE VIDEO DOWNLOADER — White bg, two columns, red circle decoration
    ══════════════════════════════════════════════════ */
 function FreeDownloaderSection() {
   const { t } = useLanguage();
   return (
-    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#F7F7F7] dark:bg-[#1A1A1A]">
+    <section className="py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           {/* Left: Text content */}
           <div className="flex-1 text-center md:text-left">
             <div className="inline-flex items-center gap-2 mb-4">
-              <span className="bg-[#E52222] text-white text-xs font-bold px-4 py-1.5 rounded-full">{t("free.badge")}</span>
+              <span className="bg-[#E52222] text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-wider">{t("free.badge")}</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4 font-[family-name:var(--font-montserrat)] leading-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-[32px] font-extrabold text-[#333333] dark:text-white mb-4 font-[family-name:var(--font-montserrat)] leading-tight">
               {t("free.title1")} <span className="text-[#E52222]">{t("free.titleRed")}</span>
             </h2>
-            <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 leading-relaxed mb-6 max-w-md mx-auto md:mx-0">
+            <p className="text-sm text-[#666666] dark:text-gray-400 leading-relaxed mb-6 max-w-md mx-auto md:mx-0">
               {t("free.desc")}
             </p>
             <a href="#hero">
-              <Button className="bg-[#1A1A1A] dark:bg-white dark:text-[#1A1A1A] text-white font-semibold rounded-lg hover:bg-[#333] dark:hover:bg-gray-100 px-6 h-11 text-sm">
+              <Button className="bg-[#333333] dark:bg-white dark:text-[#333333] text-white font-semibold rounded-full hover:bg-[#555] dark:hover:bg-gray-100 px-6 h-11 text-sm">
                 {t("free.btn")} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </a>
           </div>
-          {/* Right: Decorative visual */}
+          {/* Right: Decorative visual — concentric red circles */}
           <div className="flex-shrink-0">
             <div className="w-52 h-52 md:w-72 md:h-72 rounded-full bg-[#E52222]/10 flex items-center justify-center">
               <div className="w-40 h-40 md:w-56 md:h-56 rounded-full bg-[#E52222]/20 flex items-center justify-center">
@@ -775,45 +757,52 @@ function FreeDownloaderSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   HOW TO USE — White bg, 3 horizontal steps with connectors
+   HOW TO USE — White bg, left person image + red circle, right 3 steps
    ══════════════════════════════════════════════════ */
 function HowToUseSection() {
   const { t } = useLanguage();
   const steps = [
-    { num: 1, icon: Search, title: t("how.step1.title"), desc: t("how.step1.desc") },
-    { num: 2, icon: LinkIcon, title: t("how.step2.title"), desc: t("how.step2.desc") },
-    { num: 3, icon: Download, title: t("how.step3.title"), desc: t("how.step3.desc") },
+    { num: "01", title: t("how.step1.title"), desc: t("how.step1.desc"), filled: true },
+    { num: "02", title: t("how.step2.title"), desc: t("how.step2.desc"), filled: true },
+    { num: "03", title: t("how.step3.title"), desc: t("how.step3.desc"), filled: false },
   ];
 
   return (
-    <section id="how" className="py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#222]">
+    <section id="how" className="py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 relative">
-          {/* Connecting lines - desktop only */}
-          <div className="hidden md:block absolute top-12 left-[calc(16.67%+40px)] right-[calc(16.67%+40px)] h-0.5">
-            <div className="w-full h-full border-t-2 border-dashed border-[#E52222]/30" />
+        <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+          {/* Left: Person image with red circle accent */}
+          <div className="flex-shrink-0 relative">
+            <div className="absolute -top-4 -left-4 w-64 h-64 md:w-80 md:h-80 rounded-full bg-[#E52222]/10 z-0" />
+            <div className="relative z-10 w-56 h-56 md:w-72 md:h-72 rounded-2xl overflow-hidden">
+              <Image src="/how-person.png" alt="Person using phone" fill className="object-cover object-center" />
+            </div>
           </div>
 
-          {steps.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <div key={i} className="flex flex-col items-center text-center relative">
-                {/* Numbered circle */}
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#E52222] flex items-center justify-center shadow-lg z-10 mb-4">
-                  <span className="text-white font-bold text-lg md:text-xl">{s.num}</span>
-                </div>
-                {/* Icon */}
-                <div className="w-10 h-10 rounded-full bg-[#E52222]/10 flex items-center justify-center mb-3">
-                  <Icon className="h-5 w-5 text-[#E52222]" />
-                </div>
+          {/* Right: 3 numbered steps */}
+          <div className="flex-1 space-y-6 md:space-y-8">
+            {steps.map((s, i) => (
+              <div key={i} className="flex items-start gap-4">
+                {/* Number circle */}
+                {s.filled ? (
+                  <div className="w-12 h-12 rounded-full bg-[#E52222] flex items-center justify-center shrink-0">
+                    <span className="text-white font-bold text-sm">{s.num}</span>
+                  </div>
+                ) : (
+                  <div className="w-12 h-12 rounded-full border-2 border-[#E52222] flex items-center justify-center shrink-0">
+                    <span className="text-[#E52222] font-bold text-sm">{s.num}</span>
+                  </div>
+                )}
                 {/* Text */}
-                <h3 className="text-base md:text-lg font-bold text-gray-900 dark:text-white mb-2">{s.title}</h3>
-                <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-[220px]">{s.desc}</p>
+                <div>
+                  <h3 className="text-base md:text-lg font-bold text-[#333333] dark:text-white mb-1">{s.title}</h3>
+                  <p className="text-sm text-[#666666] dark:text-gray-400 leading-relaxed">{s.desc}</p>
+                </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -821,7 +810,7 @@ function HowToUseSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   FEATURE CARDS (01, 02, 03) — White bg, cards with shadow
+   FEATURE CARDS (01, 02, 03) — Dark gray bg, white text
    ══════════════════════════════════════════════════ */
 function FeatureCardsSection() {
   const { t } = useLanguage();
@@ -832,21 +821,19 @@ function FeatureCardsSection() {
   ];
 
   return (
-    <section id="features" className="py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#222]">
+    <section id="features" className="py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
       <div className="mx-auto max-w-5xl">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {features.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div key={i} className="bg-white dark:bg-[#2D2D2D] rounded-2xl border border-gray-100 dark:border-white/10 p-8 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
-                <span className="text-[#E52222] text-4xl md:text-5xl font-extrabold font-[family-name:var(--font-montserrat)]">{f.num}</span>
+              <div key={i} className="bg-[#333333] dark:bg-[#333] rounded-lg p-8 border border-white/10 hover:border-white/20 transition-all duration-200">
+                <span className="text-white/20 text-4xl md:text-5xl font-extrabold font-[family-name:var(--font-montserrat)]">{f.num}</span>
                 <div className="mt-4 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-[#E52222]/10 flex items-center justify-center">
-                    <Icon className="h-5 w-5 text-[#E52222]" />
-                  </div>
+                  <Icon className="h-6 w-6 text-white" />
                 </div>
-                <h3 className="text-gray-900 dark:text-white text-lg font-bold mb-2">{f.title}</h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{f.desc}</p>
+                <h3 className="text-white text-lg font-bold mb-2">{f.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{f.desc}</p>
               </div>
             );
           })}
@@ -857,7 +844,7 @@ function FeatureCardsSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   WHY CHOOSE GETMOVA — Light gray bg, 4 centered cards
+   WHY CHOOSE GETMOVA — Light gray bg, black icons, clean minimal
    ══════════════════════════════════════════════════ */
 function WhyChooseSection() {
   const { t } = useLanguage();
@@ -869,19 +856,19 @@ function WhyChooseSection() {
   ];
 
   return (
-    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#F7F7F7] dark:bg-[#1A1A1A]">
+    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("why.title")}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("why.title")}</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           {benefits.map((b, i) => {
             const Icon = b.icon;
             return (
-              <div key={i} className="bg-white dark:bg-[#2D2D2D] rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 rounded-full bg-[#E52222] flex items-center justify-center mx-auto mb-4">
-                  <Icon className="h-5 w-5 text-white" />
+              <div key={i} className="text-center p-4">
+                <div className="flex items-center justify-center mb-4">
+                  <Icon className="h-8 w-8 text-[#333333] dark:text-white" />
                 </div>
-                <h3 className="text-sm md:text-base font-bold text-gray-900 dark:text-white mb-2">{b.title}</h3>
-                <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{b.desc}</p>
+                <h3 className="text-sm md:text-base font-bold text-[#333333] dark:text-white mb-2">{b.title}</h3>
+                <p className="text-xs md:text-sm text-[#999999] dark:text-gray-500 leading-relaxed">{b.desc}</p>
               </div>
             );
           })}
@@ -892,31 +879,34 @@ function WhyChooseSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   FAQ — White bg, accordion with border, red highlight
+   FAQ — Dark gray bg, white text, red numbers, red "Questions" pill
    ══════════════════════════════════════════════════ */
 function FAQSection() {
   const { t } = useLanguage();
   const faqItems = [
-    { q: t("faq.1.q"), a: t("faq.1.a") },
-    { q: t("faq.2.q"), a: t("faq.2.a") },
-    { q: t("faq.3.q"), a: t("faq.3.a") },
-    { q: t("faq.4.q"), a: t("faq.4.a") },
+    { num: "01", q: t("faq.1.q"), a: t("faq.1.a") },
+    { num: "02", q: t("faq.2.q"), a: t("faq.2.a") },
+    { num: "03", q: t("faq.3.q"), a: t("faq.3.a") },
+    { num: "04", q: t("faq.4.q"), a: t("faq.4.a") },
   ];
 
   return (
-    <section id="faq" className="py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#222]">
+    <section id="faq" className="py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
       <div className="mx-auto max-w-3xl">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">
-          {t("faq.title")} <span className="text-[#E52222]">{t("faq.titleRed")}</span>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">
+          {t("faq.title")} <span className="inline-block bg-[#E52222] text-white px-3 py-1 rounded-md ml-1">{t("faq.titleRed")}</span>
         </h2>
-        <div className="space-y-3">
+        <div className="space-y-0">
           {faqItems.map((f, i) => (
-            <details key={i} className="group bg-white dark:bg-[#2D2D2D] rounded-xl border border-gray-200 dark:border-white/10 hover:border-[#E52222]/40 dark:hover:border-[#E52222]/40 transition-colors">
-              <summary className="flex items-center justify-between px-5 py-4 cursor-pointer text-sm md:text-base font-medium text-gray-900 dark:text-white hover:text-[#E52222] transition-colors list-none">
-                <span className="pr-3">{f.q}</span>
-                <ChevronDown className="h-4 w-4 text-gray-400 dark:text-gray-500 shrink-0 group-open:rotate-180 transition-transform duration-200" />
+            <details key={i} className="group border-b border-white/10">
+              <summary className="flex items-center justify-between py-5 cursor-pointer text-sm md:text-base font-medium text-white hover:text-[#E52222] transition-colors list-none">
+                <span className="flex items-center gap-4 pr-3">
+                  <span className="text-[#E52222] font-bold text-sm shrink-0">{f.num}</span>
+                  <span>{f.q}</span>
+                </span>
+                <ChevronDown className="h-4 w-4 text-white/50 shrink-0 group-open:rotate-180 transition-transform duration-200" />
               </summary>
-              <div className="px-5 pb-4 text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-white/5 pt-3">
+              <div className="pb-5 text-sm md:text-base text-[#999999] leading-relaxed pl-10">
                 {f.a}
               </div>
             </details>
@@ -928,52 +918,32 @@ function FAQSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   FOOTER — Very dark bg, 3 columns
+   FOOTER — Dark (#222) bg, minimal layout
    ══════════════════════════════════════════════════ */
 function Footer() {
   const { t, lang } = useLanguage();
   return (
-    <footer className="bg-[#1A1A1A] border-t border-white/5" role="contentinfo">
+    <footer className="bg-[#222222] dark:bg-[#1A1A1A]" role="contentinfo">
       <div className="mx-auto max-w-6xl px-4 md:px-6 py-10 md:py-14">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-          {/* Column 1: Logo + Description */}
-          <div>
-            <div className="flex items-center gap-1.5 mb-4">
-              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="shrink-0">
-                <rect width="32" height="32" rx="8" fill="#E52222" />
-                <path d="M13 9L23 16L13 23V9Z" fill="white" />
-              </svg>
-              <span className="font-[family-name:var(--font-montserrat)] font-bold text-white text-lg" style={{ letterSpacing: "-0.03em" }}>
-                Get<span className="text-[#E52222]">Mova</span>
-              </span>
-            </div>
-            <p className="text-gray-500 text-xs leading-relaxed max-w-xs">{t("footer.desc")}</p>
+        <div className="flex flex-col items-center text-center gap-4">
+          {/* Logo */}
+          <div className="flex items-center gap-1.5">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="shrink-0">
+              <rect width="32" height="32" rx="8" fill="#E52222" />
+              <path d="M13 9L23 16L13 23V9Z" fill="white" />
+            </svg>
+            <span className="font-[family-name:var(--font-montserrat)] font-bold text-white text-lg" style={{ letterSpacing: "-0.03em" }}>
+              Get<span className="text-[#E52222]">Mova</span>
+            </span>
           </div>
-          {/* Column 2: Quick Links */}
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-4">Quick Links</h4>
-            <ul className="space-y-2.5">
-              {PLATFORMS.slice(0, 4).map(p => (
-                <li key={p.name}><a href={`/${p.name.toLowerCase().replace('/', '').replace(' ', '-')}-downloader`} className="text-gray-500 hover:text-white text-xs transition-colors">{p.name} Downloader</a></li>
-              ))}
-            </ul>
+          {/* Links */}
+          <div className="flex items-center gap-6">
+            <a href="/privacy" className="text-white text-xs hover:text-[#E52222] transition-colors">{lang === "id" ? "Kebijakan Privasi" : "Privacy Policy"}</a>
+            <a href="/terms" className="text-white text-xs hover:text-[#E52222] transition-colors">{lang === "id" ? "Syarat & Ketentuan" : "Terms of Service"}</a>
+            <a href="/contact" className="text-white text-xs hover:text-[#E52222] transition-colors">{lang === "id" ? "Hubungi Kami" : "Contact Us"}</a>
           </div>
-          {/* Column 3: Legal */}
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-4">Legal</h4>
-            <ul className="space-y-2.5">
-              <li><a href="/privacy" className="text-gray-500 hover:text-white text-xs transition-colors">{lang === "id" ? "Kebijakan Privasi" : "Privacy Policy"}</a></li>
-              <li><a href="/terms" className="text-gray-500 hover:text-white text-xs transition-colors">{lang === "id" ? "Syarat & Ketentuan" : "Terms of Service"}</a></li>
-              <li><a href="/dmca" className="text-gray-500 hover:text-white text-xs transition-colors">DMCA</a></li>
-              <li><a href="/disclaimer" className="text-gray-500 hover:text-white text-xs transition-colors">Disclaimer</a></li>
-            </ul>
-          </div>
-        </div>
-        <div className="mt-10 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-gray-600 text-xs">&copy; 2024-2026 GetMova. All rights reserved.</p>
-          <p className="text-gray-700 text-[10px] text-center sm:text-right">
-            {lang === "id" ? "GetMova tidak menyimpan konten berhak cipta. Pengguna bertanggung jawab atas penggunaan konten yang diunduh." : "GetMova does not store copyrighted content. Users are responsible for downloaded content usage."}
-          </p>
+          {/* Copyright */}
+          <p className="text-[#999999] text-xs">&copy; 2024-2026 GetMova. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -1014,7 +984,6 @@ export default function Home() {
         <Navbar />
         <main className="flex-1 pb-14 md:pb-0">
           <HeroSection />
-          <PlatformsBar />
           <FreeDownloaderSection />
           <HowToUseSection />
           <FeatureCardsSection />
