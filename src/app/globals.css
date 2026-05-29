@@ -197,80 +197,107 @@ img, video, svg, iframe { max-width: 100%; height: auto; }
 
 /* ─── Desktop base font boost ─── */
 @media screen and (min-width: 768px) {
-  html { font-size: 16px; }
-}
-@media screen and (min-width: 1024px) {
   html { font-size: 17px; }
 }
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 1024px) {
   html { font-size: 18px; }
 }
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1280px) {
   html { font-size: 19px; }
 }
+@media screen and (min-width: 1440px) {
+  html { font-size: 20px; }
+}
 
-/* ─── Desktop Font Size Overrides ─── */
+/* ─── Desktop Font Size Overrides — Large & Readable ─── */
 @media screen and (min-width: 1024px) {
   /* Hero */
-  .hero-title { font-size: 3.2rem !important; }
-  .hero-subtitle { font-size: 1.15rem !important; }
+  .hero-title { font-size: 3.75rem !important; line-height: 1.1 !important; }
+  .hero-subtitle { font-size: 1.3rem !important; line-height: 1.7 !important; }
 
   /* Section headings */
-  .section-heading { font-size: 2.5rem !important; }
+  .section-heading { font-size: 2.75rem !important; line-height: 1.2 !important; }
   
   /* Navbar links */
-  .nav-link-desktop { font-size: 0.95rem !important; }
+  .nav-link-desktop { font-size: 1.05rem !important; }
   
   /* Body text in sections */
-  .section-body-text { font-size: 1.05rem !important; }
+  .section-body-text { font-size: 1.2rem !important; line-height: 1.7 !important; }
   
   /* Feature card text */
-  .feature-card-title { font-size: 1.2rem !important; }
-  .feature-card-desc { font-size: 1rem !important; }
+  .feature-card-title { font-size: 1.45rem !important; }
+  .feature-card-desc { font-size: 1.15rem !important; line-height: 1.7 !important; }
   
   /* Statistics numbers */
-  .stat-display { font-size: 3.5rem !important; }
-  .stat-label { font-size: 1.05rem !important; }
+  .stat-display { font-size: 4rem !important; }
+  .stat-label { font-size: 1.2rem !important; }
   
   /* Why choose section */
-  .why-title { font-size: 1.1rem !important; }
-  .why-desc { font-size: 0.95rem !important; }
+  .why-title { font-size: 1.35rem !important; }
+  .why-desc { font-size: 1.1rem !important; line-height: 1.7 !important; }
   
   /* FAQ section */
-  .faq-question { font-size: 1.1rem !important; }
-  .faq-answer { font-size: 1rem !important; }
+  .faq-question { font-size: 1.3rem !important; }
+  .faq-answer { font-size: 1.15rem !important; line-height: 1.7 !important; }
   
   /* Blog cards */
-  .blog-card-title { font-size: 1rem !important; }
-  .blog-card-meta { font-size: 0.875rem !important; }
+  .blog-card-title { font-size: 1.15rem !important; }
+  .blog-card-meta { font-size: 0.95rem !important; }
   
   /* Comparison table */
-  .compare-feature { font-size: 1rem !important; }
-  .compare-header { font-size: 0.95rem !important; }
+  .compare-feature { font-size: 1.1rem !important; }
+  .compare-header { font-size: 1.05rem !important; }
   
   /* Testimonial text */
-  .testi-text { font-size: 1rem !important; }
-  .testi-name { font-size: 1rem !important; }
-  .testi-role { font-size: 0.875rem !important; }
+  .testi-text { font-size: 1.15rem !important; line-height: 1.7 !important; }
+  .testi-name { font-size: 1.15rem !important; }
+  .testi-role { font-size: 0.95rem !important; }
   
   /* Platform cards */
-  .platform-card-title { font-size: 1.05rem !important; }
-  .platform-card-desc { font-size: 0.9rem !important; }
+  .platform-card-title { font-size: 1.25rem !important; }
+  .platform-card-desc { font-size: 1.05rem !important; line-height: 1.6 !important; }
   
   /* Input area */
-  .download-input-desktop { font-size: 1.1rem !important; }
-  .download-btn-desktop { font-size: 1.05rem !important; }
+  .download-input-desktop { font-size: 1.2rem !important; }
+  .download-btn-desktop { font-size: 1.15rem !important; }
   
   /* Footer */
-  .footer-link { font-size: 0.95rem !important; }
-  .footer-copy { font-size: 0.875rem !important; }
+  .footer-link { font-size: 1rem !important; }
+  .footer-copy { font-size: 0.95rem !important; }
+
+  /* Trust badges */
+  .trust-badge-text { font-size: 0.9rem !important; }
+
+  /* Newsletter */
+  .nl-input { font-size: 1.1rem !important; }
+  .nl-btn { font-size: 1.1rem !important; }
+
+  /* Format pills */
+  .format-pill { font-size: 1rem !important; }
+}
+
+@media screen and (min-width: 1280px) {
+  .hero-title { font-size: 4.25rem !important; }
+  .section-heading { font-size: 3rem !important; }
+  .stat-display { font-size: 4.5rem !important; }
+  .section-body-text { font-size: 1.3rem !important; }
+  .feature-card-title { font-size: 1.55rem !important; }
+  .feature-card-desc { font-size: 1.2rem !important; }
 }
 
 @media screen and (min-width: 1440px) {
-  .hero-title { font-size: 3.8rem !important; }
-  .hero-subtitle { font-size: 1.25rem !important; }
-  .section-heading { font-size: 2.8rem !important; }
-  .stat-display { font-size: 4rem !important; }
+  .hero-title { font-size: 4.75rem !important; }
+  .hero-subtitle { font-size: 1.4rem !important; }
+  .section-heading { font-size: 3.25rem !important; }
+  .stat-display { font-size: 5rem !important; }
+  .section-body-text { font-size: 1.35rem !important; }
+  .why-title { font-size: 1.45rem !important; }
+  .why-desc { font-size: 1.15rem !important; }
+  .faq-question { font-size: 1.4rem !important; }
+  .faq-answer { font-size: 1.2rem !important; }
+  .platform-card-title { font-size: 1.35rem !important; }
+  .platform-card-desc { font-size: 1.1rem !important; }
+  .nav-link-desktop { font-size: 1.1rem !important; }
 }
 
 /* ─── details/summary ─── */
