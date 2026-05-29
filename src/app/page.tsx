@@ -896,6 +896,7 @@ function WhyChooseSection() {
 
 /* ══════════════════════════════════════════════════
    FAQ — Dark gray bg, white text, red numbers, red pill badge
+   Two-column on desktop: left = title + CTA, right = accordion
    ══════════════════════════════════════════════════ */
 function FAQSection() {
   const { t } = useLanguage();
@@ -910,83 +911,116 @@ function FAQSection() {
   ];
 
   return (
-    <section id="faq" className="py-16 md:py-24 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
-      <div className="mx-auto max-w-3xl">
-        {/* Title area */}
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight">
+    <section id="faq" className="relative py-16 md:py-24 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] overflow-hidden">
+      {/* Decorative red circles */}
+      <div className="absolute top-[-80px] right-[-80px] w-[200px] h-[200px] rounded-full bg-[#E52222]/5 pointer-events-none" />
+      <div className="absolute bottom-[-60px] left-[-60px] w-[160px] h-[160px] rounded-full bg-[#E52222]/5 pointer-events-none" />
+      <div className="absolute top-[40%] left-[-40px] w-[80px] h-[80px] rounded-full bg-[#E52222]/3 pointer-events-none" />
+
+      <div className="relative mx-auto max-w-6xl">
+        {/* Mobile: Title area centered */}
+        <div className="text-center mb-10 md:hidden">
+          <span className="inline-block bg-[#E52222] text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+            FAQ
+          </span>
+          <h2 className="text-2xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight">
             {t("faq.title")}{" "}
-            <span className="inline-block bg-[#E52222] text-white text-lg sm:text-xl md:text-2xl px-4 py-1.5 rounded-lg ml-2 align-middle">
-              {t("faq.titleRed")}
-            </span>
+            <span className="text-[#E52222]">{t("faq.titleRed")}</span>
           </h2>
-          <p className="mt-4 text-sm md:text-base text-white/50 max-w-md mx-auto leading-relaxed">
+          <p className="mt-3 text-sm text-white/50 max-w-sm mx-auto leading-relaxed">
             {t("faq.subtitle")}
           </p>
         </div>
 
-        {/* FAQ accordion */}
-        <div className="space-y-3">
-          {faqItems.map((f, i) => {
-            const isOpen = openIndex === i;
-            return (
-              <div
-                key={i}
-                className={`rounded-xl overflow-hidden transition-all duration-300 ${
-                  isOpen
-                    ? "bg-white/10 border border-white/20"
-                    : "bg-white/5 border border-white/5 hover:bg-white/8 hover:border-white/10"
-                }`}
-              >
-                <button
-                  onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="flex items-center justify-between w-full py-4 px-5 cursor-pointer text-left group"
-                >
-                  <span className="flex items-center gap-4 pr-3">
-                    <span className="w-9 h-9 rounded-full bg-[#E52222] flex items-center justify-center shrink-0">
-                      <span className="text-white font-bold text-xs">{f.num}</span>
-                    </span>
-                    <span className="text-sm md:text-base font-medium text-white group-hover:text-[#E52222] transition-colors">
-                      {f.q}
-                    </span>
-                  </span>
-                  <ChevronDown
-                    className={`h-4 w-4 text-white/50 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-                  />
-                </button>
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <div className="px-5 pb-5 pl-[3.75rem] text-sm md:text-base text-white/60 leading-relaxed">
-                    {f.a}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* CTA area */}
-        <div className="mt-12 md:mt-16 text-center">
-          <div className="inline-block bg-white/5 border border-white/10 rounded-2xl px-8 py-8 md:px-12 md:py-10">
-            <div className="flex items-center justify-center mb-3">
-              <div className="w-12 h-12 rounded-full bg-[#E52222]/20 flex items-center justify-center">
-                <AlertCircle className="h-5 w-5 text-[#E52222]" />
-              </div>
+        {/* Desktop: Two-column layout */}
+        <div className="flex flex-col md:flex-row gap-10 md:gap-16">
+          {/* Left column: Title + CTA (desktop only title) */}
+          <div className="md:w-[35%] shrink-0">
+            <div className="hidden md:block">
+              <span className="inline-block bg-[#E52222] text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+                FAQ
+              </span>
+              <h2 className="text-3xl lg:text-4xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight mb-4">
+                {t("faq.title")}{" "}
+                <span className="text-[#E52222]">{t("faq.titleRed")}</span>
+              </h2>
+              <p className="text-sm md:text-base text-white/50 leading-relaxed mb-8">
+                {t("faq.subtitle")}
+              </p>
             </div>
-            <h3 className="text-white text-lg md:text-xl font-bold mb-2">
-              {t("faq.cta.title")}
-            </h3>
-            <p className="text-white/50 text-sm mb-5 max-w-sm mx-auto">
-              {t("faq.cta.desc")}
-            </p>
-            <a href="/contact">
-              <Button className="bg-[#E52222] text-white font-semibold rounded-full hover:bg-[#C91C1C] px-8 h-11 text-sm">
-                {t("faq.cta.btn")} <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </a>
+
+            {/* CTA card — always visible */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-11 h-11 rounded-full bg-[#E52222]/20 flex items-center justify-center shrink-0">
+                  <AlertCircle className="h-5 w-5 text-[#E52222]" />
+                </div>
+                <h3 className="text-white text-base md:text-lg font-bold">
+                  {t("faq.cta.title")}
+                </h3>
+              </div>
+              <p className="text-white/50 text-sm mb-5 leading-relaxed">
+                {t("faq.cta.desc")}
+              </p>
+              <a href="/contact">
+                <Button className="w-full bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] h-11 text-sm">
+                  {t("faq.cta.btn")} <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </a>
+            </div>
+          </div>
+
+          {/* Right column: FAQ accordion */}
+          <div className="md:w-[65%]">
+            <div className="space-y-3">
+              {faqItems.map((f, i) => {
+                const isOpen = openIndex === i;
+                return (
+                  <div
+                    key={i}
+                    className={`rounded-xl overflow-hidden transition-all duration-300 ${
+                      isOpen
+                        ? "bg-white/10 border border-white/20 shadow-lg shadow-[#E52222]/5"
+                        : "bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.07] hover:border-white/10"
+                    }`}
+                  >
+                    <button
+                      onClick={() => setOpenIndex(isOpen ? null : i)}
+                      className="flex items-center justify-between w-full py-4 px-5 cursor-pointer text-left group"
+                    >
+                      <span className="flex items-center gap-3 pr-3">
+                        <span className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300 ${
+                          isOpen ? "bg-[#E52222]" : "bg-white/10 group-hover:bg-[#E52222]/30"
+                        }`}>
+                          <span className={`font-bold text-xs transition-colors duration-300 ${
+                            isOpen ? "text-white" : "text-white/60 group-hover:text-[#E52222]"
+                          }`}>{f.num}</span>
+                        </span>
+                        <span className={`text-sm md:text-base font-medium transition-colors duration-300 ${
+                          isOpen ? "text-white" : "text-white/80 group-hover:text-[#E52222]"
+                        }`}>
+                          {f.q}
+                        </span>
+                      </span>
+                      <ChevronDown
+                        className={`h-4 w-4 shrink-0 transition-all duration-300 ${
+                          isOpen ? "rotate-180 text-[#E52222]" : "text-white/30 group-hover:text-white/60"
+                        }`}
+                      />
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ${
+                        isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      <div className="px-5 pb-5 pl-16 text-sm md:text-base text-white/60 leading-relaxed border-t border-white/5 pt-3">
+                        {f.a}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
