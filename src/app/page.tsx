@@ -9,6 +9,7 @@ import {
   Share2, Bookmark, Copy, Eye, EyeOff,
   Link as LinkIcon, Search, ArrowRight, Globe,
   ArrowUp, Star, Mail, MessageCircle, Music, Video, Monitor, Award, Headphones,
+  ShieldCheck, Database, History, FileText, Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,6 +32,22 @@ interface HistoryItem {
 interface BookmarkItem {
   id: string; title: string; platform: string; author: string;
   thumbnail: string; duration: string; url: string; timestamp: number;
+}
+
+/* ──────── FEATURE 1: Scroll Reveal Hook ──────── */
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { el.classList.add("revealed"); observer.unobserve(el); } },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  return ref;
 }
 
 /* ──────── Platform SVG Icons ──────── */
@@ -102,6 +119,7 @@ function getPlatformDef(name: string): PlatformDef {
 const HISTORY_KEY = "mova_history";
 const BOOKMARK_KEY = "mova_bookmarks";
 const LANG_KEY = "mova_lang";
+const ONBOARD_KEY = "mova_onboarded";
 const MAX_HISTORY = 20;
 const RED = "#E52222";
 
@@ -166,6 +184,8 @@ const translations: Record<string, Record<string, string>> = {
     "faq.cta.title": "Masih punya pertanyaan?",
     "faq.cta.desc": "Hubungi kami jika kamu punya pertanyaan lain yang belum terjawab",
     "faq.cta.btn": "Hubungi Kami",
+    "faq.search": "Cari pertanyaan...",
+    "faq.noresults": "Tidak ada pertanyaan yang cocok",
     "footer.desc": "Download video tanpa watermark dari berbagai platform populer. Cepat, gratis, dan mudah.",
     "error.emptyUrl": "Masukkan link video terlebih dahulu!",
     "error.invalidUrl": "URL tidak valid. Pastikan link yang dimasukkan benar.",
@@ -177,49 +197,26 @@ const translations: Record<string, Record<string, string>> = {
     "toast.linkCopied": "Link berhasil disalin!",
     "toast.bookmarkAdded": "Video disimpan ke bookmark!",
     "toast.bookmarkRemoved": "Bookmark dihapus.",
+    "toast.autoPaste": "Link otomatis ditempel!",
     "fmt.title": "Format Yang Didukung",
     "fmt.subtitle": "Download video dalam berbagai format dan kualitas sesuai kebutuhanmu",
-    "fmt.mp4": "MP4",
-    "fmt.mp3": "MP3",
-    "fmt.webm": "WEBM",
-    "fmt.avi": "AVI",
-    "fmt.360p": "360p",
-    "fmt.480p": "480p",
-    "fmt.720p": "720p",
-    "fmt.1080p": "1080p",
-    "fmt.4k": "4K",
-    "fmt.audio": "Audio Only",
-    "stats.1.num": "10M+",
-    "stats.1.label": "Download",
-    "stats.2.num": "6+",
-    "stats.2.label": "Platform",
-    "stats.3.num": "100%",
-    "stats.3.label": "Gratis",
-    "stats.4.num": "4.9",
-    "stats.4.label": "Rating",
+    "fmt.mp4": "MP4", "fmt.mp3": "MP3", "fmt.webm": "WEBM", "fmt.avi": "AVI",
+    "fmt.360p": "360p", "fmt.480p": "480p", "fmt.720p": "720p", "fmt.1080p": "1080p", "fmt.4k": "4K", "fmt.audio": "Audio Only",
+    "stats.1.num": "10M+", "stats.1.label": "Download",
+    "stats.2.num": "6+", "stats.2.label": "Platform",
+    "stats.3.num": "100%", "stats.3.label": "Gratis",
+    "stats.4.num": "4.9", "stats.4.label": "Rating",
     "compare.title": "Perbandingan GetMova",
     "compare.subtitle": "Bandingkan GetMova dengan downloader lainnya",
-    "compare.feature": "Fitur",
-    "compare.getmova": "GetMova",
-    "compare.snaptik": "SnapTik",
-    "compare.savefrom": "SaveFrom",
-    "compare.y2mate": "Y2Mate",
-    "compare.nowatermark": "Tanpa Watermark",
-    "compare.free": "Gratis",
-    "compare.noads": "Tanpa Iklan",
-    "compare.noreg": "Tanpa Registrasi",
-    "compare.hdquality": "Kualitas HD",
-    "compare.multiplatform": "Multi-Platform",
+    "compare.feature": "Fitur", "compare.getmova": "GetMova", "compare.snaptik": "SnapTik", "compare.savefrom": "SaveFrom", "compare.y2mate": "Y2Mate",
+    "compare.nowatermark": "Tanpa Watermark", "compare.free": "Gratis", "compare.noads": "Tanpa Iklan", "compare.noreg": "Tanpa Registrasi", "compare.hdquality": "Kualitas HD", "compare.multiplatform": "Multi-Platform",
     "testi.title": "Apa Kata Mereka?",
     "testi.subtitle": "Dengarkan pengalaman pengguna GetMova",
-    "testi.1.name": "Rina S.",
-    "testi.1.role": "Pengguna TikTok",
+    "testi.1.name": "Rina S.", "testi.1.role": "Pengguna TikTok",
     "testi.1.text": "GetMova bikin download video TikTok jadi gampang banget! Hasilnya jernih, tanpa watermark, dan prosesnya super cepat. Recommended banget!",
-    "testi.2.name": "Andi P.",
-    "testi.2.role": "Content Creator",
+    "testi.2.name": "Andi P.", "testi.2.role": "Content Creator",
     "testi.2.text": "Akhirnya nemu downloader yang bener-bener gratis tanpa watermark. Dari dulu cari-cari, sekarang cuma pakai GetMova. Top!",
-    "testi.3.name": "Sarah M.",
-    "testi.3.role": "Mahasiswa",
+    "testi.3.name": "Sarah M.", "testi.3.role": "Mahasiswa",
     "testi.3.text": "Interface-nya clean dan prosesnya super cepat. Gak ribet, tinggal paste link langsung download. Paling enak dipakai!",
     "nl.title": "Dapatkan Update Terbaru",
     "nl.subtitle": "Daftar newsletter kami untuk mendapatkan info fitur baru dan platform yang didukung",
@@ -231,6 +228,32 @@ const translations: Record<string, Record<string, string>> = {
     "loading.finding": "Mencari video...",
     "loading.getting": "Mendapatkan link download...",
     "loading.almost": "Hampir selesai...",
+    "trust.ssl": "SSL Secured",
+    "trust.novirus": "No Virus",
+    "trust.nodata": "No Data Stored",
+    "trust.safe": "100% Safe",
+    "history.title": "Riwayat Download",
+    "history.clear": "Hapus Semua",
+    "history.empty": "Belum ada riwayat download",
+    "history.clearConfirm": "Yakin ingin menghapus semua riwayat?",
+    "platforms.title": "Download dari Platform Favorit",
+    "platforms.subtitle": "Pilih platform dan mulai download video favoritmu",
+    "platforms.tiktok.desc": "Download video TikTok tanpa watermark dengan cepat",
+    "platforms.ig.desc": "Download video Instagram Reels dan Stories",
+    "platforms.fb.desc": "Download video Facebook dengan kualitas HD",
+    "platforms.twitter.desc": "Download video Twitter/X dengan mudah",
+    "platforms.pinterest.desc": "Download video dan gambar Pinterest",
+    "platforms.reddit.desc": "Download video Reddit dalam kualitas tinggi",
+    "blog.title": "Tips & Artikel Terbaru",
+    "blog.subtitle": "Baca panduan dan tips terbaru seputar download video",
+    "blog.1.title": "Cara Download Video TikTok Tanpa Watermark",
+    "blog.2.title": "Tips Download Video Instagram Reels",
+    "blog.3.title": "Mengapa GetMova Pilihan Terbaik?",
+    "blog.readmore": "Baca Selengkapnya",
+    "blog.minread": "min baca",
+    "hero.liveCount": "🔥 {count} orang sedang download hari ini",
+    "hero.shortcutHint": "Ctrl+V to paste",
+    "onboard.tooltip": "Tempel link video di sini!",
   },
   en: {
     "nav.download": "Download",
@@ -291,6 +314,8 @@ const translations: Record<string, Record<string, string>> = {
     "faq.cta.title": "Still have questions?",
     "faq.cta.desc": "Contact us if you have any other unanswered questions",
     "faq.cta.btn": "Contact Us",
+    "faq.search": "Search questions...",
+    "faq.noresults": "No matching questions",
     "footer.desc": "Download videos without watermark from popular platforms. Fast, free, and easy.",
     "error.emptyUrl": "Please enter a video link first!",
     "error.invalidUrl": "Invalid URL. Make sure the link is correct.",
@@ -302,49 +327,26 @@ const translations: Record<string, Record<string, string>> = {
     "toast.linkCopied": "Link copied successfully!",
     "toast.bookmarkAdded": "Video saved to bookmarks!",
     "toast.bookmarkRemoved": "Bookmark removed.",
+    "toast.autoPaste": "Link auto-pasted!",
     "fmt.title": "Supported Formats",
     "fmt.subtitle": "Download videos in various formats and qualities to suit your needs",
-    "fmt.mp4": "MP4",
-    "fmt.mp3": "MP3",
-    "fmt.webm": "WEBM",
-    "fmt.avi": "AVI",
-    "fmt.360p": "360p",
-    "fmt.480p": "480p",
-    "fmt.720p": "720p",
-    "fmt.1080p": "1080p",
-    "fmt.4k": "4K",
-    "fmt.audio": "Audio Only",
-    "stats.1.num": "10M+",
-    "stats.1.label": "Downloads",
-    "stats.2.num": "6+",
-    "stats.2.label": "Platforms",
-    "stats.3.num": "100%",
-    "stats.3.label": "Free",
-    "stats.4.num": "4.9",
-    "stats.4.label": "Rating",
+    "fmt.mp4": "MP4", "fmt.mp3": "MP3", "fmt.webm": "WEBM", "fmt.avi": "AVI",
+    "fmt.360p": "360p", "fmt.480p": "480p", "fmt.720p": "720p", "fmt.1080p": "1080p", "fmt.4k": "4K", "fmt.audio": "Audio Only",
+    "stats.1.num": "10M+", "stats.1.label": "Downloads",
+    "stats.2.num": "6+", "stats.2.label": "Platforms",
+    "stats.3.num": "100%", "stats.3.label": "Free",
+    "stats.4.num": "4.9", "stats.4.label": "Rating",
     "compare.title": "GetMova Comparison",
     "compare.subtitle": "Compare GetMova with other downloaders",
-    "compare.feature": "Feature",
-    "compare.getmova": "GetMova",
-    "compare.snaptik": "SnapTik",
-    "compare.savefrom": "SaveFrom",
-    "compare.y2mate": "Y2Mate",
-    "compare.nowatermark": "No Watermark",
-    "compare.free": "Free",
-    "compare.noads": "No Ads",
-    "compare.noreg": "No Registration",
-    "compare.hdquality": "HD Quality",
-    "compare.multiplatform": "Multi-Platform",
+    "compare.feature": "Feature", "compare.getmova": "GetMova", "compare.snaptik": "SnapTik", "compare.savefrom": "SaveFrom", "compare.y2mate": "Y2Mate",
+    "compare.nowatermark": "No Watermark", "compare.free": "Free", "compare.noads": "No Ads", "compare.noreg": "No Registration", "compare.hdquality": "HD Quality", "compare.multiplatform": "Multi-Platform",
     "testi.title": "What They Say?",
     "testi.subtitle": "Hear what GetMova users have to say",
-    "testi.1.name": "Rina S.",
-    "testi.1.role": "TikTok User",
+    "testi.1.name": "Rina S.", "testi.1.role": "TikTok User",
     "testi.1.text": "GetMova makes downloading TikTok videos super easy! The results are clear, no watermark, and the process is super fast. Highly recommended!",
-    "testi.2.name": "Andi P.",
-    "testi.2.role": "Content Creator",
+    "testi.2.name": "Andi P.", "testi.2.role": "Content Creator",
     "testi.2.text": "Finally found a downloader that's truly free without watermarks. After searching for so long, now I only use GetMova. Top notch!",
-    "testi.3.name": "Sarah M.",
-    "testi.3.role": "Student",
+    "testi.3.name": "Sarah M.", "testi.3.role": "Student",
     "testi.3.text": "The interface is clean and the process is super fast. No hassle, just paste the link and download. Best one to use!",
     "nl.title": "Get Latest Updates",
     "nl.subtitle": "Subscribe to our newsletter to get info about new features and supported platforms",
@@ -356,6 +358,32 @@ const translations: Record<string, Record<string, string>> = {
     "loading.finding": "Finding video...",
     "loading.getting": "Getting download link...",
     "loading.almost": "Almost done...",
+    "trust.ssl": "SSL Secured",
+    "trust.novirus": "No Virus",
+    "trust.nodata": "No Data Stored",
+    "trust.safe": "100% Safe",
+    "history.title": "Download History",
+    "history.clear": "Clear All",
+    "history.empty": "No download history yet",
+    "history.clearConfirm": "Are you sure you want to clear all history?",
+    "platforms.title": "Download from Your Favorite Platform",
+    "platforms.subtitle": "Choose a platform and start downloading your favorite videos",
+    "platforms.tiktok.desc": "Download TikTok videos without watermark fast",
+    "platforms.ig.desc": "Download Instagram Reels and Stories",
+    "platforms.fb.desc": "Download Facebook videos in HD quality",
+    "platforms.twitter.desc": "Download Twitter/X videos easily",
+    "platforms.pinterest.desc": "Download Pinterest videos and images",
+    "platforms.reddit.desc": "Download Reddit videos in high quality",
+    "blog.title": "Latest Tips & Articles",
+    "blog.subtitle": "Read the latest guides and tips about video downloading",
+    "blog.1.title": "How to Download TikTok Videos Without Watermark",
+    "blog.2.title": "Tips for Downloading Instagram Reels",
+    "blog.3.title": "Why GetMova Is the Best Choice?",
+    "blog.readmore": "Read More",
+    "blog.minread": "min read",
+    "hero.liveCount": "🔥 {count} people downloading today",
+    "hero.shortcutHint": "Ctrl+V to paste",
+    "onboard.tooltip": "Paste your video link here!",
   },
 };
 
@@ -426,6 +454,17 @@ function detectPlatform(urlStr: string): string {
   return "Unknown";
 }
 
+function relativeTime(ts: number, lang: Lang): string {
+  const diff = Date.now() - ts;
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return lang === "id" ? "Baru saja" : "Just now";
+  if (mins < 60) return `${mins}m`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h`;
+  const days = Math.floor(hrs / 24);
+  return `${days}d`;
+}
+
 /* ══════════════════════════════════════════════════
    NAVBAR — Solid white bg, logo left, center links, controls right
    ══════════════════════════════════════════════════ */
@@ -435,8 +474,8 @@ function Navbar() {
   const { setTheme, theme } = useTheme();
   const { lang, setLang, t } = useLanguage();
   const menuRef = useRef<HTMLDivElement>(null);
+  const revealRef = useScrollReveal();
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
@@ -457,34 +496,24 @@ function Navbar() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-[#1A1A1A] border-b border-gray-100 dark:border-white/10" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
+    <header ref={revealRef} className="section-reveal fixed top-0 left-0 right-0 z-50 bg-white dark:bg-[#1A1A1A] border-b border-gray-100 dark:border-white/10" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
       <div className="mx-auto max-w-6xl h-16 flex items-center justify-between px-4 md:px-6">
-        {/* Logo */}
         <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="GetMova - Home">
           <MovaLogo size={28} showText={true} />
         </a>
-
-        {/* Center navigation links - desktop */}
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map(link => (
-            <a key={link.href} href={link.href} className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-[#E52222] dark:hover:text-[#E52222] transition-colors">
-              {link.label}
-            </a>
+            <a key={link.href} href={link.href} className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-[#E52222] dark:hover:text-[#E52222] transition-colors">{link.label}</a>
           ))}
         </nav>
-
-        {/* Desktop right side */}
         <div className="hidden md:flex items-center gap-3">
           <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="flex items-center gap-1.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-foreground transition-colors" aria-label="Toggle language">
-            <Globe className="h-4 w-4" />
-            {lang === "id" ? "EN" : "ID"}
+            <Globe className="h-4 w-4" />{lang === "id" ? "EN" : "ID"}
           </button>
           <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-8 w-8 flex items-center justify-center rounded-md text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" aria-label="Toggle theme">
             {mounted ? (theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />) : <Sun className="h-4 w-4" />}
           </button>
         </div>
-
-        {/* Mobile buttons */}
         <div className="flex md:hidden items-center gap-1">
           <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="flex items-center gap-1 h-8 px-2 text-gray-500 dark:text-gray-400 text-xs font-bold">
             <Globe className="h-3.5 w-3.5" />{lang === "id" ? "EN" : "ID"}
@@ -494,8 +523,6 @@ function Navbar() {
           </button>
         </div>
       </div>
-
-      {/* Mobile menu */}
       {open && (
         <div ref={menuRef} className="md:hidden border-t border-gray-100 dark:border-white/10 bg-white dark:bg-[#1A1A1A]">
           <div className="px-4 py-3 space-y-1">
@@ -506,9 +533,7 @@ function Navbar() {
               {mounted && theme === "dark" ? (lang === "id" ? "Mode Terang" : "Light Mode") : (lang === "id" ? "Mode Gelap" : "Dark Mode")}
             </button>
             <a href="#hero" onClick={() => setOpen(false)} className="block pt-1">
-              <Button className="w-full bg-[#E52222] text-white font-semibold rounded-lg hover:bg-[#C91C1C]">
-                <Download className="mr-2 h-4 w-4" />{t("nav.download")}
-              </Button>
+              <Button className="w-full bg-[#E52222] text-white font-semibold rounded-lg hover:bg-[#C91C1C]"><Download className="mr-2 h-4 w-4" />{t("nav.download")}</Button>
             </a>
           </div>
         </div>
@@ -521,7 +546,7 @@ function Navbar() {
    HERO — White bg, grayscale people image, centered text
    ══════════════════════════════════════════════════ */
 function HeroSection() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<DownloadResult | null>(null);
@@ -532,6 +557,12 @@ function HeroSection() {
   const [previewError, setPreviewError] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState("");
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [historyItems, setHistoryItems] = useState<HistoryItem[]>([]);
+  const [liveCount, setLiveCount] = useState(() => Math.floor(Math.random() * 1600) + 1200);
+  const [showOnboard, setShowOnboard] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast, dismiss } = useToast();
@@ -545,94 +576,117 @@ function HeroSection() {
     if (result) setIsBookmarkedState(isBookmarked(result.downloadUrl));
   }, [result]);
 
+  // FEATURE 10: Live download counter
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLiveCount(prev => {
+        const delta = Math.floor(Math.random() * 21) - 10;
+        return Math.max(1200, Math.min(2800, prev + delta));
+      });
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // FEATURE 14: Onboarding tooltip
+  useEffect(() => {
+    try {
+      if (!localStorage.getItem(ONBOARD_KEY)) {
+        const timer = setTimeout(() => setShowOnboard(true), 1500);
+        const hide = () => { setShowOnboard(false); try { localStorage.setItem(ONBOARD_KEY, "1"); } catch {} };
+        const clickHandler = () => { hide(); document.removeEventListener("click", clickHandler); };
+        document.addEventListener("click", clickHandler);
+        setTimeout(() => { hide(); document.removeEventListener("click", clickHandler); }, 6000);
+        return () => { clearTimeout(timer); document.removeEventListener("click", clickHandler); };
+      }
+    } catch {}
+  }, []);
+
+  // FEATURE 12: Keyboard shortcuts
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { setShowHistory(false); return; }
+      if ((e.ctrlKey || e.metaKey) && e.key === "v") {
+        if (document.activeElement !== inputRef.current) {
+          e.preventDefault();
+          inputRef.current?.focus();
+          navigator.clipboard.readText().then(text => {
+            if (text && (text.startsWith("http") || text.startsWith("www"))) {
+              setUrl(text);
+              showToast(t("toast.autoPaste"), "");
+            }
+          }).catch(() => {});
+        }
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [t, showToast]);
+
+  // History sync
+  useEffect(() => {
+    const sync = () => setHistoryItems(getHistory());
+    sync();
+    window.addEventListener("mova:history-changed", sync);
+    return () => window.removeEventListener("mova:history-changed", sync);
+  }, [showHistory]);
+
+  // FEATURE 2: Auto-paste on focus
+  const handleInputFocus = useCallback(() => {
+    if (url.trim()) return;
+    try {
+      navigator.clipboard.readText().then(text => {
+        if (text && (text.startsWith("http") || text.startsWith("www")) && !url.trim()) {
+          setUrl(text);
+          showToast(t("toast.autoPaste"), "");
+        }
+      }).catch(() => {});
+    } catch {}
+  }, [url, t, showToast]);
+
   const handleAnalyze = useCallback(async () => {
     const trimmed = url.trim();
     if (!trimmed) { setError(t("error.emptyUrl")); return; }
     try { new URL(trimmed.startsWith("www.") ? "https://" + trimmed : trimmed); } catch { setError(t("error.invalidUrl")); return; }
-
-    setLoading(true);
-    setError("");
-    setResult(null);
-    setLoadingMsg(t("loading.finding"));
-
+    setLoading(true); setError(""); setResult(null); setLoadingMsg(t("loading.finding"));
     const msgs = [t("loading.finding"), t("loading.getting"), t("loading.almost")];
     let msgIdx = 0;
-    const msgInterval = setInterval(() => {
-      msgIdx = Math.min(msgIdx + 1, msgs.length - 1);
-      setLoadingMsg(msgs[msgIdx]);
-    }, 5000);
-
+    const msgInterval = setInterval(() => { msgIdx = Math.min(msgIdx + 1, msgs.length - 1); setLoadingMsg(msgs[msgIdx]); }, 5000);
     try {
-      const res = await fetch("/api/download", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: trimmed }),
-      });
+      const res = await fetch("/api/download", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url: trimmed }) });
       const data = await res.json();
       if (res.ok) {
-        setResult(data);
-        setSelectedQuality(0);
-        setShowPreview(false);
-        setPreviewError(false);
+        setResult(data); setSelectedQuality(0); setShowPreview(false); setPreviewError(false);
         showToast(t("toast.videoFound"), t("toast.selectQuality"));
         setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 300);
-      } else {
-        setError(data.error || t("error.server"));
-      }
-    } catch {
-      setError(t("error.server"));
-    } finally {
-      clearInterval(msgInterval);
-      setLoading(false);
-      setLoadingMsg("");
-    }
+      } else { setError(data.error || t("error.server")); }
+    } catch { setError(t("error.server")); }
+    finally { clearInterval(msgInterval); setLoading(false); setLoadingMsg(""); }
   }, [url, t, showToast]);
 
   const handleDownload = useCallback(async () => {
     if (!result || downloading) return;
     const q = result.qualityOptions[selectedQuality];
     if (!q) { showToast(t("error.downloadFail"), "", "destructive"); return; }
-
     const ext = q.resolution === "MP3" ? ".mp3" : ".mp4";
     const downloadName = (result.filename || `getmova_${Date.now()}`) + `_${q.label}${ext}`;
     const isAudio = q.resolution === "MP3" || q.label === "Audio" || q.label === "Audio (Low)";
     const downloadUrl = q.url;
     const fallbackUrl = q.originalUrl || q.url;
-
     setDownloading(true);
-
     const saveHist = () => {
-      saveToHistory({
-        id: Date.now().toString(), title: result.title, platform: result.platform,
-        author: result.author, thumbnail: result.thumbnail, duration: result.duration,
-        url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now(),
-      });
+      saveToHistory({ id: Date.now().toString(), title: result.title, platform: result.platform, author: result.author, thumbnail: result.thumbnail, duration: result.duration, url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now() });
     };
-
     try {
       if (isAudio || downloadUrl.startsWith("/api/proxy") || downloadUrl.startsWith("/api/yt-download")) {
         try {
           const res = await fetch(downloadUrl);
-          if (res.ok) {
-            const blob = await res.blob();
-            if (blob.size > 1000) {
-              const blobUrl = URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.href = blobUrl; a.download = downloadName; a.style.display = "none";
-              document.body.appendChild(a); a.click(); document.body.removeChild(a);
-              setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
-              saveHist(); showToast(t("toast.downloadStart"), isAudio ? "MP3" : "");
-              setDownloading(false); return;
-            }
-          }
+          if (res.ok) { const blob = await res.blob(); if (blob.size > 1000) { const blobUrl = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = blobUrl; a.download = downloadName; a.style.display = "none"; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(blobUrl), 10000); saveHist(); showToast(t("toast.downloadStart"), isAudio ? "MP3" : ""); setDownloading(false); return; } }
         } catch (e) { console.log("Proxy fetch+blob failed", e); }
       }
-
       try {
-        const a = document.createElement("a");
-        a.href = downloadUrl; a.download = downloadName; a.style.display = "none";
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        saveHist(); showToast(t("toast.downloadStart"), "");
+        const a = document.createElement("a"); a.href = downloadUrl; a.download = downloadName; a.style.display = "none"; document.body.appendChild(a); a.click(); document.body.removeChild(a); saveHist(); showToast(t("toast.downloadStart"), "");
+        // FEATURE 4: Confetti on successful download
+        setShowConfetti(true); setTimeout(() => setShowConfetti(false), 3000);
       } catch (e) {
         console.log("<a> tag approach failed", e);
         try { window.open(fallbackUrl, "_blank"); saveHist(); } catch { showToast(t("error.downloadFail"), "", "destructive"); }
@@ -640,9 +694,7 @@ function HeroSection() {
     } catch (e) {
       console.error("Download failed:", e);
       try { window.open(fallbackUrl, "_blank"); } catch { showToast(t("error.downloadFail"), "", "destructive"); }
-    } finally {
-      setDownloading(false);
-    }
+    } finally { setDownloading(false); }
   }, [result, selectedQuality, url, t, showToast, downloading]);
 
   const handleShare = useCallback(async () => {
@@ -652,17 +704,8 @@ function HeroSection() {
 
   const handleToggleBookmark = useCallback(() => {
     if (!result) return;
-    if (isBookmarkedState) {
-      removeBookmark(result.downloadUrl); setIsBookmarkedState(false);
-      showToast(t("toast.bookmarkRemoved"), "");
-    } else {
-      saveBookmark({
-        id: Date.now().toString(), title: result.title, platform: result.platform,
-        author: result.author, thumbnail: result.thumbnail, duration: result.duration,
-        url: url.trim(), timestamp: Date.now(),
-      });
-      setIsBookmarkedState(true); showToast(t("toast.bookmarkAdded"), "");
-    }
+    if (isBookmarkedState) { removeBookmark(result.downloadUrl); setIsBookmarkedState(false); showToast(t("toast.bookmarkRemoved"), ""); }
+    else { saveBookmark({ id: Date.now().toString(), title: result.title, platform: result.platform, author: result.author, thumbnail: result.thumbnail, duration: result.duration, url: url.trim(), timestamp: Date.now() }); setIsBookmarkedState(true); showToast(t("toast.bookmarkAdded"), ""); }
   }, [result, isBookmarkedState, url, t, showToast]);
 
   const handleCopyCaption = useCallback(async () => {
@@ -670,84 +713,118 @@ function HeroSection() {
     try { await navigator.clipboard.writeText(result.title); showToast(t("result.captionCopied"), ""); } catch {}
   }, [result, t, showToast]);
 
-  const handleDownloadThumbnail = useCallback(async () => {
-    if (!result?.thumbnail) return;
-    try {
-      const res = await fetch(result.thumbnail);
-      const blob = await res.blob();
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob); a.download = `getmova_thumb_${Date.now()}.jpg`;
-      document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
-    } catch {}
-  }, [result]);
+  // FEATURE 8: Drag & Drop
+  const handleDragOver = useCallback((e: React.DragEvent) => { e.preventDefault(); setIsDragOver(true); }, []);
+  const handleDragLeave = useCallback(() => setIsDragOver(false), []);
+  const handleDrop = useCallback((e: React.DragEvent) => { e.preventDefault(); setIsDragOver(false); const text = e.dataTransfer.getData("text/plain"); if (text && (text.startsWith("http") || text.startsWith("www"))) setUrl(text); }, []);
+
+  // FEATURE 4: Confetti particles
+  const confettiColors = ["#E52222", "#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF"];
+  const confettiParticles = useMemo(() => Array.from({ length: 35 }, (_, i) => ({
+    id: i, color: confettiColors[i % confettiColors.length],
+    left: `${Math.random() * 100}%`, delay: `${Math.random() * 0.5}s`,
+    size: Math.random() * 6 + 5,
+  })), []);
 
   const detectedPlatform = result ? detectPlatform(url) : url.trim() ? detectPlatform(url) : null;
-  const platformDef = detectedPlatform ? getPlatformDef(detectedPlatform) : null;
 
   return (
     <section id="hero" className="hero-bg relative pt-24 md:pt-32 pb-12 md:pb-20 px-4 md:px-6" style={{ minHeight: "70vh" }}>
-      {/* Background image — grayscale people */}
       <div className="absolute inset-0 z-0">
         <Image src="/hero-people.png" alt="" fill className="object-cover object-center grayscale" priority />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-4xl flex flex-col items-center text-center">
-        {/* Centered heading */}
-        <h1 className="text-[28px] sm:text-[36px] md:text-[48px] font-extrabold text-[#333333] dark:text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight">
-          {t("hero.small")} <span className="text-[#E52222]">{t("hero.big")}</span>
-        </h1>
-        <p className="text-[#666666] dark:text-gray-400 text-sm max-w-lg leading-relaxed mb-6 md:mb-8">
-          {t("hero.subtitle")}
-        </p>
-
-        {/* COMBINED Input + Button */}
-        <div className="w-full max-w-xl rounded-lg overflow-hidden shadow-xl flex border border-gray-200 dark:border-white/10">
-          <div className="flex-1 relative">
-            <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
-            <input
-              ref={inputRef}
-              type="text"
-              value={url}
-              onChange={e => setUrl(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && handleAnalyze()}
-              placeholder={t("input.placeholder")}
-              className="h-14 w-full bg-white dark:bg-[#2D2D2D] text-gray-900 dark:text-white text-sm md:text-base pl-11 pr-4 border-0 outline-none placeholder:text-gray-400"
-            />
-          </div>
-          <button
-            onClick={handleAnalyze}
-            disabled={loading}
-            className="h-14 px-6 md:px-8 bg-[#E52222] text-white font-bold text-sm md:text-base hover:bg-[#C91C1C] shrink-0 transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
-          >
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
-            <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
-          </button>
-        </div>
-
-        {/* Platform support bar — dark gray with white icons */}
-        <div className="w-full max-w-xl mt-4 bg-[#333333] dark:bg-[#444444] rounded-lg px-4 py-2.5 flex items-center justify-center gap-3 md:gap-4">
-          <span className="text-white text-xs font-medium shrink-0">{t("platforms.label")}</span>
-          <div className="flex items-center gap-3 md:gap-4">
-            {PLATFORMS.map(p => (
-              <span key={p.name} className="text-white/90 hover:text-white transition-colors">
-                <p.Icon className="h-4 w-4 md:h-5 md:w-5" />
-              </span>
+      {/* FEATURE 4: Confetti */}
+      {showConfetti && (
+        <div className="fixed inset-0 z-50 pointer-events-none">
+          <div className="relative w-full h-full">
+            {confettiParticles.map(p => (
+              <div key={p.id} className="confetti-particle" style={{ left: p.left, top: "30%", backgroundColor: p.color, animationDelay: p.delay, width: p.size, height: p.size }} />
             ))}
           </div>
         </div>
+      )}
 
-        {/* Loading with Speed Indicator */}
+      <div className="relative z-10 mx-auto max-w-4xl flex flex-col items-center text-center">
+        {/* FEATURE 11: Gradient text on "Downloader" */}
+        <h1 className="text-[28px] sm:text-[36px] md:text-[48px] font-extrabold text-[#333333] dark:text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight">
+          {t("hero.small")} <span className="animated-gradient">{t("hero.big")}</span>
+        </h1>
+        <p className="text-[#666666] dark:text-gray-400 text-sm max-w-lg leading-relaxed mb-6 md:mb-8">{t("hero.subtitle")}</p>
+
+        {/* Input area with drag-drop, auto-paste, history button */}
+        <div className="w-full max-w-xl relative">
+          {/* FEATURE 14: Onboarding tooltip */}
+          {showOnboard && (
+            <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 z-30 bg-white dark:bg-[#2D2D2D] text-[#333] dark:text-white text-xs font-medium px-4 py-2 rounded-lg shadow-lg border border-[#E52222]/30 whitespace-nowrap">
+              {t("onboard.tooltip")}
+              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-[#2D2D2D] rotate-45 border-l border-t border-[#E52222]/30" />
+            </div>
+          )}
+          <div
+            onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}
+            className={`rounded-lg overflow-hidden shadow-xl flex border-2 transition-colors dark-glow-input ${isDragOver ? "border-[#E52222] bg-red-50/50 dark:bg-[#E52222]/5" : "border-gray-200 dark:border-white/10"}`}
+          >
+            <div className="flex-1 relative">
+              <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
+              <input ref={inputRef} type="text" value={url} onChange={e => setUrl(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAnalyze()} onFocus={handleInputFocus} placeholder={t("input.placeholder")} className="h-14 w-full bg-white dark:bg-[#2D2D2D] text-gray-900 dark:text-white text-sm md:text-base pl-11 pr-4 border-0 outline-none placeholder:text-gray-400" />
+            </div>
+            <button onClick={handleAnalyze} disabled={loading} className="h-14 px-6 md:px-8 bg-[#E52222] text-white font-bold text-sm md:text-base hover:bg-[#C91C1C] shrink-0 transition-colors flex items-center justify-center gap-2 disabled:opacity-70">
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+              <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
+            </button>
+          </div>
+          {/* FEATURE 12: Shortcut hint + History button */}
+          <div className="flex items-center justify-between mt-1.5 px-1">
+            <span className="text-[10px] text-white/40">{t("hero.shortcutHint")}</span>
+            <button onClick={() => setShowHistory(true)} className="flex items-center gap-1 text-[10px] text-white/40 hover:text-white/70 transition-colors" aria-label="Download History">
+              <History className="h-3 w-3" />
+            </button>
+          </div>
+        </div>
+
+        {/* Platform support bar */}
+        <div className="w-full max-w-xl mt-3 bg-[#333333] dark:bg-[#444444] rounded-lg px-4 py-2.5 flex items-center justify-center gap-3 md:gap-4">
+          <span className="text-white text-xs font-medium shrink-0">{t("platforms.label")}</span>
+          <div className="flex items-center gap-3 md:gap-4">
+            {PLATFORMS.map(p => (<span key={p.name} className="text-white/90 hover:text-white transition-colors"><p.Icon className="h-4 w-4 md:h-5 md:w-5" /></span>))}
+          </div>
+        </div>
+
+        {/* FEATURE 3: Trust Badges Bar */}
+        <div className="w-full max-w-xl mt-3 flex flex-wrap items-center justify-center gap-4 md:gap-6">
+          {[
+            { icon: Shield, label: t("trust.ssl") },
+            { icon: ShieldCheck, label: t("trust.novirus") },
+            { icon: Database, label: t("trust.nodata") },
+            { icon: CheckCircle, label: t("trust.safe") },
+          ].map((b, i) => (
+            <span key={i} className="flex items-center gap-1.5 text-white/60 text-[11px]">
+              <b.icon className="h-3.5 w-3.5" />{b.label}
+            </span>
+          ))}
+        </div>
+
+        {/* FEATURE 10: Recent Downloads Counter */}
+        <div className="mt-2">
+          <span className="text-white/50 text-[11px]">{t("hero.liveCount").replace("{count}", liveCount.toLocaleString())}</span>
+        </div>
+
+        {/* FEATURE 15: Skeleton Loading */}
         {loading && !error && (
           <div className="max-w-lg mt-5 p-4 rounded-lg bg-white/80 dark:bg-[#2D2D2D]/80 backdrop-blur">
-            <div className="flex items-center gap-2 mb-2">
-              <Loader2 className="h-4 w-4 text-[#E52222] animate-spin shrink-0" />
-              <p className="text-[#333] dark:text-white text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
+            <div className="flex gap-3 mb-3">
+              <div className="w-20 h-14 rounded-md bg-gray-200 dark:bg-white/10 animate-pulse shrink-0" />
+              <div className="flex-1 space-y-2">
+                <div className="h-3.5 bg-gray-200 dark:bg-white/10 rounded animate-pulse w-3/4" />
+                <div className="h-3 bg-gray-200 dark:bg-white/10 rounded animate-pulse w-1/2" />
+              </div>
+            </div>
+            <div className="flex gap-1.5 mb-3">
+              {[1,2,3].map(i => <div key={i} className="h-7 w-16 bg-gray-200 dark:bg-white/10 rounded-lg animate-pulse" />)}
             </div>
             <div className="w-full h-1.5 bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-[#E52222] rounded-full transition-all duration-1000 ease-out animate-pulse"
-                style={{ width: loadingMsg === t("loading.finding") ? "30%" : loadingMsg === t("loading.getting") ? "65%" : "90%" }}
-              />
+              <div className="h-full bg-[#E52222] rounded-full transition-all duration-1000 ease-out animate-pulse" style={{ width: loadingMsg === t("loading.finding") ? "30%" : loadingMsg === t("loading.getting") ? "65%" : "90%" }} />
             </div>
           </div>
         )}
@@ -767,20 +844,13 @@ function HeroSection() {
               <CheckCircle className="h-4 w-4 text-[#E52222] shrink-0" />
               <span className="text-sm text-[#E52222] font-medium">{t("result.found")}</span>
               <div className="ml-auto flex items-center gap-1.5">
-                {(() => { const pd = getPlatformDef(result.platform); return (
-                  <div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: pd.gradient || pd.color }}>
-                    <pd.Icon className="h-2.5 w-2.5 text-white" />
-                  </div>
-                ); })()}
+                {(() => { const pd = getPlatformDef(result.platform); return (<div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: pd.gradient || pd.color }}><pd.Icon className="h-2.5 w-2.5 text-white" /></div>); })()}
                 <span className="text-xs text-gray-500 dark:text-gray-400">{result.platform}</span>
               </div>
             </div>
-
             <div className="p-4">
               {showPreview && !previewError ? (
-                <div className="w-full rounded-md overflow-hidden bg-gray-100 dark:bg-[#444] mb-3">
-                  <video src={result.qualityOptions[0]?.originalUrl || result.qualityOptions[0]?.url} controls muted className="w-full object-contain" style={{ maxHeight: "200px" }} onError={() => setPreviewError(true)} />
-                </div>
+                <div className="w-full rounded-md overflow-hidden bg-gray-100 dark:bg-[#444] mb-3"><video src={result.qualityOptions[0]?.originalUrl || result.qualityOptions[0]?.url} controls muted className="w-full object-contain" style={{ maxHeight: "200px" }} onError={() => setPreviewError(true)} /></div>
               ) : (
                 <div className="flex gap-3 mb-3">
                   <div className="w-20 h-14 rounded-md bg-gray-100 dark:bg-[#444] flex items-center justify-center shrink-0 overflow-hidden relative">
@@ -796,53 +866,73 @@ function HeroSection() {
                   </div>
                 </div>
               )}
-
               <div className="flex flex-wrap gap-0.5 mb-3">
-                <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7">
-                  {showPreview ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}{t("result.preview")}
-                </Button>
-                <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7">
-                  <Share2 className="h-3 w-3 mr-1" />{t("result.share")}
-                </Button>
-                <Button variant="ghost" size="sm" onClick={handleToggleBookmark} className="text-xs h-7" style={{ color: isBookmarkedState ? RED : "#999" }}>
-                  <Bookmark className={`h-3 w-3 mr-1 ${isBookmarkedState ? "fill-current" : ""}`} />{isBookmarkedState ? t("result.bookmarked") : t("result.bookmark")}
-                </Button>
-                <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7">
-                  <Copy className="h-3 w-3 mr-1" />{t("result.copyCaption")}
-                </Button>
+                <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7">{showPreview ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}{t("result.preview")}</Button>
+                <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7"><Share2 className="h-3 w-3 mr-1" />{t("result.share")}</Button>
+                <Button variant="ghost" size="sm" onClick={handleToggleBookmark} className="text-xs h-7" style={{ color: isBookmarkedState ? RED : "#999" }}><Bookmark className={`h-3 w-3 mr-1 ${isBookmarkedState ? "fill-current" : ""}`} />{isBookmarkedState ? t("result.bookmarked") : t("result.bookmark")}</Button>
+                <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7"><Copy className="h-3 w-3 mr-1" />{t("result.copyCaption")}</Button>
               </div>
-
               {result.qualityOptions.length > 0 && (
                 <div className="mb-3">
-                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1.5">
-                    <Film className="h-3 w-3 text-[#E52222]" />{t("result.selectQuality")}
-                  </p>
+                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1.5"><Film className="h-3 w-3 text-[#E52222]" />{t("result.selectQuality")}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {result.qualityOptions.map((q, i) => {
                       const isSelected = selectedQuality === i;
-                      return (
-                        <button key={i} onClick={() => setSelectedQuality(i)}
-                          className={`flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors ${
-                            isSelected ? "text-white bg-[#E52222] border-[#E52222]" : "bg-white dark:bg-[#333] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-[#E52222]/30"
-                          }`}
-                        >
-                          <span>{q.label}</span>
-                          <span className="opacity-70">{q.resolution}</span>
-                        </button>
-                      );
+                      return (<button key={i} onClick={() => setSelectedQuality(i)} className={`flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors ${isSelected ? "text-white bg-[#E52222] border-[#E52222]" : "bg-white dark:bg-[#333] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-[#E52222]/30"}`}><span>{q.label}</span><span className="opacity-70">{q.resolution}</span></button>);
                     })}
                   </div>
                 </div>
               )}
-
-              <Button onClick={handleDownload} disabled={downloading}
-                className="w-full h-11 bg-[#E52222] text-white font-bold rounded-lg hover:bg-[#C91C1C] text-sm">
+              <Button onClick={handleDownload} disabled={downloading} className="w-full h-11 bg-[#E52222] text-white font-bold rounded-lg hover:bg-[#C91C1C] text-sm">
                 {downloading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Downloading...</> : <><Download className="mr-2 h-4 w-4" />{t("btn.download")}</>}
               </Button>
             </div>
           </div>
         )}
       </div>
+
+      {/* FEATURE 5: History Panel */}
+      {showHistory && (
+        <>
+          <div className="fixed inset-0 z-50 bg-black/40" onClick={() => setShowHistory(false)} />
+          <div className="fixed right-0 top-0 h-full w-80 bg-white dark:bg-[#2D2D2D] shadow-2xl z-50 flex flex-col transition-transform duration-300">
+            <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 dark:border-white/10">
+              <h3 className="font-bold text-[#333] dark:text-white text-sm font-[family-name:var(--font-montserrat)]">{t("history.title")}</h3>
+              <button onClick={() => setShowHistory(false)} className="h-7 w-7 flex items-center justify-center rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10"><X className="h-4 w-4" /></button>
+            </div>
+            <div className="flex-1 overflow-y-auto max-h-96 p-4">
+              {historyItems.length === 0 ? (
+                <p className="text-sm text-gray-400 text-center py-8">{t("history.empty")}</p>
+              ) : (
+                <div className="space-y-3">
+                  {historyItems.map(item => {
+                    const pd = getPlatformDef(item.platform);
+                    return (
+                      <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" className="flex gap-2.5 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                        <div className="w-12 h-9 rounded bg-gray-100 dark:bg-[#444] flex items-center justify-center shrink-0 overflow-hidden">
+                          {item.thumbnail ? <Image src={item.thumbnail} alt="" width={48} height={36} className="w-full h-full object-cover" unoptimized /> : <Play className="h-3 w-3 text-gray-400" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-medium text-gray-700 dark:text-gray-300 line-clamp-1">{item.title}</p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="text-[10px] text-gray-400">{item.platform}</span>
+                            <span className="text-[10px] text-gray-400">{relativeTime(item.timestamp, lang)}</span>
+                          </div>
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            {historyItems.length > 0 && (
+              <div className="p-4 border-t border-gray-100 dark:border-white/10">
+                <button onClick={() => { if (confirm(t("history.clearConfirm"))) { localStorage.removeItem(HISTORY_KEY); setHistoryItems([]); window.dispatchEvent(new Event("mova:history-changed")); } }} className="w-full flex items-center justify-center gap-2 py-2 text-xs text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-colors"><Trash2 className="h-3.5 w-3.5" />{t("history.clear")}</button>
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </section>
   );
 }
@@ -852,36 +942,21 @@ function HeroSection() {
    ══════════════════════════════════════════════════ */
 function FreeDownloaderSection() {
   const { t } = useLanguage();
+  const revealRef = useScrollReveal();
   return (
-    <section className="py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
-          {/* Left: Text content */}
           <div className="flex-1 text-center md:text-left">
             <div className="inline-flex items-center gap-2 mb-4">
               <span className="bg-[#E52222] text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-wider">{t("free.badge")}</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-[32px] font-extrabold text-[#333333] dark:text-white mb-4 font-[family-name:var(--font-montserrat)] leading-tight">
-              {t("free.title1")} <span className="text-[#E52222]">{t("free.titleRed")}</span>
-            </h2>
-            <p className="text-sm text-[#666666] dark:text-gray-400 leading-relaxed mb-6 max-w-md mx-auto md:mx-0">
-              {t("free.desc")}
-            </p>
-            <a href="#hero">
-              <Button className="bg-[#333333] dark:bg-white dark:text-[#333333] text-white font-semibold rounded-full hover:bg-[#555] dark:hover:bg-gray-100 px-6 h-11 text-sm">
-                {t("free.btn")} <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </a>
+            <h2 className="text-2xl sm:text-3xl md:text-[32px] font-extrabold text-[#333333] dark:text-white mb-4 font-[family-name:var(--font-montserrat)] leading-tight">{t("free.title1")} <span className="text-[#E52222]">{t("free.titleRed")}</span></h2>
+            <p className="text-sm text-[#666666] dark:text-gray-400 leading-relaxed mb-6 max-w-md mx-auto md:mx-0">{t("free.desc")}</p>
+            <a href="#hero"><Button className="bg-[#333333] dark:bg-white dark:text-[#333333] text-white font-semibold rounded-full hover:bg-[#555] dark:hover:bg-gray-100 px-6 h-11 text-sm">{t("free.btn")} <ArrowRight className="ml-2 h-4 w-4" /></Button></a>
           </div>
-          {/* Right: Decorative visual — concentric red circles */}
           <div className="flex-shrink-0">
-            <div className="w-52 h-52 md:w-72 md:h-72 rounded-full bg-[#E52222]/10 flex items-center justify-center">
-              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full bg-[#E52222]/20 flex items-center justify-center">
-                <div className="w-28 h-28 md:w-40 md:h-40 rounded-full bg-[#E52222] flex items-center justify-center shadow-lg">
-                  <Play className="h-10 w-10 md:h-14 md:w-14 text-white ml-1" />
-                </div>
-              </div>
-            </div>
+            <div className="w-52 h-52 md:w-72 md:h-72 rounded-full bg-[#E52222]/10 flex items-center justify-center"><div className="w-40 h-40 md:w-56 md:h-56 rounded-full bg-[#E52222]/20 flex items-center justify-center"><div className="w-28 h-28 md:w-40 md:h-40 rounded-full bg-[#E52222] flex items-center justify-center shadow-lg"><Play className="h-10 w-10 md:h-14 md:w-14 text-white ml-1" /></div></div></div>
           </div>
         </div>
       </div>
@@ -894,48 +969,62 @@ function FreeDownloaderSection() {
    ══════════════════════════════════════════════════ */
 function HowToUseSection() {
   const { t } = useLanguage();
+  const revealRef = useScrollReveal();
   const steps = [
     { num: "01", title: t("how.step1.title"), desc: t("how.step1.desc"), filled: true },
     { num: "02", title: t("how.step2.title"), desc: t("how.step2.desc"), filled: true },
     { num: "03", title: t("how.step3.title"), desc: t("how.step3.desc"), filled: false },
   ];
-
   return (
-    <section id="how" className="py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
+    <section id="how" ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
       <div className="mx-auto max-w-5xl">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
-
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
-          {/* Left: Person image with red circle accent */}
           <div className="flex-shrink-0 relative">
             <div className="absolute -top-4 -left-4 w-64 h-64 md:w-80 md:h-80 rounded-full bg-[#E52222]/10 z-0" />
-            <div className="relative z-10 w-56 h-56 md:w-72 md:h-72 rounded-2xl overflow-hidden">
-              <Image src="/how-person.png" alt="Person using phone" fill className="object-cover object-center" />
-            </div>
+            <div className="relative z-10 w-56 h-56 md:w-72 md:h-72 rounded-2xl overflow-hidden"><Image src="/how-person.png" alt="Person using phone" fill className="object-cover object-center" /></div>
           </div>
-
-          {/* Right: 3 numbered steps */}
           <div className="flex-1 space-y-6 md:space-y-8">
             {steps.map((s, i) => (
               <div key={i} className="flex items-start gap-4">
-                {/* Number circle */}
-                {s.filled ? (
-                  <div className="w-12 h-12 rounded-full bg-[#E52222] flex items-center justify-center shrink-0">
-                    <span className="text-white font-bold text-sm">{s.num}</span>
-                  </div>
-                ) : (
-                  <div className="w-12 h-12 rounded-full border-2 border-[#E52222] flex items-center justify-center shrink-0">
-                    <span className="text-[#E52222] font-bold text-sm">{s.num}</span>
-                  </div>
-                )}
-                {/* Text */}
-                <div>
-                  <h3 className="text-base md:text-lg font-bold text-[#333333] dark:text-white mb-1">{s.title}</h3>
-                  <p className="text-sm text-[#666666] dark:text-gray-400 leading-relaxed">{s.desc}</p>
-                </div>
+                {s.filled ? (<div className="w-12 h-12 rounded-full bg-[#E52222] flex items-center justify-center shrink-0"><span className="text-white font-bold text-sm">{s.num}</span></div>) : (<div className="w-12 h-12 rounded-full border-2 border-[#E52222] flex items-center justify-center shrink-0"><span className="text-[#E52222] font-bold text-sm">{s.num}</span></div>)}
+                <div><h3 className="text-base md:text-lg font-bold text-[#333333] dark:text-white mb-1">{s.title}</h3><p className="text-sm text-[#666666] dark:text-gray-400 leading-relaxed">{s.desc}</p></div>
               </div>
             ))}
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   FEATURE 6: Platform Quick-Access Cards
+   ══════════════════════════════════════════════════ */
+function PlatformQuickAccessSection() {
+  const { t } = useLanguage();
+  const revealRef = useScrollReveal();
+  const platformCards = [
+    { name: "TikTok", desc: t("platforms.tiktok.desc"), slug: "tiktok", color: "#010101", Icon: TikTokIcon },
+    { name: "Instagram", desc: t("platforms.ig.desc"), slug: "instagram", color: "#E1306C", Icon: InstagramIcon },
+    { name: "Facebook", desc: t("platforms.fb.desc"), slug: "facebook", color: "#1877F2", Icon: FacebookIcon },
+    { name: "Twitter/X", desc: t("platforms.twitter.desc"), slug: "twitter", color: "#14171A", Icon: TwitterXIcon },
+    { name: "Pinterest", desc: t("platforms.pinterest.desc"), slug: "pinterest", color: "#E60023", Icon: PinterestIcon },
+    { name: "Reddit", desc: t("platforms.reddit.desc"), slug: "reddit", color: "#FF4500", Icon: RedditIcon },
+  ];
+  return (
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+      <div className="mx-auto max-w-5xl text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("platforms.title")}</h2>
+        <p className="text-sm text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("platforms.subtitle")}</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+          {platformCards.map(p => (
+            <a key={p.slug} href={`/${p.slug}-downloader`} className="bg-white dark:bg-[#2D2D2D] rounded-xl border border-gray-200 dark:border-white/10 p-5 md:p-6 text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-200 group">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: `${p.color}15` }}><p.Icon className="h-5 w-5" style={{ color: p.color }} /></div>
+              <h3 className="font-bold text-sm text-[#333] dark:text-white mb-1 group-hover:text-[#E52222] transition-colors">{p.name}</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">{p.desc}</p>
+            </a>
+          ))}
         </div>
       </div>
     </section>
@@ -947,198 +1036,24 @@ function HowToUseSection() {
    ══════════════════════════════════════════════════ */
 function FeatureCardsSection() {
   const { t } = useLanguage();
+  const revealRef = useScrollReveal();
   const features = [
     { num: "01", icon: Zap, title: t("feat1.title"), desc: t("feat1.desc") },
     { num: "02", icon: Film, title: t("feat2.title"), desc: t("feat2.desc") },
     { num: "03", icon: CheckCircle, title: t("feat3.title"), desc: t("feat3.desc") },
   ];
-
   return (
-    <section id="features" className="py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
+    <section id="features" ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
       <div className="mx-auto max-w-5xl">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {features.map((f, i) => {
-            const Icon = f.icon;
-            return (
-              <div key={i} className="bg-[#333333] dark:bg-[#333] rounded-lg p-8 border border-white/10 hover:border-white/20 transition-all duration-200">
-                <span className="text-white/20 text-4xl md:text-5xl font-extrabold font-[family-name:var(--font-montserrat)]">{f.num}</span>
-                <div className="mt-4 mb-3">
-                  <Icon className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="text-white text-lg font-bold mb-2">{f.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{f.desc}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ══════════════════════════════════════════════════
-   WHY CHOOSE GETMOVA — Light gray bg, black icons, clean minimal
-   ══════════════════════════════════════════════════ */
-function WhyChooseSection() {
-  const { t } = useLanguage();
-  const benefits = [
-    { icon: Zap, title: t("why.1.title"), desc: t("why.1.desc") },
-    { icon: Smartphone, title: t("why.2.title"), desc: t("why.2.desc") },
-    { icon: Share2, title: t("why.3.title"), desc: t("why.3.desc") },
-    { icon: Shield, title: t("why.4.title"), desc: t("why.4.desc") },
-  ];
-
-  return (
-    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
-      <div className="mx-auto max-w-5xl">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("why.title")}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-          {benefits.map((b, i) => {
-            const Icon = b.icon;
-            return (
-              <div key={i} className="text-center p-4">
-                <div className="flex items-center justify-center mb-4">
-                  <Icon className="h-8 w-8 text-[#333333] dark:text-white" />
-                </div>
-                <h3 className="text-sm md:text-base font-bold text-[#333333] dark:text-white mb-2">{b.title}</h3>
-                <p className="text-xs md:text-sm text-[#999999] dark:text-gray-500 leading-relaxed">{b.desc}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ══════════════════════════════════════════════════
-   FAQ — Dark gray bg, white text, red numbers, red pill badge
-   Two-column on desktop: left = title + CTA, right = accordion
-   ══════════════════════════════════════════════════ */
-function FAQSection() {
-  const { t } = useLanguage();
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const faqItems = [
-    { num: "01", q: t("faq.1.q"), a: t("faq.1.a") },
-    { num: "02", q: t("faq.2.q"), a: t("faq.2.a") },
-    { num: "03", q: t("faq.3.q"), a: t("faq.3.a") },
-    { num: "04", q: t("faq.4.q"), a: t("faq.4.a") },
-    { num: "05", q: t("faq.5.q"), a: t("faq.5.a") },
-    { num: "06", q: t("faq.6.q"), a: t("faq.6.a") },
-  ];
-
-  return (
-    <section id="faq" className="relative py-16 md:py-24 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] overflow-hidden">
-      {/* Decorative red circles */}
-      <div className="absolute top-[-80px] right-[-80px] w-[200px] h-[200px] rounded-full bg-[#E52222]/5 pointer-events-none" />
-      <div className="absolute bottom-[-60px] left-[-60px] w-[160px] h-[160px] rounded-full bg-[#E52222]/5 pointer-events-none" />
-      <div className="absolute top-[40%] left-[-40px] w-[80px] h-[80px] rounded-full bg-[#E52222]/3 pointer-events-none" />
-
-      <div className="relative mx-auto max-w-6xl">
-        {/* Mobile: Title area centered */}
-        <div className="text-center mb-10 md:hidden">
-          <span className="inline-block bg-[#E52222] text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
-            FAQ
-          </span>
-          <h2 className="text-2xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight">
-            {t("faq.title")}{" "}
-            <span className="text-[#E52222]">{t("faq.titleRed")}</span>
-          </h2>
-          <p className="mt-3 text-sm text-white/50 max-w-sm mx-auto leading-relaxed">
-            {t("faq.subtitle")}
-          </p>
-        </div>
-
-        {/* Desktop: Two-column layout */}
-        <div className="flex flex-col md:flex-row gap-10 md:gap-16">
-          {/* Left column: Title + CTA (desktop only title) */}
-          <div className="md:w-[35%] shrink-0">
-            <div className="hidden md:block">
-              <span className="inline-block bg-[#E52222] text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
-                FAQ
-              </span>
-              <h2 className="text-3xl lg:text-4xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight mb-4">
-                {t("faq.title")}{" "}
-                <span className="text-[#E52222]">{t("faq.titleRed")}</span>
-              </h2>
-              <p className="text-sm md:text-base text-white/50 leading-relaxed mb-8">
-                {t("faq.subtitle")}
-              </p>
+          {features.map((f, i) => { const Icon = f.icon; return (
+            <div key={i} className="bg-[#333333] dark:bg-[#333] rounded-lg p-8 border border-white/10 hover:border-white/20 transition-all duration-200 dark-glow-card">
+              <span className="text-white/20 text-4xl md:text-5xl font-extrabold font-[family-name:var(--font-montserrat)]">{f.num}</span>
+              <div className="mt-4 mb-3"><Icon className="h-6 w-6 text-white" /></div>
+              <h3 className="text-white text-lg font-bold mb-2">{f.title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">{f.desc}</p>
             </div>
-
-            {/* CTA card — always visible */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-11 h-11 rounded-full bg-[#E52222]/20 flex items-center justify-center shrink-0">
-                  <AlertCircle className="h-5 w-5 text-[#E52222]" />
-                </div>
-                <h3 className="text-white text-base md:text-lg font-bold">
-                  {t("faq.cta.title")}
-                </h3>
-              </div>
-              <p className="text-white/50 text-sm mb-5 leading-relaxed">
-                {t("faq.cta.desc")}
-              </p>
-              <a href="/contact">
-                <Button className="w-full bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] h-11 text-sm">
-                  {t("faq.cta.btn")} <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </a>
-            </div>
-          </div>
-
-          {/* Right column: FAQ accordion */}
-          <div className="md:w-[65%]">
-            <div className="space-y-3">
-              {faqItems.map((f, i) => {
-                const isOpen = openIndex === i;
-                return (
-                  <div
-                    key={i}
-                    className={`rounded-xl overflow-hidden transition-all duration-300 ${
-                      isOpen
-                        ? "bg-white/10 border border-white/20 shadow-lg shadow-[#E52222]/5"
-                        : "bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.07] hover:border-white/10"
-                    }`}
-                  >
-                    <button
-                      onClick={() => setOpenIndex(isOpen ? null : i)}
-                      className="flex items-center justify-between w-full py-4 px-5 cursor-pointer text-left group"
-                    >
-                      <span className="flex items-center gap-3 pr-3">
-                        <span className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300 ${
-                          isOpen ? "bg-[#E52222]" : "bg-white/10 group-hover:bg-[#E52222]/30"
-                        }`}>
-                          <span className={`font-bold text-xs transition-colors duration-300 ${
-                            isOpen ? "text-white" : "text-white/60 group-hover:text-[#E52222]"
-                          }`}>{f.num}</span>
-                        </span>
-                        <span className={`text-sm md:text-base font-medium transition-colors duration-300 ${
-                          isOpen ? "text-white" : "text-white/80 group-hover:text-[#E52222]"
-                        }`}>
-                          {f.q}
-                        </span>
-                      </span>
-                      <ChevronDown
-                        className={`h-4 w-4 shrink-0 transition-all duration-300 ${
-                          isOpen ? "rotate-180 text-[#E52222]" : "text-white/30 group-hover:text-white/60"
-                        }`}
-                      />
-                    </button>
-                    <div
-                      className={`overflow-hidden transition-all duration-300 ${
-                        isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                      }`}
-                    >
-                      <div className="px-5 pb-5 pl-16 text-sm md:text-base text-white/60 leading-relaxed border-t border-white/5 pt-3">
-                        {f.a}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          ); })}
         </div>
       </div>
     </section>
@@ -1150,41 +1065,18 @@ function FAQSection() {
    ══════════════════════════════════════════════════ */
 function SupportedFormatsSection() {
   const { t } = useLanguage();
+  const revealRef = useScrollReveal();
   const formats = [
-    { key: "mp4", icon: Video },
-    { key: "mp3", icon: Music },
-    { key: "webm", icon: Film },
-    { key: "avi", icon: Monitor },
-    { key: "360p", icon: Smartphone },
-    { key: "480p", icon: Smartphone },
-    { key: "720p", icon: Award },
-    { key: "1080p", icon: Award },
-    { key: "4k", icon: Award },
-    { key: "audio", icon: Headphones },
+    { key: "mp4", icon: Video }, { key: "mp3", icon: Music }, { key: "webm", icon: Film }, { key: "avi", icon: Monitor },
+    { key: "360p", icon: Smartphone }, { key: "480p", icon: Smartphone }, { key: "720p", icon: Award }, { key: "1080p", icon: Award }, { key: "4k", icon: Award }, { key: "audio", icon: Headphones },
   ];
-
   return (
-    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A] transition-colors duration-300">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A] transition-colors duration-300">
       <div className="mx-auto max-w-5xl text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">
-          {t("fmt.title")}
-        </h2>
-        <p className="text-sm text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">
-          {t("fmt.subtitle")}
-        </p>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("fmt.title")}</h2>
+        <p className="text-sm text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("fmt.subtitle")}</p>
         <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-          {formats.map((f) => {
-            const Icon = f.icon;
-            return (
-              <div
-                key={f.key}
-                className="flex items-center gap-2 bg-white dark:bg-[#2D2D2D] border border-gray-200 dark:border-white/10 rounded-full px-5 py-2.5 shadow-sm hover:shadow-md hover:border-[#E52222]/30 transition-all duration-200 cursor-default"
-              >
-                <Icon className="h-4 w-4 text-[#E52222]" />
-                <span className="text-sm font-semibold text-[#333333] dark:text-white">{t(`fmt.${f.key}`)}</span>
-              </div>
-            );
-          })}
+          {formats.map((f) => { const Icon = f.icon; return (<div key={f.key} className="flex items-center gap-2 bg-white dark:bg-[#2D2D2D] border border-gray-200 dark:border-white/10 rounded-full px-5 py-2.5 shadow-sm hover:shadow-md hover:border-[#E52222]/30 transition-all duration-200 cursor-default"><Icon className="h-4 w-4 text-[#E52222]" /><span className="text-sm font-semibold text-[#333333] dark:text-white">{t(`fmt.${f.key}`)}</span></div>); })}
         </div>
       </div>
     </section>
@@ -1197,58 +1089,61 @@ function SupportedFormatsSection() {
 function useCountUp(target: number, duration: number = 2000, startOnMount: boolean = true) {
   const [count, setCount] = useState(0);
   const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    if (!startOnMount) return;
-    setStarted(true);
-  }, [startOnMount]);
-
+  useEffect(() => { if (!startOnMount) return; setStarted(true); }, [startOnMount]);
   useEffect(() => {
     if (!started) return;
-    let startTime: number | null = null;
-    let rafId: number;
-    const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      setCount(Math.floor(progress * target));
-      if (progress < 1) {
-        rafId = requestAnimationFrame(step);
-      }
-    };
+    let startTime: number | null = null; let rafId: number;
+    const step = (timestamp: number) => { if (!startTime) startTime = timestamp; const progress = Math.min((timestamp - startTime) / duration, 1); setCount(Math.floor(progress * target)); if (progress < 1) rafId = requestAnimationFrame(step); };
     rafId = requestAnimationFrame(step);
     return () => cancelAnimationFrame(rafId);
   }, [started, target, duration]);
-
   return count;
 }
 
 function StatisticsSection() {
   const { t } = useLanguage();
-
-  const count1 = useCountUp(10, 2000);
-  const count2 = useCountUp(6, 1500);
-  const count3 = useCountUp(100, 1800);
-  const count4 = useCountUp(49, 2000);
-
+  const revealRef = useScrollReveal();
+  const count1 = useCountUp(10, 2000); const count2 = useCountUp(6, 1500); const count3 = useCountUp(100, 1800); const count4 = useCountUp(49, 2000);
   const stats = [
     { display: `${count1}M+`, labelKey: "stats.1.label" },
     { display: `${count2}+`, labelKey: "stats.2.label" },
     { display: `${count3}%`, labelKey: "stats.3.label" },
     { display: `${(count4 / 10).toFixed(1)}`, labelKey: "stats.4.label" },
   ];
-
   return (
-    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D] transition-colors duration-300">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D] transition-colors duration-300">
       <div className="mx-auto max-w-5xl">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {stats.map((s, i) => (
             <div key={i} className="text-center">
-              <div className="text-3xl md:text-5xl font-extrabold text-white font-[family-name:var(--font-montserrat)] mb-2">
-                {s.display}
-              </div>
+              <div className="text-3xl md:text-5xl font-extrabold text-white font-[family-name:var(--font-montserrat)] mb-2 dark-glow-text">{s.display}</div>
               <div className="text-white/60 text-sm md:text-base">{t(s.labelKey)}</div>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   WHY CHOOSE GETMOVA — Light gray bg, black icons, clean minimal
+   ══════════════════════════════════════════════════ */
+function WhyChooseSection() {
+  const { t } = useLanguage();
+  const revealRef = useScrollReveal();
+  const benefits = [
+    { icon: Zap, title: t("why.1.title"), desc: t("why.1.desc") },
+    { icon: Smartphone, title: t("why.2.title"), desc: t("why.2.desc") },
+    { icon: Share2, title: t("why.3.title"), desc: t("why.3.desc") },
+    { icon: Shield, title: t("why.4.title"), desc: t("why.4.desc") },
+  ];
+  return (
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+      <div className="mx-auto max-w-5xl">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("why.title")}</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          {benefits.map((b, i) => { const Icon = b.icon; return (<div key={i} className="text-center p-4"><div className="flex items-center justify-center mb-4"><Icon className="h-8 w-8 text-[#333333] dark:text-white" /></div><h3 className="text-sm md:text-base font-bold text-[#333333] dark:text-white mb-2">{b.title}</h3><p className="text-xs md:text-sm text-[#999999] dark:text-gray-500 leading-relaxed">{b.desc}</p></div>); })}
         </div>
       </div>
     </section>
@@ -1260,7 +1155,7 @@ function StatisticsSection() {
    ══════════════════════════════════════════════════ */
 function ComparisonSection() {
   const { t } = useLanguage();
-
+  const revealRef = useScrollReveal();
   const features = [
     { key: "nowatermark", getmova: true, snaptik: true, savefrom: false, y2mate: false },
     { key: "free", getmova: true, snaptik: false, savefrom: false, y2mate: false },
@@ -1269,49 +1164,25 @@ function ComparisonSection() {
     { key: "hdquality", getmova: true, snaptik: true, savefrom: "partial", y2mate: true },
     { key: "multiplatform", getmova: true, snaptik: false, savefrom: true, y2mate: false },
   ];
-
   const CheckMark = () => <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-green-500/15"><svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg></span>;
   const XMark = () => <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-red-500/15"><svg className="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></span>;
   const PartialMark = () => <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-yellow-500/15"><svg className="w-4 h-4 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01" /><circle cx="12" cy="12" r="9" strokeWidth={2} /></svg></span>;
-
-  const renderMark = (val: boolean | string) => {
-    if (val === true) return <CheckMark />;
-    if (val === "partial") return <PartialMark />;
-    return <XMark />;
-  };
-
+  const renderMark = (val: boolean | string) => { if (val === true) return <CheckMark />; if (val === "partial") return <PartialMark />; return <XMark />; };
   return (
-    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A] transition-colors duration-300">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A] transition-colors duration-300">
       <div className="mx-auto max-w-5xl text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">
-          {t("compare.title")}
-        </h2>
-        <p className="text-sm text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">
-          {t("compare.subtitle")}
-        </p>
-
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("compare.title")}</h2>
+        <p className="text-sm text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("compare.subtitle")}</p>
         <div className="overflow-x-auto scroll-hide -mx-4 px-4">
           <table className="w-full min-w-[520px] border-collapse bg-white dark:bg-[#2D2D2D] rounded-xl overflow-hidden shadow-sm">
-            <thead>
-              <tr className="border-b border-gray-100 dark:border-white/10">
-                <th className="py-4 px-4 text-left text-sm font-semibold text-[#333333] dark:text-white">{t("compare.feature")}</th>
-                <th className="py-4 px-4 text-center text-sm font-bold text-white bg-[#E52222]">{t("compare.getmova")}</th>
-                <th className="py-4 px-4 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.snaptik")}</th>
-                <th className="py-4 px-4 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.savefrom")}</th>
-                <th className="py-4 px-4 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.y2mate")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {features.map((f, i) => (
-                <tr key={f.key} className={i < features.length - 1 ? "border-b border-gray-100 dark:border-white/10" : ""}>
-                  <td className="py-3.5 px-4 text-sm text-[#333333] dark:text-gray-300 text-left">{t(`compare.${f.key}`)}</td>
-                  <td className="py-3.5 px-4 text-center bg-[#E52222]/5 dark:bg-[#E52222]/10">{renderMark(f.getmova)}</td>
-                  <td className="py-3.5 px-4 text-center">{renderMark(f.snaptik)}</td>
-                  <td className="py-3.5 px-4 text-center">{renderMark(f.savefrom)}</td>
-                  <td className="py-3.5 px-4 text-center">{renderMark(f.y2mate)}</td>
-                </tr>
-              ))}
-            </tbody>
+            <thead><tr className="border-b border-gray-100 dark:border-white/10">
+              <th className="py-4 px-4 text-left text-sm font-semibold text-[#333333] dark:text-white">{t("compare.feature")}</th>
+              <th className="py-4 px-4 text-center text-sm font-bold text-white bg-[#E52222]">{t("compare.getmova")}</th>
+              <th className="py-4 px-4 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.snaptik")}</th>
+              <th className="py-4 px-4 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.savefrom")}</th>
+              <th className="py-4 px-4 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.y2mate")}</th>
+            </tr></thead>
+            <tbody>{features.map((f, i) => (<tr key={f.key} className={i < features.length - 1 ? "border-b border-gray-100 dark:border-white/10" : ""}><td className="py-3.5 px-4 text-sm text-[#333333] dark:text-gray-300 text-left">{t(`compare.${f.key}`)}</td><td className="py-3.5 px-4 text-center bg-[#E52222]/5 dark:bg-[#E52222]/10">{renderMark(f.getmova)}</td><td className="py-3.5 px-4 text-center">{renderMark(f.snaptik)}</td><td className="py-3.5 px-4 text-center">{renderMark(f.savefrom)}</td><td className="py-3.5 px-4 text-center">{renderMark(f.y2mate)}</td></tr>))}</tbody>
           </table>
         </div>
       </div>
@@ -1324,40 +1195,26 @@ function ComparisonSection() {
    ══════════════════════════════════════════════════ */
 function TestimonialsSection() {
   const { t } = useLanguage();
-
+  const revealRef = useScrollReveal();
   const testimonials = [
     { nameKey: "testi.1.name", roleKey: "testi.1.role", textKey: "testi.1.text", initials: "RS", color: "#E52222" },
     { nameKey: "testi.2.name", roleKey: "testi.2.role", textKey: "testi.2.text", initials: "AP", color: "#3B82F6" },
     { nameKey: "testi.3.name", roleKey: "testi.3.role", textKey: "testi.3.text", initials: "SM", color: "#10B981" },
   ];
-
   return (
-    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] transition-colors duration-300">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] transition-colors duration-300">
       <div className="mx-auto max-w-5xl text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">
-          {t("testi.title")}
-        </h2>
-        <p className="text-sm text-white/50 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">
-          {t("testi.subtitle")}
-        </p>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("testi.title")}</h2>
+        <p className="text-sm text-white/50 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("testi.subtitle")}</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((testi, i) => (
-            <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-6 text-left hover:bg-white/[0.08] hover:border-white/20 transition-all duration-200">
+            <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-6 text-left">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-white text-sm font-bold" style={{ background: testi.color }}>
-                  {testi.initials}
-                </div>
-                <div>
-                  <h4 className="text-white text-sm font-bold">{t(testi.nameKey)}</h4>
-                  <p className="text-white/40 text-xs">{t(testi.roleKey)}</p>
-                </div>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0" style={{ background: testi.color }}>{testi.initials}</div>
+                <div><p className="text-white font-semibold text-sm">{t(testi.nameKey)}</p><p className="text-white/40 text-xs">{t(testi.roleKey)}</p></div>
               </div>
-              <div className="flex items-center gap-0.5 mb-3">
-                {Array.from({ length: 5 }).map((_, j) => (
-                  <Star key={j} className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
-                ))}
-              </div>
-              <p className="text-white/70 text-sm leading-relaxed">&ldquo;{t(testi.textKey)}&rdquo;</p>
+              <div className="flex items-center gap-0.5 mb-3">{Array.from({ length: 5 }).map((_, si) => <Star key={si} className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />)}</div>
+              <p className="text-white/60 text-sm leading-relaxed">{t(testi.textKey)}</p>
             </div>
           ))}
         </div>
@@ -1367,62 +1224,143 @@ function TestimonialsSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   NEWSLETTER — Dark bg with red accent, email subscription
+   FAQ — Dark gray bg, white text, red numbers, red pill badge
+   With FEATURE 9: FAQ Search/Filter
+   ══════════════════════════════════════════════════ */
+function FAQSection() {
+  const { t } = useLanguage();
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [faqSearch, setFaqSearch] = useState("");
+  const revealRef = useScrollReveal();
+  const faqItems = [
+    { num: "01", q: t("faq.1.q"), a: t("faq.1.a") },
+    { num: "02", q: t("faq.2.q"), a: t("faq.2.a") },
+    { num: "03", q: t("faq.3.q"), a: t("faq.3.a") },
+    { num: "04", q: t("faq.4.q"), a: t("faq.4.a") },
+    { num: "05", q: t("faq.5.q"), a: t("faq.5.a") },
+    { num: "06", q: t("faq.6.q"), a: t("faq.6.a") },
+  ];
+  const filteredFaqs = faqSearch.trim()
+    ? faqItems.filter(f => f.q.toLowerCase().includes(faqSearch.toLowerCase()) || f.a.toLowerCase().includes(faqSearch.toLowerCase()))
+    : faqItems;
+
+  return (
+    <section id="faq" ref={revealRef} className="section-reveal relative py-16 md:py-24 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] overflow-hidden">
+      <div className="absolute top-[-80px] right-[-80px] w-[200px] h-[200px] rounded-full bg-[#E52222]/5 pointer-events-none" />
+      <div className="absolute bottom-[-60px] left-[-60px] w-[160px] h-[160px] rounded-full bg-[#E52222]/5 pointer-events-none" />
+      <div className="relative mx-auto max-w-6xl">
+        <div className="text-center mb-10 md:hidden">
+          <span className="inline-block bg-[#E52222] text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">FAQ</span>
+          <h2 className="text-2xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight">{t("faq.title")} <span className="text-[#E52222]">{t("faq.titleRed")}</span></h2>
+          <p className="mt-3 text-sm text-white/50 max-w-sm mx-auto leading-relaxed">{t("faq.subtitle")}</p>
+        </div>
+        <div className="flex flex-col md:flex-row gap-10 md:gap-16">
+          <div className="md:w-[35%] shrink-0">
+            <div className="hidden md:block">
+              <span className="inline-block bg-[#E52222] text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">FAQ</span>
+              <h2 className="text-3xl lg:text-4xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight mb-4">{t("faq.title")} <span className="text-[#E52222]">{t("faq.titleRed")}</span></h2>
+              <p className="text-sm md:text-base text-white/50 leading-relaxed mb-8">{t("faq.subtitle")}</p>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
+              <div className="flex items-center gap-3 mb-4"><div className="w-11 h-11 rounded-full bg-[#E52222]/20 flex items-center justify-center shrink-0"><AlertCircle className="h-5 w-5 text-[#E52222]" /></div><h3 className="text-white text-base md:text-lg font-bold">{t("faq.cta.title")}</h3></div>
+              <p className="text-white/50 text-sm mb-5 leading-relaxed">{t("faq.cta.desc")}</p>
+              <a href="/contact"><Button className="w-full bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] h-11 text-sm">{t("faq.cta.btn")} <ArrowRight className="ml-2 h-4 w-4" /></Button></a>
+            </div>
+          </div>
+          <div className="md:w-[65%]">
+            {/* FEATURE 9: FAQ Search */}
+            <div className="relative mb-4">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
+              <input type="text" value={faqSearch} onChange={e => setFaqSearch(e.target.value)} placeholder={t("faq.search")} className="w-full h-10 bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 text-white text-sm placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors" />
+            </div>
+            {filteredFaqs.length === 0 ? (
+              <p className="text-white/40 text-sm text-center py-8">{t("faq.noresults")}</p>
+            ) : (
+            <div className="space-y-3">
+              {filteredFaqs.map((f, i) => {
+                const isOpen = openIndex === i;
+                return (
+                  <div key={i} className={`rounded-xl overflow-hidden transition-all duration-300 ${isOpen ? "bg-white/10 border border-white/20 shadow-lg shadow-[#E52222]/5" : "bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.07] hover:border-white/10"}`}>
+                    <button onClick={() => setOpenIndex(isOpen ? null : i)} className="flex items-center justify-between w-full py-4 px-5 cursor-pointer text-left group">
+                      <span className="flex items-center gap-3 pr-3">
+                        <span className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300 ${isOpen ? "bg-[#E52222]" : "bg-white/10 group-hover:bg-[#E52222]/30"}`}><span className={`font-bold text-xs transition-colors duration-300 ${isOpen ? "text-white" : "text-white/60 group-hover:text-[#E52222]"}`}>{f.num}</span></span>
+                        <span className={`text-sm md:text-base font-medium transition-colors duration-300 ${isOpen ? "text-white" : "text-white/80 group-hover:text-[#E52222]"}`}>{f.q}</span>
+                      </span>
+                      <ChevronDown className={`h-4 w-4 shrink-0 transition-all duration-300 ${isOpen ? "rotate-180 text-[#E52222]" : "text-white/30 group-hover:text-white/60"}`} />
+                    </button>
+                    <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
+                      <div className="px-5 pb-5 pl-16 text-sm md:text-base text-white/60 leading-relaxed border-t border-white/5 pt-3">{f.a}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   FEATURE 7: Blog Preview Section
+   ══════════════════════════════════════════════════ */
+function BlogPreviewSection() {
+  const { t } = useLanguage();
+  const revealRef = useScrollReveal();
+  const blogPosts = [
+    { titleKey: "blog.1.title", readTime: 5 },
+    { titleKey: "blog.2.title", readTime: 4 },
+    { titleKey: "blog.3.title", readTime: 3 },
+  ];
+  return (
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
+      <div className="mx-auto max-w-5xl text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("blog.title")}</h2>
+        <p className="text-sm text-white/50 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("blog.subtitle")}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {blogPosts.map((post, i) => (
+            <a key={i} href="/blog" className="rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-200 group text-left">
+              <div className="h-40 bg-white/5 flex items-center justify-center"><FileText className="h-10 w-10 text-white/10" /></div>
+              <div className="p-5">
+                <h3 className="text-white font-bold text-sm mb-2 group-hover:text-[#E52222] transition-colors line-clamp-2">{t(post.titleKey)}</h3>
+                <div className="flex items-center justify-between">
+                  <span className="text-white/30 text-xs">{post.readTime} {t("blog.minread")}</span>
+                  <span className="text-[#E52222] text-xs font-medium group-hover:underline">{t("blog.readmore")} →</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   NEWSLETTER
    ══════════════════════════════════════════════════ */
 function NewsletterSection() {
   const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.trim() && email.includes("@")) {
-      setSubscribed(true);
-      setEmail("");
-      setTimeout(() => setSubscribed(false), 4000);
-    }
-  };
-
+  const revealRef = useScrollReveal();
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (email.trim() && email.includes("@")) { setSubscribed(true); setEmail(""); setTimeout(() => setSubscribed(false), 4000); } };
   return (
-    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#1A1A1A] relative overflow-hidden transition-colors duration-300">
-      {/* Decorative red accent */}
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#1A1A1A] relative overflow-hidden transition-colors duration-300">
       <div className="absolute top-0 right-0 w-64 h-64 bg-[#E52222]/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#E52222]/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-
       <div className="relative mx-auto max-w-xl text-center">
-        <div className="flex items-center justify-center mb-4">
-          <div className="w-12 h-12 rounded-full bg-[#E52222]/20 flex items-center justify-center">
-            <Mail className="h-5 w-5 text-[#E52222]" />
-          </div>
-        </div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">
-          {t("nl.title")}
-        </h2>
-        <p className="text-sm text-white/50 mb-8 leading-relaxed">
-          {t("nl.subtitle")}
-        </p>
-
+        <div className="flex items-center justify-center mb-4"><div className="w-12 h-12 rounded-full bg-[#E52222]/20 flex items-center justify-center"><Mail className="h-5 w-5 text-[#E52222]" /></div></div>
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("nl.title")}</h2>
+        <p className="text-sm text-white/50 mb-8 leading-relaxed">{t("nl.subtitle")}</p>
         {subscribed ? (
-          <div className="bg-green-500/15 border border-green-500/20 rounded-xl p-4 flex items-center justify-center gap-2">
-            <CheckCircle className="h-5 w-5 text-green-400" />
-            <span className="text-green-400 font-medium text-sm">Subscribed!</span>
-          </div>
+          <div className="bg-green-500/15 border border-green-500/20 rounded-xl p-4 flex items-center justify-center gap-2"><CheckCircle className="h-5 w-5 text-green-400" /><span className="text-green-400 font-medium text-sm">Subscribed!</span></div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder={t("nl.placeholder")}
-              required
-              className="flex-1 h-12 bg-white/10 border border-white/10 rounded-lg px-4 text-white text-sm placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors"
-            />
-            <button
-              type="submit"
-              className="h-12 px-6 bg-[#E52222] text-white font-bold text-sm rounded-lg hover:bg-[#C91C1C] transition-colors shrink-0"
-            >
-              {t("nl.btn")}
-            </button>
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t("nl.placeholder")} required className="flex-1 h-12 bg-white/10 border border-white/10 rounded-lg px-4 text-white text-sm placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors" />
+            <button type="submit" className="h-12 px-6 bg-[#E52222] text-white font-bold text-sm rounded-lg hover:bg-[#C91C1C] transition-colors shrink-0">{t("nl.btn")}</button>
           </form>
         )}
         <p className="text-white/30 text-xs mt-3">{t("nl.disclaimer")}</p>
@@ -1436,26 +1374,9 @@ function NewsletterSection() {
    ══════════════════════════════════════════════════ */
 function BackToTopButton() {
   const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 300);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
+  useEffect(() => { const onScroll = () => setVisible(window.scrollY > 300); window.addEventListener("scroll", onScroll, { passive: true }); return () => window.removeEventListener("scroll", onScroll); }, []);
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-
-  return (
-    <button
-      onClick={scrollToTop}
-      aria-label="Back to top"
-      className={`fixed bottom-6 right-6 z-50 w-11 h-11 rounded-full bg-[#E52222] text-white shadow-lg flex items-center justify-center hover:bg-[#C91C1C] transition-all duration-300 ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
-      }`}
-    >
-      <ArrowUp className="h-5 w-5" />
-    </button>
-  );
+  return (<button onClick={scrollToTop} aria-label="Back to top" className={`fixed bottom-6 right-6 z-50 w-11 h-11 rounded-full bg-[#E52222] text-white shadow-lg flex items-center justify-center hover:bg-[#C91C1C] transition-all duration-300 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}><ArrowUp className="h-5 w-5" /></button>);
 }
 
 /* ══════════════════════════════════════════════════
@@ -1464,28 +1385,10 @@ function BackToTopButton() {
 function WhatsAppWidget() {
   const { t } = useLanguage();
   const [showTooltip, setShowTooltip] = useState(false);
-
   return (
     <div className="hidden md:block fixed bottom-6 left-6 z-50">
-      {showTooltip && (
-        <div className="absolute bottom-14 left-0 bg-white dark:bg-[#2D2D2D] text-[#333333] dark:text-white text-xs font-medium px-3 py-2 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-white/10">
-          {t("wa.tooltip")}
-          <div className="absolute -bottom-1 left-4 w-2 h-2 bg-white dark:bg-[#2D2D2D] rotate-45 border-r border-b border-gray-200 dark:border-white/10" />
-        </div>
-      )}
-      <a
-        href="https://wa.me/6281234567890"
-        target="_blank"
-        rel="noopener noreferrer"
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
-        aria-label="WhatsApp"
-        className="w-12 h-12 rounded-full bg-[#25D366] text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-200"
-      >
-        <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
-      </a>
+      {showTooltip && (<div className="absolute bottom-14 left-0 bg-white dark:bg-[#2D2D2D] text-[#333333] dark:text-white text-xs font-medium px-3 py-2 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-white/10">{t("wa.tooltip")}<div className="absolute -bottom-1 left-4 w-2 h-2 bg-white dark:bg-[#2D2D2D] rotate-45 border-r border-b border-gray-200 dark:border-white/10" /></div>)}
+      <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)} aria-label="WhatsApp" className="w-12 h-12 rounded-full bg-[#25D366] text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-200"><svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
     </div>
   );
 }
@@ -1496,34 +1399,8 @@ function WhatsAppWidget() {
 function FloatingDownloadCTA() {
   const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const heroSection = document.getElementById("hero");
-      if (heroSection) {
-        const heroBottom = heroSection.getBoundingClientRect().bottom;
-        setVisible(heroBottom < 0);
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  return (
-    <div
-      className={`md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#E52222] p-3 safe-bottom transition-all duration-300 ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
-      }`}
-    >
-      <a
-        href="#hero"
-        className="flex items-center justify-center gap-2 text-white font-bold text-sm"
-      >
-        <Download className="h-4 w-4" />
-        {t("float.download")}
-      </a>
-    </div>
-  );
+  useEffect(() => { const onScroll = () => { const heroSection = document.getElementById("hero"); if (heroSection) { const heroBottom = heroSection.getBoundingClientRect().bottom; setVisible(heroBottom < 0); } }; window.addEventListener("scroll", onScroll, { passive: true }); return () => window.removeEventListener("scroll", onScroll); }, []);
+  return (<div className={`md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#E52222] p-3 safe-bottom transition-all duration-300 ${visible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}`}><a href="#hero" className="flex items-center justify-center gap-2 text-white font-bold text-sm"><Download className="h-4 w-4" />{t("float.download")}</a></div>);
 }
 
 /* ══════════════════════════════════════════════════
@@ -1535,23 +1412,15 @@ function Footer() {
     <footer className="bg-[#222222] dark:bg-[#1A1A1A]" role="contentinfo">
       <div className="mx-auto max-w-6xl px-4 md:px-6 py-10 md:py-14">
         <div className="flex flex-col items-center text-center gap-4">
-          {/* Logo */}
           <div className="flex items-center gap-1.5">
-            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="shrink-0">
-              <rect width="32" height="32" rx="8" fill="#E52222" />
-              <path d="M13 9L23 16L13 23V9Z" fill="white" />
-            </svg>
-            <span className="font-[family-name:var(--font-montserrat)] font-bold text-white text-lg" style={{ letterSpacing: "-0.03em" }}>
-              Get<span className="text-[#E52222]">Mova</span>
-            </span>
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="shrink-0"><rect width="32" height="32" rx="8" fill="#E52222" /><path d="M13 9L23 16L13 23V9Z" fill="white" /></svg>
+            <span className="font-[family-name:var(--font-montserrat)] font-bold text-white text-lg" style={{ letterSpacing: "-0.03em" }}>Get<span className="text-[#E52222]">Mova</span></span>
           </div>
-          {/* Links */}
           <div className="flex items-center gap-6">
             <a href="/privacy" className="text-white text-xs hover:text-[#E52222] transition-colors">{lang === "id" ? "Kebijakan Privasi" : "Privacy Policy"}</a>
             <a href="/terms" className="text-white text-xs hover:text-[#E52222] transition-colors">{lang === "id" ? "Syarat & Ketentuan" : "Terms of Service"}</a>
             <a href="/contact" className="text-white text-xs hover:text-[#E52222] transition-colors">{lang === "id" ? "Hubungi Kami" : "Contact Us"}</a>
           </div>
-          {/* Copyright */}
           <p className="text-[#999999] text-xs">&copy; 2024-2026 GetMova. All rights reserved.</p>
         </div>
       </div>
@@ -1571,6 +1440,7 @@ export default function Home() {
           <HeroSection />
           <FreeDownloaderSection />
           <HowToUseSection />
+          <PlatformQuickAccessSection />
           <FeatureCardsSection />
           <SupportedFormatsSection />
           <StatisticsSection />
@@ -1578,24 +1448,21 @@ export default function Home() {
           <ComparisonSection />
           <TestimonialsSection />
           <FAQSection />
+          <BlogPreviewSection />
           <NewsletterSection />
-          {/* JSON-LD */}
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
+            "@context": "https://schema.org", "@type": "FAQPage",
             mainEntity: [
-              { "@type": "Question", name: "Apakah GetMova benar-benar gratis?", acceptedAnswer: { "@type": "Answer", text: "Ya, GetMova 100% gratis tanpa biaya tersembunyi. Kamu bisa download video sepuasnya tanpa perlu mendaftar atau membayar apapun. Semua fitur bisa kamu gunakan secara penuh tanpa batasan." } },
-              { "@type": "Question", name: "Apakah ada batasan jumlah download?", acceptedAnswer: { "@type": "Answer", text: "Tidak ada batasan! Kamu bisa mendownload video sebanyak yang kamu mau tanpa batas harian atau bulanan. Download sepuasnya kapan saja dan di mana saja." } },
-              { "@type": "Question", name: "Di mana video yang didownload disimpan?", acceptedAnswer: { "@type": "Answer", text: "Video akan otomatis tersimpan di folder download perangkatmu, baik di HP maupun komputer." } },
-              { "@type": "Question", name: "Platform apa saja yang didukung?", acceptedAnswer: { "@type": "Answer", text: "GetMova mendukung berbagai platform populer seperti TikTok, Instagram, Facebook, Twitter/X, Pinterest, dan Reddit." } },
-              { "@type": "Question", name: "Apakah video yang didownload bebas watermark?", acceptedAnswer: { "@type": "Answer", text: "Ya! Semua video yang didownload melalui GetMova bebas watermark. Kamu akan mendapatkan video asli tanpa logo atau tanda air yang mengganggu." } },
-              { "@type": "Question", name: "Apakah GetMova aman digunakan?", acceptedAnswer: { "@type": "Answer", text: "Sangat aman! Kami tidak menyimpan data pribadi atau riwayat download kamu. Semua proses dilakukan secara aman dengan enkripsi." } },
+              { "@type": "Question", name: "Apakah GetMova benar-benar gratis?", acceptedAnswer: { "@type": "Answer", text: "Ya, GetMova 100% gratis tanpa biaya tersembunyi." } },
+              { "@type": "Question", name: "Apakah ada batasan jumlah download?", acceptedAnswer: { "@type": "Answer", text: "Tidak ada batasan!" } },
+              { "@type": "Question", name: "Di mana video yang didownload disimpan?", acceptedAnswer: { "@type": "Answer", text: "Video akan otomatis tersimpan di folder download perangkatmu." } },
+              { "@type": "Question", name: "Platform apa saja yang didukung?", acceptedAnswer: { "@type": "Answer", text: "GetMova mendukung TikTok, Instagram, Facebook, Twitter/X, Pinterest, dan Reddit." } },
+              { "@type": "Question", name: "Apakah video yang didownload bebas watermark?", acceptedAnswer: { "@type": "Answer", text: "Ya! Semua video yang didownload melalui GetMova bebas watermark." } },
+              { "@type": "Question", name: "Apakah GetMova aman digunakan?", acceptedAnswer: { "@type": "Answer", text: "Sangat aman! Kami tidak menyimpan data pribadi atau riwayat download kamu." } },
             ]
           })}} />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "HowTo",
-            name: "Cara Download Video Tanpa Watermark dengan GetMova",
+            "@context": "https://schema.org", "@type": "HowTo", name: "Cara Download Video Tanpa Watermark dengan GetMova",
             step: [
               { "@type": "HowToStep", position: 1, name: "Cari Video", text: "Temukan video yang kamu inginkan dan salin link-nya." },
               { "@type": "HowToStep", position: 2, name: "Tempel Link", text: "Tempel link yang sudah disalin di kolom input GetMova." },

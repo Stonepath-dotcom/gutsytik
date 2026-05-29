@@ -356,3 +356,63 @@ details summary { list-style: none; }
 .prose-blog td {
   color: var(--muted-foreground);
 }
+
+/* ═══════════════════════════════════════════════
+   FEATURE 1: Scroll Reveal Animation
+   ═══════════════════════════════════════════════ */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.section-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════
+   FEATURE 11: Gradient Text Animation
+   ═══════════════════════════════════════════════ */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animated-gradient {
+  background: linear-gradient(270deg, #E52222, #FF6B35, #E52222);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* ═══════════════════════════════════════════════
+   FEATURE 4: Confetti Animation
+   ═══════════════════════════════════════════════ */
+@keyframes confetti-fall {
+  0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+  50% { opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg) scale(0.3); opacity: 0; }
+}
+.confetti-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confetti-fall 2.5s ease-out forwards;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════
+   FEATURE 13: Dark Mode Glow Effects
+   ═══════════════════════════════════════════════ */
+.dark .dark-glow-input {
+  box-shadow: 0 0 15px rgba(229, 34, 34, 0.15), 0 0 30px rgba(229, 34, 34, 0.05);
+}
+.dark .dark-glow-card:hover {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.08), 0 0 24px rgba(255, 255, 255, 0.04);
+}
+.dark .dark-glow-text {
+  text-shadow: 0 0 20px rgba(229, 34, 34, 0.3), 0 0 40px rgba(229, 34, 34, 0.1);
+}
