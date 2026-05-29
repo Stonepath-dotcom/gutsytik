@@ -134,21 +134,21 @@
 /* ─── Hero Background ─── */
 .hero-bg {
   position: relative;
-  background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+  background: #1A1A2E;
   overflow: hidden;
 }
 .hero-bg::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(26,26,46,0.7) 0%, rgba(22,33,62,0.8) 100%);
+  background: linear-gradient(to right, rgba(10,10,30,0.92) 0%, rgba(10,10,30,0.80) 40%, rgba(10,10,30,0.45) 70%, rgba(10,10,30,0.30) 100%);
   z-index: 1;
 }
 .dark .hero-bg {
-  background: linear-gradient(135deg, #0D0D1A 0%, #0B1520 100%);
+  background: #0D0D1A;
 }
 .dark .hero-bg::before {
-  background: linear-gradient(135deg, rgba(13,13,26,0.8) 0%, rgba(11,21,32,0.9) 100%);
+  background: linear-gradient(to right, rgba(5,5,15,0.95) 0%, rgba(5,5,15,0.85) 40%, rgba(5,5,15,0.50) 70%, rgba(5,5,15,0.35) 100%);
 }
 
 /* ─── Step connector ─── */

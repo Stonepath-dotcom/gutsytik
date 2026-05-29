@@ -560,23 +560,23 @@ function HeroSection() {
   const platformDef = detectedPlatform ? getPlatformDef(detectedPlatform) : null;
 
   return (
-    <section id="hero" className="hero-bg relative pt-24 md:pt-32 pb-12 md:pb-20 px-4 md:px-6" style={{ minHeight: "50vh" }}>
+    <section id="hero" className="hero-bg relative pt-24 md:pt-32 pb-12 md:pb-20 px-4 md:px-6" style={{ minHeight: "70vh" }}>
       {/* Background image */}
       <div className="absolute inset-0 z-0">
-        <Image src="/hero-bg.png" alt="" fill className="object-cover" priority />
+        <Image src="/hero-bg.png" alt="" fill className="object-cover object-center" priority />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-3xl text-center">
+      <div className="relative z-10 mx-auto max-w-6xl flex flex-col items-start md:items-start text-left md:text-left">
         {/* Single large heading */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight max-w-xl">
           Online Video <span className="text-[#E52222]">Downloader</span>
         </h1>
-        <p className="text-white/60 text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-6 md:mb-8">
+        <p className="text-white/70 text-sm md:text-base max-w-lg leading-relaxed mb-6 md:mb-8">
           {t("hero.subtitle")}
         </p>
 
         {/* COMBINED Input + Button — SaveFrom style */}
-        <div className="max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl flex">
+        <div className="w-full max-w-xl rounded-xl overflow-hidden shadow-2xl flex">
           <div className="flex-1 relative">
             <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
             <input
@@ -606,7 +606,7 @@ function HeroSection() {
 
         {/* Loading */}
         {loading && !error && (
-          <div className="max-w-lg mx-auto mt-5 p-3 rounded-lg bg-white/10 backdrop-blur flex items-center gap-2">
+          <div className="max-w-lg mt-5 p-3 rounded-lg bg-white/10 backdrop-blur flex items-center gap-2">
             <Loader2 className="h-4 w-4 text-white animate-spin shrink-0" />
             <p className="text-white text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
           </div>
@@ -614,7 +614,7 @@ function HeroSection() {
 
         {/* Error */}
         {error && (
-          <div className="max-w-lg mx-auto mt-5 p-3 rounded-lg bg-red-500/20 backdrop-blur border border-red-400/30 flex items-start gap-2">
+          <div className="max-w-lg mt-5 p-3 rounded-lg bg-red-500/20 backdrop-blur border border-red-400/30 flex items-start gap-2">
             <AlertCircle className="h-4 w-4 text-red-300 mt-0.5 shrink-0" />
             <p className="text-red-200 text-sm text-left">{error}</p>
           </div>
@@ -622,7 +622,7 @@ function HeroSection() {
 
         {/* Result card */}
         {result && (
-          <div ref={resultRef} className="max-w-lg mx-auto mt-5 rounded-xl bg-white overflow-hidden text-left shadow-xl border border-gray-100">
+          <div ref={resultRef} className="max-w-lg mt-5 rounded-xl bg-white overflow-hidden text-left shadow-xl border border-gray-100">
             <div className="px-4 py-2.5 border-b border-gray-100 flex items-center gap-2 bg-gray-50">
               <CheckCircle className="h-4 w-4 text-[#E52222] shrink-0" />
               <span className="text-sm text-[#E52222] font-medium">{t("result.found")}</span>
