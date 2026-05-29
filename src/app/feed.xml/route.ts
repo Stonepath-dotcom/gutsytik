@@ -1,6 +1,8 @@
+import { getAllAutoBlogPosts } from "@/lib/auto-blog";
+
 export async function GET() {
   const baseUrl = "https://getmova.my.id";
-  const posts = [
+  const staticPosts = [
     { title: "Cara Download Video TikTok Tanpa Watermark 2026", slug: "download-tiktok-tanpa-watermark", date: "2026-05-25", excerpt: "Panduan lengkap cara download video TikTok tanpa watermark menggunakan GetMova. Langkah mudah, cepat, dan gratis." },
     { title: "Download Video Instagram Reels Tanpa Watermark", slug: "download-instagram-reels", date: "2026-05-23", excerpt: "Langkah mudah untuk download Instagram Reels tanpa watermark. Dapatkan video Reels berkualitas tinggi." },
     { title: "Cara Download Video Facebook HD Gratis 2026", slug: "download-video-facebook-hd", date: "2026-05-22", excerpt: "Panduan lengkap cara download video Facebook HD gratis. Simpan video Facebook berkualitas tinggi dengan GetMova." },
@@ -21,6 +23,16 @@ export async function GET() {
     { title: "Perbedaan Download Video HD dan SD — Mana yang Lebih Baik?", slug: "perbedaan-download-video-hd-dan-sd", date: "2026-05-02", excerpt: "Perbandingan kualitas video HD vs SD. Temukan mana yang lebih cocok untuk kebutuhanmu." },
   ];
 
+  // Merge auto-generated posts with static posts
+  const autoPosts = getAllAutoBlogPosts().map((p) => ({
+    title: p.title,
+    slug: p.slug,
+    date: p.dateISO,
+    excerpt: p.description,
+  }));
+
+  const allPosts = [...autoPosts, ...staticPosts];
+
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
@@ -39,7 +51,7 @@ export async function GET() {
       <width>512</width>
       <height>512</height>
     </image>
-    ${posts.map(post => `<item><title>${post.title}</title><link>${baseUrl}/blog/${post.slug}</link><description>${post.excerpt}</description><pubDate>${new Date(post.date).toUTCString()}</pubDate><guid>${baseUrl}/blog/${post.slug}</guid><category>Download Video</category></item>`).join("\n    ")}
+    ${allPosts.map(post => `<item><title>${post.title}</title><link>${baseUrl}/blog/${post.slug}</link><description>${post.excerpt}</description><pubDate>${new Date(post.date).toUTCString()}</pubDate><guid>${baseUrl}/blog/${post.slug}</guid><category>Download Video</category></item>`).join("\n    ")}
   </channel>
 </rss>`;
 

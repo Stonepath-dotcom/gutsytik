@@ -1325,6 +1325,19 @@ function FAQSection() {
 function BlogPreviewSection() {
   const { t } = useLanguage();
   const revealRef = useScrollReveal();
+  const [autoPosts, setAutoPosts] = useState<{slug: string; title: string; readingTime: string}[]>([]);
+
+  useEffect(() => {
+    fetch("/api/blog/generate")
+      .then(r => r.json())
+      .then(data => {
+        if (data.posts && data.posts.length > 0) {
+          setAutoPosts(data.posts.slice(0, 3));
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const blogPosts = [
     { titleKey: "blog.1.title", readTime: 5, image: "/blog-tiktok-banner.png", slug: "cara-download-video-tiktok-tanpa-watermark" },
     { titleKey: "blog.2.title", readTime: 4, image: "/blog-instagram-banner.png", slug: "cara-download-video-instagram-reels" },
@@ -1335,6 +1348,34 @@ function BlogPreviewSection() {
       <div className="mx-auto max-w-5xl lg:max-w-6xl text-center">
         <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("blog.title")}</h2>
         <p className="section-body-text text-sm md:text-base lg:text-lg text-white/50 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("blog.subtitle")}</p>
+
+        {/* Auto-generated latest posts */}
+        {autoPosts.length > 0 && (
+          <div className="mb-10">
+            <div className="flex items-center justify-center gap-2 mb-5">
+              <span className="text-[#10B981] text-xs font-semibold px-2 py-0.5 rounded-full bg-[#10B981]/10 border border-[#10B981]/20">BARU</span>
+              <span className="text-white/60 text-sm font-medium">Artikel Terbaru</span>
+            </div>
+            <div className="reveal-stagger grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+              {autoPosts.map((post, i) => (
+                <a key={`auto-${i}`} href={`/blog/${post.slug}`} className="smooth-hover rounded-xl overflow-hidden bg-white/5 border border-[#10B981]/20 hover:border-[#10B981]/40 transition-all duration-300 group text-left hover:shadow-lg hover:shadow-[#10B981]/10">
+                  <div className="h-24 md:h-28 bg-gradient-to-br from-[#10B981]/20 via-[#34D399]/15 to-[#10B981]/10 flex items-center justify-center">
+                    <span className="text-3xl opacity-60">🎬</span>
+                    <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-[#10B981] text-[8px] font-bold text-white">BARU</span>
+                  </div>
+                  <div className="p-4 lg:p-5">
+                    <h3 className="text-white font-bold text-xs lg:text-base mb-2 group-hover:text-[#10B981] transition-colors line-clamp-2">{post.title}</h3>
+                    <div className="flex items-center justify-between">
+                      <span className="text-white/30 text-[10px] lg:text-sm">{post.readingTime}</span>
+                      <span className="text-[#10B981] text-xs lg:text-sm font-medium group-hover:underline">Baca →</span>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="reveal-stagger grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {blogPosts.map((post, i) => (
             <a key={i} href={`/blog/${post.slug}`} className="smooth-hover rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-[#E52222]/30 transition-all duration-300 group text-left hover:shadow-lg hover:shadow-[#E52222]/10">

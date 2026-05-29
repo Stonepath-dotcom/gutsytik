@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getAllAutoBlogPosts } from "@/lib/auto-blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://getmova.my.id";
@@ -14,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { slug: "reddit-downloader", priority: 0.7, changefreq: "monthly" as const },
   ];
 
-  // Blog articles (NO YouTube-related articles)
+  // Blog articles (static, NO YouTube-related articles)
   const blogs: { slug: string; date: string }[] = [
     { slug: "cara-download-video-tiktok-tanpa-watermark", date: "2025-05-10" },
     { slug: "cara-download-video-instagram-reels", date: "2025-05-11" },
@@ -43,6 +44,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { slug: "cara-download-video-dengan-koneksi-lambat", date: "2025-05-26" },
   ];
 
+  // Auto-generated blog posts
+  const autoBlogs = getAllAutoBlogPosts().map((p) => ({
+    slug: p.slug,
+    date: p.dateISO,
+  }));
+
+  // Merge static + auto blog entries
+  const allBlogs = [...autoBlogs, ...blogs];
+
   // Legal & info pages
   const legal = [
     { slug: "privacy", priority: 0.3 },
@@ -65,7 +75,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     images: [`${baseUrl}/og-image.png`],
   }));
 
-  const blogEntries: MetadataRoute.Sitemap = blogs.map((b) => ({
+  const blogEntries: MetadataRoute.Sitemap = allBlogs.map((b) => ({
     url: `${baseUrl}/blog/${b.slug}`,
     lastModified: b.date,
     changeFrequency: "monthly" as const,
