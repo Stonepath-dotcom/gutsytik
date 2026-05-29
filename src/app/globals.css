@@ -134,27 +134,21 @@
 /* ─── Hero Background ─── */
 .hero-bg {
   position: relative;
-  background: #2D2D2D;
+  background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
   overflow: hidden;
 }
 .hero-bg::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(229,34,34,0.85) 0%, rgba(45,45,45,0.95) 100%);
+  background: linear-gradient(135deg, rgba(26,26,46,0.7) 0%, rgba(22,33,62,0.8) 100%);
   z-index: 1;
 }
-html:not(.dark) .hero-bg::before {
-  background: linear-gradient(135deg, rgba(229,34,34,0.8) 0%, rgba(45,45,45,0.9) 100%);
+.dark .hero-bg {
+  background: linear-gradient(135deg, #0D0D1A 0%, #0B1520 100%);
 }
-
-/* ─── Dark Section (Features 01-02-03, FAQ, Footer) ─── */
-.dark-section-bg {
-  background: #2D2D2D;
-  color: #FFFFFF;
-}
-.dark .dark-section-bg {
-  background: #1F1F1F;
+.dark .hero-bg::before {
+  background: linear-gradient(135deg, rgba(13,13,26,0.8) 0%, rgba(11,21,32,0.9) 100%);
 }
 
 /* ─── Step connector ─── */

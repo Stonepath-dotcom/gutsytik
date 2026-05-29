@@ -302,7 +302,7 @@ function detectPlatform(urlStr: string): string {
 }
 
 /* ══════════════════════════════════════════════════
-   NAVBAR — VideoMax style: white bg, logo left, lang right
+   NAVBAR — Clean white, logo left, center links, controls right
    ══════════════════════════════════════════════════ */
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -311,7 +311,8 @@ function Navbar() {
   const { lang, setLang, t } = useLanguage();
   const menuRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => setMounted(true), []);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -323,35 +324,47 @@ function Navbar() {
     return () => { document.removeEventListener("mousedown", handler); document.removeEventListener("touchstart", handler as EventListener); };
   }, [open]);
 
+  const navLinks = [
+    { label: "Home", href: "#hero" },
+    { label: lang === "id" ? "Cara Pakai" : "How to Use", href: "#how" },
+    { label: lang === "id" ? "Fitur" : "Features", href: "#features" },
+    { label: "FAQ", href: "#faq" },
+  ];
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-[#2D2D2D] border-b border-border">
-      <div className="mx-auto max-w-6xl h-14 md:h-16 flex items-center justify-between px-4 md:px-6">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#1A1A1A]/95 backdrop-blur-md border-b border-gray-100 dark:border-white/10" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
+      <div className="mx-auto max-w-6xl h-16 flex items-center justify-between px-4 md:px-6">
+        {/* Logo */}
         <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="GetMova - Home">
           <MovaLogo size={28} showText={true} />
         </a>
 
+        {/* Center navigation links - desktop */}
+        <nav className="hidden md:flex items-center gap-6">
+          {navLinks.map(link => (
+            <a key={link.href} href={link.href} className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-[#E52222] dark:hover:text-[#E52222] transition-colors">
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
         {/* Desktop right side */}
         <div className="hidden md:flex items-center gap-3">
-          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors" aria-label="Toggle language">
+          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="flex items-center gap-1.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-foreground transition-colors" aria-label="Toggle language">
             <Globe className="h-4 w-4" />
             {lang === "id" ? "EN" : "ID"}
           </button>
-          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors" aria-label="Toggle theme">
+          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="h-8 w-8 flex items-center justify-center rounded-md text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" aria-label="Toggle theme">
             {mounted ? (theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />) : <Sun className="h-4 w-4" />}
           </button>
-          <a href="#hero">
-            <Button size="sm" className="h-9 px-5 bg-[#E52222] text-white font-semibold rounded-lg hover:bg-[#C91C1C] transition-colors text-sm">
-              <Download className="mr-1.5 h-3.5 w-3.5" />{t("nav.download")}
-            </Button>
-          </a>
         </div>
 
         {/* Mobile buttons */}
         <div className="flex md:hidden items-center gap-1">
-          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="flex items-center gap-1 h-8 px-2 text-muted-foreground text-xs font-bold">
+          <button onClick={() => setLang(lang === "id" ? "en" : "id")} className="flex items-center gap-1 h-8 px-2 text-gray-500 dark:text-gray-400 text-xs font-bold">
             <Globe className="h-3.5 w-3.5" />{lang === "id" ? "EN" : "ID"}
           </button>
-          <button onClick={() => setOpen(!open)} className="h-8 w-8 flex items-center justify-center text-muted-foreground" aria-label="Menu">
+          <button onClick={() => setOpen(!open)} className="h-8 w-8 flex items-center justify-center text-gray-500 dark:text-gray-400" aria-label="Menu">
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
@@ -359,13 +372,12 @@ function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div ref={menuRef} className="md:hidden border-t border-border bg-white dark:bg-[#2D2D2D]">
+        <div ref={menuRef} className="md:hidden border-t border-gray-100 dark:border-white/10 bg-white dark:bg-[#1A1A1A]">
           <div className="px-4 py-3 space-y-1">
-            <a href="#hero" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg">{lang === "id" ? "Home" : "Home"}</a>
-            <a href="#how" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg">{lang === "id" ? "Cara Pakai" : "How to Use"}</a>
-            <a href="#features" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg">{lang === "id" ? "Fitur" : "Features"}</a>
-            <a href="#faq" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg">FAQ</a>
-            <button onClick={() => { setTheme(theme === "dark" ? "light" : "dark"); setOpen(false); }} className="block w-full text-left px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg">
+            {navLinks.map(link => (
+              <a key={link.href} href={link.href} onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-[#E52222] dark:hover:text-[#E52222] rounded-lg">{link.label}</a>
+            ))}
+            <button onClick={() => { setTheme(theme === "dark" ? "light" : "dark"); setOpen(false); }} className="block w-full text-left px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-[#E52222] rounded-lg">
               {mounted && theme === "dark" ? (lang === "id" ? "Mode Terang" : "Light Mode") : (lang === "id" ? "Mode Gelap" : "Dark Mode")}
             </button>
             <a href="#hero" onClick={() => setOpen(false)} className="block pt-1">
@@ -381,7 +393,7 @@ function Navbar() {
 }
 
 /* ══════════════════════════════════════════════════
-   HERO — VideoMax style: background image + overlay, two-line headline
+   HERO — Dark gradient, SaveFrom-style combined input+button
    ══════════════════════════════════════════════════ */
 function HeroSection() {
   const { t } = useLanguage();
@@ -548,40 +560,49 @@ function HeroSection() {
   const platformDef = detectedPlatform ? getPlatformDef(detectedPlatform) : null;
 
   return (
-    <section id="hero" className="hero-bg relative pt-28 md:pt-40 pb-16 md:pb-28 px-4 md:px-6">
+    <section id="hero" className="hero-bg relative pt-24 md:pt-32 pb-12 md:pb-20 px-4 md:px-6" style={{ minHeight: "50vh" }}>
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image src="/hero-bg.png" alt="" fill className="object-cover" priority />
       </div>
 
       <div className="relative z-10 mx-auto max-w-3xl text-center">
-        {/* Two-line headline like VideoMax */}
-        <p className="text-white/80 text-sm md:text-base font-medium mb-1 tracking-wide uppercase">{t("hero.small")}</p>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-4 md:mb-6 font-[family-name:var(--font-montserrat)] leading-[1.05] tracking-tight">
-          {t("hero.big")}
+        {/* Single large heading */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight">
+          Online Video <span className="text-[#E52222]">Downloader</span>
         </h1>
-        <p className="text-white/70 text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-8 md:mb-10">
+        <p className="text-white/60 text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-6 md:mb-8">
           {t("hero.subtitle")}
         </p>
 
-        {/* Input + Button */}
-        <div className="max-w-xl mx-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+        {/* COMBINED Input + Button — SaveFrom style */}
+        <div className="max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl flex">
           <div className="flex-1 relative">
-            <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <Input
+            <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
+            <input
               ref={inputRef}
+              type="text"
               value={url}
               onChange={e => setUrl(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleAnalyze()}
               placeholder={t("input.placeholder")}
-              className="h-12 md:h-14 bg-white border-0 rounded-lg text-sm md:text-base pl-11 pr-4 text-gray-900 placeholder:text-gray-400 shadow-lg focus:ring-2 focus:ring-[#E52222]/30"
+              className="h-14 w-full bg-white text-gray-900 text-sm md:text-base pl-11 pr-4 border-0 outline-none placeholder:text-gray-400"
             />
           </div>
-          <Button onClick={handleAnalyze} disabled={loading} className="h-12 md:h-14 px-8 bg-[#E52222] text-white font-bold rounded-lg hover:bg-[#C91C1C] shrink-0 text-sm md:text-base transition-colors shadow-lg">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 mr-2" />}
+          <button
+            onClick={handleAnalyze}
+            disabled={loading}
+            className="h-14 px-6 md:px-8 bg-[#E52222] text-white font-bold text-sm md:text-base hover:bg-[#C91C1C] shrink-0 transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+          >
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
             <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
-          </Button>
+          </button>
         </div>
+
+        {/* Support text */}
+        <p className="text-white/40 text-xs mt-3">
+          Support: TikTok, Instagram, Facebook, Twitter/X, Pinterest, Reddit
+        </p>
 
         {/* Loading */}
         {loading && !error && (
@@ -601,7 +622,7 @@ function HeroSection() {
 
         {/* Result card */}
         {result && (
-          <div ref={resultRef} className="max-w-lg mx-auto mt-5 rounded-lg bg-white overflow-hidden text-left shadow-xl">
+          <div ref={resultRef} className="max-w-lg mx-auto mt-5 rounded-xl bg-white overflow-hidden text-left shadow-xl border border-gray-100">
             <div className="px-4 py-2.5 border-b border-gray-100 flex items-center gap-2 bg-gray-50">
               <CheckCircle className="h-4 w-4 text-[#E52222] shrink-0" />
               <span className="text-sm text-[#E52222] font-medium">{t("result.found")}</span>
@@ -687,20 +708,22 @@ function HeroSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   SUPPORTED PLATFORMS BAR — Dark gray, white icons
+   PLATFORMS BAR — White bg, pill buttons with brand colors
    ══════════════════════════════════════════════════ */
 function PlatformsBar() {
   const { t } = useLanguage();
   return (
-    <section className="bg-[#2D2D2D] py-4 md:py-5 px-4">
-      <div className="mx-auto max-w-5xl">
-        <p className="text-white/60 text-xs text-center mb-3 uppercase tracking-wider font-medium">{t("platforms.label")}</p>
-        <div className="flex items-center justify-center gap-6 md:gap-10">
+    <section className="bg-white dark:bg-[#1A1A1A] py-6 md:py-8 px-4 border-b border-gray-100 dark:border-white/5">
+      <div className="mx-auto max-w-4xl">
+        <p className="text-gray-400 dark:text-gray-500 text-xs text-center mb-4 uppercase tracking-wider font-medium">{t("platforms.label")}</p>
+        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
           {PLATFORMS.map(p => (
             <a key={p.name} href={`/${p.name.toLowerCase().replace('/', '').replace(' ', '-')}-downloader`}
-              className="text-white/70 hover:text-white transition-colors flex flex-col items-center gap-1">
-              <p.Icon className="h-5 w-5 md:h-6 md:w-6" />
-              <span className="text-[10px] md:text-xs font-medium">{p.name}</span>
+              className="flex items-center gap-2 rounded-full border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 px-4 py-2 transition-colors group">
+              <span style={{ color: p.color }}>
+                <p.Icon className="h-4 w-4 md:h-5 md:w-5" />
+              </span>
+              <span className="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-[#E52222] dark:group-hover:text-[#E52222] transition-colors">{p.name}</span>
             </a>
           ))}
         </div>
@@ -710,36 +733,36 @@ function PlatformsBar() {
 }
 
 /* ══════════════════════════════════════════════════
-   FREE VIDEO DOWNLOADER — White card, red badge
+   FREE VIDEO DOWNLOADER — Light gray bg, two columns
    ══════════════════════════════════════════════════ */
 function FreeDownloaderSection() {
   const { t } = useLanguage();
   return (
-    <section className="py-12 md:py-20 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
+    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#F7F7F7] dark:bg-[#1A1A1A]">
       <div className="mx-auto max-w-5xl">
-        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+        <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           {/* Left: Text content */}
           <div className="flex-1 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 mb-3">
-              <span className="bg-[#E52222] text-white text-xs font-bold px-3 py-1 rounded-full">{t("free.badge")}</span>
+            <div className="inline-flex items-center gap-2 mb-4">
+              <span className="bg-[#E52222] text-white text-xs font-bold px-4 py-1.5 rounded-full">{t("free.badge")}</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground mb-3 font-[family-name:var(--font-montserrat)] leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4 font-[family-name:var(--font-montserrat)] leading-tight">
               {t("free.title1")} <span className="text-[#E52222]">{t("free.titleRed")}</span>
             </h2>
-            <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-5 max-w-md">
+            <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 leading-relaxed mb-6 max-w-md mx-auto md:mx-0">
               {t("free.desc")}
             </p>
             <a href="#hero">
-              <Button className="bg-[#2D2D2D] dark:bg-white dark:text-[#2D2D2D] text-white font-semibold rounded-lg hover:bg-[#3D3D3D] dark:hover:bg-gray-100 px-6 h-11 text-sm">
+              <Button className="bg-[#1A1A1A] dark:bg-white dark:text-[#1A1A1A] text-white font-semibold rounded-lg hover:bg-[#333] dark:hover:bg-gray-100 px-6 h-11 text-sm">
                 {t("free.btn")} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </a>
           </div>
           {/* Right: Decorative visual */}
           <div className="flex-shrink-0">
-            <div className="w-48 h-48 md:w-64 md:h-64 rounded-full bg-[#E52222]/10 flex items-center justify-center">
-              <div className="w-36 h-36 md:w-48 md:h-48 rounded-full bg-[#E52222]/20 flex items-center justify-center">
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-[#E52222] flex items-center justify-center shadow-lg">
+            <div className="w-52 h-52 md:w-72 md:h-72 rounded-full bg-[#E52222]/10 flex items-center justify-center">
+              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full bg-[#E52222]/20 flex items-center justify-center">
+                <div className="w-28 h-28 md:w-40 md:h-40 rounded-full bg-[#E52222] flex items-center justify-center shadow-lg">
                   <Play className="h-10 w-10 md:h-14 md:w-14 text-white ml-1" />
                 </div>
               </div>
@@ -752,53 +775,45 @@ function FreeDownloaderSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   HOW TO USE — Steps with red numbered circles
+   HOW TO USE — White bg, 3 horizontal steps with connectors
    ══════════════════════════════════════════════════ */
 function HowToUseSection() {
   const { t } = useLanguage();
   const steps = [
-    { num: "01", icon: Search, title: t("how.step1.title"), desc: t("how.step1.desc") },
-    { num: "02", icon: LinkIcon, title: t("how.step2.title"), desc: t("how.step2.desc") },
-    { num: "03", icon: Download, title: t("how.step3.title"), desc: t("how.step3.desc") },
+    { num: 1, icon: Search, title: t("how.step1.title"), desc: t("how.step1.desc") },
+    { num: 2, icon: LinkIcon, title: t("how.step2.title"), desc: t("how.step2.desc") },
+    { num: 3, icon: Download, title: t("how.step3.title"), desc: t("how.step3.desc") },
   ];
 
   return (
-    <section id="how" className="py-12 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+    <section id="how" className="py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#222]">
       <div className="mx-auto max-w-5xl">
-        <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
-          {/* Left: Illustration */}
-          <div className="flex-shrink-0">
-            <div className="relative w-56 h-56 md:w-72 md:h-72">
-              <div className="absolute inset-0 rounded-3xl bg-[#E52222] rotate-6"></div>
-              <div className="absolute inset-0 rounded-3xl bg-[#E52222]/80 flex items-center justify-center">
-                <div className="text-center text-white">
-                  <Download className="h-12 w-12 md:h-16 md:w-16 mx-auto mb-3" />
-                  <p className="text-lg md:text-xl font-bold">GetMova</p>
-                  <p className="text-white/70 text-xs md:text-sm">Video Downloader</p>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 relative">
+          {/* Connecting lines - desktop only */}
+          <div className="hidden md:block absolute top-12 left-[calc(16.67%+40px)] right-[calc(16.67%+40px)] h-0.5">
+            <div className="w-full h-full border-t-2 border-dashed border-[#E52222]/30" />
+          </div>
+
+          {steps.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <div key={i} className="flex flex-col items-center text-center relative">
+                {/* Numbered circle */}
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#E52222] flex items-center justify-center shadow-lg z-10 mb-4">
+                  <span className="text-white font-bold text-lg md:text-xl">{s.num}</span>
                 </div>
+                {/* Icon */}
+                <div className="w-10 h-10 rounded-full bg-[#E52222]/10 flex items-center justify-center mb-3">
+                  <Icon className="h-5 w-5 text-[#E52222]" />
+                </div>
+                {/* Text */}
+                <h3 className="text-base md:text-lg font-bold text-gray-900 dark:text-white mb-2">{s.title}</h3>
+                <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-[220px]">{s.desc}</p>
               </div>
-            </div>
-          </div>
-          {/* Right: Steps */}
-          <div className="flex-1">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-foreground mb-6 md:mb-8 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
-            <div className="space-y-5 md:space-y-6">
-              {steps.map((s, i) => {
-                const Icon = s.icon;
-                return (
-                  <div key={i} className="flex items-start gap-4">
-                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#E52222] flex items-center justify-center shrink-0 shadow-md">
-                      <span className="text-white font-bold text-sm md:text-base">{s.num}</span>
-                    </div>
-                    <div>
-                      <h3 className="text-sm md:text-base font-bold text-foreground mb-1">{s.title}</h3>
-                      <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -806,7 +821,7 @@ function HowToUseSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   FEATURE CARDS (01, 02, 03) — Dark gray bg
+   FEATURE CARDS (01, 02, 03) — White bg, cards with shadow
    ══════════════════════════════════════════════════ */
 function FeatureCardsSection() {
   const { t } = useLanguage();
@@ -817,19 +832,21 @@ function FeatureCardsSection() {
   ];
 
   return (
-    <section id="features" className="dark-section-bg py-12 md:py-20 px-4 md:px-6">
+    <section id="features" className="py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#222]">
       <div className="mx-auto max-w-5xl">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {features.map((f, i) => {
             const Icon = f.icon;
             return (
-              <div key={i} className="bg-[#3D3D3D] dark:bg-[#333] rounded-xl p-6 md:p-8">
-                <span className="text-[#E52222] text-3xl md:text-4xl font-extrabold font-[family-name:var(--font-montserrat)]">{f.num}</span>
-                <div className="mt-3 mb-2">
-                  <Icon className="h-6 w-6 text-[#E52222]" />
+              <div key={i} className="bg-white dark:bg-[#2D2D2D] rounded-2xl border border-gray-100 dark:border-white/10 p-8 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
+                <span className="text-[#E52222] text-4xl md:text-5xl font-extrabold font-[family-name:var(--font-montserrat)]">{f.num}</span>
+                <div className="mt-4 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-[#E52222]/10 flex items-center justify-center">
+                    <Icon className="h-5 w-5 text-[#E52222]" />
+                  </div>
                 </div>
-                <h3 className="text-white text-base md:text-lg font-bold mb-2">{f.title}</h3>
-                <p className="text-white/60 text-xs md:text-sm leading-relaxed">{f.desc}</p>
+                <h3 className="text-gray-900 dark:text-white text-lg font-bold mb-2">{f.title}</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{f.desc}</p>
               </div>
             );
           })}
@@ -840,31 +857,31 @@ function FeatureCardsSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   WHY CHOOSE GETMOVA — 4 benefit cards
+   WHY CHOOSE GETMOVA — Light gray bg, 4 centered cards
    ══════════════════════════════════════════════════ */
 function WhyChooseSection() {
   const { t } = useLanguage();
   const benefits = [
-    { icon: Zap, title: t("why.1.title"), desc: t("why.1.desc"), color: "#E52222" },
-    { icon: Smartphone, title: t("why.2.title"), desc: t("why.2.desc"), color: "#E52222" },
-    { icon: Share2, title: t("why.3.title"), desc: t("why.3.desc"), color: "#E52222" },
-    { icon: Shield, title: t("why.4.title"), desc: t("why.4.desc"), color: "#E52222" },
+    { icon: Zap, title: t("why.1.title"), desc: t("why.1.desc") },
+    { icon: Smartphone, title: t("why.2.title"), desc: t("why.2.desc") },
+    { icon: Share2, title: t("why.3.title"), desc: t("why.3.desc") },
+    { icon: Shield, title: t("why.4.title"), desc: t("why.4.desc") },
   ];
 
   return (
-    <section className="py-12 md:py-20 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
+    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#F7F7F7] dark:bg-[#1A1A1A]">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-foreground text-center mb-8 md:mb-12 font-[family-name:var(--font-montserrat)]">{t("why.title")}</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("why.title")}</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {benefits.map((b, i) => {
             const Icon = b.icon;
             return (
-              <div key={i} className="bg-[#F5F5F5] dark:bg-[#2D2D2D] rounded-xl p-4 md:p-6 text-center">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#E52222]/10 flex items-center justify-center mx-auto mb-3">
-                  <Icon className="h-5 w-5 md:h-6 md:w-6 text-[#E52222]" />
+              <div key={i} className="bg-white dark:bg-[#2D2D2D] rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 rounded-full bg-[#E52222] flex items-center justify-center mx-auto mb-4">
+                  <Icon className="h-5 w-5 text-white" />
                 </div>
-                <h3 className="text-sm md:text-base font-bold text-foreground mb-1">{b.title}</h3>
-                <p className="text-[11px] md:text-xs text-muted-foreground leading-relaxed">{b.desc}</p>
+                <h3 className="text-sm md:text-base font-bold text-gray-900 dark:text-white mb-2">{b.title}</h3>
+                <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{b.desc}</p>
               </div>
             );
           })}
@@ -875,7 +892,7 @@ function WhyChooseSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   FAQ — Dark gray bg, red "Questions" highlight
+   FAQ — White bg, accordion with border, red highlight
    ══════════════════════════════════════════════════ */
 function FAQSection() {
   const { t } = useLanguage();
@@ -887,19 +904,19 @@ function FAQSection() {
   ];
 
   return (
-    <section id="faq" className="dark-section-bg py-12 md:py-20 px-4 md:px-6">
+    <section id="faq" className="py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#222]">
       <div className="mx-auto max-w-3xl">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white text-center mb-8 md:mb-12 font-[family-name:var(--font-montserrat)]">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">
           {t("faq.title")} <span className="text-[#E52222]">{t("faq.titleRed")}</span>
         </h2>
         <div className="space-y-3">
           {faqItems.map((f, i) => (
-            <details key={i} className="group bg-[#3D3D3D] dark:bg-[#333] rounded-lg">
-              <summary className="flex items-center justify-between px-5 py-4 cursor-pointer text-sm md:text-base font-medium text-white hover:text-[#E52222] transition-colors list-none">
+            <details key={i} className="group bg-white dark:bg-[#2D2D2D] rounded-xl border border-gray-200 dark:border-white/10 hover:border-[#E52222]/40 dark:hover:border-[#E52222]/40 transition-colors">
+              <summary className="flex items-center justify-between px-5 py-4 cursor-pointer text-sm md:text-base font-medium text-gray-900 dark:text-white hover:text-[#E52222] transition-colors list-none">
                 <span className="pr-3">{f.q}</span>
-                <ChevronDown className="h-4 w-4 text-white/50 shrink-0 group-open:rotate-180 transition-transform duration-200" />
+                <ChevronDown className="h-4 w-4 text-gray-400 dark:text-gray-500 shrink-0 group-open:rotate-180 transition-transform duration-200" />
               </summary>
-              <div className="px-5 pb-4 text-xs md:text-sm text-white/60 leading-relaxed border-t border-white/10 pt-3">
+              <div className="px-5 pb-4 text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-white/5 pt-3">
                 {f.a}
               </div>
             </details>
@@ -911,47 +928,50 @@ function FAQSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   FOOTER — Dark gray, GetMova logo, links
+   FOOTER — Very dark bg, 3 columns
    ══════════════════════════════════════════════════ */
 function Footer() {
   const { t, lang } = useLanguage();
   return (
-    <footer className="dark-section-bg border-t border-white/10" role="contentinfo">
+    <footer className="bg-[#1A1A1A] border-t border-white/5" role="contentinfo">
       <div className="mx-auto max-w-6xl px-4 md:px-6 py-10 md:py-14">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-          <div className="col-span-2 md:col-span-1">
-            <MovaLogo size={24} showText />
-            <p className="text-white/40 text-xs mt-3 leading-relaxed max-w-xs">{t("footer.desc")}</p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+          {/* Column 1: Logo + Description */}
           <div>
-            <h4 className="text-white font-semibold text-sm mb-3">{lang === "id" ? "Platform" : "Platforms"}</h4>
-            <ul className="space-y-2">
+            <div className="flex items-center gap-1.5 mb-4">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="shrink-0">
+                <rect width="32" height="32" rx="8" fill="#E52222" />
+                <path d="M13 9L23 16L13 23V9Z" fill="white" />
+              </svg>
+              <span className="font-[family-name:var(--font-montserrat)] font-bold text-white text-lg" style={{ letterSpacing: "-0.03em" }}>
+                Get<span className="text-[#E52222]">Mova</span>
+              </span>
+            </div>
+            <p className="text-gray-500 text-xs leading-relaxed max-w-xs">{t("footer.desc")}</p>
+          </div>
+          {/* Column 2: Quick Links */}
+          <div>
+            <h4 className="text-white font-semibold text-sm mb-4">Quick Links</h4>
+            <ul className="space-y-2.5">
               {PLATFORMS.slice(0, 4).map(p => (
-                <li key={p.name}><a href={`/${p.name.toLowerCase().replace('/', '').replace(' ', '-')}-downloader`} className="text-white/40 hover:text-white text-xs transition-colors">{p.name} Downloader</a></li>
+                <li key={p.name}><a href={`/${p.name.toLowerCase().replace('/', '').replace(' ', '-')}-downloader`} className="text-gray-500 hover:text-white text-xs transition-colors">{p.name} Downloader</a></li>
               ))}
             </ul>
           </div>
+          {/* Column 3: Legal */}
           <div>
-            <h4 className="text-white font-semibold text-sm mb-3">{lang === "id" ? "Perusahaan" : "Company"}</h4>
-            <ul className="space-y-2">
-              <li><a href="/about" className="text-white/40 hover:text-white text-xs transition-colors">{lang === "id" ? "Tentang Kami" : "About Us"}</a></li>
-              <li><a href="/contact" className="text-white/40 hover:text-white text-xs transition-colors">{lang === "id" ? "Kontak" : "Contact"}</a></li>
-              <li><a href="/blog" className="text-white/40 hover:text-white text-xs transition-colors">Blog</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-3">Legal</h4>
-            <ul className="space-y-2">
-              <li><a href="/privacy" className="text-white/40 hover:text-white text-xs transition-colors">{lang === "id" ? "Kebijakan Privasi" : "Privacy Policy"}</a></li>
-              <li><a href="/terms" className="text-white/40 hover:text-white text-xs transition-colors">{lang === "id" ? "Syarat & Ketentuan" : "Terms of Service"}</a></li>
-              <li><a href="/dmca" className="text-white/40 hover:text-white text-xs transition-colors">DMCA</a></li>
-              <li><a href="/disclaimer" className="text-white/40 hover:text-white text-xs transition-colors">Disclaimer</a></li>
+            <h4 className="text-white font-semibold text-sm mb-4">Legal</h4>
+            <ul className="space-y-2.5">
+              <li><a href="/privacy" className="text-gray-500 hover:text-white text-xs transition-colors">{lang === "id" ? "Kebijakan Privasi" : "Privacy Policy"}</a></li>
+              <li><a href="/terms" className="text-gray-500 hover:text-white text-xs transition-colors">{lang === "id" ? "Syarat & Ketentuan" : "Terms of Service"}</a></li>
+              <li><a href="/dmca" className="text-gray-500 hover:text-white text-xs transition-colors">DMCA</a></li>
+              <li><a href="/disclaimer" className="text-gray-500 hover:text-white text-xs transition-colors">Disclaimer</a></li>
             </ul>
           </div>
         </div>
         <div className="mt-10 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-white/25 text-xs">&copy; 2024-2026 GetMova. All rights reserved.</p>
-          <p className="text-white/15 text-[10px] text-center sm:text-right">
+          <p className="text-gray-600 text-xs">&copy; 2024-2026 GetMova. All rights reserved.</p>
+          <p className="text-gray-700 text-[10px] text-center sm:text-right">
             {lang === "id" ? "GetMova tidak menyimpan konten berhak cipta. Pengguna bertanggung jawab atas penggunaan konten yang diunduh." : "GetMova does not store copyrighted content. Users are responsible for downloaded content usage."}
           </p>
         </div>
@@ -965,15 +985,15 @@ function Footer() {
    ══════════════════════════════════════════════════ */
 function MobileBottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white dark:bg-[#2D2D2D] border-t border-border">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white dark:bg-[#1A1A1A] border-t border-gray-100 dark:border-white/10">
       <div className="flex items-center justify-around px-2 py-2">
         {[
           { icon: Download, label: "Download", href: "#hero", highlight: true },
-          { icon: Bookmark, label: "Saved", href: "#hero" },
-          { icon: Shield, label: "FAQ", href: "#faq" },
+          { icon: Bookmark, label: "Saved", href: "#hero", highlight: false },
+          { icon: Shield, label: "FAQ", href: "#faq", highlight: false },
         ].map(item => (
-          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-6 rounded-lg transition-colors ${item.highlight ? "text-[#E52222]" : "text-gray-400 dark:text-white/50"}`}>
-            {item.highlight && <div className="w-1 h-1 rounded-full bg-[#E52222] mb-0.5" />}
+          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-6 rounded-lg transition-colors ${item.highlight ? "text-[#E52222]" : "text-gray-400 dark:text-gray-500"}`}>
+            {item.highlight && <div className="w-1 h-1 rounded-full bg-[#E52222]" />}
             <item.icon className="h-4 w-4" />
             <span className="text-[9px] font-medium">{item.label}</span>
           </a>
