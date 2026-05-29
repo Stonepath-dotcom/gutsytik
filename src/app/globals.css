@@ -120,7 +120,7 @@
 
 @layer base {
   * { @apply border-border outline-ring/50; }
-  body { @apply bg-background text-foreground; }
+  body { @apply bg-background text-foreground transition-colors duration-300; }
 }
 
 /* ─── Custom Scrollbar ─── */
@@ -130,6 +130,11 @@
 ::-webkit-scrollbar-thumb:hover { background: #AAAAAA; }
 .dark ::-webkit-scrollbar-thumb { background: #444444; }
 .dark ::-webkit-scrollbar-thumb:hover { background: #666666; }
+
+/* ─── Dark/Light Mode Smooth Transition ─── */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
 /* ─── Hero Background ─── */
 .hero-bg {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useRef, useEffect, createContext, useContext } from "react";
+import React, { useState, useCallback, useRef, useEffect, createContext, useContext, useMemo } from "react";
 import { useTheme } from "next-themes";
 import {
   Download, Zap, Shield, Smartphone, CheckCircle,
@@ -8,6 +8,7 @@ import {
   AlertCircle, Film, Sun, Moon,
   Share2, Bookmark, Copy, Eye, EyeOff,
   Link as LinkIcon, Search, ArrowRight, Globe,
+  ArrowUp, Star, Mail, MessageCircle, Music, Video, Monitor, Award, Headphones,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -176,6 +177,60 @@ const translations: Record<string, Record<string, string>> = {
     "toast.linkCopied": "Link berhasil disalin!",
     "toast.bookmarkAdded": "Video disimpan ke bookmark!",
     "toast.bookmarkRemoved": "Bookmark dihapus.",
+    "fmt.title": "Format Yang Didukung",
+    "fmt.subtitle": "Download video dalam berbagai format dan kualitas sesuai kebutuhanmu",
+    "fmt.mp4": "MP4",
+    "fmt.mp3": "MP3",
+    "fmt.webm": "WEBM",
+    "fmt.avi": "AVI",
+    "fmt.360p": "360p",
+    "fmt.480p": "480p",
+    "fmt.720p": "720p",
+    "fmt.1080p": "1080p",
+    "fmt.4k": "4K",
+    "fmt.audio": "Audio Only",
+    "stats.1.num": "10M+",
+    "stats.1.label": "Download",
+    "stats.2.num": "6+",
+    "stats.2.label": "Platform",
+    "stats.3.num": "100%",
+    "stats.3.label": "Gratis",
+    "stats.4.num": "4.9",
+    "stats.4.label": "Rating",
+    "compare.title": "Perbandingan GetMova",
+    "compare.subtitle": "Bandingkan GetMova dengan downloader lainnya",
+    "compare.feature": "Fitur",
+    "compare.getmova": "GetMova",
+    "compare.snaptik": "SnapTik",
+    "compare.savefrom": "SaveFrom",
+    "compare.y2mate": "Y2Mate",
+    "compare.nowatermark": "Tanpa Watermark",
+    "compare.free": "Gratis",
+    "compare.noads": "Tanpa Iklan",
+    "compare.noreg": "Tanpa Registrasi",
+    "compare.hdquality": "Kualitas HD",
+    "compare.multiplatform": "Multi-Platform",
+    "testi.title": "Apa Kata Mereka?",
+    "testi.subtitle": "Dengarkan pengalaman pengguna GetMova",
+    "testi.1.name": "Rina S.",
+    "testi.1.role": "Pengguna TikTok",
+    "testi.1.text": "GetMova bikin download video TikTok jadi gampang banget! Hasilnya jernih, tanpa watermark, dan prosesnya super cepat. Recommended banget!",
+    "testi.2.name": "Andi P.",
+    "testi.2.role": "Content Creator",
+    "testi.2.text": "Akhirnya nemu downloader yang bener-bener gratis tanpa watermark. Dari dulu cari-cari, sekarang cuma pakai GetMova. Top!",
+    "testi.3.name": "Sarah M.",
+    "testi.3.role": "Mahasiswa",
+    "testi.3.text": "Interface-nya clean dan prosesnya super cepat. Gak ribet, tinggal paste link langsung download. Paling enak dipakai!",
+    "nl.title": "Dapatkan Update Terbaru",
+    "nl.subtitle": "Daftar newsletter kami untuk mendapatkan info fitur baru dan platform yang didukung",
+    "nl.placeholder": "Masukkan email kamu...",
+    "nl.btn": "Berlangganan",
+    "nl.disclaimer": "Kami tidak akan mengirim spam",
+    "wa.tooltip": "Butuh bantuan?",
+    "float.download": "Download",
+    "loading.finding": "Mencari video...",
+    "loading.getting": "Mendapatkan link download...",
+    "loading.almost": "Hampir selesai...",
   },
   en: {
     "nav.download": "Download",
@@ -247,6 +302,60 @@ const translations: Record<string, Record<string, string>> = {
     "toast.linkCopied": "Link copied successfully!",
     "toast.bookmarkAdded": "Video saved to bookmarks!",
     "toast.bookmarkRemoved": "Bookmark removed.",
+    "fmt.title": "Supported Formats",
+    "fmt.subtitle": "Download videos in various formats and qualities to suit your needs",
+    "fmt.mp4": "MP4",
+    "fmt.mp3": "MP3",
+    "fmt.webm": "WEBM",
+    "fmt.avi": "AVI",
+    "fmt.360p": "360p",
+    "fmt.480p": "480p",
+    "fmt.720p": "720p",
+    "fmt.1080p": "1080p",
+    "fmt.4k": "4K",
+    "fmt.audio": "Audio Only",
+    "stats.1.num": "10M+",
+    "stats.1.label": "Downloads",
+    "stats.2.num": "6+",
+    "stats.2.label": "Platforms",
+    "stats.3.num": "100%",
+    "stats.3.label": "Free",
+    "stats.4.num": "4.9",
+    "stats.4.label": "Rating",
+    "compare.title": "GetMova Comparison",
+    "compare.subtitle": "Compare GetMova with other downloaders",
+    "compare.feature": "Feature",
+    "compare.getmova": "GetMova",
+    "compare.snaptik": "SnapTik",
+    "compare.savefrom": "SaveFrom",
+    "compare.y2mate": "Y2Mate",
+    "compare.nowatermark": "No Watermark",
+    "compare.free": "Free",
+    "compare.noads": "No Ads",
+    "compare.noreg": "No Registration",
+    "compare.hdquality": "HD Quality",
+    "compare.multiplatform": "Multi-Platform",
+    "testi.title": "What They Say?",
+    "testi.subtitle": "Hear what GetMova users have to say",
+    "testi.1.name": "Rina S.",
+    "testi.1.role": "TikTok User",
+    "testi.1.text": "GetMova makes downloading TikTok videos super easy! The results are clear, no watermark, and the process is super fast. Highly recommended!",
+    "testi.2.name": "Andi P.",
+    "testi.2.role": "Content Creator",
+    "testi.2.text": "Finally found a downloader that's truly free without watermarks. After searching for so long, now I only use GetMova. Top notch!",
+    "testi.3.name": "Sarah M.",
+    "testi.3.role": "Student",
+    "testi.3.text": "The interface is clean and the process is super fast. No hassle, just paste the link and download. Best one to use!",
+    "nl.title": "Get Latest Updates",
+    "nl.subtitle": "Subscribe to our newsletter to get info about new features and supported platforms",
+    "nl.placeholder": "Enter your email...",
+    "nl.btn": "Subscribe",
+    "nl.disclaimer": "We won't send spam",
+    "wa.tooltip": "Need help?",
+    "float.download": "Download",
+    "loading.finding": "Finding video...",
+    "loading.getting": "Getting download link...",
+    "loading.almost": "Almost done...",
   },
 };
 
@@ -444,9 +553,9 @@ function HeroSection() {
     setLoading(true);
     setError("");
     setResult(null);
-    setLoadingMsg("Finding video...");
+    setLoadingMsg(t("loading.finding"));
 
-    const msgs = ["Finding video...", "Getting download link...", "Almost done..."];
+    const msgs = [t("loading.finding"), t("loading.getting"), t("loading.almost")];
     let msgIdx = 0;
     const msgInterval = setInterval(() => {
       msgIdx = Math.min(msgIdx + 1, msgs.length - 1);
@@ -627,11 +736,19 @@ function HeroSection() {
           </div>
         </div>
 
-        {/* Loading */}
+        {/* Loading with Speed Indicator */}
         {loading && !error && (
-          <div className="max-w-lg mt-5 p-3 rounded-lg bg-white/80 dark:bg-[#2D2D2D]/80 backdrop-blur flex items-center gap-2">
-            <Loader2 className="h-4 w-4 text-[#E52222] animate-spin shrink-0" />
-            <p className="text-[#333] dark:text-white text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
+          <div className="max-w-lg mt-5 p-4 rounded-lg bg-white/80 dark:bg-[#2D2D2D]/80 backdrop-blur">
+            <div className="flex items-center gap-2 mb-2">
+              <Loader2 className="h-4 w-4 text-[#E52222] animate-spin shrink-0" />
+              <p className="text-[#333] dark:text-white text-sm text-left font-medium">{loadingMsg || "Processing..."}</p>
+            </div>
+            <div className="w-full h-1.5 bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[#E52222] rounded-full transition-all duration-1000 ease-out animate-pulse"
+                style={{ width: loadingMsg === t("loading.finding") ? "30%" : loadingMsg === t("loading.getting") ? "65%" : "90%" }}
+              />
+            </div>
           </div>
         )}
 
@@ -1029,6 +1146,387 @@ function FAQSection() {
 }
 
 /* ══════════════════════════════════════════════════
+   SUPPORTED FORMATS — Light bg, format badges grid
+   ══════════════════════════════════════════════════ */
+function SupportedFormatsSection() {
+  const { t } = useLanguage();
+  const formats = [
+    { key: "mp4", icon: Video },
+    { key: "mp3", icon: Music },
+    { key: "webm", icon: Film },
+    { key: "avi", icon: Monitor },
+    { key: "360p", icon: Smartphone },
+    { key: "480p", icon: Smartphone },
+    { key: "720p", icon: Award },
+    { key: "1080p", icon: Award },
+    { key: "4k", icon: Award },
+    { key: "audio", icon: Headphones },
+  ];
+
+  return (
+    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A] transition-colors duration-300">
+      <div className="mx-auto max-w-5xl text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">
+          {t("fmt.title")}
+        </h2>
+        <p className="text-sm text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">
+          {t("fmt.subtitle")}
+        </p>
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+          {formats.map((f) => {
+            const Icon = f.icon;
+            return (
+              <div
+                key={f.key}
+                className="flex items-center gap-2 bg-white dark:bg-[#2D2D2D] border border-gray-200 dark:border-white/10 rounded-full px-5 py-2.5 shadow-sm hover:shadow-md hover:border-[#E52222]/30 transition-all duration-200 cursor-default"
+              >
+                <Icon className="h-4 w-4 text-[#E52222]" />
+                <span className="text-sm font-semibold text-[#333333] dark:text-white">{t(`fmt.${f.key}`)}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   STATISTICS — Dark bg, 4 counters with animated count-up
+   ══════════════════════════════════════════════════ */
+function useCountUp(target: number, duration: number = 2000, startOnMount: boolean = true) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    if (!startOnMount) return;
+    setStarted(true);
+  }, [startOnMount]);
+
+  useEffect(() => {
+    if (!started) return;
+    let startTime: number | null = null;
+    let rafId: number;
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      setCount(Math.floor(progress * target));
+      if (progress < 1) {
+        rafId = requestAnimationFrame(step);
+      }
+    };
+    rafId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId);
+  }, [started, target, duration]);
+
+  return count;
+}
+
+function StatisticsSection() {
+  const { t } = useLanguage();
+
+  const count1 = useCountUp(10, 2000);
+  const count2 = useCountUp(6, 1500);
+  const count3 = useCountUp(100, 1800);
+  const count4 = useCountUp(49, 2000);
+
+  const stats = [
+    { display: `${count1}M+`, labelKey: "stats.1.label" },
+    { display: `${count2}+`, labelKey: "stats.2.label" },
+    { display: `${count3}%`, labelKey: "stats.3.label" },
+    { display: `${(count4 / 10).toFixed(1)}`, labelKey: "stats.4.label" },
+  ];
+
+  return (
+    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D] transition-colors duration-300">
+      <div className="mx-auto max-w-5xl">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+          {stats.map((s, i) => (
+            <div key={i} className="text-center">
+              <div className="text-3xl md:text-5xl font-extrabold text-white font-[family-name:var(--font-montserrat)] mb-2">
+                {s.display}
+              </div>
+              <div className="text-white/60 text-sm md:text-base">{t(s.labelKey)}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   COMPARISON TABLE — Light bg, GetMova vs competitors
+   ══════════════════════════════════════════════════ */
+function ComparisonSection() {
+  const { t } = useLanguage();
+
+  const features = [
+    { key: "nowatermark", getmova: true, snaptik: true, savefrom: false, y2mate: false },
+    { key: "free", getmova: true, snaptik: false, savefrom: false, y2mate: false },
+    { key: "noads", getmova: true, snaptik: false, savefrom: false, y2mate: false },
+    { key: "noreg", getmova: true, snaptik: true, savefrom: true, y2mate: false },
+    { key: "hdquality", getmova: true, snaptik: true, savefrom: "partial", y2mate: true },
+    { key: "multiplatform", getmova: true, snaptik: false, savefrom: true, y2mate: false },
+  ];
+
+  const CheckMark = () => <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-green-500/15"><svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg></span>;
+  const XMark = () => <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-red-500/15"><svg className="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></span>;
+  const PartialMark = () => <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-yellow-500/15"><svg className="w-4 h-4 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01" /><circle cx="12" cy="12" r="9" strokeWidth={2} /></svg></span>;
+
+  const renderMark = (val: boolean | string) => {
+    if (val === true) return <CheckMark />;
+    if (val === "partial") return <PartialMark />;
+    return <XMark />;
+  };
+
+  return (
+    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A] transition-colors duration-300">
+      <div className="mx-auto max-w-5xl text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">
+          {t("compare.title")}
+        </h2>
+        <p className="text-sm text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">
+          {t("compare.subtitle")}
+        </p>
+
+        <div className="overflow-x-auto scroll-hide -mx-4 px-4">
+          <table className="w-full min-w-[520px] border-collapse bg-white dark:bg-[#2D2D2D] rounded-xl overflow-hidden shadow-sm">
+            <thead>
+              <tr className="border-b border-gray-100 dark:border-white/10">
+                <th className="py-4 px-4 text-left text-sm font-semibold text-[#333333] dark:text-white">{t("compare.feature")}</th>
+                <th className="py-4 px-4 text-center text-sm font-bold text-white bg-[#E52222]">{t("compare.getmova")}</th>
+                <th className="py-4 px-4 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.snaptik")}</th>
+                <th className="py-4 px-4 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.savefrom")}</th>
+                <th className="py-4 px-4 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.y2mate")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {features.map((f, i) => (
+                <tr key={f.key} className={i < features.length - 1 ? "border-b border-gray-100 dark:border-white/10" : ""}>
+                  <td className="py-3.5 px-4 text-sm text-[#333333] dark:text-gray-300 text-left">{t(`compare.${f.key}`)}</td>
+                  <td className="py-3.5 px-4 text-center bg-[#E52222]/5 dark:bg-[#E52222]/10">{renderMark(f.getmova)}</td>
+                  <td className="py-3.5 px-4 text-center">{renderMark(f.snaptik)}</td>
+                  <td className="py-3.5 px-4 text-center">{renderMark(f.savefrom)}</td>
+                  <td className="py-3.5 px-4 text-center">{renderMark(f.y2mate)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   TESTIMONIALS — Dark bg, 3 testimonial cards
+   ══════════════════════════════════════════════════ */
+function TestimonialsSection() {
+  const { t } = useLanguage();
+
+  const testimonials = [
+    { nameKey: "testi.1.name", roleKey: "testi.1.role", textKey: "testi.1.text", initials: "RS", color: "#E52222" },
+    { nameKey: "testi.2.name", roleKey: "testi.2.role", textKey: "testi.2.text", initials: "AP", color: "#3B82F6" },
+    { nameKey: "testi.3.name", roleKey: "testi.3.role", textKey: "testi.3.text", initials: "SM", color: "#10B981" },
+  ];
+
+  return (
+    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] transition-colors duration-300">
+      <div className="mx-auto max-w-5xl text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">
+          {t("testi.title")}
+        </h2>
+        <p className="text-sm text-white/50 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">
+          {t("testi.subtitle")}
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {testimonials.map((testi, i) => (
+            <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-6 text-left hover:bg-white/[0.08] hover:border-white/20 transition-all duration-200">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-white text-sm font-bold" style={{ background: testi.color }}>
+                  {testi.initials}
+                </div>
+                <div>
+                  <h4 className="text-white text-sm font-bold">{t(testi.nameKey)}</h4>
+                  <p className="text-white/40 text-xs">{t(testi.roleKey)}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-0.5 mb-3">
+                {Array.from({ length: 5 }).map((_, j) => (
+                  <Star key={j} className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
+                ))}
+              </div>
+              <p className="text-white/70 text-sm leading-relaxed">&ldquo;{t(testi.textKey)}&rdquo;</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   NEWSLETTER — Dark bg with red accent, email subscription
+   ══════════════════════════════════════════════════ */
+function NewsletterSection() {
+  const { t } = useLanguage();
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim() && email.includes("@")) {
+      setSubscribed(true);
+      setEmail("");
+      setTimeout(() => setSubscribed(false), 4000);
+    }
+  };
+
+  return (
+    <section className="py-14 md:py-20 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#1A1A1A] relative overflow-hidden transition-colors duration-300">
+      {/* Decorative red accent */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-[#E52222]/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#E52222]/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+
+      <div className="relative mx-auto max-w-xl text-center">
+        <div className="flex items-center justify-center mb-4">
+          <div className="w-12 h-12 rounded-full bg-[#E52222]/20 flex items-center justify-center">
+            <Mail className="h-5 w-5 text-[#E52222]" />
+          </div>
+        </div>
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">
+          {t("nl.title")}
+        </h2>
+        <p className="text-sm text-white/50 mb-8 leading-relaxed">
+          {t("nl.subtitle")}
+        </p>
+
+        {subscribed ? (
+          <div className="bg-green-500/15 border border-green-500/20 rounded-xl p-4 flex items-center justify-center gap-2">
+            <CheckCircle className="h-5 w-5 text-green-400" />
+            <span className="text-green-400 font-medium text-sm">Subscribed!</span>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder={t("nl.placeholder")}
+              required
+              className="flex-1 h-12 bg-white/10 border border-white/10 rounded-lg px-4 text-white text-sm placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors"
+            />
+            <button
+              type="submit"
+              className="h-12 px-6 bg-[#E52222] text-white font-bold text-sm rounded-lg hover:bg-[#C91C1C] transition-colors shrink-0"
+            >
+              {t("nl.btn")}
+            </button>
+          </form>
+        )}
+        <p className="text-white/30 text-xs mt-3">{t("nl.disclaimer")}</p>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   BACK TO TOP — Floating button, bottom-right
+   ══════════════════════════════════════════════════ */
+function BackToTopButton() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 300);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+  return (
+    <button
+      onClick={scrollToTop}
+      aria-label="Back to top"
+      className={`fixed bottom-6 right-6 z-50 w-11 h-11 rounded-full bg-[#E52222] text-white shadow-lg flex items-center justify-center hover:bg-[#C91C1C] transition-all duration-300 ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+      }`}
+    >
+      <ArrowUp className="h-5 w-5" />
+    </button>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   WHATSAPP WIDGET — Floating button, bottom-left, md+ only
+   ══════════════════════════════════════════════════ */
+function WhatsAppWidget() {
+  const { t } = useLanguage();
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  return (
+    <div className="hidden md:block fixed bottom-6 left-6 z-50">
+      {showTooltip && (
+        <div className="absolute bottom-14 left-0 bg-white dark:bg-[#2D2D2D] text-[#333333] dark:text-white text-xs font-medium px-3 py-2 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-white/10">
+          {t("wa.tooltip")}
+          <div className="absolute -bottom-1 left-4 w-2 h-2 bg-white dark:bg-[#2D2D2D] rotate-45 border-r border-b border-gray-200 dark:border-white/10" />
+        </div>
+      )}
+      <a
+        href="https://wa.me/6281234567890"
+        target="_blank"
+        rel="noopener noreferrer"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+        aria-label="WhatsApp"
+        className="w-12 h-12 rounded-full bg-[#25D366] text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-200"
+      >
+        <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </a>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   FLOATING DOWNLOAD CTA (Mobile) — Fixed bottom bar
+   ══════════════════════════════════════════════════ */
+function FloatingDownloadCTA() {
+  const { t } = useLanguage();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const heroSection = document.getElementById("hero");
+      if (heroSection) {
+        const heroBottom = heroSection.getBoundingClientRect().bottom;
+        setVisible(heroBottom < 0);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div
+      className={`md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#E52222] p-3 safe-bottom transition-all duration-300 ${
+        visible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+      }`}
+    >
+      <a
+        href="#hero"
+        className="flex items-center justify-center gap-2 text-white font-bold text-sm"
+      >
+        <Download className="h-4 w-4" />
+        {t("float.download")}
+      </a>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════
    FOOTER — Dark (#222) bg, minimal layout
    ══════════════════════════════════════════════════ */
 function Footer() {
@@ -1067,15 +1565,20 @@ function Footer() {
 export default function Home() {
   return (
     <LanguageProvider>
-      <div className="min-h-screen flex flex-col bg-background">
+      <div className="min-h-screen flex flex-col bg-background transition-colors duration-300">
         <Navbar />
         <main className="flex-1">
           <HeroSection />
           <FreeDownloaderSection />
           <HowToUseSection />
           <FeatureCardsSection />
+          <SupportedFormatsSection />
+          <StatisticsSection />
           <WhyChooseSection />
+          <ComparisonSection />
+          <TestimonialsSection />
           <FAQSection />
+          <NewsletterSection />
           {/* JSON-LD */}
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
             "@context": "https://schema.org",
@@ -1101,6 +1604,9 @@ export default function Home() {
           })}} />
         </main>
         <Footer />
+        <BackToTopButton />
+        <WhatsAppWidget />
+        <FloatingDownloadCTA />
       </div>
     </LanguageProvider>
   );
