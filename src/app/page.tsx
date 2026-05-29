@@ -1310,9 +1310,9 @@ function BlogPreviewSection() {
   const { t } = useLanguage();
   const revealRef = useScrollReveal();
   const blogPosts = [
-    { titleKey: "blog.1.title", readTime: 5 },
-    { titleKey: "blog.2.title", readTime: 4 },
-    { titleKey: "blog.3.title", readTime: 3 },
+    { titleKey: "blog.1.title", readTime: 5, image: "/blog-tiktok-banner.png", slug: "cara-download-video-tiktok-tanpa-watermark" },
+    { titleKey: "blog.2.title", readTime: 4, image: "/blog-instagram-banner.png", slug: "cara-download-video-instagram-reels" },
+    { titleKey: "blog.3.title", readTime: 3, image: "/blog-getmova-banner.png", slug: "download-video-tanpa-watermark-terbaik" },
   ];
   return (
     <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
@@ -1321,8 +1321,11 @@ function BlogPreviewSection() {
         <p className="text-sm text-white/50 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("blog.subtitle")}</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {blogPosts.map((post, i) => (
-            <a key={i} href="/blog" className="rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-200 group text-left">
-              <div className="h-40 bg-white/5 flex items-center justify-center"><FileText className="h-10 w-10 text-white/10" /></div>
+            <a key={i} href={`/blog/${post.slug}`} className="rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-[#E52222]/30 transition-all duration-300 group text-left hover:shadow-lg hover:shadow-[#E52222]/10 hover:-translate-y-1">
+              <div className="relative h-44 overflow-hidden">
+                <Image src={post.image} alt={t(post.titleKey)} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#333333] via-transparent to-transparent dark:from-[#2D2D2D]" />
+              </div>
               <div className="p-5">
                 <h3 className="text-white font-bold text-sm mb-2 group-hover:text-[#E52222] transition-colors line-clamp-2">{t(post.titleKey)}</h3>
                 <div className="flex items-center justify-between">
