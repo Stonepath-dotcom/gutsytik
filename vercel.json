@@ -10,6 +10,24 @@
       "maxDuration": 30
     }
   },
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.getmova.my.id" }],
+      "destination": "https://getmova.my.id/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/youtube-downloader",
+      "destination": "https://getmova.my.id",
+      "permanent": true
+    },
+    {
+      "source": "/youtube-mp3",
+      "destination": "https://getmova.my.id",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",
@@ -20,5 +38,6 @@
         { "key": "Access-Control-Expose-Headers", "value": "Content-Range, Content-Length, Content-Disposition" }
       ]
     }
-  ]
+  ],
+  "trailingSlash": false
 }

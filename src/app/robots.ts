@@ -6,7 +6,11 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/feed.xml/"],
+        disallow: [
+          "/api/",
+          "/youtube-downloader",
+          "/youtube-mp3",
+        ],
       },
     ],
     sitemap: "https://getmova.my.id/sitemap.xml",

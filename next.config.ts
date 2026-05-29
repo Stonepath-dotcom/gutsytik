@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   reactStrictMode: false,
+  trailingSlash: false,
+  skipTrailingSlashRedirect: true,
   async headers() {
     return [
       {
@@ -81,15 +83,10 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // NOTE: www→non-www redirect moved to vercel.json for edge-level handling
+  // This prevents redirect chains (www + trailing slash + http→https)
   async redirects() {
-    return [
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.getmova.my.id" }],
-        destination: "https://getmova.my.id/:path*",
-        permanent: true,
-      },
-    ];
+    return [];
   },
 };
 
