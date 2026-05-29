@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pinterest Video Downloader - Download Video Pinterest Gratis | getmova",
+  title: "Pinterest Video Downloader - Download Video Pinterest Gratis",
   description:
     "Download video Pinterest ke galeri HP dengan mudah dan gratis. Simpan video Pinterest tanpa watermark dalam kualitas HD. Pinterest downloader terbaik.",
   keywords: [
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/pinterest-downloader" },
   openGraph: {
-    title: "Pinterest Video Downloader - Download Video Pinterest Gratis | getmova",
+    title: "Pinterest Video Downloader - Download Video Pinterest Gratis",
     description:
       "Download video Pinterest tanpa watermark dalam kualitas HD. Gratis dan mudah.",
     url: "https://getmova.my.id/pinterest-downloader",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pinterest Video Downloader - Download Video Pinterest Gratis | getmova",
+    title: "Pinterest Video Downloader - Download Video Pinterest Gratis",
     description: "Download video Pinterest tanpa watermark. Gratis dan mudah.",
     images: ["/og-image.png"],
   },

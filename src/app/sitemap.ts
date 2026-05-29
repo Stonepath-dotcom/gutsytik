@@ -70,6 +70,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: b.date,
     changeFrequency: "monthly" as const,
     priority: 0.7,
+    images: [`${baseUrl}/og-image.png`],
   }));
 
   const legalEntries: MetadataRoute.Sitemap = legal.map((l) => ({

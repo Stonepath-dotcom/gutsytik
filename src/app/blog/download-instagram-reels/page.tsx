@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Download Video Instagram Reels Tanpa Watermark - getmova",
+  title: "Download Video Instagram Reels Tanpa Watermark",
   description:
     "Panduan lengkap cara download Instagram Reels tanpa watermark di tahun 2026. Langkah mudah menggunakan Mova, tips kualitas video, dan alternatif yang tersedia.",
   keywords: [
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-instagram-reels" },
   openGraph: {
-    title: "Download Video Instagram Reels Tanpa Watermark - getmova",
+    title: "Download Video Instagram Reels Tanpa Watermark",
     description:
       "Panduan lengkap cara download Instagram Reels tanpa watermark di tahun 2026.",
     url: "https://getmova.my.id/blog/download-instagram-reels",

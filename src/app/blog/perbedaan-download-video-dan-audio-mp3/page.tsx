@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Perbedaan Download Video MP4 dan Audio MP3 - Mana yang Lebih Baik? - getmova",
+  title: "Perbedaan Download Video MP4 dan Audio MP3 - Mana yang Lebih Baik?",
   description: "Perbandingan lengkap antara download video MP4 dan audio MP3. Temukan mana yang lebih cocok untuk kebutuhanmu.",
   keywords: [
     "download video vs audio mp3",

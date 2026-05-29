@@ -26,7 +26,10 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   metadataBase: new URL("https://getmova.my.id"),
   alternates: { canonical: "https://getmova.my.id" },
-  title: "GetMova - Download Video Tanpa Watermark",
+  title: {
+    default: "GetMova - Download Video Tanpa Watermark",
+    template: "%s | GetMova",
+  },
   description:
     "Download video tanpa watermark dari TikTok, Instagram, Facebook, Twitter/X, Pinterest, Reddit dan platform populer lainnya. Gratis, cepat, dan mudah.",
   keywords: [
@@ -43,6 +46,20 @@ export const metadata: Metadata = {
     "download video twitter",
     "pinterest downloader",
     "reddit downloader",
+    "download video online",
+    "video downloader tanpa aplikasi",
+    "cara download video tiktok",
+    "download video hd",
+    "download video mp4",
+    "tiktok no watermark",
+    "snaptik alternative",
+    "savefrom alternative",
+    "y2mate alternative",
+    "video downloader terbaik",
+    "download video gratis 2025",
+    "download video pinterest",
+    "download video reddit",
+    "download video twitter x",
   ],
   authors: [{ name: "GetMova" }],
   robots: {
@@ -75,6 +92,8 @@ export const metadata: Metadata = {
     url: "https://getmova.my.id",
     siteName: "GetMova",
     type: "website",
+    locale: "id_ID",
+    alternateLocale: ["en_US"],
     images: [
       {
         url: "/og-image.png",
@@ -97,7 +116,7 @@ export const viewport: Viewport = {
   themeColor: "#E52222",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -121,6 +140,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        <link rel="preconnect" href="https://i.ytimg.com" />
+        <link rel="dns-prefetch" href="https://i.ytimg.com" />
 
         {/* Google Analytics 4 */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-C72K54R633" />
@@ -157,8 +178,8 @@ export default function RootLayout({
               },
               aggregateRating: {
                 "@type": "AggregateRating",
-                ratingValue: "4.9",
-                ratingCount: "87500",
+                ratingValue: "4.7",
+                ratingCount: "2450",
                 bestRating: "5",
                 worstRating: "1",
               },

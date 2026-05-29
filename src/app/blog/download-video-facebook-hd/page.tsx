@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video Facebook HD Gratis 2026 - getmova",
+  title: "Cara Download Video Facebook HD Gratis 2026",
   description: "Panduan lengkap cara download video Facebook HD gratis di tahun 2026. Simpan video Facebook berkualitas tinggi dengan Mova.",
   keywords: [
     "download video facebook hd",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-video-facebook-hd" },
   openGraph: {
-    title: "Cara Download Video Facebook HD Gratis 2026 - getmova",
+    title: "Cara Download Video Facebook HD Gratis 2026",
     description: "Panduan lengkap cara download video Facebook HD gratis di tahun 2026.",
     url: "https://getmova.my.id/blog/download-video-facebook-hd",
     siteName: "getmova",

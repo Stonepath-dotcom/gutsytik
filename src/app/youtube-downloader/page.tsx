@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { YouTubeDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video YouTube MP4 HD - Gratis & Cepat | getmova",
+  title: "Download Video YouTube MP4 HD - Gratis & Cepat",
   description:
     "Download video YouTube MP4 HD gratis dan cepat. Konversi YouTube ke MP3 atau MP4 dengan kualitas terbaik. Support video panjang, Shorts, dan playlist.",
   keywords: [
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "download youtube gratis",
   ],
   openGraph: {
-    title: "Download Video YouTube MP4 HD - Gratis & Cepat | getmova",
+    title: "Download Video YouTube MP4 HD - Gratis & Cepat",
     description:
       "Download video YouTube MP4 HD gratis dan cepat. Konversi YouTube ke MP3 atau MP4 dengan kualitas terbaik.",
     url: "https://getmova.my.id/youtube-downloader",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video YouTube MP4 HD - Gratis & Cepat | getmova",
+    title: "Download Video YouTube MP4 HD - Gratis & Cepat",
     description:
       "Download video YouTube MP4 HD gratis dan cepat. Konversi YouTube ke MP3 atau MP4 dengan kualitas terbaik.",
   },

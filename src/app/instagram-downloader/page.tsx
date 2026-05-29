@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { InstagramDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video Instagram Reels & Story - Gratis | getmova",
+  title: "Download Video Instagram Reels & Story - Gratis",
   description:
     "Download video Instagram Reels, Story, dan IGTV gratis tanpa watermark. Simpan video IG dalam kualitas tinggi dengan Mova. Cepat, mudah, dan gratis!",
   keywords: [
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "instagram video download gratis",
   ],
   openGraph: {
-    title: "Download Video Instagram Reels & Story - Gratis | getmova",
+    title: "Download Video Instagram Reels & Story - Gratis",
     description:
       "Download video Instagram Reels, Story, dan IGTV gratis tanpa watermark. Simpan video IG dalam kualitas tinggi dengan Mova.",
     url: "https://getmova.my.id/instagram-downloader",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video Instagram Reels & Story - Gratis | getmova",
+    title: "Download Video Instagram Reels & Story - Gratis",
     description:
       "Download video Instagram Reels, Story, dan IGTV gratis tanpa watermark. Simpan video IG dalam kualitas tinggi dengan Mova.",
   },

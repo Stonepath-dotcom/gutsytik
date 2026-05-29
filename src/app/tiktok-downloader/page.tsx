@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { TikTokDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video TikTok Tanpa Watermark - Gratis & Cepat | getmova",
+  title: "Download Video TikTok Tanpa Watermark - Gratis & Cepat",
   description:
     "Download video TikTok tanpa watermark gratis dan cepat. Simpan video TikTok dalam kualitas HD tanpa logo. Support semua format video TikTok, slideshow, dan live. Cara download video TikTok terbaik.",
   keywords: [
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "download video tiktok gratis",
   ],
   openGraph: {
-    title: "Download Video TikTok Tanpa Watermark - Gratis & Cepat | getmova",
+    title: "Download Video TikTok Tanpa Watermark - Gratis & Cepat",
     description:
       "Download video TikTok tanpa watermark gratis dan cepat. Simpan video TikTok HD tanpa logo dengan Mova.",
     url: "https://getmova.my.id/tiktok-downloader",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video TikTok Tanpa Watermark - Gratis & Cepat | getmova",
+    title: "Download Video TikTok Tanpa Watermark - Gratis & Cepat",
     description:
       "Download video TikTok tanpa watermark gratis dan cepat. Simpan video TikTok HD tanpa logo dengan Mova.",
   },

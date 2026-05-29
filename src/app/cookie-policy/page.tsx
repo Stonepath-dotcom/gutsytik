@@ -3,7 +3,7 @@ import { Cookie, Shield, Settings, BarChart3, Megaphone, Globe, Clock, Mail, Ext
 import { MovaLogo } from "@/components/mova-logo";
 
 export const metadata: Metadata = {
-  title: "Kebijakan Cookie - getmova",
+  title: "Kebijakan Cookie",
   description:
     "Kebijakan Cookie Mova (getmova.my.id). Pelajari bagaimana kami menggunakan cookie, termasuk Google Analytics dan Google AdSense, serta cara mengelola preferensi cookie Anda.",
   alternates: { canonical: "https://getmova.my.id/cookie-policy" },
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     "cookie analitik",
   ],
   openGraph: {
-    title: "Kebijakan Cookie - getmova",
+    title: "Kebijakan Cookie",
     description:
       "Kebijakan Cookie Mova (getmova.my.id). Pelajari bagaimana kami menggunakan cookie, termasuk Google Analytics dan Google AdSense, serta cara mengelola preferensi cookie Anda.",
     url: "https://getmova.my.id/cookie-policy",

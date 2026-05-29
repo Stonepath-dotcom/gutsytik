@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video Tanpa Aplikasi Tambahan 2026 - getmova",
+  title: "Cara Download Video Tanpa Aplikasi Tambahan 2026",
   description: "Panduan cara download video tanpa aplikasi tambahan di tahun 2026. Cukup gunakan browser dan Mova untuk download video dari semua platform.",
   keywords: [
     "download video tanpa aplikasi",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-video-tanpa-aplikasi" },
   openGraph: {
-    title: "Cara Download Video Tanpa Aplikasi Tambahan 2026 - getmova",
+    title: "Cara Download Video Tanpa Aplikasi Tambahan 2026",
     description: "Panduan cara download video tanpa aplikasi tambahan di tahun 2026. Cukup gunakan browser dan Mova.",
     url: "https://getmova.my.id/blog/download-video-tanpa-aplikasi",
     siteName: "getmova",

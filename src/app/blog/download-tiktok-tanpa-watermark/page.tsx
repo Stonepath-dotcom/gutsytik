@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download Video TikTok Tanpa Watermark 2026 - getmova",
+  title: "Cara Download Video TikTok Tanpa Watermark 2026",
   description:
     "Panduan lengkap cara download video TikTok tanpa watermark di tahun 2026. Langkah mudah menggunakan Mova, perbandingan dengan SnapTik dan SSSTikTok, tips kualitas video, dan pertimbangan hukum.",
   keywords: [
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-tiktok-tanpa-watermark" },
   openGraph: {
-    title: "Cara Download Video TikTok Tanpa Watermark 2026 - getmova",
+    title: "Cara Download Video TikTok Tanpa Watermark 2026",
     description:
       "Panduan lengkap cara download video TikTok tanpa watermark di tahun 2026.",
     url: "https://getmova.my.id/blog/download-tiktok-tanpa-watermark",

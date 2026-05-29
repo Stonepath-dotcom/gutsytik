@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Kebijakan Privasi & Syarat Ketentuan - getmova",
+  title: "Kebijakan Privasi & Syarat Ketentuan",
   description:
     "Kebijakan Privasi dan Syarat Ketentuan getmova. Informasi tentang pengumpulan data, penggunaan cookie, Google AdSense, dan hak pengguna.",
   keywords: [
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/privacy" },
   openGraph: {
-    title: "Kebijakan Privasi & Syarat Ketentuan - getmova",
+    title: "Kebijakan Privasi & Syarat Ketentuan",
     description: "Kebijakan Privasi dan Syarat Ketentuan getmova.",
     url: "https://getmova.my.id/privacy",
     siteName: "getmova",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Kebijakan Privasi & Syarat Ketentuan - getmova",
+    title: "Kebijakan Privasi & Syarat Ketentuan",
     description: "Kebijakan Privasi dan Syarat Ketentuan getmova.",
   },
 };

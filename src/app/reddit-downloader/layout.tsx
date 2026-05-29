@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Reddit Video Downloader - Download Video Reddit dengan Audio | getmova",
+  title: "Reddit Video Downloader - Download Video Reddit dengan Audio",
   description:
     "Download video Reddit dengan audio lengkap. Simpan video dari subreddit favorit kamu dalam kualitas terbaik, gratis dan cepat. Reddit downloader terbaik Indonesia.",
   keywords: [
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/reddit-downloader" },
   openGraph: {
-    title: "Reddit Video Downloader - Download Video Reddit dengan Audio | getmova",
+    title: "Reddit Video Downloader - Download Video Reddit dengan Audio",
     description:
       "Download video Reddit dengan audio lengkap. Gratis dan cepat.",
     url: "https://getmova.my.id/reddit-downloader",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Reddit Video Downloader - Download Video Reddit dengan Audio | getmova",
+    title: "Reddit Video Downloader - Download Video Reddit dengan Audio",
     description: "Download video Reddit dengan audio lengkap. Gratis dan cepat.",
     images: ["/og-image.png"],
   },

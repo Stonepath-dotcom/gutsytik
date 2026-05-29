@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { TwitterDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video Twitter/X Tanpa Watermark - Gratis | getmova",
+  title: "Download Video Twitter/X Tanpa Watermark - Gratis",
   description:
     "Download video Twitter/X tanpa watermark gratis dan cepat. Simpan video dari tweet publik dalam kualitas HD. Support twitter.com dan x.com.",
   keywords: [
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     "twitter downloader online",
   ],
   openGraph: {
-    title: "Download Video Twitter/X Tanpa Watermark - Gratis | getmova",
+    title: "Download Video Twitter/X Tanpa Watermark - Gratis",
     description:
       "Download video Twitter/X tanpa watermark gratis dan cepat. Simpan video dari tweet publik dalam kualitas HD.",
     url: "https://getmova.my.id/twitter-downloader",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video Twitter/X Tanpa Watermark - Gratis | getmova",
+    title: "Download Video Twitter/X Tanpa Watermark - Gratis",
     description:
       "Download video Twitter/X tanpa watermark gratis dan cepat. Simpan video dari tweet publik dalam kualitas HD.",
   },

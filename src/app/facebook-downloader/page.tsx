@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { FacebookDownloaderPage } from "./client";
 
 export const metadata: Metadata = {
-  title: "Download Video Facebook HD - Gratis & Cepat | getmova",
+  title: "Download Video Facebook HD - Gratis & Cepat",
   description:
     "Download video Facebook HD gratis dan cepat. Simpan video FB dalam kualitas tinggi tanpa watermark. Support video publik, Reels, dan Watch.",
   keywords: [
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "download fb gratis",
   ],
   openGraph: {
-    title: "Download Video Facebook HD - Gratis & Cepat | getmova",
+    title: "Download Video Facebook HD - Gratis & Cepat",
     description:
       "Download video Facebook HD gratis dan cepat. Simpan video FB dalam kualitas tinggi tanpa watermark.",
     url: "https://getmova.my.id/facebook-downloader",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download Video Facebook HD - Gratis & Cepat | getmova",
+    title: "Download Video Facebook HD - Gratis & Cepat",
     description:
       "Download video Facebook HD gratis dan cepat. Simpan video FB dalam kualitas tinggi tanpa watermark.",
   },

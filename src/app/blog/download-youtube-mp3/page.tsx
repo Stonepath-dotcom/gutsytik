@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 
 export const metadata: Metadata = {
-  title: "Cara Download YouTube ke MP3 Gratis dan Cepat - getmova",
+  title: "Cara Download YouTube ke MP3 Gratis dan Cepat",
   description:
     "Tutorial lengkap cara download video YouTube ke MP3 gratis dan cepat di tahun 2026. Perbandingan kualitas audio 128kbps vs 320kbps, langkah-langkah menggunakan Mova, dan pertimbangan hukum.",
   keywords: [
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://getmova.my.id/blog/download-youtube-mp3" },
   openGraph: {
-    title: "Cara Download YouTube ke MP3 Gratis dan Cepat - getmova",
+    title: "Cara Download YouTube ke MP3 Gratis dan Cepat",
     description:
       "Tutorial lengkap cara download video YouTube ke MP3 gratis dan cepat di tahun 2026.",
     url: "https://getmova.my.id/blog/download-youtube-mp3",
