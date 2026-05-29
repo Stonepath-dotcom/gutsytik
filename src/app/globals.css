@@ -190,8 +190,78 @@ img, video, svg, iframe { max-width: 100%; height: auto; }
 @media screen and (min-width: 768px) {
   html { font-size: 16px; }
 }
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 1024px) {
   html { font-size: 17px; }
+}
+@media screen and (min-width: 1280px) {
+  html { font-size: 18px; }
+}
+@media screen and (min-width: 1440px) {
+  html { font-size: 19px; }
+}
+
+/* ─── Desktop Font Size Overrides ─── */
+@media screen and (min-width: 1024px) {
+  /* Hero */
+  .hero-title { font-size: 3.2rem !important; }
+  .hero-subtitle { font-size: 1.15rem !important; }
+
+  /* Section headings */
+  .section-heading { font-size: 2.5rem !important; }
+  
+  /* Navbar links */
+  .nav-link-desktop { font-size: 0.95rem !important; }
+  
+  /* Body text in sections */
+  .section-body-text { font-size: 1.05rem !important; }
+  
+  /* Feature card text */
+  .feature-card-title { font-size: 1.2rem !important; }
+  .feature-card-desc { font-size: 1rem !important; }
+  
+  /* Statistics numbers */
+  .stat-display { font-size: 3.5rem !important; }
+  .stat-label { font-size: 1.05rem !important; }
+  
+  /* Why choose section */
+  .why-title { font-size: 1.1rem !important; }
+  .why-desc { font-size: 0.95rem !important; }
+  
+  /* FAQ section */
+  .faq-question { font-size: 1.1rem !important; }
+  .faq-answer { font-size: 1rem !important; }
+  
+  /* Blog cards */
+  .blog-card-title { font-size: 1rem !important; }
+  .blog-card-meta { font-size: 0.875rem !important; }
+  
+  /* Comparison table */
+  .compare-feature { font-size: 1rem !important; }
+  .compare-header { font-size: 0.95rem !important; }
+  
+  /* Testimonial text */
+  .testi-text { font-size: 1rem !important; }
+  .testi-name { font-size: 1rem !important; }
+  .testi-role { font-size: 0.875rem !important; }
+  
+  /* Platform cards */
+  .platform-card-title { font-size: 1.05rem !important; }
+  .platform-card-desc { font-size: 0.9rem !important; }
+  
+  /* Input area */
+  .download-input-desktop { font-size: 1.1rem !important; }
+  .download-btn-desktop { font-size: 1.05rem !important; }
+  
+  /* Footer */
+  .footer-link { font-size: 0.95rem !important; }
+  .footer-copy { font-size: 0.875rem !important; }
+}
+
+@media screen and (min-width: 1440px) {
+  .hero-title { font-size: 3.8rem !important; }
+  .hero-subtitle { font-size: 1.25rem !important; }
+  .section-heading { font-size: 2.8rem !important; }
+  .stat-display { font-size: 4rem !important; }
 }
 
 /* ─── details/summary ─── */

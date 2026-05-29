@@ -497,13 +497,13 @@ function Navbar() {
 
   return (
     <header ref={revealRef} className="section-reveal fixed top-0 left-0 right-0 z-50 bg-white dark:bg-[#1A1A1A] border-b border-gray-100 dark:border-white/10" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
-      <div className="mx-auto max-w-6xl h-16 flex items-center justify-between px-4 md:px-6">
+      <div className="mx-auto max-w-6xl lg:max-w-7xl h-16 flex items-center justify-between px-4 md:px-6">
         <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="GetMova - Home">
           <MovaLogo size={28} showText={true} />
         </a>
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-6 lg:gap-8">
           {navLinks.map(link => (
-            <a key={link.href} href={link.href} className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-[#E52222] dark:hover:text-[#E52222] transition-colors">{link.label}</a>
+            <a key={link.href} href={link.href} className="nav-link-desktop text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-[#E52222] dark:hover:text-[#E52222] transition-colors">{link.label}</a>
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-3">
@@ -745,15 +745,15 @@ function HeroSection() {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto max-w-4xl flex flex-col items-center text-center">
+      <div className="relative z-10 mx-auto max-w-4xl lg:max-w-5xl flex flex-col items-center text-center">
         {/* FEATURE 11: Gradient text on "Downloader" */}
-        <h1 className="hero-title text-[28px] sm:text-[36px] md:text-[42px] lg:text-[52px] font-extrabold text-[#333333] dark:text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight">
+        <h1 className="hero-title text-[28px] sm:text-[36px] md:text-[42px] lg:text-[56px] font-extrabold text-[#333333] dark:text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight">
           {t("hero.small")} <span className="animated-gradient">{t("hero.big")}</span>
         </h1>
-        <p className="hero-subtitle text-[#666666] dark:text-gray-400 text-sm md:text-base max-w-lg md:max-w-xl leading-relaxed mb-6 md:mb-8">{t("hero.subtitle")}</p>
+        <p className="hero-subtitle text-[#666666] dark:text-gray-400 text-sm md:text-base lg:text-lg max-w-lg md:max-w-xl lg:max-w-2xl leading-relaxed mb-6 md:mb-8">{t("hero.subtitle")}</p>
 
         {/* Input area with drag-drop, auto-paste, history button */}
-        <div className="w-full max-w-xl relative">
+        <div className="w-full max-w-xl lg:max-w-2xl relative">
           {/* FEATURE 14: Onboarding tooltip */}
           {showOnboard && (
             <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 z-30 bg-white dark:bg-[#2D2D2D] text-[#333] dark:text-white text-xs font-medium px-4 py-2 rounded-lg shadow-lg border border-[#E52222]/30 whitespace-nowrap">
@@ -767,9 +767,9 @@ function HeroSection() {
           >
             <div className="flex-1 relative">
               <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
-              <input ref={inputRef} type="text" value={url} onChange={e => setUrl(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAnalyze()} onFocus={handleInputFocus} placeholder={t("input.placeholder")} className="h-14 w-full bg-white dark:bg-[#2D2D2D] text-gray-900 dark:text-white text-sm md:text-base pl-11 pr-4 border-0 outline-none placeholder:text-gray-400" />
+              <input ref={inputRef} type="text" value={url} onChange={e => setUrl(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAnalyze()} onFocus={handleInputFocus} placeholder={t("input.placeholder")} className="download-input-desktop h-14 w-full bg-white dark:bg-[#2D2D2D] text-gray-900 dark:text-white text-sm md:text-base lg:text-lg pl-11 pr-4 border-0 outline-none placeholder:text-gray-400" />
             </div>
-            <button onClick={handleAnalyze} disabled={loading} className="h-14 px-6 md:px-8 bg-[#E52222] text-white font-bold text-sm md:text-base hover:bg-[#C91C1C] shrink-0 transition-colors flex items-center justify-center gap-2 disabled:opacity-70">
+            <button onClick={handleAnalyze} disabled={loading} className="download-btn-desktop h-14 px-6 md:px-8 lg:px-10 bg-[#E52222] text-white font-bold text-sm md:text-base lg:text-lg hover:bg-[#C91C1C] shrink-0 transition-colors flex items-center justify-center gap-2 disabled:opacity-70">
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
               <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
             </button>
@@ -784,22 +784,22 @@ function HeroSection() {
         </div>
 
         {/* Platform support bar */}
-        <div className="w-full max-w-xl mt-3 bg-[#333333] dark:bg-[#444444] rounded-lg px-4 py-2.5 flex items-center justify-center gap-3 md:gap-4">
-          <span className="text-white text-xs font-medium shrink-0">{t("platforms.label")}</span>
+        <div className="w-full max-w-xl lg:max-w-2xl mt-3 bg-[#333333] dark:bg-[#444444] rounded-lg px-4 py-2.5 flex items-center justify-center gap-3 md:gap-4">
+          <span className="text-white text-xs lg:text-sm font-medium shrink-0">{t("platforms.label")}</span>
           <div className="flex items-center gap-3 md:gap-4">
             {PLATFORMS.map(p => (<span key={p.name} className="text-white/90 hover:text-white transition-colors"><p.Icon className="h-4 w-4 md:h-5 md:w-5" /></span>))}
           </div>
         </div>
 
         {/* FEATURE 3: Trust Badges Bar */}
-        <div className="w-full max-w-xl mt-3 flex flex-wrap items-center justify-center gap-4 md:gap-6">
+        <div className="w-full max-w-xl lg:max-w-2xl mt-3 flex flex-wrap items-center justify-center gap-4 md:gap-6">
           {[
             { icon: Shield, label: t("trust.ssl") },
             { icon: ShieldCheck, label: t("trust.novirus") },
             { icon: Database, label: t("trust.nodata") },
             { icon: CheckCircle, label: t("trust.safe") },
           ].map((b, i) => (
-            <span key={i} className="flex items-center gap-1.5 text-[#333]/60 dark:text-white/60 text-[11px] md:text-xs">
+            <span key={i} className="flex items-center gap-1.5 text-[#333]/60 dark:text-white/60 text-[11px] md:text-xs lg:text-sm">
               <b.icon className="h-3.5 w-3.5 md:h-4 md:w-4" />{b.label}
             </span>
           ))}
@@ -807,7 +807,7 @@ function HeroSection() {
 
         {/* FEATURE 10: Recent Downloads Counter */}
         <div className="mt-2">
-          <span className="text-[#333]/50 dark:text-white/50 text-[11px] md:text-xs">{t("hero.liveCount").replace("{count}", liveCount.toLocaleString())}</span>
+          <span className="text-[#333]/50 dark:text-white/50 text-[11px] md:text-xs lg:text-sm">{t("hero.liveCount").replace("{count}", liveCount.toLocaleString())}</span>
         </div>
 
         {/* FEATURE 15: Skeleton Loading */}
@@ -944,16 +944,16 @@ function FreeDownloaderSection() {
   const { t } = useLanguage();
   const revealRef = useScrollReveal();
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
-      <div className="mx-auto max-w-5xl">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
+      <div className="mx-auto max-w-5xl lg:max-w-6xl">
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           <div className="flex-1 text-center md:text-left">
             <div className="inline-flex items-center gap-2 mb-4">
-              <span className="bg-[#E52222] text-white text-[10px] md:text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">{t("free.badge")}</span>
+              <span className="bg-[#E52222] text-white text-[10px] md:text-xs lg:text-sm font-bold px-4 py-1 rounded-full uppercase tracking-wider">{t("free.badge")}</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-[32px] font-extrabold text-[#333333] dark:text-white mb-4 font-[family-name:var(--font-montserrat)] leading-tight">{t("free.title1")} <span className="text-[#E52222]">{t("free.titleRed")}</span></h2>
-            <p className="text-sm md:text-base text-[#666666] dark:text-gray-400 leading-relaxed mb-6 max-w-md mx-auto md:mx-0">{t("free.desc")}</p>
-            <a href="#hero"><Button className="bg-[#333333] dark:bg-white dark:text-[#333333] text-white font-semibold rounded-full hover:bg-[#555] dark:hover:bg-gray-100 px-6 h-11 text-sm">{t("free.btn")} <ArrowRight className="ml-2 h-4 w-4" /></Button></a>
+            <h2 className="section-heading text-2xl sm:text-3xl md:text-[32px] lg:text-[40px] font-extrabold text-[#333333] dark:text-white mb-4 font-[family-name:var(--font-montserrat)] leading-tight">{t("free.title1")} <span className="text-[#E52222]">{t("free.titleRed")}</span></h2>
+            <p className="section-body-text text-sm md:text-base lg:text-lg text-[#666666] dark:text-gray-400 leading-relaxed mb-6 max-w-md mx-auto md:mx-0">{t("free.desc")}</p>
+            <a href="#hero"><Button className="bg-[#333333] dark:bg-white dark:text-[#333333] text-white font-semibold rounded-full hover:bg-[#555] dark:hover:bg-gray-100 px-6 h-11 text-sm lg:text-base">{t("free.btn")} <ArrowRight className="ml-2 h-4 w-4" /></Button></a>
           </div>
           <div className="flex-shrink-0">
             <div className="w-52 h-52 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full bg-[#E52222]/10 flex items-center justify-center"><div className="w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full bg-[#E52222]/20 flex items-center justify-center"><div className="w-28 h-28 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full bg-[#E52222] flex items-center justify-center shadow-lg"><Play className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16 text-white ml-1" /></div></div></div>
@@ -976,19 +976,19 @@ function HowToUseSection() {
     { num: "03", title: t("how.step3.title"), desc: t("how.step3.desc"), filled: false },
   ];
   return (
-    <section id="how" ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
-      <div className="mx-auto max-w-5xl">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
+    <section id="how" ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
+      <div className="mx-auto max-w-5xl lg:max-w-6xl">
+        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           <div className="flex-shrink-0 relative">
             <div className="absolute -top-4 -left-4 w-64 h-64 md:w-80 md:h-80 rounded-full bg-[#E52222]/10 z-0" />
             <div className="relative z-10 w-56 h-56 md:w-72 md:h-72 rounded-2xl overflow-hidden"><Image src="/how-person.png" alt="Person using phone" fill className="object-cover object-center" /></div>
           </div>
-          <div className="flex-1 space-y-6 md:space-y-8">
+          <div className="flex-1 space-y-6 md:space-y-8 lg:space-y-10">
             {steps.map((s, i) => (
               <div key={i} className="flex items-start gap-4">
-                {s.filled ? (<div className="w-12 h-12 rounded-full bg-[#E52222] flex items-center justify-center shrink-0"><span className="text-white font-bold text-sm">{s.num}</span></div>) : (<div className="w-12 h-12 rounded-full border-2 border-[#E52222] flex items-center justify-center shrink-0"><span className="text-[#E52222] font-bold text-sm">{s.num}</span></div>)}
-                <div><h3 className="text-base md:text-lg font-bold text-[#333333] dark:text-white mb-1">{s.title}</h3><p className="text-sm md:text-base text-[#666666] dark:text-gray-400 leading-relaxed">{s.desc}</p></div>
+                {s.filled ? (<div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-[#E52222] flex items-center justify-center shrink-0"><span className="text-white font-bold text-sm lg:text-base">{s.num}</span></div>) : (<div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-[#E52222] flex items-center justify-center shrink-0"><span className="text-[#E52222] font-bold text-sm lg:text-base">{s.num}</span></div>)}
+                <div><h3 className="feature-card-title text-base md:text-lg lg:text-xl font-bold text-[#333333] dark:text-white mb-1">{s.title}</h3><p className="feature-card-desc text-sm md:text-base lg:text-lg text-[#666666] dark:text-gray-400 leading-relaxed">{s.desc}</p></div>
               </div>
             ))}
           </div>
@@ -1013,16 +1013,16 @@ function PlatformQuickAccessSection() {
     { name: "Reddit", desc: t("platforms.reddit.desc"), slug: "reddit", color: "#FF4500", Icon: RedditIcon },
   ];
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
-      <div className="mx-auto max-w-5xl text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("platforms.title")}</h2>
-        <p className="text-sm md:text-base text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("platforms.subtitle")}</p>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+      <div className="mx-auto max-w-5xl lg:max-w-6xl text-center">
+        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("platforms.title")}</h2>
+        <p className="section-body-text text-sm md:text-base lg:text-lg text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("platforms.subtitle")}</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {platformCards.map(p => (
-            <a key={p.slug} href={`/${p.slug}-downloader`} className="bg-white dark:bg-[#2D2D2D] rounded-xl border border-gray-200 dark:border-white/10 p-5 md:p-6 text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-200 group">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: `${p.color}15` }}><p.Icon className="h-5 w-5" style={{ color: p.color }} /></div>
-              <h3 className="font-bold text-sm text-[#333] dark:text-white mb-1 group-hover:text-[#E52222] transition-colors">{p.name}</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">{p.desc}</p>
+            <a key={p.slug} href={`/${p.slug}-downloader`} className="bg-white dark:bg-[#2D2D2D] rounded-xl border border-gray-200 dark:border-white/10 p-5 md:p-6 lg:p-8 text-left hover:shadow-lg hover:-translate-y-1 transition-all duration-200 group">
+              <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg flex items-center justify-center mb-3" style={{ background: `${p.color}15` }}><p.Icon className="h-5 w-5 lg:h-6 lg:w-6" style={{ color: p.color }} /></div>
+              <h3 className="platform-card-title font-bold text-sm lg:text-lg text-[#333] dark:text-white mb-1 group-hover:text-[#E52222] transition-colors">{p.name}</h3>
+              <p className="platform-card-desc text-xs lg:text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">{p.desc}</p>
             </a>
           ))}
         </div>
@@ -1043,15 +1043,15 @@ function FeatureCardsSection() {
     { num: "03", icon: CheckCircle, title: t("feat3.title"), desc: t("feat3.desc") },
   ];
   return (
-    <section id="features" ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
-      <div className="mx-auto max-w-5xl">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section id="features" ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
+      <div className="mx-auto max-w-5xl lg:max-w-6xl">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {features.map((f, i) => { const Icon = f.icon; return (
-            <div key={i} className="bg-[#333333] dark:bg-[#333] rounded-lg p-8 border border-white/10 hover:border-white/20 transition-all duration-200 dark-glow-card">
-              <span className="text-white/20 text-4xl md:text-5xl font-extrabold font-[family-name:var(--font-montserrat)]">{f.num}</span>
-              <div className="mt-4 mb-3"><Icon className="h-6 w-6 text-white" /></div>
-              <h3 className="text-white text-lg font-bold mb-2">{f.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">{f.desc}</p>
+            <div key={i} className="bg-[#333333] dark:bg-[#333] rounded-lg p-8 lg:p-10 border border-white/10 hover:border-white/20 transition-all duration-200 dark-glow-card">
+              <span className="text-white/20 text-4xl md:text-5xl lg:text-6xl font-extrabold font-[family-name:var(--font-montserrat)]">{f.num}</span>
+              <div className="mt-4 mb-3"><Icon className="h-6 w-6 lg:h-8 lg:w-8 text-white" /></div>
+              <h3 className="feature-card-title text-white text-lg lg:text-xl font-bold mb-2">{f.title}</h3>
+              <p className="feature-card-desc text-gray-400 text-sm lg:text-base leading-relaxed">{f.desc}</p>
             </div>
           ); })}
         </div>
@@ -1071,12 +1071,12 @@ function SupportedFormatsSection() {
     { key: "360p", icon: Smartphone }, { key: "480p", icon: Smartphone }, { key: "720p", icon: Award }, { key: "1080p", icon: Award }, { key: "4k", icon: Award }, { key: "audio", icon: Headphones },
   ];
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A] transition-colors duration-300">
-      <div className="mx-auto max-w-5xl text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("fmt.title")}</h2>
-        <p className="text-sm md:text-base text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("fmt.subtitle")}</p>
-        <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-          {formats.map((f) => { const Icon = f.icon; return (<div key={f.key} className="flex items-center gap-2 bg-white dark:bg-[#2D2D2D] border border-gray-200 dark:border-white/10 rounded-full px-5 py-2.5 shadow-sm hover:shadow-md hover:border-[#E52222]/30 transition-all duration-200 cursor-default"><Icon className="h-4 w-4 text-[#E52222]" /><span className="text-sm font-semibold text-[#333333] dark:text-white">{t(`fmt.${f.key}`)}</span></div>); })}
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A] transition-colors duration-300">
+      <div className="mx-auto max-w-5xl lg:max-w-6xl text-center">
+        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("fmt.title")}</h2>
+        <p className="section-body-text text-sm md:text-base lg:text-lg text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("fmt.subtitle")}</p>
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4 lg:gap-5">
+          {formats.map((f) => { const Icon = f.icon; return (<div key={f.key} className="flex items-center gap-2 bg-white dark:bg-[#2D2D2D] border border-gray-200 dark:border-white/10 rounded-full px-5 py-2.5 lg:px-6 lg:py-3 shadow-sm hover:shadow-md hover:border-[#E52222]/30 transition-all duration-200 cursor-default"><Icon className="h-4 w-4 lg:h-5 lg:w-5 text-[#E52222]" /><span className="text-sm lg:text-base font-semibold text-[#333333] dark:text-white">{t(`fmt.${f.key}`)}</span></div>); })}
         </div>
       </div>
     </section>
@@ -1111,13 +1111,13 @@ function StatisticsSection() {
     { display: `${(count4 / 10).toFixed(1)}`, labelKey: "stats.4.label" },
   ];
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D] transition-colors duration-300">
-      <div className="mx-auto max-w-5xl">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D] transition-colors duration-300">
+      <div className="mx-auto max-w-5xl lg:max-w-6xl">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 lg:gap-16">
           {stats.map((s, i) => (
             <div key={i} className="text-center">
-              <div className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white font-[family-name:var(--font-montserrat)] mb-2 dark-glow-text">{s.display}</div>
-              <div className="text-white/60 text-sm md:text-base">{t(s.labelKey)}</div>
+              <div className="stat-display text-3xl md:text-5xl lg:text-6xl font-extrabold text-white font-[family-name:var(--font-montserrat)] mb-2 dark-glow-text">{s.display}</div>
+              <div className="stat-label text-white/60 text-sm md:text-base">{t(s.labelKey)}</div>
             </div>
           ))}
         </div>
@@ -1139,11 +1139,11 @@ function WhyChooseSection() {
     { icon: Shield, title: t("why.4.title"), desc: t("why.4.desc") },
   ];
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
-      <div className="mx-auto max-w-5xl">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("why.title")}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {benefits.map((b, i) => { const Icon = b.icon; return (<div key={i} className="text-center p-4 md:p-6"><div className="flex items-center justify-center mb-4"><Icon className="h-8 w-8 md:h-10 md:w-10 text-[#333333] dark:text-white" /></div><h3 className="text-sm md:text-base font-bold text-[#333333] dark:text-white mb-2">{b.title}</h3><p className="text-xs md:text-sm text-[#999999] dark:text-gray-500 leading-relaxed">{b.desc}</p></div>); })}
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+      <div className="mx-auto max-w-5xl lg:max-w-6xl">
+        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("why.title")}</h2>
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-12">
+          {benefits.map((b, i) => { const Icon = b.icon; return (<div key={i} className="text-center p-4 md:p-6 lg:p-8"><div className="flex items-center justify-center mb-4"><Icon className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 text-[#333333] dark:text-white" /></div><h3 className="why-title text-sm md:text-base lg:text-lg font-bold text-[#333333] dark:text-white mb-2">{b.title}</h3><p className="why-desc text-xs md:text-sm lg:text-base text-[#999999] dark:text-gray-500 leading-relaxed">{b.desc}</p></div>); })}
         </div>
       </div>
     </section>
@@ -1169,20 +1169,20 @@ function ComparisonSection() {
   const PartialMark = () => <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-yellow-500/15"><svg className="w-4 h-4 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01" /><circle cx="12" cy="12" r="9" strokeWidth={2} /></svg></span>;
   const renderMark = (val: boolean | string) => { if (val === true) return <CheckMark />; if (val === "partial") return <PartialMark />; return <XMark />; };
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A] transition-colors duration-300">
-      <div className="mx-auto max-w-5xl text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("compare.title")}</h2>
-        <p className="text-sm md:text-base text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("compare.subtitle")}</p>
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A] transition-colors duration-300">
+      <div className="mx-auto max-w-5xl lg:max-w-6xl text-center">
+        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("compare.title")}</h2>
+        <p className="section-body-text text-sm md:text-base lg:text-lg text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("compare.subtitle")}</p>
         <div className="overflow-x-auto scroll-hide -mx-4 px-4">
           <table className="w-full min-w-[520px] md:min-w-0 border-collapse bg-white dark:bg-[#2D2D2D] rounded-xl overflow-hidden shadow-sm">
             <thead><tr className="border-b border-gray-100 dark:border-white/10">
-              <th className="py-4 px-3 md:px-5 text-left text-sm font-semibold text-[#333333] dark:text-white w-[30%] md:w-[25%]">{t("compare.feature")}</th>
-              <th className="py-4 px-3 md:px-5 text-center text-sm font-bold text-white bg-[#E52222]">{t("compare.getmova")}</th>
-              <th className="py-4 px-3 md:px-5 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.snaptik")}</th>
-              <th className="py-4 px-3 md:px-5 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.savefrom")}</th>
-              <th className="py-4 px-3 md:px-5 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.y2mate")}</th>
+              <th className="compare-header py-4 px-3 md:px-5 text-left text-sm font-semibold text-[#333333] dark:text-white w-[30%] md:w-[25%]">{t("compare.feature")}</th>
+              <th className="compare-header py-4 px-3 md:px-5 text-center text-sm font-bold text-white bg-[#E52222]">{t("compare.getmova")}</th>
+              <th className="compare-header py-4 px-3 md:px-5 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.snaptik")}</th>
+              <th className="compare-header py-4 px-3 md:px-5 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.savefrom")}</th>
+              <th className="compare-header py-4 px-3 md:px-5 text-center text-sm font-semibold text-[#333333] dark:text-white">{t("compare.y2mate")}</th>
             </tr></thead>
-            <tbody>{features.map((f, i) => (<tr key={f.key} className={i < features.length - 1 ? "border-b border-gray-100 dark:border-white/10" : ""}><td className="py-3.5 px-3 md:px-5 text-sm text-[#333333] dark:text-gray-300 text-left">{t(`compare.${f.key}`)}</td><td className="py-3.5 px-3 md:px-5 text-center bg-[#E52222]/5 dark:bg-[#E52222]/10">{renderMark(f.getmova)}</td><td className="py-3.5 px-3 md:px-5 text-center">{renderMark(f.snaptik)}</td><td className="py-3.5 px-3 md:px-5 text-center">{renderMark(f.savefrom)}</td><td className="py-3.5 px-3 md:px-5 text-center">{renderMark(f.y2mate)}</td></tr>))}</tbody>
+            <tbody>{features.map((f, i) => (<tr key={f.key} className={i < features.length - 1 ? "border-b border-gray-100 dark:border-white/10" : ""}><td className="compare-feature py-3.5 px-3 md:px-5 text-sm text-[#333333] dark:text-gray-300 text-left">{t(`compare.${f.key}`)}</td><td className="py-3.5 px-3 md:px-5 text-center bg-[#E52222]/5 dark:bg-[#E52222]/10">{renderMark(f.getmova)}</td><td className="py-3.5 px-3 md:px-5 text-center">{renderMark(f.snaptik)}</td><td className="py-3.5 px-3 md:px-5 text-center">{renderMark(f.savefrom)}</td><td className="py-3.5 px-3 md:px-5 text-center">{renderMark(f.y2mate)}</td></tr>))}</tbody>
           </table>
         </div>
       </div>
@@ -1202,19 +1202,19 @@ function TestimonialsSection() {
     { nameKey: "testi.3.name", roleKey: "testi.3.role", textKey: "testi.3.text", initials: "SM", color: "#10B981" },
   ];
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] transition-colors duration-300">
-      <div className="mx-auto max-w-5xl text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("testi.title")}</h2>
-        <p className="text-sm md:text-base text-white/50 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("testi.subtitle")}</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] transition-colors duration-300">
+      <div className="mx-auto max-w-5xl lg:max-w-6xl text-center">
+        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("testi.title")}</h2>
+        <p className="section-body-text text-sm md:text-base lg:text-lg text-white/50 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("testi.subtitle")}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {testimonials.map((testi, i) => (
-            <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-6 text-left min-h-[220px] md:min-h-[240px] flex flex-col">
+            <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-6 lg:p-8 text-left min-h-[220px] md:min-h-[240px] flex flex-col">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0" style={{ background: testi.color }}>{testi.initials}</div>
-                <div><p className="text-white font-semibold text-sm">{t(testi.nameKey)}</p><p className="text-white/40 text-xs">{t(testi.roleKey)}</p></div>
+                <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white font-bold text-sm lg:text-base shrink-0" style={{ background: testi.color }}>{testi.initials}</div>
+                <div><p className="testi-name text-white font-semibold text-sm lg:text-base">{t(testi.nameKey)}</p><p className="testi-role text-white/40 text-xs lg:text-sm">{t(testi.roleKey)}</p></div>
               </div>
-              <div className="flex items-center gap-0.5 mb-3">{Array.from({ length: 5 }).map((_, si) => <Star key={si} className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />)}</div>
-              <p className="text-white/60 text-sm leading-relaxed flex-1">{t(testi.textKey)}</p>
+              <div className="flex items-center gap-0.5 mb-3">{Array.from({ length: 5 }).map((_, si) => <Star key={si} className="h-3.5 w-3.5 lg:h-4 lg:w-4 text-yellow-400 fill-yellow-400" />)}</div>
+              <p className="testi-text text-white/60 text-sm lg:text-base leading-relaxed flex-1">{t(testi.textKey)}</p>
             </div>
           ))}
         </div>
@@ -1245,33 +1245,33 @@ function FAQSection() {
     : faqItems;
 
   return (
-    <section id="faq" ref={revealRef} className="faq-section section-reveal relative py-16 md:py-24 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] overflow-hidden">
+    <section id="faq" ref={revealRef} className="faq-section section-reveal relative py-16 md:py-24 lg:py-28 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] overflow-hidden">
       <div className="absolute top-[-80px] right-[-80px] w-[200px] h-[200px] rounded-full bg-[#E52222]/5 pointer-events-none" />
       <div className="absolute bottom-[-60px] left-[-60px] w-[160px] h-[160px] rounded-full bg-[#E52222]/5 pointer-events-none" />
-      <div className="relative mx-auto max-w-5xl">
+      <div className="relative mx-auto max-w-5xl lg:max-w-6xl">
         <div className="text-center mb-10 md:hidden">
           <span className="inline-block bg-[#E52222] text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">FAQ</span>
-          <h2 className="text-2xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight">{t("faq.title")} <span className="text-[#E52222]">{t("faq.titleRed")}</span></h2>
+          <h2 className="section-heading text-2xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight">{t("faq.title")} <span className="text-[#E52222]">{t("faq.titleRed")}</span></h2>
           <p className="mt-3 text-sm text-white/50 max-w-sm mx-auto leading-relaxed">{t("faq.subtitle")}</p>
         </div>
         <div className="flex flex-col md:flex-row gap-10 md:gap-16">
           <div className="md:w-[35%] shrink-0 md:sticky md:top-24 md:self-start">
             <div className="hidden md:block">
-              <span className="inline-block bg-[#E52222] text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">FAQ</span>
-              <h2 className="text-3xl lg:text-4xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight mb-4">{t("faq.title")} <span className="text-[#E52222]">{t("faq.titleRed")}</span></h2>
-              <p className="text-sm md:text-base text-white/50 leading-relaxed mb-8">{t("faq.subtitle")}</p>
+              <span className="inline-block bg-[#E52222] text-white text-xs lg:text-sm font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">FAQ</span>
+              <h2 className="section-heading text-3xl lg:text-4xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight mb-4">{t("faq.title")} <span className="text-[#E52222]">{t("faq.titleRed")}</span></h2>
+              <p className="section-body-text text-sm md:text-base lg:text-lg text-white/50 leading-relaxed mb-8">{t("faq.subtitle")}</p>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-4"><div className="w-11 h-11 rounded-full bg-[#E52222]/20 flex items-center justify-center shrink-0"><AlertCircle className="h-5 w-5 text-[#E52222]" /></div><h3 className="text-white text-base md:text-lg font-bold">{t("faq.cta.title")}</h3></div>
-              <p className="text-white/50 text-sm mb-5 leading-relaxed">{t("faq.cta.desc")}</p>
-              <a href="/contact"><Button className="w-full bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] h-11 text-sm">{t("faq.cta.btn")} <ArrowRight className="ml-2 h-4 w-4" /></Button></a>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 lg:p-10">
+              <div className="flex items-center gap-3 mb-4"><div className="w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-[#E52222]/20 flex items-center justify-center shrink-0"><AlertCircle className="h-5 w-5 lg:h-6 lg:w-6 text-[#E52222]" /></div><h3 className="feature-card-title text-white text-base md:text-lg lg:text-xl font-bold">{t("faq.cta.title")}</h3></div>
+              <p className="section-body-text text-white/50 text-sm mb-5 lg:text-base leading-relaxed">{t("faq.cta.desc")}</p>
+              <a href="/contact"><Button className="w-full bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] h-11 text-sm lg:text-base">{t("faq.cta.btn")} <ArrowRight className="ml-2 h-4 w-4" /></Button></a>
             </div>
           </div>
           <div className="md:w-[65%]">
             {/* FEATURE 9: FAQ Search */}
             <div className="relative mb-4">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
-              <input type="text" value={faqSearch} onChange={e => setFaqSearch(e.target.value)} placeholder={t("faq.search")} className="w-full h-10 bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 text-white text-sm placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 lg:h-5 lg:w-5 text-white/30" />
+              <input type="text" value={faqSearch} onChange={e => setFaqSearch(e.target.value)} placeholder={t("faq.search")} className="w-full h-10 lg:h-12 bg-white/5 border border-white/10 rounded-xl pl-10 lg:pl-12 pr-4 text-white text-sm lg:text-base placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors" />
             </div>
             {filteredFaqs.length === 0 ? (
               <p className="text-white/40 text-sm text-center py-8">{t("faq.noresults")}</p>
@@ -1283,13 +1283,13 @@ function FAQSection() {
                   <div key={i} className={`rounded-xl overflow-hidden transition-all duration-300 ${isOpen ? "bg-white/10 border border-white/20 shadow-lg shadow-[#E52222]/5" : "bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.07] hover:border-white/10"}`}>
                     <button onClick={() => setOpenIndex(isOpen ? null : i)} className="flex items-center justify-between w-full py-4 px-5 cursor-pointer text-left group">
                       <span className="flex items-center gap-3 pr-3">
-                        <span className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300 ${isOpen ? "bg-[#E52222]" : "bg-white/10 group-hover:bg-[#E52222]/30"}`}><span className={`font-bold text-xs transition-colors duration-300 ${isOpen ? "text-white" : "text-white/60 group-hover:text-[#E52222]"}`}>{f.num}</span></span>
-                        <span className={`text-sm md:text-base font-medium transition-colors duration-300 ${isOpen ? "text-white" : "text-white/80 group-hover:text-[#E52222]"}`}>{f.q}</span>
+                        <span className={`w-8 h-8 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300 ${isOpen ? "bg-[#E52222]" : "bg-white/10 group-hover:bg-[#E52222]/30"}`}><span className={`font-bold text-xs lg:text-sm transition-colors duration-300 ${isOpen ? "text-white" : "text-white/60 group-hover:text-[#E52222]"}`}>{f.num}</span></span>
+                        <span className={`faq-question text-sm md:text-base font-medium transition-colors duration-300 ${isOpen ? "text-white" : "text-white/80 group-hover:text-[#E52222]"}`}>{f.q}</span>
                       </span>
                       <ChevronDown className={`h-4 w-4 shrink-0 transition-all duration-300 ${isOpen ? "rotate-180 text-[#E52222]" : "text-white/30 group-hover:text-white/60"}`} />
                     </button>
                     <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
-                      <div className="px-5 pb-5 pl-16 text-sm md:text-base text-white/60 leading-relaxed border-t border-white/5 pt-3">{f.a}</div>
+                      <div className="px-5 pb-5 pl-16 lg:pl-20 text-sm md:text-base lg:text-lg text-white/60 leading-relaxed border-t border-white/5 pt-3">{f.a}</div>
                     </div>
                   </div>
                 );
@@ -1315,22 +1315,22 @@ function BlogPreviewSection() {
     { titleKey: "blog.3.title", readTime: 3, image: "/blog-getmova-banner.png", slug: "download-video-tanpa-watermark-terbaik" },
   ];
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
-      <div className="mx-auto max-w-5xl text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("blog.title")}</h2>
-        <p className="text-sm md:text-base text-white/50 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("blog.subtitle")}</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
+      <div className="mx-auto max-w-5xl lg:max-w-6xl text-center">
+        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("blog.title")}</h2>
+        <p className="section-body-text text-sm md:text-base lg:text-lg text-white/50 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("blog.subtitle")}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {blogPosts.map((post, i) => (
             <a key={i} href={`/blog/${post.slug}`} className="rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-[#E52222]/30 transition-all duration-300 group text-left hover:shadow-lg hover:shadow-[#E52222]/10 hover:-translate-y-1">
-              <div className="relative h-44 md:h-52 overflow-hidden">
+              <div className="relative h-44 md:h-52 lg:h-56 overflow-hidden">
                 <Image src={post.image} alt={t(post.titleKey)} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#333333] via-transparent to-transparent dark:from-[#2D2D2D]" />
               </div>
-              <div className="p-5">
-                <h3 className="text-white font-bold text-sm mb-2 group-hover:text-[#E52222] transition-colors line-clamp-2">{t(post.titleKey)}</h3>
+              <div className="p-5 lg:p-6">
+                <h3 className="blog-card-title text-white font-bold text-sm lg:text-base mb-2 group-hover:text-[#E52222] transition-colors line-clamp-2">{t(post.titleKey)}</h3>
                 <div className="flex items-center justify-between">
-                  <span className="text-white/30 text-xs">{post.readTime} {t("blog.minread")}</span>
-                  <span className="text-[#E52222] text-xs font-medium group-hover:underline">{t("blog.readmore")} →</span>
+                  <span className="blog-card-meta text-white/30 text-xs lg:text-sm">{post.readTime} {t("blog.minread")}</span>
+                  <span className="text-[#E52222] text-xs lg:text-sm font-medium group-hover:underline">{t("blog.readmore")} →</span>
                 </div>
               </div>
             </a>
@@ -1351,22 +1351,22 @@ function NewsletterSection() {
   const revealRef = useScrollReveal();
   const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (email.trim() && email.includes("@")) { setSubscribed(true); setEmail(""); setTimeout(() => setSubscribed(false), 4000); } };
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#1A1A1A] relative overflow-hidden transition-colors duration-300">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#1A1A1A] relative overflow-hidden transition-colors duration-300">
       <div className="absolute top-0 right-0 w-64 h-64 bg-[#E52222]/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#E52222]/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-      <div className="relative mx-auto max-w-xl md:max-w-2xl text-center">
-        <div className="flex items-center justify-center mb-4"><div className="w-12 h-12 rounded-full bg-[#E52222]/20 flex items-center justify-center"><Mail className="h-5 w-5 text-[#E52222]" /></div></div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("nl.title")}</h2>
-        <p className="text-sm md:text-base text-white/50 mb-8 leading-relaxed">{t("nl.subtitle")}</p>
+      <div className="relative mx-auto max-w-xl md:max-w-2xl lg:max-w-3xl text-center">
+        <div className="flex items-center justify-center mb-4"><div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-[#E52222]/20 flex items-center justify-center"><Mail className="h-5 w-5 lg:h-6 lg:w-6 text-[#E52222]" /></div></div>
+        <h2 className="section-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("nl.title")}</h2>
+        <p className="section-body-text text-sm md:text-base lg:text-lg text-white/50 mb-8 leading-relaxed">{t("nl.subtitle")}</p>
         {subscribed ? (
-          <div className="bg-green-500/15 border border-green-500/20 rounded-xl p-4 flex items-center justify-center gap-2"><CheckCircle className="h-5 w-5 text-green-400" /><span className="text-green-400 font-medium text-sm">Subscribed!</span></div>
+          <div className="bg-green-500/15 border border-green-500/20 rounded-xl p-4 flex items-center justify-center gap-2"><CheckCircle className="h-5 w-5 text-green-400" /><span className="text-green-400 font-medium text-sm lg:text-base">Subscribed!</span></div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t("nl.placeholder")} required className="flex-1 h-12 bg-white/10 border border-white/10 rounded-lg px-4 text-white text-sm placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors" />
-            <button type="submit" className="h-12 px-6 bg-[#E52222] text-white font-bold text-sm rounded-lg hover:bg-[#C91C1C] transition-colors shrink-0">{t("nl.btn")}</button>
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t("nl.placeholder")} required className="flex-1 h-12 lg:h-14 bg-white/10 border border-white/10 rounded-lg px-4 text-white text-sm lg:text-base placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors" />
+            <button type="submit" className="h-12 lg:h-14 px-6 lg:px-8 bg-[#E52222] text-white font-bold text-sm lg:text-base rounded-lg hover:bg-[#C91C1C] transition-colors shrink-0">{t("nl.btn")}</button>
           </form>
         )}
-        <p className="text-white/30 text-xs mt-3">{t("nl.disclaimer")}</p>
+        <p className="text-white/30 text-xs lg:text-sm mt-3">{t("nl.disclaimer")}</p>
       </div>
     </section>
   );
@@ -1413,18 +1413,18 @@ function Footer() {
   const { t, lang } = useLanguage();
   return (
     <footer className="bg-[#222222] dark:bg-[#1A1A1A]" role="contentinfo">
-      <div className="mx-auto max-w-6xl px-4 md:px-6 py-10 md:py-14">
+      <div className="mx-auto max-w-6xl lg:max-w-7xl px-4 md:px-6 py-10 md:py-14">
         <div className="flex flex-col items-center text-center gap-4">
           <div className="flex items-center gap-1.5">
             <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="shrink-0"><rect width="32" height="32" rx="8" fill="#E52222" /><path d="M13 9L23 16L13 23V9Z" fill="white" /></svg>
-            <span className="font-[family-name:var(--font-montserrat)] font-bold text-white text-lg" style={{ letterSpacing: "-0.03em" }}>Get<span className="text-[#E52222]">Mova</span></span>
+            <span className="font-[family-name:var(--font-montserrat)] font-bold text-white text-lg lg:text-xl" style={{ letterSpacing: "-0.03em" }}>Get<span className="text-[#E52222]">Mova</span></span>
           </div>
-          <div className="flex items-center gap-6">
-            <a href="/privacy" className="text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Kebijakan Privasi" : "Privacy Policy"}</a>
-            <a href="/terms" className="text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Syarat & Ketentuan" : "Terms of Service"}</a>
-            <a href="/contact" className="text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Hubungi Kami" : "Contact Us"}</a>
+          <div className="flex items-center gap-6 lg:gap-8">
+            <a href="/privacy" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Kebijakan Privasi" : "Privacy Policy"}</a>
+            <a href="/terms" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Syarat & Ketentuan" : "Terms of Service"}</a>
+            <a href="/contact" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Hubungi Kami" : "Contact Us"}</a>
           </div>
-          <p className="text-[#999999] text-xs">&copy; 2024-2026 GetMova. All rights reserved.</p>
+          <p className="footer-copy text-[#999999] text-xs lg:text-sm">&copy; 2024-2026 GetMova. All rights reserved.</p>
         </div>
       </div>
     </footer>
