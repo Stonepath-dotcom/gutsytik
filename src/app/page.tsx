@@ -149,14 +149,22 @@ const translations: Record<string, Record<string, string>> = {
     "why.4.desc": "Tidak ada data pribadi yang disimpan. Semua proses dilakukan secara aman dan terenkripsi.",
     "faq.title": "Pertanyaan Yang Sering",
     "faq.titleRed": "Diajukan",
+    "faq.subtitle": "Temukan jawaban untuk pertanyaan yang sering ditanyakan tentang GetMova",
     "faq.1.q": "Apakah GetMova benar-benar gratis?",
-    "faq.1.a": "Ya, GetMova 100% gratis tanpa biaya tersembunyi. Kamu bisa download video sepuasnya tanpa perlu mendaftar atau membayar apapun.",
+    "faq.1.a": "Ya, GetMova 100% gratis tanpa biaya tersembunyi. Kamu bisa download video sepuasnya tanpa perlu mendaftar atau membayar apapun. Semua fitur bisa kamu gunakan secara penuh tanpa batasan.",
     "faq.2.q": "Apakah ada batasan jumlah download?",
-    "faq.2.a": "Tidak ada batasan! Kamu bisa mendownload video sebanyak yang kamu mau tanpa batas harian atau bulanan.",
+    "faq.2.a": "Tidak ada batasan! Kamu bisa mendownload video sebanyak yang kamu mau tanpa batas harian atau bulanan. Download sepuasnya kapan saja dan di mana saja.",
     "faq.3.q": "Di mana video yang didownload disimpan?",
-    "faq.3.a": "Video akan otomatis tersimpan di folder download perangkatmu, baik di HP maupun komputer.",
-    "faq.4.q": "Apakah bisa download tanpa batas?",
-    "faq.4.a": "Ya, tidak ada batasan jumlah download. Kamu bisa download video sebanyak yang kamu mau kapan saja.",
+    "faq.3.a": "Video akan otomatis tersimpan di folder download perangkatmu, baik di HP maupun komputer. Kalau di HP biasanya ada di folder Download, kalau di komputer ada di folder Downloads.",
+    "faq.4.q": "Platform apa saja yang didukung?",
+    "faq.4.a": "GetMova mendukung berbagai platform populer seperti TikTok, Instagram, Facebook, Twitter/X, Pinterest, dan Reddit. Kami terus menambahkan platform baru secara berkala.",
+    "faq.5.q": "Apakah video yang didownload bebas watermark?",
+    "faq.5.a": "Ya! Semua video yang didownload melalui GetMova bebas watermark. Kamu akan mendapatkan video asli tanpa logo atau tanda air yang mengganggu.",
+    "faq.6.q": "Apakah GetMova aman digunakan?",
+    "faq.6.a": "Sangat aman! Kami tidak menyimpan data pribadi atau riwayat download kamu. Semua proses dilakukan secara aman dengan enkripsi. Privasi kamu adalah prioritas kami.",
+    "faq.cta.title": "Masih punya pertanyaan?",
+    "faq.cta.desc": "Hubungi kami jika kamu punya pertanyaan lain yang belum terjawab",
+    "faq.cta.btn": "Hubungi Kami",
     "footer.desc": "Download video tanpa watermark dari berbagai platform populer. Cepat, gratis, dan mudah.",
     "error.emptyUrl": "Masukkan link video terlebih dahulu!",
     "error.invalidUrl": "URL tidak valid. Pastikan link yang dimasukkan benar.",
@@ -212,14 +220,22 @@ const translations: Record<string, Record<string, string>> = {
     "why.4.desc": "No personal data stored. All processes are done securely and encrypted.",
     "faq.title": "Frequently Asked",
     "faq.titleRed": "Questions",
+    "faq.subtitle": "Find answers to the most commonly asked questions about GetMova",
     "faq.1.q": "Is GetMova really free?",
-    "faq.1.a": "Yes, GetMova is 100% free with no hidden costs. You can download as many videos as you want without registering or paying anything.",
+    "faq.1.a": "Yes, GetMova is 100% free with no hidden costs. You can download as many videos as you want without registering or paying anything. All features are fully available without limitations.",
     "faq.2.q": "Is there a download limit?",
-    "faq.2.a": "No limits! You can download as many videos as you want without daily or monthly restrictions.",
+    "faq.2.a": "No limits! You can download as many videos as you want without daily or monthly restrictions. Download as much as you want, anytime and anywhere.",
     "faq.3.q": "Where are the downloaded videos stored?",
-    "faq.3.a": "Videos will automatically be saved to your device's download folder, whether on phone or computer.",
-    "faq.4.q": "Can we download unlimited?",
-    "faq.4.a": "Yes, there is no download limit. You can download as many videos as you want anytime.",
+    "faq.3.a": "Videos will automatically be saved to your device's download folder, whether on phone or computer. On mobile, check the Download folder. On desktop, look in the Downloads folder.",
+    "faq.4.q": "What platforms are supported?",
+    "faq.4.a": "GetMova supports various popular platforms including TikTok, Instagram, Facebook, Twitter/X, Pinterest, and Reddit. We continue to add new platforms regularly.",
+    "faq.5.q": "Are downloaded videos watermark-free?",
+    "faq.5.a": "Yes! All videos downloaded through GetMova are watermark-free. You'll get the original video without any annoying logos or watermarks.",
+    "faq.6.q": "Is GetMova safe to use?",
+    "faq.6.a": "Absolutely safe! We don't store any personal data or download history. All processes are done securely with encryption. Your privacy is our priority.",
+    "faq.cta.title": "Still have questions?",
+    "faq.cta.desc": "Contact us if you have any other unanswered questions",
+    "faq.cta.btn": "Contact Us",
     "footer.desc": "Download videos without watermark from popular platforms. Fast, free, and easy.",
     "error.emptyUrl": "Please enter a video link first!",
     "error.invalidUrl": "Invalid URL. Make sure the link is correct.",
@@ -879,38 +895,99 @@ function WhyChooseSection() {
 }
 
 /* ══════════════════════════════════════════════════
-   FAQ — Dark gray bg, white text, red numbers, red "Questions" pill
+   FAQ — Dark gray bg, white text, red numbers, red pill badge
    ══════════════════════════════════════════════════ */
 function FAQSection() {
   const { t } = useLanguage();
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const faqItems = [
     { num: "01", q: t("faq.1.q"), a: t("faq.1.a") },
     { num: "02", q: t("faq.2.q"), a: t("faq.2.a") },
     { num: "03", q: t("faq.3.q"), a: t("faq.3.a") },
     { num: "04", q: t("faq.4.q"), a: t("faq.4.a") },
+    { num: "05", q: t("faq.5.q"), a: t("faq.5.a") },
+    { num: "06", q: t("faq.6.q"), a: t("faq.6.a") },
   ];
 
   return (
-    <section id="faq" className="py-14 md:py-20 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
+    <section id="faq" className="py-16 md:py-24 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
       <div className="mx-auto max-w-3xl">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">
-          {t("faq.title")} <span className="inline-block bg-[#E52222] text-white px-3 py-1 rounded-md ml-1">{t("faq.titleRed")}</span>
-        </h2>
-        <div className="space-y-0">
-          {faqItems.map((f, i) => (
-            <details key={i} className="group border-b border-white/10">
-              <summary className="flex items-center justify-between py-5 cursor-pointer text-sm md:text-base font-medium text-white hover:text-[#E52222] transition-colors list-none">
-                <span className="flex items-center gap-4 pr-3">
-                  <span className="text-[#E52222] font-bold text-sm shrink-0">{f.num}</span>
-                  <span>{f.q}</span>
-                </span>
-                <ChevronDown className="h-4 w-4 text-white/50 shrink-0 group-open:rotate-180 transition-transform duration-200" />
-              </summary>
-              <div className="pb-5 text-sm md:text-base text-[#999999] leading-relaxed pl-10">
-                {f.a}
+        {/* Title area */}
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight">
+            {t("faq.title")}{" "}
+            <span className="inline-block bg-[#E52222] text-white text-lg sm:text-xl md:text-2xl px-4 py-1.5 rounded-lg ml-2 align-middle">
+              {t("faq.titleRed")}
+            </span>
+          </h2>
+          <p className="mt-4 text-sm md:text-base text-white/50 max-w-md mx-auto leading-relaxed">
+            {t("faq.subtitle")}
+          </p>
+        </div>
+
+        {/* FAQ accordion */}
+        <div className="space-y-3">
+          {faqItems.map((f, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <div
+                key={i}
+                className={`rounded-xl overflow-hidden transition-all duration-300 ${
+                  isOpen
+                    ? "bg-white/10 border border-white/20"
+                    : "bg-white/5 border border-white/5 hover:bg-white/8 hover:border-white/10"
+                }`}
+              >
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                  className="flex items-center justify-between w-full py-4 px-5 cursor-pointer text-left group"
+                >
+                  <span className="flex items-center gap-4 pr-3">
+                    <span className="w-9 h-9 rounded-full bg-[#E52222] flex items-center justify-center shrink-0">
+                      <span className="text-white font-bold text-xs">{f.num}</span>
+                    </span>
+                    <span className="text-sm md:text-base font-medium text-white group-hover:text-[#E52222] transition-colors">
+                      {f.q}
+                    </span>
+                  </span>
+                  <ChevronDown
+                    className={`h-4 w-4 text-white/50 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="px-5 pb-5 pl-[3.75rem] text-sm md:text-base text-white/60 leading-relaxed">
+                    {f.a}
+                  </div>
+                </div>
               </div>
-            </details>
-          ))}
+            );
+          })}
+        </div>
+
+        {/* CTA area */}
+        <div className="mt-12 md:mt-16 text-center">
+          <div className="inline-block bg-white/5 border border-white/10 rounded-2xl px-8 py-8 md:px-12 md:py-10">
+            <div className="flex items-center justify-center mb-3">
+              <div className="w-12 h-12 rounded-full bg-[#E52222]/20 flex items-center justify-center">
+                <AlertCircle className="h-5 w-5 text-[#E52222]" />
+              </div>
+            </div>
+            <h3 className="text-white text-lg md:text-xl font-bold mb-2">
+              {t("faq.cta.title")}
+            </h3>
+            <p className="text-white/50 text-sm mb-5 max-w-sm mx-auto">
+              {t("faq.cta.desc")}
+            </p>
+            <a href="/contact">
+              <Button className="bg-[#E52222] text-white font-semibold rounded-full hover:bg-[#C91C1C] px-8 h-11 text-sm">
+                {t("faq.cta.btn")} <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -970,9 +1047,12 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "FAQPage",
             mainEntity: [
-              { "@type": "Question", name: "Apakah GetMova benar-benar gratis?", acceptedAnswer: { "@type": "Answer", text: "Ya, GetMova 100% gratis tanpa biaya tersembunyi. Kamu bisa download video sepuasnya tanpa perlu mendaftar atau membayar apapun." } },
-              { "@type": "Question", name: "Apakah ada batasan jumlah download?", acceptedAnswer: { "@type": "Answer", text: "Tidak ada batasan! Kamu bisa mendownload video sebanyak yang kamu mau tanpa batas harian atau bulanan." } },
-              { "@type": "Question", name: "Apakah GetMova aman digunakan?", acceptedAnswer: { "@type": "Answer", text: "Sangat aman! Kami tidak menyimpan data pribadi atau riwayat download kamu. Semua proses dilakukan secara aman." } },
+              { "@type": "Question", name: "Apakah GetMova benar-benar gratis?", acceptedAnswer: { "@type": "Answer", text: "Ya, GetMova 100% gratis tanpa biaya tersembunyi. Kamu bisa download video sepuasnya tanpa perlu mendaftar atau membayar apapun. Semua fitur bisa kamu gunakan secara penuh tanpa batasan." } },
+              { "@type": "Question", name: "Apakah ada batasan jumlah download?", acceptedAnswer: { "@type": "Answer", text: "Tidak ada batasan! Kamu bisa mendownload video sebanyak yang kamu mau tanpa batas harian atau bulanan. Download sepuasnya kapan saja dan di mana saja." } },
+              { "@type": "Question", name: "Di mana video yang didownload disimpan?", acceptedAnswer: { "@type": "Answer", text: "Video akan otomatis tersimpan di folder download perangkatmu, baik di HP maupun komputer." } },
+              { "@type": "Question", name: "Platform apa saja yang didukung?", acceptedAnswer: { "@type": "Answer", text: "GetMova mendukung berbagai platform populer seperti TikTok, Instagram, Facebook, Twitter/X, Pinterest, dan Reddit." } },
+              { "@type": "Question", name: "Apakah video yang didownload bebas watermark?", acceptedAnswer: { "@type": "Answer", text: "Ya! Semua video yang didownload melalui GetMova bebas watermark. Kamu akan mendapatkan video asli tanpa logo atau tanda air yang mengganggu." } },
+              { "@type": "Question", name: "Apakah GetMova aman digunakan?", acceptedAnswer: { "@type": "Answer", text: "Sangat aman! Kami tidak menyimpan data pribadi atau riwayat download kamu. Semua proses dilakukan secara aman dengan enkripsi." } },
             ]
           })}} />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
