@@ -951,30 +951,6 @@ function Footer() {
 }
 
 /* ══════════════════════════════════════════════════
-   MOBILE BOTTOM NAV
-   ══════════════════════════════════════════════════ */
-function MobileBottomNav() {
-  return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white dark:bg-[#1A1A1A] border-t border-gray-100 dark:border-white/10">
-      <div className="flex items-center justify-around px-2 py-2">
-        {[
-          { icon: Download, label: "Download", href: "#hero", highlight: true },
-          { icon: Bookmark, label: "Saved", href: "#hero", highlight: false },
-          { icon: Shield, label: "FAQ", href: "#faq", highlight: false },
-        ].map(item => (
-          <a key={item.label} href={item.href} className={`flex flex-col items-center gap-0.5 py-1 px-6 rounded-lg transition-colors ${item.highlight ? "text-[#E52222]" : "text-gray-400 dark:text-gray-500"}`}>
-            {item.highlight && <div className="w-1 h-1 rounded-full bg-[#E52222]" />}
-            <item.icon className="h-4 w-4" />
-            <span className="text-[9px] font-medium">{item.label}</span>
-          </a>
-        ))}
-      </div>
-      <div className="h-[env(safe-area-inset-bottom,0px)]" />
-    </nav>
-  );
-}
-
-/* ══════════════════════════════════════════════════
    MAIN PAGE
    ══════════════════════════════════════════════════ */
 export default function Home() {
@@ -982,7 +958,7 @@ export default function Home() {
     <LanguageProvider>
       <div className="min-h-screen flex flex-col bg-background">
         <Navbar />
-        <main className="flex-1 pb-14 md:pb-0">
+        <main className="flex-1">
           <HeroSection />
           <FreeDownloaderSection />
           <HowToUseSection />
@@ -1011,7 +987,6 @@ export default function Home() {
           })}} />
         </main>
         <Footer />
-        <MobileBottomNav />
       </div>
     </LanguageProvider>
   );
