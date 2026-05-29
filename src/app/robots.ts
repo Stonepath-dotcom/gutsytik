@@ -10,9 +10,23 @@ export default function robots(): MetadataRoute.Robots {
           "/api/",
           "/youtube-downloader",
           "/youtube-mp3",
+          "/youtube-mp3/",
+          "/*?q=*",
+          "/telegram-downloader",
+        ],
+      },
+      {
+        userAgent: "Googlebot",
+        allow: "/",
+        disallow: [
+          "/api/",
+          "/youtube-downloader",
+          "/youtube-mp3",
+          "/youtube-mp3/",
         ],
       },
     ],
     sitemap: "https://getmova.my.id/sitemap.xml",
+    host: "https://getmova.my.id",
   };
 }

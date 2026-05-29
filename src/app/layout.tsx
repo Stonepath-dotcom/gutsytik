@@ -109,10 +109,18 @@ export default function RootLayout({
     <html lang="id" suppressHydrationWarning>
       <head>
         <link rel="alternate" hrefLang="id" href="https://getmova.my.id" />
+        <link rel="alternate" hrefLang="en" href="https://getmova.my.id/?lang=en" />
         <link rel="alternate" hrefLang="x-default" href="https://getmova.my.id" />
         <link rel="alternate" type="application/rss+xml" title="GetMova Blog" href="https://getmova.my.id/feed.xml" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+        {/* Preconnect for Core Web Vitals */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
 
         {/* Google Analytics 4 */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-C72K54R633" />
@@ -204,6 +212,150 @@ export default function RootLayout({
                   urlTemplate: "https://getmova.my.id/?q={search_term_string}",
                 },
                 "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
+
+        {/* FAQPage Schema - Google Rich Results */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "Apakah GetMova benar-benar gratis?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Ya, GetMova 100% gratis tanpa biaya tersembunyi. Kamu bisa download video sepuasnya tanpa perlu mendaftar atau membayar apapun. Semua fitur bisa kamu gunakan secara penuh tanpa batasan.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Apakah ada batasan jumlah download?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Tidak ada batasan! Kamu bisa mendownload video sebanyak yang kamu mau tanpa batas harian atau bulanan. Download sepuasnya kapan saja dan di mana saja.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Di mana video yang didownload disimpan?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Video akan otomatis tersimpan di folder download perangkatmu, baik di HP maupun komputer. Kalau di HP biasanya ada di folder Download, kalau di komputer ada di folder Downloads.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Platform apa saja yang didukung?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "GetMova mendukung berbagai platform populer seperti TikTok, Instagram, Facebook, Twitter/X, Pinterest, dan Reddit. Kami terus menambahkan platform baru secara berkala.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Apakah video yang didownload bebas watermark?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Ya! Semua video yang didownload melalui GetMova bebas watermark. Kamu akan mendapatkan video asli tanpa logo atau tanda air yang mengganggu.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Apakah GetMova aman digunakan?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Sangat aman! Kami tidak menyimpan data pribadi atau riwayat download kamu. Semua proses dilakukan secara aman dengan enkripsi. Privasi kamu adalah prioritas kami.",
+                  },
+                },
+              ],
+            }),
+          }}
+        />
+
+        {/* HowTo Schema - Rich Results for "cara download video" */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "HowTo",
+              name: "Cara Download Video Tanpa Watermark dengan GetMova",
+              description: "Panduan langkah demi langkah cara download video tanpa watermark dari TikTok, Instagram, Facebook, Twitter/X, Pinterest, dan Reddit menggunakan GetMova.",
+              totalTime: "PT2M",
+              image: {
+                "@type": "ImageObject",
+                url: "https://getmova.my.id/og-image.png",
+                width: 1344,
+                height: 768,
+              },
+              step: [
+                {
+                  "@type": "HowToStep",
+                  position: 1,
+                  name: "Cari Video",
+                  text: "Temukan video yang kamu inginkan dari platform yang tersedia (TikTok, Instagram, Facebook, Twitter/X, Pinterest, atau Reddit) dan salin link-nya.",
+                },
+                {
+                  "@type": "HowToStep",
+                  position: 2,
+                  name: "Tempel Link",
+                  text: "Tempel link yang sudah disalin di kolom input di halaman GetMova lalu klik tombol Download. Sistem akan otomatis menganalisis video.",
+                },
+                {
+                  "@type": "HowToStep",
+                  position: 3,
+                  name: "Download Video",
+                  text: "Pilih kualitas yang diinginkan (360p, 480p, 720p, 1080p, atau 4K) dan klik tombol download untuk menyimpan video ke perangkatmu.",
+                },
+              ],
+            }),
+          }}
+        />
+
+        {/* BreadcrumbList Schema - Homepage */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://getmova.my.id",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Download Video Tanpa Watermark",
+                  item: "https://getmova.my.id",
+                },
+              ],
+            }),
+          }}
+        />
+
+        {/* Speakable Specification - Voice Search Optimization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              name: "GetMova - Download Video Tanpa Watermark",
+              description: "Download video tanpa watermark dari TikTok, Instagram, Facebook, Twitter/X, Pinterest, Reddit dan platform populer lainnya. Gratis, cepat, dan mudah.",
+              url: "https://getmova.my.id",
+              speakable: {
+                "@type": "SpeakableSpecification",
+                cssSelector: [".hero-title", ".hero-subtitle", ".faq-section"],
               },
             }),
           }}

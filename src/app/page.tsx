@@ -747,10 +747,10 @@ function HeroSection() {
 
       <div className="relative z-10 mx-auto max-w-4xl flex flex-col items-center text-center">
         {/* FEATURE 11: Gradient text on "Downloader" */}
-        <h1 className="text-[28px] sm:text-[36px] md:text-[48px] font-extrabold text-[#333333] dark:text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight">
+        <h1 className="hero-title text-[28px] sm:text-[36px] md:text-[48px] font-extrabold text-[#333333] dark:text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight">
           {t("hero.small")} <span className="animated-gradient">{t("hero.big")}</span>
         </h1>
-        <p className="text-[#666666] dark:text-gray-400 text-sm max-w-lg leading-relaxed mb-6 md:mb-8">{t("hero.subtitle")}</p>
+        <p className="hero-subtitle text-[#666666] dark:text-gray-400 text-sm max-w-lg leading-relaxed mb-6 md:mb-8">{t("hero.subtitle")}</p>
 
         {/* Input area with drag-drop, auto-paste, history button */}
         <div className="w-full max-w-xl relative">
@@ -1245,7 +1245,7 @@ function FAQSection() {
     : faqItems;
 
   return (
-    <section id="faq" ref={revealRef} className="section-reveal relative py-16 md:py-24 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] overflow-hidden">
+    <section id="faq" ref={revealRef} className="faq-section section-reveal relative py-16 md:py-24 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] overflow-hidden">
       <div className="absolute top-[-80px] right-[-80px] w-[200px] h-[200px] rounded-full bg-[#E52222]/5 pointer-events-none" />
       <div className="absolute bottom-[-60px] left-[-60px] w-[160px] h-[160px] rounded-full bg-[#E52222]/5 pointer-events-none" />
       <div className="relative mx-auto max-w-6xl">

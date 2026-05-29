@@ -4,17 +4,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://getmova.my.id";
   const now = new Date().toISOString();
 
-  // Platform landing pages (NO YouTube - removed)
+  // Platform landing pages (NO YouTube)
   const platforms = [
-    { slug: "tiktok-downloader", priority: 0.9 },
-    { slug: "instagram-downloader", priority: 0.9 },
-    { slug: "facebook-downloader", priority: 0.8 },
-    { slug: "twitter-downloader", priority: 0.8 },
-    { slug: "pinterest-downloader", priority: 0.7 },
-    { slug: "reddit-downloader", priority: 0.7 },
+    { slug: "tiktok-downloader", priority: 0.9, changefreq: "weekly" as const },
+    { slug: "instagram-downloader", priority: 0.9, changefreq: "weekly" as const },
+    { slug: "facebook-downloader", priority: 0.8, changefreq: "weekly" as const },
+    { slug: "twitter-downloader", priority: 0.8, changefreq: "weekly" as const },
+    { slug: "pinterest-downloader", priority: 0.7, changefreq: "monthly" as const },
+    { slug: "reddit-downloader", priority: 0.7, changefreq: "monthly" as const },
   ];
 
-  // Blog articles with realistic dates
+  // Blog articles (NO YouTube-related articles)
   const blogs: { slug: string; date: string }[] = [
     { slug: "cara-download-video-tiktok-tanpa-watermark", date: "2025-05-10" },
     { slug: "cara-download-video-instagram-reels", date: "2025-05-11" },
@@ -60,8 +60,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const platformEntries: MetadataRoute.Sitemap = platforms.map((p) => ({
     url: `${baseUrl}/${p.slug}`,
     lastModified: now,
-    changeFrequency: "weekly" as const,
+    changeFrequency: p.changefreq,
     priority: p.priority,
+    images: [`${baseUrl}/og-image.png`],
   }));
 
   const blogEntries: MetadataRoute.Sitemap = blogs.map((b) => ({
@@ -84,6 +85,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "daily",
       priority: 1,
+      images: [`${baseUrl}/og-image.png`, `${baseUrl}/hero-people.png`],
     },
     ...platformEntries,
     ...blogEntries,
