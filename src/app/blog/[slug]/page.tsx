@@ -36,6 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       siteName: "getmova",
       type: "article",
       publishedTime: post.dateISO,
+      modifiedTime: post.lastUpdatedISO || post.dateISO,
       authors: ["GetMova"],
     },
     twitter: {
@@ -63,7 +64,7 @@ export default async function AutoBlogArticlePage({ params }: PageProps) {
     headline: post.title,
     description: post.description,
     datePublished: post.dateISO,
-    dateModified: post.dateISO,
+    dateModified: post.lastUpdatedISO || post.dateISO,
     author: { "@type": "Organization", name: "getmova" },
     publisher: {
       "@type": "Organization",
@@ -103,6 +104,7 @@ export default async function AutoBlogArticlePage({ params }: PageProps) {
         jsonLd={articleJsonLd}
         relatedArticles={post.relatedArticles}
         headings={post.headings}
+        lastUpdated={post.lastUpdated}
       >
         <div dangerouslySetInnerHTML={{ __html: post.content }} />
       </BlogArticleLayout>

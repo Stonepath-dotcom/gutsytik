@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// This endpoint is called by Vercel Cron to auto-generate blog posts
+/**
+ * Vercel Cron endpoint - Runs daily at 6am WIB
+ * 
+ * Schedule:
+ * - Mon/Wed/Fri/Sun: Generate NEW blog post
+ * - Tue/Thu/Sat: Refresh EXISTING old blog post
+ * 
+ * This keeps the content fresh AND growing!
+ */
 export async function GET(req: NextRequest) {
   try {
     // Verify cron secret (optional security)
@@ -9,26 +17,59 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Call the generate endpoint internally
     const baseUrl = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
-      : `http://localhost:${process.env.PORT || 3000}`;
+      : "https://getmova.my.id";
 
-    const response = await fetch(`${baseUrl}/api/blog/generate`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}),
-    });
+    // Determine the day of week (0=Sun, 1=Mon, ...6=Sat)
+    const dayOfWeek = new Date().getDay();
+    const isGenerateDay = [0, 1, 3, 5].includes(dayOfWeek); // Sun, Mon, Wed, Fri
+    const isRefreshDay = [2, 4, 6].includes(dayOfWeek); // Tue, Thu, Sat
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      return NextResponse.json(
-        { error: "Generation failed", details: errorData },
-        { status: 500 }
-      );
+    let result: any = {};
+
+    if (isGenerateDay) {
+      // Generate NEW blog post
+      const response = await fetch(`${baseUrl}/api/blog/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        return NextResponse.json(
+          { error: "Generation failed", details: errorData },
+          { status: 500 }
+        );
+      }
+
+      result = await response.json();
+      result.action = "generated";
+    } else if (isRefreshDay) {
+      // Refresh EXISTING old blog post
+      const response = await fetch(`${baseUrl}/api/blog/refresh`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ force: false }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        // If no posts to refresh, try generating instead
+        const genResponse = await fetch(`${baseUrl}/api/blog/generate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({}),
+        });
+        result = genResponse.ok 
+          ? { ...(await genResponse.json()), action: "generated (fallback)" }
+          : { error: "Both refresh and generate failed" };
+      } else {
+        result = await response.json();
+        result.action = "refreshed";
+      }
     }
-
-    const result = await response.json();
 
     // Optionally trigger Vercel redeployment via Deploy Hook
     if (process.env.VERCEL_DEPLOY_HOOK_URL) {
@@ -41,11 +82,12 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      generated: result.post,
-      message: "New blog post auto-generated successfully",
+      dayOfWeek: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayOfWeek],
+      result,
+      message: `Cron job completed - ${result.action || "no action"}`,
     });
   } catch (error: any) {
-    console.error("Cron blog generation error:", error);
+    console.error("Cron blog error:", error);
     return NextResponse.json(
       { error: "Cron job failed", details: error.message },
       { status: 500 }

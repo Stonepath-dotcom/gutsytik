@@ -16,6 +16,10 @@ export interface AutoBlogPost {
   relatedArticles: { slug: string; title: string; description: string }[];
   faqJsonLd: object;
   howToJsonLd: object;
+  lastUpdated?: string;
+  lastUpdatedISO?: string;
+  socialPosted?: boolean;
+  indexedAt?: string;
 }
 
 interface AutoBlogData {
@@ -90,3 +94,69 @@ export const blogIcons = [
   "🎬", "📱", "💾", "🔍", "⚡", "🎯", "🚀", "💡", "📊", "🔧",
   "🎵", "📸", "📺", "🎧", "🌐", "📌", "💬", "🔴", "📘", "✨",
 ];
+
+/**
+ * Auto Internal Linking - Add internal links to content
+ * Scans content for relevant keywords and adds links to other blog posts
+ */
+export function addInternalLinks(content: string, allPosts: AutoBlogPost[]): string {
+  let enhancedContent = content;
+
+  // Define keyword-to-slug mappings for internal linking
+  const linkMap: { keywords: string[]; url: string; anchor: string }[] = [
+    { keywords: ["tiktok", "download tiktok"], url: "/tiktok-downloader", anchor: "TikTok Downloader" },
+    { keywords: ["instagram", "reels", "ig tv"], url: "/instagram-downloader", anchor: "Instagram Downloader" },
+    { keywords: ["facebook", "fb"], url: "/facebook-downloader", anchor: "Facebook Downloader" },
+    { keywords: ["twitter", "twitter/x", "tweet"], url: "/twitter-downloader", anchor: "Twitter/X Downloader" },
+    { keywords: ["pinterest", "pin"], url: "/pinterest-downloader", anchor: "Pinterest Downloader" },
+    { keywords: ["reddit"], url: "/reddit-downloader", anchor: "Reddit Downloader" },
+    { keywords: ["telegram", "tele"], url: "/telegram-downloader", anchor: "Telegram Downloader" },
+    { keywords: ["youtube", "yt"], url: "/youtube-downloader", anchor: "YouTube Downloader" },
+    { keywords: ["mp3", "audio", "konversi audio"], url: "/youtube-mp3", anchor: "YouTube MP3" },
+    { keywords: ["watermark", "tanpa watermark"], url: "/blog/download-video-tanpa-watermark-gratis", anchor: "download video tanpa watermark" },
+    { keywords: ["aman", "keamanan", "virus"], url: "/blog/tips-aman-download-video-online", anchor: "tips aman download video" },
+  ];
+
+  // Add links from other auto-generated posts too
+  for (const post of allPosts) {
+    // Extract main keyword from title (first 2-3 words)
+    const mainWords = post.title
+      .toLowerCase()
+      .replace(/[^a-z\s]/g, "")
+      .split(/\s+/)
+      .filter((w) => w.length > 3 && !["cara", "dari", "dengan", "yang", "untuk", "dan", "tanpa"].includes(w))
+      .slice(0, 2);
+
+    if (mainWords.length >= 2) {
+      linkMap.push({
+        keywords: [mainWords.join(" ")],
+        url: `/blog/${post.slug}`,
+        anchor: post.title.length > 40 ? post.title.substring(0, 40) + "..." : post.title,
+      });
+    }
+  }
+
+  // Only add max 3 internal links per article to avoid over-optimization
+  let linksAdded = 0;
+  const maxLinks = 3;
+
+  for (const link of linkMap) {
+    if (linksAdded >= maxLinks) break;
+    if (enhancedContent.includes(link.url)) continue; // Already linked
+
+    for (const keyword of link.keywords) {
+      if (linksAdded >= maxLinks) break;
+
+      // Find the first occurrence of the keyword that isn't already inside an <a> tag
+      const regex = new RegExp(`(?<!<a[^>]*>[^<]*)\\b(${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\b(?![^<]*<\\/a>)`, "i");
+
+      if (regex.test(enhancedContent)) {
+        enhancedContent = enhancedContent.replace(regex, `<a href="${link.url}">$1</a>`);
+        linksAdded++;
+        break; // Move to next link
+      }
+    }
+  }
+
+  return enhancedContent;
+};

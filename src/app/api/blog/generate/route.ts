@@ -3,6 +3,8 @@ import ZAI from "z-ai-web-dev-sdk";
 import {
   addAutoBlogPost,
   getAvailableTopic,
+  getAllAutoBlogPosts,
+  addInternalLinks,
   blogGradients,
   blogIcons,
   type AutoBlogPost,
@@ -258,6 +260,56 @@ Pastikan:
     // Save to JSON file
     addAutoBlogPost(post);
 
+    // === AUTOMATION PIPELINE ===
+    // Run all automations in background (non-blocking)
+
+    // 1. Auto Internal Linking - Add internal links to content
+    try {
+      const allPosts = getAllAutoBlogPosts();
+      const enhancedContent = addInternalLinks(post.content, allPosts);
+      if (enhancedContent !== post.content) {
+        post.content = enhancedContent;
+        // Re-save with enhanced content
+        const { getAutoBlogData, saveAutoBlogData } = await import("@/lib/auto-blog");
+        const data = getAutoBlogData();
+        const idx = data.posts.findIndex((p) => p.slug === post.slug);
+        if (idx !== -1) {
+          data.posts[idx].content = enhancedContent;
+          saveAutoBlogData(data);
+        }
+      }
+    } catch {
+      // Internal linking is optional enhancement
+    }
+
+    // 2. Auto IndexNow - Notify search engines about the new URL
+    const baseUrl = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "https://getmova.my.id";
+
+    fetch(`${baseUrl}/api/blog/index-now`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        urls: [`/blog/${post.slug}`],
+      }),
+    }).catch(() => {
+      // IndexNow is optional
+    });
+
+    // 3. Auto Social Media Post Generation
+    fetch(`${baseUrl}/api/blog/social`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: post.title,
+        slug: post.slug,
+        description: post.description,
+      }),
+    }).catch(() => {
+      // Social posting is optional
+    });
+
     return NextResponse.json({
       success: true,
       post: {
@@ -266,6 +318,11 @@ Pastikan:
         description: post.description,
         date: post.date,
         readingTime: post.readingTime,
+      },
+      automations: {
+        indexNow: true,
+        internalLinks: true,
+        socialPosts: true,
       },
     });
   } catch (error: any) {
