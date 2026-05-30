@@ -8,9 +8,9 @@ import {
 import { Button } from "@/components/ui/button";
 
 interface PhotoCarouselProps {
-  /** Original CDN image URLs — used directly for display */
+  /** Raw CDN image URLs — used as input for the proxy, NOT loaded directly */
   images: string[];
-  /** Proxy URLs for downloading — not used for display */
+  /** Proxy URLs for downloading (e.g., /api/proxy?...&quality=photo) */
   originalImages?: string[];
   imageCount?: number;
   filename: string;
@@ -38,58 +38,86 @@ export function PhotoCarousel({
   accent = "#10B981",
 }: PhotoCarouselProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [imageLoading, setImageLoading] = useState(true);
-  const [imageError, setImageError] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const [downloadingPhoto, setDownloadingPhoto] = useState(false);
   const [downloadingAll, setDownloadingAll] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const total = images.length;
 
-  // Fallback blob URLs: only created if direct CDN URL fails to load
-  const [fallbackUrls, setFallbackUrls] = useState<(string | null)[]>(() => images.map(() => null));
-  const triedFallbackRef = useRef<Set<number>>(new Set());
+  // Blob URLs for proxied images — we ALWAYS load through proxy because
+  // TikTok CDN requires proper Referer headers that browsers don't send.
+  const [blobUrls, setBlobUrls] = useState<(string | null)[]>(() => images.map(() => null));
+  const [loadingStates, setLoadingStates] = useState<boolean[]>(() => images.map(() => true));
+  const [errorStates, setErrorStates] = useState<boolean[]>(() => images.map(() => false));
+  const loadedRef = useRef<Set<number>>(new Set());
 
-  // Try loading image via /api/photo-preview proxy when direct CDN fails
-  const loadFallbackImage = useCallback(async (idx: number) => {
-    if (triedFallbackRef.current.has(idx) || fallbackUrls[idx]) return;
+  // Load image through proxy and create blob URL
+  const loadImage = useCallback(async (idx: number) => {
+    if (loadedRef.current.has(idx)) return;
+    loadedRef.current.add(idx);
 
-    triedFallbackRef.current.add(idx);
-    const originalUrl = originalImages?.[idx] || images[idx];
+    const cdnUrl = images[idx];
+    if (!cdnUrl) return;
 
+    setLoadingStates(prev => { const n = [...prev]; n[idx] = true; return n; });
+    setErrorStates(prev => { const n = [...prev]; n[idx] = false; return n; });
+
+    // Strategy 1: Try /api/photo-preview proxy (POST with CDN URL)
     try {
       const res = await fetch("/api/photo-preview", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: originalUrl }),
+        body: JSON.stringify({ url: cdnUrl }),
       });
-
       if (res.ok) {
         const blob = await res.blob();
         if (blob.size > 500) {
           const url = URL.createObjectURL(blob);
-          setFallbackUrls(prev => {
-            const next = [...prev];
-            next[idx] = url;
-            return next;
-          });
+          setBlobUrls(prev => { const n = [...prev]; n[idx] = url; return n; });
+          setLoadingStates(prev => { const n = [...prev]; n[idx] = false; return n; });
           return;
         }
       }
     } catch {}
-    // If fallback also fails, nothing more we can do
-  }, [images, originalImages, fallbackUrls]);
 
-  // Reset loading state when index changes
+    // Strategy 2: Try /api/proxy with quality=photo (GET)
+    if (originalImages?.[idx]) {
+      try {
+        const res = await fetch(originalImages[idx]);
+        if (res.ok) {
+          const blob = await res.blob();
+          if (blob.size > 500) {
+            const url = URL.createObjectURL(blob);
+            setBlobUrls(prev => { const n = [...prev]; n[idx] = url; return n; });
+            setLoadingStates(prev => { const n = [...prev]; n[idx] = false; return n; });
+            return;
+          }
+        }
+      } catch {}
+    }
+
+    // Strategy 3: Try direct CDN URL as <img> src (might work if CSP allows and CDN doesn't block)
+    // We set the blobUrl to the CDN URL directly — the <img> tag will try to load it
+    setBlobUrls(prev => { const n = [...prev]; n[idx] = cdnUrl; return n; });
+    setLoadingStates(prev => { const n = [...prev]; n[idx] = false; return n; });
+  }, [images, originalImages]);
+
+  // Load current + adjacent images when currentIdx changes
   useEffect(() => {
-    setImageLoading(true);
-    setImageError(false);
-  }, [currentIdx]);
+    const toLoad = [currentIdx];
+    if (currentIdx > 0) toLoad.push(currentIdx - 1);
+    if (currentIdx < total - 1) toLoad.push(currentIdx + 1);
+    toLoad.forEach(idx => {
+      if (!loadedRef.current.has(idx) && !errorStates[idx]) {
+        loadImage(idx);
+      }
+    });
+  }, [currentIdx, total, loadImage, errorStates]);
 
   // Cleanup blob URLs on unmount
   useEffect(() => {
     return () => {
-      fallbackUrls.forEach(url => {
+      blobUrls.forEach(url => {
         if (url && url.startsWith("blob:")) URL.revokeObjectURL(url);
       });
     };
@@ -133,38 +161,15 @@ export function PhotoCarousel({
     touchStartX.current = null;
   };
 
-  // Download a single photo — use proxy URL (originalImages) for reliable download
+  const handleImgError = useCallback((idx: number) => {
+    setErrorStates(prev => { const n = [...prev]; n[idx] = true; return n; });
+  }, []);
+
+  // Download a single photo
   const handleDownloadPhoto = useCallback(async () => {
     setDownloadingPhoto(true);
-    // originalImages contains proxy URLs like /api/proxy?...&quality=photo
-    // images contains raw CDN URLs
-    const proxyDownloadUrl = originalImages?.[currentIdx];
 
-    try {
-      // Try the proxy URL directly (already contains /api/proxy?...)
-      if (proxyDownloadUrl) {
-        const res = await fetch(proxyDownloadUrl);
-        if (res.ok) {
-          const blob = await res.blob();
-          if (blob.size > 500) {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${filename}_foto_${currentIdx + 1}.jpg`;
-            a.style.display = "none";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            setTimeout(() => URL.revokeObjectURL(url), 10000);
-            onToast("Foto diunduh!", `Foto ${currentIdx + 1} berhasil diunduh.`);
-            setDownloadingPhoto(false);
-            return;
-          }
-        }
-      }
-    } catch {}
-
-    // Fallback: try photo-preview endpoint with raw CDN URL
+    // Strategy 1: Try /api/photo-preview with CDN URL
     try {
       const res = await fetch("/api/photo-preview", {
         method: "POST",
@@ -190,32 +195,74 @@ export function PhotoCarousel({
       }
     } catch {}
 
+    // Strategy 2: Try proxy URL (originalImages)
+    const proxyDownloadUrl = originalImages?.[currentIdx];
+    if (proxyDownloadUrl) {
+      try {
+        const res = await fetch(proxyDownloadUrl);
+        if (res.ok) {
+          const blob = await res.blob();
+          if (blob.size > 500) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${filename}_foto_${currentIdx + 1}.jpg`;
+            a.style.display = "none";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 10000);
+            onToast("Foto diunduh!", `Foto ${currentIdx + 1} berhasil diunduh.`);
+            setDownloadingPhoto(false);
+            return;
+          }
+        }
+      } catch {}
+    }
+
+    // Strategy 3: Use existing blob URL if available
+    if (blobUrls[currentIdx] && blobUrls[currentIdx]!.startsWith("blob:")) {
+      try {
+        const a = document.createElement("a");
+        a.href = blobUrls[currentIdx]!;
+        a.download = `${filename}_foto_${currentIdx + 1}.jpg`;
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        onToast("Foto diunduh!", `Foto ${currentIdx + 1} berhasil diunduh.`);
+        setDownloadingPhoto(false);
+        return;
+      } catch {}
+    }
+
     // Last fallback: open CDN URL in new tab
     window.open(images[currentIdx], "_blank");
     onToast("Mengunduh...", "Foto dibuka di tab baru.");
     setDownloadingPhoto(false);
-  }, [currentIdx, filename, images, originalImages, onToast]);
+  }, [currentIdx, filename, images, originalImages, blobUrls, onToast]);
 
   const handleDownloadAll = useCallback(async () => {
     setDownloadingAll(true);
     for (let i = 0; i < images.length; i++) {
       try {
-        const proxyDownloadUrl = originalImages?.[i];
-        if (proxyDownloadUrl) {
-          const res = await fetch(proxyDownloadUrl);
-          if (res.ok) {
-            const blob = await res.blob();
-            if (blob.size > 500) {
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.href = url;
-              a.download = `${filename}_foto_${i + 1}.jpg`;
-              a.style.display = "none";
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-              setTimeout(() => URL.revokeObjectURL(url), 5000);
-            }
+        const res = await fetch("/api/photo-preview", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: images[i] }),
+        });
+        if (res.ok) {
+          const blob = await res.blob();
+          if (blob.size > 500) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${filename}_foto_${i + 1}.jpg`;
+            a.style.display = "none";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 5000);
           }
         }
       } catch {}
@@ -223,15 +270,19 @@ export function PhotoCarousel({
     }
     setDownloadingAll(false);
     onToast("Semua foto diunduh!", `${total} foto berhasil diunduh.`);
-  }, [images, originalImages, filename, total, onToast]);
+  }, [images, filename, total, onToast]);
 
-  // Get the best URL for display: fallback blob > original CDN URL
-  const getDisplayUrl = (idx: number): string | null => {
-    if (fallbackUrls[idx]) return fallbackUrls[idx];
-    return images[idx] || null;
-  };
+  // Retry loading an image
+  const handleRetry = useCallback((idx: number) => {
+    loadedRef.current.delete(idx);
+    setErrorStates(prev => { const n = [...prev]; n[idx] = false; return n; });
+    setLoadingStates(prev => { const n = [...prev]; n[idx] = true; return n; });
+    loadImage(idx);
+  }, [loadImage]);
 
-  const currentDisplayUrl = getDisplayUrl(currentIdx);
+  const currentBlobUrl = blobUrls[currentIdx];
+  const currentLoading = loadingStates[currentIdx];
+  const currentError = errorStates[currentIdx];
 
   return (
     <>
@@ -244,52 +295,39 @@ export function PhotoCarousel({
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Loading */}
-          {imageLoading && !imageError && (
+          {/* Loading spinner */}
+          {currentLoading && !currentError && (
             <div className="absolute inset-0 flex items-center justify-center z-20">
               <Loader2 className="h-8 w-8 animate-spin text-muted-foreground opacity-50" />
             </div>
           )}
 
           {/* Error state */}
-          {imageError ? (
+          {currentError ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground gap-2">
               <ImageIcon className="h-10 w-10 opacity-40" />
               <p className="text-xs">Gagal memuat gambar</p>
               <button
-                onClick={() => {
-                  setImageError(false);
-                  setImageLoading(true);
-                  loadFallbackImage(currentIdx);
-                }}
+                onClick={() => handleRetry(currentIdx)}
                 className="text-xs underline hover:text-foreground transition-colors"
               >
                 Coba lagi
               </button>
             </div>
-          ) : currentDisplayUrl ? (
+          ) : currentBlobUrl ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
-              src={currentDisplayUrl}
+              src={currentBlobUrl}
               alt={`Foto ${currentIdx + 1}`}
               className="w-full h-full object-contain transition-opacity duration-300"
-              style={{ opacity: imageLoading ? 0 : 1 }}
-              onLoad={() => setImageLoading(false)}
-              onError={() => {
-                // Direct CDN URL failed — try fallback proxy
-                if (!triedFallbackRef.current.has(currentIdx)) {
-                  setImageLoading(true);
-                  loadFallbackImage(currentIdx);
-                } else {
-                  setImageLoading(false);
-                  setImageError(true);
-                }
-              }}
+              style={{ opacity: currentLoading ? 0 : 1 }}
+              onLoad={() => setLoadingStates(prev => { const n = [...prev]; n[currentIdx] = false; return n; })}
+              onError={() => handleImgError(currentIdx)}
             />
           ) : null}
 
           {/* Fullscreen button */}
-          {currentDisplayUrl && !imageError && (
+          {currentBlobUrl && !currentError && (
             <button
               onClick={() => setFullscreen(true)}
               className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-colors z-10"
@@ -327,7 +365,6 @@ export function PhotoCarousel({
 
         {/* ── Per-slide action bar ── */}
         <div className="mt-2">
-          {/* Download this photo */}
           <Button
             onClick={handleDownloadPhoto}
             disabled={downloadingPhoto}
@@ -361,7 +398,6 @@ export function PhotoCarousel({
 
         {/* ── Bottom section: Download All + Audio ── */}
         <div className="mt-3 pt-3 border-t border-border">
-          {/* Download all */}
           <Button
             onClick={handleDownloadAll}
             disabled={downloadingAll}
@@ -376,7 +412,6 @@ export function PhotoCarousel({
             Download Semua Foto ({total})
           </Button>
 
-          {/* Audio option */}
           {qualityOptions.length > 0 && (
             <div>
               <p className="text-xs text-muted-foreground mb-1.5 flex items-center gap-1.5">
@@ -425,7 +460,6 @@ export function PhotoCarousel({
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Top bar */}
           <div className="flex items-center justify-between px-4 py-3 shrink-0">
             <span className="text-white/70 text-sm font-medium">
               {currentIdx + 1} / {total}
@@ -438,22 +472,20 @@ export function PhotoCarousel({
             </button>
           </div>
 
-          {/* Fullscreen Image */}
           <div
             className="flex-1 relative flex items-center justify-center px-2"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            {currentDisplayUrl && (
+            {currentBlobUrl && !currentError && (
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
-                src={currentDisplayUrl}
+                src={currentBlobUrl}
                 alt={`Foto ${currentIdx + 1}`}
                 className="max-w-full max-h-full object-contain"
               />
             )}
 
-            {/* Fullscreen Nav */}
             {currentIdx > 0 && (
               <button
                 onClick={goPrev}
@@ -472,7 +504,6 @@ export function PhotoCarousel({
             )}
           </div>
 
-          {/* Fullscreen bottom: download + dots */}
           <div className="shrink-0 px-4 pb-4 pt-2">
             <Button
               onClick={handleDownloadPhoto}
@@ -483,7 +514,6 @@ export function PhotoCarousel({
               Download Foto {currentIdx + 1}
             </Button>
 
-            {/* Fullscreen dots */}
             <div className="mt-3 flex items-center justify-center gap-1.5">
               {images.map((_, idx) => (
                 <button
