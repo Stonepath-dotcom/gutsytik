@@ -3,10 +3,9 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import {
   ChevronLeft, ChevronRight, Download, Image as ImageIcon,
-  Loader2, Music, X,
+  Loader2, Music, X, ZoomIn,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
 interface PhotoCarouselProps {
   images: string[];
@@ -45,12 +44,101 @@ export function PhotoCarousel({
   const touchStartX = useRef<number | null>(null);
   const total = images.length;
 
+  // Blob URLs for image display (avoids long proxy URLs & next/image issues)
+  const [blobUrls, setBlobUrls] = useState<(string | null)[]>(() => images.map(() => null));
+  const loadedRef = useRef<Set<number>>(new Set());
+
+  // Load an image via /api/photo-preview and create a blob URL
+  const loadImage = useCallback(async (idx: number) => {
+    if (loadedRef.current.has(idx) || blobUrls[idx]) return;
+
+    const originalUrl = originalImages?.[idx] || images[idx];
+
+    try {
+      // Try POST /api/photo-preview first (avoids URL length limits)
+      const res = await fetch("/api/photo-preview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: originalUrl }),
+      });
+
+      if (res.ok) {
+        const blob = await res.blob();
+        if (blob.size > 500) {
+          const url = URL.createObjectURL(blob);
+          setBlobUrls(prev => {
+            const next = [...prev];
+            next[idx] = url;
+            return next;
+          });
+          loadedRef.current.add(idx);
+          return;
+        }
+      }
+
+      // Fallback: try direct fetch from proxy URL (images[idx] = /api/proxy?...)
+      const proxyUrl = images[idx];
+      if (proxyUrl.startsWith("/")) {
+        const res2 = await fetch(proxyUrl);
+        if (res2.ok) {
+          const blob2 = await res2.blob();
+          if (blob2.size > 500) {
+            const url2 = URL.createObjectURL(blob2);
+            setBlobUrls(prev => {
+              const next = [...prev];
+              next[idx] = url2;
+              return next;
+            });
+            loadedRef.current.add(idx);
+            return;
+          }
+        }
+      }
+
+      // Last fallback: use original URL directly
+      setBlobUrls(prev => {
+        const next = [...prev];
+        next[idx] = originalUrl;
+        return next;
+      });
+      loadedRef.current.add(idx);
+    } catch {
+      // Fallback: use original URL directly
+      setBlobUrls(prev => {
+        const next = [...prev];
+        next[idx] = originalUrl;
+        return next;
+      });
+      loadedRef.current.add(idx);
+    }
+  }, [images, originalImages, blobUrls]);
+
+  // Load current image when index changes
+  useEffect(() => {
+    setImageLoading(true);
+    setImageError(false);
+    loadImage(currentIdx);
+  }, [currentIdx, loadImage]);
+
+  // Preload next and previous images
+  useEffect(() => {
+    if (currentIdx + 1 < total) loadImage(currentIdx + 1);
+    if (currentIdx - 1 >= 0) loadImage(currentIdx - 1);
+  }, [currentIdx, total, loadImage]);
+
+  // Cleanup blob URLs on unmount
+  useEffect(() => {
+    return () => {
+      blobUrls.forEach(url => {
+        if (url && url.startsWith("blob:")) URL.revokeObjectURL(url);
+      });
+    };
+  }, []);
+
   const goTo = useCallback(
     (idx: number) => {
       if (idx < 0 || idx >= total) return;
       setCurrentIdx(idx);
-      setImageLoading(true);
-      setImageError(false);
     },
     [total]
   );
@@ -136,7 +224,8 @@ export function PhotoCarousel({
     onToast("Semua foto diunduh!", `${total} foto berhasil diunduh.`);
   }, [images, filename, total, onToast]);
 
-  const currentImgUrl = images[currentIdx];
+  const currentBlobUrl = blobUrls[currentIdx];
+  const isLoaded = !!currentBlobUrl;
 
   return (
     <>
@@ -149,47 +238,47 @@ export function PhotoCarousel({
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
+          {/* Loading */}
+          {imageLoading && !imageError && (
+            <div className="absolute inset-0 flex items-center justify-center z-20">
+              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground opacity-50" />
+            </div>
+          )}
+
           {/* Error state */}
           {imageError ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground gap-2">
               <ImageIcon className="h-10 w-10 opacity-40" />
               <p className="text-xs">Gagal memuat gambar</p>
               <button
-                onClick={() => { setImageError(false); setImageLoading(true); }}
+                onClick={() => { setImageError(false); setImageLoading(true); loadImage(currentIdx); }}
                 className="text-xs underline hover:text-foreground transition-colors"
               >
                 Coba lagi
               </button>
             </div>
-          ) : (
-            <Image
-              src={currentImgUrl}
+          ) : isLoaded ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              src={currentBlobUrl}
               alt={`Foto ${currentIdx + 1}`}
-              fill
-              className={`object-contain transition-opacity duration-300 ${
-                imageLoading ? "opacity-0" : "opacity-100"
-              }`}
-              unoptimized
+              className="w-full h-full object-contain transition-opacity duration-300"
+              style={{ opacity: imageLoading ? 0 : 1 }}
               onLoad={() => setImageLoading(false)}
               onError={() => { setImageLoading(false); setImageError(true); }}
             />
-          )}
-
-          {/* Loading */}
-          {imageLoading && !imageError && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground opacity-50" />
-            </div>
-          )}
+          ) : null}
 
           {/* Fullscreen button */}
-          <button
-            onClick={() => setFullscreen(true)}
-            className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-colors z-10"
-            title="Perbesar"
-          >
-            <ImageIcon className="h-4 w-4" />
-          </button>
+          {isLoaded && !imageError && (
+            <button
+              onClick={() => setFullscreen(true)}
+              className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-colors z-10"
+              title="Perbesar"
+            >
+              <ZoomIn className="h-4 w-4" />
+            </button>
+          )}
 
           {/* Photo number badge */}
           <span className="absolute top-2 left-2 bg-black/50 backdrop-blur-sm text-white text-[11px] font-bold px-2 py-1 rounded-lg z-10">
@@ -336,14 +425,14 @@ export function PhotoCarousel({
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            <Image
-              src={currentImgUrl}
-              alt={`Foto ${currentIdx + 1}`}
-              width={1200}
-              height={1200}
-              className="max-w-full max-h-full object-contain"
-              unoptimized
-            />
+            {currentBlobUrl && (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={currentBlobUrl}
+                alt={`Foto ${currentIdx + 1}`}
+                className="max-w-full max-h-full object-contain"
+              />
+            )}
 
             {/* Fullscreen Nav */}
             {currentIdx > 0 && (

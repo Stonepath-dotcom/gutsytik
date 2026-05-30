@@ -44,7 +44,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https://*.googleusercontent.com https://*.ggpht.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google.com https://www.google.co.id https://*.tikwm.com https://*.tiktokcdn.com https://*.tiktok.com https://*.fbcdn.net https://*.cdninstagram.com https://*.redd.it https://*.pinimg.com",
               "frame-src https://googleads.g.doubleclick.net https://www.google.com https://www.youtube.com",
-              "connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google.com https://*.onrender.com https://*.railway.app https://*.up.railway.app https://*.replit.app https://*.replit.dev https://*.workers.dev https://*.deno.dev https://*.deno.land",
+              "connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google.com https://*.onrender.com https://*.railway.app https://*.up.railway.app https://*.replit.app https://*.replit.dev https://*.workers.dev https://*.deno.dev https://*.deno.land https://*.tikwm.com https://*.tiktokcdn.com https://*.tiktok.com https://*.fbcdn.net https://*.cdninstagram.com https://*.redd.it https://*.pinimg.com",
               "font-src 'self'",
               "media-src 'self' blob: https://*.onrender.com https://*.railway.app https://*.up.railway.app https://*.replit.app https://*.replit.dev https://*.googlevideo.com https://*.workers.dev https://*.deno.dev https://*.deno.land https://*.tikwm.com https://*.tiktokcdn.com",
               "object-src 'none'",
