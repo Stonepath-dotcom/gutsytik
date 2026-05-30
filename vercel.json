@@ -11,6 +11,30 @@
     },
     "src/app/api/blog/generate/route.ts": {
       "maxDuration": 60
+    },
+    "src/app/api/blog/refresh/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/blog/seo-audit/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/blog/keyword-research/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/blog/content-gap/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/blog/backlinks/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/blog/report/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/blog/trending/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/blog/link-check/route.ts": {
+      "maxDuration": 60
     }
   },
   "crons": [

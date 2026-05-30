@@ -1,22 +1,79 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getAllAutoBlogPosts } from "@/lib/auto-blog";
 
 /**
  * IndexNow API - Notify search engines instantly when new content is published
  * Supported by: Bing, Yandex, Seznam, Naver, Plus
  * Google also supports ping endpoints for sitemaps
- * 
+ *
  * This is the #1 automation for faster Google indexing!
+ *
+ * NEW: submitAll parameter to submit ALL blog URLs at once (weekly full submission)
  */
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => ({}));
     const urls: string[] = body.urls || [];
+    const submitAll = body.submitAll as boolean | undefined;
     const baseUrl = "https://getmova.my.id";
 
-    // If no URLs provided, just ping the sitemap
-    const submitUrls = urls.length > 0
-      ? urls.map((u: string) => u.startsWith("http") ? u : `${baseUrl}${u}`)
-      : [`${baseUrl}/blog`, `${baseUrl}/sitemap.xml`];
+    let submitUrls: string[];
+
+    if (submitAll) {
+      // Submit ALL pages on the site for comprehensive indexing
+      const autoPosts = getAllAutoBlogPosts();
+      const staticBlogSlugs = [
+        "cara-download-video-tiktok-tanpa-watermark",
+        "cara-download-video-instagram-reels",
+        "download-video-tanpa-watermark-gratis",
+        "tips-aman-download-video-online",
+        "cara-download-video-facebook-hd",
+        "download-video-twitter-x-tanpa-watermark",
+        "ekstrak-audio-mp3-dari-video",
+        "download-video-tanpa-watermark-terbaik",
+        "cara-download-video-pinterest",
+        "cara-download-reddit-video-dengan-audio",
+        "cara-download-video-dari-telegram",
+        "download-video-tanpa-aplikasi",
+        "perbedaan-download-video-hd-dan-sd",
+        "perbandingan-tiktok-downloader",
+      ];
+
+      submitUrls = [
+        // Homepage
+        baseUrl,
+        // Platform pages
+        `${baseUrl}/tiktok-downloader`,
+        `${baseUrl}/instagram-downloader`,
+        `${baseUrl}/facebook-downloader`,
+        `${baseUrl}/twitter-downloader`,
+        `${baseUrl}/pinterest-downloader`,
+        `${baseUrl}/reddit-downloader`,
+        `${baseUrl}/telegram-downloader`,
+        `${baseUrl}/youtube-downloader`,
+        `${baseUrl}/youtube-mp3`,
+        // Info pages
+        `${baseUrl}/about`,
+        `${baseUrl}/contact`,
+        `${baseUrl}/faq`,
+        `${baseUrl}/how-it-works`,
+        `${baseUrl}/blog`,
+        // Legal pages
+        `${baseUrl}/privacy`,
+        `${baseUrl}/terms`,
+        `${baseUrl}/disclaimer`,
+        `${baseUrl}/dmca`,
+        `${baseUrl}/cookie-policy`,
+        // Static blog posts
+        ...staticBlogSlugs.map((s) => `${baseUrl}/blog/${s}`),
+        // Auto-generated blog posts
+        ...autoPosts.map((p) => `${baseUrl}/blog/${p.slug}`),
+      ];
+    } else if (urls.length > 0) {
+      submitUrls = urls.map((u: string) => u.startsWith("http") ? u : `${baseUrl}${u}`);
+    } else {
+      submitUrls = [`${baseUrl}/blog`, `${baseUrl}/sitemap.xml`];
+    }
 
     // 1. IndexNow - Instant notification to Bing, Yandex, etc.
     const indexNowKey = process.env.INDEXNOW_KEY || "getmova2026indexkey";
@@ -85,10 +142,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       submittedUrls: submitUrls,
+      totalUrls: submitUrls.length,
       indexNow: true,
       googleSitemapPing: true,
       googleIndexingApi: !!process.env.GOOGLE_INDEXING_TOKEN,
-      message: `Notified search engines about ${submitUrls.length} URL(s)`,
+      fullSubmission: !!submitAll,
+      message: `Notified search engines about ${submitUrls.length} URL(s)${submitAll ? " (full site submission)" : ""}`,
     });
   } catch (error: any) {
     console.error("IndexNow error:", error);

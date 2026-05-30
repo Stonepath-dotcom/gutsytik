@@ -22,10 +22,32 @@ export interface AutoBlogPost {
   indexedAt?: string;
 }
 
+export interface SEOAudit {
+  date: string;
+  score: { overall: number; content: number; technical: number; onpage: number; schema: number };
+  criticalIssuesCount: number;
+  warningsCount: number;
+  opportunitiesCount: number;
+}
+
 interface AutoBlogData {
   posts: AutoBlogPost[];
   lastGenerated: string | null;
   topics: string[];
+  audits?: SEOAudit[];
+  keywordResearch?: {
+    lastRun: string;
+    opportunities: number;
+  };
+  contentGap?: {
+    lastRun: string;
+    gaps: number;
+  };
+  linkHealth?: {
+    lastCheck: string;
+    brokenLinks: number;
+    healthRate: string;
+  };
 }
 
 const DATA_PATH = path.join(process.cwd(), "src/data/auto-blog.json");
@@ -160,3 +182,79 @@ export function addInternalLinks(content: string, allPosts: AutoBlogPost[]): str
 
   return enhancedContent;
 };
+
+/**
+ * Get automation dashboard data - all metrics in one place
+ */
+export function getAutomationDashboard(): {
+  posts: { total: number; thisWeek: number; thisMonth: number; avgWordCount: number };
+  topics: { total: number; available: number; used: number };
+  quality: { internalLinkRate: number; faqRate: number; howToRate: number; freshRate: number };
+  lastActivity: { generated: string | null; audit: string | null; keywordResearch: string | null };
+} {
+  const data = getAutoBlogData();
+  const posts = data.posts || [];
+  const now = new Date();
+  const oneWeekAgo = new Date(now);
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  const oneMonthAgo = new Date(now);
+  oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
+
+  const usedSlugs = new Set(posts.map((p) => p.slug));
+  const availableTopics = data.topics.filter((t) => !usedSlugs.has(t));
+
+  const thisWeekPosts = posts.filter((p) => new Date(p.dateISO) >= oneWeekAgo).length;
+  const thisMonthPosts = posts.filter((p) => new Date(p.dateISO) >= oneMonthAgo).length;
+
+  const avgWordCount = posts.length > 0
+    ? Math.round(
+        posts.reduce((sum, p) => {
+          const wc = p.content.replace(/<[^>]*>/g, "").split(/\s+/).length;
+          return sum + wc;
+        }, 0) / posts.length
+      )
+    : 0;
+
+  const postsWithInternalLinks = posts.filter(
+    (p) => p.content.includes('<a href="/') || p.content.includes("getmova")
+  ).length;
+
+  const postsWithFaq = posts.filter(
+    (p) => (p.faqJsonLd as any)?.mainEntity?.length > 0
+  ).length;
+
+  const postsWithHowTo = posts.filter(
+    (p) => (p.howToJsonLd as any)?.step?.length > 0
+  ).length;
+
+  const freshPosts = posts.filter((p) => (p as any).lastUpdated).length;
+
+  const lastAudit = data.audits?.length
+    ? data.audits[data.audits.length - 1].date
+    : null;
+
+  return {
+    posts: {
+      total: posts.length,
+      thisWeek: thisWeekPosts,
+      thisMonth: thisMonthPosts,
+      avgWordCount,
+    },
+    topics: {
+      total: data.topics.length,
+      available: availableTopics.length,
+      used: usedSlugs.size,
+    },
+    quality: {
+      internalLinkRate: posts.length > 0 ? Math.round((postsWithInternalLinks / posts.length) * 100) : 0,
+      faqRate: posts.length > 0 ? Math.round((postsWithFaq / posts.length) * 100) : 0,
+      howToRate: posts.length > 0 ? Math.round((postsWithHowTo / posts.length) * 100) : 0,
+      freshRate: posts.length > 0 ? Math.round((freshPosts / posts.length) * 100) : 0,
+    },
+    lastActivity: {
+      generated: data.lastGenerated,
+      audit: lastAudit,
+      keywordResearch: data.keywordResearch?.lastRun || null,
+    },
+  };
+}
