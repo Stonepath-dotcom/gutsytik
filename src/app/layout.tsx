@@ -146,23 +146,20 @@ export default function RootLayout({
         <link rel="preconnect" href="https://i.ytimg.com" />
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
 
-        {/* Google Analytics 4 */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-C72K54R633" />
+        {/* Google Consent Mode v2 - Default denied, updated by CookieConsent on accept */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-C72K54R633', {
-                page_path: window.location.pathname,
+              gtag('consent', 'default', {
+                'analytics_storage': 'denied',
+                'ad_storage': 'denied',
+                'wait_for_update': 500
               });
             `,
           }}
         />
-
-        {/* Google AdSense - Auto Ads */}
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8487073388720076" crossOrigin="anonymous" />
 
         {/* JSON-LD Structured Data */}
         <script
@@ -211,9 +208,7 @@ export default function RootLayout({
               description: "Download video tanpa watermark dari berbagai platform populer. Cepat, gratis, dan mudah.",
               foundingDate: "2025",
               sameAs: [
-                "https://twitter.com/getmova_id",
-                "https://instagram.com/getmova.id",
-                "https://github.com/getmova",
+                "https://getmova.my.id",
               ],
               contactPoint: {
                 "@type": "ContactPoint",

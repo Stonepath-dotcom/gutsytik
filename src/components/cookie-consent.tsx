@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Shield, Cookie, X, ExternalLink } from "lucide-react";
 
 const COOKIE_CONSENT_KEY = "mova_cookie_consent";
-const GA4_MEASUREMENT_ID = "G-6WV2TT4J0R";
+const GA4_MEASUREMENT_ID = "G-C72K54R633";
 
 export function CookieConsent() {
   const [show, setShow] = useState(false);
@@ -49,19 +49,6 @@ export function CookieConsent() {
   };
 
   useEffect(() => {
-    // Set default consent mode to denied before user choice
-    try {
-      if (typeof window !== 'undefined' && !window.dataLayer) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(...args: unknown[]) { (window as any).dataLayer.push(args); }
-        gtag('consent', 'default', {
-          'analytics_storage': 'denied',
-          'ad_storage': 'denied',
-          'wait_for_update': 500
-        });
-      }
-    } catch {}
-
     try {
       const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
       if (!consent) {
