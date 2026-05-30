@@ -5,15 +5,17 @@ import path from "path";
 /**
  * Create ZAI client with multiple fallback strategies
  *
- * The ZAI SDK's ZAI.create() only reads from config files.
- * For Vercel production, we need to:
- * 1. Check environment variables first (Vercel env vars)
- * 2. Check config files (local dev)
- * 3. Create ZAI instance directly with config (new ZAI(config))
+ * Vercel serverless functions have read-only filesystem (except /tmp),
+ * so .z-ai-config file can't be read at runtime.
  *
- * To set up on Vercel Dashboard → Settings → Environment Variables:
- * - ZAI_TOKEN (the token from .z-ai-config)
- * - ZAI_BASE_URL (optional, defaults to https://internal-api.z.ai/v1)
+ * SOLUTION: Set ZAI_CONFIG env var on Vercel with the full JSON config
+ *
+ * On Vercel Dashboard → Settings → Environment Variables:
+ * ZAI_CONFIG = {"baseUrl":"https://internal-api.z.ai/v1","apiKey":"Z.ai","chatId":"chat-44eebbbe-989c-479d-be1e-74878bafcdd1","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...","userId":"587bfcd3-5c4b-4b2a-8405-681be93efb7b"}
+ *
+ * Or set individual env vars:
+ * - ZAI_TOKEN
+ * - ZAI_BASE_URL (optional)
  * - ZAI_CHAT_ID (optional)
  * - ZAI_USER_ID (optional)
  */
@@ -23,7 +25,6 @@ let _zaiInstance: ZAI | null = null;
 function readConfigFile(): Record<string, string> | null {
   const paths = [
     path.join(process.cwd(), ".z-ai-config"),
-    path.join(require("os").homedir(), ".z-ai-config"),
     "/etc/.z-ai-config",
   ];
 
@@ -46,16 +47,21 @@ function readConfigFile(): Record<string, string> | null {
 export async function createZai(): Promise<ZAI> {
   if (_zaiInstance) return _zaiInstance;
 
-  // Strategy 1: Try ZAI.create() first (reads from config files)
-  try {
-    const zai = await ZAI.create();
-    _zaiInstance = zai;
-    return zai;
-  } catch {
-    // Config file not found, try environment variables
+  // Strategy 1: Try ZAI_CONFIG env var (full JSON config string)
+  if (process.env.ZAI_CONFIG) {
+    try {
+      const config = JSON.parse(process.env.ZAI_CONFIG);
+      if (config.baseUrl && config.apiKey) {
+        const zai = new ZAI(config);
+        _zaiInstance = zai;
+        return zai;
+      }
+    } catch {
+      // Invalid JSON, try next strategy
+    }
   }
 
-  // Strategy 2: Read from environment variables and create instance directly
+  // Strategy 2: Try individual environment variables
   const envToken = process.env.ZAI_TOKEN || process.env.Z_AI_TOKEN;
   if (envToken) {
     const config = {
@@ -71,7 +77,16 @@ export async function createZai(): Promise<ZAI> {
     return zai;
   }
 
-  // Strategy 3: Try reading config file manually (in case ZAI.create() failed for other reason)
+  // Strategy 3: Try ZAI.create() (reads from config files on local filesystem)
+  try {
+    const zai = await ZAI.create();
+    _zaiInstance = zai;
+    return zai;
+  } catch {
+    // Config file not found
+  }
+
+  // Strategy 4: Try reading config file manually
   const fileConfig = readConfigFile();
   if (fileConfig) {
     const zai = new ZAI(fileConfig);
@@ -80,9 +95,8 @@ export async function createZai(): Promise<ZAI> {
   }
 
   throw new Error(
-    "ZAI configuration not found. To fix:\n" +
-    "Option A: Set ZAI_TOKEN environment variable on Vercel Dashboard → Settings → Environment Variables\n" +
-    "Option B: Place .z-ai-config file in the project root\n" +
-    "The token value can be found in /etc/.z-ai-config on the dev machine"
+    "ZAI configuration not found. To fix, set on Vercel Dashboard → Settings → Environment Variables:\n" +
+    "ZAI_CONFIG = {\"baseUrl\":\"https://internal-api.z.ai/v1\",\"apiKey\":\"Z.ai\",\"token\":\"YOUR_TOKEN\"}\n" +
+    "Or set individual: ZAI_TOKEN, ZAI_BASE_URL, ZAI_CHAT_ID, ZAI_USER_ID"
   );
 }
