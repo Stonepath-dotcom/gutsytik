@@ -4,7 +4,7 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import {
   Download, Zap, Shield, Smartphone, CheckCircle,
   Loader2, AlertCircle, Play, Copy, ChevronRight, ArrowRight,
-  Monitor, Music, Video, Eye, Clock, Globe, Sparkles, Link2,
+  Monitor, Music, Video, Eye, Clock, Globe, Sparkles, Link2, Image as ImageIcon,
 } from "lucide-react";
 import { SitewideFooter } from "@/components/sitewide-footer";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,7 @@ interface DownloadResult {
   author: string; platform: string; downloadUrl: string; originalDownloadUrl?: string;
   qualityOptions: QualityOption[]; filename: string;
   isRedirect?: boolean; redirectUrls?: string[];
+  isPhotoSlide?: boolean; images?: string[]; originalImages?: string[]; imageCount?: number;
 }
 
 interface FeatureItem {
@@ -385,62 +386,138 @@ export function PlatformPageClient(props: PlatformPageProps) {
             <div ref={resultRef} className="max-w-xl mx-auto mt-4 rounded-xl bg-card border overflow-hidden" style={{ borderColor: `${ACCENT}30` }}>
               <div className="px-4 py-2 border-b border-border flex items-center gap-2" style={{ background: `linear-gradient(to right, ${ACCENT}15, #34D39915)` }}>
                 <CheckCircle className="h-4 w-4 text-green-400" />
-                <span className="text-sm md:text-base text-green-400 font-medium">Video berhasil ditemukan!</span>
+                <span className="text-sm md:text-base text-green-400 font-medium">{result.isPhotoSlide ? "Slide foto ditemukan!" : "Video berhasil ditemukan!"}</span>
+                {result.isPhotoSlide && result.imageCount && (
+                  <span className="text-xs bg-[#10B981]/10 text-[#10B981] px-2 py-0.5 rounded-full font-medium">{result.imageCount} foto</span>
+                )}
                 <span className="text-xs md:text-sm text-muted-foreground bg-muted px-2 py-0.5 rounded-full ml-auto">{result.platform}</span>
               </div>
               <div className="p-4">
-                <div className="flex gap-3 mb-3">
-                  <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
-                    {result.thumbnail && <Image src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={64} className="w-full h-full object-cover" unoptimized onError={() => {}} loading="lazy" />}
-                    <Play className="h-6 w-6 absolute text-[#10B981]" />
-                  </div>
-                  <div className="flex-1 text-left min-w-0">
-                    <h3 className="font-semibold text-foreground text-sm md:text-base line-clamp-2">{result.title}</h3>
-                    <div className="flex items-center gap-3 mt-1 text-xs md:text-sm text-muted-foreground">
-                      {result.duration !== "--:--" && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{result.duration}</span>}
-                      {result.author && <span>{result.author}</span>}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Quality options */}
-                {result.qualityOptions.length > 1 && (
-                  <div className="mb-3">
-                    <p className="text-xs md:text-sm text-muted-foreground mb-2">Pilih kualitas:</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {result.qualityOptions.map((q, i) => (
-                        <button
-                          key={i}
-                          onClick={() => setSelectedQuality(i)}
-                          className={`px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-colors ${
-                            i === selectedQuality
-                              ? "bg-[#10B981] text-white"
-                              : "bg-muted text-muted-foreground hover:bg-muted/80"
-                          }`}
+                {result.isPhotoSlide && result.images && result.images.length > 0 ? (
+                  <>
+                    {/* Photo Slide Grid */}
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5 mb-3">
+                      {result.images.map((imgUrl, idx) => (
+                        <a
+                          key={idx}
+                          href={imgUrl}
+                          download={`mova_tiktok_photo_${idx + 1}.jpg`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="relative group rounded-lg overflow-hidden bg-muted aspect-square"
                         >
-                          {q.label} {q.resolution !== q.label && `(${q.resolution})`}
-                        </button>
+                          <Image src={result.originalImages?.[idx] || imgUrl} alt={`Foto ${idx + 1}`} fill className="object-cover" unoptimized loading="lazy" />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                            <Download className="h-5 w-5 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </div>
+                          <span className="absolute top-1 left-1 bg-black/50 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">{idx + 1}</span>
+                        </a>
                       ))}
                     </div>
-                  </div>
-                )}
+                    {/* Download All Button */}
+                    <Button
+                      onClick={async () => {
+                        if (!result.images) return;
+                        for (let i = 0; i < result.images.length; i++) {
+                          try {
+                            const res = await fetch(result.images[i]);
+                            const blob = await res.blob();
+                            if (blob.size > 500) {
+                              const url = URL.createObjectURL(blob);
+                              const a = document.createElement("a");
+                              a.href = url;
+                              a.download = `${result.filename}_foto_${i + 1}.jpg`;
+                              a.style.display = "none";
+                              document.body.appendChild(a);
+                              a.click();
+                              document.body.removeChild(a);
+                              setTimeout(() => URL.revokeObjectURL(url), 5000);
+                            }
+                          } catch {}
+                          if (i < result.images.length - 1) await new Promise(r => setTimeout(r, 600));
+                        }
+                        showToast("Semua foto diunduh!", "");
+                      }}
+                      className="w-full bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] h-11 text-sm md:text-base"
+                    >
+                      <ImageIcon className="h-4 w-4 mr-2" />
+                      Download Semua Foto ({result.imageCount})
+                    </Button>
+                    {/* Audio option if available */}
+                    {result.qualityOptions.length > 0 && (
+                      <div className="mt-3">
+                        <p className="text-xs md:text-sm text-muted-foreground mb-2 flex items-center gap-1.5"><Music className="h-3 w-3 text-[#10B981]" />Audio dari slide:</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {result.qualityOptions.map((q, i) => (
+                            <button key={i} onClick={() => setSelectedQuality(i)} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${i === selectedQuality ? "bg-[#10B981] text-white" : "bg-muted text-muted-foreground hover:bg-muted/80"}`}>
+                              {q.label} {q.resolution !== q.label && `(${q.resolution})`}
+                            </button>
+                          ))}
+                          <Button onClick={handleDownload} disabled={downloading} size="sm" className="bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] text-xs h-8">
+                            {downloading ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <Download className="h-3 w-3 mr-1" />}
+                            Download Audio
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {/* Regular Video Result */}
+                    <div className="flex gap-3 mb-3">
+                      <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
+                        {result.thumbnail && <Image src={result.thumbnail} alt={`Thumbnail: ${result.title}`} width={96} height={64} className="w-full h-full object-cover" unoptimized onError={() => {}} loading="lazy" />}
+                        <Play className="h-6 w-6 absolute text-[#10B981]" />
+                      </div>
+                      <div className="flex-1 text-left min-w-0">
+                        <h3 className="font-semibold text-foreground text-sm md:text-base line-clamp-2">{result.title}</h3>
+                        <div className="flex items-center gap-3 mt-1 text-xs md:text-sm text-muted-foreground">
+                          {result.duration !== "--:--" && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{result.duration}</span>}
+                          {result.author && <span>{result.author}</span>}
+                        </div>
+                      </div>
+                    </div>
 
-                {/* Redirect notice */}
-                {result.isRedirect && (
-                  <div className="mb-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-start gap-2">
-                    <AlertCircle className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" />
-                    <p className="text-amber-400 text-xs md:text-sm">Download langsung sedang tidak tersedia. Klik tombol di bawah untuk mengunduh melalui layanan pihak ketiga.</p>
-                  </div>
-                )}
+                    {/* Quality options */}
+                    {result.qualityOptions.length > 1 && (
+                      <div className="mb-3">
+                        <p className="text-xs md:text-sm text-muted-foreground mb-2">Pilih kualitas:</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {result.qualityOptions.map((q, i) => (
+                            <button
+                              key={i}
+                              onClick={() => setSelectedQuality(i)}
+                              className={`px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-colors ${
+                                i === selectedQuality
+                                  ? "bg-[#10B981] text-white"
+                                  : "bg-muted text-muted-foreground hover:bg-muted/80"
+                              }`}
+                            >
+                              {q.label} {q.resolution !== q.label && `(${q.resolution})`}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
-                <Button
-                  onClick={handleDownload}
-                  disabled={downloading}
-                  className="w-full bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] h-11 text-sm md:text-base"
-                >
-                  {downloading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Download className="h-4 w-4 mr-2" />}
-                  {downloading ? "Mengunduh..." : result.isRedirect ? "Download via Layanan Lain" : "Download Sekarang"}
-                </Button>
+                    {/* Redirect notice */}
+                    {result.isRedirect && (
+                      <div className="mb-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-start gap-2">
+                        <AlertCircle className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" />
+                        <p className="text-amber-400 text-xs md:text-sm">Download langsung sedang tidak tersedia. Klik tombol di bawah untuk mengunduh melalui layanan pihak ketiga.</p>
+                      </div>
+                    )}
+
+                    <Button
+                      onClick={handleDownload}
+                      disabled={downloading}
+                      className="w-full bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] h-11 text-sm md:text-base"
+                    >
+                      {downloading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Download className="h-4 w-4 mr-2" />}
+                      {downloading ? "Mengunduh..." : result.isRedirect ? "Download via Layanan Lain" : "Download Sekarang"}
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           )}

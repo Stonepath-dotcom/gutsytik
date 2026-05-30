@@ -24,6 +24,7 @@ interface DownloadResult {
   title: string; thumbnail: string; duration: string;
   author: string; platform: string; downloadUrl: string; originalDownloadUrl?: string;
   qualityOptions: QualityOption[]; filename: string;
+  isPhotoSlide?: boolean; images?: string[]; originalImages?: string[]; imageCount?: number;
 }
 interface HistoryItem {
   id: string; title: string; platform: string; author: string;
@@ -859,50 +860,133 @@ function HeroSection() {
           <div ref={resultRef} className="max-w-lg md:max-w-2xl mt-5 rounded-xl bg-white dark:bg-[#2D2D2D] overflow-hidden text-left shadow-xl border border-gray-100 dark:border-white/10">
             <div className="px-4 py-2.5 border-b border-gray-100 dark:border-white/10 flex items-center gap-2 bg-gray-50 dark:bg-[#333]">
               <CheckCircle className="h-4 w-4 text-[#E52222] shrink-0" />
-              <span className="text-sm text-[#E52222] font-medium">{t("result.found")}</span>
+              <span className="text-sm text-[#E52222] font-medium">{result.isPhotoSlide ? "Slide foto ditemukan!" : t("result.found")}</span>
+              {result.isPhotoSlide && result.imageCount && (
+                <span className="text-xs bg-[#E52222]/10 text-[#E52222] px-2 py-0.5 rounded-full font-medium">{result.imageCount} foto</span>
+              )}
               <div className="ml-auto flex items-center gap-1.5">
                 {(() => { const pd = getPlatformDef(result.platform); return (<div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: pd.gradient || pd.color }}><pd.Icon className="h-2.5 w-2.5 text-white" /></div>); })()}
                 <span className="text-xs text-gray-500 dark:text-gray-400">{result.platform}</span>
               </div>
             </div>
             <div className="p-4">
-              {showPreview && !previewError ? (
-                <div className="w-full rounded-md overflow-hidden bg-gray-100 dark:bg-[#444] mb-3"><video src={result.qualityOptions[0]?.originalUrl || result.qualityOptions[0]?.url} controls muted className="w-full object-contain" style={{ maxHeight: "200px" }} onError={() => setPreviewError(true)} /></div>
-              ) : (
-                <div className="flex gap-3 mb-3">
-                  <div className="w-20 h-14 rounded-md bg-gray-100 dark:bg-[#444] flex items-center justify-center shrink-0 overflow-hidden relative">
-                    {result.thumbnail && <Image src={result.thumbnail} alt={result.title} width={80} height={56} className="w-full h-full object-cover" unoptimized />}
-                    <Play className="h-4 w-4 absolute text-[#E52222]" />
+              {/* Photo Slide View */}
+              {result.isPhotoSlide && result.images && result.images.length > 0 ? (
+                <>
+                  {/* Image Grid */}
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5 mb-3">
+                    {result.images.map((imgUrl, idx) => (
+                      <a
+                        key={idx}
+                        href={imgUrl}
+                        download={`mova_tiktok_photo_${idx + 1}.jpg`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative group rounded-lg overflow-hidden bg-gray-100 dark:bg-[#444] aspect-square"
+                      >
+                        <Image src={result.originalImages?.[idx] || imgUrl} alt={`Foto ${idx + 1}`} fill className="object-cover" unoptimized loading="lazy" />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                          <Download className="h-5 w-5 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                        <span className="absolute top-1 left-1 bg-black/50 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">{idx + 1}</span>
+                      </a>
+                    ))}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-gray-900 dark:text-white text-sm line-clamp-2">{result.title}</h3>
-                    <div className="flex items-center gap-3 mt-1 text-xs text-gray-500 dark:text-gray-400">
-                      {result.duration !== "--:--" && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{result.duration}</span>}
-                      <span className="flex items-center gap-1"><User className="h-3 w-3" />{result.author}</span>
+                  {/* Download All Button */}
+                  <Button
+                    onClick={async () => {
+                      if (!result.images) return;
+                      for (let i = 0; i < result.images.length; i++) {
+                        try {
+                          const res = await fetch(result.images[i]);
+                          const blob = await res.blob();
+                          if (blob.size > 500) {
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement("a");
+                            a.href = url;
+                            a.download = `${result.filename}_foto_${i + 1}.jpg`;
+                            a.style.display = "none";
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            setTimeout(() => URL.revokeObjectURL(url), 5000);
+                          }
+                        } catch {}
+                        // Small delay between downloads to avoid browser blocking
+                        if (i < result.images.length - 1) await new Promise(r => setTimeout(r, 600));
+                      }
+                      showToast("Semua foto diunduh!", "");
+                    }}
+                    className="w-full h-11 bg-[#E52222] text-white font-bold rounded-lg hover:bg-[#C91C1C] text-sm"
+                  >
+                    <ImageIcon className="mr-2 h-4 w-4" />
+                    Download Semua Foto ({result.imageCount})
+                  </Button>
+                  {/* Audio option if available */}
+                  {result.qualityOptions.length > 0 && (
+                    <div className="mt-3">
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1.5"><Music className="h-3 w-3 text-[#E52222]" />Audio dari slide:</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {result.qualityOptions.map((q, i) => (
+                          <button key={i} onClick={() => setSelectedQuality(i)} className={`flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors ${selectedQuality === i ? "text-white bg-[#E52222] border-[#E52222]" : "bg-white dark:bg-[#333] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-[#E52222]/30"}`}>
+                            <span>{q.label}</span><span className="opacity-70">{q.resolution}</span>
+                          </button>
+                        ))}
+                        <Button
+                          onClick={handleDownload}
+                          disabled={downloading}
+                          size="sm"
+                          className="bg-[#E52222] text-white font-bold rounded-lg hover:bg-[#C91C1C] text-xs h-8"
+                        >
+                          {downloading ? <Loader2 className="mr-1 h-3 w-3 animate-spin" /> : <Download className="mr-1 h-3 w-3" />}
+                          Download Audio
+                        </Button>
+                      </div>
                     </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {/* Regular Video Result */}
+                  {showPreview && !previewError ? (
+                    <div className="w-full rounded-md overflow-hidden bg-gray-100 dark:bg-[#444] mb-3"><video src={result.qualityOptions[0]?.originalUrl || result.qualityOptions[0]?.url} controls muted className="w-full object-contain" style={{ maxHeight: "200px" }} onError={() => setPreviewError(true)} /></div>
+                  ) : (
+                    <div className="flex gap-3 mb-3">
+                      <div className="w-20 h-14 rounded-md bg-gray-100 dark:bg-[#444] flex items-center justify-center shrink-0 overflow-hidden relative">
+                        {result.thumbnail && <Image src={result.thumbnail} alt={result.title} width={80} height={56} className="w-full h-full object-cover" unoptimized />}
+                        <Play className="h-4 w-4 absolute text-[#E52222]" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-gray-900 dark:text-white text-sm line-clamp-2">{result.title}</h3>
+                        <div className="flex items-center gap-3 mt-1 text-xs text-gray-500 dark:text-gray-400">
+                          {result.duration !== "--:--" && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{result.duration}</span>}
+                          <span className="flex items-center gap-1"><User className="h-3 w-3" />{result.author}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex flex-wrap gap-0.5 mb-3">
+                    <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7">{showPreview ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}{t("result.preview")}</Button>
+                    <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7"><Share2 className="h-3 w-3 mr-1" />{t("result.share")}</Button>
+                    <Button variant="ghost" size="sm" onClick={handleToggleBookmark} className="text-xs h-7" style={{ color: isBookmarkedState ? RED : "#999" }}><Bookmark className={`h-3 w-3 mr-1 ${isBookmarkedState ? "fill-current" : ""}`} />{isBookmarkedState ? t("result.bookmarked") : t("result.bookmark")}</Button>
+                    <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7"><Copy className="h-3 w-3 mr-1" />{t("result.copyCaption")}</Button>
                   </div>
-                </div>
+                  {result.qualityOptions.length > 0 && (
+                    <div className="mb-3">
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1.5"><Film className="h-3 w-3 text-[#E52222]" />{t("result.selectQuality")}</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {result.qualityOptions.map((q, i) => {
+                          const isSelected = selectedQuality === i;
+                          return (<button key={i} onClick={() => setSelectedQuality(i)} className={`flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors ${isSelected ? "text-white bg-[#E52222] border-[#E52222]" : "bg-white dark:bg-[#333] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-[#E52222]/30"}`}><span>{q.label}</span><span className="opacity-70">{q.resolution}</span></button>);
+                        })}
+                      </div>
+                    </div>
+                  )}
+                  <Button onClick={handleDownload} disabled={downloading} className="w-full h-11 bg-[#E52222] text-white font-bold rounded-lg hover:bg-[#C91C1C] text-sm">
+                    {downloading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Downloading...</> : <><Download className="mr-2 h-4 w-4" />{t("btn.download")}</>}
+                  </Button>
+                </>
               )}
-              <div className="flex flex-wrap gap-0.5 mb-3">
-                <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7">{showPreview ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}{t("result.preview")}</Button>
-                <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7"><Share2 className="h-3 w-3 mr-1" />{t("result.share")}</Button>
-                <Button variant="ghost" size="sm" onClick={handleToggleBookmark} className="text-xs h-7" style={{ color: isBookmarkedState ? RED : "#999" }}><Bookmark className={`h-3 w-3 mr-1 ${isBookmarkedState ? "fill-current" : ""}`} />{isBookmarkedState ? t("result.bookmarked") : t("result.bookmark")}</Button>
-                <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7"><Copy className="h-3 w-3 mr-1" />{t("result.copyCaption")}</Button>
-              </div>
-              {result.qualityOptions.length > 0 && (
-                <div className="mb-3">
-                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1.5"><Film className="h-3 w-3 text-[#E52222]" />{t("result.selectQuality")}</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {result.qualityOptions.map((q, i) => {
-                      const isSelected = selectedQuality === i;
-                      return (<button key={i} onClick={() => setSelectedQuality(i)} className={`flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors ${isSelected ? "text-white bg-[#E52222] border-[#E52222]" : "bg-white dark:bg-[#333] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-[#E52222]/30"}`}><span>{q.label}</span><span className="opacity-70">{q.resolution}</span></button>);
-                    })}
-                  </div>
-                </div>
-              )}
-              <Button onClick={handleDownload} disabled={downloading} className="w-full h-11 bg-[#E52222] text-white font-bold rounded-lg hover:bg-[#C91C1C] text-sm">
-                {downloading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Downloading...</> : <><Download className="mr-2 h-4 w-4" />{t("btn.download")}</>}
-              </Button>
             </div>
           </div>
         )}

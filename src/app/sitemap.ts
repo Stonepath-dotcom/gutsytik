@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Platform landing pages (NO YouTube)
   const platforms = [
     { slug: "tiktok-downloader", priority: 0.9, changefreq: "weekly" as const },
+    { slug: "tiktok-photo-slide", priority: 0.85, changefreq: "weekly" as const },
     { slug: "instagram-downloader", priority: 0.9, changefreq: "weekly" as const },
     { slug: "facebook-downloader", priority: 0.8, changefreq: "weekly" as const },
     { slug: "twitter-downloader", priority: 0.8, changefreq: "weekly" as const },

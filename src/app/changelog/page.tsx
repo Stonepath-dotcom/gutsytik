@@ -55,6 +55,25 @@ const TAG_CONFIG: Record<ChangeTag, { label: string; color: string; bg: string }
 
 const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "2.5",
+    date: "30 Mei 2026",
+    title: "TikTok Photo Slide Downloader",
+    description:
+      "Fitur baru download slide foto TikTok! Deteksi otomatis photo carousel, download foto satu per satu atau sekaligus, dan ekstrak audio MP3 dari slide.",
+    changes: [
+      { tag: "new", text: "Download slide foto TikTok — deteksi otomatis photo carousel dari tikwm API" },
+      { tag: "new", text: "Image Grid UI — tampilkan semua foto dari slide dalam grid dengan nomor urut" },
+      { tag: "new", text: "Download Semua Foto — satu klik untuk mengunduh seluruh foto sekaligus" },
+      { tag: "new", text: "Download foto individual — klik per foto untuk download satu per satu" },
+      { tag: "new", text: "Ekstrak audio MP3 dari slide foto TikTok" },
+      { tag: "new", text: "Halaman dedicated /tiktok-photo-slide dengan SEO & JSON-LD" },
+      { tag: "improved", text: "API download TikTok mendukung images array (photo slide detection)" },
+      { tag: "improved", text: "Result card di homepage, platform pages, dan download form mendukung photo slide" },
+      { tag: "improved", text: "FAQ TikTok downloader diupdate — slideshow bisa download foto terpisah" },
+      { tag: "seo", text: "Sitemap & footer ditambah link TikTok Photo Slide" },
+    ],
+  },
+  {
     version: "2.4",
     date: "30 Mei 2026",
     title: "Changelog Page & Scroll Spy TOC",

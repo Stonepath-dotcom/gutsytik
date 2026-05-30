@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback, useRef } from "react";
-import { Download, Copy, Loader2, CheckCircle, AlertCircle, Play } from "lucide-react";
+import { Download, Copy, Loader2, CheckCircle, AlertCircle, Play, Image as ImageIcon, Music } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
@@ -25,6 +25,10 @@ interface DownloadResult {
   filename: string;
   isRedirect?: boolean;
   redirectUrls?: string[];
+  isPhotoSlide?: boolean;
+  images?: string[];
+  originalImages?: string[];
+  imageCount?: number;
 }
 
 interface DownloadFormProps {
@@ -282,79 +286,151 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
           >
             <CheckCircle className="h-4 w-4 text-green-400" />
             <span className="text-sm text-green-400 font-medium">
-              {mode === "audio" ? "Audio berhasil ditemukan!" : "Video berhasil ditemukan!"}
+              {result.isPhotoSlide ? "Slide foto ditemukan!" : mode === "audio" ? "Audio berhasil ditemukan!" : "Video berhasil ditemukan!"}
             </span>
+            {result.isPhotoSlide && result.imageCount && (
+              <span className="text-xs bg-[#10B981]/10 text-[#10B981] px-2 py-0.5 rounded-full font-medium">{result.imageCount} foto</span>
+            )}
           </div>
 
           <div className="p-4">
-            {/* Info */}
-            <div className="flex gap-3 mb-3">
-              <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
-                {result.thumbnail ? (
-                  <Image
-                    src={result.thumbnail}
-                    alt={`Thumbnail: ${result.title}`}
-                    width={96}
-                    height={64}
-                    className="w-full h-full object-cover"
-                    unoptimized
-                  />
-                ) : null}
-                <Play className="h-6 w-6 absolute text-[#10B981]" />
-              </div>
-              <div className="flex-1 text-left min-w-0">
-                <h3 className="font-semibold text-foreground text-sm line-clamp-2">{result.title}</h3>
-                <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-                  {result.duration !== "--:--" && <span>{result.duration}</span>}
-                  <span>{result.author}</span>
-                  <span className="bg-muted px-2 py-0.5 rounded-full">{result.platform}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Quality selector */}
-            {result.qualityOptions.length > 1 && (
-              <div className="mb-3">
-                <p className="text-xs text-muted-foreground mb-2">Pilih kualitas:</p>
-                <div className="flex flex-wrap gap-2">
-                  {result.qualityOptions.map((q, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setSelectedQuality(i)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                        selectedQuality === i
-                          ? "bg-[#10B981] text-white"
-                          : "bg-muted text-muted-foreground hover:text-foreground"
-                      }`}
+            {result.isPhotoSlide && result.images && result.images.length > 0 ? (
+              <>
+                {/* Photo Slide Grid */}
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5 mb-3">
+                  {result.images.map((imgUrl, idx) => (
+                    <a
+                      key={idx}
+                      href={imgUrl}
+                      download={`mova_tiktok_photo_${idx + 1}.jpg`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative group rounded-lg overflow-hidden bg-muted aspect-square"
                     >
-                      {q.label} {q.resolution !== "Auto" && q.resolution !== "MP3" ? `(${q.resolution})` : ""}
-                    </button>
+                      <Image src={result.originalImages?.[idx] || imgUrl} alt={`Foto ${idx + 1}`} fill className="object-cover" unoptimized loading="lazy" />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                        <Download className="h-5 w-5 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                      <span className="absolute top-1 left-1 bg-black/50 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">{idx + 1}</span>
+                    </a>
                   ))}
                 </div>
-              </div>
-            )}
+                <Button
+                  onClick={async () => {
+                    if (!result.images) return;
+                    for (let i = 0; i < result.images.length; i++) {
+                      try {
+                        const res = await fetch(result.images[i]);
+                        const blob = await res.blob();
+                        if (blob.size > 500) {
+                          const url = URL.createObjectURL(blob);
+                          const a = document.createElement("a");
+                          a.href = url;
+                          a.download = `${result.filename}_foto_${i + 1}.jpg`;
+                          a.style.display = "none";
+                          document.body.appendChild(a);
+                          a.click();
+                          document.body.removeChild(a);
+                          setTimeout(() => URL.revokeObjectURL(url), 5000);
+                        }
+                      } catch {}
+                      if (i < result.images.length - 1) await new Promise(r => setTimeout(r, 600));
+                    }
+                  }}
+                  className="w-full bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] h-10"
+                >
+                  <ImageIcon className="h-4 w-4 mr-2" />
+                  Download Semua Foto ({result.imageCount})
+                </Button>
+                {result.qualityOptions.length > 0 && (
+                  <div className="mt-3">
+                    <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1.5"><Music className="h-3 w-3 text-[#10B981]" />Audio dari slide:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {result.qualityOptions.map((q, i) => (
+                        <button key={i} onClick={() => setSelectedQuality(i)} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${selectedQuality === i ? "bg-[#10B981] text-white" : "bg-muted text-muted-foreground hover:text-foreground"}`}>
+                          {q.label} {q.resolution !== q.label && `(${q.resolution})`}
+                        </button>
+                      ))}
+                      <Button onClick={handleDownload} disabled={downloading} size="sm" className="bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] text-xs h-8">
+                        {downloading ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <Download className="h-3 w-3 mr-1" />}
+                        Download Audio
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                {/* Regular Video Result */}
+                <div className="flex gap-3 mb-3">
+                  <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden relative">
+                    {result.thumbnail ? (
+                      <Image
+                        src={result.thumbnail}
+                        alt={`Thumbnail: ${result.title}`}
+                        width={96}
+                        height={64}
+                        className="w-full h-full object-cover"
+                        unoptimized
+                      />
+                    ) : null}
+                    <Play className="h-6 w-6 absolute text-[#10B981]" />
+                  </div>
+                  <div className="flex-1 text-left min-w-0">
+                    <h3 className="font-semibold text-foreground text-sm line-clamp-2">{result.title}</h3>
+                    <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                      {result.duration !== "--:--" && <span>{result.duration}</span>}
+                      <span>{result.author}</span>
+                      <span className="bg-muted px-2 py-0.5 rounded-full">{result.platform}</span>
+                    </div>
+                  </div>
+                </div>
 
-            {/* Redirect notice */}
-            {result.isRedirect && (
-              <div className="mb-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-start gap-2">
-                <AlertCircle className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" />
-                <p className="text-amber-400 text-xs">Download langsung sedang tidak tersedia. Klik tombol di bawah untuk mengunduh melalui layanan pihak ketiga.</p>
-              </div>
-            )}
+                {/* Quality selector */}
+                {result.qualityOptions.length > 1 && (
+                  <div className="mb-3">
+                    <p className="text-xs text-muted-foreground mb-2">Pilih kualitas:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {result.qualityOptions.map((q, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setSelectedQuality(i)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                            selectedQuality === i
+                              ? "bg-[#10B981] text-white"
+                              : "bg-muted text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          {q.label} {q.resolution !== "Auto" && q.resolution !== "MP3" ? `(${q.resolution})` : ""}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-            {/* Download button */}
-            <Button
-              onClick={handleDownload}
-              disabled={downloading}
-              className="w-full bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] h-10"
-            >
-              {downloading ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              ) : (
-                <Download className="h-4 w-4 mr-2" />
-              )}
-              {downloading ? "Mengunduh..." : result.isRedirect ? "Download via Layanan Lain" : `Download ${result.qualityOptions[selectedQuality]?.label || ""}`}
-            </Button>
+                {/* Redirect notice */}
+                {result.isRedirect && (
+                  <div className="mb-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-start gap-2">
+                    <AlertCircle className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" />
+                    <p className="text-amber-400 text-xs">Download langsung sedang tidak tersedia. Klik tombol di bawah untuk mengunduh melalui layanan pihak ketiga.</p>
+                  </div>
+                )}
+
+                {/* Download button */}
+                <Button
+                  onClick={handleDownload}
+                  disabled={downloading}
+                  className="w-full bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] h-10"
+                >
+                  {downloading ? (
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  ) : (
+                    <Download className="h-4 w-4 mr-2" />
+                  )}
+                  {downloading ? "Mengunduh..." : result.isRedirect ? "Download via Layanan Lain" : `Download ${result.qualityOptions[selectedQuality]?.label || ""}`}
+                </Button>
+              </>
+            )}
           </div>
         </div>
       )}

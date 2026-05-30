@@ -96,7 +96,7 @@ export function TikTokDownloaderPage() {
         },
         {
           question: "Bisakah saya download video TikTok slideshow atau foto?",
-          answer: "Ya, Mova mendukung download berbagai jenis konten TikTok termasuk video slideshow dan live. Untuk slideshow, Mova akan mengunduhnya sebagai video lengkap sesuai format aslinya di TikTok.",
+          answer: "Ya! Mova mendukung download berbagai jenis konten TikTok termasuk video slideshow/foto (photo slide). Untuk konten slideshow, Mova akan mendeteksi otomatis dan menampilkan setiap foto secara terpisah sehingga kamu bisa download satu per satu atau download semua sekaligus. Mova juga menyediakan opsi download audio MP3 dari slideshow tersebut.",
         },
         {
           question: "Kenapa video TikTok yang saya download gagal?",

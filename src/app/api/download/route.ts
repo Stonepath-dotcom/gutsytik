@@ -166,6 +166,51 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
 }
 
 /* ──────────────── TikTok via tikwm.com ─── */
+function buildTikTokResult(data: Record<string, unknown>) {
+  const duration = (data.duration as number) || 0;
+  const durationStr = `${String(Math.floor(duration / 60)).padStart(2, "0")}:${String(duration % 60).padStart(2, "0")}`;
+  const id = (data.id as string) || Date.now().toString();
+
+  // Detect photo slide: tikwm returns `images` array for slideshows
+  const images = data.images as string[] | undefined;
+  if (images && Array.isArray(images) && images.length > 0) {
+    // Photo slide / carousel detected
+    const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+    if (data.music) qualityOptions.push({ label: "Audio", resolution: "MP3", url: data.music as string });
+
+    return {
+      title: (data.title as string) || "Slide Foto TikTok",
+      thumbnail: (data.cover as string) || (data.origin_cover as string) || images[0] || "",
+      duration: durationStr,
+      author: (data.author as Record<string, string>)?.nickname || (data.author as Record<string, string>)?.unique_id || "@unknown",
+      platform: "TikTok",
+      downloadUrl: images[0] || "",
+      qualityOptions,
+      filename: `mova_tiktok_${id}`,
+      isPhotoSlide: true as const,
+      images: images as string[],
+      imageCount: images.length,
+    };
+  }
+
+  // Regular video
+  const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+  if (data.hdplay) qualityOptions.push({ label: "HD", resolution: "1080p", url: data.hdplay as string });
+  if (data.play) qualityOptions.push({ label: "SD", resolution: "720p", url: data.play as string });
+  if (data.music) qualityOptions.push({ label: "Audio", resolution: "MP3", url: data.music as string });
+
+  return {
+    title: (data.title as string) || "Video TikTok",
+    thumbnail: (data.cover as string) || (data.origin_cover as string) || "",
+    duration: durationStr,
+    author: (data.author as Record<string, string>)?.nickname || (data.author as Record<string, string>)?.unique_id || "@unknown",
+    platform: "TikTok",
+    downloadUrl: (data.hdplay as string) || (data.play as string) || "",
+    qualityOptions,
+    filename: `mova_tiktok_${id}`,
+  };
+}
+
 async function downloadTikTok(url: string) {
   let resolvedUrl = url;
   const hostname = (() => {
@@ -193,25 +238,7 @@ async function downloadTikTok(url: string) {
     const json = await res.json();
     if (json.code !== 0 || !json.data) throw new Error(json.msg || "Video TikTok tidak ditemukan.");
 
-    const data = json.data;
-    const duration = data.duration || 0;
-    const durationStr = `${String(Math.floor(duration / 60)).padStart(2, "0")}:${String(duration % 60).padStart(2, "0")}`;
-
-    const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-    if (data.hdplay) qualityOptions.push({ label: "HD", resolution: "1080p", url: data.hdplay });
-    if (data.play) qualityOptions.push({ label: "SD", resolution: "720p", url: data.play });
-    if (data.music) qualityOptions.push({ label: "Audio", resolution: "MP3", url: data.music });
-
-    return {
-      title: data.title || "Video TikTok",
-      thumbnail: data.cover || data.origin_cover || "",
-      duration: durationStr,
-      author: data.author?.nickname || data.author?.unique_id || "@unknown",
-      platform: "TikTok",
-      downloadUrl: data.hdplay || data.play || "",
-      qualityOptions,
-      filename: `mova_tiktok_${data.id || Date.now()}`,
-    };
+    return buildTikTokResult(json.data as Record<string, unknown>);
   } catch (e) {
     console.log(`TikTok tikwm POST failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
@@ -231,25 +258,7 @@ async function downloadTikTok(url: string) {
     const json = await res.json();
     if (json.code !== 0 || !json.data) throw new Error(json.msg || "Video TikTok tidak ditemukan.");
 
-    const data = json.data;
-    const duration = data.duration || 0;
-    const durationStr = `${String(Math.floor(duration / 60)).padStart(2, "0")}:${String(duration % 60).padStart(2, "0")}`;
-
-    const qualityOptions: { label: string; resolution: string; url: string }[] = [];
-    if (data.hdplay) qualityOptions.push({ label: "HD", resolution: "1080p", url: data.hdplay });
-    if (data.play) qualityOptions.push({ label: "SD", resolution: "720p", url: data.play });
-    if (data.music) qualityOptions.push({ label: "Audio", resolution: "MP3", url: data.music });
-
-    return {
-      title: data.title || "Video TikTok",
-      thumbnail: data.cover || data.origin_cover || "",
-      duration: durationStr,
-      author: data.author?.nickname || data.author?.unique_id || "@unknown",
-      platform: "TikTok",
-      downloadUrl: data.hdplay || data.play || "",
-      qualityOptions,
-      filename: `mova_tiktok_${data.id || Date.now()}`,
-    };
+    return buildTikTokResult(json.data as Record<string, unknown>);
   } catch (e) {
     console.log(`TikTok tikwm GET failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
@@ -889,12 +898,20 @@ export async function POST(request: NextRequest) {
       downloadUrl = `/api/proxy?url=${encodeURIComponent(result.downloadUrl)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=best`;
     }
 
+    // Route image URLs through proxy for photo slides
+    const proxiedImages = (result as Record<string, unknown>).images
+      ? ((result as Record<string, unknown>).images as string[]).map((imgUrl: string) =>
+          `/api/proxy?url=${encodeURIComponent(imgUrl)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=photo`
+        )
+      : undefined;
+
     return NextResponse.json(
       {
         ...result,
         originalDownloadUrl: result.downloadUrl,
         downloadUrl,
         qualityOptions: proxiedQualityOptions,
+        ...(proxiedImages ? { images: proxiedImages, originalImages: (result as Record<string, unknown>).images } : {}),
       },
       { status: 200 }
     );

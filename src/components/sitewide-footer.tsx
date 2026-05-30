@@ -3,6 +3,7 @@ import { MovaLogo } from "@/components/mova-logo";
 
 const PLATFORMS = [
   { name: "TikTok Downloader", href: "/tiktok-downloader" },
+  { name: "TikTok Photo Slide", href: "/tiktok-photo-slide" },
   { name: "YouTube Downloader", href: "/youtube-downloader" },
   { name: "Instagram Downloader", href: "/instagram-downloader" },
   { name: "Facebook Downloader", href: "/facebook-downloader" },
