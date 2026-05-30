@@ -16,6 +16,7 @@ export interface AutoBlogPost {
   relatedArticles: { slug: string; title: string; description: string }[];
   faqJsonLd: object;
   howToJsonLd: object;
+  image?: string; // Cover image path (e.g. /blog-images/slug.png)
   lastUpdated?: string;
   lastUpdatedISO?: string;
   socialPosted?: boolean;

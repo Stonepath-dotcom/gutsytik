@@ -1325,7 +1325,7 @@ function FAQSection() {
 function BlogPreviewSection() {
   const { t } = useLanguage();
   const revealRef = useScrollReveal();
-  const [autoPosts, setAutoPosts] = useState<{slug: string; title: string; readingTime: string}[]>([]);
+  const [autoPosts, setAutoPosts] = useState<{slug: string; title: string; readingTime: string; image?: string}[]>([]);
 
   useEffect(() => {
     fetch("/api/blog/generate")
@@ -1359,9 +1359,18 @@ function BlogPreviewSection() {
             <div className="reveal-stagger grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
               {autoPosts.map((post, i) => (
                 <a key={`auto-${i}`} href={`/blog/${post.slug}`} className="smooth-hover rounded-xl overflow-hidden bg-white/5 border border-[#10B981]/20 hover:border-[#10B981]/40 transition-all duration-300 group text-left hover:shadow-lg hover:shadow-[#10B981]/10">
-                  <div className="h-24 md:h-28 bg-gradient-to-br from-[#10B981]/20 via-[#34D399]/15 to-[#10B981]/10 flex items-center justify-center">
-                    <span className="text-3xl opacity-60">🎬</span>
-                    <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-[#10B981] text-[8px] font-bold text-white">BARU</span>
+                  <div className="relative h-32 md:h-40 overflow-hidden">
+                    {post.image ? (
+                      <>
+                        <Image src={post.image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#333333] via-transparent to-transparent dark:from-[#2D2D2D]" />
+                      </>
+                    ) : (
+                      <div className="h-full bg-gradient-to-br from-[#10B981]/20 via-[#34D399]/15 to-[#10B981]/10 flex items-center justify-center">
+                        <span className="text-3xl opacity-60">🎬</span>
+                      </div>
+                    )}
+                    <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-[#10B981] text-[8px] font-bold text-white z-10">BARU</span>
                   </div>
                   <div className="p-4 lg:p-5">
                     <h3 className="text-white font-bold text-xs lg:text-base mb-2 group-hover:text-[#10B981] transition-colors line-clamp-2">{post.title}</h3>

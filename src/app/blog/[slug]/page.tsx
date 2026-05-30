@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 import { getAllAutoBlogPosts, getAutoBlogPostBySlug } from "@/lib/auto-blog";
@@ -22,6 +23,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Artikel Tidak Ditemukan" };
   }
 
+  const ogImage = post.image
+    ? `https://getmova.my.id${post.image}`
+    : "https://getmova.my.id/og-image.png";
+
   return {
     title: post.title,
     description: post.description,
@@ -38,11 +43,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       publishedTime: post.dateISO,
       modifiedTime: post.lastUpdatedISO || post.dateISO,
       authors: ["GetMova"],
+      images: [
+        {
+          url: ogImage,
+          width: 1344,
+          height: 768,
+          alt: post.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
+      images: [ogImage],
     },
   };
 }
@@ -63,6 +77,7 @@ export default async function AutoBlogArticlePage({ params }: PageProps) {
     "@type": "Article",
     headline: post.title,
     description: post.description,
+    image: post.image ? `https://getmova.my.id${post.image}` : undefined,
     datePublished: post.dateISO,
     dateModified: post.lastUpdatedISO || post.dateISO,
     author: { "@type": "Organization", name: "getmova" },
@@ -105,6 +120,7 @@ export default async function AutoBlogArticlePage({ params }: PageProps) {
         relatedArticles={post.relatedArticles}
         headings={post.headings}
         lastUpdated={post.lastUpdated}
+        image={post.image}
       >
         <div dangerouslySetInnerHTML={{ __html: post.content }} />
       </BlogArticleLayout>

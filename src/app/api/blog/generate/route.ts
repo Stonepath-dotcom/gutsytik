@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 import { createZai } from "@/lib/zai";
 import {
   addAutoBlogPost,
   getAvailableTopic,
   getAllAutoBlogPosts,
+  getAutoBlogData,
+  saveAutoBlogData,
   addInternalLinks,
   blogGradients,
   blogIcons,
@@ -238,6 +242,33 @@ Pastikan:
         ) || [],
     };
 
+    // Step 3: Generate cover image using AI
+    let imagePath: string | undefined;
+    try {
+      const imagePrompt = `A modern, clean illustration for a blog article about "${metadata.title || topicTitle}". The image should show digital technology, video downloading, smartphones, and social media concepts in a vibrant gradient style with emerald green (#10B981) accent colors. No text, no logos, no watermarks. Professional and engaging look suitable for a tech blog thumbnail.`;
+
+      const imageResponse = await zai.images.generations.create({
+        prompt: imagePrompt,
+        size: "1344x768",
+      });
+
+      if (imageResponse.data?.[0]?.base64) {
+        const imageBuffer = Buffer.from(imageResponse.data[0].base64, "base64");
+        const imageDir = path.join(process.cwd(), "public", "blog-images");
+        if (!fs.existsSync(imageDir)) {
+          fs.mkdirSync(imageDir, { recursive: true });
+        }
+        const imageFileName = `${topic}.png`;
+        const imageFilePath = path.join(imageDir, imageFileName);
+        fs.writeFileSync(imageFilePath, imageBuffer);
+        imagePath = `/blog-images/${imageFileName}`;
+        console.log(`[Blog Generate] Cover image saved: ${imagePath}`);
+      }
+    } catch (imgErr: any) {
+      console.error("[Blog Generate] Image generation failed:", imgErr?.message || imgErr);
+      // Image generation is optional - continue without image
+    }
+
     const post: AutoBlogPost = {
       slug: topic,
       title: metadata.title || `${topicTitle} - Panduan Lengkap 2026`,
@@ -255,6 +286,7 @@ Pastikan:
       relatedArticles,
       faqJsonLd,
       howToJsonLd,
+      image: imagePath,
     };
 
     // Save to JSON file
@@ -318,11 +350,13 @@ Pastikan:
         description: post.description,
         date: post.date,
         readingTime: post.readingTime,
+        image: post.image || null,
       },
       automations: {
         indexNow: true,
         internalLinks: true,
         socialPosts: true,
+        imageGenerated: !!imagePath,
       },
     });
   } catch (error: any) {
@@ -336,7 +370,6 @@ Pastikan:
 
 export async function GET() {
   // List auto-generated blog posts
-  const { getAllAutoBlogPosts } = await import("@/lib/auto-blog");
   const posts = getAllAutoBlogPosts();
   return NextResponse.json({
     count: posts.length,
@@ -345,6 +378,7 @@ export async function GET() {
       title: p.title,
       date: p.date,
       readingTime: p.readingTime,
+      image: p.image || null,
     })),
   });
 }

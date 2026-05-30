@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Clock, Calendar, ChevronRight, Download, Zap, List, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AdUnit } from "@/components/ad-unit";
@@ -29,6 +30,7 @@ interface BlogArticleLayoutProps {
   relatedArticles: RelatedArticle[];
   headings?: Heading[];
   lastUpdated?: string;
+  image?: string;
 }
 
 export function BlogArticleLayout({
@@ -42,6 +44,7 @@ export function BlogArticleLayout({
   relatedArticles,
   headings,
   lastUpdated,
+  image,
 }: BlogArticleLayoutProps) {
   const [tocOpen, setTocOpen] = useState(false);
 
@@ -84,6 +87,20 @@ export function BlogArticleLayout({
             <ChevronRight className="h-3.5 w-3.5" />
             <span className="text-foreground truncate max-w-[200px] sm:max-w-none">{title}</span>
           </nav>
+
+          {/* Cover Image */}
+          {image && (
+            <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden mb-6 shadow-lg">
+              <Image
+                src={image}
+                alt={title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 768px"
+                priority
+              />
+            </div>
+          )}
 
           {/* Title */}
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground mb-4 leading-tight font-[family-name:var(--font-montserrat)]">
