@@ -1,92 +1,68 @@
 import { NextResponse } from "next/server";
-import { createZai } from "@/lib/zai";
 
 /**
- * Debug endpoint - Test ZAI SDK connection step by step
+ * ZAI Connection Test - Diagnostic Results
+ *
+ * FINDING: internal-api.z.ai resolves to 172.25.x.x (internal IP)
+ * This means ZAI API is only accessible from the z.ai development environment.
+ * Vercel serverless functions CANNOT connect to internal-api.z.ai.
+ *
+ * SOLUTION: Automations that need AI/Web Search run from the dev environment
+ * (where z-ai-web-dev-sdk works) and the results are pushed to Vercel
+ * via git commits (auto-blog.json updates).
+ *
+ * Endpoints that DON'T need AI still work on Vercel:
+ * - /api/blog/dashboard (read metrics)
+ * - /api/blog/link-check (HTTP fetch only)
+ * - /api/blog/index-now (HTTP POST to search engines)
+ * - /api/blog/cron (triggers automation)
+ *
+ * Endpoints that NEED AI (work locally, not on Vercel):
+ * - /api/blog/generate (AI content generation)
+ * - /api/blog/refresh (AI content refresh)
+ * - /api/blog/trending (web search)
+ * - /api/blog/seo-audit (AI analysis)
+ * - /api/blog/keyword-research (web search + AI)
+ * - /api/blog/content-gap (web search + AI)
+ * - /api/blog/backlinks (web search + AI)
+ * - /api/blog/report (AI report)
+ * - /api/blog/paa (web search + AI)
+ * - /api/blog/og-image (AI image generation)
+ * - /api/blog/topic-cluster (AI strategy)
+ * - /api/blog/competitor (web search + AI)
+ * - /api/blog/translate (AI translation)
+ * - /api/blog/vitals (web search + AI)
+ * - /api/blog/social (AI captions)
  */
+
 export async function GET() {
-  const results: Record<string, any> = {};
-
-  // Step 1: Check env vars
-  results.hasZaiConfig = !!process.env.ZAI_CONFIG;
-  results.configPreview = process.env.ZAI_CONFIG
-    ? (() => {
-        try {
-          const c = JSON.parse(process.env.ZAI_CONFIG);
-          return { baseUrl: c.baseUrl, apiKey: c.apiKey, hasToken: !!c.token };
-        } catch {
-          return "invalid";
-        }
-      })()
-    : null;
-
-  // Step 2: Try creating ZAI instance
-  try {
-    const zai = await createZai();
-    results.zaiCreated = true;
-
-    // Step 3: Try a simple chat completion
-    try {
-      const response = await zai.chat.completions.create({
-        messages: [
-          { role: "user", content: "Say hello in one word" },
-        ],
-        max_tokens: 10,
-      });
-      results.chatSuccess = true;
-      results.chatResponse = response.choices[0]?.message?.content || "no content";
-    } catch (chatErr: any) {
-      results.chatSuccess = false;
-      results.chatError = chatErr.message;
-      results.chatErrorStack = chatErr.stack?.substring(0, 200);
-    }
-
-    // Step 4: Try web search
-    try {
-      const searchResult = await zai.functions.invoke("web_search", {
-        query: "test",
-        num: 1,
-      });
-      results.searchSuccess = true;
-      results.searchResult = Array.isArray(searchResult) ? `${searchResult.length} results` : "unexpected format";
-    } catch (searchErr: any) {
-      results.searchSuccess = false;
-      results.searchError = searchErr.message;
-    }
-  } catch (createErr: any) {
-    results.zaiCreated = false;
-    results.createError = createErr.message;
-  }
-
-  // Step 5: Try direct fetch to ZAI API
-  try {
-    const config = JSON.parse(process.env.ZAI_CONFIG || "{}");
-    const directResponse = await fetch(`${config.baseUrl}/chat/completions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${config.apiKey}`,
-        "X-Token": config.token,
-      },
-      body: JSON.stringify({
-        messages: [{ role: "user", content: "hi" }],
-        max_tokens: 5,
-        thinking: { type: "disabled" },
-      }),
-    });
-    results.directFetchStatus = directResponse.status;
-    results.directFetchOk = directResponse.ok;
-    if (directResponse.ok) {
-      const body = await directResponse.json();
-      results.directFetchContent = body.choices?.[0]?.message?.content || "no content";
-    } else {
-      results.directFetchBody = (await directResponse.text()).substring(0, 200);
-    }
-  } catch (directErr: any) {
-    results.directFetchError = directErr.message;
-    results.directFetchCode = directErr.code;
-    results.directFetchCause = directErr.cause?.message || null;
-  }
-
-  return NextResponse.json(results);
+  return NextResponse.json({
+    status: "diagnostic",
+    zaiConfigLoaded: !!process.env.ZAI_CONFIG,
+    zaiApiAccessible: false,
+    reason: "internal-api.z.ai resolves to internal IP (172.25.x.x) - not accessible from Vercel",
+    solution: "Run AI automations from local dev environment, push results via git",
+    workingOnVercel: [
+      "/api/blog/dashboard",
+      "/api/blog/link-check",
+      "/api/blog/index-now",
+    ],
+    needsLocalRun: [
+      "/api/blog/generate",
+      "/api/blog/refresh",
+      "/api/blog/trending",
+      "/api/blog/seo-audit",
+      "/api/blog/keyword-research",
+      "/api/blog/content-gap",
+      "/api/blog/backlinks",
+      "/api/blog/report",
+      "/api/blog/paa",
+      "/api/blog/og-image",
+      "/api/blog/topic-cluster",
+      "/api/blog/competitor",
+      "/api/blog/translate",
+      "/api/blog/vitals",
+      "/api/blog/social",
+    ],
+  });
 }
