@@ -79,8 +79,9 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Determine if this is an audio download
+    // Determine if this is an audio or photo download
     const isAudioRequest = quality === "Audio" || quality === "MP3" || quality === "Audio (Low)";
+    const isPhotoRequest = quality === "photo";
     const isGooglevideo = targetHost.includes("googlevideo") || targetHost.includes("youtube");
 
     // ===== GOOGLEVIDEO: Try streaming, fallback to redirect =====
@@ -180,6 +181,43 @@ export async function GET(request: NextRequest) {
 
       // If streaming failed, try redirect as fallback
       return NextResponse.redirect(videoUrl);
+    }
+
+    // ===== PHOTO: Stream with inline Content-Disposition for display =====
+    if (isPhotoRequest) {
+      try {
+        const photoRes = await fetch(videoUrl, {
+          headers,
+          redirect: "follow",
+          signal: AbortSignal.timeout(30000),
+        });
+
+        if (!photoRes.ok) {
+          console.error(`Proxy photo failed: ${photoRes.status} for ${videoUrl.substring(0, 100)}`);
+          return NextResponse.redirect(videoUrl);
+        }
+
+        const sourceContentType = photoRes.headers.get("content-type") || "";
+        const isImage = sourceContentType.includes("image") || sourceContentType.includes("octet-stream");
+        const contentType = isImage ? sourceContentType : "image/jpeg";
+        const photoFilename = `${filename}_photo.jpg`;
+
+        return new NextResponse(photoRes.body, {
+          status: 200,
+          headers: {
+            "Content-Type": contentType,
+            "Content-Disposition": `inline; filename="${photoFilename}"`,
+            "Cache-Control": "public, max-age=86400",
+            "Access-Control-Allow-Origin": "*",
+            ...(photoRes.headers.get("content-length") ? {
+              "Content-Length": photoRes.headers.get("content-length")!,
+            } : {}),
+          },
+        });
+      } catch (error) {
+        console.error(`Proxy photo error: ${error instanceof Error ? error.message : "unknown"}`);
+        return NextResponse.redirect(videoUrl);
+      }
     }
 
     // ===== NON-GOOGLEVIDEO VIDEO: Check size first =====

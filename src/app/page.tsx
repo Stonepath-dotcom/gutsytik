@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MovaLogo } from "@/components/mova-logo";
 import { useToast } from "@/hooks/use-toast";
+import { PhotoCarousel } from "@/components/photo-carousel";
 import Image from "next/image";
 
 /* ──────── Types ──────── */
@@ -870,81 +871,21 @@ function HeroSection() {
               </div>
             </div>
             <div className="p-4">
-              {/* Photo Slide View */}
+              {/* Photo Slide Carousel */}
               {result.isPhotoSlide && result.images && result.images.length > 0 ? (
-                <>
-                  {/* Image Grid */}
-                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5 mb-3">
-                    {result.images.map((imgUrl, idx) => (
-                      <a
-                        key={idx}
-                        href={imgUrl}
-                        download={`mova_tiktok_photo_${idx + 1}.jpg`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative group rounded-lg overflow-hidden bg-gray-100 dark:bg-[#444] aspect-square"
-                      >
-                        <Image src={result.originalImages?.[idx] || imgUrl} alt={`Foto ${idx + 1}`} fill className="object-cover" unoptimized loading="lazy" />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                          <Download className="h-5 w-5 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </div>
-                        <span className="absolute top-1 left-1 bg-black/50 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">{idx + 1}</span>
-                      </a>
-                    ))}
-                  </div>
-                  {/* Download All Button */}
-                  <Button
-                    onClick={async () => {
-                      if (!result.images) return;
-                      for (let i = 0; i < result.images.length; i++) {
-                        try {
-                          const res = await fetch(result.images[i]);
-                          const blob = await res.blob();
-                          if (blob.size > 500) {
-                            const url = URL.createObjectURL(blob);
-                            const a = document.createElement("a");
-                            a.href = url;
-                            a.download = `${result.filename}_foto_${i + 1}.jpg`;
-                            a.style.display = "none";
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                            setTimeout(() => URL.revokeObjectURL(url), 5000);
-                          }
-                        } catch {}
-                        // Small delay between downloads to avoid browser blocking
-                        if (i < result.images.length - 1) await new Promise(r => setTimeout(r, 600));
-                      }
-                      showToast("Semua foto diunduh!", "");
-                    }}
-                    className="w-full h-11 bg-[#E52222] text-white font-bold rounded-lg hover:bg-[#C91C1C] text-sm"
-                  >
-                    <ImageIcon className="mr-2 h-4 w-4" />
-                    Download Semua Foto ({result.imageCount})
-                  </Button>
-                  {/* Audio option if available */}
-                  {result.qualityOptions.length > 0 && (
-                    <div className="mt-3">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1.5"><Music className="h-3 w-3 text-[#E52222]" />Audio dari slide:</p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {result.qualityOptions.map((q, i) => (
-                          <button key={i} onClick={() => setSelectedQuality(i)} className={`flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors ${selectedQuality === i ? "text-white bg-[#E52222] border-[#E52222]" : "bg-white dark:bg-[#333] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-[#E52222]/30"}`}>
-                            <span>{q.label}</span><span className="opacity-70">{q.resolution}</span>
-                          </button>
-                        ))}
-                        <Button
-                          onClick={handleDownload}
-                          disabled={downloading}
-                          size="sm"
-                          className="bg-[#E52222] text-white font-bold rounded-lg hover:bg-[#C91C1C] text-xs h-8"
-                        >
-                          {downloading ? <Loader2 className="mr-1 h-3 w-3 animate-spin" /> : <Download className="mr-1 h-3 w-3" />}
-                          Download Audio
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </>
+                <PhotoCarousel
+                  images={result.images}
+                  originalImages={result.originalImages}
+                  imageCount={result.imageCount}
+                  filename={result.filename}
+                  qualityOptions={result.qualityOptions}
+                  selectedQuality={selectedQuality}
+                  downloading={downloading}
+                  onDownloadAudio={handleDownload}
+                  onSelectQuality={setSelectedQuality}
+                  onToast={showToast}
+                  accent="#E52222"
+                />
               ) : (
                 <>
                   {/* Regular Video Result */}

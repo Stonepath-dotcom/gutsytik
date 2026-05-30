@@ -4,6 +4,7 @@ import React, { useState, useCallback, useRef } from "react";
 import { Download, Copy, Loader2, CheckCircle, AlertCircle, Play, Image as ImageIcon, Music } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PhotoCarousel } from "@/components/photo-carousel";
 import Image from "next/image";
 
 interface QualityOption {
@@ -43,6 +44,7 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
   const [error, setError] = useState("");
   const [selectedQuality, setSelectedQuality] = useState(0);
   const [downloading, setDownloading] = useState(false);
+  const [toastMsg, setToastMsg] = useState<{ title: string; desc: string; variant?: "default" | "destructive" } | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 
   const handleAnalyze = useCallback(async () => {
@@ -213,6 +215,11 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
     }
   }, [result, selectedQuality, downloading]);
 
+  const showToast = useCallback((title: string, desc: string, variant: "default" | "destructive" = "default") => {
+    setToastMsg({ title, desc, variant });
+    setTimeout(() => setToastMsg(null), 3000);
+  }, []);
+
   const handlePaste = useCallback(async () => {
     try {
       const text = await navigator.clipboard.readText();
@@ -295,70 +302,18 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
 
           <div className="p-4">
             {result.isPhotoSlide && result.images && result.images.length > 0 ? (
-              <>
-                {/* Photo Slide Grid */}
-                <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5 mb-3">
-                  {result.images.map((imgUrl, idx) => (
-                    <a
-                      key={idx}
-                      href={imgUrl}
-                      download={`mova_tiktok_photo_${idx + 1}.jpg`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="relative group rounded-lg overflow-hidden bg-muted aspect-square"
-                    >
-                      <Image src={result.originalImages?.[idx] || imgUrl} alt={`Foto ${idx + 1}`} fill className="object-cover" unoptimized loading="lazy" />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                        <Download className="h-5 w-5 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                      <span className="absolute top-1 left-1 bg-black/50 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">{idx + 1}</span>
-                    </a>
-                  ))}
-                </div>
-                <Button
-                  onClick={async () => {
-                    if (!result.images) return;
-                    for (let i = 0; i < result.images.length; i++) {
-                      try {
-                        const res = await fetch(result.images[i]);
-                        const blob = await res.blob();
-                        if (blob.size > 500) {
-                          const url = URL.createObjectURL(blob);
-                          const a = document.createElement("a");
-                          a.href = url;
-                          a.download = `${result.filename}_foto_${i + 1}.jpg`;
-                          a.style.display = "none";
-                          document.body.appendChild(a);
-                          a.click();
-                          document.body.removeChild(a);
-                          setTimeout(() => URL.revokeObjectURL(url), 5000);
-                        }
-                      } catch {}
-                      if (i < result.images.length - 1) await new Promise(r => setTimeout(r, 600));
-                    }
-                  }}
-                  className="w-full bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] h-10"
-                >
-                  <ImageIcon className="h-4 w-4 mr-2" />
-                  Download Semua Foto ({result.imageCount})
-                </Button>
-                {result.qualityOptions.length > 0 && (
-                  <div className="mt-3">
-                    <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1.5"><Music className="h-3 w-3 text-[#10B981]" />Audio dari slide:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {result.qualityOptions.map((q, i) => (
-                        <button key={i} onClick={() => setSelectedQuality(i)} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${selectedQuality === i ? "bg-[#10B981] text-white" : "bg-muted text-muted-foreground hover:text-foreground"}`}>
-                          {q.label} {q.resolution !== q.label && `(${q.resolution})`}
-                        </button>
-                      ))}
-                      <Button onClick={handleDownload} disabled={downloading} size="sm" className="bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] text-xs h-8">
-                        {downloading ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <Download className="h-3 w-3 mr-1" />}
-                        Download Audio
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </>
+              <PhotoCarousel
+                images={result.images}
+                originalImages={result.originalImages}
+                imageCount={result.imageCount}
+                filename={result.filename}
+                qualityOptions={result.qualityOptions}
+                selectedQuality={selectedQuality}
+                downloading={downloading}
+                onDownloadAudio={handleDownload}
+                onSelectQuality={setSelectedQuality}
+                onToast={showToast}
+              />
             ) : (
               <>
                 {/* Regular Video Result */}
