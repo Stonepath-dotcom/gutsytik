@@ -140,6 +140,9 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+        <link rel="preconnect" href="https://adservice.google.com" />
+        <link rel="dns-prefetch" href="https://adservice.google.com" />
         <link rel="preconnect" href="https://i.ytimg.com" />
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
 
@@ -157,6 +160,9 @@ export default function RootLayout({
             `,
           }}
         />
+
+        {/* Google AdSense - Auto Ads */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8487073388720076" crossOrigin="anonymous" />
 
         {/* JSON-LD Structured Data */}
         <script

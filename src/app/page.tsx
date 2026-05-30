@@ -1476,10 +1476,19 @@ function Footer() {
             <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="shrink-0"><rect width="32" height="32" rx="8" fill="#E52222" /><path d="M13 9L23 16L13 23V9Z" fill="white" /></svg>
             <span className="font-[family-name:var(--font-montserrat)] font-bold text-white text-lg lg:text-2xl" style={{ letterSpacing: "-0.03em" }}>Get<span className="text-[#E52222]">Mova</span></span>
           </div>
-          <div className="flex items-center gap-6 lg:gap-8">
+          <p className="text-[#999999] text-xs lg:text-sm max-w-2xl">{lang === "id" ? "GetMova adalah layanan download video online gratis dari berbagai platform sosial media. Privasi pengguna adalah prioritas utama kami." : "GetMova is a free online video downloader from various social media platforms. User privacy is our top priority."}</p>
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 lg:gap-x-6 lg:gap-y-2">
+            <a href="/about" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Tentang Kami" : "About Us"}</a>
+            <a href="/how-it-works" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Cara Kerja" : "How It Works"}</a>
+            <a href="/faq" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">FAQ</a>
+            <a href="/blog" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">Blog</a>
+            <a href="/contact" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Hubungi Kami" : "Contact Us"}</a>
             <a href="/privacy" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Kebijakan Privasi" : "Privacy Policy"}</a>
             <a href="/terms" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Syarat & Ketentuan" : "Terms of Service"}</a>
-            <a href="/contact" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Hubungi Kami" : "Contact Us"}</a>
+            <a href="/disclaimer" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Disclaimer" : "Disclaimer"}</a>
+            <a href="/dmca" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">DMCA</a>
+            <a href="/cookie-policy" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Kebijakan Cookie" : "Cookie Policy"}</a>
+            <a href="/sitemap.xml" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">Sitemap</a>
           </div>
           <p className="footer-copy text-[#999999] text-xs lg:text-base">&copy; 2024-2026 GetMova. All rights reserved.</p>
         </div>

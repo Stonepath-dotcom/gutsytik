@@ -116,7 +116,11 @@ export function SitewideFooter() {
           <div className="flex items-center gap-4 text-xs text-muted-foreground">
             <Link href="/privacy" className="hover:text-[#10B981] transition-colors">Privasi</Link>
             <Link href="/terms" className="hover:text-[#10B981] transition-colors">Ketentuan</Link>
+            <Link href="/dmca" className="hover:text-[#10B981] transition-colors">DMCA</Link>
+            <Link href="/disclaimer" className="hover:text-[#10B981] transition-colors">Disclaimer</Link>
+            <Link href="/cookie-policy" className="hover:text-[#10B981] transition-colors">Cookie</Link>
             <Link href="/blog" className="hover:text-[#10B981] transition-colors">Blog</Link>
+            <Link href="/sitemap.xml" className="hover:text-[#10B981] transition-colors">Sitemap</Link>
           </div>
         </div>
       </div>
