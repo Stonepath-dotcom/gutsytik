@@ -35,6 +35,24 @@
     },
     "src/app/api/blog/link-check/route.ts": {
       "maxDuration": 60
+    },
+    "src/app/api/blog/paa/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/blog/og-image/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/blog/topic-cluster/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/blog/competitor/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/blog/translate/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/blog/vitals/route.ts": {
+      "maxDuration": 60
     }
   },
   "crons": [
