@@ -28,10 +28,13 @@ const RESOURCES = [
   { name: "Perbandingan Format", href: "/tools/format-comparison" },
   { name: "Kalkulator Ukuran", href: "/tools/file-size-calculator" },
   { name: "Komparator Resolusi", href: "/tools/resolution-comparator" },
+  { name: "Kalkulator Bitrate", href: "/tools/bitrate-calculator" },
   { name: "Trim Video", href: "/tools/trim-video" },
   { name: "Convert ke GIF", href: "/tools/convert-gif" },
+  { name: "Mova vs Kompetitor", href: "/compare" },
   { name: "FAQ", href: "/faq" },
   { name: "Changelog", href: "/changelog" },
+  { name: "Riwayat Download", href: "/download-history" },
   { name: "Tentang Kami", href: "/about" },
   { name: "Kontak", href: "/contact" },
 ];

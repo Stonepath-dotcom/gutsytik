@@ -11,6 +11,7 @@ import { BlogShareButtons } from "@/components/blog-share-buttons";
 import { ReadingProgressBar } from "@/components/blog/reading-progress-bar";
 import { AuthorBox } from "@/components/blog/author-box";
 import { NewsletterCTA } from "@/components/blog/newsletter-cta";
+import { ArticleReactions } from "@/components/blog/article-reactions";
 import { useScrollSpy } from "@/hooks/use-scroll-spy";
 
 export interface RelatedArticle {
@@ -254,6 +255,9 @@ export function BlogArticleLayout({
 
               {/* Author Box */}
               <AuthorBox />
+
+              {/* Article Reactions */}
+              <ArticleReactions slug={slug} />
 
               {/* Newsletter CTA */}
               <NewsletterCTA />

@@ -67,6 +67,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { slug: "how-it-works", priority: 0.5 },
     { slug: "changelog", priority: 0.4 },
     { slug: "tools", priority: 0.5 },
+    { slug: "compare", priority: 0.6 },
+    { slug: "download-history", priority: 0.3 },
   ];
 
   const platformEntries: MetadataRoute.Sitemap = platforms.map((p) => ({
@@ -123,6 +125,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/tools/bitrate-calculator`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
     },
   ];
 

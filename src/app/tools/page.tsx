@@ -8,6 +8,7 @@ import {
   FileVideo,
   Image,
   Monitor,
+  Headphones,
   Wrench,
 } from "lucide-react";
 import { MovaLogo } from "@/components/mova-logo";
@@ -91,6 +92,17 @@ const TOOLS = [
     borderColor: "border-pink-500/20",
     iconColor: "text-pink-500",
     badge: null,
+  },
+  {
+    title: "Kalkulator Bitrate Audio",
+    description:
+      "Hitung ukuran file audio berdasarkan bitrate, codec (MP3, AAC, OGG, FLAC), dan durasi. Bandingkan kualitas audio.",
+    href: "/tools/bitrate-calculator",
+    icon: Headphones,
+    color: "from-teal-500/20 to-teal-600/10",
+    borderColor: "border-teal-500/20",
+    iconColor: "text-teal-500",
+    badge: "Baru",
   },
 ];
 
