@@ -10,6 +10,7 @@ import {
   Link as LinkIcon, Search, ArrowRight, Globe,
   ArrowUp, Star, Mail, MessageCircle, Music, Video, Monitor, Award, Headphones,
   ShieldCheck, Database, History, FileText, Trash2,
+  Wrench, ArrowRightLeft, HardDrive, Scissors, Image as ImageIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -1408,14 +1409,91 @@ function BlogPreviewSection() {
 }
 
 /* ══════════════════════════════════════════════════
+   TOOLS SECTION — Links to interactive tools
+   ══════════════════════════════════════════════════ */
+function ToolsSection() {
+  const { t } = useLanguage();
+  const revealRef = useScrollReveal();
+  const tools = [
+    { icon: ArrowRightLeft, title: "Perbandingan Format", titleEn: "Format Comparison", desc: "Bandingkan MP4, WEBM, AVI, MKV dan temukan format terbaik.", descEn: "Compare MP4, WEBM, AVI, MKV and find the best format.", href: "/tools/format-comparison", color: "text-blue-500" },
+    { icon: HardDrive, title: "Kalkulator Ukuran File", titleEn: "File Size Calculator", desc: "Estimasi ukuran file video berdasarkan format, resolusi, dan durasi.", descEn: "Estimate video file size by format, resolution, and duration.", href: "/tools/file-size-calculator", color: "text-green-500" },
+    { icon: Scissors, title: "Trim Video", titleEn: "Trim Video", desc: "Potong bagian video yang kamu butuhkan tanpa install aplikasi.", descEn: "Cut the video part you need without installing any app.", href: "/tools/trim-video", color: "text-amber-500" },
+    { icon: ImageIcon, title: "Convert ke GIF", titleEn: "Convert to GIF", desc: "Ubah video jadi GIF animasi yang bisa di-share ke mana saja.", descEn: "Convert video to shareable animated GIF.", href: "/tools/convert-gif", color: "text-purple-500" },
+  ];
+  const isEn = t("nav.home") === "Home";
+  return (
+    <section ref={revealRef} className="section-reveal py-12 md:py-16 lg:py-20 px-4 md:px-6 transition-colors duration-300">
+      <div className="mx-auto max-w-5xl lg:max-w-6xl">
+        <div className="text-center mb-8 md:mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E52222]/10 border border-[#E52222]/20 mb-4">
+            <Wrench className="h-3.5 w-3.5 text-[#E52222]" />
+            <span className="text-[10px] font-bold text-[#E52222] uppercase tracking-wider">Tools</span>
+          </div>
+          <h2 className="section-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold text-foreground mb-3 font-[family-name:var(--font-montserrat)]">
+            {isEn ? "Video " : ""}<span className="gradient-text">{isEn ? "Tools" : "Tools Video"}</span>
+          </h2>
+          <p className="section-body-text text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
+            {isEn ? "Free interactive tools to help you choose the right format and manage your downloads." : "Tools interaktif gratis untuk bantu kamu pilih format yang tepat dan kelola download kamu."}
+          </p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {tools.map((tool) => (
+            <a key={tool.href} href={tool.href} className="group p-5 rounded-2xl bg-card border border-border hover:border-[#E52222]/30 transition-all duration-200 hover:shadow-lg hover:shadow-[#E52222]/5">
+              <div className={`w-10 h-10 rounded-xl ${tool.color}/10 bg-opacity-10 flex items-center justify-center mb-3`} style={{ backgroundColor: `color-mix(in srgb, var(--foreground) 5%, transparent)` }}>
+                <tool.icon className={`h-5 w-5 ${tool.color}`} />
+              </div>
+              <h3 className="font-bold text-foreground text-sm mb-1.5 group-hover:text-[#E52222] transition-colors font-[family-name:var(--font-montserrat)]">
+                {isEn ? tool.titleEn : tool.title}
+              </h3>
+              <p className="text-xs text-muted-foreground line-clamp-2">
+                {isEn ? tool.descEn : tool.desc}
+              </p>
+              <span className="inline-flex items-center gap-1 text-xs font-medium text-[#E52222] mt-3 group-hover:gap-2 transition-all">
+                {isEn ? "Try Now" : "Coba Sekarang"} <ArrowRight className="h-3 w-3" />
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
    NEWSLETTER
    ══════════════════════════════════════════════════ */
 function NewsletterSection() {
   const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const revealRef = useScrollReveal();
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (email.trim() && email.includes("@")) { setSubscribed(true); setEmail(""); setTimeout(() => setSubscribed(false), 4000); } };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim() || !email.includes("@")) return;
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSubscribed(true);
+        setEmail("");
+        setTimeout(() => setSubscribed(false), 6000);
+      } else {
+        setError(data.error || "Terjadi kesalahan. Coba lagi.");
+      }
+    } catch {
+      setError("Gagal terhubung. Coba lagi nanti.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#1A1A1A] relative overflow-hidden transition-colors duration-300">
       <div className="absolute top-0 right-0 w-64 h-64 bg-[#E52222]/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
@@ -1429,9 +1507,10 @@ function NewsletterSection() {
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
             <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t("nl.placeholder")} required className="nl-input flex-1 h-12 lg:h-14 bg-white/10 border border-white/10 rounded-lg px-4 text-white text-sm lg:text-lg placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors" />
-            <button type="submit" className="nl-btn h-12 lg:h-14 px-6 lg:px-8 bg-[#E52222] text-white font-bold text-sm lg:text-lg rounded-lg hover:bg-[#C91C1C] transition-colors shrink-0">{t("nl.btn")}</button>
+            <button type="submit" disabled={loading} className="nl-btn h-12 lg:h-14 px-6 lg:px-8 bg-[#E52222] text-white font-bold text-sm lg:text-lg rounded-lg hover:bg-[#C91C1C] disabled:opacity-50 disabled:cursor-not-allowed transition-colors shrink-0">{loading ? "..." : t("nl.btn")}</button>
           </form>
         )}
+        {error && <p className="text-red-400 text-xs mt-2">{error}</p>}
         <p className="text-white/30 text-xs lg:text-base mt-3">{t("nl.disclaimer")}</p>
       </div>
     </section>
@@ -1527,6 +1606,7 @@ export default function Home() {
           <TestimonialsSection />
           <FAQSection />
           <BlogPreviewSection />
+          <ToolsSection />
           <NewsletterSection />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
             "@context": "https://schema.org", "@type": "FAQPage",

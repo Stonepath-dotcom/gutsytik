@@ -510,6 +510,46 @@ details summary { list-style: none; }
   .reveal-stagger > * { transition-delay: 0ms !important; }
 }
 
+/* ─── Focus-visible for keyboard accessibility ─── */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ─── High contrast mode ─── */
+@media (prefers-contrast: high) {
+  :root {
+    --border: 0 0% 0%;
+    --ring: 0 0% 0%;
+  }
+  .dark {
+    --border: 0 0% 100%;
+    --ring: 0 0% 100%;
+  }
+}
+
+/* ─── Skip to content link ─── */
+.sr-only-focusable:focus {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 9999;
+  width: auto;
+  height: auto;
+  padding: 8px 16px;
+  clip: auto;
+  white-space: nowrap;
+  background: var(--primary);
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 /* ═══════════════════════════════════════════════
    FEATURE 11: Gradient Text Animation
    ═══════════════════════════════════════════════ */

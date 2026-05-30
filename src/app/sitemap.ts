@@ -98,6 +98,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.6,
     },
+    {
+      url: `${baseUrl}/tools/file-size-calculator`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/tools/trim-video`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/tools/convert-gif`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    },
   ];
 
   return [

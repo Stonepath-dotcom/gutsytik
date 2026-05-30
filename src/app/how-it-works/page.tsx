@@ -14,6 +14,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { MovaLogo } from "@/components/mova-logo";
+import { SitewideFooter } from "@/components/sitewide-footer";
 
 export const metadata: Metadata = {
   title: "Cara Kerja Mova - Download Video Tanpa Watermark",
@@ -279,8 +280,8 @@ export default function HowItWorksPage() {
               <p className="text-muted-foreground text-sm max-w-2xl mx-auto leading-relaxed">
                 Mova adalah layanan download video berbasis web yang memungkinkan Anda mengunduh video tanpa watermark dari berbagai platform media sosial. Tanpa instalasi, tanpa registrasi — cukup salin link, tempel, dan unduh.
               </p>
-              <p className="text-xs text-muted-foreground/60/60 mt-3">
-                Terakhir diperbarui: 27 Mei 2026
+              <p className="text-xs text-muted-foreground/60 mt-3">
+                Terakhir diperbarui: 30 Mei 2026
               </p>
             </div>
 
@@ -572,14 +573,10 @@ export default function HowItWorksPage() {
               </div>
             </div>
 
-            {/* Footer notice */}
-            <div className="mt-12 pt-8 border-t border-border text-center">
-              <p className="text-xs text-muted-foreground">
-                &copy; 2026 Mova. Dibuat di Indonesia. Semua hak dilindungi.
-              </p>
-            </div>
           </div>
         </main>
+
+        <SitewideFooter />
       </div>
     </>
   );
