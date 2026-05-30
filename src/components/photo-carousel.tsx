@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import {
   ChevronLeft, ChevronRight, Download, Image as ImageIcon,
-  Loader2, Music, ZoomIn, X,
+  Loader2, Music, X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -106,7 +106,6 @@ export function PhotoCarousel({
         onToast("Gagal mengunduh", "File terlalu kecil, kemungkinan error.", "destructive");
       }
     } catch {
-      // Fallback: open in new tab
       window.open(imgUrl, "_blank");
     } finally {
       setDownloadingPhoto(false);
@@ -138,44 +137,25 @@ export function PhotoCarousel({
   }, [images, filename, total, onToast]);
 
   const currentImgUrl = images[currentIdx];
-  const currentOriginalUrl = originalImages?.[currentIdx] || currentImgUrl;
 
   return (
     <>
-      {/* ── Main Carousel ── */}
+      {/* ── Per-Slide View ── */}
       <div className="w-full">
-        {/* Photo Counter */}
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-            <ImageIcon className="h-3.5 w-3.5" style={{ color: accent }} />
-            Foto {currentIdx + 1} dari {total}
-          </span>
-          <button
-            onClick={() => setFullscreen(true)}
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
-          >
-            <ZoomIn className="h-3.5 w-3.5" />
-            Perbesar
-          </button>
-        </div>
-
-        {/* Carousel Viewport */}
+        {/* Photo image area */}
         <div
-          className="relative w-full rounded-xl overflow-hidden bg-muted"
-          style={{ aspectRatio: "1/1", maxHeight: "420px" }}
+          className="relative w-full rounded-xl overflow-hidden bg-muted/80"
+          style={{ aspectRatio: "4/5", maxHeight: "400px" }}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Image */}
+          {/* Error state */}
           {imageError ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground gap-2">
               <ImageIcon className="h-10 w-10 opacity-40" />
               <p className="text-xs">Gagal memuat gambar</p>
               <button
-                onClick={() => {
-                  setImageError(false);
-                  setImageLoading(true);
-                }}
+                onClick={() => { setImageError(false); setImageLoading(true); }}
                 className="text-xs underline hover:text-foreground transition-colors"
               >
                 Coba lagi
@@ -191,98 +171,104 @@ export function PhotoCarousel({
               }`}
               unoptimized
               onLoad={() => setImageLoading(false)}
-              onError={() => {
-                setImageLoading(false);
-                setImageError(true);
-              }}
+              onError={() => { setImageLoading(false); setImageError(true); }}
             />
           )}
 
-          {/* Loading spinner */}
+          {/* Loading */}
           {imageLoading && !imageError && (
             <div className="absolute inset-0 flex items-center justify-center">
               <Loader2 className="h-8 w-8 animate-spin text-muted-foreground opacity-50" />
             </div>
           )}
 
-          {/* Previous Button */}
+          {/* Fullscreen button */}
+          <button
+            onClick={() => setFullscreen(true)}
+            className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-colors z-10"
+            title="Perbesar"
+          >
+            <ImageIcon className="h-4 w-4" />
+          </button>
+
+          {/* Photo number badge */}
+          <span className="absolute top-2 left-2 bg-black/50 backdrop-blur-sm text-white text-[11px] font-bold px-2 py-1 rounded-lg z-10">
+            {currentIdx + 1} / {total}
+          </span>
+
+          {/* Prev button */}
           {currentIdx > 0 && (
             <button
               onClick={goPrev}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-colors z-10"
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-colors z-10"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
           )}
 
-          {/* Next Button */}
+          {/* Next button */}
           {currentIdx < total - 1 && (
             <button
               onClick={goNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-colors z-10"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-colors z-10"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
           )}
         </div>
 
-        {/* Dot indicators / Thumbnail strip */}
-        <div className="mt-2 flex gap-1 overflow-x-auto pb-1 scrollbar-hide">
-          {images.map((img, idx) => (
+        {/* ── Per-slide action bar ── */}
+        <div className="mt-2">
+          {/* Download this photo */}
+          <Button
+            onClick={handleDownloadPhoto}
+            disabled={downloadingPhoto}
+            className="w-full text-white font-semibold rounded-xl h-11 text-sm"
+            style={{ background: accent }}
+          >
+            {downloadingPhoto ? (
+              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+            ) : (
+              <Download className="h-4 w-4 mr-2" />
+            )}
+            Download Foto {currentIdx + 1}
+          </Button>
+        </div>
+
+        {/* ── Dot indicators ── */}
+        <div className="mt-2 flex items-center justify-center gap-1.5">
+          {images.map((_, idx) => (
             <button
               key={idx}
               onClick={() => goTo(idx)}
-              className={`shrink-0 w-12 h-12 rounded-lg overflow-hidden border-2 transition-all ${
+              className={`rounded-full transition-all ${
                 idx === currentIdx
-                  ? "border-foreground/80 scale-105 opacity-100"
-                  : "border-transparent opacity-50 hover:opacity-80"
+                  ? "w-5 h-2"
+                  : "w-2 h-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
               }`}
-            >
-              <Image
-                src={img}
-                alt={`Thumb ${idx + 1}`}
-                width={48}
-                height={48}
-                className="w-full h-full object-cover"
-                unoptimized
-                loading="lazy"
-              />
-            </button>
+              style={idx === currentIdx ? { background: accent } : {}}
+            />
           ))}
         </div>
 
-        {/* Download Buttons */}
-        <div className="mt-3 space-y-2">
-          <div className="flex gap-2">
-            <Button
-              onClick={handleDownloadPhoto}
-              disabled={downloadingPhoto}
-              className="flex-1 text-white font-semibold rounded-xl h-10 text-sm"
-              style={{ background: accent }}
-            >
-              {downloadingPhoto ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              ) : (
-                <Download className="h-4 w-4 mr-2" />
-              )}
-              Download Foto {currentIdx + 1}
-            </Button>
-            <Button
-              onClick={handleDownloadAll}
-              disabled={downloadingAll}
-              className="flex-1 text-white font-semibold rounded-xl h-10 text-sm"
-              style={{ background: accent }}
-            >
-              {downloadingAll ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              ) : (
-                <ImageIcon className="h-4 w-4 mr-2" />
-              )}
-              Semua ({total})
-            </Button>
-          </div>
+        {/* ── Bottom section: Download All + Audio ── */}
+        <div className="mt-3 pt-3 border-t border-border">
+          {/* Download all */}
+          <Button
+            onClick={handleDownloadAll}
+            disabled={downloadingAll}
+            variant="outline"
+            className="w-full font-semibold rounded-xl h-10 text-sm mb-2"
+          >
+            {downloadingAll ? (
+              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+            ) : (
+              <ImageIcon className="h-4 w-4 mr-2" />
+            )}
+            Download Semua Foto ({total})
+          </Button>
 
-          {/* Audio option if available */}
+          {/* Audio option */}
           {qualityOptions.length > 0 && (
             <div>
               <p className="text-xs text-muted-foreground mb-1.5 flex items-center gap-1.5">
@@ -327,25 +313,29 @@ export function PhotoCarousel({
       {/* ── Fullscreen Overlay ── */}
       {fullscreen && (
         <div
-          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
+          className="fixed inset-0 z-[100] bg-black/95 flex flex-col"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Close button */}
-          <button
-            onClick={() => setFullscreen(false)}
-            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
-          >
-            <X className="h-5 w-5" />
-          </button>
-
-          {/* Photo counter */}
-          <span className="absolute top-4 left-4 text-white/70 text-sm font-medium z-10">
-            {currentIdx + 1} / {total}
-          </span>
+          {/* Top bar */}
+          <div className="flex items-center justify-between px-4 py-3 shrink-0">
+            <span className="text-white/70 text-sm font-medium">
+              {currentIdx + 1} / {total}
+            </span>
+            <button
+              onClick={() => setFullscreen(false)}
+              className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
 
           {/* Fullscreen Image */}
-          <div className="relative w-full h-full flex items-center justify-center p-4">
+          <div
+            className="flex-1 relative flex items-center justify-center px-2"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             <Image
               src={currentImgUrl}
               alt={`Foto ${currentIdx + 1}`}
@@ -354,49 +344,65 @@ export function PhotoCarousel({
               className="max-w-full max-h-full object-contain"
               unoptimized
             />
+
+            {/* Fullscreen Nav */}
+            {currentIdx > 0 && (
+              <button
+                onClick={goPrev}
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+            )}
+            {currentIdx < total - 1 && (
+              <button
+                onClick={goNext}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            )}
           </div>
 
-          {/* Fullscreen Navigation */}
-          {currentIdx > 0 && (
-            <button
-              onClick={goPrev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+          {/* Fullscreen bottom: download + dots */}
+          <div className="shrink-0 px-4 pb-4 pt-2">
+            <Button
+              onClick={async () => {
+                const imgUrl = images[currentIdx];
+                try {
+                  const res = await fetch(imgUrl);
+                  const blob = await res.blob();
+                  if (blob.size > 500) {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `${filename}_foto_${currentIdx + 1}.jpg`;
+                    a.style.display = "none";
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(url), 10000);
+                  }
+                } catch { window.open(imgUrl, "_blank"); }
+              }}
+              className="w-full bg-white text-black font-semibold rounded-xl h-11 text-sm hover:bg-white/90"
             >
-              <ChevronLeft className="h-7 w-7" />
-            </button>
-          )}
-          {currentIdx < total - 1 && (
-            <button
-              onClick={goNext}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-            >
-              <ChevronRight className="h-7 w-7" />
-            </button>
-          )}
+              <Download className="h-4 w-4 mr-2" />
+              Download Foto {currentIdx + 1}
+            </Button>
 
-          {/* Fullscreen thumbnail strip */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 overflow-x-auto max-w-[90vw] pb-2">
-            {images.map((img, idx) => (
-              <button
-                key={idx}
-                onClick={() => goTo(idx)}
-                className={`shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-all ${
-                  idx === currentIdx
-                    ? "border-white scale-110 opacity-100"
-                    : "border-transparent opacity-40 hover:opacity-70"
-                }`}
-              >
-                <Image
-                  src={img}
-                  alt={`Thumb ${idx + 1}`}
-                  width={56}
-                  height={56}
-                  className="w-full h-full object-cover"
-                  unoptimized
-                  loading="lazy"
+            {/* Fullscreen dots */}
+            <div className="mt-3 flex items-center justify-center gap-1.5">
+              {images.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => goTo(idx)}
+                  className={`rounded-full transition-all ${
+                    idx === currentIdx ? "w-5 h-2 bg-white" : "w-2 h-2 bg-white/30 hover:bg-white/50"
+                  }`}
                 />
-              </button>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       )}
