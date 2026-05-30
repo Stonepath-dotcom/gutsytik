@@ -7,6 +7,8 @@ import { Clock, Calendar, ChevronRight, Download, Zap, List, ChevronDown } from 
 import { Button } from "@/components/ui/button";
 import { AdUnit } from "@/components/ad-unit";
 import { SitewideFooter } from "@/components/sitewide-footer";
+import { BlogShareButtons } from "@/components/blog-share-buttons";
+import { ReadingProgressBar } from "@/components/blog/reading-progress-bar";
 
 export interface RelatedArticle {
   slug: string;
@@ -60,6 +62,8 @@ export function BlogArticleLayout({
 
   return (
     <main className="min-h-screen bg-background">
+      {/* Reading Progress Bar */}
+      <ReadingProgressBar />
       {/* JSON-LD */}
       <script
         type="application/ld+json"
@@ -126,9 +130,12 @@ export function BlogArticleLayout({
           </div>
 
           {/* Description */}
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-4">
             {description}
           </p>
+
+          {/* Share Buttons */}
+          <BlogShareButtons title={title} slug={slug} description={description} />
         </div>
       </section>
 

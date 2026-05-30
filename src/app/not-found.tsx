@@ -65,6 +65,9 @@ export default function NotFound() {
             <Link href="/blog" className="flex items-center gap-2 p-3 rounded-lg bg-card border border-border text-sm text-muted-foreground hover:text-[#E52222] hover:border-[#E52222]/30 transition-colors">
               <ChevronRight className="h-3.5 w-3.5" /> Blog & Panduan
             </Link>
+            <Link href="/tools/format-comparison" className="flex items-center gap-2 p-3 rounded-lg bg-card border border-border text-sm text-muted-foreground hover:text-[#E52222] hover:border-[#E52222]/30 transition-colors">
+              <ChevronRight className="h-3.5 w-3.5" /> Perbandingan Format
+            </Link>
             <Link href="/faq" className="flex items-center gap-2 p-3 rounded-lg bg-card border border-border text-sm text-muted-foreground hover:text-[#E52222] hover:border-[#E52222]/30 transition-colors">
               <ChevronRight className="h-3.5 w-3.5" /> FAQ
             </Link>

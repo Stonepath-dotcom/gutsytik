@@ -1,7 +1,9 @@
-const CACHE_NAME = 'mova-v1';
+const CACHE_NAME = 'mova-v2';
+const OFFLINE_URL = '/offline.html';
 const urlsToCache = [
   '/manifest.json',
   '/mova-logo.png',
+  '/offline.html',
 ];
 
 self.addEventListener('install', (event) => {
@@ -15,6 +17,12 @@ self.addEventListener('install', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
+  // Skip non-GET requests
+  if (event.request.method !== 'GET') return;
+
+  // Skip chrome-extension and other non-http
+  if (!url.protocol.startsWith('http')) return;
+
   // Network-first for HTML pages (always get fresh content)
   if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname === '/') {
     event.respondWith(
@@ -27,7 +35,13 @@ self.addEventListener('fetch', (event) => {
           }
           return fetchResponse;
         })
-        .catch(() => caches.match(event.request))
+        .catch(() => {
+          // If offline, try cache first, then show offline page
+          return caches.match(event.request).then((cachedResponse) => {
+            if (cachedResponse) return cachedResponse;
+            return caches.match(OFFLINE_URL);
+          });
+        })
     );
     return;
   }
@@ -49,7 +63,11 @@ self.addEventListener('fetch', (event) => {
           return fetchResponse;
         });
       }).catch(() => {
-        return caches.match('/');
+        // For image requests that fail, return nothing rather than offline page
+        if (event.request.destination === 'image') {
+          return new Response('', { status: 404 });
+        }
+        return caches.match(OFFLINE_URL);
       })
   );
 });

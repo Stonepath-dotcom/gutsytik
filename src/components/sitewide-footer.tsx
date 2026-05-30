@@ -24,6 +24,7 @@ const LEGAL = [
 const RESOURCES = [
   { name: "Blog & Panduan", href: "/blog" },
   { name: "Cara Kerja", href: "/how-it-works" },
+  { name: "Perbandingan Format", href: "/tools/format-comparison" },
   { name: "FAQ", href: "/faq" },
   { name: "Tentang Kami", href: "/about" },
   { name: "Kontak", href: "/contact" },

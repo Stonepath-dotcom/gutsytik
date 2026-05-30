@@ -90,6 +90,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: l.priority,
   }));
 
+  // Tools pages
+  const tools: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/tools/format-comparison`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
+  ];
+
   return [
     {
       url: baseUrl,
@@ -101,5 +111,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...platformEntries,
     ...blogEntries,
     ...legalEntries,
+    ...tools,
   ];
 }

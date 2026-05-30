@@ -6,6 +6,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/providers";
 import { CookieConsent } from "@/components/cookie-consent";
 import { PwaInstallPrompt } from "@/components/pwa-install-prompt";
+import { BackToTop } from "@/components/back-to-top";
+import { KeyboardShortcutsModal } from "@/components/keyboard-shortcuts-modal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -394,6 +396,8 @@ export default function RootLayout({
           <Toaster />
           <CookieConsent />
           <PwaInstallPrompt />
+          <BackToTop />
+          <KeyboardShortcutsModal />
         </Providers>
       </body>
     </html>

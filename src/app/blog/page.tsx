@@ -6,6 +6,7 @@ import { MovaLogo } from "@/components/mova-logo";
 import { SitewideFooter } from "@/components/sitewide-footer";
 import { getAllAutoBlogPosts } from "@/lib/auto-blog";
 import { BlogSearchClient } from "@/components/blog/blog-search-client";
+import { BlogArticleGrid } from "@/components/blog/blog-article-grid";
 
 export const metadata: Metadata = {
   title: "Blog Mova - Tips & Panduan Download Video Tanpa Watermark",
@@ -440,137 +441,8 @@ export default function BlogPage() {
             </div>
           </section>
 
-          {/* Auto-Generated Posts Section */}
-          {autoPosts.length > 0 && (
-            <section className="px-4 sm:px-6 pb-8">
-              <div className="mx-auto max-w-5xl">
-                <div className="flex items-center gap-2 mb-5">
-                  <Sparkles className="h-5 w-5 text-[#10B981]" />
-                  <h2 className="text-lg font-bold text-foreground font-[family-name:var(--font-montserrat)]">
-                    Artikel Terbaru
-                  </h2>
-                  <span className="ml-1 px-2 py-0.5 rounded-full bg-[#10B981]/10 text-[10px] font-semibold text-[#10B981] border border-[#10B981]/20">
-                    BARU
-                  </span>
-                </div>
-                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                  {autoPosts.map((article) => (
-                    <Link
-                      key={article.slug}
-                      href={`/blog/${article.slug}`}
-                      className="group rounded-2xl overflow-hidden bg-card border border-[#10B981]/20 hover:border-[#10B981]/50 transition-all duration-200"
-                    >
-                      {/* Thumbnail */}
-                      <div
-                        className={`h-32 sm:h-36 relative overflow-hidden ${!article.image ? `bg-gradient-to-br ${article.gradient}` : ''}`}
-                      >
-                        {article.image ? (
-                          <>
-                            <Image
-                              src={article.image}
-                              alt={article.title}
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-card/80 dark:from-[#111113]/80 via-transparent to-transparent" />
-                          </>
-                        ) : (
-                          <>
-                            <span className="text-4xl opacity-80">{article.icon}</span>
-                            <div className="absolute inset-0 bg-gradient-to-t from-card/80 dark:from-[#111113]/80 to-transparent" />
-                          </>
-                        )}
-                        <span className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-[#10B981] text-[9px] font-bold text-white z-10">
-                          BARU
-                        </span>
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-4">
-                        <div className="flex items-center gap-3 text-[11px] text-muted-foreground mb-2">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="h-3 w-3 text-[#10B981]" />
-                            {article.date}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-3 w-3 text-[#10B981]" />
-                            {article.readingTime}
-                          </span>
-                        </div>
-
-                        <h2 className="font-bold text-foreground text-sm sm:text-base mb-2 group-hover:text-[#10B981] transition-colors line-clamp-2 font-[family-name:var(--font-montserrat)]">
-                          {article.title}
-                        </h2>
-
-                        <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
-                          {article.description}
-                        </p>
-
-                        <span className="inline-flex items-center gap-1 text-xs font-medium text-[#10B981] group-hover:gap-2 transition-all">
-                          Baca Selengkapnya
-                          <ArrowRight className="h-3 w-3" />
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* All Articles Grid */}
-          <section className="px-4 sm:px-6 pb-16">
-            <div className="mx-auto max-w-5xl">
-              <h2 className="text-lg font-bold text-foreground mb-5 font-[family-name:var(--font-montserrat)]">
-                Semua Artikel
-              </h2>
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {articles.map((article) => (
-                  <Link
-                    key={article.slug}
-                    href={`/blog/${article.slug}`}
-                    className="group rounded-2xl overflow-hidden bg-card border border-border hover:border-[#10B981]/30 transition-all duration-200"
-                  >
-                    {/* Thumbnail */}
-                    <div
-                      className={`h-32 sm:h-36 relative overflow-hidden flex items-center justify-center bg-gradient-to-br ${article.gradient}`}
-                    >
-                      <span className="text-4xl opacity-80">{article.icon}</span>
-                      <div className="absolute inset-0 bg-gradient-to-t from-card/80 dark:from-[#111113]/80 to-transparent" />
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-4">
-                      <div className="flex items-center gap-3 text-[11px] text-muted-foreground mb-2">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3 text-[#10B981]" />
-                          {article.date}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="h-3 w-3 text-[#10B981]" />
-                          {article.readingTime}
-                        </span>
-                      </div>
-
-                      <h2 className="font-bold text-foreground text-sm sm:text-base mb-2 group-hover:text-[#10B981] transition-colors line-clamp-2 font-[family-name:var(--font-montserrat)]">
-                        {article.title}
-                      </h2>
-
-                      <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
-                        {article.description}
-                      </p>
-
-                      <span className="inline-flex items-center gap-1 text-xs font-medium text-[#10B981] group-hover:gap-2 transition-all">
-                        Baca Selengkapnya
-                        <ArrowRight className="h-3 w-3" />
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </section>
+          {/* Article Grid with Tag Filtering */}
+          <BlogArticleGrid autoPosts={autoPosts} allArticles={allArticles} />
 
           {/* CTA */}
           <section className="px-4 sm:px-6 pb-16">
