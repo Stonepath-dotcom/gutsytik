@@ -24,11 +24,14 @@ const LEGAL = [
 const RESOURCES = [
   { name: "Blog & Panduan", href: "/blog" },
   { name: "Cara Kerja", href: "/how-it-works" },
+  { name: "Tools Video", href: "/tools" },
   { name: "Perbandingan Format", href: "/tools/format-comparison" },
   { name: "Kalkulator Ukuran", href: "/tools/file-size-calculator" },
+  { name: "Komparator Resolusi", href: "/tools/resolution-comparator" },
   { name: "Trim Video", href: "/tools/trim-video" },
   { name: "Convert ke GIF", href: "/tools/convert-gif" },
   { name: "FAQ", href: "/faq" },
+  { name: "Changelog", href: "/changelog" },
   { name: "Tentang Kami", href: "/about" },
   { name: "Kontak", href: "/contact" },
 ];
@@ -121,9 +124,9 @@ export function SitewideFooter() {
             <Link href="/privacy" className="hover:text-[#10B981] transition-colors">Privasi</Link>
             <Link href="/terms" className="hover:text-[#10B981] transition-colors">Ketentuan</Link>
             <Link href="/dmca" className="hover:text-[#10B981] transition-colors">DMCA</Link>
-            <Link href="/disclaimer" className="hover:text-[#10B981] transition-colors">Disclaimer</Link>
-            <Link href="/cookie-policy" className="hover:text-[#10B981] transition-colors">Cookie</Link>
             <Link href="/blog" className="hover:text-[#10B981] transition-colors">Blog</Link>
+            <Link href="/tools" className="hover:text-[#10B981] transition-colors">Tools</Link>
+            <Link href="/changelog" className="hover:text-[#10B981] transition-colors">Changelog</Link>
             <Link href="/sitemap.xml" className="hover:text-[#10B981] transition-colors">Sitemap</Link>
           </div>
         </div>

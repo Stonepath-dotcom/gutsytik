@@ -65,6 +65,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { slug: "blog", priority: 0.6 },
     { slug: "cookie-policy", priority: 0.3 },
     { slug: "how-it-works", priority: 0.5 },
+    { slug: "changelog", priority: 0.4 },
+    { slug: "tools", priority: 0.5 },
   ];
 
   const platformEntries: MetadataRoute.Sitemap = platforms.map((p) => ({
@@ -115,6 +117,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/tools/resolution-comparator`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     },
   ];
 

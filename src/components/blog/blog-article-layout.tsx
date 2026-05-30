@@ -9,6 +9,9 @@ import { AdUnit } from "@/components/ad-unit";
 import { SitewideFooter } from "@/components/sitewide-footer";
 import { BlogShareButtons } from "@/components/blog-share-buttons";
 import { ReadingProgressBar } from "@/components/blog/reading-progress-bar";
+import { AuthorBox } from "@/components/blog/author-box";
+import { NewsletterCTA } from "@/components/blog/newsletter-cta";
+import { useScrollSpy } from "@/hooks/use-scroll-spy";
 
 export interface RelatedArticle {
   slug: string;
@@ -49,6 +52,10 @@ export function BlogArticleLayout({
   image,
 }: BlogArticleLayoutProps) {
   const [tocOpen, setTocOpen] = useState(false);
+
+  // Scroll Spy: highlight active heading in TOC
+  const headingIds = headings?.map((h) => h.id) ?? [];
+  const activeHeadingId = useScrollSpy({ ids: headingIds, offset: 120 });
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -143,7 +150,7 @@ export function BlogArticleLayout({
       <article className="px-4 sm:px-6 pb-12">
         <div className="mx-auto max-w-4xl">
           <div className="flex gap-8">
-            {/* Desktop ToC Sidebar */}
+            {/* Desktop ToC Sidebar with Scroll Spy */}
             {headings && headings.length > 0 && (
               <aside className="hidden lg:block w-56 shrink-0">
                 <nav
@@ -155,21 +162,30 @@ export function BlogArticleLayout({
                     Daftar Isi
                   </h3>
                   <ol className="space-y-1.5">
-                    {headings.map((h, i) => (
-                      <li key={h.id}>
-                        <a
-                          href={`#${h.id}`}
-                          className="text-xs text-muted-foreground hover:text-[#10B981] transition-colors leading-relaxed block py-0.5"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
-                          }}
-                        >
-                          <span className="text-[#10B981]/40 mr-1.5">{i + 1}.</span>
-                          {h.text}
-                        </a>
-                      </li>
-                    ))}
+                    {headings.map((h, i) => {
+                      const isActive = activeHeadingId === h.id;
+                      return (
+                        <li key={h.id}>
+                          <a
+                            href={`#${h.id}`}
+                            className={`text-xs leading-relaxed block py-0.5 transition-all duration-200 ${
+                              isActive
+                                ? "text-[#10B981] font-bold border-l-2 border-[#10B981] pl-2 -ml-2"
+                                : "text-muted-foreground hover:text-[#10B981]"
+                            }`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
+                            }}
+                          >
+                            <span className={`${isActive ? "text-[#10B981]" : "text-[#10B981]/40"} mr-1.5`}>
+                              {i + 1}.
+                            </span>
+                            {h.text}
+                          </a>
+                        </li>
+                      );
+                    })}
                   </ol>
                 </nav>
               </aside>
@@ -177,7 +193,7 @@ export function BlogArticleLayout({
 
             {/* Article Content */}
             <div className="flex-1 min-w-0">
-              {/* Mobile ToC (collapsible) */}
+              {/* Mobile ToC (collapsible) with Scroll Spy */}
               {headings && headings.length > 0 && (
                 <div className="lg:hidden mb-6">
                   <button
@@ -201,22 +217,31 @@ export function BlogArticleLayout({
                       aria-label="Daftar Isi"
                     >
                       <ol className="space-y-2">
-                        {headings.map((h, i) => (
-                          <li key={h.id}>
-                            <a
-                              href={`#${h.id}`}
-                              className="text-sm text-muted-foreground hover:text-[#10B981] transition-colors"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setTocOpen(false);
-                                document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
-                              }}
-                            >
-                              <span className="text-[#10B981]/40 mr-1.5">{i + 1}.</span>
-                              {h.text}
-                            </a>
-                          </li>
-                        ))}
+                        {headings.map((h, i) => {
+                          const isActive = activeHeadingId === h.id;
+                          return (
+                            <li key={h.id}>
+                              <a
+                                href={`#${h.id}`}
+                                className={`text-sm transition-colors ${
+                                  isActive
+                                    ? "text-[#10B981] font-bold"
+                                    : "text-muted-foreground hover:text-[#10B981]"
+                                }`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setTocOpen(false);
+                                  document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
+                                }}
+                              >
+                                <span className={`${isActive ? "text-[#10B981]" : "text-[#10B981]/40"} mr-1.5`}>
+                                  {i + 1}.
+                                </span>
+                                {h.text}
+                              </a>
+                            </li>
+                          );
+                        })}
                       </ol>
                     </nav>
                   )}
@@ -226,6 +251,12 @@ export function BlogArticleLayout({
               <div className="prose-blog">
                 {children}
               </div>
+
+              {/* Author Box */}
+              <AuthorBox />
+
+              {/* Newsletter CTA */}
+              <NewsletterCTA />
 
               {/* In-article Ad */}
               <div className="mt-8 py-4 border-t border-b border-border">
