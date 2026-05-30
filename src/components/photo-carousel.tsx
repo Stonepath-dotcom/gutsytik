@@ -8,7 +8,9 @@ import {
 import { Button } from "@/components/ui/button";
 
 interface PhotoCarouselProps {
+  /** Original CDN image URLs — used directly for display */
   images: string[];
+  /** Proxy URLs for downloading — not used for display */
   originalImages?: string[];
   imageCount?: number;
   filename: string;
@@ -44,18 +46,18 @@ export function PhotoCarousel({
   const touchStartX = useRef<number | null>(null);
   const total = images.length;
 
-  // Blob URLs for image display (avoids long proxy URLs & next/image issues)
-  const [blobUrls, setBlobUrls] = useState<(string | null)[]>(() => images.map(() => null));
-  const loadedRef = useRef<Set<number>>(new Set());
+  // Fallback blob URLs: only created if direct CDN URL fails to load
+  const [fallbackUrls, setFallbackUrls] = useState<(string | null)[]>(() => images.map(() => null));
+  const triedFallbackRef = useRef<Set<number>>(new Set());
 
-  // Load an image via /api/photo-preview and create a blob URL
-  const loadImage = useCallback(async (idx: number) => {
-    if (loadedRef.current.has(idx) || blobUrls[idx]) return;
+  // Try loading image via /api/photo-preview proxy when direct CDN fails
+  const loadFallbackImage = useCallback(async (idx: number) => {
+    if (triedFallbackRef.current.has(idx) || fallbackUrls[idx]) return;
 
+    triedFallbackRef.current.add(idx);
     const originalUrl = originalImages?.[idx] || images[idx];
 
     try {
-      // Try POST /api/photo-preview first (avoids URL length limits)
       const res = await fetch("/api/photo-preview", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -66,70 +68,28 @@ export function PhotoCarousel({
         const blob = await res.blob();
         if (blob.size > 500) {
           const url = URL.createObjectURL(blob);
-          setBlobUrls(prev => {
+          setFallbackUrls(prev => {
             const next = [...prev];
             next[idx] = url;
             return next;
           });
-          loadedRef.current.add(idx);
           return;
         }
       }
+    } catch {}
+    // If fallback also fails, nothing more we can do
+  }, [images, originalImages, fallbackUrls]);
 
-      // Fallback: try direct fetch from proxy URL (images[idx] = /api/proxy?...)
-      const proxyUrl = images[idx];
-      if (proxyUrl.startsWith("/")) {
-        const res2 = await fetch(proxyUrl);
-        if (res2.ok) {
-          const blob2 = await res2.blob();
-          if (blob2.size > 500) {
-            const url2 = URL.createObjectURL(blob2);
-            setBlobUrls(prev => {
-              const next = [...prev];
-              next[idx] = url2;
-              return next;
-            });
-            loadedRef.current.add(idx);
-            return;
-          }
-        }
-      }
-
-      // Last fallback: use original URL directly
-      setBlobUrls(prev => {
-        const next = [...prev];
-        next[idx] = originalUrl;
-        return next;
-      });
-      loadedRef.current.add(idx);
-    } catch {
-      // Fallback: use original URL directly
-      setBlobUrls(prev => {
-        const next = [...prev];
-        next[idx] = originalUrl;
-        return next;
-      });
-      loadedRef.current.add(idx);
-    }
-  }, [images, originalImages, blobUrls]);
-
-  // Load current image when index changes
+  // Reset loading state when index changes
   useEffect(() => {
     setImageLoading(true);
     setImageError(false);
-    loadImage(currentIdx);
-  }, [currentIdx, loadImage]);
-
-  // Preload next and previous images
-  useEffect(() => {
-    if (currentIdx + 1 < total) loadImage(currentIdx + 1);
-    if (currentIdx - 1 >= 0) loadImage(currentIdx - 1);
-  }, [currentIdx, total, loadImage]);
+  }, [currentIdx]);
 
   // Cleanup blob URLs on unmount
   useEffect(() => {
     return () => {
-      blobUrls.forEach(url => {
+      fallbackUrls.forEach(url => {
         if (url && url.startsWith("blob:")) URL.revokeObjectURL(url);
       });
     };
@@ -173,59 +133,105 @@ export function PhotoCarousel({
     touchStartX.current = null;
   };
 
+  // Download a single photo — use proxy URL (originalImages) for reliable download
   const handleDownloadPhoto = useCallback(async () => {
-    const imgUrl = images[currentIdx];
     setDownloadingPhoto(true);
-    try {
-      const res = await fetch(imgUrl);
-      const blob = await res.blob();
-      if (blob.size > 500) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${filename}_foto_${currentIdx + 1}.jpg`;
-        a.style.display = "none";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        setTimeout(() => URL.revokeObjectURL(url), 10000);
-        onToast("Foto diunduh!", `Foto ${currentIdx + 1} berhasil diunduh.`);
-      } else {
-        onToast("Gagal mengunduh", "File terlalu kecil, kemungkinan error.", "destructive");
-      }
-    } catch {
-      window.open(imgUrl, "_blank");
-    } finally {
-      setDownloadingPhoto(false);
-    }
-  }, [images, currentIdx, filename, onToast]);
+    // originalImages contains proxy URLs like /api/proxy?...&quality=photo
+    // images contains raw CDN URLs
+    const proxyDownloadUrl = originalImages?.[currentIdx];
 
-  const handleDownloadAll = useCallback(async () => {
-    setDownloadingAll(true);
-    for (let i = 0; i < images.length; i++) {
-      try {
-        const res = await fetch(images[i]);
+    try {
+      // Try the proxy URL directly (already contains /api/proxy?...)
+      if (proxyDownloadUrl) {
+        const res = await fetch(proxyDownloadUrl);
+        if (res.ok) {
+          const blob = await res.blob();
+          if (blob.size > 500) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${filename}_foto_${currentIdx + 1}.jpg`;
+            a.style.display = "none";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 10000);
+            onToast("Foto diunduh!", `Foto ${currentIdx + 1} berhasil diunduh.`);
+            setDownloadingPhoto(false);
+            return;
+          }
+        }
+      }
+    } catch {}
+
+    // Fallback: try photo-preview endpoint with raw CDN URL
+    try {
+      const res = await fetch("/api/photo-preview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: images[currentIdx] }),
+      });
+      if (res.ok) {
         const blob = await res.blob();
         if (blob.size > 500) {
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          a.download = `${filename}_foto_${i + 1}.jpg`;
+          a.download = `${filename}_foto_${currentIdx + 1}.jpg`;
           a.style.display = "none";
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          setTimeout(() => URL.revokeObjectURL(url), 5000);
+          setTimeout(() => URL.revokeObjectURL(url), 10000);
+          onToast("Foto diunduh!", `Foto ${currentIdx + 1} berhasil diunduh.`);
+          setDownloadingPhoto(false);
+          return;
+        }
+      }
+    } catch {}
+
+    // Last fallback: open CDN URL in new tab
+    window.open(images[currentIdx], "_blank");
+    onToast("Mengunduh...", "Foto dibuka di tab baru.");
+    setDownloadingPhoto(false);
+  }, [currentIdx, filename, images, originalImages, onToast]);
+
+  const handleDownloadAll = useCallback(async () => {
+    setDownloadingAll(true);
+    for (let i = 0; i < images.length; i++) {
+      try {
+        const proxyDownloadUrl = originalImages?.[i];
+        if (proxyDownloadUrl) {
+          const res = await fetch(proxyDownloadUrl);
+          if (res.ok) {
+            const blob = await res.blob();
+            if (blob.size > 500) {
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = `${filename}_foto_${i + 1}.jpg`;
+              a.style.display = "none";
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              setTimeout(() => URL.revokeObjectURL(url), 5000);
+            }
+          }
         }
       } catch {}
       if (i < images.length - 1) await new Promise((r) => setTimeout(r, 600));
     }
     setDownloadingAll(false);
     onToast("Semua foto diunduh!", `${total} foto berhasil diunduh.`);
-  }, [images, filename, total, onToast]);
+  }, [images, originalImages, filename, total, onToast]);
 
-  const currentBlobUrl = blobUrls[currentIdx];
-  const isLoaded = !!currentBlobUrl;
+  // Get the best URL for display: fallback blob > original CDN URL
+  const getDisplayUrl = (idx: number): string | null => {
+    if (fallbackUrls[idx]) return fallbackUrls[idx];
+    return images[idx] || null;
+  };
+
+  const currentDisplayUrl = getDisplayUrl(currentIdx);
 
   return (
     <>
@@ -251,26 +257,39 @@ export function PhotoCarousel({
               <ImageIcon className="h-10 w-10 opacity-40" />
               <p className="text-xs">Gagal memuat gambar</p>
               <button
-                onClick={() => { setImageError(false); setImageLoading(true); loadImage(currentIdx); }}
+                onClick={() => {
+                  setImageError(false);
+                  setImageLoading(true);
+                  loadFallbackImage(currentIdx);
+                }}
                 className="text-xs underline hover:text-foreground transition-colors"
               >
                 Coba lagi
               </button>
             </div>
-          ) : isLoaded ? (
+          ) : currentDisplayUrl ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
-              src={currentBlobUrl}
+              src={currentDisplayUrl}
               alt={`Foto ${currentIdx + 1}`}
               className="w-full h-full object-contain transition-opacity duration-300"
               style={{ opacity: imageLoading ? 0 : 1 }}
               onLoad={() => setImageLoading(false)}
-              onError={() => { setImageLoading(false); setImageError(true); }}
+              onError={() => {
+                // Direct CDN URL failed — try fallback proxy
+                if (!triedFallbackRef.current.has(currentIdx)) {
+                  setImageLoading(true);
+                  loadFallbackImage(currentIdx);
+                } else {
+                  setImageLoading(false);
+                  setImageError(true);
+                }
+              }}
             />
           ) : null}
 
           {/* Fullscreen button */}
-          {isLoaded && !imageError && (
+          {currentDisplayUrl && !imageError && (
             <button
               onClick={() => setFullscreen(true)}
               className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-colors z-10"
@@ -425,10 +444,10 @@ export function PhotoCarousel({
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            {currentBlobUrl && (
+            {currentDisplayUrl && (
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
-                src={currentBlobUrl}
+                src={currentDisplayUrl}
                 alt={`Foto ${currentIdx + 1}`}
                 className="max-w-full max-h-full object-contain"
               />
@@ -456,24 +475,8 @@ export function PhotoCarousel({
           {/* Fullscreen bottom: download + dots */}
           <div className="shrink-0 px-4 pb-4 pt-2">
             <Button
-              onClick={async () => {
-                const imgUrl = images[currentIdx];
-                try {
-                  const res = await fetch(imgUrl);
-                  const blob = await res.blob();
-                  if (blob.size > 500) {
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = `${filename}_foto_${currentIdx + 1}.jpg`;
-                    a.style.display = "none";
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    setTimeout(() => URL.revokeObjectURL(url), 10000);
-                  }
-                } catch { window.open(imgUrl, "_blank"); }
-              }}
+              onClick={handleDownloadPhoto}
+              disabled={downloadingPhoto}
               className="w-full bg-white text-black font-semibold rounded-xl h-11 text-sm hover:bg-white/90"
             >
               <Download className="h-4 w-4 mr-2" />

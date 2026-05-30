@@ -898,9 +898,11 @@ export async function POST(request: NextRequest) {
       downloadUrl = `/api/proxy?url=${encodeURIComponent(result.downloadUrl)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=best`;
     }
 
-    // Route image URLs through proxy for photo slides
-    const proxiedImages = (result as Record<string, unknown>).images
-      ? ((result as Record<string, unknown>).images as string[]).map((imgUrl: string) =>
+    // For photo slides: images = original CDN URLs (for display in <img>),
+    // originalImages = proxy URLs (for download via /api/proxy)
+    const rawImages = (result as Record<string, unknown>).images as string[] | undefined;
+    const proxiedDownloadImages = rawImages
+      ? rawImages.map((imgUrl: string) =>
           `/api/proxy?url=${encodeURIComponent(imgUrl)}&sourceUrl=${encodedSourceUrl}&filename=${encodeURIComponent(result.filename)}&quality=photo`
         )
       : undefined;
@@ -911,7 +913,9 @@ export async function POST(request: NextRequest) {
         originalDownloadUrl: result.downloadUrl,
         downloadUrl,
         qualityOptions: proxiedQualityOptions,
-        ...(proxiedImages ? { images: proxiedImages, originalImages: (result as Record<string, unknown>).images } : {}),
+        // images = raw CDN URLs for direct <img> display (fast, no proxy overhead)
+        // originalImages = proxy URLs for reliable downloading
+        ...(rawImages ? { images: rawImages, originalImages: proxiedDownloadImages } : {}),
       },
       { status: 200 }
     );
