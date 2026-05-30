@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import ZAI from "z-ai-web-dev-sdk";
+import { createZai } from "@/lib/zai";
 import { getAutoBlogData, saveAutoBlogData, getAllAutoBlogPosts } from "@/lib/auto-blog";
 
 /**
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => ({}));
     const focusArea = (body.focusArea as string) || "general";
-    const zai = await ZAI.create();
+    const zai = await createZai();
 
     // Search for competitor keywords and trending queries
     const searchQueries = [

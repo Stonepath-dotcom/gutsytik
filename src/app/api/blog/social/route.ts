@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import ZAI from "z-ai-web-dev-sdk";
+import { createZai } from "@/lib/zai";
 
 /**
  * Auto Social Media Post Generator
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     const articleUrl = `${baseUrl}/blog/${slug}`;
 
     // Generate social media posts using AI
-    const zai = await ZAI.create();
+    const zai = await createZai();
 
     const socialResponse = await zai.chat.completions.create({
       messages: [

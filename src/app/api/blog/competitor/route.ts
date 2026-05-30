@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import ZAI from "z-ai-web-dev-sdk";
+import { createZai } from "@/lib/zai";
 
 /**
  * Auto Competitor Monitor
@@ -10,7 +10,7 @@ import ZAI from "z-ai-web-dev-sdk";
  */
 export async function POST(req: NextRequest) {
   try {
-    const zai = await ZAI.create();
+    const zai = await createZai();
 
     // Main competitors for GetMova
     const competitors = [

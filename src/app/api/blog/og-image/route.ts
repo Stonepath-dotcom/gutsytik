@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import ZAI from "z-ai-web-dev-sdk";
+import { createZai } from "@/lib/zai";
 import { getAllAutoBlogPosts, getAutoBlogData, saveAutoBlogData } from "@/lib/auto-blog";
 import fs from "fs";
 import path from "path";
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const zai = await ZAI.create();
+    const zai = await createZai();
     const results: {
       slug: string;
       title: string;

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import ZAI from "z-ai-web-dev-sdk";
+import { createZai } from "@/lib/zai";
 import { getAutoBlogData, saveAutoBlogData } from "@/lib/auto-blog";
 
 /**
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json().catch(() => ({}));
     const maxTopics = (body.maxTopics as number) || 10;
 
-    const zai = await ZAI.create();
+    const zai = await createZai();
 
     // Search for trending video download topics
     const searchQueries = [

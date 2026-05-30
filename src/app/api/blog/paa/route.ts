@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import ZAI from "z-ai-web-dev-sdk";
+import { createZai } from "@/lib/zai";
 import { getAllAutoBlogPosts, getAutoBlogData, saveAutoBlogData } from "@/lib/auto-blog";
 
 /**
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json().catch(() => ({}));
     const targetSlug = body.slug as string | undefined;
     const maxQuestions = (body.maxQuestions as number) || 10;
-    const zai = await ZAI.create();
+    const zai = await createZai();
 
     const posts = getAllAutoBlogPosts();
 

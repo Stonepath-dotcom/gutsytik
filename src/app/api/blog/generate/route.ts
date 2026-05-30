@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import ZAI from "z-ai-web-dev-sdk";
+import { createZai } from "@/lib/zai";
 import {
   addAutoBlogPost,
   getAvailableTopic,
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     const topicTitle = slugToTitle(topic);
 
     // Generate blog content using AI
-    const zai = await ZAI.create();
+    const zai = await createZai();
 
     const keywordsList = customKeywords || [
       topic.replace(/-/g, " "),

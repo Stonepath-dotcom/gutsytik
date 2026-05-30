@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import ZAI from "z-ai-web-dev-sdk";
+import { createZai } from "@/lib/zai";
 import { getAllAutoBlogPosts, getAutoBlogData, saveAutoBlogData, type AutoBlogPost } from "@/lib/auto-blog";
 
 /**
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Use AI to refresh the content
-    const zai = await ZAI.create();
+    const zai = await createZai();
 
     const refreshResponse = await zai.chat.completions.create({
       messages: [
