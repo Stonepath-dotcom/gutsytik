@@ -142,7 +142,8 @@ html {
 /* ─── Momentum Scrolling (iOS/macOS) ─── */
 body {
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: none;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
 }
 
 /* ─── Hero Background ─── */
@@ -180,7 +181,7 @@ body {
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
 /* ─── Prevent horizontal overflow ─── */
-body { overflow-x: hidden; width: 100%; }
+body { overflow-x: hidden; overflow-y: auto; width: 100%; }
 img, video, svg, iframe { max-width: 100%; height: auto; }
 
 /* ─── iOS text zoom prevention ─── */
