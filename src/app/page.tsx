@@ -1602,6 +1602,75 @@ function Footer() {
 }
 
 /* ══════════════════════════════════════════════════
+   STICKY DOWNLOAD BAR — Appears below navbar when scrolled past hero
+   Clean inline bar, not floating navbar at bottom
+   ══════════════════════════════════════════════════ */
+function StickyDownloadBar() {
+  const { t } = useLanguage();
+  const [visible, setVisible] = useState(false);
+  const [barUrl, setBarUrl] = useState("");
+
+  useEffect(() => {
+    const onScroll = () => {
+      const heroSection = document.getElementById("hero");
+      if (heroSection) {
+        const heroBottom = heroSection.getBoundingClientRect().bottom;
+        setVisible(heroBottom < 0);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const handleSubmit = () => {
+    if (!barUrl.trim()) return;
+    // Fill the hero input and trigger analyze
+    const heroInput = document.querySelector<HTMLInputElement>("#hero input[type='text']");
+    if (heroInput) {
+      // Use native input value setter to trigger React's onChange
+      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
+      nativeInputValueSetter?.call(heroInput, barUrl);
+      heroInput.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    // Scroll to hero and click download
+    document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      const heroBtn = document.querySelector<HTMLButtonElement>("#hero button.download-btn-desktop");
+      heroBtn?.click();
+    }, 600);
+  };
+
+  return (
+    <div
+      className={`fixed top-16 lg:top-18 left-0 right-0 z-40 bg-white/95 dark:bg-[#1A1A1A]/95 backdrop-blur-md border-b border-gray-100 dark:border-white/10 transition-all duration-300 ease-out ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+      }`}
+    >
+      <div className="mx-auto max-w-3xl h-12 flex items-center gap-2 px-4">
+        <div className="flex-1 relative">
+          <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
+          <input
+            type="text"
+            value={barUrl}
+            onChange={e => setBarUrl(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && handleSubmit()}
+            placeholder={t("input.placeholder")}
+            className="h-9 w-full bg-gray-100 dark:bg-white/10 text-gray-900 dark:text-white text-sm pl-9 pr-3 rounded-lg border-0 outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500"
+          />
+        </div>
+        <button
+          onClick={handleSubmit}
+          className="h-9 px-4 bg-[#E52222] text-white font-bold text-xs rounded-lg hover:bg-[#C91C1C] transition-colors flex items-center gap-1.5 shrink-0"
+        >
+          <Download className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline">{t("btn.download")}</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════
    MAIN PAGE
    ══════════════════════════════════════════════════ */
 export default function Home() {
@@ -1609,6 +1678,7 @@ export default function Home() {
     <LanguageProvider>
       <div className="min-h-screen flex flex-col bg-background transition-colors duration-300">
         <Navbar />
+        <StickyDownloadBar />
         <main className="flex-1">
           <HeroSection />
           <FreeDownloaderSection />
