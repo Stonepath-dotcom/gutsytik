@@ -905,6 +905,186 @@ async function downloadPinterest(url: string) {
   return null;
 }
 
+/* ──────────────── Likee Downloader ─── */
+async function downloadLikee(url: string) {
+  // Strategy 1: Googlebot UA to get og:video
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+        "Accept": "text/html",
+      },
+      signal: AbortSignal.timeout(10000),
+      redirect: "follow",
+    });
+    if (res.ok) {
+      const html = await res.text();
+      // Extract video URL from og:video or JSON data
+      const ogVideo = html.match(/content="([^"]+)"\s+property="og:video(:secure_url)?"/);
+      let videoUrl = ogVideo?.[1];
+
+      if (!videoUrl) {
+        // Try extracting from embedded JSON
+        const jsonMatch = html.match(/"video_url":"([^"]+)"/);
+        if (jsonMatch) videoUrl = jsonMatch[1].replace(/\\u002F/g, "/");
+      }
+
+      if (!videoUrl) {
+        // Try play_addr pattern
+        const playMatch = html.match(/"play_url":"([^"]+)"/);
+        if (playMatch) videoUrl = playMatch[1].replace(/\\u002F/g, "/");
+      }
+
+      if (videoUrl) {
+        const titleMatch = html.match(/content="([^"]+)"\s+property="og:title"/);
+        const thumbMatch = html.match(/content="([^"]+)"\s+property="og:image"/);
+        const qualityOptions = [{ label: "Best", resolution: "Auto", url: videoUrl }];
+        return {
+          title: titleMatch?.[1] || "Likee Video",
+          thumbnail: thumbMatch?.[1] || "",
+          duration: "--:--",
+          author: "@unknown",
+          platform: "Likee",
+          downloadUrl: videoUrl,
+          qualityOptions,
+          filename: `mova_likee_${Date.now()}`,
+        };
+      }
+    }
+  } catch (e) {
+    console.log(`Likee scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
+  }
+
+  // Strategy 2: Regular UA
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        "Accept": "text/html",
+      },
+      signal: AbortSignal.timeout(10000),
+      redirect: "follow",
+    });
+    if (res.ok) {
+      const html = await res.text();
+      // Same extraction logic as above
+      const patterns = [
+        /content="([^"]+)"\s+property="og:video(:secure_url)?"/,
+        /"video_url":"([^"]+)"/,
+        /"play_url":"([^"]+)"/,
+        /"videoUrl":"([^"]+)"/,
+      ];
+      let videoUrl: string | null = null;
+      for (const p of patterns) {
+        const m = html.match(p);
+        if (m?.[1]) { videoUrl = m[1].replace(/\\u002F/g, "/").replace(/&amp;/g, "&"); break; }
+      }
+      if (videoUrl) {
+        const titleMatch = html.match(/content="([^"]+)"\s+property="og:title"/);
+        const thumbMatch = html.match(/content="([^"]+)"\s+property="og:image"/);
+        return {
+          title: titleMatch?.[1] || "Likee Video",
+          thumbnail: thumbMatch?.[1] || "",
+          duration: "--:--",
+          author: "@unknown",
+          platform: "Likee",
+          downloadUrl: videoUrl,
+          qualityOptions: [{ label: "Best", resolution: "Auto", url: videoUrl }],
+          filename: `mova_likee_${Date.now()}`,
+        };
+      }
+    }
+  } catch (e) {
+    console.log(`Likee UA scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
+  }
+  return null;
+}
+
+/* ──────────────── Snack Video Downloader ─── */
+async function downloadSnackVideo(url: string) {
+  // Strategy 1: Googlebot UA
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+        "Accept": "text/html",
+      },
+      signal: AbortSignal.timeout(10000),
+      redirect: "follow",
+    });
+    if (res.ok) {
+      const html = await res.text();
+      const patterns = [
+        /content="([^"]+)"\s+property="og:video(:secure_url)?"/,
+        /"video_url":"([^"]+)"/,
+        /"playUrl":"([^"]+)"/,
+        /"url":"(https?:\/\/[^"]*snackvideo[^"]*\.mp4[^"]*)"/,
+      ];
+      let videoUrl: string | null = null;
+      for (const p of patterns) {
+        const m = html.match(p);
+        if (m?.[1]) { videoUrl = m[1].replace(/\\u002F/g, "/").replace(/&amp;/g, "&"); break; }
+      }
+      if (videoUrl) {
+        const titleMatch = html.match(/content="([^"]+)"\s+property="og:title"/);
+        const thumbMatch = html.match(/content="([^"]+)"\s+property="og:image"/);
+        return {
+          title: titleMatch?.[1] || "Snack Video",
+          thumbnail: thumbMatch?.[1] || "",
+          duration: "--:--",
+          author: "@unknown",
+          platform: "Snack Video",
+          downloadUrl: videoUrl,
+          qualityOptions: [{ label: "Best", resolution: "Auto", url: videoUrl }],
+          filename: `mova_snack_${Date.now()}`,
+        };
+      }
+    }
+  } catch (e) {
+    console.log(`Snack Video scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
+  }
+
+  // Strategy 2: Mobile UA
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15",
+        "Accept": "text/html",
+      },
+      signal: AbortSignal.timeout(10000),
+      redirect: "follow",
+    });
+    if (res.ok) {
+      const html = await res.text();
+      const patterns = [
+        /content="([^"]+)"\s+property="og:video(:secure_url)?"/,
+        /"video_url":"([^"]+)"/,
+        /"playUrl":"([^"]+)"/,
+      ];
+      let videoUrl: string | null = null;
+      for (const p of patterns) {
+        const m = html.match(p);
+        if (m?.[1]) { videoUrl = m[1].replace(/\\u002F/g, "/").replace(/&amp;/g, "&"); break; }
+      }
+      if (videoUrl) {
+        return {
+          title: "Snack Video",
+          thumbnail: "",
+          duration: "--:--",
+          author: "@unknown",
+          platform: "Snack Video",
+          downloadUrl: videoUrl,
+          qualityOptions: [{ label: "Best", resolution: "Auto", url: videoUrl }],
+          filename: `mova_snack_${Date.now()}`,
+        };
+      }
+    }
+  } catch (e) {
+    console.log(`Snack Video mobile scrape failed: ${e instanceof Error ? e.message : "unknown"}`);
+  }
+  return null;
+}
+
 /* ──────────────── Facebook Downloader ─── */
 async function downloadFacebook(url: string) {
   // Strategy 1: Googlebot UA
@@ -1051,9 +1231,17 @@ export async function POST(request: NextRequest) {
           result = await downloadInstagram(trimmedUrl);
           break;
         }
+        case "Likee": {
+          result = await downloadLikee(trimmedUrl);
+          break;
+        }
+        case "Snack Video": {
+          result = await downloadSnackVideo(trimmedUrl);
+          break;
+        }
         default: {
           return NextResponse.json({
-            error: "Platform tidak didukung. Mova mendukung TikTok, YouTube, Instagram, Facebook, Twitter/X, Pinterest, dan Reddit."
+            error: "Platform tidak didukung. Mova mendukung TikTok, YouTube, Instagram, Facebook, Twitter/X, Pinterest, Reddit, Likee, dan Snack Video."
           }, { status: 400 });
         }
       }
@@ -1067,6 +1255,8 @@ export async function POST(request: NextRequest) {
         "Instagram": "Gagal mengunduh video Instagram. Instagram membatasi akses dari server. Pastikan video bersifat publik dan coba lagi.",
         "Facebook": "Gagal mengunduh video Facebook. Facebook membatasi akses dari server. Pastikan video bersifat publik dan coba lagi.",
         "Twitter/X": "Gagal mengunduh video Twitter/X. Pastikan tweet berisi video dan bersifat publik.",
+        "Likee": "Gagal mengunduh video Likee. Pastikan video bersifat publik dan coba lagi.",
+        "Snack Video": "Gagal mengunduh video Snack Video. Pastikan video bersifat publik dan coba lagi.",
         "YouTube": audioMode
           ? "Gagal mengekstrak audio YouTube. Coba video lain atau coba lagi nanti."
           : "Gagal mengunduh video YouTube. Coba video lain atau coba lagi nanti.",

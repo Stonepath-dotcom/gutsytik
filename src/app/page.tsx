@@ -11,6 +11,7 @@ import {
   ArrowUp, Star, Mail, MessageCircle, Music, Video, Monitor, Award, Headphones,
   ShieldCheck, Database, History, FileText, Trash2,
   Wrench, ArrowRightLeft, HardDrive, Scissors, Image as ImageIcon,
+  QrCode,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -154,6 +155,12 @@ const translations: Record<string, Record<string, string>> = {
     "result.bookmark": "Bookmark", "result.bookmarked": "Tersimpan",
     "result.downloadThumb": "Thumbnail",
     "result.copyCaption": "Salin Caption", "result.captionCopied": "Caption disalin!",
+    "result.thumbnail": "Thumbnail",
+    "result.downloadThumbnail": "Download Thumbnail",
+    "toast.thumbnailDownloaded": "Thumbnail diunduh!",
+    "result.shareLink": "Bagikan Link",
+    "toast.shareLinkCopied": "Link GetMova disalin!",
+    "result.progress": "Mengunduh...",
     "platforms.label": "Platform Yang Didukung",
     "free.badge": "Gratis",
     "free.title1": "Video",
@@ -270,6 +277,20 @@ const translations: Record<string, Record<string, string>> = {
     "hero.liveCount": "🔥 {count} orang sedang download hari ini",
     "hero.shortcutHint": "Ctrl+V to paste",
     "onboard.tooltip": "Tempel link video di sini!",
+    "batch.mode": "Mode Batch",
+    "batch.single": "Mode Satuan",
+    "batch.placeholder": "Tempel beberapa URL di sini (satu per baris)...\nhttps://www.tiktok.com/...\nhttps://www.instagram.com/...",
+    "batch.start": "Proses Semua",
+    "batch.processing": "Memproses",
+    "batch.done": "Selesai",
+    "batch.failed": "Gagal",
+    "batch.waiting": "Menunggu",
+    "batch.results": "Hasil Batch",
+    "batch.downloadAll": "Download Semua",
+    "trending.title": "Video Trending",
+    "trending.subtitle": "Video populer yang sedang viral",
+    "trending.download": "Download",
+    "trending.loadFailed": "Gagal memuat trending",
   },
   en: {
     "nav.download": "Download",
@@ -284,6 +305,12 @@ const translations: Record<string, Record<string, string>> = {
     "result.bookmark": "Bookmark", "result.bookmarked": "Saved",
     "result.downloadThumb": "Thumbnail",
     "result.copyCaption": "Copy Caption", "result.captionCopied": "Caption copied!",
+    "result.thumbnail": "Thumbnail",
+    "result.downloadThumbnail": "Download Thumbnail",
+    "toast.thumbnailDownloaded": "Thumbnail downloaded!",
+    "result.shareLink": "Share Link",
+    "toast.shareLinkCopied": "GetMova link copied!",
+    "result.progress": "Downloading...",
     "platforms.label": "Supported Platforms",
     "free.badge": "Free",
     "free.title1": "Video",
@@ -400,6 +427,20 @@ const translations: Record<string, Record<string, string>> = {
     "hero.liveCount": "🔥 {count} people downloading today",
     "hero.shortcutHint": "Ctrl+V to paste",
     "onboard.tooltip": "Paste your video link here!",
+    "batch.mode": "Batch Mode",
+    "batch.single": "Single Mode",
+    "batch.placeholder": "Paste multiple URLs here (one per line)...\nhttps://www.tiktok.com/...\nhttps://www.instagram.com/...",
+    "batch.start": "Process All",
+    "batch.processing": "Processing",
+    "batch.done": "Done",
+    "batch.failed": "Failed",
+    "batch.waiting": "Waiting",
+    "batch.results": "Batch Results",
+    "batch.downloadAll": "Download All",
+    "trending.title": "Trending Videos",
+    "trending.subtitle": "Popular videos going viral right now",
+    "trending.download": "Download",
+    "trending.loadFailed": "Failed to load trending",
   },
 };
 
@@ -575,6 +616,7 @@ function HeroSection() {
   const [showPreview, setShowPreview] = useState(false);
   const [previewError, setPreviewError] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(0);
   const [loadingMsg, setLoadingMsg] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -582,7 +624,14 @@ function HeroSection() {
   const [historyItems, setHistoryItems] = useState<HistoryItem[]>([]);
   const [liveCount, setLiveCount] = useState(() => Math.floor(Math.random() * 1600) + 1200);
   const [showOnboard, setShowOnboard] = useState(false);
+  const [batchMode, setBatchMode] = useState(false);
+  const [batchUrls, setBatchUrls] = useState("");
+  const [batchResults, setBatchResults] = useState<Array<{url: string; status: "waiting" | "processing" | "done" | "failed"; title?: string; error?: string}>>([]);
+  const [batchProcessing, setBatchProcessing] = useState(false);
+  const [showQR, setShowQR] = useState(false);
+  const [audioBitrate, setAudioBitrate] = useState("192");
   const resultRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast, dismiss } = useToast();
 
@@ -649,6 +698,30 @@ function HeroSection() {
     return () => window.removeEventListener("mova:history-changed", sync);
   }, [showHistory]);
 
+  // FEATURE: QR Code Scanner
+  useEffect(() => {
+    if (!showQR) return;
+    let scanner: any = null;
+    import('html5-qrcode').then(({ Html5Qrcode }) => {
+      scanner = new Html5Qrcode("qr-reader");
+      scanner.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: { width: 250, height: 250 } },
+        (decodedText: string) => {
+          if (decodedText && (decodedText.startsWith("http") || decodedText.startsWith("www"))) {
+            setUrl(decodedText);
+            setShowQR(false);
+            scanner?.stop().catch(() => {});
+            showToast(t("toast.autoPaste"), "");
+            setTimeout(() => handleAnalyze(), 100);
+          }
+        },
+        () => {} // ignore scan failures
+      ).catch(() => {});
+    });
+    return () => { scanner?.stop().catch(() => {}); };
+  }, [showQR]);
+
   // FEATURE 2: Auto-paste on focus
   const handleInputFocus = useCallback(() => {
     if (url.trim()) return;
@@ -682,6 +755,15 @@ function HeroSection() {
     finally { clearInterval(msgInterval); setLoading(false); setLoadingMsg(""); }
   }, [url, t, showToast]);
 
+  // FEATURE 1: Auto-detect Paste
+  const handlePaste = useCallback((e: React.ClipboardEvent<HTMLInputElement>) => {
+    const pastedText = e.clipboardData.getData("text");
+    if (pastedText && (pastedText.startsWith("http") || pastedText.startsWith("www"))) {
+      setUrl(pastedText);
+      setTimeout(() => handleAnalyze(), 100);
+    }
+  }, [handleAnalyze]);
+
   const handleDownload = useCallback(async () => {
     if (!result || downloading) return;
     const q = result.qualityOptions[selectedQuality];
@@ -692,6 +774,7 @@ function HeroSection() {
     const downloadUrl = q.url;
     const fallbackUrl = q.originalUrl || q.url;
     setDownloading(true);
+    setDownloadProgress(0);
     const saveHist = () => {
       saveToHistory({ id: Date.now().toString(), title: result.title, platform: result.platform, author: result.author, thumbnail: result.thumbnail, duration: result.duration, url: url.trim(), downloadUrl: fallbackUrl, timestamp: Date.now() });
     };
@@ -699,11 +782,47 @@ function HeroSection() {
       if (isAudio || downloadUrl.startsWith("/api/proxy") || downloadUrl.startsWith("/api/yt-download")) {
         try {
           const res = await fetch(downloadUrl);
-          if (res.ok) { const blob = await res.blob(); if (blob.size > 1000) { const blobUrl = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = blobUrl; a.download = downloadName; a.style.display = "none"; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(blobUrl), 10000); saveHist(); showToast(t("toast.downloadStart"), isAudio ? "MP3" : ""); setDownloading(false); return; } }
+          if (res.ok) {
+            const contentLength = res.headers.get("content-length");
+            const total = contentLength ? parseInt(contentLength, 10) : 0;
+            if (total > 0 && res.body) {
+              const reader = res.body.getReader();
+              const chunks: BlobPart[] = [];
+              let received = 0;
+              while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                chunks.push(value);
+                received += value.length;
+                setDownloadProgress(Math.round((received / total) * 100));
+              }
+              const blob = new Blob(chunks);
+              if (blob.size > 1000) {
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement("a"); a.href = blobUrl; a.download = downloadName; a.style.display = "none"; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+                saveHist(); showToast(t("toast.downloadStart"), isAudio ? "MP3" : "");
+                setShowConfetti(true); setTimeout(() => setShowConfetti(false), 3000);
+                setDownloading(false); return;
+              }
+            } else {
+              const blob = await res.blob();
+              if (blob.size > 1000) {
+                setDownloadProgress(70);
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement("a"); a.href = blobUrl; a.download = downloadName; a.style.display = "none"; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+                saveHist(); showToast(t("toast.downloadStart"), isAudio ? "MP3" : "");
+                setShowConfetti(true); setTimeout(() => setShowConfetti(false), 3000);
+                setDownloadProgress(100);
+                setDownloading(false); return;
+              }
+            }
+          }
         } catch (e) { console.log("Proxy fetch+blob failed", e); }
       }
       try {
+        setDownloadProgress(50);
         const a = document.createElement("a"); a.href = downloadUrl; a.download = downloadName; a.style.display = "none"; document.body.appendChild(a); a.click(); document.body.removeChild(a); saveHist(); showToast(t("toast.downloadStart"), "");
+        setDownloadProgress(100);
         // FEATURE 4: Confetti on successful download
         setShowConfetti(true); setTimeout(() => setShowConfetti(false), 3000);
       } catch (e) {
@@ -713,13 +832,52 @@ function HeroSection() {
     } catch (e) {
       console.error("Download failed:", e);
       try { window.open(fallbackUrl, "_blank"); } catch { showToast(t("error.downloadFail"), "", "destructive"); }
-    } finally { setDownloading(false); }
+    } finally { setDownloading(false); setDownloadProgress(0); }
   }, [result, selectedQuality, url, t, showToast, downloading]);
 
+  // FEATURE 3: Share Download Link
   const handleShare = useCallback(async () => {
     if (!result) return;
-    try { await navigator.share({ title: result.title, url }); } catch { try { await navigator.clipboard.writeText(url); showToast(t("toast.linkCopied"), ""); } catch {} }
+    const shareUrl = `https://getmova.my.id/?url=${encodeURIComponent(url.trim())}`;
+    if (navigator.share) {
+      try { await navigator.share({ title: result.title, url: shareUrl }); return; } catch {}
+    }
+    try { await navigator.clipboard.writeText(shareUrl); showToast(t("toast.shareLinkCopied"), ""); } catch {}
   }, [result, url, t, showToast]);
+
+  // FEATURE 3: Auto-fill from URL param
+  const pendingAutoAnalyzeRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const urlParam = params.get("url");
+    if (urlParam) {
+      pendingAutoAnalyzeRef.current = urlParam;
+      setUrl(urlParam);
+      try { window.history.replaceState({}, "", "/"); } catch {}
+    }
+  }, []);
+  useEffect(() => {
+    if (pendingAutoAnalyzeRef.current && pendingAutoAnalyzeRef.current === url.trim()) {
+      pendingAutoAnalyzeRef.current = null;
+      handleAnalyze();
+    }
+  }, [url, handleAnalyze]);
+
+  // FEATURE 2: Thumbnail Downloader
+  const handleDownloadThumbnail = useCallback(async () => {
+    if (!result?.thumbnail) return;
+    try {
+      const res = await fetch(result.thumbnail);
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a"); a.href = blobUrl; a.download = `${result.filename || "getmova_thumbnail"}_thumb.jpg`; a.style.display = "none"; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+      showToast(t("toast.thumbnailDownloaded"), "");
+    } catch {
+      try { window.open(result.thumbnail, "_blank"); } catch {}
+    }
+  }, [result, t, showToast]);
 
   const handleToggleBookmark = useCallback(() => {
     if (!result) return;
@@ -736,6 +894,63 @@ function HeroSection() {
   const handleDragOver = useCallback((e: React.DragEvent) => { e.preventDefault(); setIsDragOver(true); }, []);
   const handleDragLeave = useCallback(() => setIsDragOver(false), []);
   const handleDrop = useCallback((e: React.DragEvent) => { e.preventDefault(); setIsDragOver(false); const text = e.dataTransfer.getData("text/plain"); if (text && (text.startsWith("http") || text.startsWith("www"))) setUrl(text); }, []);
+
+  // BATCH DOWNLOAD: Process multiple URLs sequentially
+  const handleBatchProcess = useCallback(async () => {
+    const urls = batchUrls.split("\n").map(u => u.trim()).filter(u => u && (u.startsWith("http") || u.startsWith("www")));
+    if (urls.length === 0) return;
+
+    const results = urls.map(url => ({ url, status: "waiting" as const }));
+    setBatchResults(results);
+    setBatchProcessing(true);
+
+    for (let i = 0; i < urls.length; i++) {
+      setBatchResults(prev => prev.map((r, idx) => idx === i ? { ...r, status: "processing" as const } : r));
+
+      try {
+        const res = await fetch("/api/download", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: urls[i] }),
+        });
+        const data = await res.json();
+
+        if (res.ok && data.downloadUrl) {
+          // Auto-download the file
+          const downloadUrl = data.qualityOptions?.[0]?.url || data.downloadUrl;
+          try {
+            const fileRes = await fetch(downloadUrl);
+            if (fileRes.ok) {
+              const blob = await fileRes.blob();
+              if (blob.size > 1000) {
+                const ext = data.qualityOptions?.[0]?.resolution === "MP3" ? ".mp3" : ".mp4";
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = blobUrl;
+                a.download = (data.filename || `mova_batch_${i + 1}`) + ext;
+                a.style.display = "none";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+              }
+            }
+          } catch {}
+
+          setBatchResults(prev => prev.map((r, idx) => idx === i ? { ...r, status: "done" as const, title: data.title } : r));
+        } else {
+          setBatchResults(prev => prev.map((r, idx) => idx === i ? { ...r, status: "failed" as const, error: data.error || "Failed" } : r));
+        }
+      } catch {
+        setBatchResults(prev => prev.map((r, idx) => idx === i ? { ...r, status: "failed" as const, error: "Network error" } : r));
+      }
+
+      // Small delay between requests
+      if (i < urls.length - 1) await new Promise(r => setTimeout(r, 1000));
+    }
+
+    setBatchProcessing(false);
+  }, [batchUrls]);
 
   // FEATURE 4: Confetti particles
   const confettiColors = ["#E52222", "#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF"];
@@ -774,32 +989,114 @@ function HeroSection() {
         {/* Input area with drag-drop, auto-paste, history button */}
         <div className="w-full max-w-xl lg:max-w-2xl relative">
           {/* FEATURE 14: Onboarding tooltip */}
-          {showOnboard && (
+          {showOnboard && !batchMode && (
             <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 z-30 bg-white dark:bg-[#2D2D2D] text-[#333] dark:text-white text-xs font-medium px-4 py-2 rounded-lg shadow-lg border border-[#E52222]/30 whitespace-nowrap">
               {t("onboard.tooltip")}
               <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-[#2D2D2D] rotate-45 border-l border-t border-[#E52222]/30" />
             </div>
           )}
-          <div
-            onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}
-            className={`rounded-lg overflow-hidden shadow-xl flex border-2 transition-colors dark-glow-input ${isDragOver ? "border-[#E52222] bg-red-50/50 dark:bg-[#E52222]/5" : "border-gray-200 dark:border-white/10"}`}
-          >
-            <div className="flex-1 relative">
-              <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
-              <input ref={inputRef} type="text" value={url} onChange={e => setUrl(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAnalyze()} onFocus={handleInputFocus} placeholder={t("input.placeholder")} className="download-input-desktop h-14 w-full bg-white dark:bg-[#2D2D2D] text-gray-900 dark:text-white text-sm md:text-base lg:text-lg pl-11 pr-4 border-0 outline-none placeholder:text-gray-400" />
-            </div>
-            <button onClick={handleAnalyze} disabled={loading} className="download-btn-desktop h-14 px-6 md:px-8 lg:px-10 bg-[#E52222] text-white font-bold text-sm md:text-base lg:text-lg hover:bg-[#C91C1C] shrink-0 transition-colors flex items-center justify-center gap-2 disabled:opacity-70">
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
-              <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
+
+          {/* Batch/Single Mode Toggle */}
+          <div className="flex items-center justify-center mb-2">
+            <button
+              onClick={() => { setBatchMode(!batchMode); setBatchResults([]); }}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-colors border border-gray-200 dark:border-white/10 bg-white dark:bg-[#2D2D2D] text-gray-600 dark:text-gray-300 hover:border-[#E52222]/40 hover:text-[#E52222] dark:hover:text-[#E52222]"
+              aria-label={batchMode ? t("batch.single") : t("batch.mode")}
+            >
+              {batchMode ? <><LinkIcon className="h-3 w-3" />{t("batch.single")}</> : <><Film className="h-3 w-3" />{t("batch.mode")}</>}
             </button>
           </div>
+
+          {!batchMode ? (
+            /* Single Mode Input */
+            <div
+              onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}
+              className={`rounded-lg overflow-hidden shadow-xl flex border-2 transition-colors dark-glow-input ${isDragOver ? "border-[#E52222] bg-red-50/50 dark:bg-[#E52222]/5" : "border-gray-200 dark:border-white/10"}`}
+            >
+              <div className="flex-1 relative">
+                <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
+                <input ref={inputRef} type="text" value={url} onChange={e => setUrl(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAnalyze()} onFocus={handleInputFocus} onPaste={handlePaste} placeholder={t("input.placeholder")} className="download-input-desktop h-14 w-full bg-white dark:bg-[#2D2D2D] text-gray-900 dark:text-white text-sm md:text-base lg:text-lg pl-11 pr-4 border-0 outline-none placeholder:text-gray-400" />
+              </div>
+              <button onClick={handleAnalyze} disabled={loading} className="download-btn-desktop h-14 px-6 md:px-8 lg:px-10 bg-[#E52222] text-white font-bold text-sm md:text-base lg:text-lg hover:bg-[#C91C1C] shrink-0 transition-colors flex items-center justify-center gap-2 disabled:opacity-70">
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+                <span>{loading ? (loadingMsg || t("btn.download")) : t("btn.download")}</span>
+              </button>
+            </div>
+          ) : (
+            /* Batch Mode Textarea */
+            <div
+              onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}
+              className={`rounded-lg overflow-hidden shadow-xl border-2 transition-colors dark-glow-input ${isDragOver ? "border-[#E52222] bg-red-50/50 dark:bg-[#E52222]/5" : "border-gray-200 dark:border-white/10"}`}
+            >
+              <div className="relative">
+                <LinkIcon className="absolute left-4 top-4 h-4 w-4 text-gray-400 z-10" />
+                <textarea
+                  value={batchUrls}
+                  onChange={e => setBatchUrls(e.target.value)}
+                  placeholder={t("batch.placeholder")}
+                  rows={4}
+                  className="w-full bg-white dark:bg-[#2D2D2D] text-gray-900 dark:text-white text-sm md:text-base pl-11 pr-4 py-3 border-0 outline-none placeholder:text-gray-400 resize-none"
+                />
+              </div>
+              <div className="flex items-center justify-between border-t border-gray-100 dark:border-white/10 px-4 py-2 bg-gray-50 dark:bg-[#333]">
+                <span className="text-[10px] md:text-xs text-gray-400">
+                  {batchUrls.split("\n").filter(u => u.trim() && (u.trim().startsWith("http") || u.trim().startsWith("www"))).length} URL(s)
+                </span>
+                <button onClick={handleBatchProcess} disabled={batchProcessing || !batchUrls.trim()} className="px-5 py-1.5 bg-[#E52222] text-white font-bold text-xs md:text-sm rounded-md hover:bg-[#C91C1C] transition-colors flex items-center gap-1.5 disabled:opacity-70">
+                  {batchProcessing ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
+                  <span>{batchProcessing ? t("batch.processing") : t("batch.start")}</span>
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* FEATURE 12: Shortcut hint + History button */}
           <div className="flex items-center justify-between mt-1.5 px-1">
             <span className="text-[10px] md:text-xs lg:text-sm text-[#333]/40 dark:text-white/40">{t("hero.shortcutHint")}</span>
-            <button onClick={() => setShowHistory(true)} className="flex items-center gap-1 text-[10px] md:text-xs text-[#333]/40 dark:text-white/40 hover:text-[#333]/70 dark:hover:text-white/70 transition-colors" aria-label="Download History">
-              <History className="h-3 w-3" />
-            </button>
+            <div className="flex items-center gap-2">
+              <button onClick={() => setShowQR(true)} className="flex items-center gap-1 text-[10px] md:text-xs text-[#333]/40 dark:text-white/40 hover:text-[#333]/70 dark:hover:text-white/70 transition-colors" aria-label="Scan QR">
+                <QrCode className="h-3 w-3" />
+              </button>
+              <button onClick={() => setShowHistory(true)} className="flex items-center gap-1 text-[10px] md:text-xs text-[#333]/40 dark:text-white/40 hover:text-[#333]/70 dark:hover:text-white/70 transition-colors" aria-label="Download History">
+                <History className="h-3 w-3" />
+              </button>
+            </div>
           </div>
+
+          {/* BATCH RESULTS CARD */}
+          {batchResults.length > 0 && (
+            <div className="mt-4 rounded-xl bg-white dark:bg-[#2D2D2D] overflow-hidden text-left shadow-lg border border-gray-100 dark:border-white/10">
+              <div className="px-4 py-2.5 border-b border-gray-100 dark:border-white/10 flex items-center justify-between bg-gray-50 dark:bg-[#333]">
+                <span className="text-sm font-medium text-[#E52222]">{t("batch.results")}</span>
+                <span className="text-xs text-gray-500">{batchResults.filter(r => r.status === "done").length}/{batchResults.length}</span>
+              </div>
+              <div className="p-3 space-y-2 max-h-60 overflow-y-auto">
+                {batchResults.map((r, i) => (
+                  <div key={i} className="flex items-center gap-2 text-xs">
+                    {r.status === "waiting" && <Clock className="h-3.5 w-3.5 text-gray-400" />}
+                    {r.status === "processing" && <Loader2 className="h-3.5 w-3.5 text-[#E52222] animate-spin" />}
+                    {r.status === "done" && <CheckCircle className="h-3.5 w-3.5 text-green-500" />}
+                    {r.status === "failed" && <AlertCircle className="h-3.5 w-3.5 text-red-500" />}
+                    <span className="flex-1 truncate text-gray-700 dark:text-gray-300">{r.title || r.url}</span>
+                    <span className={`shrink-0 ${r.status === "done" ? "text-green-500" : r.status === "failed" ? "text-red-500" : "text-gray-400"}`}>
+                      {t(`batch.${r.status}`)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              {batchResults.some(r => r.status === "done") && !batchProcessing && (
+                <div className="px-4 py-2.5 border-t border-gray-100 dark:border-white/10">
+                  <button
+                    onClick={handleBatchProcess}
+                    className="w-full flex items-center justify-center gap-2 py-2 text-xs font-bold text-[#E52222] hover:bg-[#E52222]/5 rounded-lg transition-colors"
+                  >
+                    <Download className="h-3.5 w-3.5" />
+                    {t("batch.downloadAll")}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Platform support bar */}
@@ -890,7 +1187,27 @@ function HeroSection() {
                 <>
                   {/* Regular Video Result */}
                   {showPreview && !previewError ? (
-                    <div className="w-full rounded-md overflow-hidden bg-gray-100 dark:bg-[#444] mb-3"><video src={result.qualityOptions[0]?.originalUrl || result.qualityOptions[0]?.url} controls muted className="w-full object-contain" style={{ maxHeight: "200px" }} onError={() => setPreviewError(true)} /></div>
+                    <div className="w-full rounded-md overflow-hidden bg-gray-100 dark:bg-[#444] mb-3 relative">
+                      <span className="absolute top-2 left-2 z-10 bg-[#E52222] text-white text-[10px] font-bold px-1.5 py-0.5 rounded">{t("result.preview")}</span>
+                      <video
+                        ref={videoRef}
+                        src={result.qualityOptions[0]?.originalUrl || result.qualityOptions[0]?.url}
+                        controls
+                        muted
+                        className="w-full object-contain"
+                        style={{ maxHeight: "300px" }}
+                        onError={() => setPreviewError(true)}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => { const v = videoRef.current; if (!v) return; v.paused ? v.play() : v.pause(); }}
+                        className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/10 transition-colors"
+                      >
+                        <div className="w-10 h-10 rounded-full bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                          <Play className="h-5 w-5 text-white ml-0.5" />
+                        </div>
+                      </button>
+                    </div>
                   ) : (
                     <div className="flex gap-3 mb-3">
                       <div className="w-20 h-14 rounded-md bg-gray-100 dark:bg-[#444] flex items-center justify-center shrink-0 overflow-hidden relative">
@@ -908,9 +1225,10 @@ function HeroSection() {
                   )}
                   <div className="flex flex-wrap gap-0.5 mb-3">
                     <Button variant="ghost" size="sm" onClick={() => { setShowPreview(!showPreview); setPreviewError(false); }} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7">{showPreview ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}{t("result.preview")}</Button>
-                    <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7"><Share2 className="h-3 w-3 mr-1" />{t("result.share")}</Button>
+                    <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7"><Share2 className="h-3 w-3 mr-1" />{t("result.shareLink")}</Button>
                     <Button variant="ghost" size="sm" onClick={handleToggleBookmark} className="text-xs h-7" style={{ color: isBookmarkedState ? RED : "#999" }}><Bookmark className={`h-3 w-3 mr-1 ${isBookmarkedState ? "fill-current" : ""}`} />{isBookmarkedState ? t("result.bookmarked") : t("result.bookmark")}</Button>
                     <Button variant="ghost" size="sm" onClick={handleCopyCaption} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7"><Copy className="h-3 w-3 mr-1" />{t("result.copyCaption")}</Button>
+                    <Button variant="ghost" size="sm" onClick={handleDownloadThumbnail} className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white h-7"><ImageIcon className="h-3 w-3 mr-1" />{t("result.thumbnail")}</Button>
                   </div>
                   {result.qualityOptions.length > 0 && (
                     <div className="mb-3">
@@ -921,11 +1239,45 @@ function HeroSection() {
                           return (<button key={i} onClick={() => setSelectedQuality(i)} className={`flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors ${isSelected ? "text-white bg-[#E52222] border-[#E52222]" : "bg-white dark:bg-[#333] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-[#E52222]/30"}`}><span>{q.label}</span><span className="opacity-70">{q.resolution}</span></button>);
                         })}
                       </div>
+                      {(result.qualityOptions[selectedQuality]?.resolution === "MP3" || result.qualityOptions[selectedQuality]?.label === "Audio") && (
+                        <div className="mt-2">
+                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 flex items-center gap-1.5">
+                            <Headphones className="h-3 w-3 text-[#E52222]" />
+                            Bitrate:
+                          </p>
+                          <div className="flex gap-1.5">
+                            {["128", "192", "256", "320"].map(br => (
+                              <button
+                                key={br}
+                                onClick={() => setAudioBitrate(br)}
+                                className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors ${
+                                  audioBitrate === br
+                                    ? "text-white bg-[#E52222] border-[#E52222]"
+                                    : "bg-white dark:bg-[#333] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-[#E52222]/30"
+                                }`}
+                              >
+                                {br}kbps
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                   <Button onClick={handleDownload} disabled={downloading} className="w-full h-11 bg-[#E52222] text-white font-bold rounded-lg hover:bg-[#C91C1C] text-sm">
-                    {downloading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Downloading...</> : <><Download className="mr-2 h-4 w-4" />{t("btn.download")}</>}
+                    {downloading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{t("result.progress")}</> : <><Download className="mr-2 h-4 w-4" />{t("btn.download")}</>}
                   </Button>
+                  {downloading && (
+                    <div className="mt-2 w-full">
+                      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+                        <span>{t("result.progress")}</span>
+                        <span>{downloadProgress}%</span>
+                      </div>
+                      <div className="w-full h-2 bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
+                        <div className="h-full bg-[#E52222] rounded-full transition-all duration-300 ease-out" style={{ width: `${downloadProgress}%` }} />
+                      </div>
+                    </div>
+                  )}
                 </>
               )}
             </div>
@@ -974,6 +1326,21 @@ function HeroSection() {
             )}
           </div>
         </>
+      )}
+
+      {/* QR Code Scanner Modal */}
+      {showQR && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#2D2D2D] rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-white/10">
+              <span className="font-medium text-sm text-gray-900 dark:text-white">Scan QR Code</span>
+              <button onClick={() => setShowQR(false)} className="h-7 w-7 flex items-center justify-center rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-white"><X className="h-4 w-4" /></button>
+            </div>
+            <div className="p-4">
+              <div id="qr-reader" className="w-full" style={{ minHeight: "250px" }} />
+            </div>
+          </div>
+        </div>
       )}
     </section>
   );
@@ -1568,6 +1935,72 @@ function WhatsAppWidget() {
 
 
 /* ══════════════════════════════════════════════════
+   TRENDING SECTION — Shows popular TikTok videos
+   ══════════════════════════════════════════════════ */
+function TrendingSection() {
+  const { t } = useLanguage();
+  const [videos, setVideos] = useState<Array<{id: string; title: string; author: any; cover: string; play: string}>>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://www.tikwm.com/api/feed/list?count=6")
+      .then(r => r.json())
+      .then(d => {
+        if (d.code === 0 && d.data) setVideos(d.data.slice(0, 6));
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const handleQuickDownload = (videoUrl: string) => {
+    const heroInput = document.querySelector<HTMLInputElement>("#hero input[type='text']");
+    if (heroInput) {
+      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
+      nativeInputValueSetter?.call(heroInput, videoUrl);
+      heroInput.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      document.querySelector<HTMLButtonElement>("#hero button.download-btn-desktop")?.click();
+    }, 600);
+  };
+
+  if (videos.length === 0 && !loading) return null;
+
+  return (
+    <section className="py-12 md:py-16 bg-white dark:bg-[#1A1A1A]">
+      <div className="mx-auto max-w-5xl px-4 md:px-6">
+        <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 dark:text-white mb-2 font-[family-name:var(--font-montserrat)]">{t("trending.title")}</h2>
+        <p className="text-center text-gray-500 dark:text-gray-400 text-sm mb-8">{t("trending.subtitle")}</p>
+        {loading ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[1,2,3,4,5,6].map(i => <div key={i} className="rounded-xl bg-gray-100 dark:bg-white/5 animate-pulse aspect-[9/12]" />)}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {videos.map(v => (
+              <div key={v.id} className="rounded-xl overflow-hidden bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 group cursor-pointer hover:shadow-lg transition-all" onClick={() => handleQuickDownload(`https://www.tiktok.com/@user/video/${v.id}`)}>
+                <div className="relative aspect-[9/12]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={v.cover} alt="" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                    <Download className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                </div>
+                <div className="p-2">
+                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 line-clamp-2">{v.title}</p>
+                  <p className="text-[10px] text-gray-400 mt-1">@{v.author?.unique_id || v.author?.nickname || "unknown"}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
    FOOTER — Dark (#222) bg, minimal layout
    ══════════════════════════════════════════════════ */
 function Footer() {
@@ -1714,6 +2147,7 @@ export default function Home() {
             ]
           })}} />
         </main>
+        <TrendingSection />
         <Footer />
         <BackToTopButton />
         <WhatsAppWidget />
