@@ -1566,15 +1566,6 @@ function WhatsAppWidget() {
   );
 }
 
-/* ══════════════════════════════════════════════════
-   FLOATING DOWNLOAD CTA (Mobile) — Fixed bottom bar
-   ══════════════════════════════════════════════════ */
-function FloatingDownloadCTA() {
-  const { t } = useLanguage();
-  const [visible, setVisible] = useState(false);
-  useEffect(() => { const onScroll = () => { const heroSection = document.getElementById("hero"); if (heroSection) { const heroBottom = heroSection.getBoundingClientRect().bottom; setVisible(heroBottom < 0); } }; window.addEventListener("scroll", onScroll, { passive: true }); return () => window.removeEventListener("scroll", onScroll); }, []);
-  return (<div className={`md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#E52222] p-3 safe-bottom transition-all duration-500 ease-out ${visible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}`}><a href="#hero" className="flex items-center justify-center gap-2 text-white font-bold text-sm"><Download className="h-4 w-4" />{t("float.download")}</a></div>);
-}
 
 /* ══════════════════════════════════════════════════
    FOOTER — Dark (#222) bg, minimal layout
@@ -1656,7 +1647,7 @@ export default function Home() {
         <Footer />
         <BackToTopButton />
         <WhatsAppWidget />
-        <FloatingDownloadCTA />
+
       </div>
     </LanguageProvider>
   );
