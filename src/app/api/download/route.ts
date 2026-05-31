@@ -211,6 +211,205 @@ function buildTikTokResult(data: Record<string, unknown>) {
   };
 }
 
+/* ──────────────── TikTok Direct Mobile API (Fallback) ─── */
+function extractTikTokVideoId(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    const pathParts = parsed.pathname.split("/").filter(Boolean);
+    const videoIdx = pathParts.findIndex(p => p === "video" || p === "photo");
+    if (videoIdx >= 0 && pathParts[videoIdx + 1]) {
+      return pathParts[videoIdx + 1].split("?")[0];
+    }
+  } catch {}
+  return null;
+}
+
+async function downloadTikTokDirectAPI(url: string) {
+  const videoId = extractTikTokVideoId(url);
+  if (!videoId) return null;
+
+  console.log(`[TikTok Direct API] Trying aweme_id: ${videoId}`);
+
+  // Strategy: Use TikTok's aweme detail API
+  try {
+    const apiUrl = `https://api22-normal-c-useast2a.tiktokv.com/aweme/v1/feed/?aweme_id=${videoId}&feed_type=1&device_id=7209351825995827205&iid=7209351825995827205&channel=googleplay&aid=1180&version_code=310010&version_name=31.0.10&device_platform=android&os=android&ssmix=a&device_type=Pixel+6&device_brand=google&language=en&region=US&sys_region=US&app_name=trill&timezone_offset=28800&host_abi=arm64-v8a`;
+
+    const res = await fetch(apiUrl, {
+      headers: {
+        "User-Agent": "com.ss.android.ugc.trill/310010 (Linux; U; Android 12; en_US; Pixel 6; Build/SD1A.210817.036; Cronet/58.0.2991.0)",
+        "Accept": "application/json",
+      },
+      signal: AbortSignal.timeout(15000),
+    });
+
+    if (!res.ok) throw new Error(`Direct API returned ${res.status}`);
+    const json = await res.json();
+    const aweme = json?.aweme_list?.[0];
+    if (!aweme) throw new Error("No aweme data");
+
+    // Check for photo slide
+    const imagePostInfo = aweme.image_post_info;
+    if (imagePostInfo?.images && Array.isArray(imagePostInfo.images) && imagePostInfo.images.length > 0) {
+      const images = imagePostInfo.images
+        .map((img: Record<string, unknown>) => {
+          const displayImage = img.display_image as Record<string, unknown> | undefined;
+          const urlList = displayImage?.url_list as string[] | undefined;
+          return urlList?.[0] || "";
+        })
+        .filter((u: string) => u.length > 0);
+
+      if (images.length > 0) {
+        const id = aweme.aweme_id || videoId;
+        const author = aweme.author as Record<string, string> | undefined;
+        const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+        if (aweme.music?.play_url?.uri) {
+          qualityOptions.push({ label: "Audio", resolution: "MP3", url: aweme.music.play_url.uri as string });
+        }
+
+        console.log(`[TikTok Direct API] Photo slide with ${images.length} images`);
+        return {
+          title: (aweme.desc as string) || "Slide Foto TikTok",
+          thumbnail: images[0] || "",
+          duration: "00:00",
+          author: author?.nickname || author?.unique_id || "@unknown",
+          platform: "TikTok",
+          downloadUrl: images[0] || "",
+          qualityOptions,
+          filename: `mova_tiktok_${id}`,
+          isPhotoSlide: true as const,
+          images,
+          imageCount: images.length,
+          _source: "direct_api",
+        };
+      }
+    }
+
+    // Regular video
+    const video = aweme.video as Record<string, unknown> | undefined;
+    const playAddr = video?.play_addr as Record<string, unknown> | undefined;
+    const playUrlList = playAddr?.url_list as string[] | undefined;
+    const playUrl = playUrlList?.[0] || "";
+    const id = aweme.aweme_id || videoId;
+    const author = aweme.author as Record<string, string> | undefined;
+    const duration = (aweme.duration as number) || 0;
+    const durationStr = `${String(Math.floor(duration / 60)).padStart(2, "0")}:${String(duration % 60).padStart(2, "0")}`;
+
+    if (!playUrl) throw new Error("No video URL found");
+
+    const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+    qualityOptions.push({ label: "SD", resolution: "720p", url: playUrl });
+    if (aweme.music?.play_url?.uri) {
+      qualityOptions.push({ label: "Audio", resolution: "MP3", url: aweme.music.play_url.uri as string });
+    }
+
+    const cover = video?.cover as Record<string, unknown> | undefined;
+    const coverUrlList = cover?.url_list as string[] | undefined;
+
+    console.log(`[TikTok Direct API] Video found`);
+    return {
+      title: (aweme.desc as string) || "Video TikTok",
+      thumbnail: coverUrlList?.[0] || "",
+      duration: durationStr,
+      author: author?.nickname || author?.unique_id || "@unknown",
+      platform: "TikTok",
+      downloadUrl: playUrl,
+      qualityOptions,
+      filename: `mova_tiktok_${id}`,
+      _source: "direct_api",
+    };
+  } catch (e) {
+    console.log(`[TikTok Direct API] Failed: ${e instanceof Error ? e.message : "unknown"}`);
+  }
+
+  return null;
+}
+
+/* ──────────────── SSSTik Scraping (Fallback) ─── */
+async function downloadTikTokSSSTik(url: string) {
+  console.log(`[SSSTik] Trying: ${url}`);
+
+  try {
+    const res = await fetch("https://ssstik.io/abc?url=dl", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        "Origin": "https://ssstik.io",
+        "Referer": "https://ssstik.io/",
+      },
+      body: `id=${encodeURIComponent(url)}&locale=en&tt=abc`,
+      signal: AbortSignal.timeout(15000),
+    });
+
+    if (!res.ok) throw new Error(`SSSTik returned ${res.status}`);
+    const html = await res.text();
+
+    // Check for error
+    if (html.includes("serious problem") || html.includes("Error code")) {
+      throw new Error("SSSTik: Video unavailable");
+    }
+
+    // Parse photo slides — look for splide__list or image links
+    const imageUrls: string[] = [];
+    // SSSTik returns images in <a> tags with href or <img> tags with src inside splide list
+    const imgPattern = /<img[^>]+src="(https?:\/\/[^"]+)"/g;
+    let match;
+    while ((match = imgPattern.exec(html)) !== null) {
+      const imgUrl = match[1];
+      // Filter out icons/logos
+      if (!imgUrl.includes("ssstik.io") && !imgUrl.includes("favicon") && !imgUrl.includes("logo")) {
+        imageUrls.push(imgUrl);
+      }
+    }
+
+    // If images found, it's a photo slide
+    if (imageUrls.length > 1) {
+      console.log(`[SSSTik] Photo slide with ${imageUrls.length} images`);
+      const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+      return {
+        title: "Slide Foto TikTok",
+        thumbnail: imageUrls[0] || "",
+        duration: "00:00",
+        author: "@unknown",
+        platform: "TikTok",
+        downloadUrl: imageUrls[0] || "",
+        qualityOptions,
+        filename: `mova_tiktok_${Date.now()}`,
+        isPhotoSlide: true as const,
+        images: imageUrls,
+        imageCount: imageUrls.length,
+        _source: "ssstik",
+      };
+    }
+
+    // Parse video URL — look for download link
+    const hrefPattern = /<a[^>]+href="(https?:\/\/[^"]+)"[^>]*>(?:\s*Download|\s*Without)/i;
+    const hrefMatch = html.match(hrefPattern);
+    if (hrefMatch?.[1]) {
+      const videoUrl = hrefMatch[1].replace(/&amp;/g, "&");
+      console.log(`[SSSTik] Video found`);
+      const qualityOptions: { label: string; resolution: string; url: string }[] = [];
+      qualityOptions.push({ label: "HD", resolution: "720p", url: videoUrl });
+
+      return {
+        title: "Video TikTok",
+        thumbnail: "",
+        duration: "--:--",
+        author: "@unknown",
+        platform: "TikTok",
+        downloadUrl: videoUrl,
+        qualityOptions,
+        filename: `mova_tiktok_${Date.now()}`,
+        _source: "ssstik",
+      };
+    }
+  } catch (e) {
+    console.log(`[SSSTik] Failed: ${e instanceof Error ? e.message : "unknown"}`);
+  }
+
+  return null;
+}
+
 async function downloadTikTok(url: string) {
   let resolvedUrl = url;
   const hostname = (() => {
@@ -238,7 +437,8 @@ async function downloadTikTok(url: string) {
     const json = await res.json();
     if (json.code !== 0 || !json.data) throw new Error(json.msg || "Video TikTok tidak ditemukan.");
 
-    return buildTikTokResult(json.data as Record<string, unknown>);
+    const result = buildTikTokResult(json.data as Record<string, unknown>);
+    if (result) return { ...result, _source: "tikwm" };
   } catch (e) {
     console.log(`TikTok tikwm POST failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
@@ -258,9 +458,26 @@ async function downloadTikTok(url: string) {
     const json = await res.json();
     if (json.code !== 0 || !json.data) throw new Error(json.msg || "Video TikTok tidak ditemukan.");
 
-    return buildTikTokResult(json.data as Record<string, unknown>);
+    const result = buildTikTokResult(json.data as Record<string, unknown>);
+    if (result) return { ...result, _source: "tikwm" };
   } catch (e) {
     console.log(`TikTok tikwm GET failed: ${e instanceof Error ? e.message : "unknown"}`);
+  }
+
+  // Strategy 3: TikTok Direct Mobile API (most reliable, no third-party dependency)
+  try {
+    const result = await downloadTikTokDirectAPI(resolvedUrl);
+    if (result) return result;
+  } catch (e) {
+    console.log(`TikTok Direct API failed: ${e instanceof Error ? e.message : "unknown"}`);
+  }
+
+  // Strategy 4: SSSTik.io scraping
+  try {
+    const result = await downloadTikTokSSSTik(resolvedUrl);
+    if (result) return result;
+  } catch (e) {
+    console.log(`TikTok SSSTik failed: ${e instanceof Error ? e.message : "unknown"}`);
   }
 
   return null;
