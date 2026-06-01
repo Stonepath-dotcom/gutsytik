@@ -3,37 +3,48 @@ import { rateLimit } from "@/lib/rate-limit";
 
 const limiter = rateLimit(3); // 3 submissions per minute
 
-// Simple file-based storage for contact submissions
+// Storage: Try file-based (dev), fall back to in-memory (Vercel serverless)
+let memoryStore: object[] = [];
+
 async function saveContactSubmission(data: { name: string; email: string; subject?: string; message: string; ip: string }) {
-  const fs = await import("fs");
-  const path = await import("path");
-  const filePath = path.join(process.cwd(), "src/data/contact-submissions.json");
+  const entry = { ...data, timestamp: new Date().toISOString() };
 
-  let submissions: object[] = [];
+  // Try file-based storage first (works in dev/local)
   try {
-    const fileData = fs.readFileSync(filePath, "utf-8");
-    submissions = JSON.parse(fileData);
+    const fs = await import("fs");
+    const path = await import("path");
+    const filePath = path.join(process.cwd(), "src/data/contact-submissions.json");
+
+    let submissions: object[] = [];
+    try {
+      const fileData = fs.readFileSync(filePath, "utf-8");
+      submissions = JSON.parse(fileData);
+    } catch {
+      // File doesn't exist yet
+    }
+
+    submissions.push(entry);
+    if (submissions.length > 100) {
+      submissions = submissions.slice(-100);
+    }
+
+    fs.writeFileSync(filePath, JSON.stringify(submissions, null, 2));
+    return;
   } catch {
-    // File doesn't exist yet
+    // File system not available (Vercel serverless) — use in-memory
   }
 
-  submissions.push({
-    ...data,
-    timestamp: new Date().toISOString(),
-  });
-
-  // Keep only last 100 submissions
-  if (submissions.length > 100) {
-    submissions = submissions.slice(-100);
+  // Fallback: in-memory storage (ephemeral on serverless)
+  memoryStore.push(entry);
+  if (memoryStore.length > 100) {
+    memoryStore = memoryStore.slice(-100);
   }
-
-  fs.writeFileSync(filePath, JSON.stringify(submissions, null, 2));
 }
 
 export async function GET() {
   return NextResponse.json(
     { message: "Mova Contact API. Send a POST request with { name, email, subject, message }.", docs: "https://getmova.my.id/contact" },
-    { status: 200 }
+    { status: 200, headers: { "X-Robots-Tag": "noindex, nofollow" } }
   );
 }
 

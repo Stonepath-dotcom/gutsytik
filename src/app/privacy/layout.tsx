@@ -1,35 +1,36 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Kebijakan Privasi & Syarat Ketentuan",
+  title: "Kebijakan Privasi - GetMova",
   description:
-    "Kebijakan Privasi dan Syarat Ketentuan getmova. Informasi tentang pengumpulan data, penggunaan cookie, Google AdSense, dan hak pengguna.",
+    "Kebijakan privasi GetMova. Pelajari bagaimana kami menangani data pengguna, penggunaan cookie, Google AdSense, dan hak-hak Anda sebagai pengguna. Privasi Anda adalah prioritas kami.",
   keywords: [
-    "kebijakan privasi",
-    "syarat ketentuan",
+    "kebijakan privasi getmova",
     "privacy policy",
-    "getmova privasi",
-    "data pengguna",
+    "privasi pengguna",
+    "cookie policy",
+    "perlindungan data",
+    "hak pengguna",
   ],
-  alternates: { canonical: "https://getmova.my.id/privacy" },
+  alternates: {
+    canonical: "https://getmova.my.id/privacy",
+  },
   openGraph: {
-    title: "Kebijakan Privasi & Syarat Ketentuan",
-    description: "Kebijakan Privasi dan Syarat Ketentuan getmova.",
+    title: "Kebijakan Privasi - GetMova",
+    description:
+      "Kebijakan privasi GetMova. Pelajari bagaimana kami menangani data pengguna dan hak-hak Anda.",
     url: "https://getmova.my.id/privacy",
-    siteName: "getmova",
+    siteName: "GetMova",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "Kebijakan Privasi & Syarat Ketentuan",
-    description: "Kebijakan Privasi dan Syarat Ketentuan getmova.",
+    title: "Kebijakan Privasi - GetMova",
+    description:
+      "Kebijakan privasi GetMova. Pelajari bagaimana kami menangani data pengguna dan hak-hak Anda.",
   },
 };
 
-export default function PrivacyLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return children;
+export default function PrivacyLayout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }

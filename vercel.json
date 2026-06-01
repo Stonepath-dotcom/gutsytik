@@ -90,7 +90,14 @@
         { "key": "Access-Control-Allow-Origin", "value": "https://getmova.my.id" },
         { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
         { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Range" },
-        { "key": "Access-Control-Expose-Headers", "value": "Content-Range, Content-Length, Content-Disposition" }
+        { "key": "Access-Control-Expose-Headers", "value": "Content-Range, Content-Length, Content-Disposition" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
+      "source": "/download-history",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     }
   ],

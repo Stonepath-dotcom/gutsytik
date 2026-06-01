@@ -5,24 +5,28 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
+        allow: ["/", "/tiktok-downloader", "/instagram-downloader", "/facebook-downloader", "/twitter-downloader", "/pinterest-downloader", "/reddit-downloader", "/tiktok-photo-slide", "/blog", "/about", "/contact", "/faq", "/privacy", "/terms", "/disclaimer", "/dmca", "/cookie-policy", "/how-it-works", "/changelog", "/compare", "/tools"],
         disallow: [
           "/api/",
           "/youtube-downloader",
           "/youtube-mp3",
           "/youtube-mp3/",
-          "/*?q=*",
           "/telegram-downloader",
+          "/download-history",
+          "/*.json$",
+          "/*.xml$",
         ],
       },
       {
         userAgent: "Googlebot",
-        allow: "/",
+        allow: ["/", "/tiktok-downloader", "/instagram-downloader", "/facebook-downloader", "/twitter-downloader", "/pinterest-downloader", "/reddit-downloader", "/tiktok-photo-slide", "/blog", "/about", "/contact", "/faq", "/privacy", "/terms", "/disclaimer", "/dmca", "/cookie-policy", "/how-it-works", "/changelog", "/compare", "/tools"],
         disallow: [
           "/api/",
           "/youtube-downloader",
           "/youtube-mp3",
           "/youtube-mp3/",
+          "/telegram-downloader",
+          "/download-history",
         ],
       },
     ],

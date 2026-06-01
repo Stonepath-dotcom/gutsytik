@@ -3,28 +3,43 @@ import { rateLimit } from "@/lib/rate-limit";
 
 const limiter = rateLimit(5); // 5 submissions per minute
 
-// Simple file-based storage for newsletter subscriptions
-async function saveSubscription(email: string) {
-  const fs = await import("fs");
-  const path = await import("path");
-  const filePath = path.join(process.cwd(), "src/data/newsletter-subscribers.json");
+// Storage: Try file-based (dev), fall back to in-memory (Vercel serverless)
+let memorySubscribers: string[] = [];
 
-  let subscribers: string[] = [];
+async function saveSubscription(email: string): Promise<{ success: boolean; reason?: string }> {
+  // Try file-based storage first (works in dev/local)
   try {
-    const data = fs.readFileSync(filePath, "utf-8");
-    subscribers = JSON.parse(data);
+    const fs = await import("fs");
+    const path = await import("path");
+    const filePath = path.join(process.cwd(), "src/data/newsletter-subscribers.json");
+
+    let subscribers: string[] = [];
+    try {
+      const data = fs.readFileSync(filePath, "utf-8");
+      subscribers = JSON.parse(data);
+    } catch {
+      // File doesn't exist yet
+    }
+
+    // Check for duplicate
+    if (subscribers.includes(email)) {
+      return { success: false, reason: "already_subscribed" };
+    }
+
+    subscribers.push(email);
+    fs.writeFileSync(filePath, JSON.stringify(subscribers, null, 2));
+
+    return { success: true };
   } catch {
-    // File doesn't exist yet
+    // File system not available (Vercel serverless) — use in-memory
   }
 
-  // Check for duplicate
-  if (subscribers.includes(email)) {
+  // Fallback: in-memory storage (ephemeral on serverless)
+  if (memorySubscribers.includes(email)) {
     return { success: false, reason: "already_subscribed" };
   }
 
-  subscribers.push(email);
-  fs.writeFileSync(filePath, JSON.stringify(subscribers, null, 2));
-
+  memorySubscribers.push(email);
   return { success: true };
 }
 

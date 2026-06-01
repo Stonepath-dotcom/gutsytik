@@ -12,6 +12,14 @@ export default function Error({
 }) {
   useEffect(() => {
     console.error(error);
+    // Add noindex meta tag to prevent search engines from indexing error pages
+    const meta = document.createElement("meta");
+    meta.name = "robots";
+    meta.content = "noindex, nofollow";
+    document.head.appendChild(meta);
+    return () => {
+      document.head.removeChild(meta);
+    };
   }, [error]);
 
   return (
