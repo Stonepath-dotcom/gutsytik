@@ -4,14 +4,11 @@ import { MovaLogo } from "@/components/mova-logo";
 const PLATFORMS = [
   { name: "TikTok Downloader", href: "/tiktok-downloader" },
   { name: "TikTok Photo Slide", href: "/tiktok-photo-slide" },
-  { name: "YouTube Downloader", href: "/youtube-downloader" },
   { name: "Instagram Downloader", href: "/instagram-downloader" },
   { name: "Facebook Downloader", href: "/facebook-downloader" },
   { name: "Twitter/X Downloader", href: "/twitter-downloader" },
-  { name: "YouTube MP3 Converter", href: "/youtube-mp3" },
   { name: "Pinterest Downloader", href: "/pinterest-downloader" },
   { name: "Reddit Downloader", href: "/reddit-downloader" },
-  { name: "Telegram Downloader", href: "/telegram-downloader" },
 ];
 
 const LEGAL = [
@@ -35,7 +32,6 @@ const RESOURCES = [
   { name: "Mova vs Kompetitor", href: "/compare" },
   { name: "FAQ", href: "/faq" },
   { name: "Changelog", href: "/changelog" },
-  { name: "Riwayat Download", href: "/download-history" },
   { name: "Tentang Kami", href: "/about" },
   { name: "Kontak", href: "/contact" },
 ];

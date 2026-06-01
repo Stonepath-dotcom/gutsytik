@@ -220,9 +220,9 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
   const navItems = [
     { label: "Beranda", href: "/" },
     { label: "TikTok", href: "/tiktok-downloader" },
-    { label: "YouTube", href: "/youtube-downloader" },
     { label: "Instagram", href: "/instagram-downloader" },
-    { label: "MP3", href: "/youtube-mp3" },
+    { label: "Facebook", href: "/facebook-downloader" },
+    { label: "Twitter/X", href: "/twitter-downloader" },
   ];
 
   return (

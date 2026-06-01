@@ -50,13 +50,6 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.7",
-    ratingCount: "15600",
-    bestRating: "5",
-    worstRating: "1",
-  },
 };
 
 const jsonLdBreadcrumb = {

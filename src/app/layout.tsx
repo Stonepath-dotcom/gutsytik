@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -130,7 +130,6 @@ export default function RootLayout({
     <html lang="id" suppressHydrationWarning>
       <head>
         <link rel="alternate" hrefLang="id" href="https://getmova.my.id" />
-        <link rel="alternate" hrefLang="en" href="https://getmova.my.id/?lang=en" />
         <link rel="alternate" hrefLang="x-default" href="https://getmova.my.id" />
         <link rel="alternate" type="application/rss+xml" title="GetMova Blog" href="https://getmova.my.id/feed.xml" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -181,13 +180,6 @@ export default function RootLayout({
                 price: "0",
                 priceCurrency: "IDR",
               },
-              aggregateRating: {
-                "@type": "AggregateRating",
-                ratingValue: "4.7",
-                ratingCount: "2450",
-                bestRating: "5",
-                worstRating: "1",
-              },
             }),
           }}
         />
@@ -221,6 +213,7 @@ export default function RootLayout({
             }),
           }}
         />
+        {/* WebSite schema - no SearchAction to avoid ?q= parameter crawl waste */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -229,14 +222,6 @@ export default function RootLayout({
               "@type": "WebSite",
               name: "GetMova",
               url: "https://getmova.my.id",
-              potentialAction: {
-                "@type": "SearchAction",
-                target: {
-                  "@type": "EntryPoint",
-                  urlTemplate: "https://getmova.my.id/?q={search_term_string}",
-                },
-                "query-input": "required name=search_term_string",
-              },
             }),
           }}
         />
@@ -342,7 +327,7 @@ export default function RootLayout({
           }}
         />
 
-        {/* BreadcrumbList Schema - Homepage */}
+        {/* BreadcrumbList Schema - Homepage (single item, no duplicate URL) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -353,13 +338,7 @@ export default function RootLayout({
                 {
                   "@type": "ListItem",
                   position: 1,
-                  name: "Home",
-                  item: "https://getmova.my.id",
-                },
-                {
-                  "@type": "ListItem",
-                  position: 2,
-                  name: "Download Video Tanpa Watermark",
+                  name: "GetMova - Download Video Tanpa Watermark",
                   item: "https://getmova.my.id",
                 },
               ],
