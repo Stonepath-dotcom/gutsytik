@@ -596,6 +596,190 @@ details summary { list-style: none; }
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
+/* ─── Premium Glass Card (with gradient border) ─── */
+.premium-glass {
+  position: relative;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(229, 34, 34, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.premium-glass:hover {
+  box-shadow: 0 8px 40px rgba(229, 34, 34, 0.08), 0 0 0 1px rgba(229, 34, 34, 0.15) inset;
+  transform: translateY(-4px);
+  border-color: rgba(229, 34, 34, 0.2);
+}
+.dark .premium-glass {
+  background: rgba(45, 45, 45, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+.dark .premium-glass:hover {
+  box-shadow: 0 8px 40px rgba(229, 34, 34, 0.12), 0 0 60px rgba(229, 34, 34, 0.05), 0 0 0 1px rgba(229, 34, 34, 0.2) inset;
+  border-color: rgba(229, 34, 34, 0.3);
+}
+
+/* ─── Glow Border Effect (for input/buttons) ─── */
+.glow-border {
+  position: relative;
+  border: 2px solid #E52222;
+  box-shadow: 0 0 15px rgba(229, 34, 34, 0.1), 0 0 30px rgba(229, 34, 34, 0.05);
+}
+.glow-border:focus-within {
+  box-shadow: 0 0 20px rgba(229, 34, 34, 0.2), 0 0 40px rgba(229, 34, 34, 0.08), inset 0 0 20px rgba(229, 34, 34, 0.03);
+}
+.dark .glow-border {
+  box-shadow: 0 0 15px rgba(229, 34, 34, 0.15), 0 0 30px rgba(229, 34, 34, 0.05);
+}
+.dark .glow-border:focus-within {
+  box-shadow: 0 0 25px rgba(229, 34, 34, 0.25), 0 0 50px rgba(229, 34, 34, 0.1), inset 0 0 30px rgba(229, 34, 34, 0.05);
+}
+
+/* ─── Gradient Border Card ─── */
+.gradient-border-card {
+  position: relative;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(229, 34, 34, 0.3), rgba(255, 107, 53, 0.1), rgba(229, 34, 34, 0.05));
+}
+.gradient-border-card > .inner {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+}
+.dark .gradient-border-card > .inner {
+  background: #2D2D2D;
+}
+.gradient-border-card:hover {
+  background: linear-gradient(135deg, rgba(229, 34, 34, 0.5), rgba(255, 107, 53, 0.2), rgba(229, 34, 34, 0.1));
+}
+
+/* ─── Shine Animation (for hero button) ─── */
+@keyframes shine {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shine 3s ease-in-out infinite;
+}
+
+/* ─── Pulse Ring Animation (for live counter) ─── */
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+.pulse-dot {
+  position: relative;
+}
+.pulse-dot::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: -10px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #22C55E;
+  transform: translateY(-50%);
+}
+.pulse-dot::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: -10px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #22C55E;
+  transform: translateY(-50%);
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+/* ─── Gradient Background Section ─── */
+.gradient-section {
+  background: linear-gradient(135deg, #1A1A1A 0%, #2D1515 50%, #1A1A1A 100%);
+}
+.gradient-section-red {
+  background: linear-gradient(135deg, #333333 0%, #3D1A1A 40%, #333333 100%);
+}
+.dark .gradient-section-red {
+  background: linear-gradient(135deg, #2D2D2D 0%, #3D1A1A 40%, #2D2D2D 100%);
+}
+
+/* ─── Number Glow (for feature numbers) ─── */
+.number-glow {
+  text-shadow: 0 0 30px rgba(229, 34, 34, 0.4), 0 0 60px rgba(229, 34, 34, 0.1);
+}
+
+/* ─── Card Hover Lift with Colored Shadow ─── */
+.card-lift {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(229, 34, 34, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04);
+}
+.dark .card-lift:hover {
+  box-shadow: 0 20px 40px rgba(229, 34, 34, 0.12), 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── Icon Container with Gradient Background ─── */
+.icon-gradient-bg {
+  position: relative;
+  overflow: hidden;
+}
+.icon-gradient-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(229, 34, 34, 0.15), rgba(255, 107, 53, 0.1));
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.icon-gradient-bg:hover::before {
+  opacity: 1;
+}
+
+/* ─── Hero Input Premium Style ─── */
+.hero-input-wrapper {
+  position: relative;
+  border-radius: 16px;
+  padding: 2px;
+  background: linear-gradient(135deg, #E52222, #FF6B35, #E52222);
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+  box-shadow: 0 8px 32px rgba(229, 34, 34, 0.2), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+.hero-input-wrapper:focus-within {
+  box-shadow: 0 8px 40px rgba(229, 34, 34, 0.3), 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.dark .hero-input-wrapper {
+  box-shadow: 0 8px 32px rgba(229, 34, 34, 0.15), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.dark .hero-input-wrapper:focus-within {
+  box-shadow: 0 8px 40px rgba(229, 34, 34, 0.25), 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.hero-input-inner {
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  background: white;
+}
+.dark .hero-input-inner {
+  background: #2D2D2D;
+}
+
 /* ─── Mesh Gradient Background ─── */
 .mesh-gradient {
   background: 
