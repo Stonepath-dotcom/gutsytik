@@ -52,6 +52,17 @@ export async function POST(req: NextRequest) {
         `${baseUrl}/telegram-downloader`,
         `${baseUrl}/youtube-downloader`,
         `${baseUrl}/youtube-mp3`,
+        `${baseUrl}/likee-downloader`,
+        `${baseUrl}/snack-video-downloader`,
+        // Tools pages
+        `${baseUrl}/tools`,
+        `${baseUrl}/tools/audio-converter`,
+        `${baseUrl}/tools/format-comparison`,
+        `${baseUrl}/tools/file-size-calculator`,
+        `${baseUrl}/tools/trim-video`,
+        `${baseUrl}/tools/convert-gif`,
+        `${baseUrl}/tools/resolution-comparator`,
+        `${baseUrl}/tools/bitrate-calculator`,
         // Info pages
         `${baseUrl}/about`,
         `${baseUrl}/contact`,
