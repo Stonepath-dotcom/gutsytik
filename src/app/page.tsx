@@ -986,7 +986,7 @@ function HeroSection() {
         <p className="hero-subtitle text-muted-foreground dark:text-gray-400 text-sm md:text-base lg:text-lg max-w-lg md:max-w-xl lg:max-w-2xl leading-relaxed mb-6 md:mb-8">{t("hero.subtitle")}</p>
 
         {/* Input area with drag-drop, auto-paste, history button */}
-        <div className="w-full max-w-xl lg:max-w-2xl relative">
+        <div className="w-full max-w-xl lg:max-w-2xl relative overflow-hidden">
           {/* FEATURE 14: Onboarding tooltip */}
           {showOnboard && !batchMode && (
             <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 z-30 bg-white dark:bg-card text-foreground dark:text-white text-xs font-medium px-4 py-2 rounded-lg shadow-lg border border-[#E52222]/30 whitespace-nowrap">
@@ -1008,7 +1008,7 @@ function HeroSection() {
 
           {!batchMode ? (
             /* Single Mode Input — Premium gradient border */
-            <div className={`hero-input-wrapper ${isDragOver ? "ring-4 ring-[#E52222]/30" : ""}`}
+            <div className={`hero-input-wrapper ${isDragOver ? "!border-[#E52222]" : ""}`}
               onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}
             >
               <div className="hero-input-inner">
@@ -1024,7 +1024,7 @@ function HeroSection() {
             </div>
           ) : (
             /* Batch Mode Textarea — Premium gradient border */
-            <div className={`hero-input-wrapper ${isDragOver ? "ring-4 ring-[#E52222]/30" : ""}`}
+            <div className={`hero-input-wrapper ${isDragOver ? "!border-[#E52222]" : ""}`}
               onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}
             >
               <div className="hero-input-inner flex-col">
