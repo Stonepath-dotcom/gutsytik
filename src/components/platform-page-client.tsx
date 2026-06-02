@@ -114,7 +114,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
   const { toast, dismiss } = useToast();
 
   const showToast = useCallback((title: string, desc: string, variant: "default" | "destructive" = "default") => {
-    const id = toast({ title, description: desc, variant });
+    const { id } = toast({ title, description: desc, variant });
     setTimeout(() => dismiss(id), 3000);
   }, [toast, dismiss]);
 
@@ -367,7 +367,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
             <button onClick={() => setShowQR(true)} className="h-11 px-3 rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-[#E52222]/5 hover:border-[#E52222]/30 transition-colors shrink-0" title="Scan QR Code">
               <QrCode className="h-4 w-4" />
             </button>
-            <Button onClick={handleAnalyze} disabled={loading} className="h-11 px-5 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] shrink-0 text-sm md:text-base">
+            <Button onClick={() => handleAnalyze()} disabled={loading} className="h-11 px-5 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] shrink-0 text-sm md:text-base">
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 sm:mr-1.5" />}
               <span className="hidden sm:inline">{loading ? (loadingMsg || "Download") : "Download"}</span>
             </Button>
@@ -502,7 +502,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((f, i) => (
-              <div key={i} className="bento-card p-5 md:p-7 group hover:border-[#E52222]/30 transition-all">
+              <div key={i} className="rounded-2xl bg-card border border-border p-5 md:p-7 group hover:border-[#E52222]/30 transition-all">
                 <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl flex items-center justify-center mb-3" style={{ background: `${platformColor}15` }}>
                   <div className="text-[#E52222] md:text-lg">{f.icon}</div>
                 </div>

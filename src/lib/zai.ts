@@ -52,7 +52,7 @@ export async function createZai(): Promise<ZAI> {
     try {
       const config = JSON.parse(process.env.ZAI_CONFIG);
       if (config.baseUrl && config.apiKey) {
-        const zai = new ZAI(config);
+        const zai = new (ZAI as any)(config);
         _zaiInstance = zai;
         return zai;
       }
@@ -72,7 +72,7 @@ export async function createZai(): Promise<ZAI> {
       userId: process.env.ZAI_USER_ID || process.env.Z_AI_USER_ID || "",
     };
 
-    const zai = new ZAI(config);
+    const zai = new (ZAI as any)(config);
     _zaiInstance = zai;
     return zai;
   }
@@ -89,7 +89,7 @@ export async function createZai(): Promise<ZAI> {
   // Strategy 4: Try reading config file manually
   const fileConfig = readConfigFile();
   if (fileConfig) {
-    const zai = new ZAI(fileConfig);
+    const zai = new (ZAI as any)(fileConfig);
     _zaiInstance = zai;
     return zai;
   }

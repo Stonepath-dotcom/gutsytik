@@ -10,19 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { SitewideFooter } from "@/components/sitewide-footer";
+import { MovaLogo } from "@/components/mova-logo";
 import Image from "next/image";
-
-function MovaLogo({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 32 32" className={className} fill="none" aria-hidden="true">
-      <rect width="32" height="32" rx="8" className="fill-primary" />
-      <path d="M8 22V10l4 6 4-6v12" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M22 22V10" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M18 10h8" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
-      <circle cx="22" cy="18" r="2.5" stroke="white" strokeWidth="1.8" />
-    </svg>
-  );
-}
 
 interface QualityOption { label: string; resolution: string; url: string; originalUrl?: string }
 interface DownloadResult {
@@ -230,8 +219,7 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
       <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md" role="banner">
         <div className="mx-auto max-w-3xl h-12 md:h-16 flex items-center justify-between px-4">
           <a href="/" className="flex items-center gap-2" aria-label="getmova Beranda">
-            <MovaLogo className="h-7 w-7" />
-            <span className="font-bold text-lg text-foreground tracking-tight">getmova</span>
+            <MovaLogo size={28} showText={true} />
           </a>
           <nav className="hidden md:flex items-center gap-4" aria-label="Navigasi utama">
             {navItems.map(item => (
@@ -259,7 +247,7 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
       <main className="flex-1" role="main">
         {/* Hero with Download Tool */}
         <section className="relative px-4 pt-10 md:pt-20 pb-8 md:pb-16 overflow-hidden">
-          <div className="absolute inset-0 -z-10 hero-dots" />
+          <div className="absolute inset-0 -z-10 dot-grid" />
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-primary/5 dark:bg-primary/8 rounded-full blur-3xl -z-10" />
           <div className="mx-auto max-w-md md:max-w-2xl text-center relative">
             <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-foreground mb-2 tracking-tight leading-tight">{title}</h1>

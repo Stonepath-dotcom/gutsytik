@@ -61,7 +61,6 @@ export function QRScanner({ onURLDetected, onClose }: QRScannerProps) {
     try {
       // @ts-expect-error BarcodeDetector is not in all TypeScript libs
       const detector = new BarcodeDetector({ formats: ["qr_code"] });
-      // @ts-expect-error
       const results = await detector.detect(videoRef.current);
       if (results.length > 0) {
         const url = results[0].rawValue;
@@ -101,7 +100,6 @@ export function QRScanner({ onURLDetected, onClose }: QRScannerProps) {
           try {
             // @ts-expect-error
             const detector = new BarcodeDetector({ formats: ["qr_code"] });
-            // @ts-expect-error
             const results = await detector.detect(canvas);
             if (results.length > 0) {
               const rawValue = results[0].rawValue;

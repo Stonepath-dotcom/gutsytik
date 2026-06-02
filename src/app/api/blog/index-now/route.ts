@@ -122,7 +122,7 @@ export async function POST(req: NextRequest) {
     ).catch(() => null);
 
     // 3. Google Indexing API (if service account configured)
-    let googleIndexResult = null;
+    let googleIndexResult: Response | null = null;
     if (process.env.GOOGLE_INDEXING_TOKEN) {
       try {
         googleIndexResult = await fetch(

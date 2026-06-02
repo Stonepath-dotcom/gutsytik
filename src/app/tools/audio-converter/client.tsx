@@ -119,7 +119,7 @@ export function AudioConverterClient() {
       desc: string,
       variant: "default" | "destructive" = "default"
     ) => {
-      const id = toast({ title, description: desc, variant });
+      const { id } = toast({ title, description: desc, variant });
       setTimeout(() => dismiss(id), 3000);
     },
     [toast, dismiss]
@@ -786,7 +786,7 @@ export function AudioConverterClient() {
               <button
                 onClick={() => {
                   const input = document.querySelector('input[inputmode="url"]');
-                  if (input) input.focus();
+                  if (input) (input as HTMLElement).focus();
                   else window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
                 className="inline-flex items-center gap-2 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] px-8 h-12 text-base transition-colors"

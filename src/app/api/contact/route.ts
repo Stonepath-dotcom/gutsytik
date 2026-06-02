@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
 
-const limiter = rateLimit(3); // 3 submissions per minute
-
 // Storage: Try file-based (dev), fall back to in-memory (Vercel serverless)
 let memoryStore: object[] = [];
 
@@ -51,8 +49,9 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     // Rate limit
-    const rateLimitResult = limiter(req);
-    if (rateLimitResult) return rateLimitResult;
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+    const rateLimitResult = rateLimit(ip, 3);
+    if (!rateLimitResult.success) return NextResponse.json({ error: "Terlalu banyak permintaan. Coba lagi nanti." }, { status: 429 });
 
     const body = await req.json();
     const { name, email, subject, message } = body;
@@ -104,7 +103,7 @@ export async function POST(req: NextRequest) {
     }
 
     const forwarded = req.headers.get("x-forwarded-for");
-    const ip = forwarded ? forwarded.split(",")[0] : "unknown";
+    const clientIp = forwarded ? forwarded.split(",")[0] : "unknown";
 
     // Save to file
     await saveContactSubmission({
@@ -112,7 +111,7 @@ export async function POST(req: NextRequest) {
       email: email.toLowerCase().trim(),
       subject: subject?.trim() || undefined,
       message: message.trim(),
-      ip,
+      ip: clientIp,
     });
 
     // Webhook notification (non-blocking)

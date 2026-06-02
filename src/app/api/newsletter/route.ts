@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
 
-const limiter = rateLimit(5); // 5 submissions per minute
-
 // Storage: Try file-based (dev), fall back to in-memory (Vercel serverless)
 let memorySubscribers: string[] = [];
 
@@ -46,8 +44,9 @@ async function saveSubscription(email: string): Promise<{ success: boolean; reas
 export async function POST(req: NextRequest) {
   try {
     // Rate limit
-    const rateLimitResult = limiter(req);
-    if (rateLimitResult) return rateLimitResult;
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+    const rateLimitResult = rateLimit(ip, 5);
+    if (!rateLimitResult.success) return NextResponse.json({ error: "Terlalu banyak permintaan. Coba lagi nanti." }, { status: 429 });
 
     const body = await req.json();
     const { email } = body;

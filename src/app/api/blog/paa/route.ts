@@ -131,7 +131,7 @@ OUTPUT HANYA JSON.`,
       let updatedContent = data.posts[postIndex].content;
       if (updatedContent.includes("Pertanyaan yang Sering Diajukan") || updatedContent.includes("FAQ")) {
         // Append to existing FAQ section
-        const faqSectionRegex = /(<h2[^>]*id="[^"]*faq[^"]*"[^>]*>.*?)(<\/div>\s*<\/div>|<\/section>)/is;
+        const faqSectionRegex = /(<h2[^>]*id="[^"]*faq[^"]*"[^>]*>[\s\S]*?)(<\/div>\s*<\/div>|<\/section>)/i;
         if (faqSectionRegex.test(updatedContent)) {
           updatedContent = updatedContent.replace(
             faqSectionRegex,

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { BlogArticleLayout } from "@/components/blog/blog-article-layout";
 import { getAllAutoBlogPosts, getAutoBlogPostBySlug } from "@/lib/auto-blog";
@@ -102,14 +101,18 @@ export default async function AutoBlogArticlePage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(post.faqJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(post.howToJsonLd) }}
-      />
+      {post.faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(post.faqJsonLd) }}
+        />
+      )}
+      {post.howToJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(post.howToJsonLd) }}
+        />
+      )}
       <BlogArticleLayout
         title={post.title}
         slug={post.slug}

@@ -101,7 +101,7 @@ async function downloadYouTube(url: string, audioOnly: boolean) {
             // or for googlevideo URLs to avoid CORS issues
             let finalUrl = rawUrl;
             if (rawUrl.includes("googlevideo.com") || needsConversion) {
-              finalUrl = `${BACKEND_API_URL}/stream?url=${encodeURIComponent(rawUrl)}&filename=${encodeURIComponent(data.filename || `mova_youtube_${videoId}`)}&quality=${encodeURIComponent(label)}`;
+              finalUrl = `${BACKEND_API_URL}/stream?url=${encodeURIComponent(rawUrl)}&filename=${encodeURIComponent((data.filename as string) || `mova_youtube_${videoId}`)}&quality=${encodeURIComponent(label)}`;
             }
 
             return {

@@ -507,12 +507,12 @@ details summary { list-style: none; }
 /* ─── High contrast mode ─── */
 @media (prefers-contrast: high) {
   :root {
-    --border: 0 0% 0%;
-    --ring: 0 0% 0%;
+    --border: #000000;
+    --ring: #000000;
   }
   .dark {
-    --border: 0 0% 100%;
-    --ring: 0 0% 100%;
+    --border: #FFFFFF;
+    --ring: #FFFFFF;
   }
 }
 
