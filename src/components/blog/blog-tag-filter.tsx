@@ -12,7 +12,7 @@ const ALL_TAGS = [
   { id: "pinterest", label: "Pinterest", color: "bg-[#E60023]/10 text-[#E60023] border-[#E60023]/20" },
   { id: "reddit", label: "Reddit", color: "bg-[#FF4500]/10 text-[#FF4500] border-[#FF4500]/20" },
   { id: "telegram", label: "Telegram", color: "bg-[#26A5E4]/10 text-[#26A5E4] border-[#26A5E4]/20" },
-  { id: "mp3", label: "MP3/Audio", color: "bg-[#34D399]/10 text-[#10B981] border-[#10B981]/20" },
+  { id: "mp3", label: "MP3/Audio", color: "bg-[#FF6B35]/10 text-[#E52222] border-[#E52222]/20" },
   { id: "tutorial", label: "Tutorial", color: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20" },
   { id: "tips", label: "Tips & Trik", color: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20" },
   { id: "perbandingan", label: "Perbandingan", color: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20" },

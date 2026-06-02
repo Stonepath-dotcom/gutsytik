@@ -250,7 +250,7 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
         <Button
           onClick={handleAnalyze}
           disabled={loading}
-          className="h-11 px-5 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] shrink-0"
+          className="h-11 px-5 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] shrink-0"
         >
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -263,9 +263,9 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
 
       {/* Loading */}
       {loading && !error && (
-        <div className="mt-3 p-3 rounded-lg bg-[#10B981]/10 border border-[#10B981]/20 flex items-center gap-2">
-          <Loader2 className="h-4 w-4 text-[#10B981] animate-spin shrink-0" />
-          <p className="text-[#10B981] text-sm font-medium">
+        <div className="mt-3 p-3 rounded-lg bg-[#E52222]/10 border border-[#E52222]/20 flex items-center gap-2">
+          <Loader2 className="h-4 w-4 text-[#E52222] animate-spin shrink-0" />
+          <p className="text-[#E52222] text-sm font-medium">
             {mode === "audio" ? "Mengekstrak audio..." : "Mencari video..."}
           </p>
         </div>
@@ -284,19 +284,19 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
         <div
           ref={resultRef}
           className="mt-4 rounded-xl bg-card border overflow-hidden"
-          style={{ borderColor: "#10B98130" }}
+          style={{ borderColor: "#E5222230" }}
         >
           {/* Header */}
           <div
             className="px-4 py-2 border-b border-border flex items-center gap-2"
-            style={{ background: "linear-gradient(to right, #10B98115, #34D39915)" }}
+            style={{ background: "linear-gradient(to right, #E5222215, #FF6B3515)" }}
           >
             <CheckCircle className="h-4 w-4 text-green-400" />
             <span className="text-sm text-green-400 font-medium">
               {result.isPhotoSlide ? "Slide foto ditemukan!" : mode === "audio" ? "Audio berhasil ditemukan!" : "Video berhasil ditemukan!"}
             </span>
             {result.isPhotoSlide && result.imageCount && (
-              <span className="text-xs bg-[#10B981]/10 text-[#10B981] px-2 py-0.5 rounded-full font-medium">{result.imageCount} foto</span>
+              <span className="text-xs bg-[#E52222]/10 text-[#E52222] px-2 py-0.5 rounded-full font-medium">{result.imageCount} foto</span>
             )}
           </div>
 
@@ -329,7 +329,7 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
                         unoptimized
                       />
                     ) : null}
-                    <Play className="h-6 w-6 absolute text-[#10B981]" />
+                    <Play className="h-6 w-6 absolute text-[#E52222]" />
                   </div>
                   <div className="flex-1 text-left min-w-0">
                     <h3 className="font-semibold text-foreground text-sm line-clamp-2">{result.title}</h3>
@@ -352,7 +352,7 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
                           onClick={() => setSelectedQuality(i)}
                           className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                             selectedQuality === i
-                              ? "bg-[#10B981] text-white"
+                              ? "bg-[#E52222] text-white"
                               : "bg-muted text-muted-foreground hover:text-foreground"
                           }`}
                         >
@@ -375,7 +375,7 @@ export function DownloadForm({ placeholder = "Tempel link video di sini...", mod
                 <Button
                   onClick={handleDownload}
                   disabled={downloading}
-                  className="w-full bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] h-10"
+                  className="w-full bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] h-10"
                 >
                   {downloading ? (
                     <Loader2 className="h-4 w-4 animate-spin mr-2" />

@@ -190,20 +190,20 @@ export default function ResolutionComparatorPage() {
         <div className="mx-auto max-w-5xl px-4 pt-6">
           <nav aria-label="Breadcrumb">
             <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <li><Link href="/" className="hover:text-[#10B981] transition-colors">Beranda</Link></li>
+              <li><Link href="/" className="hover:text-[#E52222] transition-colors">Beranda</Link></li>
               <li>/</li>
-              <li><Link href="/tools" className="hover:text-[#10B981] transition-colors">Tools</Link></li>
+              <li><Link href="/tools" className="hover:text-[#E52222] transition-colors">Tools</Link></li>
               <li>/</li>
-              <li className="text-[#10B981] font-medium">Komparator Resolusi</li>
+              <li className="text-[#E52222] font-medium">Komparator Resolusi</li>
             </ol>
           </nav>
         </div>
 
         <section className="relative pt-8 pb-10 px-4 sm:px-6">
           <div className="mx-auto max-w-4xl text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/20 mb-4">
-              <Monitor className="h-3.5 w-3.5 text-[#10B981]" />
-              <span className="text-xs font-semibold text-[#10B981]">Tools Interaktif</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E52222]/10 border border-[#E52222]/20 mb-4">
+              <Monitor className="h-3.5 w-3.5 text-[#E52222]" />
+              <span className="text-xs font-semibold text-[#E52222]">Tools Interaktif</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold mb-3 leading-tight font-[family-name:var(--font-montserrat)]">
               Komparator <span className="gradient-text">Resolusi Video</span>
@@ -246,7 +246,7 @@ export default function ResolutionComparatorPage() {
         <section className="px-4 sm:px-6 pb-8">
           <div className="mx-auto max-w-4xl">
             <label className="text-sm font-bold text-foreground mb-3 block font-[family-name:var(--font-montserrat)]">
-              <Clock className="h-4 w-4 inline mr-1.5 text-[#10B981]" />
+              <Clock className="h-4 w-4 inline mr-1.5 text-[#E52222]" />
               Durasi Video: {duration} menit
             </label>
             <input
@@ -255,7 +255,7 @@ export default function ResolutionComparatorPage() {
               max={180}
               value={duration}
               onChange={(e) => setDuration(Number(e.target.value))}
-              className="w-full accent-[#10B981]"
+              className="w-full accent-[#E52222]"
               aria-label="Durasi video dalam menit"
             />
             <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
@@ -273,7 +273,7 @@ export default function ResolutionComparatorPage() {
           <section className="px-4 sm:px-6 pb-10">
             <div className="mx-auto max-w-4xl">
               <h3 className="text-sm font-bold text-foreground mb-4 font-[family-name:var(--font-montserrat)]">
-                <Monitor className="h-4 w-4 inline mr-1.5 text-[#10B981]" />
+                <Monitor className="h-4 w-4 inline mr-1.5 text-[#E52222]" />
                 Perbandingan Visual
               </h3>
 
@@ -423,9 +423,9 @@ export default function ResolutionComparatorPage() {
                 },
               ].map((rec, i) => (
                 <div key={i} className="p-4 rounded-xl bg-card border border-border">
-                  <rec.icon className="h-5 w-5 text-[#10B981] mb-2" />
+                  <rec.icon className="h-5 w-5 text-[#E52222] mb-2" />
                   <p className="text-sm font-semibold text-foreground mb-1">{rec.device}</p>
-                  <p className="text-xs text-[#10B981] font-bold mb-1">{rec.res}</p>
+                  <p className="text-xs text-[#E52222] font-bold mb-1">{rec.res}</p>
                   <p className="text-xs text-muted-foreground">{rec.reason}</p>
                 </div>
               ))}
@@ -483,10 +483,10 @@ export default function ResolutionComparatorPage() {
                 <Link
                   key={tool.href}
                   href={tool.href}
-                  className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all group"
+                  className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all group"
                 >
-                  <tool.icon className="h-5 w-5 text-[#10B981] mb-2" />
-                  <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981] transition-colors">
+                  <tool.icon className="h-5 w-5 text-[#E52222] mb-2" />
+                  <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222] transition-colors">
                     {tool.title}
                   </p>
                   <p className="text-xs text-muted-foreground">{tool.desc}</p>
@@ -499,7 +499,7 @@ export default function ResolutionComparatorPage() {
         {/* CTA */}
         <section className="px-4 sm:px-6 pb-16">
           <div className="mx-auto max-w-3xl">
-            <div className="rounded-2xl p-6 text-center bg-gradient-to-br from-[#10B981]/20 to-[#34D399]/10 border border-[#10B981]/30">
+            <div className="rounded-2xl p-6 text-center bg-gradient-to-br from-[#E52222]/20 to-[#FF6B35]/10 border border-[#E52222]/30">
               <h2 className="text-xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]">
                 Siap Download Video?
               </h2>
@@ -508,7 +508,7 @@ export default function ResolutionComparatorPage() {
               </p>
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] px-8 h-12 text-base transition-colors"
+                className="inline-flex items-center gap-2 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] px-8 h-12 text-base transition-colors"
               >
                 Mulai Download Gratis
               </Link>

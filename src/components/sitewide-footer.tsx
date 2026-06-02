@@ -52,7 +52,7 @@ export function SitewideFooter() {
             </p>
             <a
               href="mailto:admin@getmova.my.id"
-              className="text-xs text-muted-foreground hover:text-[#10B981] transition-colors"
+              className="text-xs text-muted-foreground hover:text-[#E52222] transition-colors"
             >
               admin@getmova.my.id
             </a>
@@ -68,7 +68,7 @@ export function SitewideFooter() {
                 <li key={p.href}>
                   <Link
                     href={p.href}
-                    className="text-xs md:text-sm text-muted-foreground hover:text-[#10B981] transition-colors"
+                    className="text-xs md:text-sm text-muted-foreground hover:text-[#E52222] transition-colors"
                   >
                     {p.name}
                   </Link>
@@ -87,7 +87,7 @@ export function SitewideFooter() {
                 <li key={r.href}>
                   <Link
                     href={r.href}
-                    className="text-xs md:text-sm text-muted-foreground hover:text-[#10B981] transition-colors"
+                    className="text-xs md:text-sm text-muted-foreground hover:text-[#E52222] transition-colors"
                   >
                     {r.name}
                   </Link>
@@ -106,7 +106,7 @@ export function SitewideFooter() {
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="text-xs md:text-sm text-muted-foreground hover:text-[#10B981] transition-colors"
+                    className="text-xs md:text-sm text-muted-foreground hover:text-[#E52222] transition-colors"
                   >
                     {l.name}
                   </Link>
@@ -122,13 +122,13 @@ export function SitewideFooter() {
             &copy; {new Date().getFullYear()} getmova. Dibuat di Indonesia.
           </p>
           <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <Link href="/privacy" className="hover:text-[#10B981] transition-colors">Privasi</Link>
-            <Link href="/terms" className="hover:text-[#10B981] transition-colors">Ketentuan</Link>
-            <Link href="/dmca" className="hover:text-[#10B981] transition-colors">DMCA</Link>
-            <Link href="/blog" className="hover:text-[#10B981] transition-colors">Blog</Link>
-            <Link href="/tools" className="hover:text-[#10B981] transition-colors">Tools</Link>
-            <Link href="/changelog" className="hover:text-[#10B981] transition-colors">Changelog</Link>
-            <Link href="/sitemap.xml" className="hover:text-[#10B981] transition-colors">Sitemap</Link>
+            <Link href="/privacy" className="hover:text-[#E52222] transition-colors">Privasi</Link>
+            <Link href="/terms" className="hover:text-[#E52222] transition-colors">Ketentuan</Link>
+            <Link href="/dmca" className="hover:text-[#E52222] transition-colors">DMCA</Link>
+            <Link href="/blog" className="hover:text-[#E52222] transition-colors">Blog</Link>
+            <Link href="/tools" className="hover:text-[#E52222] transition-colors">Tools</Link>
+            <Link href="/changelog" className="hover:text-[#E52222] transition-colors">Changelog</Link>
+            <Link href="/sitemap.xml" className="hover:text-[#E52222] transition-colors">Sitemap</Link>
           </div>
         </div>
       </div>

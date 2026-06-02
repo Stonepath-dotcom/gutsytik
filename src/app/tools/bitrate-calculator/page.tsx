@@ -65,20 +65,20 @@ export default function BitrateCalculatorPage() {
         <div className="mx-auto max-w-5xl px-4 pt-6">
           <nav aria-label="Breadcrumb">
             <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <li><Link href="/" className="hover:text-[#10B981] transition-colors">Beranda</Link></li>
+              <li><Link href="/" className="hover:text-[#E52222] transition-colors">Beranda</Link></li>
               <li>/</li>
-              <li><Link href="/tools" className="hover:text-[#10B981] transition-colors">Tools</Link></li>
+              <li><Link href="/tools" className="hover:text-[#E52222] transition-colors">Tools</Link></li>
               <li>/</li>
-              <li className="text-[#10B981] font-medium">Kalkulator Bitrate Audio</li>
+              <li className="text-[#E52222] font-medium">Kalkulator Bitrate Audio</li>
             </ol>
           </nav>
         </div>
 
         <section className="relative pt-8 pb-10 px-4 sm:px-6">
           <div className="mx-auto max-w-4xl text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/20 mb-4">
-              <Headphones className="h-3.5 w-3.5 text-[#10B981]" />
-              <span className="text-xs font-semibold text-[#10B981]">Tools Interaktif</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E52222]/10 border border-[#E52222]/20 mb-4">
+              <Headphones className="h-3.5 w-3.5 text-[#E52222]" />
+              <span className="text-xs font-semibold text-[#E52222]">Tools Interaktif</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold mb-3 leading-tight font-[family-name:var(--font-montserrat)]">
               Kalkulator <span className="gradient-text">Bitrate Audio</span>
@@ -93,7 +93,7 @@ export default function BitrateCalculatorPage() {
         <section className="px-4 sm:px-6 pb-6">
           <div className="mx-auto max-w-4xl">
             <label className="text-sm font-bold text-foreground mb-3 block font-[family-name:var(--font-montserrat)]">
-              <Music className="h-4 w-4 inline mr-1.5 text-[#10B981]" />
+              <Music className="h-4 w-4 inline mr-1.5 text-[#E52222]" />
               Durasi Audio: {duration} menit
             </label>
             <input
@@ -102,7 +102,7 @@ export default function BitrateCalculatorPage() {
               max={180}
               value={duration}
               onChange={(e) => setDuration(Number(e.target.value))}
-              className="w-full accent-[#10B981]"
+              className="w-full accent-[#E52222]"
               aria-label="Durasi audio dalam menit"
             />
             <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
@@ -119,7 +119,7 @@ export default function BitrateCalculatorPage() {
         <section className="px-4 sm:px-6 pb-10">
           <div className="mx-auto max-w-4xl">
             <h3 className="text-sm font-bold text-foreground mb-3 font-[family-name:var(--font-montserrat)]">
-              <HardDrive className="h-4 w-4 inline mr-1.5 text-[#10B981]" />
+              <HardDrive className="h-4 w-4 inline mr-1.5 text-[#E52222]" />
               Estimasi Ukuran File Audio ({duration} menit)
             </h3>
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
@@ -165,7 +165,7 @@ export default function BitrateCalculatorPage() {
                   </div>
                   <div>
                     <p className="text-[10px] text-muted-foreground uppercase">Ukuran</p>
-                    <p className="text-sm font-bold text-[#10B981]">{formatSize(selectedCalc.sizeMB)}</p>
+                    <p className="text-sm font-bold text-[#E52222]">{formatSize(selectedCalc.sizeMB)}</p>
                   </div>
                   <div>
                     <p className="text-[10px] text-muted-foreground uppercase">Kualitas</p>
@@ -202,8 +202,8 @@ export default function BitrateCalculatorPage() {
         {/* Info */}
         <section className="px-4 sm:px-6 pb-10">
           <div className="mx-auto max-w-4xl">
-            <div className="p-3 rounded-xl bg-[#10B981]/5 border border-[#10B981]/10 flex items-start gap-2">
-              <Info className="h-4 w-4 text-[#10B981] shrink-0 mt-0.5" />
+            <div className="p-3 rounded-xl bg-[#E52222]/5 border border-[#E52222]/10 flex items-start gap-2">
+              <Info className="h-4 w-4 text-[#E52222] shrink-0 mt-0.5" />
               <p className="text-xs text-muted-foreground">
                 Estimasi berdasarkan bitrate konstan (CBR). File dengan variable bitrate (VBR) bisa berbeda. FLAC bitrate bervariasi tergantung kompleksitas audio; 1000kbps adalah rata-rata.
               </p>
@@ -223,9 +223,9 @@ export default function BitrateCalculatorPage() {
                 { href: "/tools/format-comparison", title: "Perbandingan Format", desc: "Bandingkan MP4, WEBM, dll", icon: ArrowRightLeft },
                 { href: "/tools/resolution-comparator", title: "Komparator Resolusi", desc: "Bandingkan 240p sampai 8K", icon: Sliders },
               ].map((tool) => (
-                <Link key={tool.href} href={tool.href} className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all group">
-                  <tool.icon className="h-5 w-5 text-[#10B981] mb-2" />
-                  <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981] transition-colors">{tool.title}</p>
+                <Link key={tool.href} href={tool.href} className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all group">
+                  <tool.icon className="h-5 w-5 text-[#E52222] mb-2" />
+                  <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222] transition-colors">{tool.title}</p>
                   <p className="text-xs text-muted-foreground">{tool.desc}</p>
                 </Link>
               ))}
@@ -236,14 +236,14 @@ export default function BitrateCalculatorPage() {
         {/* CTA */}
         <section className="px-4 sm:px-6 pb-16">
           <div className="mx-auto max-w-3xl">
-            <div className="rounded-2xl p-6 text-center bg-gradient-to-br from-[#10B981]/20 to-[#34D399]/10 border border-[#10B981]/30">
+            <div className="rounded-2xl p-6 text-center bg-gradient-to-br from-[#E52222]/20 to-[#FF6B35]/10 border border-[#E52222]/30">
               <h2 className="text-xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]">
                 Ekstrak Audio dari Video?
               </h2>
               <p className="text-muted-foreground mb-5 text-sm max-w-md mx-auto">
                 Gunakan Mova untuk download audio MP3 dari YouTube dan platform lainnya. Gratis dan cepat!
               </p>
-              <Link href="/youtube-mp3" className="inline-flex items-center gap-2 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] px-8 h-12 text-base transition-colors">
+              <Link href="/youtube-mp3" className="inline-flex items-center gap-2 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] px-8 h-12 text-base transition-colors">
                 Download MP3 Gratis
               </Link>
             </div>

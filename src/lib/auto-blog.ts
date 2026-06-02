@@ -101,7 +101,7 @@ export function getAvailableTopic(): string | null {
 
 // Gradients and icons for visual variety
 export const blogGradients = [
-  "from-[#10B981]/20 via-[#34D399]/15 to-[#10B981]/10",
+  "from-[#E52222]/20 via-[#FF6B35]/15 to-[#E52222]/10",
   "from-[#3B82F6]/20 via-[#60A5FA]/15 to-[#3B82F6]/10",
   "from-[#8B5CF6]/20 via-[#A78BFA]/15 to-[#8B5CF6]/10",
   "from-[#EC4899]/20 via-[#F472B6]/15 to-[#EC4899]/10",

@@ -17,13 +17,13 @@ interface ConfettiPiece {
 
 const CONFETTI_COLORS = [
   "#FF2D55",
-  "#34D399",
+  "#FF6B35",
   "#00E5FF",
   "#FF6B8A",
   "#A78BFA",
   "#FBBF24",
-  "#10B981",
-  "#10B981",
+  "#E52222",
+  "#E52222",
 ];
 
 function useConfetti() {

@@ -142,7 +142,7 @@ export function QRScanner({ onURLDetected, onClose }: QRScannerProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-border">
           <div className="flex items-center gap-2">
-            <QrCode className="h-5 w-5 text-[#10B981]" />
+            <QrCode className="h-5 w-5 text-[#E52222]" />
             <h3 className="font-bold text-foreground">Scan QR Code</h3>
           </div>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-muted transition-colors">
@@ -154,7 +154,7 @@ export function QRScanner({ onURLDetected, onClose }: QRScannerProps) {
         <div className="flex border-b border-border">
           <button
             onClick={() => { setMode("manual"); stopCamera(); }}
-            className={`flex-1 py-2.5 text-sm font-medium flex items-center justify-center gap-1.5 transition-colors ${mode === "manual" ? "text-[#10B981] border-b-2 border-[#10B981]" : "text-muted-foreground"}`}
+            className={`flex-1 py-2.5 text-sm font-medium flex items-center justify-center gap-1.5 transition-colors ${mode === "manual" ? "text-[#E52222] border-b-2 border-[#E52222]" : "text-muted-foreground"}`}
           >
             <LinkIcon className="h-4 w-4" />
             Input URL
@@ -162,7 +162,7 @@ export function QRScanner({ onURLDetected, onClose }: QRScannerProps) {
           {cameraSupported && (
             <button
               onClick={() => { setMode("camera"); startCamera(); }}
-              className={`flex-1 py-2.5 text-sm font-medium flex items-center justify-center gap-1.5 transition-colors ${mode === "camera" ? "text-[#10B981] border-b-2 border-[#10B981]" : "text-muted-foreground"}`}
+              className={`flex-1 py-2.5 text-sm font-medium flex items-center justify-center gap-1.5 transition-colors ${mode === "camera" ? "text-[#E52222] border-b-2 border-[#E52222]" : "text-muted-foreground"}`}
             >
               <Camera className="h-4 w-4" />
               Kamera
@@ -170,7 +170,7 @@ export function QRScanner({ onURLDetected, onClose }: QRScannerProps) {
           )}
           <button
             onClick={() => { setMode("upload"); stopCamera(); }}
-            className={`flex-1 py-2.5 text-sm font-medium flex items-center justify-center gap-1.5 transition-colors ${mode === "upload" ? "text-[#10B981] border-b-2 border-[#10B981]" : "text-muted-foreground"}`}
+            className={`flex-1 py-2.5 text-sm font-medium flex items-center justify-center gap-1.5 transition-colors ${mode === "upload" ? "text-[#E52222] border-b-2 border-[#E52222]" : "text-muted-foreground"}`}
           >
             <Upload className="h-4 w-4" />
             Upload
@@ -187,14 +187,14 @@ export function QRScanner({ onURLDetected, onClose }: QRScannerProps) {
                 value={manualUrl}
                 onChange={e => setManualUrl(e.target.value)}
                 placeholder="https://www.tiktok.com/@user/video/..."
-                className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981]/20 transition-colors"
+                className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:border-[#E52222] focus:ring-1 focus:ring-[#E52222]/20 transition-colors"
                 onKeyDown={e => e.key === "Enter" && handleManualSubmit()}
                 autoFocus
               />
               <button
                 onClick={handleManualSubmit}
                 disabled={!manualUrl.trim()}
-                className="w-full py-3 rounded-lg bg-[#10B981] text-white font-semibold text-sm hover:bg-[#059669] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-3 rounded-lg bg-[#E52222] text-white font-semibold text-sm hover:bg-[#C91C1C] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Download Video
               </button>
@@ -214,7 +214,7 @@ export function QRScanner({ onURLDetected, onClose }: QRScannerProps) {
                 )}
                 {scanning && (
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-48 h-48 border-2 border-[#10B981] rounded-xl animate-pulse" />
+                    <div className="w-48 h-48 border-2 border-[#E52222] rounded-xl animate-pulse" />
                   </div>
                 )}
               </div>
@@ -227,7 +227,7 @@ export function QRScanner({ onURLDetected, onClose }: QRScannerProps) {
               <p className="text-sm text-muted-foreground">Upload gambar QR code:</p>
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="w-full py-8 rounded-lg border-2 border-dashed border-border hover:border-[#10B981]/50 transition-colors flex flex-col items-center gap-2"
+                className="w-full py-8 rounded-lg border-2 border-dashed border-border hover:border-[#E52222]/50 transition-colors flex flex-col items-center gap-2"
               >
                 <Upload className="h-8 w-8 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">Klik untuk upload gambar QR</span>

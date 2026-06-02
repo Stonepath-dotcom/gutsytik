@@ -39,14 +39,14 @@ export class ErrorBoundary extends React.Component<
         <div className="min-h-screen flex flex-col items-center justify-center bg-[#09090B] relative overflow-hidden px-4">
           {/* Subtle red glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full opacity-[0.05] pointer-events-none"
-            style={{ background: "radial-gradient(circle, #10B981 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(circle, #E52222 0%, transparent 70%)" }}
           />
 
           <div className="relative z-10 text-center max-w-md">
             {/* Error icon */}
             <div className="flex justify-center mb-8">
               <div className="w-20 h-20 rounded-2xl bg-[#111113] border border-[#27272A] flex items-center justify-center">
-                <AlertCircle className="h-10 w-10 text-[#10B981]" />
+                <AlertCircle className="h-10 w-10 text-[#E52222]" />
               </div>
             </div>
 
@@ -71,7 +71,7 @@ export class ErrorBoundary extends React.Component<
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
               <button
                 onClick={this.handleRetry}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-white font-semibold transition-all btn-press bg-[#10B981] hover:bg-[#059669]"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-white font-semibold transition-all btn-press bg-[#E52222] hover:bg-[#C91C1C]"
               >
                 <RefreshCw className="h-4 w-4" />
                 Coba Lagi

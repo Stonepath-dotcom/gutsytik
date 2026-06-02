@@ -568,6 +568,84 @@ details summary { list-style: none; }
   animation: gradient-shift 3s ease infinite;
 }
 
+/* ─── Gradient Text (used across platform pages) ─── */
+.gradient-text {
+  background: linear-gradient(135deg, #E52222, #FF6B35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.dark .gradient-text {
+  background: linear-gradient(135deg, #FF4444, #FF8855);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Glassmorphism Cards ─── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+.dark .glass-card {
+  background: rgba(45, 45, 45, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── Mesh Gradient Background ─── */
+.mesh-gradient {
+  background: 
+    radial-gradient(at 20% 20%, rgba(229, 34, 34, 0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 20%, rgba(255, 107, 53, 0.06) 0px, transparent 50%),
+    radial-gradient(at 50% 80%, rgba(229, 34, 34, 0.04) 0px, transparent 50%);
+}
+.dark .mesh-gradient {
+  background: 
+    radial-gradient(at 20% 20%, rgba(229, 34, 34, 0.15) 0px, transparent 50%),
+    radial-gradient(at 80% 20%, rgba(255, 68, 68, 0.1) 0px, transparent 50%),
+    radial-gradient(at 50% 80%, rgba(229, 34, 34, 0.08) 0px, transparent 50%);
+}
+
+/* ─── Elevated Card Hover ─── */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+.dark .card-hover:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── Input Focus Glow ─── */
+.input-glow:focus {
+  box-shadow: 0 0 0 3px rgba(229, 34, 34, 0.15), 0 0 15px rgba(229, 34, 34, 0.1);
+  border-color: #E52222;
+}
+
+/* ─── Button Press Effect ─── */
+.btn-press {
+  transition: all 0.15s ease;
+}
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+/* ─── Dot Grid Pattern ─── */
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(229, 34, 34, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.dark .dot-grid {
+  background-image: radial-gradient(circle, rgba(229, 34, 34, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
 /* ═══════════════════════════════════════════════
    FEATURE 4: Confetti Animation
    ═══════════════════════════════════════════════ */

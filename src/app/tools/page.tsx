@@ -163,23 +163,23 @@ export default function ToolsPage() {
             <nav aria-label="Breadcrumb" className="mb-8">
               <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
                 <li>
-                  <Link href="/" className="hover:text-[#10B981] transition-colors">Beranda</Link>
+                  <Link href="/" className="hover:text-[#E52222] transition-colors">Beranda</Link>
                 </li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li className="text-[#10B981] font-medium">Tools</li>
+                <li className="text-[#E52222] font-medium">Tools</li>
               </ol>
             </nav>
 
             <div className="text-center mb-16">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-border text-muted-foreground mb-6">
-                <Wrench className="h-3 w-3 text-[#10B981]" />
+                <Wrench className="h-3 w-3 text-[#E52222]" />
                 Tools Gratis
               </span>
               <h1
                 className="text-4xl sm:text-5xl font-light tracking-tight text-foreground mb-4 mt-4"
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
-                Alat Video <span className="font-bold text-[#10B981]">Gratis</span>
+                Alat Video <span className="font-bold text-[#E52222]">Gratis</span>
               </h1>
               <p className="text-muted-foreground text-sm max-w-2xl mx-auto leading-relaxed">
                 Kumpulan tools interaktif untuk membantu kamu memahami, menghitung, dan mengolah video. Semua gratis, tanpa install, langsung dari browser.
@@ -195,13 +195,13 @@ export default function ToolsPage() {
                   className={`group relative rounded-2xl border bg-gradient-to-br ${tool.color} p-6 hover:shadow-lg transition-all duration-300 ${tool.borderColor}`}
                 >
                   {tool.badge && (
-                    <span className="absolute top-4 right-4 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#10B981] text-white">
+                    <span className="absolute top-4 right-4 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E52222] text-white">
                       {tool.badge}
                     </span>
                   )}
                   <tool.icon className={`h-8 w-8 ${tool.iconColor} mb-4 group-hover:scale-110 transition-transform`} />
                   <h2
-                    className="text-lg font-bold text-foreground mb-2 group-hover:text-[#10B981] transition-colors"
+                    className="text-lg font-bold text-foreground mb-2 group-hover:text-[#E52222] transition-colors"
                     style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                   >
                     {tool.title}
@@ -226,7 +226,7 @@ export default function ToolsPage() {
             </div>
 
             {/* CTA */}
-            <div className="mt-12 p-6 sm:p-8 rounded-xl bg-gradient-to-br from-[#10B981]/20 to-[#34D399]/10 border border-[#10B981]/30 text-center">
+            <div className="mt-12 p-6 sm:p-8 rounded-xl bg-gradient-to-br from-[#E52222]/20 to-[#FF6B35]/10 border border-[#E52222]/30 text-center">
               <h2
                 className="text-xl font-bold text-foreground mb-2"
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
@@ -238,7 +238,7 @@ export default function ToolsPage() {
               </p>
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] px-8 h-12 text-base transition-colors"
+                className="inline-flex items-center gap-2 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] px-8 h-12 text-base transition-colors"
               >
                 Mulai Download Gratis
               </Link>

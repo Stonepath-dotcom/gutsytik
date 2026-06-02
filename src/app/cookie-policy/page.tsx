@@ -262,21 +262,21 @@ export default function CookiePolicyPage() {
             <nav aria-label="Breadcrumb" className="mb-8">
               <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
                 <li>
-                  <a href="/" className="hover:text-[#10B981] transition-colors">
+                  <a href="/" className="hover:text-[#E52222] transition-colors">
                     Beranda
                   </a>
                 </li>
                 <li>
                   <ChevronRight className="h-3.5 w-3.5" />
                 </li>
-                <li className="text-[#10B981] font-medium">Kebijakan Cookie</li>
+                <li className="text-[#E52222] font-medium">Kebijakan Cookie</li>
               </ol>
             </nav>
 
             {/* Title section */}
             <div className="text-center mb-16">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-border text-muted-foreground mb-6">
-                <Cookie className="h-3 w-3 text-[#10B981]" />
+                <Cookie className="h-3 w-3 text-[#E52222]" />
                 Legal
               </span>
               <h1
@@ -284,7 +284,7 @@ export default function CookiePolicyPage() {
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
                 Kebijakan{" "}
-                <span className="font-bold text-[#10B981]">Cookie</span>
+                <span className="font-bold text-[#E52222]">Cookie</span>
               </h1>
               <p className="text-muted-foreground text-sm max-w-xl mx-auto leading-relaxed">
                 Kebijakan ini menjelaskan bagaimana Mova menggunakan cookie dan teknologi serupa, termasuk penggunaan Google Analytics dan Google AdSense. Pelajari cara mengelola preferensi cookie Anda.
@@ -295,16 +295,16 @@ export default function CookiePolicyPage() {
             </div>
 
             {/* Important notice */}
-            <div className="mb-12 p-6 rounded-xl bg-card border-l-4 border-[#10B981]">
+            <div className="mb-12 p-6 rounded-xl bg-card border-l-4 border-[#E52222]">
               <p className="text-sm text-foreground font-medium">
                 Mova menggunakan Google AdSense untuk menampilkan iklan dan Google Analytics untuk menganalisis lalu lintas website. Kedua layanan ini menggunakan cookie untuk mengumpulkan informasi. Anda dapat mengelola preferensi cookie Anda melalui banner cookie consent yang muncul saat pertama kali mengunjungi website kami, atau melalui pengaturan browser Anda.
               </p>
             </div>
 
             {/* Google AdSense & Analytics specific notice */}
-            <div className="mb-12 p-6 rounded-xl bg-card border border-[#10B981]/30">
+            <div className="mb-12 p-6 rounded-xl bg-card border border-[#E52222]/30">
               <div className="flex items-center gap-3 mb-3">
-                <Megaphone className="h-5 w-5 text-[#10B981]" />
+                <Megaphone className="h-5 w-5 text-[#E52222]" />
                 <h2
                   className="text-base font-bold text-foreground"
                   style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
@@ -320,11 +320,11 @@ export default function CookiePolicyPage() {
               </p>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Pengguna dapat menolak penggunaan cookie iklan yang dipersonalisasi dengan mengunjungi{" "}
-                <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-[#10B981] hover:underline inline-flex items-center gap-1">
+                <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-[#E52222] hover:underline inline-flex items-center gap-1">
                   Pengaturan Iklan Google <ExternalLink className="h-3 w-3" />
                 </a>
                 . Atau, Anda dapat memilih untuk tidak menggunakan cookie pihak ketiga dengan mengunjungi{" "}
-                <a href="https://www.networkadvertising.org/choices/" target="_blank" rel="noopener noreferrer" className="text-[#10B981] hover:underline inline-flex items-center gap-1">
+                <a href="https://www.networkadvertising.org/choices/" target="_blank" rel="noopener noreferrer" className="text-[#E52222] hover:underline inline-flex items-center gap-1">
                   www.networkadvertising.org/choices <ExternalLink className="h-3 w-3" />
                 </a>
                 .
@@ -337,7 +337,7 @@ export default function CookiePolicyPage() {
                 <section key={index} className="scroll-mt-20">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card border border-border shrink-0">
-                      <section.icon className="h-5 w-5 text-[#10B981]" />
+                      <section.icon className="h-5 w-5 text-[#E52222]" />
                     </div>
                     <h2
                       className="text-lg font-bold text-foreground"
@@ -363,7 +363,7 @@ export default function CookiePolicyPage() {
                           className="text-sm font-bold text-foreground mb-3 flex items-center gap-2"
                           style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                         >
-                          <Shield className="h-4 w-4 text-[#10B981]" />
+                          <Shield className="h-4 w-4 text-[#E52222]" />
                           Cookie Esensial (Selalu Aktif)
                         </h3>
                         <div className="overflow-x-auto rounded-lg border border-border">
@@ -378,7 +378,7 @@ export default function CookiePolicyPage() {
                             <tbody>
                               {essentialCookies.map((cookie, cIndex) => (
                                 <tr key={cIndex} className="border-b border-border last:border-b-0">
-                                  <td className="px-4 py-3 font-mono text-xs text-[#10B981] dark:text-[#10B981] whitespace-nowrap">{cookie.name}</td>
+                                  <td className="px-4 py-3 font-mono text-xs text-[#E52222] dark:text-[#E52222] whitespace-nowrap">{cookie.name}</td>
                                   <td className="px-4 py-3 text-muted-foreground">{cookie.purpose}</td>
                                   <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{cookie.duration}</td>
                                 </tr>
@@ -389,7 +389,7 @@ export default function CookiePolicyPage() {
                         <div className="mt-3 space-y-2">
                           {essentialCookies.map((cookie, cIndex) => (
                             <p key={cIndex} className="text-xs text-muted-foreground leading-relaxed">
-                              <span className="font-mono text-[#10B981] dark:text-[#10B981]">{cookie.name}</span> — {cookie.description}
+                              <span className="font-mono text-[#E52222] dark:text-[#E52222]">{cookie.name}</span> — {cookie.description}
                             </p>
                           ))}
                         </div>
@@ -401,7 +401,7 @@ export default function CookiePolicyPage() {
                           className="text-sm font-bold text-foreground mb-3 flex items-center gap-2"
                           style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                         >
-                          <BarChart3 className="h-4 w-4 text-[#10B981]" />
+                          <BarChart3 className="h-4 w-4 text-[#E52222]" />
                           Cookie Analitik
                         </h3>
                         <div className="overflow-x-auto rounded-lg border border-border">
@@ -416,7 +416,7 @@ export default function CookiePolicyPage() {
                             <tbody>
                               {analyticsCookies.map((cookie, cIndex) => (
                                 <tr key={cIndex} className="border-b border-border last:border-b-0">
-                                  <td className="px-4 py-3 font-mono text-xs text-[#10B981] dark:text-[#10B981] whitespace-nowrap">{cookie.name}</td>
+                                  <td className="px-4 py-3 font-mono text-xs text-[#E52222] dark:text-[#E52222] whitespace-nowrap">{cookie.name}</td>
                                   <td className="px-4 py-3 text-muted-foreground">{cookie.purpose}</td>
                                   <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{cookie.duration}</td>
                                 </tr>
@@ -427,7 +427,7 @@ export default function CookiePolicyPage() {
                         <div className="mt-3 space-y-2">
                           {analyticsCookies.map((cookie, cIndex) => (
                             <p key={cIndex} className="text-xs text-muted-foreground leading-relaxed">
-                              <span className="font-mono text-[#10B981] dark:text-[#10B981]">{cookie.name}</span> — {cookie.description}
+                              <span className="font-mono text-[#E52222] dark:text-[#E52222]">{cookie.name}</span> — {cookie.description}
                             </p>
                           ))}
                         </div>
@@ -439,7 +439,7 @@ export default function CookiePolicyPage() {
                           className="text-sm font-bold text-foreground mb-3 flex items-center gap-2"
                           style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                         >
-                          <Megaphone className="h-4 w-4 text-[#10B981]" />
+                          <Megaphone className="h-4 w-4 text-[#E52222]" />
                           Cookie Periklanan
                         </h3>
                         <div className="overflow-x-auto rounded-lg border border-border">
@@ -454,7 +454,7 @@ export default function CookiePolicyPage() {
                             <tbody>
                               {advertisingCookies.map((cookie, cIndex) => (
                                 <tr key={cIndex} className="border-b border-border last:border-b-0">
-                                  <td className="px-4 py-3 font-mono text-xs text-[#10B981] dark:text-[#10B981] whitespace-nowrap">{cookie.name}</td>
+                                  <td className="px-4 py-3 font-mono text-xs text-[#E52222] dark:text-[#E52222] whitespace-nowrap">{cookie.name}</td>
                                   <td className="px-4 py-3 text-muted-foreground">{cookie.purpose}</td>
                                   <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{cookie.duration}</td>
                                 </tr>
@@ -465,7 +465,7 @@ export default function CookiePolicyPage() {
                         <div className="mt-3 space-y-2">
                           {advertisingCookies.map((cookie, cIndex) => (
                             <p key={cIndex} className="text-xs text-muted-foreground leading-relaxed">
-                              <span className="font-mono text-[#10B981] dark:text-[#10B981]">{cookie.name}</span> — {cookie.description}
+                              <span className="font-mono text-[#E52222] dark:text-[#E52222]">{cookie.name}</span> — {cookie.description}
                             </p>
                           ))}
                         </div>
@@ -489,7 +489,7 @@ export default function CookiePolicyPage() {
                   <a
                     key={page.href}
                     href={page.href}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border bg-card text-muted-foreground hover:text-[#10B981] hover:border-[#10B981]/30 transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm border border-border bg-card text-muted-foreground hover:text-[#E52222] hover:border-[#E52222]/30 transition-colors"
                   >
                     <ChevronRight className="h-4 w-4" />
                     {page.label}

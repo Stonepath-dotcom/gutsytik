@@ -235,23 +235,23 @@ export default function ChangelogPage() {
             <nav aria-label="Breadcrumb" className="mb-8">
               <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
                 <li>
-                  <Link href="/" className="hover:text-[#10B981] transition-colors">Beranda</Link>
+                  <Link href="/" className="hover:text-[#E52222] transition-colors">Beranda</Link>
                 </li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li className="text-[#10B981] font-medium">Changelog</li>
+                <li className="text-[#E52222] font-medium">Changelog</li>
               </ol>
             </nav>
 
             <div className="text-center mb-16">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-border text-muted-foreground mb-6">
-                <Sparkles className="h-3 w-3 text-[#10B981]" />
+                <Sparkles className="h-3 w-3 text-[#E52222]" />
                 Changelog
               </span>
               <h1
                 className="text-4xl sm:text-5xl font-light tracking-tight text-foreground mb-4 mt-4"
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
-                Riwayat <span className="font-bold text-[#10B981]">Update</span>
+                Riwayat <span className="font-bold text-[#E52222]">Update</span>
               </h1>
               <p className="text-muted-foreground text-sm max-w-2xl mx-auto leading-relaxed">
                 Pantau perkembangan Mova dari waktu ke waktu. Setiap fitur baru, perbaikan, dan peningkatan dicatat di sini.
@@ -280,8 +280,8 @@ export default function ChangelogPage() {
               <div className="space-y-10">
                 {CHANGELOG.map((entry) => (
                   <section key={entry.version} className="relative">
-                    <div className="hidden sm:flex absolute left-0 top-1 w-10 h-10 rounded-full bg-card border-2 border-[#10B981] items-center justify-center z-10">
-                      <span className="text-[10px] font-bold text-[#10B981]">{entry.version}</span>
+                    <div className="hidden sm:flex absolute left-0 top-1 w-10 h-10 rounded-full bg-card border-2 border-[#E52222] items-center justify-center z-10">
+                      <span className="text-[10px] font-bold text-[#E52222]">{entry.version}</span>
                     </div>
                     <div className="sm:ml-16">
                       <div className="flex flex-wrap items-center gap-3 mb-3">
@@ -315,7 +315,7 @@ export default function ChangelogPage() {
 
             {/* CTA */}
             <div className="mt-16 p-6 sm:p-8 rounded-xl bg-gradient-to-br from-card to-background dark:from-[#111113] dark:to-[#0F0F11] border border-border text-center">
-              <Sparkles className="h-8 w-8 text-[#10B981] mx-auto mb-4" />
+              <Sparkles className="h-8 w-8 text-[#E52222] mx-auto mb-4" />
               <h3
                 className="text-lg font-bold text-foreground mb-2"
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
@@ -328,7 +328,7 @@ export default function ChangelogPage() {
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold bg-[#10B981] text-white hover:bg-[#059669] transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold bg-[#E52222] text-white hover:bg-[#C91C1C] transition-colors"
                 >
                   <Mail className="h-4 w-4" />
                   Kirim Saran

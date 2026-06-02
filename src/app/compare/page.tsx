@@ -129,15 +129,15 @@ export default function ComparePage() {
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
             <nav aria-label="Breadcrumb" className="mb-8">
               <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <li><Link href="/" className="hover:text-[#10B981] transition-colors">Beranda</Link></li>
+                <li><Link href="/" className="hover:text-[#E52222] transition-colors">Beranda</Link></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li className="text-[#10B981] font-medium">Perbandingan</li>
+                <li className="text-[#E52222] font-medium">Perbandingan</li>
               </ol>
             </nav>
 
             <div className="text-center mb-12">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-border text-muted-foreground mb-6">
-                <Trophy className="h-3 w-3 text-[#10B981]" />
+                <Trophy className="h-3 w-3 text-[#E52222]" />
                 Perbandingan
               </span>
               <h1
@@ -162,17 +162,17 @@ export default function ComparePage() {
                     key={comp.key}
                     className={`p-4 rounded-xl text-center border ${
                       isMova
-                        ? "bg-[#10B981]/10 border-[#10B981]/30 ring-2 ring-[#10B981]/20"
+                        ? "bg-[#E52222]/10 border-[#E52222]/30 ring-2 ring-[#E52222]/20"
                         : "bg-card border-border"
                     }`}
                   >
                     {isMova && (
-                      <span className="inline-block text-[10px] font-bold text-[#10B981] bg-[#10B981]/10 px-2 py-0.5 rounded-md mb-2">
+                      <span className="inline-block text-[10px] font-bold text-[#E52222] bg-[#E52222]/10 px-2 py-0.5 rounded-md mb-2">
                         TERBAIK
                       </span>
                     )}
                     <p
-                      className={`text-lg font-bold ${isMova ? "text-[#10B981]" : "text-foreground"}`}
+                      className={`text-lg font-bold ${isMova ? "text-[#E52222]" : "text-foreground"}`}
                       style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
                     >
                       {comp.label}
@@ -195,7 +195,7 @@ export default function ComparePage() {
                       <th
                         key={comp.key}
                         className={`text-center py-3 px-3 text-xs font-bold min-w-[90px] ${
-                          comp.highlight ? "text-[#10B981]" : "text-muted-foreground"
+                          comp.highlight ? "text-[#E52222]" : "text-muted-foreground"
                         }`}
                       >
                         {comp.label}
@@ -258,7 +258,7 @@ export default function ComparePage() {
                   },
                 ].map((item, i) => (
                   <div key={i} className="p-5 rounded-xl bg-card border border-border">
-                    <item.icon className="h-6 w-6 text-[#10B981] mb-3" />
+                    <item.icon className="h-6 w-6 text-[#E52222] mb-3" />
                     <h3
                       className="text-sm font-bold text-foreground mb-1.5"
                       style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
@@ -279,7 +279,7 @@ export default function ComparePage() {
             </div>
 
             {/* CTA */}
-            <div className="mt-10 p-6 sm:p-8 rounded-xl bg-gradient-to-br from-[#10B981]/20 to-[#34D399]/10 border border-[#10B981]/30 text-center">
+            <div className="mt-10 p-6 sm:p-8 rounded-xl bg-gradient-to-br from-[#E52222]/20 to-[#FF6B35]/10 border border-[#E52222]/30 text-center">
               <h2
                 className="text-xl font-bold text-foreground mb-2"
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
@@ -291,7 +291,7 @@ export default function ComparePage() {
               </p>
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] px-8 h-12 text-base transition-colors"
+                className="inline-flex items-center gap-2 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] px-8 h-12 text-base transition-colors"
               >
                 <Download className="h-5 w-5" />
                 Mulai Download Gratis

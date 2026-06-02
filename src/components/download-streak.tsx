@@ -69,7 +69,7 @@ function StreakBadge({
         background: isOnFire
           ? "linear-gradient(135deg, rgba(255,45,85,0.15), rgba(249,115,22,0.15))"
           : "rgba(124,58,237,0.1)",
-        color: isOnFire ? "#FF2D55" : "#34D399",
+        color: isOnFire ? "#FF2D55" : "#FF6B35",
         border: `1px solid ${isOnFire ? "rgba(255,45,85,0.3)" : "rgba(124,58,237,0.2)"}`,
       }}
     >

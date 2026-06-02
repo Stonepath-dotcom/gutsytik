@@ -31,10 +31,10 @@ export function NewsletterCTA() {
   };
 
   return (
-    <div className="mt-8 rounded-xl border border-[#10B981]/20 bg-gradient-to-br from-[#10B981]/5 to-[#34D399]/5 p-5">
+    <div className="mt-8 rounded-xl border border-[#E52222]/20 bg-gradient-to-br from-[#E52222]/5 to-[#FF6B35]/5 p-5">
       <div className="flex items-start gap-3 mb-3">
-        <div className="w-9 h-9 rounded-lg bg-[#10B981]/10 flex items-center justify-center shrink-0">
-          <Bell className="h-4.5 w-4.5 text-[#10B981]" />
+        <div className="w-9 h-9 rounded-lg bg-[#E52222]/10 flex items-center justify-center shrink-0">
+          <Bell className="h-4.5 w-4.5 text-[#E52222]" />
         </div>
         <div>
           <h3
@@ -50,7 +50,7 @@ export function NewsletterCTA() {
       </div>
 
       {status === "success" ? (
-        <div className="flex items-center gap-2 p-3 rounded-lg bg-[#10B981]/10 text-sm text-[#10B981] font-medium">
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-[#E52222]/10 text-sm text-[#E52222] font-medium">
           <Check className="h-4 w-4" />
           Berhasil berlangganan! Cek inbox kamu ya.
         </div>
@@ -67,13 +67,13 @@ export function NewsletterCTA() {
               }}
               placeholder="email@kamu.com"
               required
-              className="w-full h-10 pl-9 pr-3 rounded-lg bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-[#10B981]/30 focus:border-[#10B981]"
+              className="w-full h-10 pl-9 pr-3 rounded-lg bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-[#E52222]/30 focus:border-[#E52222]"
             />
           </div>
           <button
             type="submit"
             disabled={status === "loading"}
-            className="h-10 px-4 rounded-lg bg-[#10B981] text-white text-sm font-semibold hover:bg-[#059669] transition-colors disabled:opacity-50 flex items-center gap-1.5 shrink-0"
+            className="h-10 px-4 rounded-lg bg-[#E52222] text-white text-sm font-semibold hover:bg-[#C91C1C] transition-colors disabled:opacity-50 flex items-center gap-1.5 shrink-0"
           >
             {status === "loading" ? (
               <Loader2 className="h-4 w-4 animate-spin" />

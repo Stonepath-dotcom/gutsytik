@@ -70,11 +70,11 @@ export default function TrimVideoPage() {
           <div className="mx-auto max-w-5xl px-4 pt-6">
             <nav aria-label="Breadcrumb">
               <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <li><a href="/" className="hover:text-[#10B981]">Beranda</a></li>
+                <li><a href="/" className="hover:text-[#E52222]">Beranda</a></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li><a href="/tools/format-comparison" className="hover:text-[#10B981]">Tools</a></li>
+                <li><a href="/tools/format-comparison" className="hover:text-[#E52222]">Tools</a></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li className="text-[#10B981] font-medium">Trim Video</li>
+                <li className="text-[#E52222] font-medium">Trim Video</li>
               </ol>
             </nav>
           </div>
@@ -83,9 +83,9 @@ export default function TrimVideoPage() {
           <section className="relative pt-8 pb-10 px-4 sm:px-6">
             <div className="absolute inset-0 bg-gradient-to-b from-[#ECFDF5] via-[#D1FAE5] to-background dark:from-[#064E3B] dark:via-[#022C22] opacity-50" />
             <div className="relative mx-auto max-w-4xl text-center">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/20 mb-4">
-                <Scissors className="h-3.5 w-3.5 text-[#10B981]" />
-                <span className="text-xs font-semibold text-[#10B981]">Tools Interaktif</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E52222]/10 border border-[#E52222]/20 mb-4">
+                <Scissors className="h-3.5 w-3.5 text-[#E52222]" />
+                <span className="text-xs font-semibold text-[#E52222]">Tools Interaktif</span>
               </div>
               <h1 className="text-3xl sm:text-4xl font-extrabold mb-3 leading-tight font-[family-name:var(--font-montserrat)]">
                 Trim <span className="gradient-text">Video Online</span>
@@ -109,7 +109,7 @@ export default function TrimVideoPage() {
                   { step: "3", title: "Trim & Simpan", desc: "Klik tombol trim, sistem akan memotong video sesuai waktu yang ditentukan dan siap diunduh." },
                 ].map((s) => (
                   <div key={s.step} className="p-5 rounded-2xl bg-card border border-border text-center">
-                    <div className="w-10 h-10 rounded-full bg-[#10B981]/10 text-[#10B981] font-bold flex items-center justify-center mx-auto mb-3">
+                    <div className="w-10 h-10 rounded-full bg-[#E52222]/10 text-[#E52222] font-bold flex items-center justify-center mx-auto mb-3">
                       {s.step}
                     </div>
                     <h3 className="font-bold text-foreground text-sm mb-1.5">{s.title}</h3>
@@ -136,7 +136,7 @@ export default function TrimVideoPage() {
                   "Privasi terjaga — video tidak disimpan di server",
                 ].map((feat, i) => (
                   <div key={i} className="flex items-start gap-2 p-3 rounded-xl bg-card border border-border">
-                    <Check className="h-4 w-4 text-[#10B981] shrink-0 mt-0.5" />
+                    <Check className="h-4 w-4 text-[#E52222] shrink-0 mt-0.5" />
                     <p className="text-sm text-muted-foreground">{feat}</p>
                   </div>
                 ))}
@@ -147,14 +147,14 @@ export default function TrimVideoPage() {
           {/* CTA */}
           <section className="px-4 sm:px-6 pb-10">
             <div className="mx-auto max-w-3xl">
-              <div className="rounded-2xl p-6 text-center bg-gradient-to-br from-[#10B981]/20 to-[#34D399]/10 border border-[#10B981]/30">
+              <div className="rounded-2xl p-6 text-center bg-gradient-to-br from-[#E52222]/20 to-[#FF6B35]/10 border border-[#E52222]/30">
                 <h2 className="text-xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]">
                   Langsung Coba Trim Video
                 </h2>
                 <p className="text-muted-foreground mb-5 text-sm max-w-md mx-auto">
                   Download video lalu trim bagian yang kamu butuhkan. Gratis dan cepat!
                 </p>
-                <Link href="/" className="inline-flex items-center gap-2 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] px-8 h-12 text-base transition-colors">
+                <Link href="/" className="inline-flex items-center gap-2 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] px-8 h-12 text-base transition-colors">
                   <Scissors className="h-5 w-5" /> Mulai Download & Trim
                 </Link>
               </div>
@@ -168,19 +168,19 @@ export default function TrimVideoPage() {
                 Tools <span className="gradient-text">Lainnya</span>
               </h2>
               <div className="grid sm:grid-cols-3 gap-3">
-                <Link href="/tools/format-comparison" className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all group">
-                  <ArrowRightLeft className="h-5 w-5 text-[#10B981] mb-2" />
-                  <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981]">Perbandingan Format</p>
+                <Link href="/tools/format-comparison" className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all group">
+                  <ArrowRightLeft className="h-5 w-5 text-[#E52222] mb-2" />
+                  <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222]">Perbandingan Format</p>
                   <p className="text-xs text-muted-foreground">Bandingkan MP4, WEBM, AVI</p>
                 </Link>
-                <Link href="/tools/file-size-calculator" className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all group">
-                  <HardDrive className="h-5 w-5 text-[#10B981] mb-2" />
-                  <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981]">Kalkulator Ukuran File</p>
+                <Link href="/tools/file-size-calculator" className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all group">
+                  <HardDrive className="h-5 w-5 text-[#E52222] mb-2" />
+                  <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222]">Kalkulator Ukuran File</p>
                   <p className="text-xs text-muted-foreground">Estimasi ukuran sebelum download</p>
                 </Link>
-                <Link href="/tools/convert-gif" className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all group">
-                  <ArrowRight className="h-5 w-5 text-[#10B981] mb-2" />
-                  <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981]">Convert ke GIF</p>
+                <Link href="/tools/convert-gif" className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all group">
+                  <ArrowRight className="h-5 w-5 text-[#E52222] mb-2" />
+                  <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222]">Convert ke GIF</p>
                   <p className="text-xs text-muted-foreground">Ubah video jadi animasi GIF</p>
                 </Link>
               </div>

@@ -285,11 +285,11 @@ export default function FormatComparisonPage() {
           <div className="mx-auto max-w-5xl px-4 pt-6">
             <nav aria-label="Breadcrumb">
               <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <li><a href="/" className="hover:text-[#10B981] transition-colors">Beranda</a></li>
+                <li><a href="/" className="hover:text-[#E52222] transition-colors">Beranda</a></li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li className="text-[#10B981] font-medium">Tools</li>
+                <li className="text-[#E52222] font-medium">Tools</li>
                 <li><ChevronRight className="h-3.5 w-3.5" /></li>
-                <li className="text-[#10B981] font-medium">Perbandingan Format</li>
+                <li className="text-[#E52222] font-medium">Perbandingan Format</li>
               </ol>
             </nav>
           </div>
@@ -298,9 +298,9 @@ export default function FormatComparisonPage() {
           <section className="relative pt-8 pb-12 px-4 sm:px-6 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-b from-[#ECFDF5] via-[#D1FAE5] to-background dark:from-[#064E3B] dark:via-[#022C22] opacity-50" />
             <div className="relative mx-auto max-w-4xl text-center">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/20 mb-4">
-                <ArrowRightLeft className="h-3.5 w-3.5 text-[#10B981]" />
-                <span className="text-xs font-semibold text-[#10B981]">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E52222]/10 border border-[#E52222]/20 mb-4">
+                <ArrowRightLeft className="h-3.5 w-3.5 text-[#E52222]" />
+                <span className="text-xs font-semibold text-[#E52222]">
                   Tools Interaktif
                 </span>
               </div>
@@ -356,13 +356,13 @@ export default function FormatComparisonPage() {
 
                     <div className="grid sm:grid-cols-2 gap-3">
                       <div className="p-3 rounded-xl bg-card/30 border border-border/30">
-                        <p className="text-xs font-bold text-[#10B981] mb-2 flex items-center gap-1.5">
+                        <p className="text-xs font-bold text-[#E52222] mb-2 flex items-center gap-1.5">
                           <Check className="h-3.5 w-3.5" /> Kelebihan
                         </p>
                         <ul className="space-y-1.5">
                           {format.pros.map((pro, i) => (
                             <li key={i} className="text-xs text-muted-foreground flex items-start gap-1.5">
-                              <span className="text-[#10B981] mt-0.5">+</span> {pro}
+                              <span className="text-[#E52222] mt-0.5">+</span> {pro}
                             </li>
                           ))}
                         </ul>
@@ -381,8 +381,8 @@ export default function FormatComparisonPage() {
                       </div>
                     </div>
 
-                    <div className="mt-3 p-2.5 rounded-xl bg-[#10B981]/5 border border-[#10B981]/10 flex items-center gap-2">
-                      <Info className="h-4 w-4 text-[#10B981] shrink-0" />
+                    <div className="mt-3 p-2.5 rounded-xl bg-[#E52222]/5 border border-[#E52222]/10 flex items-center gap-2">
+                      <Info className="h-4 w-4 text-[#E52222] shrink-0" />
                       <p className="text-xs text-muted-foreground">
                         <span className="font-semibold text-foreground">Cocok untuk:</span> {format.bestFor}
                       </p>
@@ -473,10 +473,10 @@ export default function FormatComparisonPage() {
                 ].map((rec, i) => (
                   <div
                     key={i}
-                    className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all"
+                    className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all"
                   >
                     <p className="text-sm font-semibold text-foreground mb-1">{rec.scenario}</p>
-                    <p className="text-xs text-[#10B981] font-medium mb-1">
+                    <p className="text-xs text-[#E52222] font-medium mb-1">
                       <FileVideo className="h-3 w-3 inline mr-1" />
                       {rec.format}
                     </p>
@@ -532,7 +532,7 @@ export default function FormatComparisonPage() {
           {/* CTA */}
           <section className="px-4 sm:px-6 pb-16">
             <div className="mx-auto max-w-3xl">
-              <div className="rounded-2xl p-6 sm:p-8 text-center bg-gradient-to-br from-[#10B981]/20 to-[#34D399]/10 border border-[#10B981]/30">
+              <div className="rounded-2xl p-6 sm:p-8 text-center bg-gradient-to-br from-[#E52222]/20 to-[#FF6B35]/10 border border-[#E52222]/30">
                 <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]">
                   Langsung Coba Download Video
                 </h2>
@@ -541,7 +541,7 @@ export default function FormatComparisonPage() {
                 </p>
                 <Link
                   href="/"
-                  className="inline-flex items-center gap-2 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] px-8 h-12 text-base transition-colors"
+                  className="inline-flex items-center gap-2 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] px-8 h-12 text-base transition-colors"
                 >
                   <FileVideo className="h-5 w-5" />
                   Mulai Download Gratis

@@ -10,7 +10,7 @@ interface TrailDot {
   size: number;
 }
 
-const TRAIL_COLORS = ["#FF2D55", "#34D399", "#FF6B8A", "#A78BFA"];
+const TRAIL_COLORS = ["#FF2D55", "#FF6B35", "#FF6B8A", "#A78BFA"];
 const DOT_LIFETIME = 500; // ms
 const DOT_MAX_SIZE = 6;
 const THROTTLE_MS = 16; // ~60fps

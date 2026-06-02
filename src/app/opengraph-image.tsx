@@ -60,7 +60,7 @@ export default async function Image() {
                 width: 64,
                 height: 64,
                 borderRadius: 16,
-                background: "#10B981",
+                background: "#E52222",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -143,7 +143,7 @@ export default async function Image() {
             left: 0,
             right: 0,
             height: 4,
-            background: "#10B981",
+            background: "#E52222",
           }}
         />
       </div>

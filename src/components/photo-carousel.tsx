@@ -20,7 +20,7 @@ interface PhotoCarouselProps {
   onDownloadAudio: () => void;
   onSelectQuality: (idx: number) => void;
   onToast: (title: string, desc: string, variant?: "default" | "destructive") => void;
-  /** Accent color - defaults to #10B981 */
+  /** Accent color - defaults to #E52222 */
   accent?: string;
 }
 
@@ -44,7 +44,7 @@ export function PhotoCarousel({
   onDownloadAudio,
   onSelectQuality,
   onToast,
-  accent = "#10B981",
+  accent = "#E52222",
 }: PhotoCarouselProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);

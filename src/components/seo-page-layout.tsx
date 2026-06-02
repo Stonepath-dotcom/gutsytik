@@ -358,9 +358,9 @@ export default function SEOPageLayout({ title, description, platform, audioMode:
             <div className="mt-6 pt-6 border-t border-border">
               <h4 className="text-sm font-bold text-foreground mb-2">Panduan & Artikel Terkait</h4>
               <div className="space-y-2">
-                <a href="/blog" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#10B981] transition-colors">Blog & Panduan</a>
-                <a href="/faq" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#10B981] transition-colors">FAQ</a>
-                <a href="/how-it-works" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#10B981] transition-colors">Cara Kerja Mova</a>
+                <a href="/blog" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#E52222] transition-colors">Blog & Panduan</a>
+                <a href="/faq" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#E52222] transition-colors">FAQ</a>
+                <a href="/how-it-works" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#E52222] transition-colors">Cara Kerja Mova</a>
               </div>
             </div>
           </div>

@@ -23,7 +23,7 @@ export function BackToTop() {
     <button
       onClick={scrollToTop}
       aria-label="Kembali ke atas"
-      className={`fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-[#10B981] text-white shadow-lg shadow-[#10B981]/25 flex items-center justify-center transition-all duration-300 hover:bg-[#059669] hover:scale-110 active:scale-95 ${
+      className={`fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-[#E52222] text-white shadow-lg shadow-[#E52222]/25 flex items-center justify-center transition-all duration-300 hover:bg-[#C91C1C] hover:scale-110 active:scale-95 ${
         isVisible
           ? "opacity-100 translate-y-0 pointer-events-auto"
           : "opacity-0 translate-y-4 pointer-events-none"

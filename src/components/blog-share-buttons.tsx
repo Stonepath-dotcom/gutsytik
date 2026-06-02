@@ -117,7 +117,7 @@ export function BlogShareButtons({ title, slug, description }: BlogShareButtonsP
         aria-label="Salin link"
         className={`inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-lg border border-border bg-card text-xs font-medium transition-all duration-200 ${
           copied
-            ? "bg-[#10B981]/10 text-[#10B981] border-[#10B981]/30"
+            ? "bg-[#E52222]/10 text-[#E52222] border-[#E52222]/30"
             : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
         }`}
       >

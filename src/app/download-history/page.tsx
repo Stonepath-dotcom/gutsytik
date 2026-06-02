@@ -96,9 +96,9 @@ export default function DownloadHistoryPage() {
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
           <nav aria-label="Breadcrumb" className="mb-8">
             <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <li><Link href="/" className="hover:text-[#10B981] transition-colors">Beranda</Link></li>
+              <li><Link href="/" className="hover:text-[#E52222] transition-colors">Beranda</Link></li>
               <li>/</li>
-              <li className="text-[#10B981] font-medium">Riwayat Download</li>
+              <li className="text-[#E52222] font-medium">Riwayat Download</li>
             </ol>
           </nav>
 
@@ -108,7 +108,7 @@ export default function DownloadHistoryPage() {
                 className="text-3xl font-bold text-foreground"
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', sans-serif" }}
               >
-                <History className="h-7 w-7 inline mr-2 text-[#10B981]" />
+                <History className="h-7 w-7 inline mr-2 text-[#E52222]" />
                 Riwayat Download
               </h1>
               <p className="text-sm text-muted-foreground mt-1">
@@ -144,7 +144,7 @@ export default function DownloadHistoryPage() {
               </p>
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[#10B981] text-white hover:bg-[#059669] transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-[#E52222] text-white hover:bg-[#C91C1C] transition-colors"
               >
                 <Download className="h-4 w-4" />
                 Mulai Download
@@ -155,7 +155,7 @@ export default function DownloadHistoryPage() {
               {entries.map((entry) => (
                 <div
                   key={entry.id}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/20 transition-colors"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/20 transition-colors"
                 >
                   <div
                     className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 text-white text-sm font-bold"
@@ -186,7 +186,7 @@ export default function DownloadHistoryPage() {
                         href={entry.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-lg text-muted-foreground hover:text-[#10B981] hover:bg-[#10B981]/10 transition-colors"
+                        className="p-2 rounded-lg text-muted-foreground hover:text-[#E52222] hover:bg-[#E52222]/10 transition-colors"
                         title="Buka link asli"
                       >
                         <ExternalLink className="h-4 w-4" />

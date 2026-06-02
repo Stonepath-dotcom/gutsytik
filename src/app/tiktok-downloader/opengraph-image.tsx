@@ -59,7 +59,7 @@ export default async function Image() {
                 width: 56,
                 height: 56,
                 borderRadius: 14,
-                background: "#10B981",
+                background: "#E52222",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -121,7 +121,7 @@ export default async function Image() {
                   borderRadius: 8,
                   background: "#111113",
                   border: "1px solid #27272A",
-                  color: "#10B981",
+                  color: "#E52222",
                   fontSize: 14,
                   fontWeight: 600,
                 }}
@@ -133,7 +133,7 @@ export default async function Image() {
         </div>
 
         {/* Bottom accent */}
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 4, background: "#10B981" }} />
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 4, background: "#E52222" }} />
       </div>
     ),
     { ...size }

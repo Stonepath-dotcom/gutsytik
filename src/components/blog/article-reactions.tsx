@@ -108,7 +108,7 @@ export function ArticleReactions({ slug }: ArticleReactionsProps) {
       </div>
 
       {showThanks && (
-        <p className="text-xs text-[#10B981] mt-2 font-medium">
+        <p className="text-xs text-[#E52222] mt-2 font-medium">
           Terima kasih atas feedback-nya! 🙌
         </p>
       )}

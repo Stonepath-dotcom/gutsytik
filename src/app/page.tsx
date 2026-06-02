@@ -19,6 +19,7 @@ import { MovaLogo } from "@/components/mova-logo";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCarousel } from "@/components/photo-carousel";
 import { TrendingSection } from "@/components/trending-section";
+import { SitewideFooter } from "@/components/sitewide-footer";
 import Image from "next/image";
 
 /* ──────── Types ──────── */
@@ -554,7 +555,7 @@ function Navbar() {
   ];
 
   return (
-    <header ref={revealRef} className="section-reveal fixed top-0 left-0 right-0 z-50 bg-white dark:bg-[#1A1A1A] border-b border-gray-100 dark:border-white/10" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
+    <header ref={revealRef} className="section-reveal mobile-solid-bg fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
       <div className="mx-auto max-w-6xl lg:max-w-7xl xl:max-w-8xl h-16 lg:h-18 flex items-center justify-between px-4 md:px-6">
         <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="GetMova - Home">
           <MovaLogo size={28} showText={true} />
@@ -585,7 +586,7 @@ function Navbar() {
         </div>
       </div>
       {open && (
-        <div ref={menuRef} className="md:hidden border-t border-gray-100 dark:border-white/10 bg-white dark:bg-[#1A1A1A]">
+        <div ref={menuRef} className="md:hidden border-t border-border/50 bg-background/80 backdrop-blur-lg">
           <div className="px-4 py-3 space-y-1">
             {navLinks.map(link => (
               <a key={link.href} href={link.href} onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-[#E52222] dark:hover:text-[#E52222] rounded-lg">{link.label}</a>
@@ -964,10 +965,7 @@ function HeroSection() {
   const detectedPlatform = result ? detectPlatform(url) : url.trim() ? detectPlatform(url) : null;
 
   return (
-    <section id="hero" className="hero-bg relative pt-24 md:pt-32 pb-12 md:pb-20 px-4 md:px-6" style={{ minHeight: "70vh", maxHeight: "900px" }}>
-      <div className="absolute inset-0 z-0">
-        <Image src="/hero-people.png" alt="" fill className="object-cover object-center md:object-[center_30%] grayscale" priority />
-      </div>
+    <section id="hero" className="mesh-gradient dot-grid relative pt-24 md:pt-32 pb-12 md:pb-20 px-4 md:px-6" style={{ minHeight: "70vh", maxHeight: "900px" }}>
 
       {/* FEATURE 4: Confetti */}
       {showConfetti && (
@@ -982,18 +980,18 @@ function HeroSection() {
 
       <div className="relative z-10 mx-auto max-w-4xl lg:max-w-5xl flex flex-col items-center text-center">
         {/* FEATURE 11: Gradient text on "Downloader" */}
-        <h1 className="hero-title text-[28px] sm:text-[36px] md:text-[42px] lg:text-[56px] font-extrabold text-[#333333] dark:text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight">
+        <h1 className="hero-title text-[28px] sm:text-[36px] md:text-[42px] lg:text-[56px] font-extrabold text-foreground dark:text-white mb-3 md:mb-4 font-[family-name:var(--font-montserrat)] leading-tight tracking-tight">
           {t("hero.small")} <span className="animated-gradient">{t("hero.big")}</span>
         </h1>
-        <p className="hero-subtitle text-[#666666] dark:text-gray-400 text-sm md:text-base lg:text-lg max-w-lg md:max-w-xl lg:max-w-2xl leading-relaxed mb-6 md:mb-8">{t("hero.subtitle")}</p>
+        <p className="hero-subtitle text-muted-foreground dark:text-gray-400 text-sm md:text-base lg:text-lg max-w-lg md:max-w-xl lg:max-w-2xl leading-relaxed mb-6 md:mb-8">{t("hero.subtitle")}</p>
 
         {/* Input area with drag-drop, auto-paste, history button */}
         <div className="w-full max-w-xl lg:max-w-2xl relative">
           {/* FEATURE 14: Onboarding tooltip */}
           {showOnboard && !batchMode && (
-            <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 z-30 bg-white dark:bg-[#2D2D2D] text-[#333] dark:text-white text-xs font-medium px-4 py-2 rounded-lg shadow-lg border border-[#E52222]/30 whitespace-nowrap">
+            <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 z-30 bg-white dark:bg-card text-foreground dark:text-white text-xs font-medium px-4 py-2 rounded-lg shadow-lg border border-[#E52222]/30 whitespace-nowrap">
               {t("onboard.tooltip")}
-              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-[#2D2D2D] rotate-45 border-l border-t border-[#E52222]/30" />
+              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-card rotate-45 border-l border-t border-[#E52222]/30" />
             </div>
           )}
 
@@ -1001,7 +999,7 @@ function HeroSection() {
           <div className="flex items-center justify-center mb-2">
             <button
               onClick={() => { setBatchMode(!batchMode); setBatchResults([]); }}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-colors border border-gray-200 dark:border-white/10 bg-white dark:bg-[#2D2D2D] text-gray-600 dark:text-gray-300 hover:border-[#E52222]/40 hover:text-[#E52222] dark:hover:text-[#E52222]"
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-colors border border-gray-200 dark:border-white/10 bg-white dark:bg-card text-gray-600 dark:text-gray-300 hover:border-[#E52222]/40 hover:text-[#E52222] dark:hover:text-[#E52222]"
               aria-label={batchMode ? t("batch.single") : t("batch.mode")}
             >
               {batchMode ? <><LinkIcon className="h-3 w-3" />{t("batch.single")}</> : <><Film className="h-3 w-3" />{t("batch.mode")}</>}
@@ -1016,7 +1014,7 @@ function HeroSection() {
             >
               <div className="flex-1 relative">
                 <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
-                <input ref={inputRef} type="text" value={url} onChange={e => setUrl(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAnalyze()} onFocus={handleInputFocus} onPaste={handlePaste} placeholder={t("input.placeholder")} className="download-input-desktop h-14 w-full bg-white dark:bg-[#2D2D2D] text-gray-900 dark:text-white text-sm md:text-base lg:text-lg pl-11 pr-4 border-0 outline-none placeholder:text-gray-400" />
+                <input ref={inputRef} type="text" value={url} onChange={e => setUrl(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAnalyze()} onFocus={handleInputFocus} onPaste={handlePaste} placeholder={t("input.placeholder")} className="download-input-desktop h-14 w-full bg-white dark:bg-card text-gray-900 dark:text-white text-sm md:text-base lg:text-lg pl-11 pr-4 border-0 outline-none placeholder:text-gray-400" />
               </div>
               <button onClick={handleAnalyze} disabled={loading} className="download-btn-desktop h-14 px-6 md:px-8 lg:px-10 bg-[#E52222] text-white font-bold text-sm md:text-base lg:text-lg hover:bg-[#C91C1C] shrink-0 transition-colors flex items-center justify-center gap-2 disabled:opacity-70">
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
@@ -1036,7 +1034,7 @@ function HeroSection() {
                   onChange={e => setBatchUrls(e.target.value)}
                   placeholder={t("batch.placeholder")}
                   rows={4}
-                  className="w-full bg-white dark:bg-[#2D2D2D] text-gray-900 dark:text-white text-sm md:text-base pl-11 pr-4 py-3 border-0 outline-none placeholder:text-gray-400 resize-none"
+                  className="w-full bg-white dark:bg-card text-gray-900 dark:text-white text-sm md:text-base pl-11 pr-4 py-3 border-0 outline-none placeholder:text-gray-400 resize-none"
                 />
               </div>
               <div className="flex items-center justify-between border-t border-gray-100 dark:border-white/10 px-4 py-2 bg-gray-50 dark:bg-[#333]">
@@ -1053,12 +1051,12 @@ function HeroSection() {
 
           {/* FEATURE 12: Shortcut hint + History button */}
           <div className="flex items-center justify-between mt-1.5 px-1">
-            <span className="text-[10px] md:text-xs lg:text-sm text-[#333]/40 dark:text-white/40">{t("hero.shortcutHint")}</span>
+            <span className="text-[10px] md:text-xs lg:text-sm text-foreground/40 dark:text-white/40">{t("hero.shortcutHint")}</span>
             <div className="flex items-center gap-2">
-              <button onClick={() => setShowQR(true)} className="flex items-center gap-1 text-[10px] md:text-xs text-[#333]/40 dark:text-white/40 hover:text-[#333]/70 dark:hover:text-white/70 transition-colors" aria-label="Scan QR">
+              <button onClick={() => setShowQR(true)} className="flex items-center gap-1 text-[10px] md:text-xs text-foreground/40 dark:text-white/40 hover:text-foreground/70 dark:hover:text-white/70 transition-colors" aria-label="Scan QR">
                 <QrCode className="h-3 w-3" />
               </button>
-              <button onClick={() => setShowHistory(true)} className="flex items-center gap-1 text-[10px] md:text-xs text-[#333]/40 dark:text-white/40 hover:text-[#333]/70 dark:hover:text-white/70 transition-colors" aria-label="Download History">
+              <button onClick={() => setShowHistory(true)} className="flex items-center gap-1 text-[10px] md:text-xs text-foreground/40 dark:text-white/40 hover:text-foreground/70 dark:hover:text-white/70 transition-colors" aria-label="Download History">
                 <History className="h-3 w-3" />
               </button>
             </div>
@@ -1066,7 +1064,7 @@ function HeroSection() {
 
           {/* BATCH RESULTS CARD */}
           {batchResults.length > 0 && (
-            <div className="mt-4 rounded-xl bg-white dark:bg-[#2D2D2D] overflow-hidden text-left shadow-lg border border-gray-100 dark:border-white/10">
+            <div className="mt-4 rounded-xl bg-white dark:bg-card overflow-hidden text-left shadow-lg border border-gray-100 dark:border-white/10">
               <div className="px-4 py-2.5 border-b border-gray-100 dark:border-white/10 flex items-center justify-between bg-gray-50 dark:bg-[#333]">
                 <span className="text-sm font-medium text-[#E52222]">{t("batch.results")}</span>
                 <span className="text-xs text-gray-500">{batchResults.filter(r => r.status === "done").length}/{batchResults.length}</span>
@@ -1116,7 +1114,7 @@ function HeroSection() {
             { icon: Database, label: t("trust.nodata") },
             { icon: CheckCircle, label: t("trust.safe") },
           ].map((b, i) => (
-            <span key={i} className="trust-badge-text flex items-center gap-1.5 text-[#333]/60 dark:text-white/60 text-[11px] md:text-xs lg:text-sm">
+            <span key={i} className="trust-badge-text flex items-center gap-1.5 text-foreground/60 dark:text-white/60 text-[11px] md:text-xs lg:text-sm">
               <b.icon className="h-3.5 w-3.5 md:h-4 md:w-4 lg:h-5 lg:w-5" />{b.label}
             </span>
           ))}
@@ -1124,12 +1122,12 @@ function HeroSection() {
 
         {/* FEATURE 10: Recent Downloads Counter */}
         <div className="mt-2">
-          <span className="text-[#333]/50 dark:text-white/50 text-[11px] md:text-xs lg:text-base">{t("hero.liveCount").replace("{count}", liveCount.toLocaleString())}</span>
+          <span className="text-foreground/50 dark:text-white/50 text-[11px] md:text-xs lg:text-base">{t("hero.liveCount").replace("{count}", liveCount.toLocaleString())}</span>
         </div>
 
         {/* FEATURE 15: Skeleton Loading */}
         {loading && !error && (
-          <div className="max-w-lg md:max-w-2xl mt-5 p-4 rounded-lg bg-white/80 dark:bg-[#2D2D2D]/80 backdrop-blur">
+          <div className="max-w-lg md:max-w-2xl mt-5 p-4 rounded-lg bg-white/80 dark:bg-card/80 backdrop-blur">
             <div className="flex gap-3 mb-3">
               <div className="w-20 h-14 rounded-md bg-gray-200 dark:bg-white/10 animate-pulse shrink-0" />
               <div className="flex-1 space-y-2">
@@ -1156,7 +1154,7 @@ function HeroSection() {
 
         {/* Result card */}
         {result && (
-          <div ref={resultRef} className="max-w-lg md:max-w-2xl mt-5 rounded-xl bg-white dark:bg-[#2D2D2D] overflow-hidden text-left shadow-xl border border-gray-100 dark:border-white/10">
+          <div ref={resultRef} className="max-w-lg md:max-w-2xl mt-5 rounded-xl bg-white dark:bg-card overflow-hidden text-left shadow-xl border border-gray-100 dark:border-white/10">
             <div className="px-4 py-2.5 border-b border-gray-100 dark:border-white/10 flex items-center gap-2 bg-gray-50 dark:bg-[#333]">
               <CheckCircle className="h-4 w-4 text-[#E52222] shrink-0" />
               <span className="text-sm text-[#E52222] font-medium">{result.isPhotoSlide ? "Slide foto ditemukan!" : t("result.found")}</span>
@@ -1290,9 +1288,9 @@ function HeroSection() {
       {showHistory && (
         <>
           <div className="fixed inset-0 z-50 bg-black/40 transition-opacity duration-500" onClick={() => setShowHistory(false)} />
-          <div className="fixed right-0 top-0 h-full w-80 lg:w-96 bg-white dark:bg-[#2D2D2D] shadow-2xl z-50 flex flex-col transition-transform duration-500 ease-out">
+          <div className="fixed right-0 top-0 h-full w-80 lg:w-96 bg-white dark:bg-card shadow-2xl z-50 flex flex-col transition-transform duration-500 ease-out">
             <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 dark:border-white/10">
-              <h3 className="font-bold text-[#333] dark:text-white text-sm font-[family-name:var(--font-montserrat)]">{t("history.title")}</h3>
+              <h3 className="font-bold text-foreground dark:text-white text-sm font-[family-name:var(--font-montserrat)]">{t("history.title")}</h3>
               <button onClick={() => setShowHistory(false)} className="h-7 w-7 flex items-center justify-center rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10"><X className="h-4 w-4" /></button>
             </div>
             <div className="flex-1 overflow-y-auto max-h-96 p-4">
@@ -1332,7 +1330,7 @@ function HeroSection() {
       {/* QR Code Scanner Modal */}
       {showQR && (
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-[#2D2D2D] rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden">
+          <div className="bg-white dark:bg-card rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden">
             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-white/10">
               <span className="font-medium text-sm text-gray-900 dark:text-white">Scan QR Code</span>
               <button onClick={() => setShowQR(false)} className="h-7 w-7 flex items-center justify-center rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-white"><X className="h-4 w-4" /></button>
@@ -1361,12 +1359,12 @@ function FreeDownloaderSection() {
             <div className="inline-flex items-center gap-2 mb-4">
               <span className="bg-[#E52222] text-white text-[10px] md:text-xs lg:text-base font-bold px-4 py-1 rounded-full uppercase tracking-wider">{t("free.badge")}</span>
             </div>
-            <h2 className="section-heading text-2xl sm:text-3xl md:text-[32px] lg:text-[40px] font-extrabold text-[#333333] dark:text-white mb-4 font-[family-name:var(--font-montserrat)] leading-tight">{t("free.title1")} <span className="text-[#E52222]">{t("free.titleRed")}</span></h2>
-            <p className="section-body-text text-sm md:text-base lg:text-lg text-[#666666] dark:text-gray-400 leading-relaxed mb-6 max-w-md mx-auto md:mx-0">{t("free.desc")}</p>
-            <a href="#hero"><Button className="bg-[#333333] dark:bg-white dark:text-[#333333] text-white font-semibold rounded-full hover:bg-[#555] dark:hover:bg-gray-100 px-6 h-11 lg:h-12 text-sm lg:text-lg">{t("free.btn")} <ArrowRight className="ml-2 h-4 w-4 lg:h-5 lg:w-5" /></Button></a>
+            <h2 className="section-heading text-2xl sm:text-3xl md:text-[32px] lg:text-[40px] font-extrabold text-foreground dark:text-white mb-4 font-[family-name:var(--font-montserrat)] leading-tight">{t("free.title1")} <span className="text-[#E52222]">{t("free.titleRed")}</span></h2>
+            <p className="section-body-text text-sm md:text-base lg:text-lg text-muted-foreground dark:text-gray-400 leading-relaxed mb-6 max-w-md mx-auto md:mx-0">{t("free.desc")}</p>
+            <a href="#hero"><Button className="bg-[#333333] dark:bg-white dark:text-foreground text-white font-semibold rounded-full hover:bg-[#555] dark:hover:bg-gray-100 px-6 h-11 lg:h-12 text-sm lg:text-lg">{t("free.btn")} <ArrowRight className="ml-2 h-4 w-4 lg:h-5 lg:w-5" /></Button></a>
           </div>
           <div className="flex-shrink-0">
-            <div className="w-52 h-52 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full bg-[#E52222]/10 flex items-center justify-center"><div className="w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full bg-[#E52222]/20 flex items-center justify-center"><div className="float-animation w-28 h-28 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full bg-[#E52222] flex items-center justify-center shadow-lg"><Play className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16 text-white ml-1" /></div></div></div>
+            <div className="float-animation w-28 h-28 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-2xl bg-gradient-to-br from-[#E52222] to-[#FF6B35] flex items-center justify-center shadow-lg"><Play className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16 text-white ml-1" /></div>
           </div>
         </div>
       </div>
@@ -1388,7 +1386,7 @@ function HowToUseSection() {
   return (
     <section id="how" ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-white dark:bg-[#1A1A1A]">
       <div className="mx-auto max-w-5xl lg:max-w-6xl">
-        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
+        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("how.title")}</h2>
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           <div className="flex-shrink-0 relative">
             <div className="absolute -top-4 -left-4 w-64 h-64 md:w-80 md:h-80 rounded-full bg-[#E52222]/10 z-0" />
@@ -1398,7 +1396,7 @@ function HowToUseSection() {
             {steps.map((s, i) => (
               <div key={i} className="flex items-start gap-4">
                 {s.filled ? (<div className="w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-[#E52222] flex items-center justify-center shrink-0"><span className="text-white font-bold text-sm lg:text-lg">{s.num}</span></div>) : (<div className="w-12 h-12 lg:w-16 lg:h-16 rounded-full border-2 border-[#E52222] flex items-center justify-center shrink-0"><span className="text-[#E52222] font-bold text-sm lg:text-lg">{s.num}</span></div>)}
-                <div><h3 className="feature-card-title text-base md:text-lg lg:text-2xl font-bold text-[#333333] dark:text-white mb-1">{s.title}</h3><p className="feature-card-desc text-sm md:text-base lg:text-lg text-[#666666] dark:text-gray-400 leading-relaxed">{s.desc}</p></div>
+                <div><h3 className="feature-card-title text-base md:text-lg lg:text-2xl font-bold text-foreground dark:text-white mb-1">{s.title}</h3><p className="feature-card-desc text-sm md:text-base lg:text-lg text-muted-foreground dark:text-gray-400 leading-relaxed">{s.desc}</p></div>
               </div>
             ))}
           </div>
@@ -1423,15 +1421,15 @@ function PlatformQuickAccessSection() {
     { name: "Reddit", desc: t("platforms.reddit.desc"), slug: "reddit", color: "#FF4500", Icon: RedditIcon },
   ];
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-muted dark:bg-[#1A1A1A]">
       <div className="mx-auto max-w-5xl lg:max-w-6xl text-center">
-        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("platforms.title")}</h2>
-        <p className="section-body-text text-sm md:text-base lg:text-lg text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("platforms.subtitle")}</p>
+        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("platforms.title")}</h2>
+        <p className="section-body-text text-sm md:text-base lg:text-lg text-muted-foreground dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("platforms.subtitle")}</p>
         <div className="reveal-stagger grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {platformCards.map(p => (
-            <a key={p.slug} href={`/${p.slug}-downloader`} className="smooth-hover bg-white dark:bg-[#2D2D2D] rounded-xl border border-gray-200 dark:border-white/10 p-5 md:p-6 lg:p-8 text-left hover:shadow-lg transition-all duration-300 group">
+            <a key={p.slug} href={`/${p.slug}-downloader`} className="smooth-hover bg-white dark:bg-card rounded-xl border border-gray-200 dark:border-white/10 p-5 md:p-6 lg:p-8 text-left hover:shadow-lg transition-all duration-300 group">
               <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg flex items-center justify-center mb-3" style={{ background: `${p.color}15` }}><p.Icon className="h-5 w-5 lg:h-6 lg:w-6" style={{ color: p.color }} /></div>
-              <h3 className="platform-card-title font-bold text-sm lg:text-xl text-[#333] dark:text-white mb-1 group-hover:text-[#E52222] transition-colors">{p.name}</h3>
+              <h3 className="platform-card-title font-bold text-sm lg:text-xl text-foreground dark:text-white mb-1 group-hover:text-[#E52222] transition-colors">{p.name}</h3>
               <p className="platform-card-desc text-xs lg:text-base text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">{p.desc}</p>
             </a>
           ))}
@@ -1453,7 +1451,7 @@ function FeatureCardsSection() {
     { num: "03", icon: CheckCircle, title: t("feat3.title"), desc: t("feat3.desc") },
   ];
   return (
-    <section id="features" ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
+    <section id="features" ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#333333] dark:bg-card">
       <div className="mx-auto max-w-5xl lg:max-w-6xl">
         <div className="reveal-stagger grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {features.map((f, i) => { const Icon = f.icon; return (
@@ -1481,12 +1479,12 @@ function SupportedFormatsSection() {
     { key: "360p", icon: Smartphone }, { key: "480p", icon: Smartphone }, { key: "720p", icon: Award }, { key: "1080p", icon: Award }, { key: "4k", icon: Award }, { key: "audio", icon: Headphones },
   ];
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A] transition-colors duration-300">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-muted dark:bg-[#1A1A1A] transition-colors duration-300">
       <div className="mx-auto max-w-5xl lg:max-w-6xl text-center">
-        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("fmt.title")}</h2>
-        <p className="section-body-text text-sm md:text-base lg:text-lg text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("fmt.subtitle")}</p>
+        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("fmt.title")}</h2>
+        <p className="section-body-text text-sm md:text-base lg:text-lg text-muted-foreground dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("fmt.subtitle")}</p>
         <div className="reveal-stagger flex flex-wrap justify-center gap-3 md:gap-4 lg:gap-5">
-          {formats.map((f) => { const Icon = f.icon; return (<div key={f.key} className="smooth-hover flex items-center gap-2 bg-white dark:bg-[#2D2D2D] border border-gray-200 dark:border-white/10 rounded-full px-5 py-2.5 lg:px-6 lg:py-3 shadow-sm hover:shadow-md hover:border-[#E52222]/30 transition-all duration-300 cursor-default"><Icon className="h-4 w-4 lg:h-5 lg:w-5 text-[#E52222]" /><span className="format-pill text-sm lg:text-base font-semibold text-[#333333] dark:text-white">{t(`fmt.${f.key}`)}</span></div>); })}
+          {formats.map((f) => { const Icon = f.icon; return (<div key={f.key} className="smooth-hover flex items-center gap-2 bg-white dark:bg-card border border-gray-200 dark:border-white/10 rounded-full px-5 py-2.5 lg:px-6 lg:py-3 shadow-sm hover:shadow-md hover:border-[#E52222]/30 transition-all duration-300 cursor-default"><Icon className="h-4 w-4 lg:h-5 lg:w-5 text-[#E52222]" /><span className="format-pill text-sm lg:text-base font-semibold text-foreground dark:text-white">{t(`fmt.${f.key}`)}</span></div>); })}
         </div>
       </div>
     </section>
@@ -1521,7 +1519,7 @@ function StatisticsSection() {
     { display: `${(count4 / 10).toFixed(1)}`, labelKey: "stats.4.label" },
   ];
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D] transition-colors duration-300">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#333333] dark:bg-card transition-colors duration-300">
       <div className="mx-auto max-w-5xl lg:max-w-6xl">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 lg:gap-16">
           {stats.map((s, i) => (
@@ -1549,11 +1547,11 @@ function WhyChooseSection() {
     { icon: Shield, title: t("why.4.title"), desc: t("why.4.desc") },
   ];
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A]">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-muted dark:bg-[#1A1A1A]">
       <div className="mx-auto max-w-5xl lg:max-w-6xl">
-        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("why.title")}</h2>
+        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground dark:text-white text-center mb-10 md:mb-14 font-[family-name:var(--font-montserrat)]">{t("why.title")}</h2>
         <div className="reveal-stagger grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-12">
-          {benefits.map((b, i) => { const Icon = b.icon; return (<div key={i} className="smooth-hover text-center p-4 md:p-6 lg:p-8 rounded-xl transition-all duration-300"><div className="flex items-center justify-center mb-4"><Icon className="h-8 w-8 md:h-10 md:w-10 lg:h-14 lg:w-14 text-[#333333] dark:text-white" /></div><h3 className="why-title text-sm md:text-base lg:text-xl font-bold text-[#333333] dark:text-white mb-2">{b.title}</h3><p className="why-desc text-xs md:text-sm lg:text-base text-[#999999] dark:text-gray-500 leading-relaxed">{b.desc}</p></div>); })}
+          {benefits.map((b, i) => { const Icon = b.icon; return (<div key={i} className="smooth-hover text-center p-4 md:p-6 lg:p-8 rounded-xl transition-all duration-300"><div className="flex items-center justify-center mb-4"><Icon className="h-8 w-8 md:h-10 md:w-10 lg:h-14 lg:w-14 text-foreground dark:text-white" /></div><h3 className="why-title text-sm md:text-base lg:text-xl font-bold text-foreground dark:text-white mb-2">{b.title}</h3><p className="why-desc text-xs md:text-sm lg:text-base text-muted-foreground dark:text-gray-500 leading-relaxed">{b.desc}</p></div>); })}
         </div>
       </div>
     </section>
@@ -1579,20 +1577,20 @@ function ComparisonSection() {
   const PartialMark = () => <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-yellow-500/15"><svg className="w-4 h-4 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01" /><circle cx="12" cy="12" r="9" strokeWidth={2} /></svg></span>;
   const renderMark = (val: boolean | string) => { if (val === true) return <CheckMark />; if (val === "partial") return <PartialMark />; return <XMark />; };
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#F5F5F5] dark:bg-[#1A1A1A] transition-colors duration-300">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-muted dark:bg-[#1A1A1A] transition-colors duration-300">
       <div className="mx-auto max-w-5xl lg:max-w-6xl text-center">
-        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#333333] dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("compare.title")}</h2>
-        <p className="section-body-text text-sm md:text-base lg:text-lg text-[#666666] dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("compare.subtitle")}</p>
+        <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground dark:text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("compare.title")}</h2>
+        <p className="section-body-text text-sm md:text-base lg:text-lg text-muted-foreground dark:text-gray-400 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("compare.subtitle")}</p>
         <div className="overflow-x-auto scroll-hide -mx-4 px-4">
-          <table className="w-full min-w-[520px] md:min-w-0 border-collapse bg-white dark:bg-[#2D2D2D] rounded-xl overflow-hidden shadow-sm">
+          <table className="w-full min-w-[520px] md:min-w-0 border-collapse bg-white dark:bg-card rounded-xl overflow-hidden shadow-sm">
             <thead><tr className="border-b border-gray-100 dark:border-white/10">
-              <th className="compare-header py-4 px-3 md:px-5 text-left text-sm lg:text-base font-semibold text-[#333333] dark:text-white w-[30%] md:w-[25%]">{t("compare.feature")}</th>
+              <th className="compare-header py-4 px-3 md:px-5 text-left text-sm lg:text-base font-semibold text-foreground dark:text-white w-[30%] md:w-[25%]">{t("compare.feature")}</th>
               <th className="compare-header py-4 px-3 md:px-5 text-center text-sm lg:text-base font-bold text-white bg-[#E52222]">{t("compare.getmova")}</th>
-              <th className="compare-header py-4 px-3 md:px-5 text-center text-sm lg:text-base font-semibold text-[#333333] dark:text-white">{t("compare.snaptik")}</th>
-              <th className="compare-header py-4 px-3 md:px-5 text-center text-sm lg:text-base font-semibold text-[#333333] dark:text-white">{t("compare.savefrom")}</th>
-              <th className="compare-header py-4 px-3 md:px-5 text-center text-sm lg:text-base font-semibold text-[#333333] dark:text-white">{t("compare.y2mate")}</th>
+              <th className="compare-header py-4 px-3 md:px-5 text-center text-sm lg:text-base font-semibold text-foreground dark:text-white">{t("compare.snaptik")}</th>
+              <th className="compare-header py-4 px-3 md:px-5 text-center text-sm lg:text-base font-semibold text-foreground dark:text-white">{t("compare.savefrom")}</th>
+              <th className="compare-header py-4 px-3 md:px-5 text-center text-sm lg:text-base font-semibold text-foreground dark:text-white">{t("compare.y2mate")}</th>
             </tr></thead>
-            <tbody>{features.map((f, i) => (<tr key={f.key} className={i < features.length - 1 ? "border-b border-gray-100 dark:border-white/10" : ""}><td className="compare-feature py-3.5 px-3 md:px-5 text-sm lg:text-base text-[#333333] dark:text-gray-300 text-left">{t(`compare.${f.key}`)}</td><td className="py-3.5 px-3 md:px-5 text-center bg-[#E52222]/5 dark:bg-[#E52222]/10">{renderMark(f.getmova)}</td><td className="py-3.5 px-3 md:px-5 text-center">{renderMark(f.snaptik)}</td><td className="py-3.5 px-3 md:px-5 text-center">{renderMark(f.savefrom)}</td><td className="py-3.5 px-3 md:px-5 text-center">{renderMark(f.y2mate)}</td></tr>))}</tbody>
+            <tbody>{features.map((f, i) => (<tr key={f.key} className={i < features.length - 1 ? "border-b border-gray-100 dark:border-white/10" : ""}><td className="compare-feature py-3.5 px-3 md:px-5 text-sm lg:text-base text-foreground dark:text-gray-300 text-left">{t(`compare.${f.key}`)}</td><td className="py-3.5 px-3 md:px-5 text-center bg-[#E52222]/5 dark:bg-[#E52222]/10">{renderMark(f.getmova)}</td><td className="py-3.5 px-3 md:px-5 text-center">{renderMark(f.snaptik)}</td><td className="py-3.5 px-3 md:px-5 text-center">{renderMark(f.savefrom)}</td><td className="py-3.5 px-3 md:px-5 text-center">{renderMark(f.y2mate)}</td></tr>))}</tbody>
           </table>
         </div>
       </div>
@@ -1609,10 +1607,10 @@ function TestimonialsSection() {
   const testimonials = [
     { nameKey: "testi.1.name", roleKey: "testi.1.role", textKey: "testi.1.text", initials: "RS", color: "#E52222" },
     { nameKey: "testi.2.name", roleKey: "testi.2.role", textKey: "testi.2.text", initials: "AP", color: "#3B82F6" },
-    { nameKey: "testi.3.name", roleKey: "testi.3.role", textKey: "testi.3.text", initials: "SM", color: "#10B981" },
+    { nameKey: "testi.3.name", roleKey: "testi.3.role", textKey: "testi.3.text", initials: "SM", color: "#E52222" },
   ];
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] transition-colors duration-300">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-card dark:bg-[#222] transition-colors duration-300">
       <div className="mx-auto max-w-5xl lg:max-w-6xl text-center">
         <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("testi.title")}</h2>
         <p className="section-body-text text-sm md:text-base lg:text-lg text-white/50 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("testi.subtitle")}</p>
@@ -1655,7 +1653,7 @@ function FAQSection() {
     : faqItems;
 
   return (
-    <section id="faq" ref={revealRef} className="faq-section section-reveal relative py-16 md:py-24 lg:py-28 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#222] overflow-hidden">
+    <section id="faq" ref={revealRef} className="faq-section section-reveal relative py-16 md:py-24 lg:py-28 px-4 md:px-6 bg-card dark:bg-[#222] overflow-hidden">
       <div className="absolute top-[-80px] right-[-80px] w-[200px] h-[200px] rounded-full bg-[#E52222]/5 pointer-events-none" />
       <div className="absolute bottom-[-60px] left-[-60px] w-[160px] h-[160px] rounded-full bg-[#E52222]/5 pointer-events-none" />
       <div className="relative mx-auto max-w-5xl lg:max-w-6xl">
@@ -1738,7 +1736,7 @@ function BlogPreviewSection() {
     { titleKey: "blog.3.title", readTime: 3, image: "/blog-getmova-banner.png", slug: "download-video-tanpa-watermark-terbaik" },
   ];
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#333333] dark:bg-[#2D2D2D]">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#333333] dark:bg-card">
       <div className="mx-auto max-w-5xl lg:max-w-6xl text-center">
         <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 font-[family-name:var(--font-montserrat)]">{t("blog.title")}</h2>
         <p className="section-body-text text-sm md:text-base lg:text-lg text-white/50 mb-10 md:mb-14 max-w-lg mx-auto leading-relaxed">{t("blog.subtitle")}</p>
@@ -1747,12 +1745,12 @@ function BlogPreviewSection() {
         {autoPosts.length > 0 && (
           <div className="mb-10">
             <div className="flex items-center justify-center gap-2 mb-5">
-              <span className="text-[#10B981] text-xs font-semibold px-2 py-0.5 rounded-full bg-[#10B981]/10 border border-[#10B981]/20">BARU</span>
+              <span className="text-[#E52222] text-xs font-semibold px-2 py-0.5 rounded-full bg-[#E52222]/10 border border-[#E52222]/20">BARU</span>
               <span className="text-white/60 text-sm font-medium">Artikel Terbaru</span>
             </div>
             <div className="reveal-stagger grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
               {autoPosts.map((post, i) => (
-                <a key={`auto-${i}`} href={`/blog/${post.slug}`} className="smooth-hover rounded-xl overflow-hidden bg-white/5 border border-[#10B981]/20 hover:border-[#10B981]/40 transition-all duration-300 group text-left hover:shadow-lg hover:shadow-[#10B981]/10">
+                <a key={`auto-${i}`} href={`/blog/${post.slug}`} className="smooth-hover rounded-xl overflow-hidden bg-white/5 border border-[#E52222]/20 hover:border-[#E52222]/40 transition-all duration-300 group text-left hover:shadow-lg hover:shadow-[#E52222]/10">
                   <div className="relative h-32 md:h-40 overflow-hidden">
                     {post.image ? (
                       <>
@@ -1760,17 +1758,17 @@ function BlogPreviewSection() {
                         <div className="absolute inset-0 bg-gradient-to-t from-[#333333] via-transparent to-transparent dark:from-[#2D2D2D]" />
                       </>
                     ) : (
-                      <div className="h-full bg-gradient-to-br from-[#10B981]/20 via-[#34D399]/15 to-[#10B981]/10 flex items-center justify-center">
+                      <div className="h-full bg-gradient-to-br from-[#E52222]/20 via-[#FF6B35]/15 to-[#E52222]/10 flex items-center justify-center">
                         <span className="text-3xl opacity-60">🎬</span>
                       </div>
                     )}
-                    <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-[#10B981] text-[8px] font-bold text-white z-10">BARU</span>
+                    <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-[#E52222] text-[8px] font-bold text-white z-10">BARU</span>
                   </div>
                   <div className="p-4 lg:p-5">
-                    <h3 className="text-white font-bold text-xs lg:text-base mb-2 group-hover:text-[#10B981] transition-colors line-clamp-2">{post.title}</h3>
+                    <h3 className="text-white font-bold text-xs lg:text-base mb-2 group-hover:text-[#E52222] transition-colors line-clamp-2">{post.title}</h3>
                     <div className="flex items-center justify-between">
                       <span className="text-white/30 text-[10px] lg:text-sm">{post.readingTime}</span>
-                      <span className="text-[#10B981] text-xs lg:text-sm font-medium group-hover:underline">Baca →</span>
+                      <span className="text-[#E52222] text-xs lg:text-sm font-medium group-hover:underline">Baca →</span>
                     </div>
                   </div>
                 </a>
@@ -1888,7 +1886,7 @@ function NewsletterSection() {
     }
   };
   return (
-    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-[#2D2D2D] dark:bg-[#1A1A1A] relative overflow-hidden transition-colors duration-300">
+    <section ref={revealRef} className="section-reveal py-14 md:py-20 lg:py-24 px-4 md:px-6 bg-card dark:bg-[#1A1A1A] relative overflow-hidden transition-colors duration-300">
       <div className="absolute top-0 right-0 w-64 h-64 bg-[#E52222]/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#E52222]/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
       <div className="relative mx-auto max-w-xl md:max-w-2xl lg:max-w-3xl text-center">
@@ -1928,46 +1926,12 @@ function WhatsAppWidget() {
   const [showTooltip, setShowTooltip] = useState(false);
   return (
     <div className="fixed left-6 z-50 bottom-[70px] md:bottom-6">
-      {showTooltip && (<div className="absolute bottom-14 left-0 bg-white dark:bg-[#2D2D2D] text-[#333333] dark:text-white text-xs font-medium px-3 py-2 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-white/10">{t("wa.tooltip")}<div className="absolute -bottom-1 left-4 w-2 h-2 bg-white dark:bg-[#2D2D2D] rotate-45 border-r border-b border-gray-200 dark:border-white/10" /></div>)}
+      {showTooltip && (<div className="absolute bottom-14 left-0 bg-white dark:bg-card text-foreground dark:text-white text-xs font-medium px-3 py-2 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-white/10">{t("wa.tooltip")}<div className="absolute -bottom-1 left-4 w-2 h-2 bg-white dark:bg-card rotate-45 border-r border-b border-gray-200 dark:border-white/10" /></div>)}
       <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)} aria-label="WhatsApp" className="w-12 h-12 md:w-12 md:h-12 rounded-full bg-[#25D366] text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-200"><svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
     </div>
   );
 }
 
-
-/* ══════════════════════════════════════════════════
-   FOOTER — Dark (#222) bg, minimal layout
-   ══════════════════════════════════════════════════ */
-function Footer() {
-  const { t, lang } = useLanguage();
-  return (
-    <footer className="bg-[#222222] dark:bg-[#1A1A1A]" role="contentinfo">
-      <div className="mx-auto max-w-6xl lg:max-w-7xl px-4 md:px-6 py-10 md:py-14">
-        <div className="flex flex-col items-center text-center gap-4">
-          <div className="flex items-center gap-1.5">
-            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="shrink-0"><rect width="32" height="32" rx="8" fill="#E52222" /><path d="M13 9L23 16L13 23V9Z" fill="white" /></svg>
-            <span className="font-[family-name:var(--font-montserrat)] font-bold text-white text-lg lg:text-2xl" style={{ letterSpacing: "-0.03em" }}>Get<span className="text-[#E52222]">Mova</span></span>
-          </div>
-          <p className="text-[#999999] text-xs lg:text-sm max-w-2xl">{lang === "id" ? "GetMova adalah layanan download video online gratis dari berbagai platform sosial media. Privasi pengguna adalah prioritas utama kami." : "GetMova is a free online video downloader from various social media platforms. User privacy is our top priority."}</p>
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 lg:gap-x-6 lg:gap-y-2">
-            <a href="/about" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Tentang Kami" : "About Us"}</a>
-            <a href="/how-it-works" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Cara Kerja" : "How It Works"}</a>
-            <a href="/faq" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">FAQ</a>
-            <a href="/blog" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">Blog</a>
-            <a href="/contact" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Hubungi Kami" : "Contact Us"}</a>
-            <a href="/privacy" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Kebijakan Privasi" : "Privacy Policy"}</a>
-            <a href="/terms" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Syarat & Ketentuan" : "Terms of Service"}</a>
-            <a href="/disclaimer" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Disclaimer" : "Disclaimer"}</a>
-            <a href="/dmca" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">DMCA</a>
-            <a href="/cookie-policy" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">{lang === "id" ? "Kebijakan Cookie" : "Cookie Policy"}</a>
-            <a href="/sitemap.xml" className="footer-link text-white text-xs md:text-sm hover:text-[#E52222] transition-colors">Sitemap</a>
-          </div>
-          <p className="footer-copy text-[#999999] text-xs lg:text-base">&copy; 2024-2026 GetMova. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 /* ══════════════════════════════════════════════════
    STICKY DOWNLOAD BAR — Appears below navbar when scrolled past hero
@@ -2083,7 +2047,7 @@ export default function Home() {
             ]
           })}} />
         </main>
-        <Footer />
+        <SitewideFooter />
         <BackToTopButton />
         <WhatsAppWidget />
 

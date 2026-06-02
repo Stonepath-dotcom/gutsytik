@@ -245,7 +245,7 @@ Pastikan:
     // Step 3: Generate cover image using AI
     let imagePath: string | undefined;
     try {
-      const imagePrompt = `A modern, clean illustration for a blog article about "${metadata.title || topicTitle}". The image should show digital technology, video downloading, smartphones, and social media concepts in a vibrant gradient style with emerald green (#10B981) accent colors. No text, no logos, no watermarks. Professional and engaging look suitable for a tech blog thumbnail.`;
+      const imagePrompt = `A modern, clean illustration for a blog article about "${metadata.title || topicTitle}". The image should show digital technology, video downloading, smartphones, and social media concepts in a vibrant gradient style with emerald green (#E52222) accent colors. No text, no logos, no watermarks. Professional and engaging look suitable for a tech blog thumbnail.`;
 
       const imageResponse = await zai.images.generations.create({
         prompt: imagePrompt,

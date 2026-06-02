@@ -106,11 +106,11 @@ export default function FileSizeCalculatorPage() {
         <div className="mx-auto max-w-5xl px-4 pt-6">
           <nav aria-label="Breadcrumb">
             <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <li><a href="/" className="hover:text-[#10B981] transition-colors">Beranda</a></li>
+              <li><a href="/" className="hover:text-[#E52222] transition-colors">Beranda</a></li>
               <li>/</li>
-              <li><a href="/tools/format-comparison" className="hover:text-[#10B981] transition-colors">Tools</a></li>
+              <li><a href="/tools/format-comparison" className="hover:text-[#E52222] transition-colors">Tools</a></li>
               <li>/</li>
-              <li className="text-[#10B981] font-medium">Kalkulator Ukuran File</li>
+              <li className="text-[#E52222] font-medium">Kalkulator Ukuran File</li>
             </ol>
           </nav>
         </div>
@@ -118,9 +118,9 @@ export default function FileSizeCalculatorPage() {
         {/* Hero */}
         <section className="relative pt-8 pb-10 px-4 sm:px-6">
           <div className="mx-auto max-w-4xl text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/20 mb-4">
-              <HardDrive className="h-3.5 w-3.5 text-[#10B981]" />
-              <span className="text-xs font-semibold text-[#10B981]">Tools Interaktif</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E52222]/10 border border-[#E52222]/20 mb-4">
+              <HardDrive className="h-3.5 w-3.5 text-[#E52222]" />
+              <span className="text-xs font-semibold text-[#E52222]">Tools Interaktif</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold mb-3 leading-tight font-[family-name:var(--font-montserrat)]">
               Kalkulator <span className="gradient-text">Ukuran File Video</span>
@@ -138,7 +138,7 @@ export default function FileSizeCalculatorPage() {
               {/* Resolution */}
               <div>
                 <label className="text-sm font-bold text-foreground mb-3 block font-[family-name:var(--font-montserrat)]">
-                  <FileVideo className="h-4 w-4 inline mr-1.5 text-[#10B981]" />
+                  <FileVideo className="h-4 w-4 inline mr-1.5 text-[#E52222]" />
                   Resolusi Video
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
@@ -148,11 +148,11 @@ export default function FileSizeCalculatorPage() {
                       onClick={() => setResolution(res.id)}
                       className={`p-2.5 rounded-xl border text-left transition-all ${
                         resolution === res.id
-                          ? "border-[#10B981] bg-[#10B981]/10"
+                          ? "border-[#E52222] bg-[#E52222]/10"
                           : "border-border hover:border-muted-foreground/30"
                       }`}
                     >
-                      <p className={`text-xs font-bold ${resolution === res.id ? "text-[#10B981]" : "text-foreground"}`}>
+                      <p className={`text-xs font-bold ${resolution === res.id ? "text-[#E52222]" : "text-foreground"}`}>
                         {res.label.split(" (")[0]}
                       </p>
                       <p className="text-[10px] text-muted-foreground">{res.desc}</p>
@@ -164,7 +164,7 @@ export default function FileSizeCalculatorPage() {
               {/* Duration */}
               <div>
                 <label className="text-sm font-bold text-foreground mb-3 block font-[family-name:var(--font-montserrat)]">
-                  <Clock className="h-4 w-4 inline mr-1.5 text-[#10B981]" />
+                  <Clock className="h-4 w-4 inline mr-1.5 text-[#E52222]" />
                   Durasi Video: {duration} menit
                 </label>
                 <input
@@ -173,7 +173,7 @@ export default function FileSizeCalculatorPage() {
                   max={180}
                   value={duration}
                   onChange={(e) => setDuration(Number(e.target.value))}
-                  className="w-full accent-[#10B981]"
+                  className="w-full accent-[#E52222]"
                   aria-label="Durasi video dalam menit"
                 />
                 <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
@@ -188,7 +188,7 @@ export default function FileSizeCalculatorPage() {
               {/* Results */}
               <div>
                 <h3 className="text-sm font-bold text-foreground mb-3 font-[family-name:var(--font-montserrat)]">
-                  <HardDrive className="h-4 w-4 inline mr-1.5 text-[#10B981]" />
+                  <HardDrive className="h-4 w-4 inline mr-1.5 text-[#E52222]" />
                   Estimasi Ukuran File
                 </h3>
                 <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -218,7 +218,7 @@ export default function FileSizeCalculatorPage() {
               {selectedCalc && (
                 <div>
                   <h3 className="text-sm font-bold text-foreground mb-3 font-[family-name:var(--font-montserrat)]">
-                    <Wifi className="h-4 w-4 inline mr-1.5 text-[#10B981]" />
+                    <Wifi className="h-4 w-4 inline mr-1.5 text-[#E52222]" />
                     Estimasi Waktu Download ({selectedCalc.label})
                   </h3>
                   <div className="grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
@@ -228,7 +228,7 @@ export default function FileSizeCalculatorPage() {
                         className="p-3 rounded-xl border border-border text-center"
                       >
                         <p className="text-xs font-bold text-foreground mb-1">{speed.label}</p>
-                        <p className="text-sm font-bold text-[#10B981]">{formatTime(speed.time)}</p>
+                        <p className="text-sm font-bold text-[#E52222]">{formatTime(speed.time)}</p>
                         <p className="text-[10px] text-muted-foreground">{speed.mbps} Mbps</p>
                       </div>
                     ))}
@@ -237,8 +237,8 @@ export default function FileSizeCalculatorPage() {
               )}
 
               {/* Info */}
-              <div className="p-3 rounded-xl bg-[#10B981]/5 border border-[#10B981]/10 flex items-start gap-2">
-                <Info className="h-4 w-4 text-[#10B981] shrink-0 mt-0.5" />
+              <div className="p-3 rounded-xl bg-[#E52222]/5 border border-[#E52222]/10 flex items-start gap-2">
+                <Info className="h-4 w-4 text-[#E52222] shrink-0 mt-0.5" />
                 <p className="text-xs text-muted-foreground">
                   Estimasi berdasarkan rata-rata bitrate. Ukuran file aktual bisa berbeda tergantung konten video (video dengan banyak gerakan = file lebih besar). Kompresi modern seperti H.265 dan AV1 menghasilkan file lebih kecil dengan kualitas serupa.
                 </p>
@@ -276,19 +276,19 @@ export default function FileSizeCalculatorPage() {
               Tools <span className="gradient-text">Lainnya</span>
             </h2>
             <div className="grid sm:grid-cols-3 gap-3">
-              <Link href="/tools/format-comparison" className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all group">
-                <ArrowRightLeft className="h-5 w-5 text-[#10B981] mb-2" />
-                <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981] transition-colors">Perbandingan Format</p>
+              <Link href="/tools/format-comparison" className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all group">
+                <ArrowRightLeft className="h-5 w-5 text-[#E52222] mb-2" />
+                <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222] transition-colors">Perbandingan Format</p>
                 <p className="text-xs text-muted-foreground">Bandingkan MP4, WEBM, AVI, dll</p>
               </Link>
-              <Link href="/tools/trim-video" className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all group">
-                <FileVideo className="h-5 w-5 text-[#10B981] mb-2" />
-                <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981] transition-colors">Trim Video</p>
+              <Link href="/tools/trim-video" className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all group">
+                <FileVideo className="h-5 w-5 text-[#E52222] mb-2" />
+                <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222] transition-colors">Trim Video</p>
                 <p className="text-xs text-muted-foreground">Potong bagian video yang kamu butuh</p>
               </Link>
-              <Link href="/tools/convert-gif" className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all group">
-                <HardDrive className="h-5 w-5 text-[#10B981] mb-2" />
-                <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981] transition-colors">Convert ke GIF</p>
+              <Link href="/tools/convert-gif" className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all group">
+                <HardDrive className="h-5 w-5 text-[#E52222] mb-2" />
+                <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222] transition-colors">Convert ke GIF</p>
                 <p className="text-xs text-muted-foreground">Ubah video jadi GIF animasi</p>
               </Link>
             </div>
@@ -298,14 +298,14 @@ export default function FileSizeCalculatorPage() {
         {/* CTA */}
         <section className="px-4 sm:px-6 pb-16">
           <div className="mx-auto max-w-3xl">
-            <div className="rounded-2xl p-6 text-center bg-gradient-to-br from-[#10B981]/20 to-[#34D399]/10 border border-[#10B981]/30">
+            <div className="rounded-2xl p-6 text-center bg-gradient-to-br from-[#E52222]/20 to-[#FF6B35]/10 border border-[#E52222]/30">
               <h2 className="text-xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]">
                 Siap Download Video?
               </h2>
               <p className="text-muted-foreground mb-5 text-sm max-w-md mx-auto">
                 Gunakan Mova untuk download video dalam format & resolusi terbaik. Gratis dan cepat!
               </p>
-              <Link href="/" className="inline-flex items-center gap-2 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] px-8 h-12 text-base transition-colors">
+              <Link href="/" className="inline-flex items-center gap-2 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] px-8 h-12 text-base transition-colors">
                 Mulai Download Gratis
               </Link>
             </div>

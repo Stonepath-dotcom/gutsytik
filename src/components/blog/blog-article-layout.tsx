@@ -93,9 +93,9 @@ export function BlogArticleLayout({
         <div className="relative mx-auto max-w-3xl">
           {/* Breadcrumb */}
           <nav className="mb-6 flex items-center gap-1.5 text-sm text-muted-foreground" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-[#10B981] transition-colors">Home</Link>
+            <Link href="/" className="hover:text-[#E52222] transition-colors">Home</Link>
             <ChevronRight className="h-3.5 w-3.5" />
-            <Link href="/blog" className="hover:text-[#10B981] transition-colors">Blog</Link>
+            <Link href="/blog" className="hover:text-[#E52222] transition-colors">Blog</Link>
             <ChevronRight className="h-3.5 w-3.5" />
             <span className="text-foreground truncate max-w-[200px] sm:max-w-none">{title}</span>
           </nav>
@@ -122,16 +122,16 @@ export function BlogArticleLayout({
           {/* Meta */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-4">
             <span className="flex items-center gap-1.5">
-              <Calendar className="h-4 w-4 text-[#10B981]" />
+              <Calendar className="h-4 w-4 text-[#E52222]" />
               {date}
             </span>
             <span className="flex items-center gap-1.5">
-              <Clock className="h-4 w-4 text-[#10B981]" />
+              <Clock className="h-4 w-4 text-[#E52222]" />
               {readingTime}
             </span>
             {lastUpdated && lastUpdated !== date && (
               <span className="flex items-center gap-1.5 text-xs text-muted-foreground/70">
-                <Calendar className="h-3.5 w-3.5 text-[#10B981]/60" />
+                <Calendar className="h-3.5 w-3.5 text-[#E52222]/60" />
                 Diperbarui: {lastUpdated}
               </span>
             )}
@@ -158,7 +158,7 @@ export function BlogArticleLayout({
                   className="sticky top-24 rounded-xl p-4 bg-card border border-border"
                   aria-label="Daftar Isi"
                 >
-                  <h3 className="text-sm font-bold text-[#10B981] mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-[#E52222] mb-3 flex items-center gap-2">
                     <List className="h-4 w-4" />
                     Daftar Isi
                   </h3>
@@ -171,15 +171,15 @@ export function BlogArticleLayout({
                             href={`#${h.id}`}
                             className={`text-xs leading-relaxed block py-0.5 transition-all duration-200 ${
                               isActive
-                                ? "text-[#10B981] font-bold border-l-2 border-[#10B981] pl-2 -ml-2"
-                                : "text-muted-foreground hover:text-[#10B981]"
+                                ? "text-[#E52222] font-bold border-l-2 border-[#E52222] pl-2 -ml-2"
+                                : "text-muted-foreground hover:text-[#E52222]"
                             }`}
                             onClick={(e) => {
                               e.preventDefault();
                               document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
                             }}
                           >
-                            <span className={`${isActive ? "text-[#10B981]" : "text-[#10B981]/40"} mr-1.5`}>
+                            <span className={`${isActive ? "text-[#E52222]" : "text-[#E52222]/40"} mr-1.5`}>
                               {i + 1}.
                             </span>
                             {h.text}
@@ -203,7 +203,7 @@ export function BlogArticleLayout({
                     aria-expanded={tocOpen}
                     aria-controls="mobile-toc"
                   >
-                    <span className="text-sm font-bold text-[#10B981] flex items-center gap-2">
+                    <span className="text-sm font-bold text-[#E52222] flex items-center gap-2">
                       <List className="h-4 w-4" />
                       Daftar Isi
                     </span>
@@ -226,8 +226,8 @@ export function BlogArticleLayout({
                                 href={`#${h.id}`}
                                 className={`text-sm transition-colors ${
                                   isActive
-                                    ? "text-[#10B981] font-bold"
-                                    : "text-muted-foreground hover:text-[#10B981]"
+                                    ? "text-[#E52222] font-bold"
+                                    : "text-muted-foreground hover:text-[#E52222]"
                                 }`}
                                 onClick={(e) => {
                                   e.preventDefault();
@@ -235,7 +235,7 @@ export function BlogArticleLayout({
                                   document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth" });
                                 }}
                               >
-                                <span className={`${isActive ? "text-[#10B981]" : "text-[#10B981]/40"} mr-1.5`}>
+                                <span className={`${isActive ? "text-[#E52222]" : "text-[#E52222]/40"} mr-1.5`}>
                                   {i + 1}.
                                 </span>
                                 {h.text}
@@ -278,7 +278,7 @@ export function BlogArticleLayout({
             background: "linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(5,150,105,0.08) 100%)",
             border: "1px solid rgba(16,185,129,0.2)"
           }}>
-            <Zap className="h-8 w-8 text-[#10B981] mx-auto mb-3" />
+            <Zap className="h-8 w-8 text-[#E52222] mx-auto mb-3" />
             <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]">
               Siap Download Video Tanpa Watermark?
             </h2>
@@ -286,7 +286,7 @@ export function BlogArticleLayout({
               Coba Mova sekarang dan rasakan kemudahan download video tanpa watermark dari berbagai platform!
             </p>
             <Link href="/">
-              <Button className="bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] px-8 h-12 text-base">
+              <Button className="bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] px-8 h-12 text-base">
                 <Download className="mr-2 h-5 w-5" />
                 Mulai Download Gratis
               </Button>
@@ -311,7 +311,7 @@ export function BlogArticleLayout({
               { name: "Instagram", href: "/instagram-downloader", color: "#E1306C", desc: "Reels & Story" },
               { name: "Facebook", href: "/facebook-downloader", color: "#1877F2", desc: "Video HD" },
               { name: "Twitter/X", href: "/twitter-downloader", color: "#14171A", desc: "Video & GIF" },
-              { name: "YouTube MP3", href: "/youtube-mp3", color: "#10B981", desc: "Konversi audio" },
+              { name: "YouTube MP3", href: "/youtube-mp3", color: "#E52222", desc: "Konversi audio" },
               { name: "Pinterest", href: "/pinterest-downloader", color: "#E60023", desc: "Video & Gambar" },
               { name: "Reddit", href: "/reddit-downloader", color: "#FF4500", desc: "Video + Audio" },
               { name: "Telegram", href: "/telegram-downloader", color: "#26A5E4", desc: "Video cepat" },
@@ -319,7 +319,7 @@ export function BlogArticleLayout({
               <Link
                 key={p.href}
                 href={p.href}
-                className="group flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all"
+                className="group flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all"
               >
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-white text-xs font-bold"
@@ -328,7 +328,7 @@ export function BlogArticleLayout({
                   {p.name[0]}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981] transition-colors truncate">
+                  <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222] transition-colors truncate">
                     {p.name}
                   </p>
                   <p className="text-[11px] text-muted-foreground">{p.desc}</p>
@@ -351,9 +351,9 @@ export function BlogArticleLayout({
                 <Link
                   key={article.slug}
                   href={`/blog/${article.slug}`}
-                  className="group rounded-xl p-5 bg-card border border-border hover:border-[#10B981]/30 transition-all duration-200"
+                  className="group rounded-xl p-5 bg-card border border-border hover:border-[#E52222]/30 transition-all duration-200"
                 >
-                  <h3 className="font-semibold text-foreground text-sm mb-1.5 group-hover:text-[#10B981] transition-colors line-clamp-2">
+                  <h3 className="font-semibold text-foreground text-sm mb-1.5 group-hover:text-[#E52222] transition-colors line-clamp-2">
                     {article.title}
                   </h3>
                   <p className="text-xs text-muted-foreground line-clamp-2">

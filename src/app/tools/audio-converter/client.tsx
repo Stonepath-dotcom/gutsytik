@@ -353,7 +353,7 @@ export function AudioConverterClient() {
           <nav aria-label="Breadcrumb">
             <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <li>
-                <Link href="/" className="hover:text-[#10B981] transition-colors">
+                <Link href="/" className="hover:text-[#E52222] transition-colors">
                   Beranda
                 </Link>
               </li>
@@ -361,14 +361,14 @@ export function AudioConverterClient() {
                 <ChevronRight className="h-3.5 w-3.5" />
               </li>
               <li>
-                <Link href="/tools" className="hover:text-[#10B981] transition-colors">
+                <Link href="/tools" className="hover:text-[#E52222] transition-colors">
                   Tools
                 </Link>
               </li>
               <li>
                 <ChevronRight className="h-3.5 w-3.5" />
               </li>
-              <li className="text-[#10B981] font-medium">Audio Converter</li>
+              <li className="text-[#E52222] font-medium">Audio Converter</li>
             </ol>
           </nav>
         </div>
@@ -377,9 +377,9 @@ export function AudioConverterClient() {
         <section className="relative pt-8 pb-10 px-4 sm:px-6">
           <div className="absolute inset-0 bg-gradient-to-b from-[#ECFDF5] via-[#D1FAE5] to-background dark:from-[#064E3B] dark:via-[#022C22] opacity-50" />
           <div className="relative mx-auto max-w-4xl text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/20 mb-4">
-              <Music className="h-3.5 w-3.5 text-[#10B981]" />
-              <span className="text-xs font-semibold text-[#10B981]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E52222]/10 border border-[#E52222]/20 mb-4">
+              <Music className="h-3.5 w-3.5 text-[#E52222]" />
+              <span className="text-xs font-semibold text-[#E52222]">
                 Audio Converter
               </span>
             </div>
@@ -403,7 +403,7 @@ export function AudioConverterClient() {
               <h2
                 className="text-base font-bold text-foreground mb-4 font-[family-name:var(--font-montserrat)]"
               >
-                <LinkIcon className="h-4 w-4 inline mr-1.5 text-[#10B981]" />
+                <LinkIcon className="h-4 w-4 inline mr-1.5 text-[#E52222]" />
                 Tempel Link Video
               </h2>
               <div className="flex items-center gap-2">
@@ -436,7 +436,7 @@ export function AudioConverterClient() {
                 <Button
                   onClick={handleAnalyze}
                   disabled={loading}
-                  className="h-11 px-5 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] shrink-0 text-sm md:text-base"
+                  className="h-11 px-5 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] shrink-0 text-sm md:text-base"
                 >
                   {loading ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -451,9 +451,9 @@ export function AudioConverterClient() {
 
               {/* Loading indicator */}
               {loading && !error && (
-                <div className="mt-4 p-3 rounded-lg bg-[#10B981]/10 border border-[#10B981]/20 flex items-center gap-2">
-                  <Loader2 className="h-4 w-4 text-[#10B981] animate-spin shrink-0" />
-                  <p className="text-[#10B981] text-sm font-medium">
+                <div className="mt-4 p-3 rounded-lg bg-[#E52222]/10 border border-[#E52222]/20 flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 text-[#E52222] animate-spin shrink-0" />
+                  <p className="text-[#E52222] text-sm font-medium">
                     {loadingMsg || "Memproses..."}
                   </p>
                 </div>
@@ -476,14 +476,14 @@ export function AudioConverterClient() {
             <div ref={resultRef} className="mx-auto max-w-4xl">
               <div
                 className="rounded-2xl bg-card border overflow-hidden"
-                style={{ borderColor: "#10B98130" }}
+                style={{ borderColor: "#E5222230" }}
               >
                 {/* Result header */}
                 <div
                   className="px-4 py-2.5 border-b border-border flex items-center gap-2"
                   style={{
                     background:
-                      "linear-gradient(to right, #10B98115, #34D39915)",
+                      "linear-gradient(to right, #E5222215, #FF6B3515)",
                   }}
                 >
                   <CheckCircle2 className="h-4 w-4 text-green-400" />
@@ -510,7 +510,7 @@ export function AudioConverterClient() {
                           loading="lazy"
                         />
                       )}
-                      <Music className="h-6 w-6 absolute text-[#10B981]" />
+                      <Music className="h-6 w-6 absolute text-[#E52222]" />
                     </div>
                     <div className="flex-1 text-left min-w-0">
                       <h3 className="font-semibold text-foreground text-sm md:text-base line-clamp-2">
@@ -555,7 +555,7 @@ export function AudioConverterClient() {
                   {displayOptions.length > 0 && (
                     <div className="space-y-2">
                       <p className="text-xs md:text-sm text-muted-foreground font-medium">
-                        <Headphones className="h-3.5 w-3.5 inline mr-1 text-[#10B981]" />
+                        <Headphones className="h-3.5 w-3.5 inline mr-1 text-[#E52222]" />
                         Pilih Kualitas Audio:
                       </p>
                       <div className="grid gap-2 sm:grid-cols-2">
@@ -568,17 +568,17 @@ export function AudioConverterClient() {
                           return (
                             <div
                               key={i}
-                              className="flex items-center gap-3 p-3 rounded-xl border border-border bg-background hover:border-[#10B981]/30 transition-all group"
+                              className="flex items-center gap-3 p-3 rounded-xl border border-border bg-background hover:border-[#E52222]/30 transition-all group"
                             >
                               <div
                                 className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
                                   isAudio
-                                    ? "bg-[#10B981]/10"
+                                    ? "bg-[#E52222]/10"
                                     : "bg-muted"
                                 }`}
                               >
                                 {isAudio ? (
-                                  <Music className="h-4 w-4 text-[#10B981]" />
+                                  <Music className="h-4 w-4 text-[#E52222]" />
                                 ) : (
                                   <Play className="h-4 w-4 text-muted-foreground" />
                                 )}
@@ -595,7 +595,7 @@ export function AudioConverterClient() {
                                 size="sm"
                                 onClick={() => handleDownload(i)}
                                 disabled={downloading}
-                                className="h-8 px-3 bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] text-xs shrink-0"
+                                className="h-8 px-3 bg-[#E52222] text-white font-semibold rounded-lg hover:bg-[#C91C1C] text-xs shrink-0"
                               >
                                 {downloading ? (
                                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -647,7 +647,7 @@ export function AudioConverterClient() {
                   key={s.step}
                   className="p-5 rounded-2xl bg-card border border-border text-center"
                 >
-                  <div className="w-10 h-10 rounded-full bg-[#10B981]/10 text-[#10B981] font-bold flex items-center justify-center mx-auto mb-3">
+                  <div className="w-10 h-10 rounded-full bg-[#E52222]/10 text-[#E52222] font-bold flex items-center justify-center mx-auto mb-3">
                     {s.step}
                   </div>
                   <h3 className="font-bold text-foreground text-sm mb-1.5">
@@ -696,10 +696,10 @@ export function AudioConverterClient() {
                 return (
                   <div
                     key={feat.title}
-                    className="flex items-start gap-3 p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all"
+                    className="flex items-start gap-3 p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-[#10B981]/10 flex items-center justify-center shrink-0">
-                      <Icon className="h-5 w-5 text-[#10B981]" />
+                    <div className="w-10 h-10 rounded-lg bg-[#E52222]/10 flex items-center justify-center shrink-0">
+                      <Icon className="h-5 w-5 text-[#E52222]" />
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-foreground mb-1">
@@ -730,9 +730,9 @@ export function AudioConverterClient() {
                 <Link
                   key={p.href}
                   href={p.href}
-                  className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all group text-center"
+                  className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all group text-center"
                 >
-                  <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981] transition-colors mb-1">
+                  <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222] transition-colors mb-1">
                     {p.name}
                   </p>
                   <p className="text-xs text-muted-foreground">{p.desc}</p>
@@ -756,7 +756,7 @@ export function AudioConverterClient() {
                 <AccordionItem
                   key={i}
                   value={`audio-faq-${i}`}
-                  className="bg-card border border-border rounded-lg px-4 data-[state=open]:shadow-sm data-[state=open]:border-[#10B981]/30"
+                  className="bg-card border border-border rounded-lg px-4 data-[state=open]:shadow-sm data-[state=open]:border-[#E52222]/30"
                 >
                   <AccordionTrigger className="text-sm text-foreground text-left hover:no-underline py-3">
                     {item.q}
@@ -773,7 +773,7 @@ export function AudioConverterClient() {
         {/* ───── CTA ───── */}
         <section className="px-4 sm:px-6 pb-10">
           <div className="mx-auto max-w-3xl">
-            <div className="rounded-2xl p-6 text-center bg-gradient-to-br from-[#10B981]/20 to-[#34D399]/10 border border-[#10B981]/30">
+            <div className="rounded-2xl p-6 text-center bg-gradient-to-br from-[#E52222]/20 to-[#FF6B35]/10 border border-[#E52222]/30">
               <h2
                 className="text-xl font-bold text-foreground mb-2 font-[family-name:var(--font-montserrat)]"
               >
@@ -789,7 +789,7 @@ export function AudioConverterClient() {
                   if (input) input.focus();
                   else window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="inline-flex items-center gap-2 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] px-8 h-12 text-base transition-colors"
+                className="inline-flex items-center gap-2 bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] px-8 h-12 text-base transition-colors"
               >
                 <Music className="h-5 w-5" /> Mulai Konversi Audio
               </button>
@@ -809,10 +809,10 @@ export function AudioConverterClient() {
             <div className="grid sm:grid-cols-3 gap-3">
               <Link
                 href="/tools/bitrate-calculator"
-                className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all group"
+                className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all group"
               >
-                <Headphones className="h-5 w-5 text-[#10B981] mb-2" />
-                <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981] transition-colors">
+                <Headphones className="h-5 w-5 text-[#E52222] mb-2" />
+                <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222] transition-colors">
                   Kalkulator Bitrate
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -821,10 +821,10 @@ export function AudioConverterClient() {
               </Link>
               <Link
                 href="/tools/format-comparison"
-                className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all group"
+                className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all group"
               >
-                <ArrowRightLeft className="h-5 w-5 text-[#10B981] mb-2" />
-                <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981] transition-colors">
+                <ArrowRightLeft className="h-5 w-5 text-[#E52222] mb-2" />
+                <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222] transition-colors">
                   Perbandingan Format
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -833,10 +833,10 @@ export function AudioConverterClient() {
               </Link>
               <Link
                 href="/tools/trim-video"
-                className="p-4 rounded-xl bg-card border border-border hover:border-[#10B981]/30 transition-all group"
+                className="p-4 rounded-xl bg-card border border-border hover:border-[#E52222]/30 transition-all group"
               >
-                <Scissors className="h-5 w-5 text-[#10B981] mb-2" />
-                <p className="text-sm font-semibold text-foreground group-hover:text-[#10B981] transition-colors">
+                <Scissors className="h-5 w-5 text-[#E52222] mb-2" />
+                <p className="text-sm font-semibold text-foreground group-hover:text-[#E52222] transition-colors">
                   Trim Video
                 </p>
                 <p className="text-xs text-muted-foreground">

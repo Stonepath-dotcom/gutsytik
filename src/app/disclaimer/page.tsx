@@ -85,11 +85,11 @@ export default function DisclaimerPage() {
           {/* Title */}
           <div className="text-center mb-16">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase border border-border text-muted-foreground mb-6">
-              <Shield className="h-3 w-3 text-[#10B981]" />
+              <Shield className="h-3 w-3 text-[#E52222]" />
               Legal
             </span>
             <h1 className="text-4xl sm:text-5xl font-light tracking-tight text-foreground mb-4 mt-4">
-              <span className="font-bold text-[#10B981]">Disclaimer</span>
+              <span className="font-bold text-[#E52222]">Disclaimer</span>
             </h1>
             <p className="text-muted-foreground text-sm max-w-xl mx-auto leading-relaxed">
               Informasi penting tentang penggunaan layanan Mova, hak cipta, dan tanggung jawab pengguna.
@@ -100,7 +100,7 @@ export default function DisclaimerPage() {
           </div>
 
           {/* Important notice */}
-          <div className="mb-12 p-6 rounded-xl bg-card border-l-4 border-[#10B981]">
+          <div className="mb-12 p-6 rounded-xl bg-card border-l-4 border-[#E52222]">
             <p className="text-sm text-foreground font-medium">
               Mova adalah alat bantu yang memfasilitasi pengunduhan konten yang tersedia secara publik. Mova tidak menyimpan, mendistribusikan, atau menjadi tuan rumah atas konten berhak cipta apapun. Pengguna bertanggung jawab penuh atas penggunaan konten yang diunduh.
             </p>
@@ -112,7 +112,7 @@ export default function DisclaimerPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card border border-border">
-                  <BookOpen className="h-5 w-5 text-[#10B981]" />
+                  <BookOpen className="h-5 w-5 text-[#E52222]" />
                 </div>
                 <h2 className="text-lg font-bold text-foreground">Tujuan Layanan</h2>
               </div>
@@ -130,7 +130,7 @@ export default function DisclaimerPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card border border-border">
-                  <Scale className="h-5 w-5 text-[#10B981]" />
+                  <Scale className="h-5 w-5 text-[#E52222]" />
                 </div>
                 <h2 className="text-lg font-bold text-foreground">Penggunaan Wajar (Fair Use)</h2>
               </div>
@@ -150,7 +150,7 @@ export default function DisclaimerPage() {
                     "Menyimpan konten sebagai referensi penelitian atau ilmu pengetahuan",
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="text-[#10B981] mt-1 shrink-0">&#10003;</span>
+                      <span className="text-[#E52222] mt-1 shrink-0">&#10003;</span>
                       {item}
                     </li>
                   ))}
@@ -162,7 +162,7 @@ export default function DisclaimerPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card border border-border">
-                  <Gavel className="h-5 w-5 text-[#10B981]" />
+                  <Gavel className="h-5 w-5 text-[#E52222]" />
                 </div>
                 <h2 className="text-lg font-bold text-foreground">Hak Cipta</h2>
               </div>
@@ -183,7 +183,7 @@ export default function DisclaimerPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card border border-border">
-                  <FileText className="h-5 w-5 text-[#10B981]" />
+                  <FileText className="h-5 w-5 text-[#E52222]" />
                 </div>
                 <h2 className="text-lg font-bold text-foreground">DMCA & Takedown Notice</h2>
               </div>
@@ -203,7 +203,7 @@ export default function DisclaimerPage() {
                     "Pernyataan di bawah sumpah bahwa informasi yang diberikan adalah benar",
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="text-[#10B981] mt-1 shrink-0">&#8226;</span>
+                      <span className="text-[#E52222] mt-1 shrink-0">&#8226;</span>
                       {item}
                     </li>
                   ))}
@@ -215,7 +215,7 @@ export default function DisclaimerPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card border border-border">
-                  <AlertTriangle className="h-5 w-5 text-[#10B981]" />
+                  <AlertTriangle className="h-5 w-5 text-[#E52222]" />
                 </div>
                 <h2 className="text-lg font-bold text-foreground">Batasan Tanggung Jawab</h2>
               </div>
@@ -236,7 +236,7 @@ export default function DisclaimerPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card border border-border">
-                  <Users className="h-5 w-5 text-[#10B981]" />
+                  <Users className="h-5 w-5 text-[#E52222]" />
                 </div>
                 <h2 className="text-lg font-bold text-foreground">Tanggung Jawab Pengguna</h2>
               </div>
@@ -253,7 +253,7 @@ export default function DisclaimerPage() {
                     "Anda memahami bahwa Mova tidak menyimpan atau meng-host konten apapun di server kami",
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="text-[#10B981] mt-1 shrink-0">&#10003;</span>
+                      <span className="text-[#E52222] mt-1 shrink-0">&#10003;</span>
                       {item}
                     </li>
                   ))}
@@ -265,7 +265,7 @@ export default function DisclaimerPage() {
             <section>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-card border border-border">
-                  <Mail className="h-5 w-5 text-[#10B981]" />
+                  <Mail className="h-5 w-5 text-[#E52222]" />
                 </div>
                 <h2 className="text-lg font-bold text-foreground">Kontak</h2>
               </div>
@@ -275,7 +275,7 @@ export default function DisclaimerPage() {
                 </p>
                 <p className="text-sm text-muted-foreground">
                   <span className="text-foreground font-medium">Email:</span>{" "}
-                  <a href="mailto:admin@getmova.my.id" className="text-[#10B981] hover:underline">
+                  <a href="mailto:admin@getmova.my.id" className="text-[#E52222] hover:underline">
                     admin@getmova.my.id
                   </a>
                 </p>
@@ -287,17 +287,17 @@ export default function DisclaimerPage() {
           <div className="mt-16 pt-8 border-t border-border">
             <h3 className="text-sm font-semibold text-foreground mb-4">Halaman Terkait</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <a href="/privacy" className="flex items-center justify-between p-4 rounded-lg border border-border bg-card hover:border-[#10B981]/50 transition-colors group">
+              <a href="/privacy" className="flex items-center justify-between p-4 rounded-lg border border-border bg-card hover:border-[#E52222]/50 transition-colors group">
                 <span className="text-sm text-muted-foreground group-hover:text-foreground dark:group-hover:text-[#FAFAFA]">Kebijakan Privasi</span>
-                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-[#10B981] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-[#E52222] transition-colors" />
               </a>
-              <a href="/terms" className="flex items-center justify-between p-4 rounded-lg border border-border bg-card hover:border-[#10B981]/50 transition-colors group">
+              <a href="/terms" className="flex items-center justify-between p-4 rounded-lg border border-border bg-card hover:border-[#E52222]/50 transition-colors group">
                 <span className="text-sm text-muted-foreground group-hover:text-foreground dark:group-hover:text-[#FAFAFA]">Syarat & Ketentuan</span>
-                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-[#10B981] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-[#E52222] transition-colors" />
               </a>
-              <a href="/about" className="flex items-center justify-between p-4 rounded-lg border border-border bg-card hover:border-[#10B981]/50 transition-colors group">
+              <a href="/about" className="flex items-center justify-between p-4 rounded-lg border border-border bg-card hover:border-[#E52222]/50 transition-colors group">
                 <span className="text-sm text-muted-foreground group-hover:text-foreground dark:group-hover:text-[#FAFAFA]">Tentang Kami</span>
-                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-[#10B981] transition-colors" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-[#E52222] transition-colors" />
               </a>
             </div>
           </div>

@@ -54,7 +54,7 @@ export function KeyboardShortcutsModal() {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-2">
-            <Keyboard className="h-5 w-5 text-[#10B981]" />
+            <Keyboard className="h-5 w-5 text-[#E52222]" />
             <h3 className="font-bold text-foreground font-[family-name:var(--font-montserrat)]">
               Pintasan Keyboard
             </h3>
