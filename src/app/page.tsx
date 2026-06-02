@@ -556,7 +556,7 @@ function Navbar() {
 
   return (
     <header ref={revealRef} className="section-reveal mobile-solid-bg fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
-      <div className="mx-auto max-w-6xl lg:max-w-7xl xl:max-w-8xl h-16 lg:h-18 flex items-center justify-between px-4 md:px-6">
+      <div className="mx-auto max-w-6xl lg:max-w-7xl h-16 lg:h-18 flex items-center justify-between px-4 md:px-6">
         <a href="/" className="flex items-center gap-1.5 shrink-0" aria-label="GetMova - Home">
           <MovaLogo size={28} showText={true} />
         </a>

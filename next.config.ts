@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   trailingSlash: false,
   skipTrailingSlashRedirect: true,
+  images: {
+    unoptimized: true,
+  },
   async headers() {
     return [
       {
