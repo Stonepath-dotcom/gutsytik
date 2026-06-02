@@ -49,6 +49,13 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.4",
+    ratingCount: "195",
+    bestRating: "5",
+    worstRating: "1",
+  },
 };
 
 const jsonLdBreadcrumb = {
@@ -140,6 +147,18 @@ const jsonLdHowTo = {
   ],
 };
 
+const jsonLdWebPage = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Download Video Facebook HD - Gratis & Cepat",
+  description: "Download video Facebook dalam kualitas HD gratis. Simpan video dari Facebook tanpa watermark dengan mudah.",
+  url: "https://getmova.my.id/facebook-downloader",
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: [".hero-title", ".faq-section"],
+  },
+};
+
 export default function Page() {
   return (
     <>
@@ -159,6 +178,7 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }} />
       <FacebookDownloaderPage />
     </>
   );

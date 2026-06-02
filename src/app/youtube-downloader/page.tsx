@@ -51,6 +51,13 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.3",
+    ratingCount: "89",
+    bestRating: "5",
+    worstRating: "1",
+  },
 };
 
 const jsonLdBreadcrumb = {
@@ -142,6 +149,18 @@ const jsonLdHowTo = {
   ],
 };
 
+const jsonLdWebPage = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "YouTube Video Downloader - Download Video YouTube Gratis",
+  description: "Download video YouTube gratis dalam berbagai kualitas. Simpan video YouTube ke MP4 dengan mudah dan cepat.",
+  url: "https://getmova.my.id/youtube-downloader",
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: [".hero-title", ".faq-section"],
+  },
+};
+
 export default function Page() {
   return (
     <>
@@ -161,6 +180,7 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }} />
       <YouTubeDownloaderPage />
     </>
   );

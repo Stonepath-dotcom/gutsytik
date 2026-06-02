@@ -131,6 +131,11 @@ const jsonLdSoftware = {
     price: "0",
     priceCurrency: "IDR",
   },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.4",
+    ratingCount: "178",
+  },
 };
 
 export default function RedditDownloaderPage() {

@@ -50,6 +50,13 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.5",
+    ratingCount: "213",
+    bestRating: "5",
+    worstRating: "1",
+  },
 };
 
 const jsonLdBreadcrumb = {
@@ -141,6 +148,18 @@ const jsonLdHowTo = {
   ],
 };
 
+const jsonLdWebPage = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Download Video Twitter/X Tanpa Watermark - Gratis",
+  description: "Download video Twitter/X tanpa watermark gratis. Simpan video dari Twitter dalam kualitas HD dengan mudah.",
+  url: "https://getmova.my.id/twitter-downloader",
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: [".hero-title", ".faq-section"],
+  },
+};
+
 export default function Page() {
   return (
     <>
@@ -160,6 +179,7 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }} />
       <TwitterDownloaderPage />
     </>
   );

@@ -51,6 +51,13 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.5",
+    ratingCount: "287",
+    bestRating: "5",
+    worstRating: "1",
+  },
 };
 
 const jsonLdBreadcrumb = {
@@ -142,6 +149,18 @@ const jsonLdHowTo = {
   ],
 };
 
+const jsonLdWebPage = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Download Video & Reels Instagram - Gratis & Cepat",
+  description: "Download video, Reels, Story, dan foto dari Instagram gratis. Simpan konten Instagram tanpa watermark dalam kualitas HD.",
+  url: "https://getmova.my.id/instagram-downloader",
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: [".hero-title", ".faq-section"],
+  },
+};
+
 export default function Page() {
   return (
     <>
@@ -161,6 +180,7 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }} />
       <InstagramDownloaderPage />
     </>
   );

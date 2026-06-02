@@ -5,7 +5,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://getmova.my.id";
   const now = new Date().toISOString();
 
-  // Platform landing pages (NO YouTube)
+  // Platform landing pages
   const platforms = [
     { slug: "tiktok-downloader", priority: 0.9, changefreq: "weekly" as const },
     { slug: "tiktok-photo-slide", priority: 0.85, changefreq: "weekly" as const },
@@ -14,9 +14,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { slug: "twitter-downloader", priority: 0.8, changefreq: "weekly" as const },
     { slug: "pinterest-downloader", priority: 0.7, changefreq: "monthly" as const },
     { slug: "reddit-downloader", priority: 0.7, changefreq: "monthly" as const },
+    { slug: "telegram-downloader", priority: 0.8, changefreq: "weekly" as const },
   ];
 
-  // Blog articles (static, NO YouTube-related articles)
+  // Blog articles
   const blogs: { slug: string; date: string }[] = [
     { slug: "cara-download-video-tiktok-tanpa-watermark", date: "2025-05-10" },
     { slug: "cara-download-video-instagram-reels", date: "2025-05-11" },
@@ -69,7 +70,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { slug: "changelog", priority: 0.4 },
     { slug: "tools", priority: 0.5 },
     { slug: "compare", priority: 0.6 },
-    { slug: "download-history", priority: 0.3 },
   ];
 
   const platformEntries: MetadataRoute.Sitemap = platforms.map((p) => ({

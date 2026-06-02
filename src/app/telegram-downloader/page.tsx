@@ -131,6 +131,11 @@ const jsonLdSoftware = {
     price: "0",
     priceCurrency: "IDR",
   },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.5",
+    ratingCount: "201",
+  },
 };
 
 export default function TelegramDownloaderPage() {

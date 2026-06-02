@@ -49,6 +49,13 @@ const jsonLdWebApp = {
     price: "0",
     priceCurrency: "IDR",
   },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.6",
+    ratingCount: "167",
+    bestRating: "5",
+    worstRating: "1",
+  },
 };
 
 const jsonLdBreadcrumb = {
@@ -134,6 +141,18 @@ const jsonLdHowTo = {
   ],
 };
 
+const jsonLdWebPage = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Download Foto TikTok Slide - Simpan Foto TikTok Gratis",
+  description: "Download foto slide TikTok (swipe photo) gratis. Simpan semua foto dari TikTok slide dalam kualitas HD.",
+  url: "https://getmova.my.id/tiktok-photo-slide",
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: [".hero-title", ".faq-section"],
+  },
+};
+
 export default function Page() {
   return (
     <>
@@ -153,6 +172,7 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }} />
       <TikTokPhotoSlidePage />
     </>
   );

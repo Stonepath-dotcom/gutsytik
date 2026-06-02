@@ -131,6 +131,11 @@ const jsonLdSoftware = {
     price: "0",
     priceCurrency: "IDR",
   },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.3",
+    ratingCount: "156",
+  },
 };
 
 export default function PinterestDownloaderPage() {
