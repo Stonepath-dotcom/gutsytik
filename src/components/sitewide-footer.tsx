@@ -27,6 +27,7 @@ const RESOURCES = [
   { name: "Kalkulator Ukuran", href: "/tools/file-size-calculator" },
   { name: "Komparator Resolusi", href: "/tools/resolution-comparator" },
   { name: "Kalkulator Bitrate", href: "/tools/bitrate-calculator" },
+  { name: "Audio Converter", href: "/tools/audio-converter" },
   { name: "Trim Video", href: "/tools/trim-video" },
   { name: "Convert ke GIF", href: "/tools/convert-gif" },
   { name: "Mova vs Kompetitor", href: "/compare" },

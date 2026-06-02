@@ -5,6 +5,7 @@ import {
   Download, Zap, Shield, Smartphone, CheckCircle,
   Loader2, AlertCircle, Play, Copy, ChevronRight, ArrowRight,
   Monitor, Music, Video, Eye, Clock, Globe, Sparkles, Link2, Image as ImageIcon,
+  QrCode,
 } from "lucide-react";
 import { SitewideFooter } from "@/components/sitewide-footer";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,8 @@ import {
 import { MovaLogo } from "@/components/mova-logo";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCarousel } from "@/components/photo-carousel";
+import { VideoPreviewPlayer } from "@/components/video-preview-player";
+import { QRScanner } from "@/components/qr-scanner";
 import Image from "next/image";
 
 /* ──────── Types ──────── */
@@ -106,6 +109,7 @@ export function PlatformPageClient(props: PlatformPageProps) {
   const [selectedQuality, setSelectedQuality] = useState(0);
   const [downloading, setDownloading] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState("");
+  const [showQR, setShowQR] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
   const { toast, dismiss } = useToast();
 
@@ -114,8 +118,8 @@ export function PlatformPageClient(props: PlatformPageProps) {
     setTimeout(() => dismiss(id), 3000);
   }, [toast, dismiss]);
 
-  const handleAnalyze = useCallback(async () => {
-    const trimmed = url.trim();
+  const handleAnalyze = useCallback(async (overrideUrl?: string) => {
+    const trimmed = (overrideUrl || url).trim();
     if (!trimmed) { setError("Masukkan link video terlebih dahulu!"); return; }
     try { new URL(trimmed.startsWith("www.") ? "https://" + trimmed : trimmed); } catch { setError("URL tidak valid. Pastikan link yang dimasukkan benar."); return; }
 
@@ -360,6 +364,9 @@ export function PlatformPageClient(props: PlatformPageProps) {
             <button onClick={handlePaste} className="h-11 px-3 rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors text-xs font-medium shrink-0">
               <Copy className="h-3.5 w-3.5 sm:mr-1.5" /><span className="hidden sm:inline">Tempel</span>
             </button>
+            <button onClick={() => setShowQR(true)} className="h-11 px-3 rounded-xl border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-[#10B981]/5 hover:border-[#10B981]/30 transition-colors shrink-0" title="Scan QR Code">
+              <QrCode className="h-4 w-4" />
+            </button>
             <Button onClick={handleAnalyze} disabled={loading} className="h-11 px-5 bg-[#10B981] text-white font-semibold rounded-xl hover:bg-[#059669] shrink-0 text-sm md:text-base">
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4 sm:mr-1.5" />}
               <span className="hidden sm:inline">{loading ? (loadingMsg || "Download") : "Download"}</span>
@@ -424,6 +431,16 @@ export function PlatformPageClient(props: PlatformPageProps) {
                         </div>
                       </div>
                     </div>
+
+                    {/* Video Preview Player */}
+                    {result.downloadUrl && result.platform !== "TikTok" && (
+                      <VideoPreviewPlayer
+                        url={result.qualityOptions?.[0]?.url || result.downloadUrl}
+                        thumbnail={result.thumbnail}
+                        title={result.title}
+                        className="mt-2"
+                      />
+                    )}
 
                     {/* Quality options */}
                     {result.qualityOptions.length > 1 && (
@@ -672,6 +689,19 @@ export function PlatformPageClient(props: PlatformPageProps) {
           </div>
         </div>
       </section>
+
+      {/* ───── QR Scanner Modal ───── */}
+      {showQR && (
+        <QRScanner
+          onURLDetected={(detectedUrl) => {
+            setUrl(detectedUrl);
+            setShowQR(false);
+            // Pass URL directly to avoid stale closure over `url` state
+            handleAnalyze(detectedUrl);
+          }}
+          onClose={() => setShowQR(false)}
+        />
+      )}
 
       {/* ───── Footer ───── */}
       <SitewideFooter />

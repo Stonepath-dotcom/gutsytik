@@ -9,6 +9,7 @@ import {
   Image,
   Monitor,
   Headphones,
+  Music,
   Wrench,
 } from "lucide-react";
 import { MovaLogo } from "@/components/mova-logo";
@@ -103,6 +104,17 @@ const TOOLS = [
     borderColor: "border-teal-500/20",
     iconColor: "text-teal-500",
     badge: "Baru",
+  },
+  {
+    title: "Audio Converter",
+    description:
+      "Ekstrak audio MP3 dari video TikTok, Instagram, YouTube, dan platform lainnya. Konversi video ke MP3 gratis dan cepat.",
+    href: "/tools/audio-converter",
+    icon: Music,
+    color: "from-rose-500/20 to-rose-600/10",
+    borderColor: "border-rose-500/20",
+    iconColor: "text-rose-500",
+    badge: "Populer",
   },
 ];
 

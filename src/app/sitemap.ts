@@ -15,6 +15,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { slug: "pinterest-downloader", priority: 0.7, changefreq: "monthly" as const },
     { slug: "reddit-downloader", priority: 0.7, changefreq: "monthly" as const },
     { slug: "telegram-downloader", priority: 0.8, changefreq: "weekly" as const },
+    { slug: "likee-downloader", priority: 0.7, changefreq: "monthly" as const },
+    { slug: "snack-video-downloader", priority: 0.7, changefreq: "monthly" as const },
   ];
 
   // Blog articles
@@ -132,6 +134,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/tools/audio-converter`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     },
   ];
 

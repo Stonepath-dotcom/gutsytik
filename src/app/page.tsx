@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { MovaLogo } from "@/components/mova-logo";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCarousel } from "@/components/photo-carousel";
+import { TrendingSection } from "@/components/trending-section";
 import Image from "next/image";
 
 /* ──────── Types ──────── */
@@ -1935,72 +1936,6 @@ function WhatsAppWidget() {
 
 
 /* ══════════════════════════════════════════════════
-   TRENDING SECTION — Shows popular TikTok videos
-   ══════════════════════════════════════════════════ */
-function TrendingSection() {
-  const { t } = useLanguage();
-  const [videos, setVideos] = useState<Array<{id: string; title: string; author: any; cover: string; play: string}>>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("https://www.tikwm.com/api/feed/list?count=6")
-      .then(r => r.json())
-      .then(d => {
-        if (d.code === 0 && d.data) setVideos(d.data.slice(0, 6));
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
-
-  const handleQuickDownload = (videoUrl: string) => {
-    const heroInput = document.querySelector<HTMLInputElement>("#hero input[type='text']");
-    if (heroInput) {
-      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
-      nativeInputValueSetter?.call(heroInput, videoUrl);
-      heroInput.dispatchEvent(new Event("input", { bubbles: true }));
-    }
-    document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
-    setTimeout(() => {
-      document.querySelector<HTMLButtonElement>("#hero button.download-btn-desktop")?.click();
-    }, 600);
-  };
-
-  if (videos.length === 0 && !loading) return null;
-
-  return (
-    <section className="py-12 md:py-16 bg-white dark:bg-[#1A1A1A]">
-      <div className="mx-auto max-w-5xl px-4 md:px-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 dark:text-white mb-2 font-[family-name:var(--font-montserrat)]">{t("trending.title")}</h2>
-        <p className="text-center text-gray-500 dark:text-gray-400 text-sm mb-8">{t("trending.subtitle")}</p>
-        {loading ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {[1,2,3,4,5,6].map(i => <div key={i} className="rounded-xl bg-gray-100 dark:bg-white/5 animate-pulse aspect-[9/12]" />)}
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {videos.map(v => (
-              <div key={v.id} className="rounded-xl overflow-hidden bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 group cursor-pointer hover:shadow-lg transition-all" onClick={() => handleQuickDownload(`https://www.tiktok.com/@user/video/${v.id}`)}>
-                <div className="relative aspect-[9/12]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={v.cover} alt="" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                    <Download className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                </div>
-                <div className="p-2">
-                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 line-clamp-2">{v.title}</p>
-                  <p className="text-[10px] text-gray-400 mt-1">@{v.author?.unique_id || v.author?.nickname || "unknown"}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
-
-/* ══════════════════════════════════════════════════
    FOOTER — Dark (#222) bg, minimal layout
    ══════════════════════════════════════════════════ */
 function Footer() {
@@ -2123,6 +2058,7 @@ export default function Home() {
           <WhyChooseSection />
           <ComparisonSection />
           <TestimonialsSection />
+          <TrendingSection />
           <FAQSection />
           <BlogPreviewSection />
           <ToolsSection />
@@ -2147,7 +2083,6 @@ export default function Home() {
             ]
           })}} />
         </main>
-        <TrendingSection />
         <Footer />
         <BackToTopButton />
         <WhatsAppWidget />
