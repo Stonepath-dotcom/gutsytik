@@ -137,6 +137,20 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
+        {/* Nuclear scroll fix — highest priority, overrides everything */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          html, body {
+            overflow-x: hidden !important;
+            overflow-y: scroll !important;
+            -webkit-overflow-scrolling: touch !important;
+            position: static !important;
+            height: auto !important;
+            max-height: none !important;
+            touch-action: auto !important;
+            overscroll-behavior-y: auto !important;
+          }
+        ` }} />
+
         {/* Preconnect for Core Web Vitals */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />

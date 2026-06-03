@@ -135,14 +135,8 @@
    ═══════════════════════════════════════════════════ */
 @layer base {
   * { @apply border-border outline-ring/50; }
-  html {
-    overflow-x: clip;
-    overflow-y: auto;
-  }
   body {
     @apply bg-background text-foreground;
-    overflow-x: clip;
-    overflow-y: auto;
     width: 100%;
     min-height: 100vh;
   }
@@ -158,11 +152,6 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
-}
-
-body {
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: auto;
 }
 
 /* ─── Responsive media ─── */
@@ -328,8 +317,11 @@ img, video, svg, iframe { max-width: 100%; height: auto; }
     radial-gradient(ellipse 80% 50% at 20% 20%, rgba(229, 34, 34, 0.08) 0%, transparent 50%),
     radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255, 107, 53, 0.05) 0%, transparent 50%),
     radial-gradient(ellipse 50% 50% at 50% 50%, rgba(100, 50, 150, 0.04) 0%, transparent 50%);
-  background-attachment: fixed;
   background-color: #0A0A0F;
+}
+/* On desktop, make gradient fixed for parallax effect; on mobile, scroll normally for performance */
+@media screen and (min-width: 768px) {
+  .page-bg { background-attachment: fixed; }
 }
 /* ─── Hero Background ─── */
 .hero-bg {
