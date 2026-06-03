@@ -1015,7 +1015,7 @@ function HeroSection() {
             >
               <div className="flex-1 relative">
                 <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40 z-10" />
-                <input ref={inputRef} type="text" value={url} onChange={e => setUrl(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAnalyze()} onFocus={handleInputFocus} onPaste={handlePaste} placeholder={t("input.placeholder")} className="download-input-desktop h-14 w-full bg-white/5 text-white text-sm md:text-base lg:text-lg pl-11 pr-4 border-0 outline-none placeholder:text-white/30" />
+                <input ref={inputRef} type="text" value={url} onChange={e => setUrl(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAnalyze()} onFocus={handleInputFocus} onPaste={handlePaste} placeholder={t("input.placeholder")} className="download-input-desktop h-14 w-full bg-white/[0.06] text-white text-sm md:text-base lg:text-lg pl-11 pr-4 border-0 outline-none placeholder:text-white/30" />
               </div>
               <button onClick={handleAnalyze} disabled={loading} className="download-btn-desktop h-14 px-6 md:px-8 lg:px-10 bg-[#E52222] text-white font-bold text-sm md:text-base lg:text-lg hover:bg-[#C91C1C] shrink-0 transition-colors flex items-center justify-center gap-2 disabled:opacity-70">
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
@@ -1035,10 +1035,10 @@ function HeroSection() {
                   onChange={e => setBatchUrls(e.target.value)}
                   placeholder={t("batch.placeholder")}
                   rows={4}
-                  className="w-full bg-white/5 text-white text-sm md:text-base pl-11 pr-4 py-3 border-0 outline-none placeholder:text-white/30 resize-none"
+                  className="w-full bg-white/[0.06] text-white text-sm md:text-base pl-11 pr-4 py-3 border-0 outline-none placeholder:text-white/30 resize-none"
                 />
               </div>
-              <div className="flex items-center justify-between border-t border-white/10 px-4 py-2 bg-white/5">
+              <div className="flex items-center justify-between border-t border-white/10 px-4 py-2 bg-white/[0.04]">
                 <span className="text-[10px] md:text-xs text-white/40">
                   {batchUrls.split("\n").filter(u => u.trim() && (u.trim().startsWith("http") || u.trim().startsWith("www"))).length} URL(s)
                 </span>
@@ -1066,7 +1066,7 @@ function HeroSection() {
           {/* BATCH RESULTS CARD */}
           {batchResults.length > 0 && (
             <div className="mt-4 rounded-xl glass-card overflow-hidden text-left shadow-lg">
-              <div className="px-4 py-2.5 border-b border-white/10 flex items-center justify-between bg-white/5">
+              <div className="px-4 py-2.5 border-b border-white/10 flex items-center justify-between bg-white/[0.04]">
                 <span className="text-sm font-medium text-[#E52222]">{t("batch.results")}</span>
                 <span className="text-xs text-white/50">{batchResults.filter(r => r.status === "done").length}/{batchResults.length}</span>
               </div>
@@ -1156,7 +1156,7 @@ function HeroSection() {
         {/* Result card */}
         {result && (
           <div ref={resultRef} className="max-w-lg md:max-w-2xl mt-5 rounded-xl glass-card overflow-hidden text-left shadow-xl">
-            <div className="px-4 py-2.5 border-b border-white/10 flex items-center gap-2 bg-white/5">
+            <div className="px-4 py-2.5 border-b border-white/10 flex items-center gap-2 bg-white/[0.04]">
               <CheckCircle className="h-4 w-4 text-[#E52222] shrink-0" />
               <span className="text-sm text-[#E52222] font-medium">{result.isPhotoSlide ? "Slide foto ditemukan!" : t("result.found")}</span>
               {result.isPhotoSlide && result.imageCount && (
@@ -1670,7 +1670,7 @@ function FAQSection() {
               <h2 className="section-heading text-3xl lg:text-4xl font-extrabold text-white font-[family-name:var(--font-montserrat)] leading-tight mb-4">{t("faq.title")} <span className="text-[#E52222]">{t("faq.titleRed")}</span></h2>
               <p className="section-body-text text-sm md:text-base lg:text-lg text-white/50 leading-relaxed mb-8">{t("faq.subtitle")}</p>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 lg:p-10">
+            <div className="glass-card border border-white/10 rounded-2xl p-6 md:p-8 lg:p-10">
               <div className="flex items-center gap-3 mb-4"><div className="w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-[#E52222]/20 flex items-center justify-center shrink-0"><AlertCircle className="h-5 w-5 lg:h-6 lg:w-6 text-[#E52222]" /></div><h3 className="feature-card-title text-white text-base md:text-lg lg:text-xl font-bold">{t("faq.cta.title")}</h3></div>
               <p className="section-body-text text-white/50 text-sm mb-5 lg:text-base leading-relaxed">{t("faq.cta.desc")}</p>
               <a href="/contact"><Button className="w-full bg-[#E52222] text-white font-semibold rounded-xl hover:bg-[#C91C1C] h-11 lg:h-12 text-sm lg:text-lg">{t("faq.cta.btn")} <ArrowRight className="ml-2 h-4 w-4 lg:h-5 lg:w-5" /></Button></a>
@@ -1680,7 +1680,7 @@ function FAQSection() {
             {/* FEATURE 9: FAQ Search */}
             <div className="relative mb-4">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 lg:h-5 lg:w-5 text-white/30" />
-              <input type="text" value={faqSearch} onChange={e => setFaqSearch(e.target.value)} placeholder={t("faq.search")} className="w-full h-10 lg:h-12 bg-white/5 border border-white/10 rounded-xl pl-10 lg:pl-12 pr-4 text-white text-sm lg:text-base placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors" />
+              <input type="text" value={faqSearch} onChange={e => setFaqSearch(e.target.value)} placeholder={t("faq.search")} className="glass-input w-full h-10 lg:h-12 border border-white/10 rounded-xl pl-10 lg:pl-12 pr-4 text-white text-sm lg:text-base placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors" />
             </div>
             {filteredFaqs.length === 0 ? (
               <p className="text-white/40 text-sm text-center py-8">{t("faq.noresults")}</p>
@@ -1689,7 +1689,7 @@ function FAQSection() {
               {filteredFaqs.map((f, i) => {
                 const isOpen = openIndex === i;
                 return (
-                  <div key={i} className={`rounded-xl overflow-hidden transition-all duration-300 ${isOpen ? "bg-white/10 border border-white/20 shadow-lg shadow-[#E52222]/5" : "bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.07] hover:border-white/10"}`}>
+                  <div key={i} className={`rounded-xl overflow-hidden transition-all duration-300 ${isOpen ? "bg-white/[0.12] border border-white/20 shadow-lg shadow-[#E52222]/5 backdrop-blur-sm" : "bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] hover:border-white/12"}`}>
                     <button onClick={() => setOpenIndex(isOpen ? null : i)} className="flex items-center justify-between w-full py-4 px-5 cursor-pointer text-left group">
                       <span className="flex items-center gap-3 pr-3">
                         <span className={`w-8 h-8 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300 ${isOpen ? "bg-[#E52222]" : "bg-white/10 group-hover:bg-[#E52222]/30"}`}><span className={`font-bold text-xs lg:text-base transition-colors duration-300 ${isOpen ? "text-white" : "text-white/60 group-hover:text-[#E52222]"}`}>{f.num}</span></span>
@@ -1898,7 +1898,7 @@ function NewsletterSection() {
           <div className="bg-green-500/15 border border-green-500/20 rounded-xl p-4 flex items-center justify-center gap-2"><CheckCircle className="h-5 w-5 text-green-400" /><span className="text-green-400 font-medium text-sm lg:text-lg">Subscribed!</span></div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t("nl.placeholder")} required className="nl-input flex-1 h-12 lg:h-14 bg-white/10 border border-white/10 rounded-lg px-4 text-white text-sm lg:text-lg placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors" />
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t("nl.placeholder")} required className="nl-input flex-1 h-12 lg:h-14 bg-white/[0.08] border border-white/10 rounded-lg px-4 text-white text-sm lg:text-lg placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors" />
             <button type="submit" disabled={loading} className="nl-btn h-12 lg:h-14 px-6 lg:px-8 bg-[#E52222] text-white font-bold text-sm lg:text-lg rounded-lg hover:bg-[#C91C1C] disabled:opacity-50 disabled:cursor-not-allowed transition-colors shrink-0">{loading ? "..." : t("nl.btn")}</button>
           </form>
         )}
