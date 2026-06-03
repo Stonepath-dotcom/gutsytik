@@ -6,7 +6,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/providers";
 import { CookieConsent } from "@/components/cookie-consent";
 import { PwaInstallPrompt } from "@/components/pwa-install-prompt";
-import { BackToTop } from "@/components/back-to-top";
 import { KeyboardShortcutsModal } from "@/components/keyboard-shortcuts-modal";
 
 const geistSans = Geist({
@@ -118,8 +117,8 @@ export const viewport: Viewport = {
   themeColor: "#E52222",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  maximumScale: 5,
+  userScalable: true,
 };
 
 export default function RootLayout({
@@ -137,17 +136,19 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
-        {/* Nuclear scroll fix — highest priority, overrides everything */}
+        {/* Clean scroll fix — only set on body, never on html */}
         <style dangerouslySetInnerHTML={{ __html: `
-          html, body {
-            overflow-x: hidden !important;
-            overflow-y: scroll !important;
-            -webkit-overflow-scrolling: touch !important;
-            position: static !important;
-            height: auto !important;
-            max-height: none !important;
-            touch-action: auto !important;
-            overscroll-behavior-y: auto !important;
+          html {
+            overflow-x: clip;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+          }
+          body {
+            overflow-x: clip;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: auto;
+            touch-action: auto;
           }
         ` }} />
 
@@ -411,7 +412,6 @@ export default function RootLayout({
           <Toaster />
           <CookieConsent />
           <PwaInstallPrompt />
-          <BackToTop />
           <KeyboardShortcutsModal />
         </Providers>
       </body>

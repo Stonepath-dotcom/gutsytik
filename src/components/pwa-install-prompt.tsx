@@ -85,7 +85,7 @@ export function PwaInstallPrompt() {
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
           className="fixed bottom-20 left-4 right-4 z-50 md:bottom-6 md:left-auto md:right-6 md:max-w-sm"
         >
-          <div className="bg-[#111113] border border-[#27272A] rounded-xl p-4 shadow-lg shadow-black/20">
+          <div className="bg-card/80 backdrop-blur-xl border border-border rounded-xl p-4 shadow-lg shadow-black/20">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-lg bg-[#E52222] flex items-center justify-center shrink-0">
                 <Smartphone className="h-5 w-5 text-white" />
@@ -116,7 +116,7 @@ export function PwaInstallPrompt() {
               </button>
               <button
                 onClick={handleDismiss}
-                className="px-4 py-2.5 rounded-lg text-sm font-medium border border-[#27272A] bg-[#111113] text-[#A1A1AA] hover:bg-[#18181B] transition-colors"
+                className="px-4 py-2.5 rounded-lg text-sm font-medium border border-border bg-card/80 backdrop-blur-xl text-muted-foreground hover:bg-secondary transition-colors"
               >
                 Nanti saja
               </button>
