@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { rateLimit } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
@@ -1207,20 +1206,14 @@ function extractFacebookVideo(html: string) {
 
 /* ──────────────── Main Handler ──────────────── */
 export async function POST(request: NextRequest) {
-  // Rate limit check
+  // Rate limit check — single unified limiter (20 req/min per IP)
   const clientIP = getClientIP(request);
   const rateCheck = checkRateLimit(clientIP);
   if (!rateCheck.allowed) {
-    return new Response(JSON.stringify({ error: "Too many requests. Please wait a moment." }), {
-      status: 429,
-      headers: { "Content-Type": "application/json", "Retry-After": "60" },
-    });
-  }
-
-  const ip = request.headers.get("x-forwarded-for") || "unknown";
-  const { success } = rateLimit(ip, 10);
-  if (!success) {
-    return NextResponse.json({ error: "Terlalu banyak request. Tunggu sebentar ya." }, { status: 429, headers: { "Retry-After": "60" } });
+    return NextResponse.json(
+      { error: "Terlalu banyak request. Tunggu sebentar ya." },
+      { status: 429, headers: { "Retry-After": "60" } }
+    );
   }
 
   try {
