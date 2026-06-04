@@ -3,6 +3,42 @@ import { rateLimit } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
+/* ─── Rate Limiting — 20 requests per IP per minute ─── */
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT = 20;
+const RATE_WINDOW = 60_000; // 1 minute
+
+function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_WINDOW });
+    // Clean up old entries every 100 requests
+    if (rateLimitMap.size > 1000) {
+      rateLimitMap.forEach((val, key) => {
+        if (now > val.resetTime) rateLimitMap.delete(key);
+      });
+    }
+    return { allowed: true, remaining: RATE_LIMIT - 1 };
+  }
+
+  if (entry.count >= RATE_LIMIT) {
+    return { allowed: false, remaining: 0 };
+  }
+
+  entry.count++;
+  return { allowed: true, remaining: RATE_LIMIT - entry.count };
+}
+
+function getClientIP(request: Request): string {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0].trim();
+  const realIP = request.headers.get("x-real-ip");
+  if (realIP) return realIP;
+  return "unknown";
+}
+
 /* ──────────────── Platform Detection ──────────────── */
 function detectPlatform(url: string): string {
   const hostname = (() => {
@@ -1171,6 +1207,16 @@ function extractFacebookVideo(html: string) {
 
 /* ──────────────── Main Handler ──────────────── */
 export async function POST(request: NextRequest) {
+  // Rate limit check
+  const clientIP = getClientIP(request);
+  const rateCheck = checkRateLimit(clientIP);
+  if (!rateCheck.allowed) {
+    return new Response(JSON.stringify({ error: "Too many requests. Please wait a moment." }), {
+      status: 429,
+      headers: { "Content-Type": "application/json", "Retry-After": "60" },
+    });
+  }
+
   const ip = request.headers.get("x-forwarded-for") || "unknown";
   const { success } = rateLimit(ip, 10);
   if (!success) {
@@ -1324,7 +1370,13 @@ export async function POST(request: NextRequest) {
         // originalImages = proxy URLs for reliable downloading
         ...(rawImages ? { images: rawImages, originalImages: proxiedDownloadImages } : {}),
       },
-      { status: 200 }
+      {
+        status: 200,
+        headers: {
+          "X-RateLimit-Limit": String(RATE_LIMIT),
+          "X-RateLimit-Remaining": String(rateCheck.remaining),
+        },
+      }
     );
   } catch (error) {
     console.error("Download API error:", error);

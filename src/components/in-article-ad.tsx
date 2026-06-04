@@ -10,7 +10,7 @@ export function InArticleAd() {
   return (
     <div className="my-8 py-4 border-t border-b border-border">
       <div className="text-center text-xs text-muted-foreground/50 mb-2">Advertisement</div>
-      <AdUnit format="auto" className="min-h-[100px]" />
+      <AdUnit slot="middle" className="min-h-[100px]" />
     </div>
   );
 }

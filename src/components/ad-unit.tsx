@@ -1,57 +1,45 @@
 "use client";
 
-import { useEffect } from "react";
+import React from "react";
 
+/* ─── Ad Unit Component — Strategic placement between sections ─── */
 interface AdUnitProps {
-  slot?: string;
-  format?: "auto" | "horizontal" | "vertical" | "rectangle";
-  style?: React.CSSProperties;
+  slot?: "top" | "middle" | "bottom" | "sidebar";
   className?: string;
 }
 
-/**
- * AdUnit component for Google AdSense.
- *
- * When a `slot` prop is provided, it renders a specific ad unit.
- * When no `slot` is given, it renders an Auto Ads placeholder —
- * Google will automatically place ads in optimal positions.
- *
- * IMPORTANT: This component only renders if the user has accepted
- * cookie consent (the AdSense script is loaded by CookieConsent).
- */
-export function AdUnit({ slot, format = "auto", style, className = "" }: AdUnitProps) {
-  useEffect(() => {
-    try {
-      // @ts-expect-error adsbygoogle is injected by Google
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch {}
-  }, []);
-
-  // If no slot ID, render auto-ad placeholder
-  if (!slot) {
+export function AdUnit({ slot = "middle", className = "" }: AdUnitProps) {
+  // Only render in production
+  if (process.env.NODE_ENV !== "production") {
     return (
-      <div className={`ad-container ${className}`}>
-        <ins
-          className="adsbygoogle"
-          style={style || { display: "block" }}
-          data-ad-client="ca-pub-8487073388720076"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
+      <div className={`flex items-center justify-center py-3 ${className}`}>
+        <div className="text-[10px] text-white/10 border border-white/5 rounded px-2 py-0.5">
+          Ad Space ({slot})
+        </div>
       </div>
     );
   }
 
+  const adStyle = slot === "top"
+    ? "min-h-[90px]"
+    : slot === "middle"
+    ? "min-h-[250px]"
+    : slot === "bottom"
+    ? "min-h-[90px]"
+    : "min-h-[600px]";
+
   return (
-    <div className={`ad-container ${className}`}>
-      <ins
-        className="adsbygoogle"
-        style={style || { display: "block" }}
-        data-ad-client="ca-pub-8487073388720076"
-        data-ad-slot={slot}
-        data-ad-format={format}
-        data-full-width-responsive="true"
-      />
+    <div className={`flex items-center justify-center ${className}`}>
+      <div className={`${adStyle} w-full max-w-[728px]`}>
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-client="ca-pub-8487073388720076"
+          data-ad-slot={slot === "top" ? "auto" : "auto"}
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      </div>
     </div>
   );
 }

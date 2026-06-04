@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { MovaLogo } from "@/components/mova-logo";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCarousel } from "@/components/photo-carousel";
+import { AdUnit } from "@/components/ad-unit";
 import Image from "next/image";
 
 /* ──────── Types ──────── */
@@ -75,6 +76,13 @@ function TikTokIcon({ className = "h-5 w-5" }: { className?: string }) {
     </svg>
   );
 }
+function YouTubeIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+    </svg>
+  );
+}
 function InstagramIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -111,7 +119,7 @@ function RedditIcon({ className = "h-5 w-5" }: { className?: string }) {
   );
 }
 
-/* ──────── Platform Data (NO YouTube) ──────── */
+/* ──────── Platform Data ──────── */
 interface PlatformDef {
   name: string;
   color: string;
@@ -120,6 +128,7 @@ interface PlatformDef {
 }
 
 const PLATFORMS: PlatformDef[] = [
+  { name: "YouTube", color: "#FF0000", Icon: YouTubeIcon },
   { name: "TikTok", color: "#010101", Icon: TikTokIcon },
   { name: "Instagram", color: "#E1306C", gradient: "linear-gradient(135deg, #833AB4, #FD1D1D, #F77737)", Icon: InstagramIcon },
   { name: "Facebook", color: "#1877F2", Icon: FacebookIcon },
@@ -140,7 +149,7 @@ const ONBOARD_KEY = "mova_onboarded";
 const MAX_HISTORY = 20;
 const RED = "#E52222";
 
-/* ──────── Translations (ID/EN) — No YouTube ──────── */
+/* ──────── Translations (ID/EN) ──────── */
 const translations: Record<string, Record<string, string>> = {
   id: {
     "nav.download": "Download",
@@ -267,6 +276,7 @@ const translations: Record<string, Record<string, string>> = {
     "platforms.twitter.desc": "Download video Twitter/X dengan mudah",
     "platforms.pinterest.desc": "Download video dan gambar Pinterest",
     "platforms.reddit.desc": "Download video Reddit dalam kualitas tinggi",
+    "platforms.youtube.desc": "Download video YouTube dalam kualitas HD",
     "blog.title": "Tips & Artikel Terbaru",
     "blog.subtitle": "Baca panduan dan tips terbaru seputar download video",
     "blog.1.title": "Cara Download Video TikTok Tanpa Watermark",
@@ -417,6 +427,7 @@ const translations: Record<string, Record<string, string>> = {
     "platforms.twitter.desc": "Download Twitter/X videos easily",
     "platforms.pinterest.desc": "Download Pinterest videos and images",
     "platforms.reddit.desc": "Download Reddit videos in high quality",
+    "platforms.youtube.desc": "Download YouTube videos in HD quality",
     "blog.title": "Latest Tips & Articles",
     "blog.subtitle": "Read the latest guides and tips about video downloading",
     "blog.1.title": "How to Download TikTok Videos Without Watermark",
@@ -501,6 +512,7 @@ function isBookmarked(url: string): boolean { return getBookmarks().some(b => b.
 function detectPlatform(urlStr: string): string {
   try {
     const h = new URL(urlStr).hostname.toLowerCase();
+    if (h.includes("youtube") || h.includes("youtu.be")) return "YouTube";
     if (h.includes("tiktok") || h.includes("vm.tiktok")) return "TikTok";
     if (h.includes("instagram")) return "Instagram";
     if (h.includes("twitter") || h.includes("x.com")) return "Twitter/X";
@@ -622,6 +634,7 @@ function HeroSection() {
   const [isDragOver, setIsDragOver] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [historyItems, setHistoryItems] = useState<HistoryItem[]>([]);
+  const [historySearch, setHistorySearch] = useState("");
   const [liveCount, setLiveCount] = useState(() => Math.floor(Math.random() * 1600) + 1200);
   const [showOnboard, setShowOnboard] = useState(false);
   const [batchMode, setBatchMode] = useState(false);
@@ -1130,14 +1143,14 @@ function HeroSection() {
         {loading && !error && (
           <div className="max-w-lg md:max-w-2xl mt-5 p-4 rounded-lg glass-card">
             <div className="flex gap-3 mb-3">
-              <div className="w-20 h-14 rounded-md bg-white/10 animate-pulse shrink-0" />
+              <div className="w-20 h-14 rounded-md bg-gradient-to-r from-white/[0.06] via-white/[0.14] to-white/[0.06] animate-pulse bg-[length:200%_100%] shrink-0" />
               <div className="flex-1 space-y-2">
-                <div className="h-3.5 bg-white/10 rounded animate-pulse w-3/4" />
-                <div className="h-3 bg-white/10 rounded animate-pulse w-1/2" />
+                <div className="h-3.5 bg-gradient-to-r from-white/[0.06] via-white/[0.14] to-white/[0.06] animate-pulse bg-[length:200%_100%] rounded w-3/4" />
+                <div className="h-3 bg-gradient-to-r from-white/[0.06] via-white/[0.14] to-white/[0.06] animate-pulse bg-[length:200%_100%] rounded w-1/2" />
               </div>
             </div>
             <div className="flex gap-1.5 mb-3">
-              {[1,2,3].map(i => <div key={i} className="h-7 w-16 bg-white/10 rounded-lg animate-pulse" />)}
+              {[1,2,3].map(i => <div key={i} className="h-7 w-16 bg-gradient-to-r from-white/[0.06] via-white/[0.14] to-white/[0.06] animate-pulse bg-[length:200%_100%] rounded-lg" />)}
             </div>
             <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
               <div className="h-full bg-[#E52222] rounded-full transition-all duration-1000 ease-out animate-pulse" style={{ width: loadingMsg === t("loading.finding") ? "30%" : loadingMsg === t("loading.getting") ? "65%" : "90%" }} />
@@ -1278,6 +1291,35 @@ function HeroSection() {
                       </div>
                     </div>
                   )}
+                  <div className="flex items-center gap-2 mt-2">
+                    <a
+                      href={`https://wa.me/?text=${encodeURIComponent(result.title + ' - Download di GetMova: https://getmova.my.id')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366]/20 transition-colors"
+                    >
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                      WhatsApp
+                    </a>
+                    <a
+                      href={`https://t.me/share/url?url=${encodeURIComponent('https://getmova.my.id')}&text=${encodeURIComponent(result.title)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-[#0088CC]/10 text-[#0088CC] hover:bg-[#0088CC]/20 transition-colors"
+                    >
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                      Telegram
+                    </a>
+                    <a
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(result.title + ' - Download di GetMova')}&url=${encodeURIComponent('https://getmova.my.id')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-white/5 text-white/60 hover:bg-white/10 hover:text-white/80 transition-colors"
+                    >
+                      <TwitterXIcon className="h-3.5 w-3.5" />
+                      X
+                    </a>
+                  </div>
                 </>
               )}
             </div>
@@ -1294,12 +1336,24 @@ function HeroSection() {
               <h3 className="font-bold text-white text-sm font-[family-name:var(--font-montserrat)]">{t("history.title")}</h3>
               <button onClick={() => setShowHistory(false)} className="h-7 w-7 flex items-center justify-center rounded-md text-white/50 hover:text-white hover:bg-white/10"><X className="h-4 w-4" /></button>
             </div>
+            <div className="px-4 py-2 border-b border-white/10">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-white/30" />
+                <input
+                  type="text"
+                  value={historySearch}
+                  onChange={e => setHistorySearch(e.target.value)}
+                  placeholder={lang === "id" ? "Cari riwayat..." : "Search history..."}
+                  className="w-full h-8 bg-white/5 border border-white/10 rounded-lg pl-9 pr-3 text-white text-xs placeholder:text-white/30 outline-none focus:border-[#E52222]/50 transition-colors"
+                />
+              </div>
+            </div>
             <div className="flex-1 overflow-y-auto max-h-96 p-4">
               {historyItems.length === 0 ? (
                 <p className="text-sm text-white/40 text-center py-8">{t("history.empty")}</p>
               ) : (
                 <div className="space-y-3">
-                  {historyItems.map(item => {
+                  {historyItems.filter(h => !historySearch || h.title.toLowerCase().includes(historySearch.toLowerCase()) || h.platform.toLowerCase().includes(historySearch.toLowerCase())).map(item => {
                     const pd = getPlatformDef(item.platform);
                     return (
                       <a key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" className="flex gap-2.5 p-2 rounded-lg hover:bg-white/5 transition-colors">
@@ -2116,15 +2170,18 @@ export default function Home() {
           <HeroSection />
           <FreeDownloaderSection />
           <HowToUseSection />
+          <AdUnit slot="middle" className="mx-auto max-w-5xl lg:max-w-6xl" />
           <PlatformQuickAccessSection />
           <FeatureCardsSection />
           <SupportedFormatsSection />
           <StatisticsSection />
           <WhyChooseSection />
+          <AdUnit slot="middle" className="mx-auto max-w-5xl lg:max-w-6xl" />
           <ComparisonSection />
           <TestimonialsSection />
           <FAQSection />
           <BlogPreviewSection />
+          <AdUnit slot="middle" className="mx-auto max-w-5xl lg:max-w-6xl" />
           <ToolsSection />
           <NewsletterSection />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({

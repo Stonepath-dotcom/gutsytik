@@ -10,7 +10,7 @@ export function SidebarAd() {
   return (
     <div className="sticky top-20">
       <div className="text-center text-xs text-muted-foreground/50 mb-2">Advertisement</div>
-      <AdUnit format="rectangle" style={{ display: "block", minHeight: "250px" }} className="rounded-lg overflow-hidden" />
+      <AdUnit slot="sidebar" className="rounded-lg overflow-hidden" />
     </div>
   );
 }

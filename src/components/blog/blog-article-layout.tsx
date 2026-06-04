@@ -264,7 +264,7 @@ export function BlogArticleLayout({
 
               {/* In-article Ad */}
               <div className="mt-8 py-4 border-t border-b border-border">
-                <AdUnit format="auto" className="min-h-[100px]" />
+                <AdUnit slot="middle" className="min-h-[100px]" />
               </div>
             </div>
           </div>
