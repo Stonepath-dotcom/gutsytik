@@ -2213,3 +2213,4 @@ export default function Home() {
     </LanguageProvider>
   );
 }
+
